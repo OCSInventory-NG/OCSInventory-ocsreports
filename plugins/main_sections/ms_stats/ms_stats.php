@@ -26,7 +26,7 @@ foreach ($_SESSION['OCS']['url_service']->getUrls() as $name=>$url){
 
 if ($plugin){
 	//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
-	show_tabs($data_on,$form_name,"onglet",4);
+	show_tabs($data_on,$form_name,"onglet",true);
 	echo '<div class="col col-md-10" >';
 	echo $stats;		
 	echo "</div>";

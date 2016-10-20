@@ -144,7 +144,7 @@ if ($protectedPost['MODIF'] != '' and isset($protectedPost['DWL_OPT']) and $prot
 
 	//show tab
 	if ($list_id){
-		show_tabs($def_onglets,$form_name,'onglet',7);
+		show_tabs($def_onglets,$form_name,'onglet',true);
 			echo '<div class="right-content mlt_bordure" >';
 
 		//echo "<table ALIGN = 'Center' class='onglet'><tr><td align =center><tr><td align =center>";

@@ -48,7 +48,7 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
 	unset($protectedPost['MODIF']);	
 	
-	show_tabs($data_on,$form_name,"onglet",10);
+	show_tabs($data_on,$form_name,"onglet",true);
 	$left_menu_displayed=true;
 }
 

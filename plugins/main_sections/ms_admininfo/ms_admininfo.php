@@ -85,7 +85,7 @@ if (isset($msg['SUCCESS'])){
 }	
 
 echo open_form($form_name, '', '', 'form-horizontal');
-show_tabs($data_on,$form_name,"onglet",2);
+show_tabs($data_on,$form_name,"onglet",true);
 echo '<div class="col col-md-10" >';
 
 	$table="accountinfo";
@@ -217,9 +217,7 @@ if ($protectedPost['onglet'] == 1){
 	formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl']);
 	formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost, '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "document.admin_info.submit();");
 	formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost, '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE']);
-}
 ?>
-
 <div class="row">
 	<div class="col-md-12">
 		<input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
@@ -227,8 +225,8 @@ if ($protectedPost['onglet'] == 1){
 	</div>
 </div>
 
-
 <?php
+}
 
 echo "</div>";
 echo close_form();

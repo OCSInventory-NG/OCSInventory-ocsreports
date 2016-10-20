@@ -210,29 +210,41 @@ $table_name='DOUBLON';
 $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;
-echo open_form($form_name);
-echo "<table BORDER='0' WIDTH = '25%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
-foreach ($count_id as $lbl=>$count_value){
-	echo "<tr><td align='center'>";
+echo open_form($form_name, '', '', 'form-horizontal');
+echo "<div class='col col-md-12'>";
+function returnTrad($lbl){
+	global $l;
 	switch($lbl) {
-		case "hostname_serial": echo $l->g(193); break ;
-		case "hostname_macaddress": echo $l->g(194); break ;
-		case "macaddress_serial": echo $l->g(195); break ;
-		case "hostname": echo $l->g(196); break ;
-		case "ssn": echo $l->g(197); break ;
-		case "macaddress": echo $l->g(198); break ;
+		case "hostname_serial": return $l->g(193); break;
+		case "hostname_macaddress": return $l->g(194); break;
+		case "macaddress_serial": return $l->g(195); break;
+		case "hostname": return $l->g(196); break;
+		case "ssn": return $l->g(197); break;
+		case "macaddress": return $l->g(198); break;
 	}
-	echo  ":&nbsp;<b>";
-	if ($count_value != 0)
-	echo "<a href=# onclick='pag(\"".$lbl."\",\"detail\",\"".$form_name."\");' alt='".$l->g(41)."'>";
-	echo $count_value;
-	if ($count_value != 0)
-	echo "</a>";
-	echo "</b></td></tr>";
-	if ($protectedPost['detail'] == $lbl and $count_value == 0)
-	unset($protectedPost['detail']);
+
 }
-echo "</table>";
+foreach ($count_id as $lbl=>$count_value){
+
+	echo "<div class='row'>";
+		echo "<div class='col col-md-4 col-md-offset-3'>";
+			echo "<span>".returnTrad($lbl)."</span>";
+		echo "</div>";
+		echo "<div class='col col-md-2 text-left'>";
+		if ($count_value != 0)
+			echo "<a href=# onclick='pag(\"".$lbl."\",\"detail\",\"".$form_name."\");' alt='".$l->g(41)."'>";
+
+		echo $count_value;
+
+		if ($count_value != 0)
+			echo "</a>";
+
+		echo "</div>";
+	echo "</div>";
+
+	if ($protectedPost['detail'] == $lbl and $count_value == 0)
+		unset($protectedPost['detail']);
+}
 echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']."'>";
 
 //show details
@@ -296,11 +308,11 @@ if ($protectedPost['detail'] != ''){
 	$tab_options['LBL_POPUP']['SUP']='NAME';
 	$tab_options['LBL']['SUP']=$l->g(122);
 	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
+	echo "<input type='submit' value='".$l->g(177)."' name='FUSION' class='btn btn-success'><br /><br />";
 	if ($result_exist != "" and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
-		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><img src='image/delete.png' title='Supprimer' ></a>";
+		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><span class='glyphicon glyphicon-remove delete-span' title='".$l->g(162)."' ></span></a>";
 		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 	}
-	echo "<p><input type='submit' value='".$l->g(177)."' name='FUSION'></p>";
 	echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
 }
 echo close_form();

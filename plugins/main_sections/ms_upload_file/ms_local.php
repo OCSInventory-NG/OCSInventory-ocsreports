@@ -13,9 +13,9 @@ require_once('require/function_files.php');
 $form_name="insert_computers";
 $data_on['FILE']=$l->g(288);
 $data_on['MANUEL']=$l->g(1258);
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 //$protectedPost['onglet']='FILE';
-show_tabs($data_on,$form_name,"onglet",4);
+show_tabs($data_on,$form_name,"onglet",true);
 echo "<div class='col col-md-10' >";
 
 if ($protectedPost['onglet'] == 'FILE'){
@@ -82,7 +82,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 			}else
 				msg_error($l->g(1244));
 	}
-	printEntete("<i>".$l->g(560).": ".$server."</i>");
+	printEntete($l->g(560).": ".$server);
 	echo close_form();
 	echo "<br>";
 	echo open_form($form_name1,'',"enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"", 'form-horizontal');
@@ -150,8 +150,6 @@ if ($protectedPost['onglet'] == 'FILE'){
 		}else
 			msg_error($l->g(684)."<br>".$error);
 	}
-	
-	//formGroup('text', 'NB_COMPUTERS', $l->g())
 
 	$i=0;
 	$info_form['FIELDS']['name_field'][$i]='NB_COMPUTERS';
@@ -195,10 +193,11 @@ if ($protectedPost['onglet'] == 'FILE'){
 	
 	
 	if (isset($tab_typ_champ)){
-		tab_modif_values($info_form['FIELDS']['tab_name'],$tab_typ_champ,$tab_hidden, array(
+		modif_values($info_form['FIELDS']['tab_name'],$tab_typ_champ,$tab_hidden, array(
 			'show_frame' => false
 		));
-	}	
+	}
+
 	echo "</div>";
 	echo close_form();
 }

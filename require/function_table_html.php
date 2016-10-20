@@ -803,147 +803,147 @@ function champsform($title,$value_default,$input_name,$input_type,&$donnees,$nom
  * $input_reload = si un select doit effectuer un reload, on y met le nom du formulaire à reload
  * 
  */
-function show_modif($name,$input_name,$input_type,$input_reload = "",$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES",'COLS'=>30,'ROWS'=>5))
+function show_modif($name, $input_name, $input_type, $input_reload = "", $configinput = array('MAXLENGTH' => 100, 'SIZE' => 20, 'JAVASCRIPT' => "", 'DEFAULT' => "YES", 'COLS' => 30, 'ROWS' => 5))
 {
-	global $protectedPost,$l,$pages_refs;
-	
+	global $protectedPost, $l, $pages_refs;
+
 	if ($configinput == "")
-		$configinput=array('MAXLENGTH'=>100,'SIZE'=>20,'JAVASCRIPT'=>"",'DEFAULT'=>"YES",'COLS'=>30,'ROWS'=>5);
+		$configinput = array('MAXLENGTH' => 100, 'SIZE' => 20, 'JAVASCRIPT' => "", 'DEFAULT' => "YES", 'COLS' => 30, 'ROWS' => 5);
 	//del stripslashes if $name is not an array
-	if (!is_array($name)){
-		$name=htmlspecialchars($name, ENT_QUOTES);
+	if (!is_array($name)) {
+		$name = htmlspecialchars($name, ENT_QUOTES);
 	}
-		if ($input_type == 1){
-			
-		return "<textarea name='".$input_name."' id='".$input_name."' cols='".$configinput['COLS']."' rows='".$configinput['ROWS']."'  class='down' >".$name."</textarea>";
-	
-	}elseif ($input_type ==0)
-	return "<input type='text' name='".$input_name."' id='".$input_name."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$name."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
-	elseif($input_type ==2){
+	if ($input_type == 1) {
+
+		return "<textarea name='" . $input_name . "' id='" . $input_name . "' cols='" . $configinput['COLS'] . "' rows='" . $configinput['ROWS'] . "'  class='down' >" . $name . "</textarea>";
+
+	} elseif ($input_type == 0)
+		return "<input type='text' name='" . $input_name . "' id='" . $input_name . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $name . "\" class='down'\" " . $configinput['JAVASCRIPT'] . ">";
+	elseif ($input_type == 2) {
 		$champs = "<div class='form-group'>";
 
-		$champs .="<select name='".$input_name."' id='".$input_name."' ".(isset($configinput['JAVASCRIPT'])?$configinput['JAVASCRIPT']:'');
-		if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
-		$champs.=" class='down form-control' >";
+		$champs .= "<select name='" . $input_name . "' id='" . $input_name . "' " . (isset($configinput['JAVASCRIPT']) ? $configinput['JAVASCRIPT'] : '');
+		if ($input_reload != "") $champs .= " onChange='document." . $input_reload . ".submit();'";
+		$champs .= " class='down form-control' >";
 		if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES")
-		$champs.= "<option value='' class='hi' ></option>";
-		$countHl=0;		
-		if ($name != ''){
+			$champs .= "<option value='' class='hi' ></option>";
+		$countHl = 0;
+		if ($name != '') {
 			natcasesort($name);
-			foreach ($name as $key=>$value){
-				$champs.= "<option value=\"".$key."\"";
-				if ($protectedPost[$input_name] == $key )
-					$champs.= " selected";
-				$champs.= ($countHl%2==1?" class='hi'":" class='down'")." >".$value."</option>";
+			foreach ($name as $key => $value) {
+				$champs .= "<option value=\"" . $key . "\"";
+				if ($protectedPost[$input_name] == $key)
+					$champs .= " selected";
+				$champs .= ($countHl % 2 == 1 ? " class='hi'" : " class='down'") . " >" . $value . "</option>";
 				$countHl++;
 			}
 		}
-		$champs.="</select></div>";
+		$champs .= "</select></div>";
 		return $champs;
-	}elseif($input_type == 3){
-		$hid="<input type='hidden' id='".$input_name."' name='".$input_name."' value='".$name."'>";
-	//	echo $name."<br>";
-		return $name.$hid;
-	}elseif ($input_type == 4)
-	 return "<input size='".$configinput['SIZE']."' type='password' name='".$input_name."' class='hi' />";
-	elseif ($input_type == 5 and isset($name) and is_array($name)){	
-		foreach ($name as $key=>$value){
-			$champs.= "<input type='checkbox' name='".$input_name."_".$key."' id='".$input_name."_".$key."' ";
-			if ($protectedPost[$input_name."_".$key] == 'on' )
-			$champs.= " checked ";
-			if ($input_reload != "") $champs.=" onChange='document.".$input_reload.".submit();'";
-			$champs.= " >" . $value . " <br>";
+	} elseif ($input_type == 3) {
+		$hid = "<input type='hidden' id='" . $input_name . "' name='" . $input_name . "' value='" . $name . "'>";
+		//	echo $name."<br>";
+		return $name . $hid;
+	} elseif ($input_type == 4)
+		return "<input size='" . $configinput['SIZE'] . "' type='password' name='" . $input_name . "' class='hi' />";
+	elseif ($input_type == 5 and isset($name) and is_array($name)) {
+		foreach ($name as $key => $value) {
+			$champs .= "<input type='checkbox' name='" . $input_name . "_" . $key . "' id='" . $input_name . "_" . $key . "' ";
+			if ($protectedPost[$input_name . "_" . $key] == 'on')
+				$champs .= " checked ";
+			if ($input_reload != "") $champs .= " onChange='document." . $input_reload . ".submit();'";
+			$champs .= " >" . $value . " <br>";
 		}
 		return $champs;
-	}elseif($input_type == 6){
+	} elseif ($input_type == 6) {
 		if (isset($configinput['NB_FIELD']))
-			$i=$configinput['NB_FIELD'];
+			$i = $configinput['NB_FIELD'];
 		else
-			$i=6;
-		$j=0;
+			$i = 6;
+		$j = 0;
 		echo $name;
-		while ($j<$i){
-			$champs.="<input type='text' name='".$input_name."_".$j."' id='".$input_name."_".$j."' SIZE='".$configinput['SIZE']."' MAXLENGTH='".$configinput['MAXLENGTH']."' value=\"".$protectedPost[$input_name."_".$j]."\" class='down'\" ".$configinput['JAVASCRIPT'].">";
+		while ($j < $i) {
+			$champs .= "<input type='text' name='" . $input_name . "_" . $j . "' id='" . $input_name . "_" . $j . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $protectedPost[$input_name . "_" . $j] . "\" class='down'\" " . $configinput['JAVASCRIPT'] . ">";
 			$j++;
 		}
-		return $champs;		
-	}elseif($input_type == 7)
-		return "<input type='hidden' id='".$input_name."' name='".$input_name."' value='".$name."'>";
-	elseif ($input_type == 8){
-		return "<input type='button' id='".$input_name."' name='".$input_name."' value='".$l->g(1048)."' OnClick='window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_upload_file_popup']."&head=1&n=".$input_name."&tab=".$name."&dde=".$configinput['DDE']."\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'>";
-	}elseif ($input_type == 9){
-		$aff="";
-		if (is_array($name)){
-			foreach ($name as $key=>$value){
-				$aff.="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_view_file']."&prov=dde_wk&no_header=1&value=".$key."\">".
-						$value."</a><br>";
+		return $champs;
+	} elseif ($input_type == 7)
+		return "<input type='hidden' id='" . $input_name . "' name='" . $input_name . "' value='" . $name . "'>";
+	elseif ($input_type == 8) {
+		return "<input type='button' id='" . $input_name . "' name='" . $input_name . "' value='" . $l->g(1048) . "' OnClick='window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_upload_file_popup'] . "&head=1&n=" . $input_name . "&tab=" . $name . "&dde=" . $configinput['DDE'] . "\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'>";
+	} elseif ($input_type == 9) {
+		$aff = "";
+		if (is_array($name)) {
+			foreach ($name as $key => $value) {
+				$aff .= "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_view_file'] . "&prov=dde_wk&no_header=1&value=" . $key . "\">" .
+					$value . "</a><br>";
 			}
 		}
 		return $aff;
-	}elseif ($input_type == 10){
+	} elseif ($input_type == 10) {
 		//le format de de $name doit etre sous la forme d'une requete sql avec éventuellement
 		//des arguments. Dans ce cas, les arguments sont séparés de la requête par $$$$
 		//et les arguments entre eux par des virgules
 		//echo $name;
-		$sql=explode('$$$$',$name);
-		if (isset($sql[1])){
-			$arg_sql=explode(',',$sql[1]);	
-			$i=0;
-			while ($arg_sql[$i]){
-				$arg[$i]=$protectedPost[$arg_sql[$i]];
-				$i++;	
+		$sql = explode('$$$$', $name);
+		if (isset($sql[1])) {
+			$arg_sql = explode(',', $sql[1]);
+			$i = 0;
+			while ($arg_sql[$i]) {
+				$arg[$i] = $protectedPost[$arg_sql[$i]];
+				$i++;
 			}
-		}		
+		}
 		if (isset($arg_sql))
-		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"],$arg);
+			$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"], $arg);
 		else
-		$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"]);
-		if (isset($result) and $result != ''){
-			$i=0;
-			while($colname = mysqli_fetch_field($result))
-			$entete2[$i++]=$colname->name;
-			
-			$i=0;		
-			while ($item = mysqli_fetch_object($result)){
-				$j=0;
-				while ($entete2[$j]){
-					$data2[$i][$entete2[$j]]=$item ->$entete2[$j];
+			$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"]);
+		if (isset($result) and $result != '') {
+			$i = 0;
+			while ($colname = mysqli_fetch_field($result))
+				$entete2[$i++] = $colname->name;
+
+			$i = 0;
+			while ($item = mysqli_fetch_object($result)) {
+				$j = 0;
+				while ($entete2[$j]) {
+					$data2[$i][$entete2[$j]] = $item->$entete2[$j];
 					$j++;
 				}
 				$i++;
 			}
 		}
-		return tab_entete_fixe($entete2,$data2,"",60,300);		
-	}elseif($input_type == 11 and isset($name) and is_array($name)){	
-		foreach ($name as $key=>$value){
-			$champs.= "<input type='radio' name='".$input_name."' id='".$input_name."' value='" . $key . "'";
-			if ($protectedPost[$input_name] == $key ){
-				$champs.= " checked ";
+		return tab_entete_fixe($entete2, $data2, "", 60, 300);
+	} elseif ($input_type == 11 and isset($name) and is_array($name)) {
+		foreach ($name as $key => $value) {
+			$champs .= "<input type='radio' name='" . $input_name . "' id='" . $input_name . "' value='" . $key . "'";
+			if ($protectedPost[$input_name] == $key) {
+				$champs .= " checked ";
 			}
-			$champs.= " >" . $value . " <br>";
+			$champs .= " >" . $value . " <br>";
 		}
-		return $champs;		
-	}elseif($input_type == 12){ //IMG type
-		$champs="<img src='".$configinput['DEFAULT']."' ";
+		return $champs;
+	} elseif ($input_type == 12) { //IMG type
+		$champs = "<img src='" . $configinput['DEFAULT'] . "' ";
 		if ($configinput['SIZE'] != '20')
-			$champs.=$configinput['SIZE']." ";
-	
+			$champs .= $configinput['SIZE'] . " ";
+
 		if ($configinput['JAVASCRIPT'] != '')
-			$champs.=$configinput['JAVASCRIPT']." ";
-		$champs.=">";
+			$champs .= $configinput['JAVASCRIPT'] . " ";
+		$champs .= ">";
 		return $champs;
 		//"<img src='index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."' width=60 height=60 onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")>";
-		
-	}elseif($input_type == 13){
-		
-		return "<input id='".$input_name."' name='".$input_name."' type='file' accept='archive/zip'>";
-	
+
+	} elseif ($input_type == 13) {
+
+		return "<input id='" . $input_name . "' name='" . $input_name . "' type='file' accept='archive/zip'>";
+
 	}
 }
 
 function tab_modif_values($field_labels, $fields, $hidden_fields, $options = array()) {
 	global $l;
-	
+
 	$options = array_merge(array(
 		'title' => null,
 		'comment' => null,
@@ -955,7 +955,7 @@ function tab_modif_values($field_labels, $fields, $hidden_fields, $options = arr
 	), $options);
 
 	if ($options['form_name'] != 'NO_FORM') {
-		echo open_form($options['form_name']);
+		echo open_form($options['form_name'], '', '', 'form-horizontal');
 	}
 	 
 	if ($options['show_frame']) {
@@ -968,7 +968,23 @@ function tab_modif_values($field_labels, $fields, $hidden_fields, $options = arr
 	if (is_array($field_labels)) {
 	    foreach ($field_labels as $key => $label) {
 	    	$field = $fields[$key];
-	    	
+
+			/**
+			 * 0 = text
+			 * 1 = textarea
+			 * 2 = select
+			 * 3 = hidden
+			 * 4 = password
+			 * 5 = checkbox
+			 * 6 = text multiple
+			 * 7 = hidden
+			 * 8 = button
+			 * 9 = link
+			 * 10 = ?
+			 **/
+
+
+			//formGroup($field['INPUT_TYPE']);
 	    	echo '<div class="field field-'.$field['INPUT_NAME'].'">';
 	    	echo '<label>'.$label.'</label>';
 	    	
@@ -1062,17 +1078,7 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 			$tab_typ_champ[$key]['CONFIG']['JAVASCRIPT']=$config['JAVASCRIPT'][$key];
 		}
 	}
-//	$i=0;
-//	while ($name_field[$i]){
-//		$tab_typ_champ[$i]['DEFAULT_VALUE']=$value_field[$i];
-//		$tab_typ_champ[$i]['INPUT_NAME']=$name_field[$i];
-//		$tab_typ_champ[$i]['INPUT_TYPE']=$type_field[$i];
-//		$tab_typ_champ[$i]['CONFIG']['ROWS']=7;
-//		$tab_typ_champ[$i]['CONFIG']['COLS']=40;
-//		$tab_typ_champ[$i]['CONFIG']['SIZE']=50;
-//		$tab_typ_champ[$i]['CONFIG']['MAXLENGTH']=255;
-//		$i++;
-//	}
+
 	return $tab_typ_champ;
 }
 
@@ -1304,11 +1310,10 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 }
 
 
-function show_tabs($def_onglets,$form_name,$post_name,$ligne)
+function show_tabs($def_onglets,$form_name,$post_name, $onclick = false)
 {
 	global $protectedPost;
-/*	$protectedPost['onglet_soft']=stripslashes($protectedPost['onglet_soft']);
-	$protectedPost['old_onglet_soft']=stripslashes($protectedPost['old_onglet_soft']);*/
+
 	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
 	$protectedPost['page']=0;
 	}
@@ -1318,46 +1323,32 @@ function show_tabs($def_onglets,$form_name,$post_name,$ligne)
 			break;
 		}		
 	}
-	/*This fnction use code of Douglas Bowman (Sliding Doors of CSS)
-	http://www.alistapart.com/articles/slidingdoors/
-	THANKS!!!!
-		$def_onglets is array like :  	$def_onglets[$l->g(499)]=$l->g(499); //Serveur
-										$def_onglets[$l->g(728)]=$l->g(728); //Inventaire
-										$def_onglets[$l->g(312)]=$l->g(312); //IP Discover
-										$def_onglets[$l->g(512)]=$l->g(512); //Télédéploiement
-										$def_onglets[$l->g(628)]=$l->g(628); //Serveur de redistribution 
-		
-	behing this function put this lign:
-	echo open_form($form_name);
-	
-	At the end of your page, close this form
-	$post_name is the name of var will be post
-	$ligne is if u want have onglet on more ligne*/
 	if ($def_onglets != ""){
-	echo "<LINK REL='StyleSheet' TYPE='text/css' HREF='css/onglets.css'>\n";
-	echo "<div class='left-menu col col-md-2'><div class='navbar navbar-default'>";
-	echo "<ul class='nav navbar-nav'>";
+	echo "<div class='col col-md-2'>";
+	echo "<ul class='nav nav-pills nav-stacked navbar-left'>";
 	$current="";
 	$i=0;
 	  foreach($def_onglets as $key=>$value){
 	  	echo "<li ";
 	  	if (is_numeric($protectedPost[$post_name])){
 			if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
-			 echo "id='current'";  
+			 echo "id='current' class='active'";
 	 		 $current=1;
 			}
 	  	}else{
 			if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
-				 echo "id='current'";  
+				 echo "id='current' class='active'";
 	 			 $current=1;
 			}
 		}
-	
-	  	echo "><a OnClick='pag(\"".htmlspecialchars($key, ENT_QUOTES)."\",\"".$post_name."\",\"".$form_name."\")'>".htmlspecialchars($value, ENT_QUOTES)."</a></li>";
+		$clickjs = "OnClick='pag(\"".htmlspecialchars($key, ENT_QUOTES)."\",\"".$post_name."\",\"".$form_name."\")'";
+	  	echo "><a ";
+	  	echo ($onclick == true) ? $clickjs : '';
+	  	echo " >".htmlspecialchars($value, ENT_QUOTES)."</a></li>";
 	  $i++;	
 	  }	
 	echo "</ul>
-	</div></div>";
+	</div>";
 	echo "<input type='hidden' id='".$post_name."' name='".$post_name."' value='".$protectedPost[$post_name]."'>";
 	echo "<input type='hidden' id='old_".$post_name."' name='old_".$post_name."' value='".$protectedPost[$post_name]."'>";
 	}
@@ -2482,27 +2473,26 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 }
 function del_selection($form_name){
 	global $l;
-echo "<script language=javascript>
+?>
+	<script language=javascript>
 			function garde_check(image,id)
 			 {
 				var idchecked = '';
-				for(i=0; i<document.".$form_name.".elements.length; i++)
+				for(i=0; i<document.<?php echo $form_name ?>.elements.length; i++)
 				{					
-					if(document.".$form_name.".elements[i].name.substring(0,5) == 'check'){
-				        if (document.".$form_name.".elements[i].checked)
-							idchecked = idchecked + document.".$form_name.".elements[i].name.substring(5) + ',';
+					if(document.<?php echo $form_name ?>.elements[i].name.substring(0,5) == 'check'){
+				        if (document.<?php echo $form_name ?>.elements[i].checked)
+							idchecked = idchecked + document.<?php echo $form_name ?>.elements[i].name.substring(5) + ',';
 					}
 				}
 				idchecked = idchecked.substr(0,(idchecked.length -1));
-				confirme('',idchecked,\"".$form_name."\",\"del_check\",\"".$l->g(900)."\");
+				confirme('',idchecked,"<?php echo $form_name ?>","del_check","<?php echo $l->g(900) ?>");
 			}
-		</script>";
-		echo "<table align='center' width='30%' border='0'>";
-		echo "<tr><td>";
+	</script>
+<?php
 		//foreach ($img as $key=>$value){
-			echo "<td align=center><a href=# onclick=garde_check(\"image/delete.png\",\"\")><img src='image/delete.png' title='".$l->g(162)."' ></a></td>";
+			echo "<a href=# onclick=garde_check()><span class='glyphicon glyphicon-remove delete-span' title='".$l->g(162)."' ></span></a>";
 		//}
-	 echo "</tr></tr></table>";
 	 echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 }
 

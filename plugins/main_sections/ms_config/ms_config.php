@@ -70,7 +70,7 @@ if (isset($MAJ) and $MAJ != '')
 printEnTete($l->g(107));
 $form_name='modif_onglet';
 echo open_form($form_name);
-show_tabs($def_onglets,$form_name,"onglet",10);
+show_tabs($def_onglets,$form_name,"onglet",true);
 echo '<div class="col col-md-10">';
 //onglet($def_onglets,$form_name,'onglet',8);
 switch ($protectedPost['onglet']){

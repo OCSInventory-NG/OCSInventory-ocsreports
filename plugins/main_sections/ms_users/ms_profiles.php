@@ -77,7 +77,9 @@ if (AJAX) {
 	require_once('require/tables/TableRenderer.php');
 	
 	// HTML OUTPUT
+	echo "<div class='col col-md-2'>";
 	show_users_left_menu('ms_profiles');
+	echo "</div>";
 	
 	echo '<div class="col col-md-10">';
 	

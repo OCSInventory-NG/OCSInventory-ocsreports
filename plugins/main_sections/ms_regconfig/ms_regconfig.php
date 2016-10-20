@@ -41,7 +41,7 @@ if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){
 		$tab_hidden['id']=$row->ID;	
 }
 $tab_options=$protectedPost;
-show_tabs($tab,$form_name,"tab",4);
+show_tabs($tab,$form_name,"tab",true);
 echo '<div class="col col-md-10" >';
 if ($ajax){
 	if (isset($protectedPost['REGKEY'])){
@@ -90,8 +90,7 @@ if ($protectedPost['tab'] == 'VIEW'){
 	$tab_options['LBL_POPUP']['SUP']='name';
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_name;
-	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);		
-	$img['image/delete.png']=$l->g(162);
+	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	del_selection($form_name);	
 }elseif ($protectedPost['tab'] == 'ADD'){
 
@@ -111,31 +110,28 @@ if ($protectedPost['tab'] == 'VIEW'){
 		}		
 	}	
 	
-	$tab_typ_champ[0]['DEFAULT_VALUE']=$protectedPost['NAME'];
-	$tab_typ_champ[0]['INPUT_NAME']="NAME";
-	$tab_typ_champ[0]['CONFIG']['SIZE']=60;
-	$tab_typ_champ[0]['CONFIG']['MAXLENGTH']=255;
-	$tab_typ_champ[0]['INPUT_TYPE']=0;
-	$tab_name[0]=$l->g(252).": ";
-	$tab_typ_champ[1]['DEFAULT_VALUE']=$list_registry_key;
-	$tab_typ_champ[1]['INPUT_NAME']="REGTREE";
-	$tab_typ_champ[1]['INPUT_TYPE']=2;
-	$tab_name[1]=$l->g(253).":";
-	$tab_typ_champ[2]['DEFAULT_VALUE']=$protectedPost['REGKEY'];
-	$tab_typ_champ[2]['INPUT_NAME']="REGKEY";
-	$tab_typ_champ[2]['CONFIG']['SIZE']=60;
-	$tab_typ_champ[2]['CONFIG']['MAXLENGTH']=255;
-	$tab_name[2]=$l->g(254).": ";
-	$tab_typ_champ[3]['DEFAULT_VALUE']=$protectedPost['REGVALUE'];
-	$tab_typ_champ[3]['INPUT_NAME']="REGVALUE";
-	$tab_typ_champ[3]['CONFIG']['SIZE']=60;
-	$tab_typ_champ[3]['CONFIG']['MAXLENGTH']=255;
-	$tab_typ_champ[3]['INPUT_TYPE']=0;
-	$tab_name[3]=$l->g(255).": ";
-	tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden, array(
-		'show_frame' => false
-	));
-		
+    ?>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+         <?php
+         formGroup('text', 'NAME', $l->g(252), '', 255, $protectedPost['NAME']);
+
+         formGroup('select', 'REGTREE', $l->g(253), '', '', $protectedPost['REGTREE'], '', $list_registry_key, $list_registry_key);
+
+         formGroup('text', 'REGKEY', $l->g(254), '', 255, $protectedPost['REGKEY']);
+
+         formGroup('text', 'REGVALUE', $l->g(255), '', 255, $protectedPost['REGKEY']);
+         ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
+            <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+        </div>
+    </div>
+    <?php
+
 }
 echo "</div>";
 echo close_form();

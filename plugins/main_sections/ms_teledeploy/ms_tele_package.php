@@ -445,7 +445,11 @@ $config_input=[
 	'MAXLENGTH'=>255,
 	'SIZE'=>50
 ];
-$list_os = ["WINDOWS", "LINUX", "MAC"];
+$list_os = [
+	"WINDOWS" => "WINDOWS",
+	"LINUX" => "UNIX/LINUX",
+	"MAC" => "MACOS"
+];
 $list_proto = ["HTTP"];
 
 $i=0;
@@ -456,35 +460,27 @@ while ($i<10){
 
 $yes_no = ["0", "1"];
 
-$list_action = ["EXECUTE", "STORE",	"LAUNCH"];
+$list_action = [
+	"EXECUTE" => $l->g(456),
+	"STORE" => $l->g(457),
+	"LAUNCH" => $l->g(458)
+];
 
 $arrayDisplayValue = [
-	"ACTION" => [
-		"EXECUTE" => $l->g(456),
-		"STORE" => $l->g(457),
-		"LAUNCH" => $l->g(458)
-	],
 	"yes_no" => [
 		"0" => $l->g(454),
 		"1" => $l->g(455)
 	],
-	"OS" => [
-		"WINDOWS" => "WINDOWS",
-		"LINUX" => "UNIX/LINUX",
-		"MAC" => "MACOS"
-	]
 ];
-
-
 formGroup('text', 'NAME', $arrayName['name'], $config_input['SIZE'], $config_input['MAXLENGTH'], $protectedPost['NAME']);
 
 formGroup('text', 'DESCRIPTION', $arrayName['description'], $config_input['MAXLENGTH'], $protectedPost['DESCRIPTION']);
-formGroup('select', 'OS', $arrayName['os'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost, '', $list_os, $arrayDisplayValue['OS'], "onchange='active(\"OS_div\", this.value==\"WINDOWS\");' ");
-formGroup('select', 'PROTOCOLE', $arrayName['proto'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['PROTOCOLE'], '', $list_proto);
-formGroup('select', 'PRIORITY', $arrayName['prio'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['PRIORITY'], '', $list_prio);
-formGroup('file', 'teledeploy_file', $arrayName['file'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['teledeploy_file'], '', '', "accept='archive/zip'");
-formGroup('select', 'ACTION', $arrayName['action'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['ACTION'], '', $list_action, $arrayDisplayValue['ACTION'], "onchange='changeLabelAction()' ");
-formGroup('text', 'ACTION_INPUT', $l->g(445), $config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
+formGroup('select', 'OS', $arrayName['os'], '', $config_input['MAXLENGTH'], $protectedPost, '', $list_os, $list_os, "onchange='active(\"OS_div\", this.value==\"WINDOWS\");' ");
+formGroup('select', 'PROTOCOLE', $arrayName['proto'], '', $config_input['MAXLENGTH'], $protectedPost['PROTOCOLE'], '', $list_proto, $list_proto);
+formGroup('select', 'PRIORITY', $arrayName['prio'], '', $config_input['MAXLENGTH'], $protectedPost['PRIORITY'], '', $list_prio, $list_prio);
+formGroup('file', 'teledeploy_file', $arrayName['file'], '', $config_input['MAXLENGTH'], $protectedPost['teledeploy_file'], '', '', "accept='archive/zip'");
+formGroup('select', 'ACTION', $arrayName['action'], '', $config_input['MAXLENGTH'], $protectedPost['ACTION'], '', $list_action, $list_action, "onchange='changeLabelAction()' ");
+formGroup('text', 'ACTION_INPUT', $l->g(444), '' ,$config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
 
 echo "<br />";
 echo "<h4>".$arrayName['title_redistribution']."</h4>";

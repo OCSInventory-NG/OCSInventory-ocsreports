@@ -11,10 +11,12 @@
 
 if (!AJAX) {
 	require_once 'views/users_views.php';
-	
+
+    echo "<div class='col col-md-2'";
 	show_users_left_menu('ms_users');
+    echo "</div>";
 	
-	echo '<div class="right-content">';
+	echo '<div class="col col-md-10">';
 }
 
 require_once 'require/function_users.php';

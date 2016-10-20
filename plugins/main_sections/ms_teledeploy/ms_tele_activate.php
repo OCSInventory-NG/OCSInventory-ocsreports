@@ -50,7 +50,7 @@ $data_on['DELETED_PACKET']= $l->g(2124);
 if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
 unset($protectedPost['MODIF']);	
 
-show_tabs($data_on,$form_name,"onglet",10);
+show_tabs($data_on,$form_name,"onglet",true);
 
 echo '<div class="col col-md-10" >';
 

@@ -57,7 +57,7 @@ if (isset($protectedPost['enre'])){
 		unset($_SESSION['OCS']['DATA_CACHE'],$_SESSION['OCS']['NUM_ROW']);
 }
 echo open_form($form_name, '', '', 'form-horizontal');
-show_tabs($data_on,$form_name,"onglet",10);
+show_tabs($data_on,$form_name,"onglet",true);
 echo '<div class="col col-md-10">';
 
 if ($protectedPost['onglet'] == 1){

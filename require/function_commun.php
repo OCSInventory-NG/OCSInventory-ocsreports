@@ -412,7 +412,7 @@ function close_form(){
  * Return a json from the website which help ocs determine if a new version is available
  */
 function get_update_json(){
-    
+
     $stream = stream_context_create(array('http'=>
         array(
             'timeout' => 1,  // Timeout after 1 seconds
@@ -444,7 +444,8 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 			echo "<option value='".$option."' ".($inputValue[$inputName] == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
 		}
 		echo "</select>";
-	} else{
+	}
+	else{
 		echo "<div class='input-group'>";
 		echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='form-control ".$class."' ".$attrBalise.">";
 		if($groupAddon != ""){
@@ -456,5 +457,128 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 	echo "</div>";
 }
 
+//fonction qui permet d'utiliser un calendrier dans un champ
+function calendars($NameInputField,$DateFormat)
+{
+	return "<a href=\"javascript:NewCal('".$NameInputField."','".$DateFormat."',false,24,null);\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+}
+
+
+
+function modif_values($field_labels, $fields, $hidden_fields, $options = array()) {
+	global $l;
+
+	$options = array_merge(array(
+		'title' => null,
+		'comment' => null,
+		'button_name' => 'modif',
+		'show_button' => true,
+		'form_name' => 'CHANGE',
+		'top_action' => null,
+		'show_frame' => true
+	), $options);
+
+	if ($options['form_name'] != 'NO_FORM') {
+		echo open_form($options['form_name'], '', '', 'form-horizontal');
+	}
+
+	if (is_array($field_labels)) {
+		foreach ($field_labels as $key => $label) {
+
+			$field = $fields[$key];
+
+			/**
+			 * 0 = text
+			 * 1 = textarea
+			 * 2 = select
+			 * 3 = hidden
+			 * 4 = password
+			 * 5 = checkbox
+			 * 6 = text multiple
+			 * 7 = hidden
+			 * 8 = button
+			 * 9 = link
+			 * 10 = ?
+			 **/
+
+			if($field['INPUT_TYPE'] == 0 ||
+				$field['INPUT_TYPE'] == 1 ||
+				$field['INPUT_TYPE'] == 6 ||
+				$field['INPUT_TYPE'] == 10
+			){
+				$inputType = 'text';
+			} else if($field['INPUT_TYPE'] == 2){
+				$inputType = 'select';
+			} else if($field['INPUT_TYPE'] == 3){
+				$inputType = 'hidden';
+			} else if($field['INPUT_TYPE'] == 4){
+				$inputType = 'password';
+			} else if($field['INPUT_TYPE'] == 5){
+				$inputType = 'checkbox';
+			} else if($field['INPUT_TYPE'] == 8){
+				$inputType = 'button';
+			} else if($label['INPUT_TYPE'] == 9){
+				$inputType = 'link';
+			} else {
+				$inputType = 'hidden';
+			}
+
+			echo "<div class='form-group'>";
+				echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
+				echo "<div class='col-sm-10'>";
+					echo "<div class='input-group'>";
+
+						if($inputType == 'text'){
+							echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+						} else if($inputType == 'select'){
+							echo "<select class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+								foreach ($field['DEFAULT_VALUE'] as $key => $value){
+									echo "<option value='".$key."'>".$value."</option>";
+								}
+							echo "</select>";
+
+						} else if($inputType == 'checkbox'){
+							echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+						} else if(
+							$inputType == 'button' ||
+							$inputType == 'link'
+						){
+							echo "<a href='".$field['DEFAULT_VALUE']."' class='".($inputType == 'button') ? 'btn' : ''."' ".$field['CONFIG']['JAVASCRIPT']."></a>";
+						} else{
+							echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+						}
+
+						if($field['COMMENT_AFTER'] != ""){
+							echo "<span class='input-group-addon' id='".$field['INPUT_NAME']."-addon'>".$field['COMMENT_AFTER']."</span>";
+						}
+
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
+
+		}
+	}
+
+	if ($options['show_button'] === 'BUTTON') {
+		echo '<div class="form-buttons">';
+		echo '<input type="submit" name="Valid_'.$options['button_name'].'" value="'.$l->g(13).'"/>';
+		echo '</div>';
+	} else if ($options['show_button']) {
+		echo '<div class="form-buttons">';
+		echo '<input type="submit" name="Valid_'.$options['button_name'].'" class="btn btn-success" value="'.$l->g(1363).'"/>';
+		echo '<input type="submit" name="Reset_'.$options['button_name'].'" class="btn btn-danger" value="'.$l->g(1364).'"/>';
+		echo '</div>';
+	}
+
+	if ($hidden_fields) {
+		foreach ($hidden_fields as $key => $value) {
+			echo "<input type='hidden' name='".$key."' id='".$key."' value='".htmlspecialchars($value, ENT_QUOTES)."'>";
+		}
+	}
+
+	if ($options['form_name'] != 'NO_FORM') {
+		echo close_form();
+	}
+}
 
 ?>

@@ -503,13 +503,6 @@ function show_ligne($value,$color,$id_field,$ajout,$form_name){
 	}	
 }
 
-//fonction qui permet d'utiliser un calendrier dans un champ
-function calendars($NameInputField,$DateFormat)
-{
-	return "<a href=\"javascript:NewCal('".$NameInputField."','".$DateFormat."',false,24,null);\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
-}
-
-
 function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 {
 	global 	$l;

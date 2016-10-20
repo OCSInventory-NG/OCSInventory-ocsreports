@@ -11,10 +11,12 @@
 
 if (!AJAX) {
 	require_once 'views/users_views.php';
-	
-	show_users_left_menu('ms_add_user');
-	
-	echo '<div class="right-content">';
+
+    echo "<div class='col col-md-2'>";
+    show_users_left_menu('ms_add_user');
+    echo "</div>";
+
+	echo '<div class="col col-md-10">';
 }
 
 require_once 'require/function_users.php';

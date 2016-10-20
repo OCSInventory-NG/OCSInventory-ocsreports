@@ -34,7 +34,10 @@ function getBorderBottomWidth() { return getBorderWidth("Bottom"); }
 function getPadding(sSide) {
 	var n = parseInt(element.currentStyle["padding" + sSide]);
 	return n || 0;
-}
+}echo '<div class="form-buttons">';
+		echo '<input type="submit" name="Valid_'.$options['button_name'].'" value="'.$l->g(1363).'"/>';
+		echo '<input type="submit" name="Reset_'.$options['button_name'].'" value="'.$l->g(1364).'"/>';
+		echo '</div>';
 
 function getPaddingLeft() { return getPadding("Left"); }
 function getPaddingRight() { return getPadding("Right"); }

@@ -53,7 +53,7 @@ if (isset($protectedPost["onglet"]) and !isset($data_tab['DATA'][$protectedPost[
 	$protectedPost["onglet"]=$data_tab['DEFAULT'];
 	
 if ($data_tab['DATA'] != array()){
-	show_tabs($data_tab['DATA'],$form_name,"onglet",8);
+	show_tabs($data_tab['DATA'],$form_name,"onglet",true);
 	
 	echo '<div class="col col-md-10">';
 	

@@ -1,27 +1,27 @@
 <?php
 
 function show_users_left_menu($activeMenu = null) {
-	global $l;
-	$urls = $_SESSION['OCS']['url_service'];
-	
-	$menu = new Menu(array(
-		'users' => new MenuElem($l->g(1400), "?".PAG_INDEX."=".$urls->getUrl('ms_users')),
-		'profiles' => new MenuElem($l->g(1401), "?".PAG_INDEX."=".$urls->getUrl('ms_profiles')),
-		'add_user' => new MenuElem($l->g(1403), "?".PAG_INDEX."=".$urls->getUrl('ms_add_user')),
-		'add_profile' => new MenuElem($l->g(1399), "?".PAG_INDEX."=".$urls->getUrl('ms_add_profile')),
-	));
+    global $l;
+    $urls = $_SESSION['OCS']['url_service'];
 
-	$menu_renderer = new MenuRenderer();
-	
-	if ($activeMenu) {
-		$menu_renderer->setActiveLink("?".PAG_INDEX."=".$urls->getUrl($activeMenu));
-	}
-	
-	echo '<div class="left-menu">';
-	echo '<div class="navbar navbar-default">';
-	echo $menu_renderer->render($menu);
-	echo '</div>';
-	echo '</div>';
+    $menu = array(
+        'admin_user' => array($l->g(1400), 'ms_users'),
+        'admin_profiles' => array($l->g(1401), 'ms_profiles'),
+        'admin_add_user' => array($l->g(1403), 'ms_add_user'),
+        'admin_add_profile' => array($l->g(1399), 'ms_add_profile'),
+    );
+
+
+    echo '<ul class="nav nav-pills nav-stacked navbar-left">';
+    foreach ($menu as $key=>$value){
+
+        echo "<li ";
+        if ($activeMenu == $value[1]) {
+            echo "class='active'";
+        }
+        echo " ><a href='?function=".$key."'>".$value[0]."</a></li>";
+    }
+    echo '</ul>';
 }
 
 ?>

@@ -7,7 +7,7 @@ function show_profile_create_form() {
 	
 	?>
 	
-	<div class="form-frame form-frame-create-profile">
+	<div class="form-frame-create-profile">
 		<h3><?php echo $l->g(1399) ?></h3>
 		
 		<?php

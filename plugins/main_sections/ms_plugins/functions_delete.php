@@ -14,16 +14,16 @@
  * @param string $dir : Directory path
  */
 function rrmdir($dir) {
-    if (is_dir($dir)) {
-        $objects = scandir($dir);
-        foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-                if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
-            }
-        }
-        reset($objects);
-        rmdir($dir);
-    }
+	if (is_dir($dir)) {
+		$objects = scandir($dir);
+		foreach ($objects as $object) {
+			if ($object != "." && $object != "..") {
+				if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
+			}
+		}
+		reset($objects);
+		rmdir($dir);
+	}
 }
 
 /**
@@ -42,7 +42,7 @@ function delete_plugin($pluginid, $dyn_cal = true){
        $arg = (string) $pluginid;
     }
 
-    // if not int get name - 
+    // if not int get name -
     if(is_int($arg)){
         $query = $conn->query("SELECT * FROM `plugins` WHERE id = '".$pluginid."'");
         $anwser = $query->fetch();
@@ -62,7 +62,7 @@ function delete_plugin($pluginid, $dyn_cal = true){
 
             if ($anwser['name'] != "" and $anwser['name'] != null){
                     require_once (MAIN_SECTIONS_DIR."ms_".$anwser['name']."/install.php");
-                    
+
                     if($dyn_cal){
                         $fonc = "plugin_delete_".$anwser['name'];
                         $fonc();

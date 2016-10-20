@@ -22,7 +22,7 @@ function show_profile_edit_form($profile_id) {
 	<?php show_form_input('name', array('type' => 'hidden', 'value' => $profile->getName())) ?>
 	<?php show_form_field(array(), array(), 'input', 'new_label', $l->g(1413)) ?>
 	
-	<div class="form-frame form-frame-profile">
+	<div class="form-frame-profile">
 		<div class="form-column">
 			<h4>Restrictions</h4>
 			<?php show_restrictions_frame($profile, $yes_no) ?>
@@ -38,7 +38,7 @@ function show_profile_edit_form($profile_id) {
 		</div>
 	</div>
 	
-	<div class="form-frame form-frame-profile-pages">
+	<div class="form-frame-profile-pages">
 		<h4>Pages</h4>
 		<?php show_pages_frame($profile, $yes_no) ?>
 	</div>

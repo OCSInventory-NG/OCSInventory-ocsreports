@@ -68,9 +68,13 @@
 	width: 100% !important;
 }
 
-.alert{
+.alert {
 	background-image: none;
 	border: none;
 	font-size: larger;
 	text-align: center;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+	background-color: #961b7e;
 }

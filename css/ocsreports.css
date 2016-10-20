@@ -401,31 +401,11 @@ iframe{
 	text-decoration: none
 }
 
-/*** MENU ***/
-@media (max-width: 960px) {
-	.left-menu{
-		float: none !important;
-		width: 100% !important;
-		text-align: center !important;
-	}
-	.left-menu .nav > li > a{
-		width: 100% !important;
-	}
-}
-.left-menu {
-	padding-left: 20px;
-	float: left;
+.navbar-left li{
 	text-align: left;
 }
-
-.left-menu .nav > li > a {
-	width: 150px;
-	padding: 10px 15px;
-}
-
-.left-menu li > ul {
-	top: 0;
-	left: 150px;
+.navbar-left li a{
+	color: #777;
 }
 
 /*** CONTENT ***/
@@ -450,4 +430,12 @@ iframe{
 }
 .config-row > .col-md-6{
 	text-align: left;
+}
+.delete-span{
+	color: rgba(193, 46, 42, 1);
+	font-weight: bold;
+	font-size: xx-large;
+}
+.delete-span:hover{
+	color: rgba(193, 46, 42, 0.8);
 }

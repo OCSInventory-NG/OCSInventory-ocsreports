@@ -14,20 +14,20 @@
  */
 function install($archiveName){
 
-    if (file_exists(PLUGINS_DL_DIR.$archiveName)){
-        $archive = new ZipArchive();
-        $archive->open(PLUGINS_DL_DIR.$archiveName);
-        $arrayplugin = explode(".", $archiveName);
-        $plugindir = $arrayplugin[0];
-        if(!file_exists(MAIN_SECTIONS_DIR."ms_".$plugindir)){
-            $archive->extractTo(MAIN_SECTIONS_DIR."ms_".$plugindir);
-            $archive->close();
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+	if (file_exists(PLUGINS_DL_DIR.$archiveName)){
+		$archive = new ZipArchive();
+		$archive->open(PLUGINS_DL_DIR.$archiveName);
+		$arrayplugin = explode(".", $archiveName);
+		$plugindir = $arrayplugin[0];
+		if(!file_exists(MAIN_SECTIONS_DIR."ms_".$plugindir)){
+			$archive->extractTo(MAIN_SECTIONS_DIR."ms_".$plugindir);
+			$archive->close();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
 
 /**
@@ -93,15 +93,15 @@ function check($plugarray){
  */
 function scan_downloaded_plugins(){
 
-    if(!file_exists(PLUGINS_DL_DIR)){
-            mkdir(PLUGINS_DL_DIR,'0775',true);
-    }
+	if(!file_exists(PLUGINS_DL_DIR)){
+		mkdir(PLUGINS_DL_DIR,'0775',true);
+	}
 
-    // Scan plugins download directory
-    $directory = PLUGINS_DL_DIR;
-    $scanned_directory = array_diff(scandir($directory), array('..', '.', 'README'));
+	// Scan plugins download directory
+	$directory = PLUGINS_DL_DIR;
+	$scanned_directory = array_diff(scandir($directory), array('..', '.', 'README'));
 
-    return $scanned_directory;
+	return $scanned_directory;
 
 }
 
@@ -112,25 +112,25 @@ function scan_downloaded_plugins(){
  */
 function scan_for_plugins(){
 
-    $scanned_plugins = array_diff(scandir(MAIN_SECTIONS_DIR),
-                    array('img', 'ms_all_soft', 'ms_debug', 'ms_groups' ,'ms_multi_search' ,'ms_scripts', 'ms_stats', 'ms_about',
-                                    'ms_computer', 'ms_dict', 'ms_help', 'ms_plugins', 'ms_search_soft', 'ms_teledeploy', 'ms_admininfo',
-                                    'ms_config', 'ms_doubles', 'ms_ipdiscover', 'ms_regconfig', 'ms_server_infos', 'ms_upload_file',
-                                    'ms_all_computers', 'ms_console', 'ms_export', 'ms_logs', 'ms_repart_tag', 'ms_snmp', 'ms_users'
-                                    , '.', '..'));
+	$scanned_plugins = array_diff(scandir(MAIN_SECTIONS_DIR),
+			array('img', 'ms_all_soft', 'ms_debug', 'ms_groups' ,'ms_multi_search' ,'ms_scripts', 'ms_stats', 'ms_about',
+					'ms_computer', 'ms_dict', 'ms_help', 'ms_plugins', 'ms_search_soft', 'ms_teledeploy', 'ms_admininfo',
+					'ms_config', 'ms_doubles', 'ms_ipdiscover', 'ms_regconfig', 'ms_server_infos', 'ms_upload_file',
+					'ms_all_computers', 'ms_console', 'ms_export', 'ms_logs', 'ms_repart_tag', 'ms_snmp', 'ms_users'
+					, '.', '..'));
 
-    // Debug purposes
-    //var_dump($scanned_plugins);
+	// Debug purposes
+	//var_dump($scanned_plugins);
 
-    $plugins_name = array();
+	$plugins_name = array();
 
-    foreach ($scanned_plugins as $key => $value){
+	foreach ($scanned_plugins as $key => $value){
 
-            $exp = explode("_", $value);
-            $plugins_name[] = $exp[1];
-    }
+		$exp = explode("_", $value);
+		$plugins_name[] = $exp[1];
+	}
 
-    return $plugins_name;
+	return $plugins_name;
 }
 
 /**
@@ -139,10 +139,10 @@ function scan_for_plugins(){
  */
 function mv_computer_detail($name){
 	
-    if(file_exists($old = MAIN_SECTIONS_DIR."ms_".$name."/cd_".$name)){
-            $new = PLUGINS_DIR."/computer_detail/cd_".$name;
-            rename($old, $new);
-    }
+	if(file_exists($old = MAIN_SECTIONS_DIR."ms_".$name."/cd_".$name)){
+		$new = PLUGINS_DIR."/computer_detail/cd_".$name;
+		rename($old, $new);
+	}
 	
 }
 
@@ -152,31 +152,31 @@ function mv_computer_detail($name){
  */
 function mv_server_side($name){
 	
-    $dir = MAIN_SECTIONS_DIR."ms_".$name."/APACHE/" ;
+	$dir = MAIN_SECTIONS_DIR."ms_".$name."/APACHE/" ;
 
-    if(file_exists($dir)){
+	if(file_exists($dir)){
 
-        $archive = new ZipArchive();
-        $archive->open(PLUGINS_SRV_SIDE.$name.".zip" , ZipArchive::CREATE);
+		$archive = new ZipArchive();
+		$archive->open(PLUGINS_SRV_SIDE.$name.".zip" , ZipArchive::CREATE);
 
-        $scanned_directory = array_diff(scandir($dir), array('..', '.', 'README'));
-        //var_dump($scanned_directory);
+		$scanned_directory = array_diff(scandir($dir), array('..', '.', 'README'));
+		//var_dump($scanned_directory);
 
-        foreach ($scanned_directory as $key=>$value){
+		foreach ($scanned_directory as $key=>$value){
 
-                //var_dump($value);
-                $archive->addFile($dir.$value,$value);
+			//var_dump($value);
+			$archive->addFile($dir.$value,$value);
 
-        }
+		}
 
-        $archive->close();
-        rrmdir($dir);
+		$archive->close();
+		rrmdir($dir);
 
-        return true;
-    }
-    else{
-        return false;
-    }
+		return true;
+	}
+	else{
+		return false;
+	}
 	
 }
 

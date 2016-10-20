@@ -57,7 +57,7 @@ else{
 	$search_count = "";
 }
 //show first lign of onglet
-show_tabs($def_onglets,$form_name,"onglet",0);
+show_tabs($def_onglets,$form_name,"onglet",true);
 echo '<div class="right-content mlt_bordure" >';
 //attention=> result with restriction
 if ($search_count != "" or $search_cache != "")

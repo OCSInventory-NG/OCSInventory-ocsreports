@@ -555,4 +555,27 @@ function interprete_accountinfo($list_fields,$tab_options){
 	return array('TAB_OPTIONS'=>$tab_options,'LIST_FIELDS'=>$list_fields,'DEFAULT_VALUE'=>$default_value);
 }
 
+/*
+*
+*   Convert administration data type to html input
+*
+*/
+function adminData_to_input($typeID){
+
+    switch ($typeID){
+
+        case '2':
+            return 'select';
+        case '4':
+            return 'checkbox';
+        case '5':
+            return 'file';
+        case '7':
+            return 'radio';
+
+        default:
+            return 'text';
+    }
+}
+
 ?>

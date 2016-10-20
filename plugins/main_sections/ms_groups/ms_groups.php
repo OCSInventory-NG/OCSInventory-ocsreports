@@ -76,7 +76,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	if ($protectedPost['onglet'] == "")
 	$protectedPost['onglet']="STAT";	
 	//show onglet
-	show_tabs($def_onglets,$form_name,"onglet",0);
+	show_tabs($def_onglets,$form_name,"onglet",true);
 	echo '<div class="col col-md-10">';
 
 
