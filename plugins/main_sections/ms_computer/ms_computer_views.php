@@ -7,11 +7,24 @@ function show_computer_menu($computer_id) {
 
 
     echo "<div class='left-menu col col-md-2'>";
-    echo "<div class='navbar navbar-default'>";
+    echo "<ul class='nav nav-pills nav-stacked navbar-left'>";
 
-	echo $menu_renderer->render($menu);
 
-	echo '</div>';
+    foreach ($menu->getChildren() as $menu_elem) {
+
+        $url = $menu_elem->getUrl();
+        $label = $menu_renderer->getLabel($menu_elem);
+
+
+
+        echo "<li ";
+        //if ($activeMenu == $url) {
+        //    echo "class='active'";
+        //}
+        echo " ><a href=' ".$menu_renderer->getUrl($menu_elem) ."'>" . $label . "</a></li>";
+    }
+
+	echo '</ul>';
 	echo '</div>';
 }
 

@@ -215,10 +215,41 @@ function admin_user($id_user = null, $is_my_account = false) {
 	}
 	
 	if (isset($tab_typ_champ)) {
-		tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
-			'title' => ($id_user ? ($is_my_account ? $l->g(1365) : $l->g(1385)) : $l->g(1386)),
-			'form_name' => 'my_account'
-		));
+
+		foreach ($tab_name as $index => $fields){
+
+			$indexType = $tab_typ_champ[$index]['INPUT_TYPE'];
+
+			$selectValues = '';
+
+			if($indexType == 0 ||
+				$indexType == 1 ||
+				$indexType == 6 ||
+				$indexType == 10
+			){
+				$inputType = 'text';
+			} else if($indexType == 2){
+				$inputType = 'select';
+				$selectValues = $tab_typ_champ[$index]['DEFAULT_VALUE'];
+			} else if($indexType == 3){
+				$inputType = 'hidden';
+			} else if($indexType == 4){
+				$inputType = 'password';
+			} else if($indexType == 5){
+				$inputType = 'checkbox';
+			} else if($indexType == 8){
+				$inputType = 'button';
+			} else if($indexType == 9){
+				$inputType = 'link';
+			} else {
+				$inputType = 'hidden';
+			}
+
+			$inputName = $tab_typ_champ[$index]['INPUT_NAME'];
+			formGroup($inputType, $inputName, $fields, '', '', $protectedPost[$inputName], '', $selectValues, $selectValues, '', '');
+
+		}
+
 	}	
 }
 

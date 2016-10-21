@@ -304,7 +304,7 @@ if ( $protectedPost['onglet'] == "AVAILABLE_PACKET" ){
             if ($protectedPost['SHOW_SELECT'] == 'download'){
                     $config_input=array('MAXLENGTH'=>10,'SIZE'=>15);
                     $activ_manuel=show_modif($protectedPost['manualActive'],'manualActive',0,'',$config_input);
-                    echo "<b>".$l->g(476)."</b>&nbsp;&nbsp;&nbsp;".$l->g(475).": ".$activ_manuel."";
+                    echo "<br/><b>".$l->g(476)."</b>".$l->g(475).": ".$activ_manuel."  ";
                     echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
             }
     }

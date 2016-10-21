@@ -44,7 +44,7 @@ class MenuElem extends Menu
     {
         $this->_label = $label;
         $this->_url = $url;
-        
+
         parent::__construct($_children, $_priority);
     }
     

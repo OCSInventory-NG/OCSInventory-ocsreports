@@ -129,7 +129,7 @@ if ($data_tab['DATA'] != array()){
 			$tab_options['LBL_POPUP']['SUP']=$l->g(919);
 			$tab_options['LBL']['GROUP_NAME']=$l->g(49);
 			ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);	
-			echo "<input type='submit' name='NEW' id='NEW' value='".$l->g(617)."' align=center>";
+			echo "<input type='submit' name='NEW' id='NEW' value='".$l->g(617)."' class='btn btn-success' >";
 			if ($protectedPost["NEW"]){
 					$name_field=array("GROUP","MESSAGE");
 					$tab_name=array($l->g(577).": ",$l->g(449).":");

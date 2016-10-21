@@ -439,3 +439,7 @@ iframe{
 .delete-span:hover{
 	color: rgba(193, 46, 42, 0.8);
 }
+
+.delete-span-xs{
+	font-size: medium;
+}
