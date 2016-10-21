@@ -730,11 +730,11 @@
 842 Disque: Espace libre
 843 Disque: Nom du volume
 844 Groupe: Id
-845 Groupe: Statique?
+845 Groupe: Statique ?
 846 Logiciels: Société
 847 Logiciels: Nom
 848 Logiciels: Version
-849 Logiciels: Répertoire install
+849 Logiciels: Répertoire d'installation
 850 Logiciels: Commentaires
 851 Bios: Fabricant ordi
 852 Bios: Modèle
@@ -1216,7 +1216,7 @@
 1338 Afficher _MENU_ résultats
 1339 Chargement en cours...
 1340 Traitement en cours...
-1341 Rechercher:
+1341 Rechercher&nbsp;:&nbsp;
 1342 Aucun résultat à afficher
 1343 Premier
 1344 Dernier
@@ -1255,7 +1255,7 @@
 1377 Questions et réponses
 1378 RAM disponible
 1379 RAM totale
-1380 Afficher les colonnes par default
+1380 Afficher les colonnes par défaut
 1381 Actions
 1382 Numéro de série de la carte mère
 1383 Fabriquant de la carte mère
@@ -1387,7 +1387,7 @@
 2096 Entrer le label pour les clients windows (fenêtre de saisie lors du lancement du client):
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
-2099 ERROR: ce compte MySQL n'a pas les droits de création de database 
+2099 ERROR: ce compte MySQL n'a pas les droits de création de database
 2100 Update anciens accountinfos
 2101 Ajouté par script
 2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur (file z-ocsinventory-server.conf)
@@ -1401,8 +1401,8 @@
 2110 Version attendue
 2111 Effectuer la mise à jour
 2112 Le fichier suivant n'est pas présent ou n'est pas accessible en lecture
-2113 La version actuelle de php est inférieure à la version 5.3.7 et ne sera plus compatible dans le futur ( version  : 
-2114 Aucun fichier sql pour la version 
+2113 La version actuelle de php est inférieure à la version 5.3.7 et ne sera plus compatible dans le futur (version&nbsp;:&nbsp;
+2114 Aucun fichier sql pour la version
 2115 L'utilisateur que vous avez tapé ne semble pas être root
 2116 Le répertoire config/profiles n'est pas disponible en écriture
 2117 Affiche un message si une mise a jour est disponible
@@ -1445,10 +1445,10 @@
 6004 Nombre Total disponible
 6005 Eteinte/allumée
 6006 AVERTISSEMENT : Le module php-soap n'est pas installé, le moteur de plugin ne fonctionnera pas.
-6007 Les modules suivants sont requis pour utiliser cette fonctionnalitée : 
-6008 Les repertoires suivant ne sont pas accessible en écriture :
+6007 Les modules suivants sont requis pour utiliser cette fonctionnalitée&nbsp;:&nbsp;
+6008 Les répertoires suivants ne sont pas accessibles en écriture&nbsp;:&nbsp;
 6009 Vous ne pouvez pas installer de plugins, référez vous aux erreurs ci-dessus.
-6010 Le serveur de communication a rencontré l'erreur suivante lors de l'installation :
+6010 Le serveur de communication a rencontré l'erreur suivante lors de l'installation&nbsp;:&nbsp;
 6011 Cliquez ici pour obtenir de l'aide
 
 7000 Plugins
@@ -1466,4 +1466,4 @@
 7012 Installation annulée !
 7013 installé
 7014 Il n'y a aucun plugin disponible
-7015 Sélectionner au minimum un ordinateur !
+7015 Sélectionnez au minimum un ordinateur !

@@ -1,34 +1,42 @@
 <?php
-//====================================================================================
-// OCS INVENTORY REPORTS
-// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
-// Web: http://www.ocsinventory-ng.org
-//
-// This code is open source and may be copied and modified as long as the source
-// code is always made freely available.
-// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-//====================================================================================
-if(AJAX){
-	parse_str($protectedPost['ocs']['0'], $params);
-	$protectedPost+=$params;
-	ob_start();
-	$ajax = true;
-}
-else{
-	$ajax=false;
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
+if (AJAX) {
+    parse_str($protectedPost['ocs']['0'], $params);
+    $protectedPost += $params;
+    ob_start();
 }
 //limite du nombre de résultat
 //sur les tables de cache
 //ex: software_name_cache, osname_cache...
-$limit_result_cache=1000;
+$limit_result_cache = 1000;
 //intégration des fonctions liées à la recherche multicritère
 require_once('require/function_search.php');
 //fonction machines
 require_once('require/function_computers.php');
 //nom du formulaire de la page
-$form_name='multisearch';
+$form_name = 'multisearch';
 //nom du tableau d'affichage
-$table_tabname="TAB_MULTICRITERE";
+$table_tabname = "TAB_MULTICRITERE";
 //cas où l'on arrive d'une autre page
 //ex: la page des stats
 if (isset($protectedGet['fields']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
@@ -126,8 +134,8 @@ if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protecte
 //$list_fields_calcul=array();
 //ouverture du formulaire
 echo open_form($form_name, '', '', 'form-horizontal');
-if (isset($protectedPost['GET'])){
-	echo "<input type=hidden name='GET' value='".$protectedPost['GET']."'>";
+if (isset($protectedPost['GET'])) {
+    echo "<input type=hidden name='GET' value='" . $protectedPost['GET'] . "'>";
 }
 //recherche des différents champs de accountinfo
 require_once('require/function_admininfo.php');
@@ -1082,36 +1090,36 @@ $optSelect=array("HARDWARE-OSNAME"=>$sort_list_Select["HARDWARE-OSNAME"],//$l->g
 //option : TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (1er select)
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut également être un tableau de données (2eme select)
 //à l'affichage on se retrouve avec  le lbl du champ, 2 select et un champ de saisi
-$sort_list_2SelectField=array("REGISTRY-REGVALUE"=>$l->g(211).": ".$l->g(212),
-						 "DRIVES-FREE"=>$l->g(92).": ".$l->g(45));
-$opt2SelectField=array("REGISTRY-REGVALUE"=>$sort_list_2SelectField["REGISTRY-REGVALUE"],//$l->g(211).": ".$l->g(212),
-				"REGISTRY-REGVALUE-SQL1"=>"select NAME from registry_name_cache order by 1",
-				"REGISTRY-REGVALUE-LBL"=>"calendar",
-				"REGISTRY-REGVALUE-SELECT"=>array('exact'=> $l->g(410),'ressemble'=>$l->g(129),
-					'diff'=>$l->g(130),
-					"small"=>$l->g(346),"tall"=>$l->g(347)),
-				 "DRIVES-FREE"=>$sort_list_2SelectField["DRIVES-FREE"],//$l->g(92).": ".$l->g(45),
-				 "DRIVES-FREE-SQL1"=>"select distinct LETTER from drives where letter != '' ".(isset($list_id_computer)? " and hardware_id in ".$list_id_computer : '')."
-									 union select distinct volumn from drives where letter = '' and volumn != '' ".(isset($list_id_computer)? " and hardware_id in ".$list_id_computer : '')." order by 1",
-				 "DRIVES-FREE-LBL"=>"MB",
-				 "DRIVES-FREE-SELECT"=>array('exact'=> $l->g(410),"small"=>$l->g(201),"tall"=>$l->g(202)));
+$sort_list_2SelectField = array("REGISTRY-REGVALUE" => $l->g(211) . ": " . $l->g(212),
+    "DRIVES-FREE" => $l->g(92) . ": " . $l->g(45));
+$opt2SelectField = array("REGISTRY-REGVALUE" => $sort_list_2SelectField["REGISTRY-REGVALUE"], //$l->g(211).": ".$l->g(212),
+    "REGISTRY-REGVALUE-SQL1" => "select NAME from registry_name_cache order by 1",
+    "REGISTRY-REGVALUE-LBL" => "calendar",
+    "REGISTRY-REGVALUE-SELECT" => array('exact' => $l->g(410), 'ressemble' => $l->g(129),
+        'diff' => $l->g(130),
+        "small" => $l->g(346), "tall" => $l->g(347)),
+    "DRIVES-FREE" => $sort_list_2SelectField["DRIVES-FREE"], //$l->g(92).": ".$l->g(45),
+    "DRIVES-FREE-SQL1" => "select distinct LETTER from drives where letter != '' " . (isset($list_id_computer) ? " and hardware_id in " . $list_id_computer : '') . "
+									 union select distinct volumn from drives where letter = '' and volumn != '' " . (isset($list_id_computer) ? " and hardware_id in " . $list_id_computer : '') . " order by 1",
+    "DRIVES-FREE-LBL" => "MB",
+    "DRIVES-FREE-SELECT" => array('exact' => $l->g(410), "small" => $l->g(201), "tall" => $l->g(202)));
 //composotion du tableau
 //option : TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (1er select)
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut également être un tableau de données (2eme select)
 //à l'affichage on se retrouve avec le lbl du champ et 2 select
-$sort_list_2Select=array("HARDWARE-USERAGENT"=>"OCS: ".$l->g(966),
-						 "DEVICES-IPDISCOVER"=>$l->g(107).": ".$l->g(312),
-						 "DEVICES-FREQUENCY"=>$l->g(107).": ".$l->g(429),
-						 "GROUPS_CACHE-GROUP_ID"=>$l->g(583).": ".$l->g(49),
-						 "DOWNLOAD_HISTORY-PKG_ID"=>$l->g(512).": ".$l->g(969),
-						 "STORAGES-TYPE"=>$l->g(63).": ".$l->g(66),
-						 "STORAGES-DESCRIPTION"=>$l->g(63).": ".$l->g(53),
-						 "STORAGES-MODEL"=>$l->g(63).": ".$l->g(65),
-			   			 "BIOS-TYPE"=>$l->g(273).": ".$l->g(66),
-			   			 "CPUS-CPUARCH"=>$l->g(54).": ".$l->g(1247),
-			   			 "CPUS-DATA_WIDTH"=>$l->g(54).": ".$l->g(1312),
-			   			 "CPUS-CURRENT_ADDRESS_WIDTH"=>$l->g(54).": ".$l->g(1313),
-						);
+$sort_list_2Select = array("HARDWARE-USERAGENT" => "OCS: " . $l->g(966),
+    "DEVICES-IPDISCOVER" => $l->g(107) . ": " . $l->g(312),
+    "DEVICES-FREQUENCY" => $l->g(107) . ": " . $l->g(429),
+    "GROUPS_CACHE-GROUP_ID" => $l->g(583) . ": " . $l->g(49),
+    "DOWNLOAD_HISTORY-PKG_ID" => $l->g(512) . ": " . $l->g(969),
+    "STORAGES-TYPE" => $l->g(63) . ": " . $l->g(66),
+    "STORAGES-DESCRIPTION" => $l->g(63) . ": " . $l->g(53),
+    "STORAGES-MODEL" => $l->g(63) . ": " . $l->g(65),
+    "BIOS-TYPE" => $l->g(273) . ": " . $l->g(66),
+    "CPUS-CPUARCH" => $l->g(54) . ": " . $l->g(1247),
+    "CPUS-DATA_WIDTH" => $l->g(54) . ": " . $l->g(1312),
+    "CPUS-CURRENT_ADDRESS_WIDTH" => $l->g(54) . ": " . $l->g(1313),
+);
 $sql_history_download = "select FILEID as ID,NAME from download_available d_a";
 if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES" )
 $sql_history_download .= " where d_a.comment not like '%[VISIBLE=0]%'";
@@ -1184,57 +1192,46 @@ $opt2Select = array_merge($opt2Select_account,$opt2Select);
 //ATTENTION: le deuxième champ de saisi est invisible. Pour le rendre visible, faire passer
 //un javascript dans le lbl_default avec genre: onclick='document.getElementById(\"between-field_name\").style.display=\"block\";'
 //la valeur "field_name" est ensuite transformé par le vrai nom de champ
-$lbl_default= array('exact'=> $l->g(410),'ressemble'=>$l->g(129)
-					,'diff'=>$l->g(130)
-					,'small'=>$l->g(201),'tall'=>$l->g(202),'between'=>$l->g(203),
-						  'javascript'=>array('exact'=> "onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
-											  'ressemble'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
-											  'diff'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
-											  'small'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
-											  'tall'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
-											  'between'=>"onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"inline\";'"));
-$sort_list_Select2Field=array("HARDWARE-MEMORY"=>$l->g(25).": ".$l->g(26),
-						 "HARDWARE-PROCESSORS"=>$l->g(54)." (old): ".$l->g(377));
-$optSelect2Field=array("HARDWARE-MEMORY"=>$sort_list_Select2Field["HARDWARE-MEMORY"],//$l->g(25).": ".$l->g(26),
-					   "HARDWARE-MEMORY-LBL"=>"MB",
-					   "HARDWARE-MEMORY-SELECT"=>$lbl_default,
-					   "HARDWARE-PROCESSORS"=>$sort_list_Select2Field["HARDWARE-PROCESSORS"],//$l->g(54).": ".$l->g(377),
-					   "HARDWARE-PROCESSORS-LBL"=>"MHz",
-					   "HARDWARE-PROCESSORS-SELECT"=>$lbl_default);
+$lbl_default = array('exact' => $l->g(410), 'ressemble' => $l->g(129)
+    , 'diff' => $l->g(130)
+    , 'small' => $l->g(201), 'tall' => $l->g(202), 'between' => $l->g(203),
+    'javascript' => array('exact' => "onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
+        'ressemble' => "onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
+        'diff' => "onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
+        'small' => "onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
+        'tall' => "onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"none\";'",
+        'between' => "onclick='document.getElementById(\"FieldInput2-field_name\").style.display=\"inline\";'"));
+$sort_list_Select2Field = array("HARDWARE-MEMORY" => $l->g(25) . ": " . $l->g(26),
+    "HARDWARE-PROCESSORS" => $l->g(54) . " (old): " . $l->g(377));
+$optSelect2Field = array("HARDWARE-MEMORY" => $sort_list_Select2Field["HARDWARE-MEMORY"], //$l->g(25).": ".$l->g(26),
+    "HARDWARE-MEMORY-LBL" => "MB",
+    "HARDWARE-MEMORY-SELECT" => $lbl_default,
+    "HARDWARE-PROCESSORS" => $sort_list_Select2Field["HARDWARE-PROCESSORS"], //$l->g(54).": ".$l->g(377),
+    "HARDWARE-PROCESSORS-LBL" => "MHz",
+    "HARDWARE-PROCESSORS-SELECT" => $lbl_default);
 //composotion du tableau
 //option : TABLE-NOMCHAMP-SELECT =>array des valeurs du champ select ou requete sql (1er select)
 // TABLE-NOMCHAMP-SQL1 => requete avec les champs ID (option) et NAME. Peut également être un tableau de données (2eme select)
 // TABLE-NOMCHAMP-SQL2 => requete avec les champs ID (option) et NAME. Peut également être un tableau de données (3eme select)
 //à l'affichage on se retrouve avec  le lbl du champ et 3 select
-$sort_list_3Select=array("DEVICES-DOWNLOAD"=>$l->g(512).": ".$l->g(970));
-$sql_download="select 'NULL' as 'ID', '***".$l->g(509)."***' as NAME
+$sort_list_3Select = array("DEVICES-DOWNLOAD" => $l->g(512) . ": " . $l->g(970));
+$sql_download = "select 'NULL' as 'ID', '***" . $l->g(509) . "***' as NAME
 				union select FILEID as ID,NAME from download_available d_a ";
 IF ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES" )
 $sql_download .= " where d_a.comment not like '%[VISIBLE=0]%' and DELETED = 0";
 $sql_download .= " order by 2";
-$opt3Select=array("DEVICES-DOWNLOAD"=>$sort_list_3Select["DEVICES-DOWNLOAD"],//$l->g(512).": ".$l->g(970),
-				 "DEVICES-DOWNLOAD-SQL1"=>$sql_download,
-				 "DEVICES-DOWNLOAD-SQL2"=>"select '***".$l->g(509)."***' as 'NAME' union select '***".$l->g(548)."***' union select '***".$l->g(956)."***' union select '***".$l->g(957)."***' union select '".$l->g(482)."' union select distinct TVALUE from devices where name='DOWNLOAD' and tvalue!='' order by 1",
-				 "DEVICES-DOWNLOAD-SELECT"=>array('exact'=>$l->g(507),'diff'=>$l->g(508))
-				 );
-$optArray = array_merge( $optSelectField,
-						 $opt2SelectField,
-						 $opt2Select,
-						 $optSelect,
-						 $optSelect2Field,
-						 $opt3Select);
-$sort_list = array_merge($sort_accountinfo,
-						 $sort_list,
-						 $sort_list_3Select,
-						 $sort_list_Select2Field,
-						 $sort_list_2Select,
-						 $sort_list_2SelectField,
-						 $sort_list_Select);
+$opt3Select = array("DEVICES-DOWNLOAD" => $sort_list_3Select["DEVICES-DOWNLOAD"], //$l->g(512).": ".$l->g(970),
+    "DEVICES-DOWNLOAD-SQL1" => $sql_download,
+    "DEVICES-DOWNLOAD-SQL2" => "select '***" . $l->g(509) . "***' as 'NAME' union select '***" . $l->g(548) . "***' union select '***" . $l->g(956) . "***' union select '***" . $l->g(957) . "***' union select '" . $l->g(482) . "' union select distinct TVALUE from devices where name='DOWNLOAD' and tvalue!='' order by 1",
+    "DEVICES-DOWNLOAD-SELECT" => array('exact' => $l->g(507), 'diff' => $l->g(508))
+);
+$optArray = array_merge($optSelectField, $opt2SelectField, $opt2Select, $optSelect, $optSelect2Field, $opt3Select);
+$sort_list = array_merge($sort_accountinfo, $sort_list, $sort_list_3Select, $sort_list_Select2Field, $sort_list_2Select, $sort_list_2SelectField, $sort_list_Select);
 $countHl++;
-$optArray_trait[$l->g(32)]="... ".$l->g(32)." ...";
-foreach( $sort_list as $key=>$value) {
-		$optArray_trait[$key]=ucfirst($value);
-$countHl++;
+$optArray_trait[$l->g(32)] = "... " . $l->g(32) . " ...";
+foreach ($sort_list as $key => $value) {
+    $optArray_trait[$key] = ucfirst($value);
+    $countHl++;
 }
 asort($optArray_trait);
 
@@ -1277,7 +1274,7 @@ echo "</div>";
 echo "</div>";
 echo close_form();
 echo $l->g(358);
-if ($ajax){
-	ob_end_clean();
-	tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails['SQL'],$tab_options);
+if (AJAX) {
+    ob_end_clean();
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails['SQL'], $tab_options);
 }

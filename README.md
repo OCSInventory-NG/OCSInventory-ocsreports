@@ -12,8 +12,8 @@
 </p>
 
 <p align='justify'>
-OCS (Open Computers and Software Inventory Next Generation) is an assets management and deployment solution. 
-Since 2001, OCS Inventory NG has been looking for making software and hardware more powerful. 
+OCS (Open Computers and Software Inventory Next Generation) is an assets management and deployment solution.
+Since 2001, OCS Inventory NG has been looking for making software and hardware more powerful.
 OCS Inventory NG asks its agents to know the software and hardware composition of every computer or server.
 </p>
 
@@ -44,3 +44,27 @@ OCS Inventory NG includes the packet deployment functionality to be sure that al
 ## License
 
 OCS Inventory is GPLv2 licensed
+
+## Dev notes :
+  - Minimal PHP Version : 5.3.7 (password_compat requierement)
+  - Min IE version : 8 ([bootstrap](http://getbootstrap.com/getting-started/#support))
+  - Targeted others browser version : latest ([bootstrap](http://getbootstrap.com/getting-started/#support))
+
+## Libraries
+  - [PHP : password_compat - v11 Aug 2015] (https://github.com/ircmaxell/password_compat) Backport of password_* functions shipped with PHP 5.5
+  - [PHP : phpcas - v1.3.4] (https://github.com/Jasig/phpCAS) PHP Authentication library that allows authenticate users via a Central Authentication Service (CAS) server
+  - [PHP : tc-lib-barcode - v1.4.2] (https://github.com/tecnickcom/tc-lib-barcode) QR Code Generation
+  - [PHP : tc-lib-color - v1.5.1] (https://github.com/tecnickcom/tc-lib-color) tc-lib-barcode dependency
+
+  - [Web interface : bootstrap - v3.3.7] (https://github.com/twbs/bootstrap) HTML/CSS/JS framework for responsive design
+
+  - [JavaScript : jquery - v1.11.0] (https://github.com/jquery/jquery) jQuery JavaScript Library
+  - [JavaScript : jquery-migrate-1 - v1.2.1] (https://github.com/jquery/jquery-migrate) APIs and features removed from jQuery core
+  - [JavaScript : jquery-fileupload - v5.40.1] (https://github.com/blueimp/jQuery-File-Upload) jQuery plugin for uploading files
+  - [JavaScript : jquery-iframe-transport - v1.8.2] (https://github.com/blueimp/jQuery-File-Upload) jquery-fileupload dependency
+  - [JavaScript : jquery-ui-widget - v1.10.4] (https://github.com/jquery/jquery-ui) jquery-fileupload dependency
+  - [JavaScript : Datatables - v1.10.2] (https://github.com/DataTables/DataTables) Tables plug-in for jQuery
+  - [JavaScript : Datatables-bootstrap - v???] (https://github.com/DataTables/DataTables) datatables dependency for bootstrap integration
+
+  - [JavaScript : elycharts - v2.1.4] (https://github.com/voidlabs/elycharts) Charting library
+  - [JavaScript : raphael - v1.5.2] (https://github.com/DmitryBaranovskiy/raphael/) elycharts dependency

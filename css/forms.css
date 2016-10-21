@@ -1,104 +1,126 @@
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
+
 /*** LAYOUTS ***/
 
 .form-frame {
-	background: #f8f8f8;
-	border: 1px solid #c7c7c7;
-	padding: 10px;
-	margin-bottom: 20px;
+    background: #f8f8f8;
+    border: 1px solid #c7c7c7;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
 .form-frame-profile-pages {
-	text-align: left;
+    text-align: left;
 }
 
 .form-frame-profile-pages h4 {
-	text-align: center;
+    text-align: center;
 }
 
 .form-frame-profile-pages .field {
-	display: inline-block;
+    display: inline-block;
 }
 
 .form-column {
-	display: inline-block;
-	vertical-align: top;
-	margin-right: 20px;
-	width: 480px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    width: 480px;
 }
 
 .form-column:last-child {
-	margin-right: 0;
+    margin-right: 0;
 }
 
 h4 input + label {
-	font-weight: normal;
-	margin: 0;
-	margin-left: 10px;
+    font-weight: normal;
+    margin: 0;
+    margin-left: 10px;
 }
 
 h4 > * {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 /*** FIELD ***/
 
 .field {
-	margin: auto;
-	margin-bottom: 2px;
-	padding: 3px 20px;
-	width: 600px;
-	text-align: left;
+    margin: auto;
+    margin-bottom: 2px;
+    padding: 3px 20px;
+    width: 600px;
+    text-align: left;
 }
 
 .field.search-field {
-	width: auto;
-	text-align: center;
+    width: auto;
+    text-align: center;
 }
 
 .field.field-has-errors {
-	color: #D8000C;
-	background: #FFBABA;
-	padding: 4px 19px;
-	border: 1px solid;
+    color: #D8000C;
+    background: #FFBABA;
+    padding: 4px 19px;
+    border: 1px solid;
 }
 
 .field > * {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 .field > span {
-	display: inline-block;
-	margin-top: 3px;
+    display: inline-block;
+    margin-top: 3px;
 }
 
 .field label {
-	width: 150px;
-	text-align: right;
-	margin: 3px 10px 3px 0;
+    width: 150px;
+    text-align: right;
+    margin: 3px 10px 3px 0;
 }
 
 .field.big-label {
-	width: 620px;
+    width: 620px;
 }
 
 .field.big-label label {
-	width: 250px;
+    width: 250px;
 }
 
 .field.small-input {
-	width: 340px;
+    width: 340px;
 }
 
 .field.big-label.small-input {
-	width: 440px;
+    width: 440px;
 }
 
 .field.checkbox-field {
-	width: 230px;
+    width: 230px;
 }
 
 .field.checkbox-field label {
-	width: 120px;
+    width: 120px;
 }
 
 /*** INPUTS ***/
@@ -109,8 +131,8 @@ h4 > * {
 .field input[type=text],
 .field input[type=password],
 .field input[type=file] {
-	display: inline-block;
-	width: 280px;
+    display: inline-block;
+    width: 280px;
 }
 
 .field.search-field select,
@@ -119,7 +141,7 @@ h4 > * {
 .field.search-field input[type=text],
 .field.search-field input[type=password],
 .field.search-field input[type=file] {
-	width: auto;
+    width: auto;
 }
 
 .field.field-nolabel select,
@@ -128,9 +150,9 @@ h4 > * {
 .field.field-nolabel input[type=text],
 .field.field-nolabel input[type=password],
 .field.field-nolabel input[type=file] {
-	display: block;
-	width: auto;
-	margin: auto;
+    display: block;
+    width: auto;
+    margin: auto;
 }
 
 .field.small-input select,
@@ -139,66 +161,66 @@ h4 > * {
 .field.small-input input[type=text],
 .field.small-input input[type=password],
 .field.small-input input[type=file] {
-	width: 100px;
+    width: 100px;
 }
 
 .field textarea {
-	height: 72px;
+    height: 72px;
 }
 
 .field .radio-container {
-	text-align: left;
-	margin-top: 3px;
+    text-align: left;
+    margin-top: 3px;
 }
 
 .field .radio-container > * {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 .field .radio-container label {
-	width: auto;
-	text-align: left;
-	margin: 0 15px 0 3px;
-	font-weight: normal;
+    width: auto;
+    text-align: left;
+    margin: 0 15px 0 3px;
+    font-weight: normal;
 }
 
 .field input[type=radio],
 .field input[type=checkbox] {
-	display: inline-block;
-	margin-top: 6px;
+    display: inline-block;
+    margin-top: 6px;
 }
 
 h4 input[type=radio],
 h4 input[type=checkbox],
 .field .radio-container input[type=radio],
 .field .radio-container input[type=checkbox] {
-	margin: 0;
-	vertical-align: middle;
+    margin: 0;
+    vertical-align: middle;
 }
 
 /*** ERRORS ***/
 
 .field-error-list {
-	margin: 5px;
-	margin-left: 160px;
-	text-align: left;
-	font-weight: bold;
+    margin: 5px;
+    margin-left: 160px;
+    text-align: left;
+    font-weight: bold;
 }
 
 .field.big-label .field-error-list {
-	margin-left: 260px;
+    margin-left: 260px;
 }
 
 /*** BUTTONS ***/
 
 .form-buttons {
-	margin: 20px;
+    margin: 20px;
 }
 
 .form-frame + .form-buttons {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 .form-buttons input {
-	margin: 0 10px;
+    margin: 0 10px;
 }

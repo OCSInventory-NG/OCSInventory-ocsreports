@@ -1,44 +1,49 @@
 <?php
-//====================================================================================
-// OCS INVENTORY REPORTS
-// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
-// Web: http://www.ocsinventory-ng.org
-//
-// This code is open source and may be copied and modified as long as the source
-// code is always made freely available.
-// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-//====================================================================================
-if(AJAX){
-
-
-	parse_str($protectedPost['ocs']['0'], $params);
-	$protectedPost+=$params;
-	ob_start();
-	$ajax = true;
-}
-else{
-	$ajax=false;
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
+if (AJAX) {
+    parse_str($protectedPost['ocs']['0'], $params);
+    $protectedPost += $params;
+    ob_start();
 }
 require_once('require/function_regconfig.php');
-$tab_hidden=array();
-$tab['VIEW']=$l->g(1059);
-$tab['ADD']=$l->g(1060);
-$form_name="registry";
-$table_name="registry";
+$tab_hidden = array();
+$tab['VIEW'] = $l->g(1059);
+$tab['ADD'] = $l->g(1060);
+$form_name = "registry";
+$table_name = "registry";
 echo open_form($form_name, '', '', 'form-horizontal');
 
-if (isset($protectedPost['MODIF']) and $protectedPost['MODIF'] != ''){	
-		$protectedPost['tab'] = 'ADD';
-		$sql="select NAME,REGTREE,REGKEY,REGVALUE,ID from regconfig where id = '%s'";
-		$arg=$protectedPost['MODIF'];
-		//$sql="select NAME,ID,MASK from subnet where netid='".$netid."'";
-		$res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-		$row=mysqli_fetch_object($res);
-		$protectedPost['NAME']=$row->NAME;
-		$protectedPost['REGTREE']=$row->REGTREE;
-		$protectedPost['REGKEY']=$row->REGKEY;
-		$protectedPost['REGVALUE']=$row->REGVALUE;
-		$tab_hidden['id']=$row->ID;	
+if (is_defined($protectedPost['MODIF'])) {
+    $protectedPost['tab'] = 'ADD';
+    $sql = "select NAME,REGTREE,REGKEY,REGVALUE,ID from regconfig where id = '%s'";
+    $arg = $protectedPost['MODIF'];
+    $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+    $row = mysqli_fetch_object($res);
+    $protectedPost['NAME'] = $row->NAME;
+    $protectedPost['REGTREE'] = $row->REGTREE;
+    $protectedPost['REGKEY'] = $row->REGKEY;
+    $protectedPost['REGVALUE'] = $row->REGVALUE;
+    $tab_hidden['id'] = $row->ID;
 }
 $tab_options=$protectedPost;
 show_tabs($tab,$form_name,"tab",true);
@@ -136,14 +141,12 @@ if ($protectedPost['tab'] == 'VIEW'){
 echo "</div>";
 echo close_form();
 
-
-if ($ajax){
-	ob_end_clean();
-	if(is_array($sql)){
-		tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
-	}else{
-		tab_req($list_fields,$default_fields,$list_col_cant_del,$sql,$tab_options);
-	}
+if (AJAX) {
+    ob_end_clean();
+    if (is_array($sql)) {
+        tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
+    } else {
+        tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
+    }
 }
-
 ?>
