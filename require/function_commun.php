@@ -564,7 +564,12 @@ function is_defined(&$var) {
     // var is set ?
     if (isset($var)) {
         // PHP 5.3 hack : can't empty(trim($var))
-        $maVar = trim($var);
+        // Don't trim if it's an array
+        if(!is_array($var)){
+            $maVar = trim($var);
+        }
+        // TODO : Add check for array ?
+
         // Var contains something else than blank char ?
         if (!empty($maVar)) {
             $result = true;
