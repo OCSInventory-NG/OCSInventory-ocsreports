@@ -48,7 +48,6 @@ class ComputerMenuRenderer extends MenuRenderer {
     	
     	return $label;
 	}
-}
 
 }
 ?>
