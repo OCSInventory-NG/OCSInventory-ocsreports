@@ -233,6 +233,10 @@ function admin_user($id_user = null, $is_my_account = false) {
 
 			$selectValues = '';
 
+
+            $inputName = $tab_typ_champ[$index]['INPUT_NAME'];
+            $inputValue = $protectedPost[$inputName];
+
 			if($indexType == 0 ||
 				$indexType == 1 ||
 				$indexType == 6 ||
@@ -242,6 +246,7 @@ function admin_user($id_user = null, $is_my_account = false) {
 			} else if($indexType == 2){
 				$inputType = 'select';
 				$selectValues = $tab_typ_champ[$index]['DEFAULT_VALUE'];
+                $inputValue = $protectedPost;
 			} else if($indexType == 3){
 				$inputType = 'hidden';
 			} else if($indexType == 4){
@@ -256,8 +261,12 @@ function admin_user($id_user = null, $is_my_account = false) {
 				$inputType = 'hidden';
 			}
 
-			$inputName = $tab_typ_champ[$index]['INPUT_NAME'];
-			formGroup($inputType, $inputName, $fields, '', '', $protectedPost[$inputName], '', $selectValues, $selectValues, '', '');
+			if($inputName == "ID" && $id_user != null){
+                formGroup('hidden', 'MODIF', '', '', '', $id_user, '', '', '', '', '');
+                formGroup('text', $inputName, $fields, '', '', $id_user, '', $selectValues, $selectValues, 'readonly', '');
+            }else{
+                formGroup($inputType, $inputName, $fields, '', '', $inputValue, '', $selectValues, $selectValues, '', '');
+            }
 
 		}
 

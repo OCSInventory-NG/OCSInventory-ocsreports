@@ -51,7 +51,7 @@ echo "\n" . '<script type="text/javascript">
     <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
         <label class="control-label col-sm-4" for="logiciel_text>">Text :</label>
         <div class="col-sm-8">
-            <input class="form-control btn btn-default" type="text" name="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
+            <input class="form-control" type="text" name="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
         </div>
     </div>
 </div>
