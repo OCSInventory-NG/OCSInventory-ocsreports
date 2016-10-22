@@ -265,7 +265,7 @@ function admin_user($id_user = null, $is_my_account = false) {
                 formGroup('hidden', 'MODIF', '', '', '', $id_user, '', '', '', '', '');
                 formGroup('text', $inputName, $fields, '', '', $id_user, '', $selectValues, $selectValues, 'readonly', '');
             }else{
-                formGroup($inputType, $inputName, $fields, '', '', $inputValue, '', $selectValues, $selectValues, '', '');
+                formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '', '');
             }
 
 		}

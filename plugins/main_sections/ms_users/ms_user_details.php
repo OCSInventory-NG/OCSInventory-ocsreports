@@ -23,7 +23,7 @@
 if (!AJAX) {
 	require_once 'views/users_views.php';
 
-    echo "<div class='col col-md-2'";
+    echo "<div class='col col-md-2'>";
 	show_users_left_menu('ms_users');
     echo "</div>";
 	

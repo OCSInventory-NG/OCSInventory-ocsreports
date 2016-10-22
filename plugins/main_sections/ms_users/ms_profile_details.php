@@ -26,7 +26,7 @@ if (!AJAX) {
 	require_once 'views/users_views.php';
 	require_once 'views/profile_edit_form.php';
 
-    echo "<div class='col col-md-2'";
+    echo "<div class='col col-md-2'>";
 	show_users_left_menu('ms_profiles');
     echo "</div>";
 	
