@@ -88,6 +88,7 @@ printEnTete($l->g(1360));
                     <li><?php echo $l->g(1369) ?> :</li>
                     <li><?php echo $l->g(1370) ?> :</li>
                     <li><?php echo $l->g(1371); ?> :</li>
+                    <li><?php echo $l->g(277)?> OCSReports:</li>
                 </ul>
             </div>
             <div class="col-xs-8">
@@ -100,6 +101,7 @@ printEnTete($l->g(1360));
                         $info = mysqli_fetch_object($res);
                         echo $info->stype . ' version ' . $info->vers;
                         ?></li>
+                    <li><?php echo GUI_VER_SHOW; ?></li>
                 </ul>
             </div>
         </div>
