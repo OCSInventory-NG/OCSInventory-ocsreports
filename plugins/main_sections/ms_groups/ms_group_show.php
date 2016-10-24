@@ -275,6 +275,12 @@ if ($server_group) {
     echo img($lblHdw[1], 1);
     echo "</tr></table>";
 
+
+    if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
+        echo "<br><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn' >".$l->g(501)."</a><br><br> ";
+    }
+
+
     echo"<br><br><br>";
 
     switch ($opt) :
@@ -587,13 +593,6 @@ function print_perso($systemid) {
     require_once('require/function_machine.php');
     show_packages($systemid, "ms_group_show");
 
-    if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
-        echo "<tr>
-		<td colspan='10' align='right'>
-		<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_pack'] . "&head=1&idchecked=" . $systemid . "&origine=group\">" . $l->g(501) . "
-		</a>
-		</td></tr>";
-    }
     echo "</table>";
     echo close_form();
 }
