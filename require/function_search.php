@@ -507,7 +507,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
         <div class="btn-group">
             <?php
             foreach ($img as $key => $value) {
-                echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn btn-default">' . $value . '</button>';
+                echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
             }
             ?>
         </div>

@@ -65,7 +65,7 @@ html,body{
 }
 
 
-a, img, .lienBleu, .norm, td, b,.warn {  
+a, img, .lienBleu, .norm, td, b,.warn {
     text-decoration: none;
     border-width: 0px;
     font-size: 12px;
@@ -79,7 +79,7 @@ a, img, .lienBleu, .norm, td, b,.warn {
 
 a,a:visited, .lienBleu {
     cursor: pointer;
-    color: #3151CD;	
+    color: #3151CD;
 }
 
 a.deco {
@@ -107,12 +107,12 @@ option.hi {
     border-top-color:#D6D6D6;
 }
 
-.textbox 
+.textbox
 {
     border: thin solid;
 }
 
-table.Erreur 
+table.Erreur
 {
     border-color: #A1B1F9;
     border-spacing: 0px;
@@ -121,7 +121,7 @@ table.Erreur
     border-collapse: collapse;
 }
 
-th.Erreur 
+th.Erreur
 {
     background-color: #C7D9F5;
     border-bottom-color: #A1B1F9;
@@ -159,18 +159,18 @@ table.Fenetre, table.Main
     border-collapse: collapse;
 }
 
-table.Fenetre 
-{	
+table.Fenetre
+{
     width:62%;
 }
 
-table.Main 
-{	
+table.Main
+{
     width:95%;
 }
 
 
-table.headfoot 
+table.headfoot
 {
     background-color: #f2f2f2;
     border-color: #000000;
@@ -216,7 +216,7 @@ select.ge {
     cursor: pointer;
 }
 
-#fenetre 
+#fenetre
 {
     position: absolute;
     top: 20%;
@@ -281,7 +281,7 @@ table.ta {
 }
 
 tbody.ta	{  /* child selector syntax which IE6 and older do not support*/
-    overflow: auto; 
+    overflow: auto;
     overflow-x: hidden;
 }
 
@@ -297,7 +297,7 @@ th.ta	{
     border-bottom: solid 1px #9894B5;
     border-top: solid 1px #9894B5;
     border-left: solid 1px #9894B5;
-    position:relative; 
+    position:relative;
     /*top: expression(document.getElementById('data').scrollTop-2); /*IE5+ only*/
 }
 
@@ -389,7 +389,7 @@ th.ta:last-child {border-right: solid 1px #9894B5;}
 }
 
 .tooltip{
-    position: absolute;   
+    position: absolute;
     visibility : hidden;
     border: 1px solid Black;
     padding: 10px;
@@ -422,31 +422,11 @@ iframe{
     text-decoration: none
 }
 
-/*** MENU ***/
-@media (max-width: 960px) {
-    .left-menu{
-        float: none !important;
-        width: 100% !important;
-        text-align: center !important;
-    }
-    .left-menu .nav > li > a{
-        width: 100% !important;
-    }
-}
-.left-menu {
-    padding-left: 20px;
-    float: left;
+.navbar-left li{
     text-align: left;
 }
-
-.left-menu .nav > li > a {
-    width: 150px;
-    padding: 10px 15px;
-}
-
-.left-menu li > ul {
-    top: 0;
-    left: 150px;
+.navbar-left li a{
+    color: #777;
 }
 
 /*** CONTENT ***/
@@ -472,3 +452,16 @@ iframe{
 .config-row > .col-md-6{
     text-align: left;
 }
+.delete-span{
+    color: rgba(193, 46, 42, 1);
+    font-weight: bold;
+    font-size: xx-large;
+}
+.delete-span:hover{
+    color: rgba(193, 46, 42, 0.8);
+}
+
+.delete-span-xs{
+    font-size: medium;
+}
+

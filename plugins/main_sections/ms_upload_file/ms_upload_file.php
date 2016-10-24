@@ -138,7 +138,7 @@ if (!isset($protectedPost['ADD_FILE'])) {
     printEntete($l->g(1245));
     echo "<br />";
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-    echo "<input type=submit class='btn btn-default' name=ADD_FILE value='" . $l->g(1048) . "'>";
+    echo "<input type=submit class='btn' name=ADD_FILE value='" . $l->g(1048) . "'>";
     echo close_form();
 }
 

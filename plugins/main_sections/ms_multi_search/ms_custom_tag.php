@@ -175,13 +175,13 @@ if (is_defined($list_id)) {
                     }
                     echo "<br>" . $item->c . " " . $l->g(1023) . " " . $value . " " . $l->g(1024);
                 }
-                echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "' class='btn btn-default'>";
+                echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "' class='btn'>";
             }
 
             echo "</div>";
         } elseif ($protectedPost['onglet'] == "WOL") {
             echo "<div class='mvt_bordure'>";
-            echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "' class='btn btn-default'>";
+            echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "' class='btn'>";
             echo "</div>";
         }
     }

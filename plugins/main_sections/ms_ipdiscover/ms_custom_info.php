@@ -257,7 +257,7 @@ if (is_defined($protectedPost['MODIF'])) {
                 $msg_info = $l->g(342) . " " . $fipdisc . " (" . $IPD_DIR . ")";
             }
             if (!isset($msg_info)) {
-                echo "<p><input type='button' onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_ipdiscover_analyse'] . "&head=1&rzo=" . $protectedGet['value'] . "\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='" . $l->g(317) . "' class='btn btn-default'></p>";
+                echo "<p><input type='button' onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_ipdiscover_analyse'] . "&head=1&rzo=" . $protectedGet['value'] . "\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='" . $l->g(317) . "' class='btn'></p>";
             } else {
                 msg_info($msg_info);
             }

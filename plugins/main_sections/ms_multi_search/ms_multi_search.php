@@ -1262,7 +1262,7 @@ if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] !
 		}else
 			$ajout=$v;
 		$color= $c%2==0?"#F2F2F2":"#FFFFFF";
-		show_ligne($v,$color,$k,$ajout,$form_name);
+		show_ligne($v,$k,$ajout,$form_name);
 		$c++;
 	}
 	echo "<input type='submit' class='btn btn-success' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'>";

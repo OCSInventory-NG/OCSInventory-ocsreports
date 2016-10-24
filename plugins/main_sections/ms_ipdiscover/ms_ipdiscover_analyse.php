@@ -70,7 +70,7 @@ if (is_defined($protectedPost['reset'])) {
         $tab_options['NO_NAME']['NAME'] = 1;
         $result_exist = ajaxtab_entete_fixe($tabBalises, $default_fields, $tab_options, $list_col_cant_del);
     }
-    echo "<p><input type='submit' name='reset' value='" . $l->g(1261) . "' class='btn btn-default'></p>";
+    echo "<p><input type='submit' name='reset' value='" . $l->g(1261) . "' class='btn'></p>";
 }
 echo close_form();
 

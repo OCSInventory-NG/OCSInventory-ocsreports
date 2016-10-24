@@ -650,6 +650,7 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 	elseif ($input_type == 2) {
 		$champs = "<div class='form-group'>";
 
+        echo "<div class='col col-sm-10 col-sm-offset-2'>";
 		$champs .= "<select name='" . $input_name . "' id='" . $input_name . "' " . (isset($configinput['JAVASCRIPT']) ? $configinput['JAVASCRIPT'] : '');
 		if ($input_reload != "") $champs .= " onChange='document." . $input_reload . ".submit();'";
 		$champs .= " class='down form-control' >";
@@ -666,7 +667,7 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 				$countHl++;
 			}
 		}
-		$champs .= "</select></div>";
+		$champs .= "</select></div></div>";
 		return $champs;
 	} elseif ($input_type == 3) {
 		$hid = "<input type='hidden' id='" . $input_name . "' name='" . $input_name . "' value='" . $name . "'>";

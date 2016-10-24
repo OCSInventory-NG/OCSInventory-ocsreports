@@ -298,7 +298,7 @@ if ($protectedPost['AFFECT_TYPE'] != '') {
     $trans .= "<input type='button' name='TRANSF' value='" . $l->g(13) . "' onclick='return verif_field(\"" . $verif_field . "\",\"TRANS\",\"" . $form_name . "\");'>";
 }
 
-echo "<tr><td>" . $search . "<input type='submit' value='" . $l->g(393) . "'><input type='button' value='" . $l->g(396) . "' onclick='return pag(\"RESET\",\"RESET\",\"" . $form_name . "\");' class='btn btn-default'>";
+echo "<tr><td>" . $search . "<input type='submit' value='" . $l->g(393) . "'><input type='button' value='" . $l->g(396) . "' onclick='return pag(\"RESET\",\"RESET\",\"" . $form_name . "\");' class='btn'>";
 if ($result_exist != false) {
     echo "<div align=right> " . $trans . "</div>";
 }

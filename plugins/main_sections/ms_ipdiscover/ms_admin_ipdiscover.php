@@ -152,7 +152,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             $list_col_cant_del = $list_fields;
             $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
-            echo "<input type='submit' value='" . $l->g(116) . "' class='btn btn-default' name='ADD_SUB'>";
+            echo "<input type='submit' value='" . $l->g(116) . "' class='btn' name='ADD_SUB'>";
         }
     } else {
         msg_warning($method);
@@ -213,7 +213,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         $list_col_cant_del = $list_fields;
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
-        echo "<input type='submit' class='btn btn-default' value='" . $l->g(116) . "' name='ADD_TYPE'>";
+        echo "<input type='submit' class='btn' value='" . $l->g(116) . "' name='ADD_TYPE'>";
     }
 } elseif ($protectedPost['onglet'] == 'ADMIN_SMTP'
         and $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES') {
@@ -286,7 +286,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         $tab_options['LBL']['SUP'] = $l->g(122);
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
-        echo "<input type='submit' class='btn btn-default' value='" . $l->g(116) . "' name='ADD_COMM'>";
+        echo "<input type='submit' class='btn' value='" . $l->g(116) . "' name='ADD_COMM'>";
         $protectedPost['ADD_COMM'] = $l->g(116);
     }
 }

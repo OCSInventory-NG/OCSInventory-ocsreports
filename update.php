@@ -63,7 +63,7 @@ if (GUI_VER < $_SESSION['OCS']['SQL_BASE_VERS']) {
 $msg_info[] = $l->g(2109) . ":" . $version_database . "=>" . $l->g(2110) . ":" . GUI_VER;
 msg_info(implode("<br />", $msg_info));
 
-echo "<br><input type=submit name='update' value='" . $l->g(2111) . "' class='btn btn-default'>";
+echo "<br><input type=submit name='update' value='" . $l->g(2111) . "' class='btn'>";
 
 if (isset($_POST['update'])) {
     while ($version_database < GUI_VER) {
