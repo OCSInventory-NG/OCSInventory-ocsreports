@@ -155,15 +155,6 @@ if (isset($optPerso["IPDISCOVER"])) {
 }
 optperso("IPDISCOVER", $l->g(489), "IPDISCOVER", $optPerso, '', $returnIP);
 
-
-//Can you modify configuration of this computer? EDIT BUTTON
-/* TODO: BUTTON
-if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
-    echo "<td align=center rowspan=8><a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" >
-		<button type='button'>" . $l->g(2122) . "</button></a></td></tr>";
-}
-*/
-
 //FREQUENCY
 if (isset($optPerso["FREQUENCY"])) {
     if ($optPerso["FREQUENCY"]["IVALUE"] == 0) {
@@ -302,9 +293,15 @@ if (mysqli_num_rows($resGroups) > 0) {
         <a class="btn btn-success" OnClick=url(document.getElementById("groupcombo")) ><?php echo $l->g(589) ?></a>
     </div>
 </div>
+<div class="row margin-top30">
+    <div class="col-md-12">
+        <?php
+        if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
+        echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" alt=". $l->g(2122) ." class='btn btn-success'>". $l->g(2122) ."</a>";
+        }
+        ?>
+    </div>
+</div>
 <?php
-//TELEDEPLOY
-
-
 echo close_form();
 ?>
