@@ -385,7 +385,7 @@
 490 NEVER IpDiscover
 491 ALWAYS IpDiscover of network
 492 ELECTED IpDiscover of network
-493 Default (can be elected)
+493 Can be elected
 494 Custom inventory frequency
 495 Inventoried every
 496 day(s)

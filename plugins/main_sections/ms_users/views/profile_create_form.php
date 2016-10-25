@@ -43,10 +43,12 @@ function show_profile_create_form() {
 
 
 	?>
-		
-		<div class="form-buttons">
-			<input type="submit" value="<?php echo $l->g(1363) ?>"/>
-			<input type="reset" value="<?php echo $l->g(1364) ?>"/>
+
+		<div class="row">
+			<div class="col-md-12">
+				<input type="submit"  class="btn btn-success" value="<?php echo $l->g(1363) ?>"/>
+				<input type="reset" class="btn btn-danger" value="<?php echo $l->g(1364) ?>"/>
+			</div>
 		</div>
 		
 		<?php echo close_form() ?>

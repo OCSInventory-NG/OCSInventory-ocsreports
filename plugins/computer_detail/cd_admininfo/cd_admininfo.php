@@ -261,13 +261,16 @@ if (!is_array($info_account_id)) {
         if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') != "YES") {
             $showbutton = false;
         }
-        tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+        echo "<div class='row'>";
+        echo "<div class='col col-md-6 col-md-offset-2'>";
+        modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
             'show_button' => $showbutton,
             'form_name' => $form_name = 'NO_FORM',
             'top_action' => $show_admin_button,
             'show_frame' => false
         ));
-
+        echo "</div>";
+        echo "</div>";
         echo close_form();
     }
 }

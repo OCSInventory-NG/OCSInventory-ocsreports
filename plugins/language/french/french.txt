@@ -385,7 +385,7 @@
 490 Forcé JAMAIS IpDiscover du réseau
 491 Forcé TOUJOURS IpDiscover du réseau
 492 ELUE IpDiscover du réseau
-493 Standard (éligible)
+493 Eligible
 494 Fréquence d'inventaire personnalisée
 495 Inventorier tous les
 496 jours

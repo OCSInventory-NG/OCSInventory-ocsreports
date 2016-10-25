@@ -73,7 +73,7 @@ function form_add_subnet($title = '', $default_value, $form) {
 
     $tab_typ_champ[1]["CONFIG"]['DEFAULT'] = "NO";
 
-    tab_modif_values($tab_name, $tab_typ_champ, array(), array(
+    modif_values($tab_name, $tab_typ_champ, array(), array(
         'title' => $title,
         'show_frame' => false
     ));

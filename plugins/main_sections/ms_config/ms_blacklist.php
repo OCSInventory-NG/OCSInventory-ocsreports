@@ -119,24 +119,94 @@ switch ($protectedPost['onglet']) {
         $list_action[3] = $l->g(2005);
         formGroup('select', 'BLACK_CHOICE', $l->g(700), '', '', $protectedPost['BLACK_CHOICE'], '', $list_action, $list_action, 'onchange="document.blacklist.submit();"');
         if (is_defined($protectedPost['BLACK_CHOICE'])) {
-            $aff = "<table align=center><tr><td>";
+
+            echo "<div class='row'>";
+            echo "<div class='col-md-6 col-md-offset-3'>";
+            /**
+             * 1 = MAC ADDRESS
+             * 2 = SERIAL NUMBER
+             * 3 = SUBNET
+             *
+             */
+
             if ($protectedPost['BLACK_CHOICE'] == 1) {
-                $aff .= $l->g(654) . ": </td><td>";
-                $aff = show_blacklist_fields($MACnb_field, $protectedPost, $MACfield_name, $MACnb_value_by_field, $MACsize, $MACseparat, $javascript_mac);
+                // 6 cases  POST    BASE_NAME   VALUE PER FIELD     SIZE    SEPARATOR : JS
+                //var_dump($MACnb_field, $protectedPost, $MACfield_name, $MACnb_value_by_field, $MACsize, $MACseparat, $javascript_mac);
+
+                ?>
+                <div class="input-group">
+                <label style="margin-right: 10px" "><?php echo $l->g(654);?></label>
+                <?php
+                $i = 1;
+                while ($i <= $MACnb_field) {
+                    if ($i != 1) {
+                        echo $MACseparat;
+                    }
+                    ?>
+                    <input type="text" name="<?php echo $MACfield_name.$i; ?>" maxlength="<?php echo $MACnb_value_by_field ?>" size="3" <?php echo $javascript_mac; ?>>
+                    <?php
+                    $i++;
+                }
+
+                ?>
+                </div>
+                <?php
+
+
             } elseif ($protectedPost['BLACK_CHOICE'] == 3) {
-                $aff .= $l->g(1142) . ": </td><td>";
-                $aff = show_blacklist_fields($SUBnb_field, $protectedPost, $SUBfield_name, $SUBnb_value_by_field, $SUBsize, $SUBseparat, $chiffres);
-                $aff .= $l->g(1143) . ": </td><td>";
-                $aff = show_blacklist_fields($MASKnb_field, $protectedPost, $MASKfield_name, $MASKnb_value_by_field, $MASKsize, $MASKseparat, $chiffres);
+                ?>
+                <div class="input-group">
+                    <div class="col-sm-4">
+                        <label style="margin-right: 10px" "><?php echo $l->g(1142);?></label>
+                    </div>
+                    <div class="col-sm-8">
+                    <?php
+                    $i = 1;
+                    while ($i <= $SUBnb_field) {
+                        if ($i != 1) {
+                            echo $SUBseparat;
+                        }
+                        ?>
+                        <input type="text" name="<?php echo $SUBfield_name.$i; ?>" maxlength="<?php echo $SUBnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
+                        <?php
+                        $i++;
+                    }
+
+                    ?>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="col-sm-4">
+                        <label style="margin-right: 10px" "><?php echo $l->g(1143);?></label>
+                    </div>
+                    <div class="col-sm-8">
+                    <?php
+                    $i = 1;
+                    while ($i <= $MASKnb_field) {
+                        if ($i != 1) {
+                            echo $MASKseparat;
+                        }
+                        ?>
+                        <input type="text" name="<?php echo $MASKfield_name.$i; ?>" maxlength="<?php echo $MASKnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
+                        <?php
+                        $i++;
+                    }
+
+                    ?>
+
+                    </div>
+                </div>
+                <?php
             } elseif ($protectedPost['BLACK_CHOICE'] == 2) {
-                $aff .= $l->g(702) . ": </td><td>";
-                $aff = show_blacklist_fields($SERIALnb_field, $protectedPost, $SERIALfield_name, $SERIALnb_value_by_field, $SERIALsize, $SERIALseparat);
+                formGroup('text', $SERIALfield_name.$SERIALnb_field, $l->g(702), '', '', $protectedPost[$SERIALfield_name]);
             }
-            if (isset($aff)) {
-                $aff .= "</td></tr></table>
-				<input class='bouton' name='enre' type='submit' value=" . $l->g(114) . ">";
-                echo $aff;
-            }
+            echo "</div>";
+            echo "</div>";
+            echo "<div class='row margin-top30'>";
+            echo "<div class='col col-md-12'>";
+            echo "<input class='btn btn-success' name='enre' type='submit' value=" . $l->g(114) . ">";
+            echo "</div>";
+            echo "</div>";
         }
         break;
 

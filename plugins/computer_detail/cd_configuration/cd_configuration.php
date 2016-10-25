@@ -80,7 +80,7 @@ if ($protectedGet['affect_again'] || $protectedGet['affect_reset']) {
         $tab_typ_champ[0]['INPUT_NAME'] = "MOTIF";
         $tab_typ_champ[0]['INPUT_TYPE'] = 1;
         $data_form[0] = "<center>" . $lbl_action . "</center>";
-        tab_modif_values($data_form, $tab_typ_champ, array('NAME_PACK' => $val['name'], 'ACTION' => $hidden_action), array(
+        modif_values($data_form, $tab_typ_champ, array('NAME_PACK' => $val['name'], 'ACTION' => $hidden_action), array(
             'title' => $title_action . $val['name']
         ));
     }
@@ -125,205 +125,186 @@ if (isset($protectedGet["actgrp"])) {
     }
 }
 
-$td1 = "<td height=20px id='color' align='center'><FONT FACE='tahoma' SIZE=2 color=blue><b>";
-$td2 = "<td height=20px bgcolor='white' align='center'>";
-$td3 = $td2;
-$td4 = "<td height=20px bgcolor='#F0F0F0' align='center'>";
-$i = 0;
 $queryDetails = "SELECT * FROM devices WHERE hardware_id=%s";
 $argDetail = $systemid;
 $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"], $argDetail);
 $form_name = 'config_mach';
 
 echo open_form($form_name, '', '', 'form-horizontal');
-echo "<table BORDER='1' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
-
 
 while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
     $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
     $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
 }
-
-$ii++;
-$td3 = $ii % 2 == 0 ? $td2 : $td4;
 $field_name = array('DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_FRAG_LATENCY',
     'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP');
 $optdefault = look_config_default_values($field_name);
 
 //IPDISCOVER
-echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["IPDISCOVER"]) && $optPerso["IPDISCOVER"]["IVALUE"] != 1 ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>&nbsp;</td>";
-echo $td3 . $l->g(489) . "</td>";
+
 if (isset($optPerso["IPDISCOVER"])) {
     if ($optPerso["IPDISCOVER"]["IVALUE"] == 0) {
-        echo $td3 . $l->g(490) . "</td>";
+        $returnIP = $l->g(490);
     } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 2) {
-        echo $td3 . $l->g(491) . " " . $optPerso["IPDISCOVER"]["TVALUE"] . "</td>";
+        $returnIP = $l->g(491) . " " . $optPerso["IPDISCOVER"]["TVALUE"];
     } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 1) {
-        echo $td3 . $l->g(492) . " " . $optPerso["IPDISCOVER"]["TVALUE"] . "</td>";
+        $returnIP = $l->g(492) . " " . $optPerso["IPDISCOVER"]["TVALUE"];
     }
 } else {
-    echo $td3 . $l->g(493) . "</td>";
+    $returnIP = $l->g(493);
 }
-//Can you modify configuration of this computer?
+optperso("IPDISCOVER", $l->g(489), "IPDISCOVER", $optPerso, '', $returnIP);
+
+
+//Can you modify configuration of this computer? EDIT BUTTON
+/* TODO: BUTTON
 if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
     echo "<td align=center rowspan=8><a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" >
 		<button type='button'>" . $l->g(2122) . "</button></a></td></tr>";
 }
-$ii++;
-$td3 = $ii % 2 == 0 ? $td2 : $td4;
+*/
+
 //FREQUENCY
-echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["FREQUENCY"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-echo $td3 . $l->g(494) . "</td>";
 if (isset($optPerso["FREQUENCY"])) {
     if ($optPerso["FREQUENCY"]["IVALUE"] == 0) {
-        echo $td3 . $l->g(485) . "</td>";
+        $returnFrequency = $l->g(485);
     } else if ($optPerso["FREQUENCY"]["IVALUE"] == -1) {
-        echo $td3 . $l->g(486) . "</td>";
+        $returnFrequency = $l->g(486);
     } else {
-        echo $td3 . $l->g(495) . " " . $optPerso["FREQUENCY"]["IVALUE"] . " " . $l->g(496) . "</td>";
+        $returnFrequency = $l->g(495) . " " . $optPerso["FREQUENCY"]["IVALUE"] . " " . $l->g(496);
     }
 } else {
-    echo $td3 . $l->g(497) . "</td>";
+    $returnFrequency = $l->g(497);
 }
-echo "</tr>";
+optperso("FREQUENCY", $l->g(494), "FREQUENCY", $optPerso, '', $returnFrequency);
 
 //DOWNLOAD_SWITCH
-echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["DOWNLOAD_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-echo $td3 . $l->g(417) . " <font color=green size=1><i>DOWNLOAD</i></font></td>";
 if (isset($optPerso["DOWNLOAD_SWITCH"])) {
     if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 0) {
-        echo $td3 . $l->g(733) . "</td>";
+        $returnDL = $l->g(733);
     } else if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 1) {
-        echo $td3 . $l->g(205) . "</td>";
+        $returnDL = $l->g(205);
     } else {
-        echo $td3 . "</td>";
+        $returnDL = "";
     }
 } else {
-    echo $td3 . $l->g(488) . " (";
     if ($optdefault['ivalue']["DOWNLOAD"] == 1) {
-        echo $l->g(205);
+        $returnDL = $l->g(205);
     } else {
-        echo $l->g(733);
+        $returnDL = $l->g(733);
     }
-    echo ")</td>";
 }
-echo "</tr>";
+optperso("DOWNLOAD", $l->g(417), "DOWNLOAD", $optPerso, '', $returnDL);
 
 //DOWNLOAD_CYCLE_LATENCY
-optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720) . " <font color=green size=1><i>DOWNLOAD_CYCLE_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
 
 //DOWNLOAD_FRAG_LATENCY
-optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721) . " <font color=green size=1><i>DOWNLOAD_FRAG_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
 
 
 //DOWNLOAD_PERIOD_LATENCY
-optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
 
 //DOWNLOAD_PERIOD_LENGTH
-optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LENGTH</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
+optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
 
 //PROLOG_FREQ
-optperso("PROLOG_FREQ", $l->g(724) . " <font color=green size=1><i>PROLOG_FREQ</i></font>", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
+optperso("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
 
 //PROLOG_FREQ
-optperso("DOWNLOAD_TIMEOUT", $l->g(424) . " <font color=green size=1><i>DOWNLOAD_TIMEOUT</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_TIMEOUT"], $l->g(496));
+optperso("DOWNLOAD_TIMEOUT", $l->g(424), "DOWNLOAD_TIMEOUT", $optPerso, $optdefault['ivalue']["DOWNLOAD_TIMEOUT"], $l->g(496));
 
 //DOWNLOAD_SWITCH
-echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["SNMP_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-echo $td3 . $l->g(1197) . " <font color=green size=1><i>SNMP_SWITCH</i></font></td>";
-if (isset($optPerso["SNMP_SWITCH"])) {
-    if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 0) {
-        echo $td3 . $l->g(733) . "</td>";
-    } else if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 1) {
-        echo $td3 . $l->g(205) . "</td>";
-    } else {
-        echo $td3 . "</td>";
-    }
-} else {
-    echo $td3 . $l->g(488) . " (";
-    if ($optdefault['ivalue']["SNMP"] == 1) {
-        echo $l->g(205);
-    } else {
-        echo $l->g(733);
-    }
-    echo ")</td>";
-}
-echo "</tr>";
+optperso("SNMP_SWITCH", $l->g(1197), "SNMP_SWITCH", $optPerso, '', ($optPerso["SNMP_SWITCH"]["IVALUE"] == 1) ? $l->g(733) : $l->g(205));
 
 //GROUPS
 $sql_groups = "SELECT static, name, group_id,workgroup
 				FROM groups_cache g, hardware h WHERE g.hardware_id=%s AND h.id=g.group_id";
 $arg_groups = $systemid;
 $resGroups = mysql2_query_secure($sql_groups, $_SESSION['OCS']["readServer"], $arg_groups);
-echo "<tr><td colspan=100></td></tr>";
+
+
 if (mysqli_num_rows($resGroups) > 0) {
     while ($valGroups = mysqli_fetch_array($resGroups)) {
-        $ii++;
-        $td3 = $ii % 2 == 0 ? $td2 : $td4;
-        echo "<tr>";
-        echo "<td bgcolor='white' align='center' valign='center'>&nbsp;</td>";
-        echo $td3 . $l->g(607) . " ";
+
+?>
+
+<div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="col-md-12">
+        <p>
+<?php
         if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
-            echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_group_show'] . "&head=1&systemid=" . $valGroups["group_id"] . "' target='_blank'>" . $valGroups["name"] . "</td>";
+            echo $l->g(607)." <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_group_show'] . "&head=1&systemid=" . $valGroups["group_id"] . "' target='_blank'>" . $valGroups["name"] . "</a> (";
         } else {
-            echo "<b>" . $valGroups["name"] . "</b></td>";
+            echo "<strong>" . $valGroups["name"] . "</strong>";
         }
 
-        echo $td3 . $l->g(81) . ": ";
         switch ($valGroups["static"]) {
-            case 0: echo "<font color='green'>" . $l->g(596) . "</font></td>";
+            case 0: echo "<span class='text-success'>" . $l->g(81) . " " . $l->g(596) . "</span>";
                 break;
-            case 1: echo "<font color='blue'>" . $l->g(610) . "</font></td>";
+            case 1: echo "<span class='text-info'>" . $l->g(610) . "</span>";
                 break;
-            case 2: echo "<font color='red'>" . $l->g(597) . "</font></td>";
+            case 2: echo "<span class='text-danger'>" . $l->g(597) . "</span>";
                 break;
         }
+
+        echo ")";
+        echo "<br />";
 
         if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
             $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration&grp=" . $valGroups["group_id"];
             switch ($valGroups["static"]) {
-                case 0: echo $td3 . "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a>&nbsp; &nbsp; &nbsp;<a href='$hrefBase&actgrp=2'>" . $l->g(600) . "</a></td>";
+                case 0: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=2'>" . $l->g(600) . "</a>";
                     break;
-                case 1: echo $td3 . "<a href='$hrefBase&actgrp=0'>" . $l->g(818) . "</a></td>";
+                case 1: echo "<a href='$hrefBase&actgrp=0' alt='" . $l->g(818) . "'><span class='glyphicon glyphicon-remove delete-span delete-span-xs'></span></a>";
                     break;
-                case 2: echo $td3 . "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a>&nbsp; &nbsp; &nbsp;<a href='$hrefBase&actgrp=0'>" . $l->g(41) . "</a></td>";
+                case 2: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=0'>" . $l->g(41) . "</a>";
                     break;
             }
         }
-        echo "</td>";
-        echo "</tr>";
+        ?>
+        </p>
+    </div>
+</div>
+
+        <?php
     }
 }
-echo "<tr><td colspan=100></td></tr>";
-//TELEDEPLOY
-$hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration";
+?>
+<div class="row">
+    <div class="col-md-4 col-md-offset-2">
+        <select name="groupcombo" id="groupcombo" class="form-control">
 
-echo "<tr><td colspan='10' align='right'>";
+        <?php
+        $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration";
 
-$reqGroups = "SELECT h.name,h.id,h.workgroup
+        $reqGroups = "SELECT h.name,h.id,h.workgroup
 					  FROM hardware h,groups g
 					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
-if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
-    $reqGroups .= " and workgroup = 'GROUP_4_ALL'";
-}
-$reqGroups .= " order by h.name";
-$resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
-$first = true;
-while ($valGroups = mysqli_fetch_array($resGroups)) {
-    if ($first) {
-        echo " <a href=# OnClick=window.location='$hrefBase&actgrp=1&grp='+document.getElementById(\"groupcombo\").options[document.getElementById(\"groupcombo\").selectedIndex].value>" .
-        $l->g(589) . "</a>";
-        echo " <select id='groupcombo'>";
-        $first = false;
-    }
-    echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
-}
+        if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
+            $reqGroups .= " and workgroup = 'GROUP_4_ALL'";
+        }
+        $reqGroups .= " order by h.name";
+        $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
+        while ($valGroups = mysqli_fetch_array($resGroups)) {
+            echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+        }
+        ?>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <script>
+            function url(id) {
+                window.location="<?php echo $hrefBase; ?>&actgrp=1&grp=" + id.options[id.selectedIndex].value;
+            }
+        </script>
+        <a class="btn btn-success" OnClick=url(document.getElementById("groupcombo")) ><?php echo $l->g(589) ?></a>
+    </div>
+</div>
+<?php
+//TELEDEPLOY
 
-if (!$first) {
-    echo "</select>";
-}
 
-echo "</td></tr>";
-echo "</table>";
 echo close_form();
 ?>

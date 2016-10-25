@@ -139,7 +139,7 @@ if (is_defined($protectedPost['MODIF'])) {
     if (isset($ERROR)) {
         msg_error($ERROR);
     }
-    tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+    modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
         'title' => $title
     ));
 } else { //affichage des périphériques

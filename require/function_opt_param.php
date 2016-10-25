@@ -79,21 +79,37 @@ function insert($NAME, $IVALUE, $TVALUE = "") {
     }
 }
 
-function optperso($lbl, $lblPerso, $optPerso, $default_value = '', $end = '') {
+function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $end = '') {
     global $l, $td3;
-    echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso[$lbl]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-    echo $td3 . $lblPerso . "</td>";
-    if (isset($optPerso[$lbl])) {
-        if (isset($optPerso[$lbl]["IVALUE"])) {
-            echo $td3 . $optPerso[$lbl]["IVALUE"] . " " . $end . "</td>";
-        }
-    } else {
-        if ($end != '') {
-            echo $td3 . $l->g(488) . " (" . $default_value . " " . $end . ")</td>";
-        } else {
-            echo $td3 . $l->g(488) . " (" . $default_value . ")</td>";
-        }
-    }
-    echo "</tr>";
+    //FIRST
+    ?>
+    <div class="row">
+        <div class="col col-md-6 text-left">
+            <p>
+                <?php echo (isset($optPerso[$lbl]) ? "<img width='15px' src='image/red.png'>" : '') ?>
+                <?php echo $lblPerso; ?>
+                <span class="help-block text-success"><?php echo $helpText; ?></span>
+                <?php
+                if (isset($optPerso[$lbl]["IVALUE"])) {
+                    echo $optPerso[$lbl]["IVALUE"];
+                }
+                ?>
+            </p>
+        </div>
+        <div class="col col-md-6">
+            <p>
+                <?php
+                // TODO: Strange spaces on display page
+                echo $l->g(488). " (".$default_value;
+                if(isset($end)){
+                    echo " ".$end;
+                }
+                echo ")";
+                ?>
+            </p>
+        </div>
+    </div>
+    <hr />
+    <?php
 }
 ?>
