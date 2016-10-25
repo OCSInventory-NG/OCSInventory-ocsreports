@@ -52,7 +52,7 @@ sub run {
                     UUID      => $uuid,
                     MEMORY    => $mem,
                     STATUS    => $status,
-                    SUBSYSTEM => "Sun xVM VirtualBox",
+                    SUBSYSTEM => "Oracle xVM VirtualBox",
                     VMTYPE    => "VirtualBox",
                 });
 
@@ -68,7 +68,7 @@ sub run {
             UUID      => $uuid,
             MEMORY    => $mem,
             STATUS    => $status,
-            SUBSYSTEM => "Sun xVM VirtualBox",
+            SUBSYSTEM => "Oracle xVM VirtualBox",
             VMTYPE    => "VirtualBox",
         });
     }
@@ -100,7 +100,7 @@ sub run {
                         VCPU      => 1,
                         UUID      => $uuid,
                         STATUS    => "running",
-                        SUBSYSTEM => "Sun xVM VirtualBox",
+                        SUBSYSTEM => "Oracle xVM VirtualBox",
                         VMTYPE    => "VirtualBox",
                     });
                 }
@@ -133,7 +133,7 @@ sub run {
                     UUID      => $uuid,
                     MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
                     STATUS    => $status,
-                    SUBSYSTEM => "Sun xVM VirtualBox",
+                    SUBSYSTEM => "Oracle xVM VirtualBox",
                     VMTYPE    => "VirtualBox",
                 });
             }
@@ -167,7 +167,7 @@ sub run {
                             UUID      => $uuid,
                             MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
                             STATUS    => $status,
-                            SUBSYSTEM => "Sun xVM VirtualBox",
+                            SUBSYSTEM => "Oracle xVM VirtualBox",
                             VMTYPE    => "VirtualBox",
                         });
                     }
