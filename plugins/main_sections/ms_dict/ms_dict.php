@@ -40,7 +40,7 @@ if ($_SESSION['OCS']['usecache']) {
 //form name
 $form_name = 'admin_param';
 //form open
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 //definition of onglet
 $def_onglets['CAT'] = $l->g(1027); //Categories
 $def_onglets['NEW'] = $l->g(1028); //nouveau logiciels
@@ -64,7 +64,7 @@ if ($protectedPost['search']) {
 }
 //show first lign of onglet
 show_tabs($def_onglets,$form_name,"onglet",true);
-echo '<div class="right-content mlt_bordure" >';
+echo '<div class="col col-md-10" >';
 //attention=> result with restriction
 if ($search_count != "" || $search_cache != "") {
     msg_warning($l->g(767));
@@ -132,7 +132,7 @@ if ($protectedPost['onglet'] == 'CAT') {
     }
     //You can delete or not?
     if ($i != 1 && isset($list_cat[$protectedPost['onglet_soft']])) {
-        echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a></td></tr><tr><td>";
+        echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a>";
     }
     $list_fields = array('SOFT_NAME' => 'EXTRACTED',
         'ID' => 'ID',
@@ -271,9 +271,7 @@ if (isset($querydico)) {
     $tab_options['LBL']['QTE'] = $l->g(55);
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
-echo "</td></tr>";
-$search = show_modif(stripslashes($protectedPost['search']), "search", '0');
-$trans = "<input name='all_item' id='all_item' type='checkbox' " . (isset($protectedPost['all_item']) ? " checked " : "") . ">" . $l->g(384) . " ";
+
 //récupération de toutes les catégories
 $list_categories['IGNORED'] = "IGNORED";
 $list_categories['UNCHANGED'] = "UNCHANGED";
@@ -285,7 +283,7 @@ while ($item_list_categories = mysqli_fetch_object($result_list_categories)) {
 //définition de toutes les options possibles
 $choix_affect['NEW_CAT'] = $l->g(385);
 $choix_affect['EXIST_CAT'] = $l->g(387);
-$trans .= show_modif($choix_affect, "AFFECT_TYPE", '2', $form_name);
+
 if ($protectedPost['AFFECT_TYPE'] == 'EXIST_CAT') {
     $trans .= show_modif($list_categories, "EXIST_CAT", '2');
     $verif_field = "EXIST_CAT";
@@ -293,16 +291,38 @@ if ($protectedPost['AFFECT_TYPE'] == 'EXIST_CAT') {
     $trans .= show_modif(stripslashes($protectedPost['NEW_CAT']), "NEW_CAT", '0');
     $verif_field = "NEW_CAT";
 }
-
 if ($protectedPost['AFFECT_TYPE'] != '') {
-    $trans .= "<input type='button' name='TRANSF' value='" . $l->g(13) . "' onclick='return verif_field(\"" . $verif_field . "\",\"TRANS\",\"" . $form_name . "\");'>";
+    $trans .= "<input type='button' class='btn' name='TRANSF' value='" . $l->g(13) . "' onclick='return verif_field(\"" . $verif_field . "\",\"TRANS\",\"" . $form_name . "\");'>";
+}
+?>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-4">
+        <?php formGroup('text', 'search', $l->g(1051), '', '', $protectedPost['search']); ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <input class='btn btn-success' type='submit' value='<?php echo $l->g(393); ?>'>
+        <button class='btn btn-danger' value='<?php echo $l->g(396); ?>' onclick='return pag("RESET","RESET","<?php echo $form_name ?>");' ><?php echo $l->g(396); ?></button>
+    </div>
+</div>
+
+<div class="row margin-top30">
+    <div class="col-md-6 col-md-offset-3">
+        <input name='all_item' id='all_item' type='checkbox' <?php echo (isset($protectedPost['all_item']) ? " checked " : "") . ">" . $l->g(384); ?>
+        <br />
+        <?php echo show_modif($choix_affect, "AFFECT_TYPE", '2', $form_name); ?>
+    </div>
+</div>
+<?php
+
+if ($result_exist != false) {
+
+     echo $trans;
+
 }
 
-echo "<tr><td>" . $search . "<input type='submit' value='" . $l->g(393) . "'><input type='button' value='" . $l->g(396) . "' onclick='return pag(\"RESET\",\"RESET\",\"" . $form_name . "\");' class='btn'>";
-if ($result_exist != false) {
-    echo "<div align=right> " . $trans . "</div>";
-}
-echo "</td></tr></table>";
 echo '</div>';
 echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 echo "<input type='hidden' name='TRANS' id='TRANS' value=''>";

@@ -635,7 +635,7 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 {
 	global $protectedPost, $l, $pages_refs;
 
-	if ($configinput == "")
+  	if ($configinput == "")
 		$configinput = array('MAXLENGTH' => 100, 'SIZE' => 20, 'JAVASCRIPT' => "", 'DEFAULT' => "YES", 'COLS' => 30, 'ROWS' => 5);
 	//del stripslashes if $name is not an array
 	if (!is_array($name)) {
@@ -646,7 +646,7 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 		return "<textarea name='" . $input_name . "' id='" . $input_name . "' cols='" . $configinput['COLS'] . "' rows='" . $configinput['ROWS'] . "'  class='down' >" . $name . "</textarea>";
 
 	} elseif ($input_type == 0)
-		return "<input type='text' name='" . $input_name . "' id='" . $input_name . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $name . "\" class='down'\" " . $configinput['JAVASCRIPT'] . ">";
+		return "<input type='text' name='" . $input_name . "' id='" . $input_name . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $name . "\" class='form-control'\" " . $configinput['JAVASCRIPT'] . ">";
 	elseif ($input_type == 2) {
 		$champs = "<div class='form-group'>";
 
