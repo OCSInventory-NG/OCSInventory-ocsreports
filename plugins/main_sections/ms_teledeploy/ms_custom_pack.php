@@ -33,7 +33,7 @@ $table_name = "LIST_PACK_SEARCH";
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 $list_id = multi_lot($form_name, $l->g(601));
 
 //activation options
@@ -88,7 +88,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
     }
     $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
     $tab_typ_champ[2]['CONFIG']['DEFAULT'] = 'YES';
-    tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+    modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
         'title' => $l->g(1309)
     ));
 } else {
@@ -154,7 +154,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
 	//show tab
 	if ($list_id){
 		show_tabs($def_onglets,$form_name,'onglet',true);
-			echo '<div class="right-content mlt_bordure" >';
+			echo '<div class="col col-md-10" >';
 
         if ($protectedPost['onglet'] == 'SERV_GROUP') {
             $sql_rules = "select distinct rule,rule_name from download_affect_rules order by 1";
@@ -177,7 +177,8 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         }
 
         if ($protectedPost['onglet'] == 'MACH') {
-            echo $l->g(1292) . show_modif(array('NO' => $l->g(454), 'YES' => $l->g(455)), 'DWL_OPT', 2, $form_name);
+            $selectValues = array('' => '', 'NO' => $l->g(454), 'YES' => $l->g(455));
+            formGroup('select', 'DWL_OPT', $l->g(1292), '', '', $protectedPost['DWL_OPT'], '', $selectValues, $selectValues, 'onclick=document.'.$form_name.'.submit();');
         }
 
         if (($protectedPost['onglet'] == 'MACH' && $protectedPost['DWL_OPT'] != '') || ($protectedPost['onglet'] == 'SERV_GROUP' && $protectedPost['rule_choise'] != '')) {
@@ -245,6 +246,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         }
     }
 }
+echo "</div>";
 echo close_form();
 
 if (AJAX) {
