@@ -51,7 +51,7 @@ if ($protectedPost['MODE'] == 5 && $list_mode[$protectedPost['MODE']] == 'FUSER'
     $tab_typ_champ[1]['INPUT_TYPE'] = 0;
     $tab_name[1] = $l->g(926) . " ";
 }
-tab_modif_values($tab_name, $tab_typ_champ, '', array(
+modif_values($tab_name, $tab_typ_champ, '', array(
     'title' => $l->g(1015)
 ));
 
