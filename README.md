@@ -26,7 +26,7 @@
     - XML::Simple
     - Net::IP optional, it is only needed to compute the network information
     - LWP
-    - Mac::SysProfile 0.0.3 : this module is need on MacOSX to collect the device informations.
+    - Mac::SysProfile 0.0.5 : this module is need on MacOSX to collect the device informations.
     - To get SSL communications working (for packages deployment or HTTPS communications to OCS server), you need these modules:
       - Crypt::SSLeay if you use LWP prior to version 6
       - LWP::Protocol::https if you use LWP version 6 or more
