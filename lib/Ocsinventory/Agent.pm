@@ -6,6 +6,9 @@ use strict;
 use warnings;
 use POSIX ":sys_wait_h";
 
+# Just to create a unique identifier for every single machine.
+use Data::UUID;
+
 # THIS IS AN UGLY WORKAROUND FOR
 # http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
@@ -176,14 +179,16 @@ sub run {
     $config->{config}{deviceid}   = $accountconfig->get('DEVICEID');
 
     # Should I create a new deviceID?
+    # We need to make sure that we will create unique identifiers:
     chomp(my $hostname = `uname -n| cut -d . -f 1`);
-    if ((!$config->{config}{deviceid}) || $config->{config}{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
-        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime(time))[5,4,3,2,1,0];
+    if ((!$config->{config}{deviceid}) || $config->{config}{deviceid} !~ /\Q$hostname\E-(?:\w{8})(?:-\w{4}){3}(?:-\w{12})/) {
+
+	$ug = Data::UUID->new;
 
         $config->{config}{old_deviceid} = $config->{config}{deviceid};
-        $config->{config}{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+        $config->{config}{deviceid} =sprintf "%s-%s", $hostname, $ug->to_string($ug->create_from_name_str(NameSpace_URL, $hostname ));
         $accountconfig->set('DEVICEID',$config->{config}{deviceid});
+
     }
 
     my $accountinfo = new Ocsinventory::Agent::AccountInfo({
