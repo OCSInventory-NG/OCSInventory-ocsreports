@@ -183,7 +183,7 @@ sub run {
     chomp(my $hostname = `uname -n| cut -d . -f 1`);
     if ((!$config->{config}{deviceid}) || $config->{config}{deviceid} !~ /\Q$hostname\E-(?:\w{8})(?:-\w{4}){3}(?:-\w{12})/) {
 
-	$ug = Data::UUID->new;
+	my $ug = Data::UUID->new;
 
         $config->{config}{old_deviceid} = $config->{config}{deviceid};
         $config->{config}{deviceid} =sprintf "%s-%s", $hostname, $ug->to_string($ug->create_from_name_str(NameSpace_URL, $hostname ));
