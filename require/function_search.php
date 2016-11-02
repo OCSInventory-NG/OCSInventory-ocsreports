@@ -354,11 +354,10 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	$select .= "</select>";
 
 	//on affiche le début de ligne
-	echo "<span class='glyphicon glyphicon-remove delete-span delete-span-xs' alt='".$l->g(41)."' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'></span>";
 	if ($ajout != '') echo $and_or;
 	echo "<div class='form-group'>";
 	echo "<label for='InputValue-".$nameField."' class='col-sm-2 control-label'>".$optArray[$value]."</label>";
-	echo "<div class='col-sm-10'>";
+	echo "<div class='col-sm-9'>";
 
 	echo "<div class='input-group'>";
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
@@ -410,11 +409,11 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 				$opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,$l->g(1270));
 			echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;".$opt2SelectField[$value."-LBL"];
 		}
-		echo "</div>";
+        echo "</div>";
 	}
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),CHAMPSELECT
 	if( array_key_exists($value,$opt2Select)){
-		$selectValue="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' >";
+		$selectValue="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' class='form-control'>";
 		if (is_array($opt2Select[$value.'-SQL1'])){
 			foreach ($opt2Select[$value.'-SQL1'] as $k=>$v){
 				$selectValue .= "<option value='".$k."' ".($protectedPost['SelFieldValue-'.$nameField] == $k ? " selected":"").">".$v."</option>";
@@ -444,7 +443,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	}
 
 	if( array_key_exists($value,$opt3Select)){
-		$selectValue1="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."'>";
+		$selectValue1="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' class='form-control'>";
 		$result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt3Select[$value.'-SQL1']);
 		while( $val = mysqli_fetch_array( $result ) ) {
 			if (!isset($val['ID']))
@@ -453,7 +452,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 		}
 		$selectValue1 .= "</select>";
 
-		$selectValue2="<select name='SelFieldValue2-".$nameField."' id='SelFieldValue2-".$nameField."'>";
+		$selectValue2="<select name='SelFieldValue2-".$nameField."' id='SelFieldValue2-".$nameField."' class='form-control'>";
 		$result = mysqli_query( $_SESSION['OCS']["readServer"],$opt3Select[$value.'-SQL2'] );
 		while( $val = mysqli_fetch_array( $result ) ) {
 			if (!isset($val['ID']))
@@ -465,6 +464,10 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	}
 
 	echo "</div>";
+
+    echo "<div class='col-sm-1'>";
+    echo "<span class='glyphicon group-addon glyphicon-remove delete-span delete-span-xs' alt='".$l->g(41)."' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'></span>";
+    echo "</div>";
 	echo "</div>";
 	echo "</div>";
 }
