@@ -581,8 +581,9 @@ function is_defined(&$var) {
         // Don't trim if it's an array
         if(!is_array($var)){
             $maVar = trim($var);
+        }else{
+            $maVar = array_filter($var);
         }
-        // TODO : Add check for array ?
 
         // Var contains something else than blank char ?
         if (!empty($maVar)) {
