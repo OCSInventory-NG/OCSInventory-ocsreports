@@ -38,7 +38,7 @@ if (isset($protectedPost['Valid_modif'])) {
 		msg_error($msg);
 	} else {
 		msg_success($l->g(1186));
-        unset($protectedPost);
+                unset($protectedPost);
 	}
 }
 
