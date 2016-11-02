@@ -21,7 +21,8 @@
  * MA 02110-1301, USA.
  */
 
-function remplirListe($input_name) {
+function remplirListe($input_name, $label = '') {
+    global $protectedPost;
     //requete SQL avec filtre sur les logiciels des pc linux et Correctifs, mise a jour windows
     $sql = "SELECT DISTINCT softwares.NAME FROM softwares_name_cache softwares  WHERE  softwares.NAME NOT LIKE '%Correctif%' AND softwares.NAME NOT LIKE '%Mise a jour%' ORDER BY softwares.NAME";
 
@@ -30,7 +31,8 @@ function remplirListe($input_name) {
     while ($row = mysqli_fetch_array($query)) {
         $name[$row['NAME']] = $row['NAME'];
     }
-    echo show_modif($name, $input_name, 2);
+    formGroup('select', $input_name, $label, '', '', $protectedPost[$input_name], '', $name, $name);
+    //echo show_modif($name, $input_name, 2, '', '');
 }
 
 function creerTableau($var) {  //$var est le $_post de mon script.php
