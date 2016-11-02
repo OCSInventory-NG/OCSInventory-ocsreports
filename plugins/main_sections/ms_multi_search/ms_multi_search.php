@@ -1250,6 +1250,7 @@ $protectedPost['multiSearch']=$l->g(32);
 		echo "<span class='glyphicon glyphicon-remove delete-span' alt='".$l->g(41)."' onclick='pag(\"ok\",\"reset\",\"".$form_name."\")'></span>";
 	echo "</div>";
 echo "</div>";
+
 echo "<div class='row'>";
 echo "<div class='col col-md-12'>";
 if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] != null){
@@ -1265,9 +1266,13 @@ if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] !
 		show_ligne($v,$k,$ajout,$form_name);
 		$c++;
 	}
-	echo "<input type='submit' class='btn btn-success' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'>";
-	echo "<input type=hidden name='Valid' id='Valid' value=''>";
 }
+echo "</div>";
+echo "</div>";
+echo "<div class='row'>";
+echo "<div class='col-md-12'>";
+echo "<input type='submit' class='btn btn-success' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'>";
+echo "<input type=hidden name='Valid' id='Valid' value=''>";
 echo "<input type=hidden name=delfield id=delfield value=''>";
 echo "<input type=hidden name='reset' id='reset' value=''>";
 echo "</div>";
