@@ -261,11 +261,14 @@ function admin_user($id_user = null, $is_my_account = false) {
 				$inputType = 'hidden';
 			}
 
-			if($inputName == "ID" && $id_user != null){
+            if($inputName == "ID" && $id_user != null){
                 formGroup('hidden', 'MODIF', '', '', '', $id_user, '', '', '', '', '');
                 formGroup('text', $inputName, $fields, '', '', $id_user, '', $selectValues, $selectValues, 'readonly', '');
             }else{
-                formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '', '');
+                if($tab_typ_champ[$index]['COMMENT_AFTER'] === null){
+                    $tab_typ_champ[$index]['COMMENT_AFTER'] = "";
+                }
+                formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
             }
 
 		}
