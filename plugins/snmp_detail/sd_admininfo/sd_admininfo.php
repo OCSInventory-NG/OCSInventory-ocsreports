@@ -80,7 +80,7 @@ if ($list_tab != '') {
     echo "<br>";
     echo open_form($form_name);
     onglet($list_tab, $form_name, "onglet", 6);
-    echo '<div class="mlt_bordure" >';
+    echo '<div class="col-md-12" >';
     if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES') {
         $show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
         if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO'])) {
@@ -200,7 +200,7 @@ if ($list_tab != '') {
         $tab_hidden = array('ADMIN' => '', 'UP' => '', 'DOWN' => '');
     }
 
-    tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+    modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
         'form_name' => 'NO_FORM',
         'top_action' => $show_admin_button
     ));

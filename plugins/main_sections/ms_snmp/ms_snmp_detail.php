@@ -47,16 +47,81 @@ $lbl_affich = array('NAME' => $l->g(49), 'UPTIME' => $l->g(352), 'MACADDR' => $l
     'DESCRIPTION' => $l->g(53), 'LASTDATE' => $l->g(46)
 );
 $info['snmp'] = $item['data']['snmp'];
+$col = 1;
+?>
 
-$first_tab = bandeau($info, $lbl_affich);
+<div class="container">
+    <div class="row">
+        <?php
+
+        foreach ($info['snmp'] as $k => $v){
+
+            if($k == 'ID'){
+
+            } else {
+
+                if (isset($v)) {
+                    if (!isset($lbl_affich[$k])) {
+                        $label = $k;
+                    } else {
+                        $label = $lbl_affich[$k];
+                    }
+                    $value = $v;
+
+                    ?>
+                    <?php if ($col >= 5): ?>
+                        <div class="col-md-6">
+                            <div class="col-xs-4">
+                                <ul class="server-information-ul">
+                                    <li><?php echo $label; ?></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-8">
+                                <ul class="server-information-ul-li">
+                                    <li><?php echo $value; ?></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <?php $col++; ?>
+                    <?php endif; ?>
+
+
+                    <?php if ($col <= 5): ?>
+                        <div class="col-md-6">
+                            <div class="col-xs-4">
+                                <ul class="server-information-ul">
+                                    <li><?php echo $label; ?></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-8">
+                                <ul class="server-information-ul-li">
+                                    <li><?php echo $value; ?></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <?php
+                        if ($col != 10) {
+                            $col++;
+                        } else {
+                            $col = 1;
+                        }
+                    endif;
+                }
+            }
+        }
+        ?>
+
+    </div>
+
+</div>
+<?php
+
+
 unset($item['data']['snmp']);
 $second_tab = bandeau($item['data'], $lbl_affich, $item['lbl'], 'mvt_bordure');
 
-if ($first_tab) {
-    echo $first_tab;
-}
-
 if ($second_tab) {
+    // TODO: I dont know what is this.
     echo $second_tab;
 }
 
@@ -93,11 +158,12 @@ foreach ($list_lbl as $key => $value) {
     }
 }
 //par défaut, on affiche les données admininfo
-echo "<br>";
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
+echo "<br/>";
+echo "<br/>";
 onglet($list_lbl, $form_name, "onglet_sd", 10);
 $msq_tab_error = '<small>N/A</small>';
-echo '<div class="mlt_bordure" >';
+echo '<div class="col-md-12">';
 if (isset($list_lbl[$protectedPost['onglet_sd']])) {
     if (file_exists($Directory . "/" . $protectedPost['onglet_sd'] . "/" . $protectedPost['onglet_sd'] . ".php")) {
         include ($Directory . "/" . $protectedPost['onglet_sd'] . "/" . $protectedPost['onglet_sd'] . ".php");
