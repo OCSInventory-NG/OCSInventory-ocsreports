@@ -247,6 +247,10 @@ function admin_user($id_user = null, $is_my_account = false) {
                     $inputType = 'select';
                     $selectValues = $tab_typ_champ[$index]['DEFAULT_VALUE'];
                     $inputValue = $protectedPost;
+                    // If data is sended with post
+                    if(isset($protectedPost[$inputName])){
+                        $tab_typ_champ[$index]['DEFAULT_VALUE'] = array($inputName => $protectedPost[$inputName]);
+                    }
             } else if($indexType == 3){
                     $inputType = 'hidden';
             } else if($indexType == 4){
@@ -268,6 +272,7 @@ function admin_user($id_user = null, $is_my_account = false) {
                 if($tab_typ_champ[$index]['COMMENT_AFTER'] === null){
                     $tab_typ_champ[$index]['COMMENT_AFTER'] = "";
                 }
+                
                 formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
             }
 
