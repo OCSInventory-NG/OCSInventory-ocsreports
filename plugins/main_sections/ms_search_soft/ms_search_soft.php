@@ -34,24 +34,21 @@ echo open_form($form_name, '', '', 'form-horizontal');
 //html
 $xml_file = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_options'] . "&no_header=1";
 echo "\n" . '<script type="text/javascript">
-	window.onload = function(){initAutoComplete(document.getElementById(\'' . $form_name . '\'), document.getElementById(\'champ-texte\'), document.getElementById(\'bouton-submit\'),\'' . $xml_file . '\')}
+	window.onload = function(){initAutoComplete(document.getElementById(\'' . $form_name . '\'), document.getElementById(\'logiciel_text\'), document.getElementById(\'bouton-submit\'),\'' . $xml_file . '\')}
 	</script>';
 ?>
 <div class="row">
     <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
-        <div class="form-group">
-            <label class="control-label col-sm-4" for="logiciel_select>"><?php echo $l->g(20); ?> :</label>
-            <div class="col-sm-8">
-                <?php remplirListe("logiciel_select"); ?>
-            </div>
-        </div>
+            <?php remplirListe("logiciel_select", $l->g(20)); ?>
     </div>
 </div>
 <div class="row">
     <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
-        <label class="control-label col-sm-4" for="logiciel_text>">Text :</label>
-        <div class="col-sm-8">
-            <input class="form-control" type="text" name="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="logiciel_text>">Text :</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="logiciel_text"  id="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
+            </div>
         </div>
     </div>
 </div>
