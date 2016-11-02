@@ -202,7 +202,7 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
         }
         echo "</table>";
     } elseif ($type == 'select') {
-        echo "<select name='" . $name . "'";
+        echo "<select class='form-control' name='" . $name . "'";
         if (isset($data['RELOAD'])) {
             echo " onChange='document." . $data['RELOAD'] . ".submit();'";
         }
