@@ -127,11 +127,15 @@ if (is_array($info_value_tag) && !isset($protectedPost['use_generic_0'])) {
     $info_value_tag = $protectedPost['newtag'];
 }
 
+echo "<div class='row'>";
+echo "<div class='col-md-6 col-md-offset-3'>";
 $select_choise = show_modif($info_value_tag, 'newtag', $type);
 echo "<br>";
 echo $l->g(617) . " " . $_SESSION['OCS']['TAG_LBL']['TAG'] . ": " . $select_choise;
 echo "<input type='submit' name='ADD_TAG' value='" . $l->g(13) . "' class='btn'><br>";
 echo $l->g(358);
+echo "</div>";
+echo "</div>";
 echo close_form();
 
 if (AJAX) {
