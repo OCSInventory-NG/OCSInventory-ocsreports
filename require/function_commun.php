@@ -463,84 +463,85 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 	if (is_array($field_labels)) {
 		foreach ($field_labels as $key => $label) {
 
-			$field = $fields[$key];
+                    $field = $fields[$key];
 
-      		/**
-			 * 0 = text
-			 * 1 = textarea
-			 * 2 = select
-			 * 3 = hidden
-			 * 4 = password
-			 * 5 = checkbox
-			 * 6 = text multiple
-			 * 7 = hidden
-			 * 8 = button
-			 * 9 = link
-			 * 10 = ?
-			 * 11 = Radio
-			 * 12 = QRCode
-			 **/
-			if($field['INPUT_TYPE'] == 0 ||
-				$field['INPUT_TYPE'] == 1 ||
-				$field['INPUT_TYPE'] == 6 ||
-				$field['INPUT_TYPE'] == 10
-			){
-				$inputType = 'text';
-			} else if($field['INPUT_TYPE'] == 2 ||
-                      $field['INPUT_TYPE'] == 11){
-				$inputType = 'select';
-			} else if($field['INPUT_TYPE'] == 3){
-				$inputType = 'hidden';
-			} else if($field['INPUT_TYPE'] == 4){
-				$inputType = 'password';
-			} else if($field['INPUT_TYPE'] == 5){
-				$inputType = 'checkbox';
-			} else if($field['INPUT_TYPE'] == 8){
-				$inputType = 'button';
-			} else if($field['INPUT_TYPE'] == 9) {
-                $inputType = 'link';
-            } else if($field['INPUT_TYPE'] == 12){
-                $inputType = 'qrcode';
-			} else {
-				$inputType = 'hidden';
-			}
+                    /**
+                     * 0 = text
+                     * 1 = textarea
+                     * 2 = select
+                     * 3 = hidden
+                     * 4 = password
+                     * 5 = checkbox
+                     * 6 = text multiple
+                     * 7 = hidden
+                     * 8 = button
+                     * 9 = link
+                     * 10 = ?
+                     * 11 = Radio
+                     * 12 = QRCode
+                     * 13 = Disabled
+                     **/
+                    if($field['INPUT_TYPE'] == 0 ||
+                            $field['INPUT_TYPE'] == 1 ||
+                            $field['INPUT_TYPE'] == 6 ||
+                            $field['INPUT_TYPE'] == 10
+                    ){
+                            $inputType = 'text';
+                    } else if($field['INPUT_TYPE'] == 2 ||
+                  $field['INPUT_TYPE'] == 11){
+                            $inputType = 'select';
+                    } else if($field['INPUT_TYPE'] == 3){
+                            $inputType = 'hidden';
+                    } else if($field['INPUT_TYPE'] == 4){
+                            $inputType = 'password';
+                    } else if($field['INPUT_TYPE'] == 5){
+                            $inputType = 'checkbox';
+                    } else if($field['INPUT_TYPE'] == 8){
+                            $inputType = 'button';
+                    } else if($field['INPUT_TYPE'] == 9) {
+                        $inputType = 'link';
+                    } else if($field['INPUT_TYPE'] == 13){
+                        $inputType = 'disabled';
+                    } else if($field['INPUT_TYPE'] == 12){
+                        $inputType = 'qrcode';
+                    } else {
+                            $inputType = 'hidden';
+                    }
 
-			echo "<div class='form-group'>";
-				echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
-				echo "<div class='col-sm-10'>";
-					echo "<div class='input-group'>";
+                    echo "<div class='form-group'>";
+                        echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
+                        echo "<div class='col-sm-10'>";
+                            echo "<div class='input-group'>";
 
-						if($inputType == 'text'){
-							echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
-						} else if($inputType == 'select'){
-							echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
-								foreach ($field['DEFAULT_VALUE'] as $key => $value){
-									echo "<option value='".$key."'>".$value."</option>";
-								}
-							echo "</select>";
+                                if($inputType == 'text'){
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                }else if($inputType == 'disabled'){
+                                    echo "<input type='text' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." readonly>";
+                                }else if($inputType == 'select'){
+                                    echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                    foreach ($field['DEFAULT_VALUE'] as $key => $value){
+                                            echo "<option value='".$key."'>".$value."</option>";
+                                    }
+                                    echo "</select>";
+                                } else if($inputType == 'checkbox'){
+                                    foreach ($field['DEFAULT_VALUE'] as $k=>$v){
+                                        echo "$label <input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                    }
+                                } else if( $inputType == 'button' || $inputType == 'link'){
+                                    echo "<a href='".$field['DEFAULT_VALUE']."' class='".($inputType == 'button') ? 'btn' : ''."' ".$field['CONFIG']['JAVASCRIPT']."></a>";
+                                } else if($inputType == 'qrcode'){
+                                    echo "<img src='" . $field['CONFIG']['DEFAULT'] . "' ".$field['CONFIG']['SIZE']." ".$field['CONFIG']['JAVASCRIPT'].">";
+                                } else{
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                }
 
-						} else if($inputType == 'checkbox'){
-						    foreach ($field['DEFAULT_VALUE'] as $k=>$v){
-                                echo "$label <input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
-                            }
-						} else if(
-							$inputType == 'button' ||
-							$inputType == 'link'
-						){
-							echo "<a href='".$field['DEFAULT_VALUE']."' class='".($inputType == 'button') ? 'btn' : ''."' ".$field['CONFIG']['JAVASCRIPT']."></a>";
-						} else if($inputType == 'qrcode'){
-                            echo "<img src='" . $field['CONFIG']['DEFAULT'] . "' ".$field['CONFIG']['SIZE']." ".$field['CONFIG']['JAVASCRIPT'].">";
-                        } else{
-							echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
-						}
+                                if($field['COMMENT_AFTER'] != ""){
+                                    echo "<span class='input-group-addon' id='".$field['INPUT_NAME']."-addon'>".$field['COMMENT_AFTER']."</span>";
+                                }
 
-						if($field['COMMENT_AFTER'] != ""){
-							echo "<span class='input-group-addon' id='".$field['INPUT_NAME']."-addon'>".$field['COMMENT_AFTER']."</span>";
-						}
-
-					echo "</div>";
-				echo "</div>";
-			echo "</div>";
+                            echo "</div>";
+                        echo "</div>";
+                    echo "</div>";
 
 		}
 	}
