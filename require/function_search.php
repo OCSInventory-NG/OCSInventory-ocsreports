@@ -467,11 +467,11 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 		echo $select.$l->g(667).":".$selectValue1.$l->g(546).":".$selectValue2."</div>";
 	}
 
-
+	echo "</div>";
     echo "<button class='btn btn-danger btn-block' alt='".$l->g(41)."' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'><span class='glyphicon glyphicon-remove delete-span delete-span-xs' style='color:white'></span></button>";
 
-	echo "</div>";
-	echo "</div>";
+    echo "</div>";
+    echo "</div>";
 
 	echo "</div>";
 	echo "</div>";
