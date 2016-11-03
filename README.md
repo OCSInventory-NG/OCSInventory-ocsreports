@@ -35,6 +35,7 @@
     - To enhance SNMP feature with custom networks scans, you need these modules:
       - Net::Netmask
       - Net::Ping or Nmap::Parser
+    - Data::UUID is used to create a unique id for every machine.
       
   ####The following commands are needed:
     - dmidecode on Linux and *BSD (i386, amd64, ia64) => dmidecode is required to read the BIOS stats.
