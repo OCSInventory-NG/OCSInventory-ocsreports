@@ -101,7 +101,7 @@ if (isset($protectedGet['origine']) && is_numeric($protectedGet['idchecked'])) {
 
 if ($list_id) {
     onglet($def_onglets, $form_name, 'onglet', 7);
-    echo '<div class="mlt_bordure" >';
+    echo '<div class="col-md-12" >';
     if ($protectedPost['onglet'] == 'INV') {
         include ('ms_custom_frequency.php');
     }
