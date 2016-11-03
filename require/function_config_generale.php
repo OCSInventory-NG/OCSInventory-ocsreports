@@ -509,7 +509,6 @@ function pageGUI() {
     $select_profils = trait_post('CONF_PROFILS_DIR');
     $select_old_profils = trait_post('OLD_CONF_DIR');
 
-    debut_tab();
     ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
     $def = VARLIB_DIR . '/download';
     ligne('DOWNLOAD_PACK_DIR', $l->g(775), 'radio', array('DEFAULT' => $l->g(823) . " ($def)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_pack), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_PACK_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/download"));
@@ -533,8 +532,6 @@ function pageGUI() {
     ligne('EXPORT_SEP', $l->g(1213), 'input', array('VALUE' => $values['tvalue']['EXPORT_SEP'], 'SIZE' => "30%", 'MAXLENGTH' => 4));
     ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE']));
     ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
-
-    fin_tab();
 }
 
 function pageteledeploy() {
@@ -564,7 +561,6 @@ function pageteledeploy() {
         $select_frag = 'DEFAULT';
     }
 
-    debut_tab();
     //create diff lign for general config
     ligne('DOWNLOAD', $l->g(417), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD']));
     ligne('DOWNLOAD_CYCLE_LATENCY', $l->g(720), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_CYCLE_LATENCY'], 'END' => $l->g(511), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
@@ -576,7 +572,6 @@ function pageteledeploy() {
     ligne('DEPLOY', $l->g(414), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DEPLOY']));
     ligne('DOWNLOAD_URI_FRAG', $l->g(826), 'radio', array('DEFAULT' => $l->g(823) . " (HTTP://localhost/download)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_frag), array('BEGIN' => "http://", 'HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_URI_FRAG'], 'SIZE' => 70, 'MAXLENGTH' => 254));
     ligne('DOWNLOAD_URI_INFO', $l->g(827), 'radio', array('DEFAULT' => $l->g(823) . " (HTTPS://localhost/download)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_info), array('BEGIN' => "https://", 'HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_URI_INFO'], 'SIZE' => 70, 'MAXLENGTH' => 254));
-    fin_tab();
 }
 
 function pagegroups() {
@@ -588,14 +583,11 @@ function pagegroups() {
         'GROUPS_CACHE_REVALIDATE' => 'GROUPS_CACHE_REVALIDATE');
 
     $values = look_config_default_values($champs);
-    debut_tab();
     //create diff lign for general config
     //create diff lign for general config
     ligne('ENABLE_GROUPS', $l->g(736), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ENABLE_GROUPS']));
     ligne('GROUPS_CACHE_OFFSET', $l->g(737), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['GROUPS_CACHE_OFFSET'], 'SIZE' => 5, 'MAXLENGTH' => 6, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('GROUPS_CACHE_REVALIDATE', $l->g(738), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['GROUPS_CACHE_REVALIDATE'], 'SIZE' => 5, 'MAXLENGTH' => 6, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-
-    fin_tab();
 }
 
 function pageserveur() {
@@ -615,7 +607,6 @@ function pageserveur() {
         //on utilise la fonction pour connaître les cases cochées correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
         $check = auto_duplicate_lvl_poids($values['ivalue']['AUTO_DUPLICATE_LVL'], 1);
     }
-    debut_tab();
     ligne('LOGLEVEL', $l->g(416), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOGLEVEL']));
     ligne('PROLOG_FREQ', $l->g(564), 'input', array('END' => $l->g(730), 'VALUE' => $values['ivalue']['PROLOG_FREQ'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), $sup1);
     ligne('AUTO_DUPLICATE_LVL', $l->g(427), 'checkbox', array(
@@ -632,8 +623,6 @@ function pageserveur() {
     ligne('TRACE_DELETED', $l->g(415), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TRACE_DELETED']));
     ligne('SESSION_VALIDITY_TIME', $l->g(777), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SESSION_VALIDITY_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('INVENTORY_ON_STARTUP', $l->g(2121), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_ON_STARTUP']));
-
-    fin_tab();
 }
 
 function pageinventory() {
@@ -665,7 +654,6 @@ function pageinventory() {
     } else {
         $optvalueselected = 'CUSTOM';
     }
-    debut_tab();
     ligne('FREQUENCY', $l->g(494), 'radio', array('ALWAYS' => $l->g(485), 'NEVER' => $l->g(486), 'CUSTOM' => $l->g(487), 'VALUE' => $optvalueselected), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['ivalue']['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
     ligne('INVENTORY_DIFF', $l->g(741), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_DIFF']));
     ligne('INVENTORY_TRANSACTION', $l->g(742), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_TRANSACTION']));
@@ -674,7 +662,6 @@ function pageinventory() {
     ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('INVENTORY_CACHE_ENABLED', $l->g(1265), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_CACHE_ENABLED']));
     ligne('INVENTORY_VALIDITY', $l->g(828), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_VALIDITY']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $validity, 'END' => $l->g(496), 'JAVASCRIPT' => $numeric, 'SIZE' => 3), "readonly");
-    fin_tab();
 }
 
 function pageregistry() {
@@ -682,9 +669,7 @@ function pageregistry() {
     //which line we need?
     $champs = array('REGISTRY' => 'REGISTRY');
     $values = look_config_default_values($champs);
-    debut_tab();
     ligne('REGISTRY', $l->g(412), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['REGISTRY']));
-    fin_tab();
 }
 
 function pageipdiscover() {
@@ -707,15 +692,12 @@ function pageipdiscover() {
             $values['ivalue']['IPDISCOVER'] = 'OFF';
         }
     }
-    debut_tab();
     ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
     ligne('IPDISCOVER_BETTER_THRESHOLD', $l->g(746), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('IPDISCOVER_LATENCY', $l->g(567), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_LATENCY'], 'END' => $l->g(732), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup10);
     ligne('IPDISCOVER_MAX_ALIVE', $l->g(419), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_MAX_ALIVE'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
     ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
-
-    fin_tab();
 }
 
 function pageredistrib() {
@@ -743,12 +725,10 @@ function pageredistrib() {
         $radio_redistrib = 'ON';
     }
 
-    debut_tab();
     ligne('DOWNLOAD_REDISTRIB', $l->g(1181), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $radio_redistrib));
     ligne('DOWNLOAD_SERVER_URI', $l->g(726), 'input', array('BEGIN' => 'HTTP://', 'VALUE' => $values['tvalue']['DOWNLOAD_SERVER_URI'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
     ligne('DOWNLOAD_SERVER_DOCROOT', $l->g(727), 'input', array('VALUE' => $values['tvalue']['DOWNLOAD_SERVER_DOCROOT'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
     ligne('DOWNLOAD_REP_CREAT', $l->g(829), 'radio', array('DEFAULT' => $l->g(823) . " (" . DOCUMENT_ROOT . "download/server)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_rep_creat), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_REP_CREAT'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
-    fin_tab();
 }
 
 function pagefilesInventory() {
@@ -759,12 +739,10 @@ function pagefilesInventory() {
         'OCS_FILES_OVERWRITE' => 'OCS_FILES_OVERWRITE',
         'OCS_FILES_PATH' => 'OCS_FILES_PATH');
     $values = look_config_default_values($champs);
-    debut_tab();
     ligne('GENERATE_OCS_FILES', $l->g(749), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['GENERATE_OCS_FILES']));
     ligne('OCS_FILES_FORMAT', $l->g(750), 'select', array('VALUE' => $values['tvalue']['OCS_FILES_FORMAT'], 'SELECT_VALUE' => array('OCS' => 'OCS', 'XML' => 'XML')));
     ligne('OCS_FILES_OVERWRITE', $l->g(751), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['OCS_FILES_OVERWRITE']));
     ligne('OCS_FILES_PATH', $l->g(752), 'input', array('VALUE' => $values['tvalue']['OCS_FILES_PATH'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
-    fin_tab();
 }
 
 function pagefilter() {
@@ -776,13 +754,11 @@ function pagefilter() {
         'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME' => 'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',
         'INVENTORY_FILTER_ON' => 'INVENTORY_FILTER_ON');
     $values = look_config_default_values($champs);
-    debut_tab();
     ligne('PROLOG_FILTER_ON', $l->g(753), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['PROLOG_FILTER_ON']));
     ligne('INVENTORY_FILTER_ENABLED', $l->g(754), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_FILTER_ENABLED']));
     ligne('INVENTORY_FILTER_FLOOD_IP', $l->g(755), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_FILTER_FLOOD_IP']));
     ligne('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME', $l->g(756), 'input', array('VALUE' => $values['ivalue']['INVENTORY_FILTER_FLOOD_IP_CACHE_TIME'], 'END' => $l->g(511), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('INVENTORY_FILTER_ON', $l->g(757), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_FILTER_ON']));
-    fin_tab();
 }
 
 function pagewebservice() {
@@ -792,13 +768,10 @@ function pagewebservice() {
         'WEB_SERVICE_RESULTS_LIMIT' => 'WEB_SERVICE_RESULTS_LIMIT',
         'WEB_SERVICE_PRIV_MODS_CONF' => 'WEB_SERVICE_PRIV_MODS_CONF');
     $values = look_config_default_values($champs);
-    debut_tab();
-    echo "<tr><td align=center colspan=100><font size=4 color=red><b>" . $l->g(764) . "</b></font></td></tr>";
     //TODO Remove size
     ligne('WEB_SERVICE_ENABLED', $l->g(761), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WEB_SERVICE_ENABLED']), '', "readonly");
     ligne('WEB_SERVICE_RESULTS_LIMIT', $l->g(762), 'input', array('VALUE' => $values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'], 'END' => $l->g(511), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly", $sup1);
     ligne('WEB_SERVICE_PRIV_MODS_CONF', $l->g(763), 'input', array('VALUE' => $values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "readonly");
-    fin_tab("disabled");
 }
 
 function pageConnexion() {
@@ -825,7 +798,7 @@ function pageConnexion() {
     $role1 = get_profile_labels();
     $default_role[''] = '';
     $default_role = array_merge($default_role, $role1);
-    debut_tab();
+
     ligne('CONEX_LDAP_SERVEUR', $l->g(830), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_SERVEUR'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_ROOT_DN', $l->g(1016) . '<br>' . $l->g(1018), 'input', array('VALUE' => $values['tvalue']['CONEX_ROOT_DN'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_ROOT_PW', $l->g(1017) . '<br>' . $l->g(1018), 'input', array('VALUE' => $values['tvalue']['CONEX_ROOT_PW'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
@@ -841,7 +814,6 @@ function pageConnexion() {
     ligne('CONEX_LDAP_CHECK_FIELD2_ROLE', $l->g(1116), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD2_ROLE'], 'SELECT_VALUE' => $role1));
     ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'], 'SELECT_VALUE' => $default_role));
 
-    fin_tab();
 }
 
 function pagesnmp() {
@@ -854,21 +826,16 @@ function pagesnmp() {
     } else {
         $select_rep_creat = 'DEFAULT';
     }
-    debut_tab();
     ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP']));
     ligne('SNMP_INVENTORY_DIFF', $l->g(1214), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP_INVENTORY_DIFF']));
-    fin_tab();
 }
 
 function pagesplugin() {
     $champs = array('OCS_SERVER_ADDRESS' => 'OCS_SERVER_ADDRESS');
     $values = look_config_default_values($champs);
 
-    debut_tab();
-
     ligne('OCS_SERVER_ADDRESS', 'Give your ocs server ip address', 'input', array('VALUE' => $values['tvalue']['OCS_SERVER_ADDRESS'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
 
-    fin_tab();
 }
 
 function pageswol() {
@@ -889,20 +856,13 @@ function pageswol() {
         $wol_passwd = 'OFF';
     }
 
-    debut_tab();
-
     ligne('WOL_PORT', $l->g(272) . " (" . $l->g(1320) . ")", 'input', array('VALUE' => $values['tvalue']['WOL_PORT'], 'SIZE' => "30%", 'MAXLENGTH' => "30%", 'JAVASCRIPT' => $numeric_semicolon));
     ligne('WOL_BIOS_PASSWD', 'Bios password', 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $wol_passwd), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $values['tvalue']['WOL_BIOS_PASSWD'], 'SIZE' => 40, 'MAXLENGTH' => 254), "readonly");
-
-    fin_tab();
 }
 
 function pagesdev() {
     $champs = array('USE_NEW_SOFT_TABLES' => 'USE_NEW_SOFT_TABLES');
     $values = look_config_default_values($champs);
-    debut_tab();
     ligne('USE_NEW_SOFT_TABLES', 'Utilisation tables de soft OCS v2.1', 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['USE_NEW_SOFT_TABLES']));
-
-    fin_tab();
 }
 ?>
