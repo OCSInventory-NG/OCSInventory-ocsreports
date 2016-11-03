@@ -25,7 +25,7 @@ require('require/function_stats.php');
 $form_name = "stats";
 $table_name = $form_name;
 printEnTete($l->g(1251));
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 $plugin = false;
 $stats = '';
 

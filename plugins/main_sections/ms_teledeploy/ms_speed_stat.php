@@ -101,7 +101,7 @@ foreach ($nb_4_hour as $key => $value) {
     $i++;
 }
 if (isset($data) && count($data) != 1) {
-    echo '<br><div  class="mlt_bordure" >';
+    echo '<br><div  class="col-md-12" >';
     echo '<CENTER><div id="chart" style="width: 700px; height: 500px"></div></CENTER>';
     echo '<script type="text/javascript">
 $(function() {
