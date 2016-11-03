@@ -521,7 +521,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     echo "</tr>
     </thead>";
 
-    echo "</table></div></div>";
+    echo "</table></div>";
     echo "<input type='hidden' id='SUP_PROF' name='SUP_PROF' value=''>";
     echo "<input type='hidden' id='MODIF' name='MODIF' value=''>";
     echo "<input type='hidden' id='SELECT' name='SELECT' value=''>";

@@ -327,6 +327,10 @@ function generate_sql($table_name) {
 //du type du champ
 function show_ligne($value, $id_field, $ajout, $form_name) {
     global $optSelectField, $opt2SelectField, $opt2Select, $optSelect2Field, $opt3Select, $optSelect, $optArray, $l, $protectedPost;
+
+    echo "<div class='row'>";
+    echo "<div class='col-md-12'>";
+
     $nameField = $value . "-" . $id_field;
     if ($ajout != '') {
         $and_or = show_modif(array('AND' => 'AND', 'OR' => 'OR'), "SelAndOr-" . $nameField, 2, '', array('DEFAULT' => 'NO'));
@@ -357,7 +361,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	if ($ajout != '') echo $and_or;
 	echo "<div class='form-group'>";
 	echo "<label for='InputValue-".$nameField."' class='col-sm-2 control-label'>".$optArray[$value]."</label>";
-	echo "<div class='col-sm-9'>";
+	echo "<div class='col-sm-10'>";
 
 	echo "<div class='input-group'>";
 	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
@@ -463,11 +467,12 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 		echo $select.$l->g(667).":".$selectValue1.$l->g(546).":".$selectValue2."</div>";
 	}
 
+
+    echo "<button class='btn btn-danger btn-block' alt='".$l->g(41)."' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'><span class='glyphicon glyphicon-remove delete-span delete-span-xs' style='color:white'></span></button>";
+
+	echo "</div>";
 	echo "</div>";
 
-    echo "<div class='col-sm-1'>";
-    echo "<span class='glyphicon group-addon glyphicon-remove delete-span delete-span-xs' alt='".$l->g(41)."' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'></span>";
-    echo "</div>";
 	echo "</div>";
 	echo "</div>";
 }
