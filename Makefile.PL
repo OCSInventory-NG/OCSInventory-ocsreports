@@ -17,6 +17,7 @@ install :: all pure_install doc_install
 }
 
 require 'lib/Ocsinventory/Agent/Config.pm';
+
 use Config;
 
 my $version = $Ocsinventory::Agent::Config::VERSION; 
@@ -27,14 +28,17 @@ if (-d '.bzr') {
 
 name 'Ocsinventory-Unix-Agent';
 include 'Module::AutoInstall';
-abstract 'Ocs-Inventory unified Agent for UNIX, Linux and MacOSX';
+abstract 'OCS Inventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
+repository 'https://github.com/OCSInventory-NG/UnixAgent/';
+authors 'OCS Inventory Team';
 version $version;
 perl_version '5.006';
 requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
 requires 'LWP' => undef;
 requires 'File::Temp' => undef;
+requires 'Data::UUID' => undef;
 recommends 'Net::IP' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
@@ -102,7 +106,8 @@ if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
 }
 
 if (!can_use('Nvidia::ml')){
-	print "Nvidia::ml is recommended if you want to retrieve memory, speed, bios information for Nvidia cards.\n";
+	print "Nvidia::ml is recommended if you want to retrieve "
+        ."memory, speed, bios information for Nvidia cards.\n";
 }
 
 my $archname;
