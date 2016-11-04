@@ -79,7 +79,25 @@ if ($login_successful == "OK" && isset($login_successful)) {
     $_SESSION['OCS']["loggeduser"] = $login;
     $_SESSION['OCS']['cnx_origine'] = $cnx_origine;
     $_SESSION['OCS']['user_group'] = $user_group;
-    unset($protectedGet);
+
+    if($protectedGet){
+
+        $get = '';
+        $first = true;
+
+        foreach ($protectedGet as $key => $value){
+            if($first){
+                $get .= '?' . $key . '=' . $value;
+                $first = false;
+            } else{
+                $get .= '&' . $key . '=' . $value;
+            }
+        }
+        header('Location: index.php'.$get);
+    } else{
+        unset($protectedGet);
+    }
+
 } else {
     //show HTML form
     if ($affich_method == 'HTML') {

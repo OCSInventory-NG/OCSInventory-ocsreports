@@ -922,8 +922,10 @@ if ($list_id != "")	{
 	$tab_options['LOGS']='SEARCH_RESULT';
 	$tab_options['form_name']=$form_name;
 	$tab_options['table_name']=$table_tabname;
+	echo "<div class='row' style='margin: 0'>";
 	ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 	add_trait_select($list_fonct,$list_id,$form_name,$list_pag);
+	echo "</div>";
 	echo "<input type='hidden' value='".$protectedPost['Valid-search']."' name='Valid-search'>";
 
 }elseif($protectedPost['Valid-search'] != '')
@@ -1237,7 +1239,7 @@ asort($optArray_trait);
 
 $protectedPost['multiSearch']=$l->g(32);
 ?>
-<div class="row">
+<div class="row rowMarginTop30">
     <div class="col col-md-6 col-md-offset-3">
         <?php
         formGroup('select', 'multiSearch', $l->g(31), '', '', '', '', $optArray_trait, $optArray_trait, "onchange='document.multisearch.submit();'");
@@ -1251,8 +1253,6 @@ $protectedPost['multiSearch']=$l->g(32);
 	echo "</div>";
 echo "</div>";
 
-echo "<div class='row'>";
-echo "<div class='col col-md-12'>";
 if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] != null){
 
 	$c=0;
@@ -1267,9 +1267,7 @@ if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] !
 		$c++;
 	}
 }
-echo "</div>";
-echo "</div>";
-echo "<div class='row'>";
+echo "<div class='row rowMarginTop30'>";
 echo "<div class='col-md-12'>";
 echo "<input type='submit' class='btn btn-success' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'>";
 echo "<input type=hidden name='Valid' id='Valid' value=''>";

@@ -44,7 +44,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES" && is_defin
 
 $form_name = "show_stats";
 $table_name = $form_name;
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 
 $sql = "SELECT name FROM download_available WHERE fileid='%s'";
 $arg = $protectedGet["stat"];
@@ -119,7 +119,7 @@ while ($row = mysqli_fetch_object($resStats)) {
     $color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
     $i++;
 }
-echo '<br><div  class="mlt_bordure" >';
+echo '<br><div  class="col-md-12" >';
 echo '<CENTER><div id="chart" style="width: 900px; height: 500px"></div></CENTER>';
 echo '<script type="text/javascript">
 		$(function() {

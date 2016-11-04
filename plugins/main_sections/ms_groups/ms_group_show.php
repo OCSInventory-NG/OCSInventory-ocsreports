@@ -168,7 +168,7 @@ if ($protectedPost['MODIF_x']) {
     $button_reset = "";
 }
 //form for modify values of group's
-echo open_form('CHANGE');
+echo open_form('CHANGE', '', '', 'form-horizontal');
 echo "<table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
 
 echo "<tr>" . $tdhd . $l->g(577) . $tdhf . $tdhdpb . $name . $tdhfpb;
