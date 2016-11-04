@@ -149,18 +149,23 @@ if (!function_exists('imagefontwidth')) {
 if (!function_exists('openssl_open')) {
     $msg_lbl['warning'][] = $l->g(2039);
 }
-if (is_writable(ETC_DIR)) {
-    if (!file_exists(ETC_DIR . "/download")) {
-        mkdir(ETC_DIR . "/download");
+// Check if var lib directory is writable
+if (is_writable(VARLIB_DIR)) {
+    if (!file_exists(VARLIB_DIR . "/download")) {
+        mkdir(VARLIB_DIR . "/download");
     }
-    if (!file_exists(ETC_DIR . "/logs")) {
-        mkdir(ETC_DIR . "/logs");
+    if (!file_exists(VARLIB_DIR . "/logs")) {
+        mkdir(VARLIB_DIR . "/logs");
     }
-    if (!file_exists(ETC_DIR . "/scripts")) {
-        mkdir(ETC_DIR . "/scripts");
+    if (!file_exists(VARLIB_DIR . "/scripts")) {
+        mkdir(VARLIB_DIR . "/scripts");
     }
 } else {
-    $msg_lbl['warning'][] = "Document root should be writable : " . ETC_DIR;
+    $msg_lbl['warning'][] = "Var lib dir should be writable : " . VARLIB_DIR;
+}
+// Check if ocsreports is writable
+if (!is_writable(ETC_DIR)) {
+    $msg_lbl['warning'][] = "Ocs reports' dir should be writable : " . ETC_DIR;
 }
 //show messages
 foreach ($msg_lbl as $k => $v) {
