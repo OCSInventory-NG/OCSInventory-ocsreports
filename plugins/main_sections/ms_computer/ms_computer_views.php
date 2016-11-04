@@ -168,7 +168,6 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
     $nb_col = 2;
     $i = 0;
 
-    echo '<div class="summary">';
     foreach ($labels as $cat_key => $cat) {
         if ($i % $nb_col == 0) {
             echo '<div class="row">';
@@ -201,7 +200,6 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
         }
     }
 
-    echo '</div>';
 }
 
 ?>
