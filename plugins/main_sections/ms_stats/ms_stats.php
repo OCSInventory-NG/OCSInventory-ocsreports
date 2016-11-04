@@ -20,30 +20,24 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-require('require/function_stats.php');
 
-$form_name = "stats";
-$table_name = $form_name;
-printEnTete($l->g(1251));
-echo open_form($form_name, '', '', 'form-horizontal');
-$plugin = false;
-$stats = '';
+require('class/msstats.class.php');
+require('class/msstatstop.class.php');
+require('class/msstatsconnexion.class.php');
 
-foreach ($_SESSION['OCS']['url_service']->getUrls() as $name => $url) {
-    if (substr($name, 0, 9) == 'ms_stats_' && $url['directory'] == 'ms_stats') {
-        $plugin = true;
-        require_once($name . ".php");
-    }
-}
+$stats = new MsStats();
+$pages = $stats->checkForStatsPages();
+$data_on = $stats->createShowTabsArray($pages);
 
-if ($plugin){
-	//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
-	show_tabs($data_on,$form_name,"onglet",true);
-	echo '<div class="col col-md-10" >';
-	echo $stats;		
-	echo "</div>";
-}else
-	msg_warning($l->g(1262));
+printEnTete($stats->getHeaderName());
+
+echo open_form($stats->getFormName(), '', '', 'form-horizontal');
+show_tabs($data_on,$stats->getFormName(),"onglet",true);
+
+echo '<div class="col col-md-10" >';
+$stats->generateStatsData($protectedPost, $pages[0]);
+echo "</div>";
+
 echo close_form();
 
 ?>
