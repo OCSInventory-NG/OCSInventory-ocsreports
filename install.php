@@ -149,18 +149,18 @@ if (!function_exists('imagefontwidth')) {
 if (!function_exists('openssl_open')) {
     $msg_lbl['warning'][] = $l->g(2039);
 }
-if (is_writable(DOCUMENT_REAL_ROOT)) {
-    if (!file_exists(DOCUMENT_REAL_ROOT . "/download")) {
-        mkdir(DOCUMENT_REAL_ROOT . "/download");
+if (is_writable(ETC_DIR)) {
+    if (!file_exists(ETC_DIR . "/download")) {
+        mkdir(ETC_DIR . "/download");
     }
-    if (!file_exists(DOCUMENT_REAL_ROOT . "/logs")) {
-        mkdir(DOCUMENT_REAL_ROOT . "/logs");
+    if (!file_exists(ETC_DIR . "/logs")) {
+        mkdir(ETC_DIR . "/logs");
     }
-    if (!file_exists(DOCUMENT_REAL_ROOT . "/scripts")) {
-        mkdir(DOCUMENT_REAL_ROOT . "/scripts");
+    if (!file_exists(ETC_DIR . "/scripts")) {
+        mkdir(ETC_DIR . "/scripts");
     }
 } else {
-    $msg_lbl['warning'][] = "Document root should be writable : " . DOCUMENT_REAL_ROOT;
+    $msg_lbl['warning'][] = "Document root should be writable : " . ETC_DIR;
 }
 //show messages
 foreach ($msg_lbl as $k => $v) {
