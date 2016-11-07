@@ -172,7 +172,7 @@ if (isset($protectedPost['valid'])) {
         unset($protectedPost['valid']);
     } else {
         //some fields are empty?
-        echo "<script language='javascript'>
+        echo "<script type='text/javascript'>
 			function verif2()
 			 {
 				var msg = '';
@@ -303,7 +303,7 @@ if (!$protectedPost) {
 echo "<input type='hidden' name='document_root' value='" . $protectedPost['document_root'] . "'>
 	 <input type='hidden' id='timestamp' name='timestamp' value='" . $protectedPost['timestamp'] . "'>";
 
-echo "<script language='javascript'>
+echo "<script type='text/javascript'>
 		function changeLabelAction(){
 		    var displayText = {'EXECUTE' : '" . $l->g(444) . "', 'STORE' : '" . $l->g(445) . "', 'LAUNCH' : '" . $l->g(446) . "'};
 			var select = $(\"#ACTION\");

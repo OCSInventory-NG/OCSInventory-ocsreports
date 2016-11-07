@@ -21,61 +21,61 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-	parse_str($protectedPost['ocs']['0'], $params);
-	$protectedPost += $params;
-	ob_start();
+    parse_str($protectedPost['ocs']['0'], $params);
+    $protectedPost += $params;
+    ob_start();
 }
 
 function return_bytes($val) {
-	$val = trim($val);
-	$last = strtolower($val{strlen($val) - 1});
-	switch ($last) {
-		// Le modifieur 'G' est disponible depuis PHP 5.1.0
-		case 'g':
-			$val *= 1024;
-			break;
-		/* case 'm':
-		  $val *= 1024; */
-		case 'k':
-			$val *= 1024;
-			break;
-		default : $val = substr($val, 0, -1);
-	}
-	return $val;
+    $val = trim($val);
+    $last = strtolower($val{strlen($val) - 1});
+    switch ($last) {
+        // Le modifieur 'G' est disponible depuis PHP 5.1.0
+        case 'g':
+            $val *= 1024;
+            break;
+        /* case 'm':
+          $val *= 1024; */
+        case 'k':
+            $val *= 1024;
+            break;
+        default : $val = substr($val, 0, -1);
+    }
+    return $val;
 }
 ?>
-<script language='javascript'>
+<script type='text/javascript'>
 
-	function getext(filename) {
-		var parts = filename.split('.');
-		return(parts.pop());
-	}
+    function getext(filename) {
+        var parts = filename.split('.');
+        return(parts.pop());
+    }
 
-	function namefile(filename) {
-		var parts = [];
-		var parts2 = [];
+    function namefile(filename) {
+        var parts = [];
+        var parts2 = [];
 
-		parts = filename.split('.');
-		parts2 = parts[0].split('\\\');
-				var part2return = parts2.pop();
-		return(part2return);
-	}
+        parts = filename.split('.');
+        parts2 = parts[0].split('\\\');
+                var part2return = parts2.pop();
+        return(part2return);
+    }
 
-	function verif_file_format(champ) {
+    function verif_file_format(champ) {
 
-		var ExtList = new Array('exe');
-		filename = document.getElementById(champ).value.toLowerCase();
-		fileExt = getext(filename);
-		for (i = 0; i < ExtList.length; i++)
-		{
-			if (fileExt == ExtList[i])
-			{
-				return (true);
-			}
-		}
-		alert('<?php mysqli_real_escape_string($_SESSION['OCS']["readServer"], $l->g(168)) ?> ');
-		return (false);
-	}
+        var ExtList = new Array('exe');
+        filename = document.getElementById(champ).value.toLowerCase();
+        fileExt = getext(filename);
+        for (i = 0; i < ExtList.length; i++)
+        {
+            if (fileExt == ExtList[i])
+            {
+                return (true);
+            }
+        }
+        alert('<?php mysqli_real_escape_string($_SESSION['OCS']["readServer"], $l->g(168)) ?> ');
+        return (false);
+    }
 
 </script>
 <?php
@@ -90,80 +90,80 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 if (isset($_FILES['file_upload']['name'])) {
-	if ($_FILES['file_upload']['size'] != 0) {
-		$fname = $_FILES['file_upload']['name'];
-		$platform = "windows";
-		$filename = $_FILES['file_upload']['tmp_name'];
-		$fd = fopen($filename, "r");
-		$contents = fread($fd, filesize($filename));
-		fclose($fd);
-		$binary = $contents;
-		$sql = "DELETE FROM deploy where name='%s'";
-		$arg = $fname;
-		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-		$sql = "INSERT INTO deploy values ('%s','%s')";
-		$arg = array($fname, $binary);
-		$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-		if (!$result) {
-			msg_error($l->g(2003) . mysqli_errno($_SESSION['OCS']["writeServer"]) . "<br>" . mysqli_error($_SESSION['OCS']["writeServer"]));
-		} else {
-			msg_success($l->g(137) . " " . $_FILES['file_upload']['name'] . " " . $l->g(234));
-			$tab_options['CACHE'] = 'RESET';
-		}
-	} else {
-		msg_error($l->g(920));
-	}
+    if ($_FILES['file_upload']['size'] != 0) {
+        $fname = $_FILES['file_upload']['name'];
+        $platform = "windows";
+        $filename = $_FILES['file_upload']['tmp_name'];
+        $fd = fopen($filename, "r");
+        $contents = fread($fd, filesize($filename));
+        fclose($fd);
+        $binary = $contents;
+        $sql = "DELETE FROM deploy where name='%s'";
+        $arg = $fname;
+        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        $sql = "INSERT INTO deploy values ('%s','%s')";
+        $arg = array($fname, $binary);
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        if (!$result) {
+            msg_error($l->g(2003) . mysqli_errno($_SESSION['OCS']["writeServer"]) . "<br>" . mysqli_error($_SESSION['OCS']["writeServer"]));
+        } else {
+            msg_success($l->g(137) . " " . $_FILES['file_upload']['name'] . " " . $l->g(234));
+            $tab_options['CACHE'] = 'RESET';
+        }
+    } else {
+        msg_error($l->g(920));
+    }
 }
 
 if (is_defined($protectedPost['SUP_PROF'])) {
-	$sql = "DELETE FROM deploy where name='%s'";
-	$arg = $protectedPost['SUP_PROF'];
-	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+    $sql = "DELETE FROM deploy where name='%s'";
+    $arg = $protectedPost['SUP_PROF'];
+    mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 }
 if (!isset($protectedPost['ADD_FILE'])) {
-	echo open_form($form_name, '', '', 'form-horizontal');
-	$list_fields = array($l->g(283) => 'function',
-		$l->g(49) => 'name',
-		'SUP' => 'name'
-	);
-	$list_col_cant_del = $list_fields;
-	$default_fields = $list_fields;
+    echo open_form($form_name, '', '', 'form-horizontal');
+    $list_fields = array($l->g(283) => 'function',
+        $l->g(49) => 'name',
+        'SUP' => 'name'
+    );
+    $list_col_cant_del = $list_fields;
+    $default_fields = $list_fields;
 
-	$sql = "select '%s' as function,%s from deploy where name != 'label'";
-	$tab_options['ARG_SQL'] = array($l->g(370), 'name');
-	$tab_options['LIEN_LBL'][$l->g(49)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_view_file'] . '&prov=agent&no_header=1&value=';
-	$tab_options['LIEN_CHAMP'][$l->g(49)] = 'name';
-	$tab_options['LIEN_TYPE'][$l->g(49)] = 'POPUP';
-	$tab_options['POPUP_SIZE'][$l->g(49)] = "width=900,height=600";
-	printEntete($l->g(1245));
-	echo "<br />";
-	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-	echo "<input type=submit class='btn' name=ADD_FILE value='" . $l->g(1048) . "'>";
-	echo close_form();
+    $sql = "select '%s' as function,%s from deploy where name != 'label'";
+    $tab_options['ARG_SQL'] = array($l->g(370), 'name');
+    $tab_options['LIEN_LBL'][$l->g(49)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_view_file'] . '&prov=agent&no_header=1&value=';
+    $tab_options['LIEN_CHAMP'][$l->g(49)] = 'name';
+    $tab_options['LIEN_TYPE'][$l->g(49)] = 'POPUP';
+    $tab_options['POPUP_SIZE'][$l->g(49)] = "width=900,height=600";
+    printEntete($l->g(1245));
+    echo "<br />";
+    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+    echo "<input type=submit class='btn' name=ADD_FILE value='" . $l->g(1048) . "'>";
+    echo close_form();
 }
 
 if (is_defined($protectedPost['ADD_FILE'])) {
-	$css = "mvt_bordure";
-	$form_name1 = "SEND_FILE";
-	//search max_allowed_packet value on mysql conf
-	$sql = "SHOW VARIABLES LIKE 'max_allowed_packet'";
-	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-	$value = mysqli_fetch_array($result);
-	//pass oct to Mo
-	$upload_max_filesize = $value['Value'] / 1048576;
+    $css = "mvt_bordure";
+    $form_name1 = "SEND_FILE";
+    //search max_allowed_packet value on mysql conf
+    $sql = "SHOW VARIABLES LIKE 'max_allowed_packet'";
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+    $value = mysqli_fetch_array($result);
+    //pass oct to Mo
+    $upload_max_filesize = $value['Value'] / 1048576;
 
-	msg_info($l->g(2022) . ' ' . $valBumf . $l->g(1240) . "<br>" . $l->g(2106) . " " . $upload_max_filesize . $l->g(1240));
-	echo open_form($form_name1, '', "enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
-	echo '<div class="' . $css . '" >';
-	echo $l->g(1048) . ": <input id='file_upload' name='file_upload' type='file' accept=''>";
-	echo "<br /><br /><input name='GO' class='btn btn-success' id='GO' type='submit' value='" . $l->g(13) . "'>&nbsp;&nbsp;";
-	echo "</div>";
-	echo close_form();
-	echo "<br>";
+    msg_info($l->g(2022) . ' ' . $valBumf . $l->g(1240) . "<br>" . $l->g(2106) . " " . $upload_max_filesize . $l->g(1240));
+    echo open_form($form_name1, '', "enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
+    echo '<div class="' . $css . '" >';
+    echo $l->g(1048) . ": <input id='file_upload' name='file_upload' type='file' accept=''>";
+    echo "<br /><br /><input name='GO' class='btn btn-success' id='GO' type='submit' value='" . $l->g(13) . "'>&nbsp;&nbsp;";
+    echo "</div>";
+    echo close_form();
+    echo "<br>";
 }
 
 if (AJAX) {
-	ob_end_clean();
-	tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
+    ob_end_clean();
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
 }
 ?>

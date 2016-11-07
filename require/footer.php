@@ -22,38 +22,38 @@
  */
 
 if (!AJAX) {
-	if ($_SESSION['OCS']['DEBUG'] == 'ON') {
-		if (isset($_SESSION['OCS']['SQL_DEBUG'])) {
-			msg_info("<b>" . $l->g(5001) . "</b><br><br>" . implode('<br><hr>', $_SESSION['OCS']['SQL_DEBUG']));
-		}
-		echo "<hr/>";
-		echo "<div align=center>VAR POST</div>";
-		if (isset($protectedPost)) {
-			print_r_V2($protectedPost);
-		}
-		echo "<hr/>";
-		echo "<div align=center>VAR SESSION</div>";
-		foreach ($_SESSION['OCS'] as $key => $value) {
+    if ($_SESSION['OCS']['DEBUG'] == 'ON') {
+        if (isset($_SESSION['OCS']['SQL_DEBUG'])) {
+            msg_info("<b>" . $l->g(5001) . "</b><br><br>" . implode('<br><hr>', $_SESSION['OCS']['SQL_DEBUG']));
+        }
+        echo "<hr/>";
+        echo "<div align=center>VAR POST</div>";
+        if (isset($protectedPost)) {
+            print_r_V2($protectedPost);
+        }
+        echo "<hr/>";
+        echo "<div align=center>VAR SESSION</div>";
+        foreach ($_SESSION['OCS'] as $key => $value) {
 
-			if ($key != "fichLang" && $key != "LANGUAGE_FILE" && $key != "mac" && $key != "writeServer" && $key != "readServer") {
-				$tab_session[$key] = $value;
-			}
-		}
-		if (isset($tab_session)) {
-			print_r_V2($tab_session);
-		}
-	}
+            if ($key != "fichLang" && $key != "LANGUAGE_FILE" && $key != "mac" && $key != "writeServer" && $key != "readServer") {
+                $tab_session[$key] = $value;
+            }
+        }
+        if (isset($tab_session)) {
+            print_r_V2($tab_session);
+        }
+    }
 
-	$fin = microtime(true);
-	if ($_SESSION['OCS']["DEBUG"] == "ON") {
-		echo "<b>CACHE:&nbsp;<font color='" . ($_SESSION['OCS']["usecache"] ? "green'><b>ON</b>" : "red'><b>OFF</b>") . "</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>" . round($fin - $debut, 3) . " secondes</b></font>&nbsp;&nbsp;&nbsp;";
-		echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<b>" . round($fin - $debut, 3) . " secondes</b>\"</script>";
-	}
-	echo open_form('ACTION_CLIC');
-	echo "<input type='hidden' name='RESET' id='RESET' value=''>";
-	echo "<input type='hidden' id='LANG' name='LANG' value=''>";
-	echo close_form();
+    $fin = microtime(true);
+    if ($_SESSION['OCS']["DEBUG"] == "ON") {
+        echo "<b>CACHE:&nbsp;<font color='" . ($_SESSION['OCS']["usecache"] ? "green'><b>ON</b>" : "red'><b>OFF</b>") . "</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>" . round($fin - $debut, 3) . " secondes</b></font>&nbsp;&nbsp;&nbsp;";
+        echo "<script type='text/javascript'>document.getElementById(\"tps\").innerHTML=\"<b>" . round($fin - $debut, 3) . " secondes</b>\"</script>";
+    }
+    echo open_form('ACTION_CLIC');
+    echo "<input type='hidden' name='RESET' id='RESET' value=''>";
+    echo "<input type='hidden' id='LANG' name='LANG' value=''>";
+    echo close_form();
 
-	echo '</body></html>';
+    echo '</body></html>';
 }
 ?>
