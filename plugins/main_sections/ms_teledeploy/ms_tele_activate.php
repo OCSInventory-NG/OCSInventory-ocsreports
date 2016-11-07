@@ -32,8 +32,8 @@ require_once('require/function_computers.php');
 $form_name = 'packlist';
 //show or not stats on the table
 $show_stats = true;
-echo open_form($form_name, '', '', 'form-horizontal');
 PrintEnTete($l->g(465));
+echo open_form($form_name, '', '', 'form-horizontal');
 
 if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO') {
     $cant_active = false;
@@ -305,9 +305,10 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
             del_selection($form_name);
             if ($protectedPost['SHOW_SELECT'] == 'download'){
                     $config_input=array('MAXLENGTH'=>10,'SIZE'=>15);
-                    $activ_manuel=show_modif($protectedPost['manualActive'],'manualActive',0,'',$config_input);
-                    echo "<br/><b>".$l->g(476)."</b>".$l->g(475).": ".$activ_manuel."  ";
-                    echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
+                    formGroup('text', 'manualActive', $l->g(476) . " " . $l->g(475), '', 10);
+                ?>
+                <a href="#" class="btn btn-success" onclick="manualActive()"><?php echo $l->g(13); ?></a>
+                <?php
             }
     }
 }elseif ( $protectedPost['onglet'] == "DELETED_PACKET") {
