@@ -30,7 +30,7 @@ function connexion_local_read() {
     $link_ocs = mysqli_connect(SERVER_READ, COMPTE_BASE, PSWD_BASE);
 
     if (mysqli_connect_errno()) {
-        echo "<br><center><span class='red'><b>ERROR: MySql connection problem<br>" . mysqli_error($link_ocs) . "</b></span></center>";
+        echo "<br><div class='class='center-block alert alert-danger'><b>ERROR: MySql connection problem<br>" . mysqli_error($link_ocs) . "</b></div>";
         die();
     }
     mysqli_query($link_ocs, "SET NAMES 'utf8'");
@@ -49,7 +49,7 @@ function connexion_local_write() {
     $link_ocs = mysqli_connect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE);
 
     if (mysqli_connect_errno()) {
-        echo "<br><center><span class='red'><b>ERROR: MySql connection problem<br>" . mysqli_error($link_ocs) . "</b></span></center>";
+        echo "<br><div class='class='center-block alert alert-danger'><b>ERROR: MySql connection problem<br>" . mysqli_error($link_ocs) . "</b></div>";
         die();
     }
     mysqli_query($link_ocs, "SET NAMES 'utf8'");

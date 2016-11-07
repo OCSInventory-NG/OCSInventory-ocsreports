@@ -61,7 +61,7 @@ if (!function_exists('mysqli_connect')) {
     $msg_lbl['error'][] = $l->g(2037);
 }
 if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(ETC_DIR))) {
-    $msg_lbl['error'][] = "<br><center><span class=red><b>" . $l->g(2052) . "</b></span></center>";
+    $msg_lbl['error'][] = "<br><div class='class='center-block alert alert-danger'><b>" . $l->g(2052) . "</b></div>";
 }
 //msg for phpversion
 if (version_compare(phpversion(), '5.4.0', '<')) {

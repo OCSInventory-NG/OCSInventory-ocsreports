@@ -264,11 +264,11 @@ function msg($txt, $css, $closeid = false) {
     }
 
     if (!$_SESSION['OCS']['CLOSE_ALERT'][$closeid]) {
-        echo "<center><div id='my-alert-" . $closeid . "' class='alert alert-" . $css . " fade in' role='alert'>";
+        echo "<div id='my-alert-" . $closeid . "' class='center-block alert alert-" . $css . " fade in' role='alert'>";
         if ($closeid != false) {
             echo "<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>×</span><span class='sr-only'>Close</span></button>";
         }
-        echo $txt . "</div></center>";
+        echo $txt . "</div>";
         if ($closeid != false) {
             echo "<script type='text/javascript'>$('#my-alert-" . $closeid . "').on('closed.bs.alert', function () {
 			 pag('" . $closeid . "','close_alert','close_msg');
