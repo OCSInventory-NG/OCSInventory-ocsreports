@@ -25,36 +25,36 @@ require_once(BACKEND . 'require/connexion.php');
 $list_methode = array(0 => "local.php");
 
 if (!isset($_SESSION['OCS']["ipdiscover"])) {
-    $i = 0;
-    //methode pour le calcul des droits
-    while ($list_methode[$i]) {
-        require_once('methode/' . $list_methode[$i]);
-        //on garde les droits de l'utilisateur sur l'ipdiscover
-        if (isset($list_ip)) {
-            $tab_ip[$list_methode[$i]] = $list_ip;
-            unset($list_ip);
-        }
-        $i++;
-    }
+	$i = 0;
+	//methode pour le calcul des droits
+	while ($list_methode[$i]) {
+		require_once('methode/' . $list_methode[$i]);
+		//on garde les droits de l'utilisateur sur l'ipdiscover
+		if (isset($list_ip)) {
+			$tab_ip[$list_methode[$i]] = $list_ip;
+			unset($list_ip);
+		}
+		$i++;
+	}
 }
 unset($list_ip);
 if (isset($tab_ip)) {
-    foreach ($list_methode as $prio => $script) {
-        if (isset($tab_ip[$script])) {
-            foreach ($tab_ip[$script] as $ip => $lbl) {
-                $list_ip[$ip] = $lbl;
-            }
-        }
-    }
-    if (isset($list_ip)) {
-        $_SESSION['OCS']["ipdiscover"] = $list_ip;
-        $_SESSION['OCS']["ipdiscover_methode"] = $base;
-        $_SESSION['OCS']["ipdiscover_id"] = $id_subnet;
-        $_SESSION['OCS']["subnet_ipdiscover"] = $list_subnet;
-    }
+	foreach ($list_methode as $prio => $script) {
+		if (isset($tab_ip[$script])) {
+			foreach ($tab_ip[$script] as $ip => $lbl) {
+				$list_ip[$ip] = $lbl;
+			}
+		}
+	}
+	if (isset($list_ip)) {
+		$_SESSION['OCS']["ipdiscover"] = $list_ip;
+		$_SESSION['OCS']["ipdiscover_methode"] = $base;
+		$_SESSION['OCS']["ipdiscover_id"] = $id_subnet;
+		$_SESSION['OCS']["subnet_ipdiscover"] = $list_subnet;
+	}
 }
 if (isset($tab_info) && !isset($_SESSION['OCS']["ipdiscover"])) {
-    $_SESSION['OCS']["ipdiscover"] = $tab_info;
-    $_SESSION['OCS']["ipdiscover_methode"] = $base;
+	$_SESSION['OCS']["ipdiscover"] = $tab_info;
+	$_SESSION['OCS']["ipdiscover_methode"] = $base;
 }
 ?>

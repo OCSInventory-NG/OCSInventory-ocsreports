@@ -25,14 +25,14 @@
  * Show sd_videos data
  */
 if (AJAX) {
-    ob_end_clean();
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	ob_end_clean();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 print_item_header($l->g(61));
 if (!isset($protectedPost['SHOW'])) {
-    $protectedPost['SHOW'] = 'NOSHOW';
+	$protectedPost['SHOW'] = 'NOSHOW';
 }
 $table_name = "sd_videos";
 $list_fields = array($l->g(49) => 'NAME');
@@ -45,8 +45,8 @@ $sql['ARG'][] = $systemid;
 $tab_options['ARG_SQL'] = $sql['ARG'];
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
-    ob_start();
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
+	ob_start();
 }
 ?>

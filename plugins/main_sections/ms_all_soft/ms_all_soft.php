@@ -21,69 +21,69 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
 
-    ob_start();
-    $tab_options = $protectedPost;
+	ob_start();
+	$tab_options = $protectedPost;
 }
 
 function array_merge_values($arr, $arr2) {
-    foreach ($arr2 as $values) {
-        array_push($arr, $values);
-    }
-    return $arr;
+	foreach ($arr2 as $values) {
+		array_push($arr, $values);
+	}
+	return $arr;
 }
 
 if ($protectedPost['RESET']) {
-    unset($protectedPost['NAME_RESTRICT']);
-    unset($protectedPost['NBRE']);
-    unset($protectedPost['CLASS']);
+	unset($protectedPost['NAME_RESTRICT']);
+	unset($protectedPost['NBRE']);
+	unset($protectedPost['CLASS']);
 }
 echo "<div class='col-md-12'>";
 if ($protectedPost['SUBMIT_FORM']) {
-    $tab_options['CACHE'] = 'RESET';
+	$tab_options['CACHE'] = 'RESET';
 }
 
 $sql_fin['SQL'] = "";
 $sql_fin['ARG'] = array();
 $sql_list_alpha['ARG'] = array();
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
-        and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
-    $info_name_soft = array("table" => "type_softwares_name", "field" => "name", "field_name_soft" => 'name_id');
+		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
+	$info_name_soft = array("table" => "type_softwares_name", "field" => "name", "field_name_soft" => 'name_id');
 } elseif ($_SESSION['OCS']["usecache"] == 1) {
-    $info_name_soft = array("table" => "softwares_name_cache", "field" => "name", "field_name_soft" => 'name');
+	$info_name_soft = array("table" => "softwares_name_cache", "field" => "name", "field_name_soft" => 'name');
 } else {
-    $info_name_soft = array("table" => "softwares", "field" => "name", "field_name_soft" => 'name');
+	$info_name_soft = array("table" => "softwares", "field" => "name", "field_name_soft" => 'name');
 }
 
 $field_name_soft = $info_name_soft['table'] . "." . $info_name_soft['field'];
 
 $sql_list_alpha['SQL'] = "select substr(trim(" . $field_name_soft . "),1,1) alpha, " . $field_name_soft . " ";
 if (is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR'])) {
-    $sql_list_alpha['SQL'] .= ",count(*) nb ";
-    $sql_fin['SQL'] = " having nb %s %s ";
-    $sql_fin['ARG'] = array($protectedPost['COMPAR'], $protectedPost['NBRE']);
+	$sql_list_alpha['SQL'] .= ",count(*) nb ";
+	$sql_fin['SQL'] = " having nb %s %s ";
+	$sql_fin['ARG'] = array($protectedPost['COMPAR'], $protectedPost['NBRE']);
 }
 $sql_list_alpha['SQL'] .= " from ";
 $and_where = "";
 $sql_list_alpha['SQL'] .= $info_name_soft['table'] . " left join dico_soft on dico_soft.extracted=" . $field_name_soft;
 
 if (is_defined($_SESSION['OCS']["mesmachines"])) {
-    if ($info_name_soft['table'] != 'softwares') {
-        $join = " left join softwares on softwares." . $info_name_soft['field_name_soft'] . "=" . $field_name_soft . " ";
-    } else {
-        $join = "";
-    }
-    $sql_list_alpha['SQL'] .= $join . ",accountinfo a where " . $_SESSION['OCS']["mesmachines"] . " and a.hardware_id=softwares.HARDWARE_ID ";
-    $and_where = " and ";
+	if ($info_name_soft['table'] != 'softwares') {
+		$join = " left join softwares on softwares." . $info_name_soft['field_name_soft'] . "=" . $field_name_soft . " ";
+	} else {
+		$join = "";
+	}
+	$sql_list_alpha['SQL'] .= $join . ",accountinfo a where " . $_SESSION['OCS']["mesmachines"] . " and a.hardware_id=softwares.HARDWARE_ID ";
+	$and_where = " and ";
 } else {
-    $and_where = " where ";
+	$and_where = " where ";
 }
 $sql_list_alpha['SQL'] .= $and_where . " substr(trim(" . $field_name_soft . "),1,1) is not null ";
 if (is_defined($protectedPost['NAME_RESTRICT'])) {
-    $sql_list_alpha['SQL'] .= " and " . $field_name_soft . " like '%s' ";
-    $sql_list_alpha['ARG'] = array('%' . $protectedPost['NAME_RESTRICT'] . '%');
+	$sql_list_alpha['SQL'] .= " and " . $field_name_soft . " like '%s' ";
+	$sql_list_alpha['ARG'] = array('%' . $protectedPost['NAME_RESTRICT'] . '%');
 }
 $sql_list_alpha['SQL'] .= " group by " . $field_name_soft . " " . $sql_fin['SQL'];
 $sql_list_alpha['ARG'] = array_merge_values($sql_list_alpha['ARG'], $sql_fin['ARG']);
@@ -91,31 +91,31 @@ unset($_SESSION['OCS']['REQ_ONGLET_SOFT']);
 
 //execute the query only if necessary
 if ($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha || !isset($protectedPost['onglet'])) {
-    $result_list_alpha = mysql2_query_secure($sql_list_alpha['SQL'], $_SESSION['OCS']["readServer"], $sql_list_alpha['ARG']);
-    while ($item_list_alpha = mysqli_fetch_object($result_list_alpha)) {
+	$result_list_alpha = mysql2_query_secure($sql_list_alpha['SQL'], $_SESSION['OCS']["readServer"], $sql_list_alpha['ARG']);
+	while ($item_list_alpha = mysqli_fetch_object($result_list_alpha)) {
 
-        if (mb_strtoupper($item_list_alpha->alpha) == '"') {
-            $car = "'";
-        } else {
-            $car = mb_strtoupper($item_list_alpha->alpha);
-        }
+		if (mb_strtoupper($item_list_alpha->alpha) == '"') {
+			$car = "'";
+		} else {
+			$car = mb_strtoupper($item_list_alpha->alpha);
+		}
 
-        if ($car != "") {
-            if (!isset($protectedPost['onglet'])) {
-                $protectedPost['onglet'] = $car;
-            }
-            $list_alpha[$car] = $car;
-            if (!isset($first)) {
-                $first = $car;
-            }
-        }
-    }
+		if ($car != "") {
+			if (!isset($protectedPost['onglet'])) {
+				$protectedPost['onglet'] = $car;
+			}
+			$list_alpha[$car] = $car;
+			if (!isset($first)) {
+				$first = $car;
+			}
+		}
+	}
 
-    if (!isset($list_alpha[$protectedPost['onglet']])) {
-        $protectedPost['onglet'] = $first;
-    }
-    $_SESSION['OCS']['REQ_ONGLET_SOFT'] = $sql_list_alpha;
-    $_SESSION['OCS']['ONGLET_SOFT'] = $list_alpha;
+	if (!isset($list_alpha[$protectedPost['onglet']])) {
+		$protectedPost['onglet'] = $first;
+	}
+	$_SESSION['OCS']['REQ_ONGLET_SOFT'] = $sql_list_alpha;
+	$_SESSION['OCS']['ONGLET_SOFT'] = $list_alpha;
 }
 $form_name = "all_soft";
 $table_name = "all_soft";
@@ -123,114 +123,114 @@ echo open_form($form_name, '', '', 'form-horizontal');
 
 onglet($_SESSION['OCS']['ONGLET_SOFT'], $form_name, "onglet", 20);
 if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NBRE'])) {
-    msg_warning($l->g(767));
+	msg_warning($l->g(767));
 }
 
 //use cache
 if ($_SESSION['OCS']["usecache"] == 1 && !(isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1)) {
-    $search_soft['SQL'] = "select name,id from softwares_name_cache";
-    if (isset($protectedPost['onglet'])) {
-        $search_soft['SQL'] .= " where name like '%s'";
-        $search_soft['ARG'] = array($protectedPost['onglet'] . "%");
+	$search_soft['SQL'] = "select name,id from softwares_name_cache";
+	if (isset($protectedPost['onglet'])) {
+		$search_soft['SQL'] .= " where name like '%s'";
+		$search_soft['ARG'] = array($protectedPost['onglet'] . "%");
 
-        $and_where = " where ";
-        if (is_defined($protectedPost['NAME_RESTRICT'])) {
-            $search_soft['SQL'] .= " and name like '%s' ";
-            array_push($search_soft['ARG'], "%" . $protectedPost['NAME_RESTRICT'] . "%");
-            $and_where = " and ";
-        }
-    } else {
-        if (is_defined($protectedPost['NAME_RESTRICT'])) {
-            $search_soft['SQL'] .= " WHERE name like '%s' ";
-            $search_soft['ARG'][] = "%" . $protectedPost['NAME_RESTRICT'] . "%";
-        }
-    }
-    $result_search_soft = mysql2_query_secure($search_soft['SQL'], $_SESSION['OCS']["readServer"], $search_soft['ARG']);
-    $list_soft = "";
-    while ($item_search_soft = mysqli_fetch_object($result_search_soft)) {
-        if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
-                and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
-            $list_soft[] = $item_search_soft->id;
-        } else {
-            $list_soft[] = $item_search_soft->name;
-        }
-    }
+		$and_where = " where ";
+		if (is_defined($protectedPost['NAME_RESTRICT'])) {
+			$search_soft['SQL'] .= " and name like '%s' ";
+			array_push($search_soft['ARG'], "%" . $protectedPost['NAME_RESTRICT'] . "%");
+			$and_where = " and ";
+		}
+	} else {
+		if (is_defined($protectedPost['NAME_RESTRICT'])) {
+			$search_soft['SQL'] .= " WHERE name like '%s' ";
+			$search_soft['ARG'][] = "%" . $protectedPost['NAME_RESTRICT'] . "%";
+		}
+	}
+	$result_search_soft = mysql2_query_secure($search_soft['SQL'], $_SESSION['OCS']["readServer"], $search_soft['ARG']);
+	$list_soft = "";
+	while ($item_search_soft = mysqli_fetch_object($result_search_soft)) {
+		if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
+				and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
+			$list_soft[] = $item_search_soft->id;
+		} else {
+			$list_soft[] = $item_search_soft->name;
+		}
+	}
 }
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
-    $field_name_soft = "s.name_id";
+	$field_name_soft = "s.name_id";
 } elseif ($_SESSION['OCS']["usecache"] == 1) {
-    $field_name_soft = "s.name";
+	$field_name_soft = "s.name";
 } else {
-    $field_name_soft = "s.name";
-    $info_name_soft['table'] = "s";
+	$field_name_soft = "s.name";
+	$info_name_soft['table'] = "s";
 }
 
 if (is_defined($list_soft)) {
-    $and_where = "";
-    if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
-        $sql_re['SQL'] = "select  " . $info_name_soft['table'] . ".name ,
+	$and_where = "";
+	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
+		$sql_re['SQL'] = "select  " . $info_name_soft['table'] . ".name ,
 							count(s." . $info_name_soft['field_name_soft'] . ") nb,
 							s." . $info_name_soft['field_name_soft'] . " id
 						from softwares s
 							left join " . $info_name_soft['table'] . "
 							on " . $info_name_soft['table'] . ".id=s." . $info_name_soft['field_name_soft'] . " ";
-    } else {
-        $sql_re['SQL'] = "select  s." . $info_name_soft['field_name_soft'] . " ,
+	} else {
+		$sql_re['SQL'] = "select  s." . $info_name_soft['field_name_soft'] . " ,
 						count(s." . $info_name_soft['field_name_soft'] . ") nb,
 						s." . $info_name_soft['field_name_soft'] . " id from softwares s ";
-    }
+	}
 
-    if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '') {
-        $sql_re['SQL'] .= ",accountinfo a where " . $_SESSION['OCS']["mesmachines"] . " and a.hardware_id=s.HARDWARE_ID";
-        $and_where = " and ";
-    } else {
-        $and_where = " where ";
-    }
-    $sql_re['SQL'] .= $and_where . " s." . $info_name_soft['field_name_soft'] . " in ";
-    $sql_re['ARG'] = array();
-    $sql = mysql2_prepare($sql_re['SQL'], $sql_re['ARG'], $list_soft);
+	if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '') {
+		$sql_re['SQL'] .= ",accountinfo a where " . $_SESSION['OCS']["mesmachines"] . " and a.hardware_id=s.HARDWARE_ID";
+		$and_where = " and ";
+	} else {
+		$and_where = " where ";
+	}
+	$sql_re['SQL'] .= $and_where . " s." . $info_name_soft['field_name_soft'] . " in ";
+	$sql_re['ARG'] = array();
+	$sql = mysql2_prepare($sql_re['SQL'], $sql_re['ARG'], $list_soft);
 } else {
-    $and_where = "";
-    $sql['SQL'] = "select  " . $info_name_soft['table'] . "." . $info_name_soft['field'] . ", count(s." . $info_name_soft['field_name_soft'] . ") nb,
+	$and_where = "";
+	$sql['SQL'] = "select  " . $info_name_soft['table'] . "." . $info_name_soft['field'] . ", count(s." . $info_name_soft['field_name_soft'] . ") nb,
 					 s." . $info_name_soft['field_name_soft'] . " id from softwares s";
-    if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
-            and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
-        $sql['SQL'] .= " left join " . $info_name_soft['table'] . " on " . $info_name_soft['table'] . ".id=s." . $info_name_soft['field_name_soft'] . " ";
-    }
-    $sql['ARG'] = array();
-    if (is_defined($_SESSION['OCS']["mesmachines"])) {
-        $sql['SQL'] .= ",accountinfo a where " . $_SESSION['OCS']["mesmachines"] . " and a.hardware_id=s.HARDWARE_ID";
-        $and_where = " and ";
-    } else {
-        $and_where = " where ";
-    }
-    $sql['SQL'] .= $and_where . " " . $info_name_soft['table'] . "." . $info_name_soft['field'] . " like '%s'";
-    array_push($sql['ARG'], $protectedPost['onglet'] . "%");
-    if (is_defined($protectedPost['NAME_RESTRICT'])) {
-        $sql['SQL'] .= " and " . $info_name_soft['table'] . "." . $info_name_soft['field'] . " like '%s' ";
-        array_push($sql['ARG'], "%" . $protectedPost['NAME_RESTRICT'] . "%");
-    }
+	if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
+			and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
+		$sql['SQL'] .= " left join " . $info_name_soft['table'] . " on " . $info_name_soft['table'] . ".id=s." . $info_name_soft['field_name_soft'] . " ";
+	}
+	$sql['ARG'] = array();
+	if (is_defined($_SESSION['OCS']["mesmachines"])) {
+		$sql['SQL'] .= ",accountinfo a where " . $_SESSION['OCS']["mesmachines"] . " and a.hardware_id=s.HARDWARE_ID";
+		$and_where = " and ";
+	} else {
+		$and_where = " where ";
+	}
+	$sql['SQL'] .= $and_where . " " . $info_name_soft['table'] . "." . $info_name_soft['field'] . " like '%s'";
+	array_push($sql['ARG'], $protectedPost['onglet'] . "%");
+	if (is_defined($protectedPost['NAME_RESTRICT'])) {
+		$sql['SQL'] .= " and " . $info_name_soft['table'] . "." . $info_name_soft['field'] . " like '%s' ";
+		array_push($sql['ARG'], "%" . $protectedPost['NAME_RESTRICT'] . "%");
+	}
 }
 
 if (isset($sql)) {
-    $sql['SQL'] .= " group by " . $field_name_soft;
-    if ($sql_fin['SQL'] != '') {
-        $sql['SQL'] .= $sql_fin['SQL'];
-        $sql['ARG'] = array_merge_values($sql['ARG'], $sql_fin['ARG']);
-    }
-    $list_fields = array('name' => 'name',
-        'nbre' => 'nb'
-    );
-    $default_fields = $list_fields;
-    $list_col_cant_del = $default_fields;
-    $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-    $tab_options['LIEN_CHAMP']['nbre'] = 'id';
-    $tab_options['LBL']['name'] = $l->g(847);
-    $tab_options['LBL']['nbre'] = $l->g(1120);
-    $tab_options['ARG_SQL'] = $sql['ARG'];
-    $tab_options['form_name'] = $form_name;
-    $tab_options['table_name'] = $table_name;
-    $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+	$sql['SQL'] .= " group by " . $field_name_soft;
+	if ($sql_fin['SQL'] != '') {
+		$sql['SQL'] .= $sql_fin['SQL'];
+		$sql['ARG'] = array_merge_values($sql['ARG'], $sql_fin['ARG']);
+	}
+	$list_fields = array('name' => 'name',
+		'nbre' => 'nb'
+	);
+	$default_fields = $list_fields;
+	$list_col_cant_del = $default_fields;
+	$tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+	$tab_options['LIEN_CHAMP']['nbre'] = 'id';
+	$tab_options['LBL']['name'] = $l->g(847);
+	$tab_options['LBL']['nbre'] = $l->g(1120);
+	$tab_options['ARG_SQL'] = $sql['ARG'];
+	$tab_options['form_name'] = $form_name;
+	$tab_options['table_name'] = $table_name;
+	$result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
 
 echo "<h4>" . $l->g(735) . "</h4>";
@@ -257,7 +257,7 @@ formGroup('text', 'NAME_RESTRICT', $l->g(382), 20, 100, $protectedPost['NAME_RES
 </div>
 <?php
 if ($protectedPost['COMPAR'] == '<' && $protectedPost['NBRE'] <= 15 && $protectedPost['NBRE'] != "") {
-    echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_soft_csv'] . "&no_header=1&soft=" . $protectedPost['NAME_RESTRICT'] . "&nb=" . $protectedPost['NBRE'] . "&comp=" . htmlentities($protectedPost['COMPAR'], ENT_COMPAT | ENT_HTML401, "UTF-8") . "&all_computers=yes'>" . $l->g(912) . "</a>";
+	echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_soft_csv'] . "&no_header=1&soft=" . $protectedPost['NAME_RESTRICT'] . "&nb=" . $protectedPost['NBRE'] . "&comp=" . htmlentities($protectedPost['COMPAR'], ENT_COMPAT | ENT_HTML401, "UTF-8") . "&all_computers=yes'>" . $l->g(912) . "</a>";
 }
 ?>
 <input type="submit" class="btn btn-success" value="<?php echo $l->g(393); ?>" name="SUBMIT_FORM">
@@ -268,7 +268,7 @@ echo close_form();
 echo "</div>";
 
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
 }
 ?>

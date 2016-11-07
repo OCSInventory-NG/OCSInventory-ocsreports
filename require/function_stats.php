@@ -52,42 +52,42 @@ $arr_FCColors[19] = "669900"; //Shade of green
 //maintained in FC_ColorCounter
 
 function find_ivalues($packid) {
-    $sql = "SELECT id FROM download_enable WHERE fileid='%s'";
-    $arg = $packid;
-    $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    while ($row = mysqli_fetch_array($res)) {
-        $result[] = $row['id'];
-    }
-    return $result;
+	$sql = "SELECT id FROM download_enable WHERE fileid='%s'";
+	$arg = $packid;
+	$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+	while ($row = mysqli_fetch_array($res)) {
+		$result[] = $row['id'];
+	}
+	return $result;
 }
 
 function find_device_line($status, $packid) {
 
-    //get all ivalues
-    $ivalues = find_ivalues($packid);
+	//get all ivalues
+	$ivalues = find_ivalues($packid);
 
-    //get hardwareid foreach ivalue
-    foreach ($ivalues as $value) {
-        $sql = "select hardware_id,ivalue from devices where name='DOWNLOAD' and tvalue";
-        if ($status == "NULL") {
-            $sql .= " IS NULL ";
-            $arg = $value;
-        } elseif ($status == "NOTNULL") {
-            $sql .= " IS NOT NULL ";
-            $arg = $value;
-        } else {
-            $sql .= " LIKE '%s' ";
-            $arg = array($status, $value);
-        }
-        $sql .= "AND ivalue='%s' " .
-                "AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
+	//get hardwareid foreach ivalue
+	foreach ($ivalues as $value) {
+		$sql = "select hardware_id,ivalue from devices where name='DOWNLOAD' and tvalue";
+		if ($status == "NULL") {
+			$sql .= " IS NULL ";
+			$arg = $value;
+		} elseif ($status == "NOTNULL") {
+			$sql .= " IS NOT NULL ";
+			$arg = $value;
+		} else {
+			$sql .= " LIKE '%s' ";
+			$arg = array($status, $value);
+		}
+		$sql .= "AND ivalue='%s' " .
+				"AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
 
-        $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($row = mysqli_fetch_object($res)) {
-            $result[$value][] = $row->hardware_id;
-        }
-    }
-    return $result;
+		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+		while ($row = mysqli_fetch_object($res)) {
+			$result[$value][] = $row->hardware_id;
+		}
+	}
+	return $result;
 }
 
 ?>

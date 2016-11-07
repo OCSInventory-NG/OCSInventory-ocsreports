@@ -23,48 +23,48 @@
 
 //origin = workflow teledeploy
 if ($protectedGet['prov'] == "dde_wk") {
-    $sql = "select FILE,FILE_NAME,FILE_TYPE,FILE_SIZE
+	$sql = "select FILE,FILE_NAME,FILE_TYPE,FILE_SIZE
 			 FROM temp_files
 			 where id = '%s'";
-    $arg = array($protectedGet["value"]);
+	$arg = array($protectedGet["value"]);
 }
 
 if ($protectedGet['prov'] == "agent") {
-    $sql = "select %s as FILE,name as FILE_NAME from deploy where name = '%s'";
-    $arg = array('content', $protectedGet["value"]);
+	$sql = "select %s as FILE,name as FILE_NAME from deploy where name = '%s'";
+	$arg = array('content', $protectedGet["value"]);
 }
 
 if ($protectedGet['prov'] == "ssl") {
-    $sql = "select FILE,FILE_NAME from ssl_store where id = '%s'";
-    $arg = array($protectedGet["value"]);
+	$sql = "select FILE,FILE_NAME from ssl_store where id = '%s'";
+	$arg = array($protectedGet["value"]);
 }
 
 if (is_defined($sql)) {
-    $res_document_root = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $val_document_root = mysqli_fetch_array($res_document_root);
-    if (!isset($val_document_root['FILE_TYPE']) || $val_document_root['FILE_TYPE'] != '') {
-        $val_document_root['FILE_TYPE'] = "application/force-download";
-    }
-    if (!isset($val_document_root['FILE_SIZE']) || $val_document_root['FILE_SIZE'] != '') {
-        $val_document_root['FILE_SIZE'] = strlen($val_document_root['FILE']);
-    }
+	$res_document_root = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+	$val_document_root = mysqli_fetch_array($res_document_root);
+	if (!isset($val_document_root['FILE_TYPE']) || $val_document_root['FILE_TYPE'] != '') {
+		$val_document_root['FILE_TYPE'] = "application/force-download";
+	}
+	if (!isset($val_document_root['FILE_SIZE']) || $val_document_root['FILE_SIZE'] != '') {
+		$val_document_root['FILE_SIZE'] = strlen($val_document_root['FILE']);
+	}
 }
 
 if (isset($val_document_root['FILE_NAME'])) {
-    // iexplorer problem
-    if (ini_get("zlib.output-compression")) {
-        ini_set("zlib.output-compression", "Off");
-    }
+	// iexplorer problem
+	if (ini_get("zlib.output-compression")) {
+		ini_set("zlib.output-compression", "Off");
+	}
 
-    header("Pragma: public");
-    header("Expires: 0");
-    header("Cache-control: must-revalidate, post-check=0, pre-check=0");
-    header("Cache-control: private", false);
-    header("Content-type: " . $val_document_root['FILE_TYPE']);
-    header("Content-Disposition: attachment; filename=\"" . $val_document_root['FILE_NAME'] . "\"");
-    header("Content-Transfer-Encoding: binary");
-    header("Content-Length: " . $val_document_root['FILE_SIZE']);
-    echo $val_document_root['FILE'];
-    die();
+	header("Pragma: public");
+	header("Expires: 0");
+	header("Cache-control: must-revalidate, post-check=0, pre-check=0");
+	header("Cache-control: private", false);
+	header("Content-type: " . $val_document_root['FILE_TYPE']);
+	header("Content-Disposition: attachment; filename=\"" . $val_document_root['FILE_NAME'] . "\"");
+	header("Content-Transfer-Encoding: binary");
+	header("Content-Length: " . $val_document_root['FILE_SIZE']);
+	echo $val_document_root['FILE'];
+	die();
 }
 ?>

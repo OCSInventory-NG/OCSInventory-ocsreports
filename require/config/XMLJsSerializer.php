@@ -26,32 +26,33 @@
  */
 class XMLJsSerializer {
 
-    public function serialize($js) {
-        $doc_xml = new DOMDocument('1.0', 'UTF-8');
-        $js_xml = $doc_xml->createElement('javascripts');
-        $doc_xml->appendChild($js_xml);
+	public function serialize($js) {
+		$doc_xml = new DOMDocument('1.0', 'UTF-8');
+		$js_xml = $doc_xml->createElement('javascripts');
+		$doc_xml->appendChild($js_xml);
 
-        foreach ($js as $file) {
-            $js_elem_xml = $doc_xml->createElement('file', $file);
-            $js_xml->appendChild($js_elem_xml);
-        }
+		foreach ($js as $file) {
+			$js_elem_xml = $doc_xml->createElement('file', $file);
+			$js_xml->appendChild($js_elem_xml);
+		}
 
-        $doc_xml->preserveWhiteSpace = false;
-        $doc_xml->formatOutput = true;
+		$doc_xml->preserveWhiteSpace = false;
+		$doc_xml->formatOutput = true;
 
-        return $doc_xml->saveXML();
-    }
+		return $doc_xml->saveXML();
+	}
 
-    public function unserialize($xml) {
-        $js_xml = simplexml_load_string($xml);
+	public function unserialize($xml) {
+		$js_xml = simplexml_load_string($xml);
 
-        $js = array();
-        foreach ($js_xml->{'file'} as $file) {
-            $js [] = (string) $file;
-        }
+		$js = array();
+		foreach ($js_xml->{'file'} as $file) {
+			$js [] = (string) $file;
+		}
 
-        return $js;
-    }
+		return $js;
+	}
 
 }
+
 ?>

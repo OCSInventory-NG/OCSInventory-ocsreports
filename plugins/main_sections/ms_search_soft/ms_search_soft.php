@@ -21,9 +21,9 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 
 require_once('require/fonction.inc.php');
@@ -39,7 +39,7 @@ echo "\n" . '<script type="text/javascript">
 ?>
 <div class="row">
     <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
-            <?php remplirListe("logiciel_select", $l->g(20)); ?>
+		<?php remplirListe("logiciel_select", $l->g(20)); ?>
     </div>
 </div>
 <div class="row">
@@ -64,48 +64,48 @@ echo "\n" . '<script type="text/javascript">
 echo '<div id="fr">';
 
 // voir fonction.php
-if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['logiciel_text'])) {                                   //logiciel du select name='logiciel'
-    if (is_defined($protectedPost['logiciel_select'])) {
-        $logiciel = $protectedPost['logiciel_select'];
-    } else {
-        $logiciel = $protectedPost['logiciel_text'];
-    }
+if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['logiciel_text'])) {		   //logiciel du select name='logiciel'
+	if (is_defined($protectedPost['logiciel_select'])) {
+		$logiciel = $protectedPost['logiciel_select'];
+	} else {
+		$logiciel = $protectedPost['logiciel_text'];
+	}
 
-    $table_name = $form_name;
+	$table_name = $form_name;
 
-    $tab_options['table_name'] = $table_name;
-    $list_fields = array('NAME' => 'h.NAME',
-        'ip' => 'h.IPADDR',
-        'domaine' => 'h.WORKGROUP',
-        'user' => 'h.USERID',
-        'snom' => 'a.NAME as softname',
-        'sversion' => 'a.VERSION',
-        'sfold' => 'a.FOLDER');
-    $list_col_cant_del = $list_fields;
-    $default_fields = $list_fields;
-    $tab_options['AS']['a.NAME'] = 'SNAME';
-    $queryDetails = "SELECT h.ID,";
-    foreach ($list_fields as $lbl => $value) {
-        if ($value == 'a.NAME') {
-            $queryDetails .= $value . " as " . $tab_options['AS']['a.NAME'] . ",";
-        } else {
-            $queryDetails .= $value . ",";
-        }
-    }
-    $queryDetails = substr($queryDetails, 0, -1);
+	$tab_options['table_name'] = $table_name;
+	$list_fields = array('NAME' => 'h.NAME',
+		'ip' => 'h.IPADDR',
+		'domaine' => 'h.WORKGROUP',
+		'user' => 'h.USERID',
+		'snom' => 'a.NAME as softname',
+		'sversion' => 'a.VERSION',
+		'sfold' => 'a.FOLDER');
+	$list_col_cant_del = $list_fields;
+	$default_fields = $list_fields;
+	$tab_options['AS']['a.NAME'] = 'SNAME';
+	$queryDetails = "SELECT h.ID,";
+	foreach ($list_fields as $lbl => $value) {
+		if ($value == 'a.NAME') {
+			$queryDetails .= $value . " as " . $tab_options['AS']['a.NAME'] . ",";
+		} else {
+			$queryDetails .= $value . ",";
+		}
+	}
+	$queryDetails = substr($queryDetails, 0, -1);
 
-    $queryDetails .= " FROM hardware h ,softwares a
+	$queryDetails .= " FROM hardware h ,softwares a
 				   WHERE a.HARDWARE_ID =h.ID and a.NAME='" . $logiciel . "' group by name";
 
-    $tab_options['LBL']['NAME'] = $l->g(478);
-    $tab_options['LBL']['ip'] = $l->g(176);
-    $tab_options['LBL']['domaine'] = $l->g(680);
-    $tab_options['LBL']['user'] = $l->g(24);
-    $tab_options['LBL']['snom'] = $l->g(847);
-    $tab_options['LBL']['sversion'] = $l->g(848);
-    $tab_options['LBL']['sfold'] = $l->g(849);
+	$tab_options['LBL']['NAME'] = $l->g(478);
+	$tab_options['LBL']['ip'] = $l->g(176);
+	$tab_options['LBL']['domaine'] = $l->g(680);
+	$tab_options['LBL']['user'] = $l->g(24);
+	$tab_options['LBL']['snom'] = $l->g(847);
+	$tab_options['LBL']['sversion'] = $l->g(848);
+	$tab_options['LBL']['sfold'] = $l->g(849);
 
-    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
 
 echo '</div>';
@@ -113,7 +113,7 @@ echo '</div>';
 echo close_form();
 
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
 ?>

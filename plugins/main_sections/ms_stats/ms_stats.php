@@ -32,12 +32,11 @@ $data_on = $stats->createShowTabsArray($pages);
 printEnTete($stats->getHeaderName());
 
 echo open_form($stats->getFormName(), '', '', 'form-horizontal');
-show_tabs($data_on,$stats->getFormName(),"onglet",true);
+show_tabs($data_on, $stats->getFormName(), "onglet", true);
 
 echo '<div class="col col-md-10" >';
 $stats->generateStatsData($protectedPost, $pages[0]);
 echo "</div>";
 
 echo close_form();
-
 ?>

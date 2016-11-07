@@ -25,70 +25,72 @@
  * Holds the config for a computer plugin
  */
 class ComputerPlugin {
-    private $id;
-    private $system;
-    private $label;
-    private $category;
-    private $available;
-    private $hideFrame;
 
-    public function __construct($id, $system, $label) {
-        $this->id = $id;
-        $this->system = $system;
-        $this->label = $label;
-        $this->category = 'other';
-        $this->available = null;
-        $this->hideFrame = false;
-    }
+	private $id;
+	private $system;
+	private $label;
+	private $category;
+	private $available;
+	private $hideFrame;
 
-    public function getId() {
-        return $this->id;
-    }
+	public function __construct($id, $system, $label) {
+		$this->id = $id;
+		$this->system = $system;
+		$this->label = $label;
+		$this->category = 'other';
+		$this->available = null;
+		$this->hideFrame = false;
+	}
 
-    public function setId($id) {
-        $this->id = $id;
-    }
+	public function getId() {
+		return $this->id;
+	}
 
-    public function isSystem() {
-        return $this->system;
-    }
+	public function setId($id) {
+		$this->id = $id;
+	}
 
-    public function setSystem($system) {
-        $this->system = $system;
-    }
+	public function isSystem() {
+		return $this->system;
+	}
 
-    public function getLabel() {
-        return $this->label;
-    }
+	public function setSystem($system) {
+		$this->system = $system;
+	}
 
-    public function setLabel($label) {
-        $this->label = $label;
-    }
+	public function getLabel() {
+		return $this->label;
+	}
 
-    public function getCategory() {
-        return $this->category;
-    }
+	public function setLabel($label) {
+		$this->label = $label;
+	}
 
-    public function setCategory($category) {
-        $this->category = $category;
-    }
+	public function getCategory() {
+		return $this->category;
+	}
 
-    public function getAvailable() {
-        return $this->available;
-    }
+	public function setCategory($category) {
+		$this->category = $category;
+	}
 
-    public function setAvailable($available) {
-        $this->available = $available;
-    }
+	public function getAvailable() {
+		return $this->available;
+	}
 
-    public function getHideFrame() {
-        return $this->hideFrame;
-    }
+	public function setAvailable($available) {
+		$this->available = $available;
+	}
 
-    public function setHideFrame($hideFrame) {
-        $this->hideFrame = $hideFrame;
-        return $this;
-    }
+	public function getHideFrame() {
+		return $this->hideFrame;
+	}
+
+	public function setHideFrame($hideFrame) {
+		$this->hideFrame = $hideFrame;
+		return $this;
+	}
 
 }
+
 ?>

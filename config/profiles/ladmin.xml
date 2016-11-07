@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <profile label="g(142)">
-  <restrictions>
-    <restriction key="GUI">YES</restriction>
-    <restriction key="TELEDIFF_ACTIVATE">YES</restriction>
-    <restriction key="TELEDIFF_VISIBLE">YES</restriction>
-    <restriction key="EXPORT_XML">NO</restriction>
-    <restriction key="WOL">NO</restriction>
-  </restrictions>
-  <config>
-    <config-elem key="IPDISCOVER">NO</config-elem>
-    <config-elem key="TELEDIFF">NO</config-elem>
-    <config-elem key="CONFIG">NO</config-elem>
-    <config-elem key="GROUPS">NO</config-elem>
-    <config-elem key="CONSOLE">NO</config-elem>
-    <config-elem key="ALERTE_MSG">NO</config-elem>
-    <config-elem key="ACCOUNTINFO">NO</config-elem>
-    <config-elem key="CHANGE_ACCOUNTINFO">YES</config-elem>
-    <config-elem key="CHANGE_USER_GROUP">NO</config-elem>
-    <config-elem key="MANAGE_PROFIL">NO</config-elem>
-    <config-elem key="MANAGE_USER_GROUP">NO</config-elem>
-    <config-elem key="MANAGE_SMTP_COMMUNITIES">NO</config-elem>
-    <config-elem key="DELETE_COMPUTERS">YES</config-elem>
-  </config>
-  <blacklist/>
-  <pages>
-    <page>ms_all_computers</page>
-    <page>ms_repart_tag</page>
-    <page>ms_groups</page>
-    <page>ms_all_soft</page>
-    <page>ms_multi_search</page>
-    <page>ms_custom_groups</page>
-    <page>ms_custom_lock</page>
-    <page>ms_custom_sup</page>
-    <page>ms_custom_tag</page>
-    <page>ms_upload_file_popup</page>
-    <page>ms_ipdiscover</page>
-    <page>ms_doubles</page>
-    <page>ms_console</page>
-    <page>ms_components</page>
-    <page>ms_custom_param</page>
-    <page>ms_opt_ipdiscover</page>
-    <page>ms_show_detail</page>
-    <page>ms_custom_info</page>
-    <page>ms_computer</page>
-    <page>ms_config_account</page>
-    <page>ms_soft_csv</page>
-    <page>ms_csv</page>
-    <page>ms_view_file</page>
-    <page>ms_export_ocs</page>
-    <page>ms_qrcode</page>
-    <page>ms_server_infos</page>
-    <page>ms_wiki</page>
-    <page>ms_irc</page>
-    <page>ms_offers</page>
-    <page>ms_ask</page>
-  </pages>
+	<restrictions>
+		<restriction key="GUI">YES</restriction>
+		<restriction key="TELEDIFF_ACTIVATE">YES</restriction>
+		<restriction key="TELEDIFF_VISIBLE">YES</restriction>
+		<restriction key="EXPORT_XML">NO</restriction>
+		<restriction key="WOL">NO</restriction>
+	</restrictions>
+	<config>
+		<config-elem key="IPDISCOVER">NO</config-elem>
+		<config-elem key="TELEDIFF">NO</config-elem>
+		<config-elem key="CONFIG">NO</config-elem>
+		<config-elem key="GROUPS">NO</config-elem>
+		<config-elem key="CONSOLE">NO</config-elem>
+		<config-elem key="ALERTE_MSG">NO</config-elem>
+		<config-elem key="ACCOUNTINFO">NO</config-elem>
+		<config-elem key="CHANGE_ACCOUNTINFO">YES</config-elem>
+		<config-elem key="CHANGE_USER_GROUP">NO</config-elem>
+		<config-elem key="MANAGE_PROFIL">NO</config-elem>
+		<config-elem key="MANAGE_USER_GROUP">NO</config-elem>
+		<config-elem key="MANAGE_SMTP_COMMUNITIES">NO</config-elem>
+		<config-elem key="DELETE_COMPUTERS">YES</config-elem>
+	</config>
+	<blacklist/>
+	<pages>
+		<page>ms_all_computers</page>
+		<page>ms_repart_tag</page>
+		<page>ms_groups</page>
+		<page>ms_all_soft</page>
+		<page>ms_multi_search</page>
+		<page>ms_custom_groups</page>
+		<page>ms_custom_lock</page>
+		<page>ms_custom_sup</page>
+		<page>ms_custom_tag</page>
+		<page>ms_upload_file_popup</page>
+		<page>ms_ipdiscover</page>
+		<page>ms_doubles</page>
+		<page>ms_console</page>
+		<page>ms_components</page>
+		<page>ms_custom_param</page>
+		<page>ms_opt_ipdiscover</page>
+		<page>ms_show_detail</page>
+		<page>ms_custom_info</page>
+		<page>ms_computer</page>
+		<page>ms_config_account</page>
+		<page>ms_soft_csv</page>
+		<page>ms_csv</page>
+		<page>ms_view_file</page>
+		<page>ms_export_ocs</page>
+		<page>ms_qrcode</page>
+		<page>ms_server_infos</page>
+		<page>ms_wiki</page>
+		<page>ms_irc</page>
+		<page>ms_offers</page>
+		<page>ms_ask</page>
+	</pages>
 </profile>

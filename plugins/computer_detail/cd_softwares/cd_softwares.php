@@ -21,9 +21,9 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 unset($list_fields);
 print_item_header($l->g(20));
@@ -35,8 +35,8 @@ $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields[$l->g(69)] = 'PUBLISHER';
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
-        and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
-    $queryDetails = "SELECT s.PUBLISHER,
+		and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
+	$queryDetails = "SELECT s.PUBLISHER,
 									 s_name.NAME as NAME,
 									 s_version.NAME as VERSION,
 									 s.COMMENTS,s.FOLDER,s.FILENAME,s.FILESIZE,s.GUID,
@@ -45,18 +45,18 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
 								left join type_softwares_name s_name on s_name.id= s.name_id
 								left join type_softwares_version s_version on s_version.id=s.version_id
 								WHERE (hardware_id=$systemid)";
-    $list_fields[$l->g(49)] = 's_name.NAME';
+	$list_fields[$l->g(49)] = 's_name.NAME';
 } else {
-    $queryDetails = "SELECT * FROM softwares
+	$queryDetails = "SELECT * FROM softwares
 								 WHERE (hardware_id=$systemid)";
-    $list_fields[$l->g(49)] = 'NAME';
+	$list_fields[$l->g(49)] = 'NAME';
 }
 $list_fields[$l->g(277)] = 'VERSION';
 $list_fields[$l->g(51)] = 'COMMENTS';
 if ($show_all_column) {
-    $list_col_cant_del = $list_fields;
+	$list_col_cant_del = $list_fields;
 } else {
-    $list_col_cant_del = array($l->g(49) => $l->g(49));
+	$list_col_cant_del = array($l->g(49) => $l->g(49));
 }
 
 $default_fields = $list_fields;
@@ -74,8 +74,8 @@ $tab_options['FILTRE'] = array_flip($list_fields);
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
-    ob_start();
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+	ob_start();
 }
 ?>

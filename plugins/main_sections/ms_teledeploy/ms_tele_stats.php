@@ -23,23 +23,23 @@
 require('require/function_stats.php');
 
 if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES" && is_defined($protectedPost["ACTION"])) {
-    require('require/function_server.php');
-    if ($protectedPost["ACTION"] == "VAL_SUCC") {
-        $result_line_delete = find_device_line('SUCCESS%', $protectedGet["stat"]);
-    }
-    if ($protectedPost["ACTION"] == "DEL_ALL") {
-        $result_line_delete = find_device_line('NOTNULL', $protectedGet["stat"]);
-    }
-    if ($protectedPost["ACTION"] == "DEL_NOT") {
-        $result_line_delete = find_device_line('NULL', $protectedGet["stat"]);
-    }
+	require('require/function_server.php');
+	if ($protectedPost["ACTION"] == "VAL_SUCC") {
+		$result_line_delete = find_device_line('SUCCESS%', $protectedGet["stat"]);
+	}
+	if ($protectedPost["ACTION"] == "DEL_ALL") {
+		$result_line_delete = find_device_line('NOTNULL', $protectedGet["stat"]);
+	}
+	if ($protectedPost["ACTION"] == "DEL_NOT") {
+		$result_line_delete = find_device_line('NULL', $protectedGet["stat"]);
+	}
 
-    if (isset($result_line_delete) && is_array($result_line_delete)) {
-        require('require/function_telediff.php');
-        foreach ($result_line_delete as $key => $value) {
-            desactive_packet($value, $key);
-        }
-    }
+	if (isset($result_line_delete) && is_array($result_line_delete)) {
+		require('require/function_telediff.php');
+		foreach ($result_line_delete as $key => $value) {
+			desactive_packet($value, $key);
+		}
+	}
 }
 
 $form_name = "show_stats";
@@ -64,9 +64,9 @@ $rescount = mysql2_query_secure($sql_count, $_SESSION['OCS']["readServer"], $arg
 $row = mysqli_fetch_object($rescount);
 $total = $row->nb;
 if ($total <= 0) {
-    msg_error($l->g(837));
-    require_once(FOOTER_HTML);
-    die();
+	msg_error($l->g(837));
+	require_once(FOOTER_HTML);
+	die();
 }
 $sqlStats = "SELECT COUNT(id) as nb, tvalue as txt
 				FROM devices d, download_enable e
@@ -100,24 +100,24 @@ $arg = array($arg, 'EXIT_CODE%', 'ERR%', $l->g(573), $arg, 'EXIT_CODE%', 'ERR%',
 $resStats = mysql2_query_secure($sqlStats . " ORDER BY nb DESC", $_SESSION['OCS']["readServer"], $arg);
 $i = 0;
 while ($row = mysqli_fetch_object($resStats)) {
-    $txt_status = strtoupper($row->txt);
-    $name_value[$i] = $txt_status;
-    $pourc = round(($row->nb * 100) / $total, 2);
-    $legend[$i] = $name_value[$i] . " (" . $pourc . "%)";
-    if ($name_value[$i] == strtoupper($l->g(573))) {
-        $link[$i] = "***" . $l->g(956) . "***";
-    } else {
-        $link[$i] = $name_value[$i];
-    }
-    $lbl[$i] = $name_value[$i] . "<br>(" . $pourc . "%)";
-    $count_value[$i] = $row->nb;
-    if (isset($arr_FCColors[$i])) {
-        $color[$i] = $arr_FCColors[$i];
-    } else {
-        $color[$i] = $arr_FCColors[$i - 10];
-    }
-    $color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
-    $i++;
+	$txt_status = strtoupper($row->txt);
+	$name_value[$i] = $txt_status;
+	$pourc = round(($row->nb * 100) / $total, 2);
+	$legend[$i] = $name_value[$i] . " (" . $pourc . "%)";
+	if ($name_value[$i] == strtoupper($l->g(573))) {
+		$link[$i] = "***" . $l->g(956) . "***";
+	} else {
+		$link[$i] = $name_value[$i];
+	}
+	$lbl[$i] = $name_value[$i] . "<br>(" . $pourc . "%)";
+	$count_value[$i] = $row->nb;
+	if (isset($arr_FCColors[$i])) {
+		$color[$i] = $arr_FCColors[$i];
+	} else {
+		$color[$i] = $arr_FCColors[$i - 10];
+	}
+	$color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
+	$i++;
 }
 echo '<br><div  class="col-md-12" >';
 echo '<CENTER><div id="chart" style="width: 900px; height: 500px"></div></CENTER>';
@@ -178,31 +178,31 @@ echo '<script type="text/javascript">
 echo "</div><br>";
 
 if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
-    echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
-    echo "<td width='33%' align='center'><a OnClick='pag(\"VAL_SUCC\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(483) . "</b></a></td>";
-    echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_ALL\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(571) . "</b></a></td>";
-    echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_NOT\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(575) . "</b></a></td>";
-    echo "</tr></table><br><br>";
-    echo "<input type='hidden' id='ACTION' name='ACTION' value=''>";
+	echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
+	echo "<td width='33%' align='center'><a OnClick='pag(\"VAL_SUCC\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(483) . "</b></a></td>";
+	echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_ALL\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(571) . "</b></a></td>";
+	echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_NOT\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(575) . "</b></a></td>";
+	echo "</tr></table><br><br>";
+	echo "<input type='hidden' id='ACTION' name='ACTION' value=''>";
 }
 echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'>
 <tr BGCOLOR='#C7D9F5'><td width='30px'>&nbsp;</td><td align='center'><b>" . $l->g(81) . "</b></td><td align='center'><b>" . $l->g(55) . "</b></td></tr>";
 $j = 0;
 while ($j < $i) {
-    $nb += $count_value[$j];
-    echo "<tr>";
-    if (isset($arr_FCColors[$j])) {
-        echo "<td bgcolor='" . $arr_FCColors[$j] . "'>";
-    } else {
-        echo "<td>";
-    }
-    echo "&nbsp;</td><td>" . $name_value[$j] . "</td><td>
+	$nb += $count_value[$j];
+	echo "<tr>";
+	if (isset($arr_FCColors[$j])) {
+		echo "<td bgcolor='" . $arr_FCColors[$j] . "'>";
+	} else {
+		echo "<td>";
+	}
+	echo "&nbsp;</td><td>" . $name_value[$j] . "</td><td>
 			<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_multi_search'] . "&prov=stat&id_pack=" . $protectedGet["stat"] . "&stat=" . urlencode($link[$j]) . "'>" . $count_value[$j] . "</a>";
-    if (substr_count($link[$j], 'SUC')) {
-        echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_speed_stat'] . "&head=1&ta=" . urlencode($link[$j]) . "&stat=" . $protectedGet["stat"] . "\">&nbsp<img src='image/stat.png'></a>";
-    }
-    echo "	</td></tr>";
-    $j++;
+	if (substr_count($link[$j], 'SUC')) {
+		echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_speed_stat'] . "&head=1&ta=" . urlencode($link[$j]) . "&stat=" . $protectedGet["stat"] . "\">&nbsp<img src='image/stat.png'></a>";
+	}
+	echo "	</td></tr>";
+	$j++;
 }
 echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>" . $l->g(87) . "</b></td><td><b>" . $nb . "</b></td></tr>";
 echo "</table><br><br>";

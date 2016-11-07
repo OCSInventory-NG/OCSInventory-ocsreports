@@ -59,90 +59,90 @@ $MASKtable = "blacklist_subnet";
 $MASKfield = "MASK";
 
 function add_mac_add($mac_value) {
-    global $l, $MACnb_field, $MACfield_name, $MACseparat, $MACtable, $MACfield, $MACnb_field;
+	global $l, $MACnb_field, $MACfield_name, $MACseparat, $MACtable, $MACfield, $MACnb_field;
 
-    $field_value = generate_value($mac_value, $MACfield_name, $MACseparat, $MACnb_field);
-    if (!$field_value) {
-        return $l->g(1144);
-    }
-    insert_blacklist_table($MACtable, $MACfield, $field_value);
+	$field_value = generate_value($mac_value, $MACfield_name, $MACseparat, $MACnb_field);
+	if (!$field_value) {
+		return $l->g(1144);
+	}
+	insert_blacklist_table($MACtable, $MACfield, $field_value);
 }
 
 function add_serial_add($serial_value) {
-    global $SERIALnb_field, $SERIALfield_name, $SERIALseparat, $SERIALtable, $SERIALfield, $SERIALnb_field;
+	global $SERIALnb_field, $SERIALfield_name, $SERIALseparat, $SERIALtable, $SERIALfield, $SERIALnb_field;
 
-    $field_value = generate_value($serial_value, $SERIALfield_name, $SERIALseparat, $SERIALnb_field);
-    if (!isset($field_value)) {
-        $field_value = '';
-    }
+	$field_value = generate_value($serial_value, $SERIALfield_name, $SERIALseparat, $SERIALnb_field);
+	if (!isset($field_value)) {
+		$field_value = '';
+	}
 
-    insert_blacklist_table($SERIALtable, $SERIALfield, $field_value);
+	insert_blacklist_table($SERIALtable, $SERIALfield, $field_value);
 }
 
 function add_subnet_add($subnet_value) {
-    global $l, $SUBnb_field, $SUBfield_name, $SUBseparat, $SUBtable, $SUBfield, $SUBnb_field,
-    $MASKnb_field, $MASKfield_name, $MASKseparat, $MASKfield, $MASKnb_field;
-    $field_value_SUB = generate_value($subnet_value, $SUBfield_name, $SUBseparat, $SUBnb_field, array('DOWN' => 0, 'UP' => 255));
-    if (!$field_value_SUB) {
-        return $l->g(299);
-    }
-    if (is_array($field_value_SUB)) {
-        return $l->g(1145) . ' ' . implode(',', $field_value_SUB);
-    }
-    $field_value_MASK = generate_value($subnet_value, $MASKfield_name, $MASKseparat, $MASKnb_field, array('DOWN' => 0, 'UP' => 255));
-    if (!$field_value_MASK) {
-        return $l->g(300);
-    }
-    if (is_array($field_value_MASK)) {
-        return $l->g(1145) . ' ' . implode(',', $field_value_MASK);
-    }
-    insert_blacklist_table($SUBtable, array($SUBfield, $MASKfield), array($field_value_SUB, $field_value_MASK));
+	global $l, $SUBnb_field, $SUBfield_name, $SUBseparat, $SUBtable, $SUBfield, $SUBnb_field,
+	$MASKnb_field, $MASKfield_name, $MASKseparat, $MASKfield, $MASKnb_field;
+	$field_value_SUB = generate_value($subnet_value, $SUBfield_name, $SUBseparat, $SUBnb_field, array('DOWN' => 0, 'UP' => 255));
+	if (!$field_value_SUB) {
+		return $l->g(299);
+	}
+	if (is_array($field_value_SUB)) {
+		return $l->g(1145) . ' ' . implode(',', $field_value_SUB);
+	}
+	$field_value_MASK = generate_value($subnet_value, $MASKfield_name, $MASKseparat, $MASKnb_field, array('DOWN' => 0, 'UP' => 255));
+	if (!$field_value_MASK) {
+		return $l->g(300);
+	}
+	if (is_array($field_value_MASK)) {
+		return $l->g(1145) . ' ' . implode(',', $field_value_MASK);
+	}
+	insert_blacklist_table($SUBtable, array($SUBfield, $MASKfield), array($field_value_SUB, $field_value_MASK));
 }
 
 function show_blacklist_fields($nb_field, $default_values, $field_name, $nb_value_by_field, $size, $separat, $javascript = '') {
-    global $aff;
-    $i = 1;
-    while ($i <= $nb_field) {
-        if ($i != 1) {
-            $aff .= $separat;
-        }
-        $aff .= show_modif($default_values[$field_name . $i], $field_name . $i, 0, '', array('MAXLENGTH' => $nb_value_by_field, 'SIZE' => $size, 'JAVASCRIPT' => $javascript));
-        $i++;
-    }
-    $aff .= "</td></tr><tr><td>";
-    return $aff;
+	global $aff;
+	$i = 1;
+	while ($i <= $nb_field) {
+		if ($i != 1) {
+			$aff .= $separat;
+		}
+		$aff .= show_modif($default_values[$field_name . $i], $field_name . $i, 0, '', array('MAXLENGTH' => $nb_value_by_field, 'SIZE' => $size, 'JAVASCRIPT' => $javascript));
+		$i++;
+	}
+	$aff .= "</td></tr><tr><td>";
+	return $aff;
 }
 
 function generate_value($values, $field_name, $separat, $nb_field, $limit = array()) {
-    $field_value = '';
-    $i = 1;
-    while ($i <= $nb_field) {
-        if ($i != 1) {
-            $field_value .= $separat;
-        }
-        if ($values[$field_name . $i] != '') {
-            if ((isset($limit['DOWN']) && $values[$field_name . $i] < $limit['DOWN']) || (isset($limit['UP']) && $values[$field_name . $i] > $limit['UP'])) {
-                return $limit;
-            }
-            $field_value .= $values[$field_name . $i];
-        } else {
-            return false;
-        }
-        $i++;
-    }
-    return $field_value;
+	$field_value = '';
+	$i = 1;
+	while ($i <= $nb_field) {
+		if ($i != 1) {
+			$field_value .= $separat;
+		}
+		if ($values[$field_name . $i] != '') {
+			if ((isset($limit['DOWN']) && $values[$field_name . $i] < $limit['DOWN']) || (isset($limit['UP']) && $values[$field_name . $i] > $limit['UP'])) {
+				return $limit;
+			}
+			$field_value .= $values[$field_name . $i];
+		} else {
+			return false;
+		}
+		$i++;
+	}
+	return $field_value;
 }
 
 function insert_blacklist_table($table, $field, $field_value) {
-    global $l;
-    $sql = "insert into %s ";
-    $arg = array($table);
-    $sql = mysql2_prepare($sql, $arg, $field, true);
-    $sql['SQL'] .= " value ";
-    $sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $field_value);
-    //no error
-    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);
-    msg_success($l->g(655));
+	global $l;
+	$sql = "insert into %s ";
+	$arg = array($table);
+	$sql = mysql2_prepare($sql, $arg, $field, true);
+	$sql['SQL'] .= " value ";
+	$sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $field_value);
+	//no error
+	mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);
+	msg_success($l->g(655));
 }
 
 ?>

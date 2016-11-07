@@ -25,340 +25,342 @@
  * This class give basic functions for plugins developpers. (WIP)
  */
 class plugins {
-    // Unused ATM !
-    protected $menus;
-    protected $rights;
 
-    private function getMenus() {
-        return $this->menus;
-    }
+	// Unused ATM !
+	protected $menus;
+	protected $rights;
 
-    private function getRights() {
-        return $this->rights;
-    }
+	private function getMenus() {
+		return $this->menus;
+	}
 
-    private function setMenus($table) {
-        $this->menus = $this->menu + $table;
-    }
+	private function getRights() {
+		return $this->rights;
+	}
 
-    private function setRights($table) {
-        $this->rights = $this->rights + $table;
-    }
+	private function setMenus($table) {
+		$this->menus = $this->menu + $table;
+	}
 
-    /**
-     * This function add a computer detail entry into the plugins.xml
-     *
-     * @param string $name : Name of the plugin
-     * @param string $category : Category in cd details
-     * @param string $available (optional) : NULL per defaut (Don't use it if u don't know what this is supposed to do.)
-     */
-    public function add_cd_entry($name, $category, $available = NULL) {
+	private function setRights($table) {
+		$this->rights = $this->rights + $table;
+	}
 
-        $xmlfile = CD_CONFIG_DIR . "plugins.xml";
+	/**
+	 * This function add a computer detail entry into the plugins.xml
+	 *
+	 * @param string $name : Name of the plugin
+	 * @param string $category : Category in cd details
+	 * @param string $available (optional) : NULL per defaut (Don't use it if u don't know what this is supposed to do.)
+	 */
+	public function add_cd_entry($name, $category, $available = NULL) {
 
-        if (file_exists($xmlfile)) {
-            $xml = simplexml_load_file($xmlfile);
+		$xmlfile = CD_CONFIG_DIR . "plugins.xml";
 
-            $label = rand(50000, 60000);
+		if (file_exists($xmlfile)) {
+			$xml = simplexml_load_file($xmlfile);
 
-            $menu = $xml->addChild("plugin");
-            $menu->addAttribute("id", "cd_" . $name . "");
-            $menu->addChild("label", "g(" . $label . ")");
-            $menu->addChild("system", "1");
-            $menu->addChild("category", $category);
-            if ($available != null) {
-                $menu->addChild("available", $available);
-            }
+			$label = rand(50000, 60000);
 
-            $xml->asXML($xmlfile);
-        }
-    }
+			$menu = $xml->addChild("plugin");
+			$menu->addAttribute("id", "cd_" . $name . "");
+			$menu->addChild("label", "g(" . $label . ")");
+			$menu->addChild("system", "1");
+			$menu->addChild("category", $category);
+			if ($available != null) {
+				$menu->addChild("available", $available);
+			}
 
-    /**
-     * This function will remove the computer detail node with the id => cd_$name
-     *
-     * @param string $name : Name of the plugin
-     */
-    public function del_cd_entry($name) {
-        $xmlfile = CD_CONFIG_DIR . "plugins.xml";
+			$xml->asXML($xmlfile);
+		}
+	}
 
-        if (file_exists($xmlfile)) {
-            $xml = simplexml_load_file($xmlfile);
+	/**
+	 * This function will remove the computer detail node with the id => cd_$name
+	 *
+	 * @param string $name : Name of the plugin
+	 */
+	public function del_cd_entry($name) {
+		$xmlfile = CD_CONFIG_DIR . "plugins.xml";
 
-            foreach ($xml as $value) {
-                if ($value['id'] == "cd_" . $name) {
-                    $dom = dom_import_simplexml($value);
-                    $dom->parentNode->removeChild($dom);
-                }
-            }
+		if (file_exists($xmlfile)) {
+			$xml = simplexml_load_file($xmlfile);
 
-            $xml->asXML($xmlfile);
-        }
-    }
+			foreach ($xml as $value) {
+				if ($value['id'] == "cd_" . $name) {
+					$dom = dom_import_simplexml($value);
+					$dom->parentNode->removeChild($dom);
+				}
+			}
 
-    /**
-     * This function create a menu or a submenu in OCS inventory.
-     * As default, only super administrator profile can see the created menu.
-     *
-     * @param string $name : The name of the menu you want to crate
-     * @param integer $label : You need to give a label to your menu, it's like a reference for OCS.
-     * @param String $plugindirectory : Your plugin directory
-     * @param string $menu (Optional) : If you want to create a submenu not a menu
-     */
-    public function add_menu($name, $label, $plugindirectory, $displayname, $menu = "") {
+			$xml->asXML($xmlfile);
+		}
+	}
 
-        // add menu entry
-        if ($menu == "") {
-            $xmlfile = CONFIG_DIR . "main_menu.xml";
+	/**
+	 * This function create a menu or a submenu in OCS inventory.
+	 * As default, only super administrator profile can see the created menu.
+	 *
+	 * @param string $name : The name of the menu you want to crate
+	 * @param integer $label : You need to give a label to your menu, it's like a reference for OCS.
+	 * @param String $plugindirectory : Your plugin directory
+	 * @param string $menu (Optional) : If you want to create a submenu not a menu
+	 */
+	public function add_menu($name, $label, $plugindirectory, $displayname, $menu = "") {
 
-            if (file_exists($xmlfile)) {
-                $xml = simplexml_load_file($xmlfile);
+		// add menu entry
+		if ($menu == "") {
+			$xmlfile = CONFIG_DIR . "main_menu.xml";
 
-                $menu = $xml->addChild("menu-elem");
-                $menu->addAttribute("id", "ms_" . $name . "");
-                $menu->addChild("label", "g(" . $label . ")");
-                $menu->addChild("url", "ms_" . $name . "");
-                $menu->addChild("submenu", " ");
+			if (file_exists($xmlfile)) {
+				$xml = simplexml_load_file($xmlfile);
 
-                $xml->asXML($xmlfile);
-            }
-        } else {
-            $xmlfile = CONFIG_DIR . "main_menu.xml";
+				$menu = $xml->addChild("menu-elem");
+				$menu->addAttribute("id", "ms_" . $name . "");
+				$menu->addChild("label", "g(" . $label . ")");
+				$menu->addChild("url", "ms_" . $name . "");
+				$menu->addChild("submenu", " ");
 
-            if (file_exists($xmlfile)) {
-                $xml = simplexml_load_file($xmlfile);
+				$xml->asXML($xmlfile);
+			}
+		} else {
+			$xmlfile = CONFIG_DIR . "main_menu.xml";
 
-                $mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='" . $menu . "']/submenu");
-                $submenu = $mainmenu['0']->addChild("menu-elem");
-                $submenu->addAttribute("id", "ms_" . $name . "");
-                $submenu->addChild("label", "g(" . $label . ")");
-                $submenu->addChild("url", "ms_" . $name . "");
+			if (file_exists($xmlfile)) {
+				$xml = simplexml_load_file($xmlfile);
 
-                $xml->asXML($xmlfile);
-            }
-        }
+				$mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='" . $menu . "']/submenu");
+				$submenu = $mainmenu['0']->addChild("menu-elem");
+				$submenu->addAttribute("id", "ms_" . $name . "");
+				$submenu->addChild("label", "g(" . $label . ")");
+				$submenu->addChild("url", "ms_" . $name . "");
 
-        // Add url entry for menu
-        $xmlfile = CONFIG_DIR . "urls.xml";
+				$xml->asXML($xmlfile);
+			}
+		}
 
-        if (file_exists($xmlfile)) {
-            $xml = simplexml_load_file($xmlfile);
+		// Add url entry for menu
+		$xmlfile = CONFIG_DIR . "urls.xml";
 
-            $urls = $xml->addChild("url");
-            $urls->addAttribute("key", "ms_" . $name . "");
-            $urls->addChild("value", $name);
-            $urls->addChild("directory", "ms_" . $plugindirectory . "");
+		if (file_exists($xmlfile)) {
+			$xml = simplexml_load_file($xmlfile);
 
-            $xml->asXML($xmlfile);
-        }
+			$urls = $xml->addChild("url");
+			$urls->addAttribute("key", "ms_" . $name . "");
+			$urls->addChild("value", $name);
+			$urls->addChild("directory", "ms_" . $plugindirectory . "");
 
-        // add permissions for menu
-        $xmlfile = CONFIG_DIR . "profiles/sadmin.xml";
+			$xml->asXML($xmlfile);
+		}
 
-        if (file_exists($xmlfile)) {
-            $xml = simplexml_load_file($xmlfile);
+		// add permissions for menu
+		$xmlfile = CONFIG_DIR . "profiles/sadmin.xml";
 
-            $xml->pages->addChild("page", "ms_" . $name . "");
+		if (file_exists($xmlfile)) {
+			$xml = simplexml_load_file($xmlfile);
 
-            $xml->asXML($xmlfile);
-        }
+			$xml->pages->addChild("page", "ms_" . $name . "");
 
-        // Add label entry
-        $file = fopen(PLUGINS_DIR . "language/english/english.txt", "a+");
-        fwrite($file, $label . " " . $displayname . "\n");
-        fclose($file);
-    }
+			$xml->asXML($xmlfile);
+		}
 
-    /**
-     * This function delete a menu or a submenu in OCS inventory.
-     * As default, only super administrator profile can see the created menu.
-     *
-     * @param string $name : The name of the menu you want to delete
-     * @param integer $label : You need to give the label of the deleted menu.
-     * @param string $menu (Optional) : If you want to delete a submenu not a menu
-     */
-    public function del_menu($name, $label, $displayname, $menu = "") {
+		// Add label entry
+		$file = fopen(PLUGINS_DIR . "language/english/english.txt", "a+");
+		fwrite($file, $label . " " . $displayname . "\n");
+		fclose($file);
+	}
 
-        // Delete menu and all his sub menu
-        if ($menu == "") {
-            $xmlfile = CONFIG_DIR . "main_menu.xml";
+	/**
+	 * This function delete a menu or a submenu in OCS inventory.
+	 * As default, only super administrator profile can see the created menu.
+	 *
+	 * @param string $name : The name of the menu you want to delete
+	 * @param integer $label : You need to give the label of the deleted menu.
+	 * @param string $menu (Optional) : If you want to delete a submenu not a menu
+	 */
+	public function del_menu($name, $label, $displayname, $menu = "") {
 
-            if (file_exists($xmlfile)) {
-                $xml = simplexml_load_file($xmlfile);
+		// Delete menu and all his sub menu
+		if ($menu == "") {
+			$xmlfile = CONFIG_DIR . "main_menu.xml";
 
-                $mainmenu = $xml->xpath("/menu");
+			if (file_exists($xmlfile)) {
+				$xml = simplexml_load_file($xmlfile);
 
-                foreach ($mainmenu as $listmenu) {
-                    foreach ($listmenu as $info) {
-                        if ($info['id'] == "ms_" . $name) {
-                            $dom = dom_import_simplexml($info);
-                            $dom->parentNode->removeChild($dom);
-                        }
-                    }
-                }
-                $xml->asXML($xmlfile);
-            }
-        } else {
-            $xmlfile = CONFIG_DIR . "main_menu.xml";
+				$mainmenu = $xml->xpath("/menu");
 
-            if (file_exists($xmlfile)) {
-                $xml = simplexml_load_file($xmlfile);
+				foreach ($mainmenu as $listmenu) {
+					foreach ($listmenu as $info) {
+						if ($info['id'] == "ms_" . $name) {
+							$dom = dom_import_simplexml($info);
+							$dom->parentNode->removeChild($dom);
+						}
+					}
+				}
+				$xml->asXML($xmlfile);
+			}
+		} else {
+			$xmlfile = CONFIG_DIR . "main_menu.xml";
 
-                $mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='" . $menu . "']/submenu");
+			if (file_exists($xmlfile)) {
+				$xml = simplexml_load_file($xmlfile);
 
-                foreach ($mainmenu as $submenu) {
-                    foreach ($submenu as $info) {
-                        if ($info['id'] == "ms_" . $name) {
-                            $dom = dom_import_simplexml($info);
-                            $dom->parentNode->removeChild($dom);
-                        }
-                    }
-                }
-                $xml->asXML($xmlfile);
-            }
-        }
+				$mainmenu = $xml->xpath("/menu/menu-elem[attribute::id='" . $menu . "']/submenu");
+
+				foreach ($mainmenu as $submenu) {
+					foreach ($submenu as $info) {
+						if ($info['id'] == "ms_" . $name) {
+							$dom = dom_import_simplexml($info);
+							$dom->parentNode->removeChild($dom);
+						}
+					}
+				}
+				$xml->asXML($xmlfile);
+			}
+		}
 
 
-        // Remove Url node
-        $xmlfile = CONFIG_DIR . "urls.xml";
+		// Remove Url node
+		$xmlfile = CONFIG_DIR . "urls.xml";
 
-        if (file_exists($xmlfile)) {
-            $xml = simplexml_load_file($xmlfile);
+		if (file_exists($xmlfile)) {
+			$xml = simplexml_load_file($xmlfile);
 
-            foreach ($xml as $value) {
-                if ($value['key'] == "ms_" . $name) {
-                    $dom = dom_import_simplexml($value);
-                    $dom->parentNode->removeChild($dom);
-                }
-            }
-            $xml->asXML($xmlfile);
-        }
+			foreach ($xml as $value) {
+				if ($value['key'] == "ms_" . $name) {
+					$dom = dom_import_simplexml($value);
+					$dom->parentNode->removeChild($dom);
+				}
+			}
+			$xml->asXML($xmlfile);
+		}
 
-        // Remove permissions
-        $xmlfile = CONFIG_DIR . "profiles/sadmin.xml";
+		// Remove permissions
+		$xmlfile = CONFIG_DIR . "profiles/sadmin.xml";
 
-        if (file_exists($xmlfile)) {
-            $xml = simplexml_load_file($xmlfile);
+		if (file_exists($xmlfile)) {
+			$xml = simplexml_load_file($xmlfile);
 
-            $mypage = $xml->pages->page;
+			$mypage = $xml->pages->page;
 
-            foreach ($mypage as $pages) {
-                if ($pages == "ms_" . $name) {
-                    $dom = dom_import_simplexml($pages);
-                    $dom->parentNode->removeChild($dom);
-                }
-            }
-            $xml->asXML($xmlfile);
-        }
+			foreach ($mypage as $pages) {
+				if ($pages == "ms_" . $name) {
+					$dom = dom_import_simplexml($pages);
+					$dom->parentNode->removeChild($dom);
+				}
+			}
+			$xml->asXML($xmlfile);
+		}
 
-        // Remove Label entry
-        $reading = fopen(PLUGINS_DIR . 'language/english/english.txt', 'a+');
-        $writing = fopen(PLUGINS_DIR . 'language/english/english.tmp', 'w');
+		// Remove Label entry
+		$reading = fopen(PLUGINS_DIR . 'language/english/english.txt', 'a+');
+		$writing = fopen(PLUGINS_DIR . 'language/english/english.tmp', 'w');
 
-        $replaced = false;
+		$replaced = false;
 
-        while (!feof($reading)) {
-            $line = fgets($reading);
-            if (stristr($line, $label . " " . $displayname)) {
-                $line = "";
-                $replaced = true;
-            }
-            fputs($writing, $line);
-        }
-        fclose($reading);
-        fclose($writing);
-        // might as well not overwrite the file if we didn't replace anything
-        if ($replaced) {
-            rename(PLUGINS_DIR . 'language/english/english.tmp', PLUGINS_DIR . 'language/english/english.txt');
-        } else {
-            unlink(PLUGINS_DIR . 'language/english/english.tmp');
-        }
-    }
+		while (!feof($reading)) {
+			$line = fgets($reading);
+			if (stristr($line, $label . " " . $displayname)) {
+				$line = "";
+				$replaced = true;
+			}
+			fputs($writing, $line);
+		}
+		fclose($reading);
+		fclose($writing);
+		// might as well not overwrite the file if we didn't replace anything
+		if ($replaced) {
+			rename(PLUGINS_DIR . 'language/english/english.tmp', PLUGINS_DIR . 'language/english/english.txt');
+		} else {
+			unlink(PLUGINS_DIR . 'language/english/english.tmp');
+		}
+	}
 
-    /**
-     * This function is used to add permission to see a page for a fixed profile
-     * (admin / ladmin / etc etc...)
-     * @param string $profilename : The name of the profile
-     * @param string $page : Name of the page u want to be seed by the profile
-     */
-    public function add_rights($profilename, $page) {
-        if ($profilename == "sadmin") {
-            exit;
-        }
+	/**
+	 * This function is used to add permission to see a page for a fixed profile
+	 * (admin / ladmin / etc etc...)
+	 * @param string $profilename : The name of the profile
+	 * @param string $page : Name of the page u want to be seed by the profile
+	 */
+	public function add_rights($profilename, $page) {
+		if ($profilename == "sadmin") {
+			exit;
+		}
 
-        $xmlfile = CONFIG_DIR . "profiles/" . $profilename . ".xml";
+		$xmlfile = CONFIG_DIR . "profiles/" . $profilename . ".xml";
 
-        if (file_exists($xmlfile)) {
-            $xml = simplexml_load_file($xmlfile);
+		if (file_exists($xmlfile)) {
+			$xml = simplexml_load_file($xmlfile);
 
-            $xml->pages->addChild("page", "ms_" . $page . "");
+			$xml->pages->addChild("page", "ms_" . $page . "");
 
-            $xml->asXML($xmlfile);
-        }
-    }
+			$xml->asXML($xmlfile);
+		}
+	}
 
-    /**
-     * This function is used for remove permission on one plugin's page for a fixed profile
-     * (admin / ladmin / etc etc...)
-     * @param string $profilename : The name of the profile
-     * @param string $page : Name of the page u want to be seed by the profile
-     */
-    public function del_rights($profilename, $page) {
-        if ($profilename == "sadmin") {
-            exit;
-        }
+	/**
+	 * This function is used for remove permission on one plugin's page for a fixed profile
+	 * (admin / ladmin / etc etc...)
+	 * @param string $profilename : The name of the profile
+	 * @param string $page : Name of the page u want to be seed by the profile
+	 */
+	public function del_rights($profilename, $page) {
+		if ($profilename == "sadmin") {
+			exit;
+		}
 
-        $xmlfile = CONFIG_DIR . "profiles/" . $profilename . ".xml";
+		$xmlfile = CONFIG_DIR . "profiles/" . $profilename . ".xml";
 
-        $xml = simplexml_load_file($xmlfile);
+		$xml = simplexml_load_file($xmlfile);
 
-        $mypage = $xml->pages->page;
+		$mypage = $xml->pages->page;
 
-        foreach ($mypage as $pages) {
-            if ($pages == $page) {
-                $dom = dom_import_simplexml($pages);
-                $dom->parentNode->removeChild($dom);
-            }
-        }
-        $xml->asXML($xmlfile);
-    }
+		foreach ($mypage as $pages) {
+			if ($pages == $page) {
+				$dom = dom_import_simplexml($pages);
+				$dom->parentNode->removeChild($dom);
+			}
+		}
+		$xml->asXML($xmlfile);
+	}
 
-    /**
-     * This function try to execute your query and throw an error message if this is a problems in the query.
-     * Die if sql error happened
-     *
-     * @param string $query : Your database query here !
-     * @param bool $cancel_on_error : if on true
-     * @return mixed : Result returned by the query
-     */
-    public function sql_query($query) {
-        global $l;
-        global $protectedPost;
+	/**
+	 * This function try to execute your query and throw an error message if this is a problems in the query.
+	 * Die if sql error happened
+	 *
+	 * @param string $query : Your database query here !
+	 * @param bool $cancel_on_error : if on true
+	 * @return mixed : Result returned by the query
+	 */
+	public function sql_query($query) {
+		global $l;
+		global $protectedPost;
 
-        try {
-            $dbh = new PDO('mysql:host=' . SERVER_WRITE . ';dbname=' . DB_NAME . '', COMPTE_BASE, PSWD_BASE);
-            $req = $dbh->query($query);
-            if (!$req) {
-                msg_error($l->g(2003) . " " . $l->g(7012));
-                // Check if a plugin install request has been submited
-                if (isset($protectedPost['plugin'])) {
-                    $array = explode(".", $protectedPost['plugin']);
-                    unset($protectedPost['plugin']);
-                    delete_plugin($array[0], true);
-                    die;
-                }
-                return false;
-            } else {
-                $anwser = $req->fetch();
-                $dbh = null;
+		try {
+			$dbh = new PDO('mysql:host=' . SERVER_WRITE . ';dbname=' . DB_NAME . '', COMPTE_BASE, PSWD_BASE);
+			$req = $dbh->query($query);
+			if (!$req) {
+				msg_error($l->g(2003) . " " . $l->g(7012));
+				// Check if a plugin install request has been submited
+				if (isset($protectedPost['plugin'])) {
+					$array = explode(".", $protectedPost['plugin']);
+					unset($protectedPost['plugin']);
+					delete_plugin($array[0], true);
+					die;
+				}
+				return false;
+			} else {
+				$anwser = $req->fetch();
+				$dbh = null;
 
-                return $anwser;
-            }
-        } catch (PDOException $e) {
-            print "Error !: " . $e->getMessage() . "<br/>";
-            return false;
-        }
-    }
+				return $anwser;
+			}
+		} catch (PDOException $e) {
+			print "Error !: " . $e->getMessage() . "<br/>";
+			return false;
+		}
+	}
 
 }
+
 ?>

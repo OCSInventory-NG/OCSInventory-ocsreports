@@ -33,7 +33,7 @@ global $l;
 
 // Remove a profile ?
 if ($protectedGet['action'] == 'delete') {
-    remove_profile($protectedGet['profile_id']);
+	remove_profile($protectedGet['profile_id']);
 }
 
 // SETUP
@@ -48,53 +48,53 @@ $table->addColumn(new CheckboxColumn('name'));
 $table->addColumn(new LinkColumn('name', $l->g(1402), $detail_url, array('required' => true, 'idProperty' => 'name')));
 $table->addColumn(new LinkColumn('label_translated', $l->g(1411), $detail_url, array('required' => true, 'idProperty' => 'name')));
 $table->addColumn(new ActionsColumn(array(
-    $detail_url => 'glyphicon glyphicon-edit',
-    $delete_url => 'glyphicon glyphicon-remove',
-        ), 'name'));
+	$detail_url => 'glyphicon glyphicon-edit',
+	$delete_url => 'glyphicon glyphicon-remove',
+		), 'name'));
 
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
 
-    $data = array();
+	$data = array();
 
-    foreach ($profiles as $profile) {
-        $profileData = array();
-        foreach ($table->getColumns() as $name => $col) {
-            $profileData[$name] = $col->format($profile);
-        }
-        $data [] = $profileData;
-    }
+	foreach ($profiles as $profile) {
+		$profileData = array();
+		foreach ($table->getColumns() as $name => $col) {
+			$profileData[$name] = $col->format($profile);
+		}
+		$data [] = $profileData;
+	}
 
-    // JSON OUTPUT
-    $response = array(
-        'customized' => false,
-        'draw' => $_POST['draw'],
-        'data' => $data,
-        'recordsFiltered' => count($profiles),
-        'recordsTotal' => count($profiles)
-    );
+	// JSON OUTPUT
+	$response = array(
+		'customized' => false,
+		'draw' => $_POST['draw'],
+		'data' => $data,
+		'recordsFiltered' => count($profiles),
+		'recordsTotal' => count($profiles)
+	);
 
-    echo json_encode($response);
+	echo json_encode($response);
 } else {
 	$ajax = false;
-	
+
 	require_once('views/users_views.php');
 	require_once('require/function_search.php');
 	require_once('require/tables/TableRenderer.php');
-	
+
 	// HTML OUTPUT
 	echo "<div class='col col-md-2'>";
 	show_users_left_menu('ms_profiles');
 	echo "</div>";
-	
+
 	echo '<div class="col col-md-10">';
-	
-	echo '<h3>'.$l->g(1401).'</h3>';
 
-    $table_renderer = new TableRenderer();
-    $table_renderer->show($table, $profiles);
+	echo '<h3>' . $l->g(1401) . '</h3>';
 
-    echo '</div>';
+	$table_renderer = new TableRenderer();
+	$table_renderer->show($table, $profiles);
+
+	echo '</div>';
 }
 ?>

@@ -21,20 +21,20 @@
  * MA 02110-1301, USA.
  */
 debut_tab(array('CELLSPACING' => '5',
-    'WIDTH' => '80%',
-    'BORDER' => '0',
-    'ALIGN' => 'Center',
-    'CELLPADDING' => '0',
-    'BGCOLOR' => '#C7D9F5',
-    'BORDERCOLOR' => '#9894B5'));
+	'WIDTH' => '80%',
+	'BORDER' => '0',
+	'ALIGN' => 'Center',
+	'CELLPADDING' => '0',
+	'BGCOLOR' => '#C7D9F5',
+	'BORDERCOLOR' => '#9894B5'));
 if ($optvalue['FREQUENCY'] == 0 && isset($optvalue['FREQUENCY'])) {
-    $optvalueselected = 'ALWAYS';
+	$optvalueselected = 'ALWAYS';
 } elseif ($optvalue['FREQUENCY'] == -1) {
-    $optvalueselected = 'NEVER';
+	$optvalueselected = 'NEVER';
 } elseif (!isset($optvalue['FREQUENCY'])) {
-    $optvalueselected = 'SERVER DEFAULT';
+	$optvalueselected = 'SERVER DEFAULT';
 } else {
-    $optvalueselected = 'CUSTOM';
+	$optvalueselected = 'CUSTOM';
 }
 $champ_value['VALUE'] = $optvalueselected;
 $champ_value['ALWAYS'] = $l->g(485);
@@ -42,8 +42,8 @@ $champ_value['NEVER'] = $l->g(486);
 $champ_value['CUSTOM'] = $l->g(487);
 $champ_value['SERVER DEFAULT'] = $l->g(488);
 if (!isset($protectedGet['origine'])) {
-    $champ_value['IGNORED'] = $l->g(718);
-    $champ_value['VALUE'] = 'IGNORED';
+	$champ_value['IGNORED'] = $l->g(718);
+	$champ_value['VALUE'] = 'IGNORED';
 }
 ligne("FREQUENCY", $l->g(494), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
 fin_tab();

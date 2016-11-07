@@ -21,13 +21,13 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 print_item_header($l->g(1266));
 if (!isset($protectedPost['SHOW'])) {
-    $protectedPost['SHOW'] = 'NOSHOW';
+	$protectedPost['SHOW'] = 'NOSHOW';
 }
 $form_name = "affich_vm";
 $table_name = $form_name;
@@ -36,14 +36,14 @@ $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = array($l->g(49) . ' VM' => 'vm.NAME',
-    $l->g(1046) . ' VM' => 'vm.STATUS',
-    $l->g(25) . ' VM' => 'vm.SUBSYSTEM',
-    $l->g(66) . ' VM' => 'vm.VMTYPE',
-    'UUID' => 'vm.UUID',
-    $l->g(54) . ' VM' => 'vm.VCPU',
-    $l->g(26) . ' VM' => 'vm.MEMORY',
-    'NAME' => 'h.name',
-    $l->g(25) => "h.osname",
+	$l->g(1046) . ' VM' => 'vm.STATUS',
+	$l->g(25) . ' VM' => 'vm.SUBSYSTEM',
+	$l->g(66) . ' VM' => 'vm.VMTYPE',
+	'UUID' => 'vm.UUID',
+	$l->g(54) . ' VM' => 'vm.VCPU',
+	$l->g(26) . ' VM' => 'vm.MEMORY',
+	'NAME' => 'h.name',
+	$l->g(25) => "h.osname",
 );
 $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
@@ -55,8 +55,8 @@ $tab_options['ARG_SQL_COUNT'] = $systemid;
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
-    ob_start();
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
+	ob_start();
 }
 ?>

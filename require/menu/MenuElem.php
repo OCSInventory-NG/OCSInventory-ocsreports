@@ -27,64 +27,65 @@
  * The class generate one menu element     
  */
 class MenuElem extends Menu {
-    private $_label;
-    private $_url;
 
-    /**
-     * The constructor
-     * 
-     * @param string $label     Label
-     * @param string $url       Url
-     * @param array  $_children Children
-     * @param number $_priority The priority of the MenuElem
-     */
-    public function __construct($label, $url, array $_children = array(), $_priority = 0) {
-        $this->_label = $label;
-        $this->_url = $url;
+	private $_label;
+	private $_url;
 
-        parent::__construct($_children, $_priority);
-    }
+	/**
+	 * The constructor
+	 * 
+	 * @param string $label     Label
+	 * @param string $url       Url
+	 * @param array  $_children Children
+	 * @param number $_priority The priority of the MenuElem
+	 */
+	public function __construct($label, $url, array $_children = array(), $_priority = 0) {
+		$this->_label = $label;
+		$this->_url = $url;
 
-    /**
-     * Get the MenuElem label
-     * 
-     * @return string $this->label 
-     */
-    public function getLabel() {
-        return $this->_label;
-    }
+		parent::__construct($_children, $_priority);
+	}
 
-    /**
-     * Set the MenuElem label
-     * 
-     * @param string $_label MenuElem label
-     * 
-     * @return MenuElem
-     */
-    public function setLabel($_label) {
-        $this->_label = $_label;
-        return $this;
-    }
+	/**
+	 * Get the MenuElem label
+	 * 
+	 * @return string $this->label 
+	 */
+	public function getLabel() {
+		return $this->_label;
+	}
 
-    /**
-     * Get MenuElem url
-     * 
-     * @return string $this->_url
-     */
-    public function getUrl() {
-        return $this->_url;
-    }
+	/**
+	 * Set the MenuElem label
+	 * 
+	 * @param string $_label MenuElem label
+	 * 
+	 * @return MenuElem
+	 */
+	public function setLabel($_label) {
+		$this->_label = $_label;
+		return $this;
+	}
 
-    /**
-     * Set MenuElem url
-     * 
-     * @param string $_url MenuElem url
-     * 
-     * @return MenuElem
-     */
-    public function setUrl($_url) {
-        $this->_url = $_url;
-        return $this;
-    }
+	/**
+	 * Get MenuElem url
+	 * 
+	 * @return string $this->_url
+	 */
+	public function getUrl() {
+		return $this->_url;
+	}
+
+	/**
+	 * Set MenuElem url
+	 * 
+	 * @param string $_url MenuElem url
+	 * 
+	 * @return MenuElem
+	 */
+	public function setUrl($_url) {
+		$this->_url = $_url;
+		return $this;
+	}
 
 }

@@ -22,20 +22,20 @@
  */
 //UPDATE/DELETE
 if ($protectedPost['Valid_modif']) {
-    $sql = "DELETE FROM deploy WHERE name='%s'";
-    $arg = "label";
-    $msg = $l->g(261);
+	$sql = "DELETE FROM deploy WHERE name='%s'";
+	$arg = "label";
+	$msg = $l->g(261);
 
-    if (trim($protectedPost['lbl']) != "") {
-        $protectedPost["lbl"] = str_replace(array("\t", "\n", "\r"), array("", "", ""), $protectedPost["lbl"]);
-        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-        $sql = "INSERT INTO deploy VALUES('%s','%s')";
-        $arg = array('label', $protectedPost["lbl"]);
-        $msg = $l->g(260);
-    }
+	if (trim($protectedPost['lbl']) != "") {
+		$protectedPost["lbl"] = str_replace(array("\t", "\n", "\r"), array("", "", ""), $protectedPost["lbl"]);
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+		$sql = "INSERT INTO deploy VALUES('%s','%s')";
+		$arg = array('label', $protectedPost["lbl"]);
+		$msg = $l->g(260);
+	}
 
-    mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-    msg_success($msg);
+	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+	msg_success($msg);
 }
 //Looking for the label
 $reqL = "SELECT content FROM deploy WHERE name='%s'";
