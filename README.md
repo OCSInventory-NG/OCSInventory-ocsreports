@@ -64,8 +64,8 @@ OCS Inventory is GPLv2 licensed
   - [JavaScript : jquery-fileupload - v5.40.1] (https://github.com/blueimp/jQuery-File-Upload) jQuery plugin for uploading files
   - [JavaScript : jquery-iframe-transport - v1.8.2] (https://github.com/blueimp/jQuery-File-Upload) jquery-fileupload dependency
   - [JavaScript : jquery-ui-widget - v1.10.4] (https://github.com/jquery/jquery-ui) jquery-fileupload dependency
-  - [JavaScript : Datatables - v1.10.2] (https://github.com/DataTables/DataTables) Tables plug-in for jQuery
-  - [JavaScript : Datatables-bootstrap - v???] (https://github.com/DataTables/DataTables) datatables dependency for bootstrap integration
+  - [JavaScript : Datatables - v1.10.12] (https://github.com/DataTables/DataTables) Tables plug-in for jQuery
+  - [JavaScript : Datatables-bootstrap - v1.10.12] (https://github.com/DataTables/DataTables) datatables dependency for bootstrap integration
 
   - [JavaScript : elycharts - v2.1.4] (https://github.com/voidlabs/elycharts) Charting library
   - [JavaScript : raphael - v1.5.2] (https://github.com/DmitryBaranovskiy/raphael/) elycharts dependency

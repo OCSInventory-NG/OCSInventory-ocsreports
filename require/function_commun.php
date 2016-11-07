@@ -341,7 +341,7 @@ function html_header($noJavascript = false) {
         <script src="libraries/elycharts/elycharts.min.js" type="text/javascript"></script>
         <!-- js for Datatables -->
         <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="libraries/datatable/media/js/dataTables.bootstrap.js" type="text/javascript"></script>
+        <script src="libraries/datatable/media/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
         <script src="js/function.js" type="text/javascript"></script>';
 
         if (isset($_SESSION['OCS']['JAVASCRIPT'])) {
