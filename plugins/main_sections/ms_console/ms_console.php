@@ -66,13 +66,13 @@ if ($data_tab['DATA'] != array()) {
     echo '<div class="col col-md-10">';
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES') {
-        echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
+        echo "<div class='pull-right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
         if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) && $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN') {
             echo "<img src='image/success.png'>";
         } else {
             echo "<img src='image/modif_tab.png' alt='modif_tab'>";
         }
-        echo "</a></td></tr></table>";
+        echo "</a></div>";
     }
     if ($data_on['DATA'][$protectedPost['onglet']]) {
         $fields = list_field($protectedPost['onglet']);
