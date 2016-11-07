@@ -320,7 +320,7 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css">
 				<link rel="stylesheet" href="css/bootstrap-custom.css">
 				<link rel="stylesheet" href="css/dataTables-custom.css">
-				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.css">
+				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.min.css">
 				<link rel="stylesheet" href="css/ocsreports.css">
 				<link rel="stylesheet" href="css/header.css">
 				<link rel="stylesheet" href="css/computer_details.css">
