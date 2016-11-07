@@ -56,8 +56,9 @@ require_once('require/function_console.php');
 $data_on = define_tab();
 $data_tab = show_active_tab($data_on);
 echo open_form($form_name);
-if (isset($protectedPost["onglet"]) and ! isset($data_tab['DATA'][$protectedPost["onglet"]]))
+if (isset($protectedPost["onglet"]) && !isset($data_tab['DATA'][$protectedPost["onglet"]])) {
     $protectedPost["onglet"] = $data_tab['DEFAULT'];
+}
 
 if ($data_tab['DATA'] != array()) {
     show_tabs($data_tab['DATA'], $form_name, "onglet", true);
@@ -66,10 +67,11 @@ if ($data_tab['DATA'] != array()) {
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES') {
         echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
-        if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) and $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
+		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) && $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN') {
             echo "<img src='image/success.png'>";
-        else
+		} else {
             echo "<img src='image/modif_tab.png'>";
+		}
         echo "</a></td></tr></table>";
     }
     if ($data_on['DATA'][$protectedPost['onglet']]) {
@@ -83,12 +85,11 @@ if ($data_tab['DATA'] != array()) {
             $array_group[$value->id] = $value->name;
         }
         if (is_array($array_group)) {
-
-            if (isset($protectedPost["SUP_PROF"]) and $protectedPost["SUP_PROF"] != '') {
+			if (is_defined($protectedPost["SUP_PROF"])) {
                 delete($protectedPost['SUP_PROF']);
             }
 
-            if (isset($protectedPost["Valid_modif"]) and $protectedPost["Valid_modif"] != '') {
+			if (is_defined($protectedPost["Valid_modif"])) {
                 $sql_msg = "select name from config where name like '%s'";
                 $arg = "GUI_REPORT_MSG%";
                 $result_msg = mysql2_query_secure($sql_msg, $_SESSION['OCS']["readServer"], $arg);
@@ -98,8 +99,9 @@ if ($data_tab['DATA'] != array()) {
                 if (isset($list_name_msg)) {
                     $i = 1;
                     foreach ($list_name_msg as $k => $v) {
-                        if ($v == $i)
+						if ($v == $i) {
                             $i++;
+						}
                     }
                 } else {
                     $i = 1;
@@ -160,12 +162,13 @@ if ($data_tab['DATA'] != array()) {
     echo "<input type=hidden name='VALID_MODIF' value='' id='VALID_MODIF'>";
     echo "<input type=hidden name='SHOW_ME' value='' id='SHOW_ME'>";
     echo "<input type=hidden name='UPDATE_VALUE' value='' id='UPDATE_VALUE'>";
-} else
+} else {
     echo "<table align=center><tr><td align=center><img src='image/fond.png'></td></tr></table>";
+}
 
-if (isset($protectedPost["onglet"]) and isset($protectedPost["old_onglet"])
-        and $protectedPost["onglet"] != $protectedPost["old_onglet"])
+if (isset($protectedPost["onglet"]) && isset($protectedPost["old_onglet"]) && $protectedPost["onglet"] != $protectedPost["old_onglet"]) {
     unset($protectedPost["SHOW_ME"], $protectedPost["SHOW_ME_SAUV"]);
+}
 
 if (is_defined($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME_SAUV"] != "" && $protectedPost["SHOW_ME"] != $protectedPost["SHOW_ME_SAUV"]) {
     unset($protectedPost["SHOW_ME_SAUV"]);

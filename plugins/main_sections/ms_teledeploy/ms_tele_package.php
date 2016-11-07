@@ -416,8 +416,9 @@ echo "<script language='javascript'>
 	</script>";
 
 echo "<div ";
-if ($protectedPost['valid'])
+if ($protectedPost['valid']) {
     echo " style='display:none;'";
+}
 echo ">";
 
 $arrayName = array(

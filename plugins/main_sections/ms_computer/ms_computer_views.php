@@ -27,23 +27,13 @@ function show_computer_menu($computer_id) {
 
     $menu_renderer = new ComputerMenuRenderer($computer_id, $_SESSION['OCS']['url_service']);
 
-
     echo "<div class='left-menu col col-md-2'>";
     echo "<ul class='nav nav-pills nav-stacked navbar-left'>";
 
-
     foreach ($menu->getChildren() as $menu_elem) {
-
-        $url = $menu_elem->getUrl();
+		$url = $menu_renderer->getUrl($menu_elem);
         $label = $menu_renderer->getLabel($menu_elem);
-
-
-
-        echo "<li ";
-        //if ($activeMenu == $url) {
-        //    echo "class='active'";
-        //}
-        echo " ><a href=' " . $menu_renderer->getUrl($menu_elem) . "'>" . $label . "</a></li>";
+		echo "<li><a href='" . $url . "'>" . $label . "</a></li>";
     }
 
     echo '</ul>';

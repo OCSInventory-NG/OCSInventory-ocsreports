@@ -45,14 +45,14 @@ if (is_defined($protectedPost['reset'])) {
     unlink($file_name);
     reloadform_closeme('', true);
 } else {
-    if (!is_readable($file_name))
+	if (!is_readable($file_name)) {
         runCommand("-cache -net=" . $pas, $fname);
+	}
     $tabBalises = Array($l->g(34) => "IP",
         $l->g(95) => "MAC",
         $l->g(49) => "NAME",
         $l->g(232) => "DATE",
         $l->g(66) => "TYPE");
-    $ret = array();
     $ret = parse_xml_file($file_name, $tabBalises, "HOST");
     if ($ret != array()) {
         $sql = "select ";

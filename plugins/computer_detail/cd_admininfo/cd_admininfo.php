@@ -151,9 +151,7 @@ if (!is_array($info_account_id)) {
             if ($nb_row != $num_row) {
                 $up_png .= updown($val_admin_info['ID'], 'DOWN');
             }
-            if ($val_admin_info['TYPE'] == 2
-                    or $val_admin_info['TYPE'] == 4
-                    or $val_admin_info['TYPE'] == 7) {
+			if ($val_admin_info['TYPE'] == 2 || $val_admin_info['TYPE'] == 4 || $val_admin_info['TYPE'] == 7) {
                 array_push($config['JAVASCRIPT'], '');
                 array_push($config['SIZE'], '');
                 if ($admin_accountinfo) {

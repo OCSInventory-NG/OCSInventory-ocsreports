@@ -65,13 +65,11 @@ if (isset($_POST['Valid_modif']) && is_defined($_POST['modif'])) {
     }
 
     if ($_POST['modif'] != "ALL") {
-
         $sql = "update download_servers set URL='" . $_POST['URL'] . "' ,ADD_REP='" . $_POST['REP_STORE'] . "' where hardware_id=" . $_POST['modif'];
         mysqli_query($_SESSION['OCS']["writeServer"], $sql);
         $sql = "update download_enable set pack_loc='" . $_POST['URL'] . "' where SERVER_ID=" . $_POST['modif'];
         mysqli_query($_SESSION['OCS']["writeServer"], $sql);
     } else {
-
         $sql = "update download_servers set URL='" . $_POST['URL'] . "' ,ADD_REP='" . $_POST['REP_STORE'] . "' where GROUP_ID=" . $systemid;
         mysqli_query($_SESSION['OCS']["writeServer"], $sql);
         $sql = "update download_enable set pack_loc='" . $_POST['URL'] . "' where GROUP_ID=" . $systemid;

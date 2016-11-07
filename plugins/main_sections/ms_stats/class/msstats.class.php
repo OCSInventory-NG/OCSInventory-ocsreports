@@ -61,14 +61,14 @@ class MsStats {
 
     /**
      * Generate tab data from available stats pages
-     * 
+	 *
      * @param Array $available_pages : Array of available stats page
-     * 
+	 *
      * @return Array : Data on for show tabs
      */
     public function createShowTabsArray($available_pages) {
         $data_on = array();
-        foreach ($available_pages as $key => $value) {
+		foreach ($available_pages as $value) {
             $class = new $value();
             $data_on[$value] = $class->getTabName();
         }
@@ -77,10 +77,10 @@ class MsStats {
 
     /**
      * Create and display data of the stats form
-     * 
+	 *
      * @param Array $post_data : Post data sended to the page
      * @param String $default_display : Default value if no onglet selected
-     * 
+	 *
      * @return HTML
      */
     public function generateStatsData($post_data, $default_display) {

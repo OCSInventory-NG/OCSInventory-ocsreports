@@ -33,8 +33,9 @@ class Wol {
         $wol_info = look_config_default_values('WOL_PORT');
         if (!isset($wol_info['name']['WOL_PORT'])) {
             $this->wol_send = $l->g(1321);
-        } else
+		} else {
             $wol_port = explode(',', $wol_info['tvalue']['WOL_PORT']);
+		}
         foreach ($wol_port as $v) {
             if (is_numeric($v)) {
                 $s = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);

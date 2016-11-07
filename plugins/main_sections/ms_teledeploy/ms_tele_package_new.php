@@ -83,15 +83,11 @@ if (!package_exists($timestamp)) {
             $package_tmp_dir = $package_dir . '/tmp';
             if (!file_exists($package_tmp_dir) && !mkdir($package_tmp_dir)) {
                 $error = 'Could not create dir ' . $package_tmp_dir . ', please fix your filesystem before trying again ';
-                // @TODO : buggy code
-                break;
             }
 
             $package_tmp_file = $package_tmp_dir . '/package';
             if (!move_uploaded_file($tmp_file, $package_tmp_file)) {
                 $error = 'Could not create file ' . $package_tmp_file . ', please fix your filesystem before trying again ';
-                // @TODO : buggy code
-                break;
             }
 
             // Everything went well

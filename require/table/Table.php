@@ -34,6 +34,7 @@ class Table {
     }
 
     public function getColumns() {
+		// TODO : BUGGY CODE
         $allcolumns = $this->getColumns();
         $columnsreturn;
     }
@@ -168,9 +169,9 @@ class Table {
                                 $key = $this->params['REPLACE_COLUMN_KEY'][$key];
                             }
                             echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
- 'name':'" . $key . "', 'defaultContent': ' ',
- 'orderable':  " . $orderable . ",'searchable': false,
- 'visible' : " . $visible . "}, \n";
+'name':'" . $key . "', 'defaultContent': ' ',
+'orderable':  " . $orderable . ",'searchable': false,
+'visible' : " . $visible . "}, \n";
                         } else {
                             $name = explode('.', $column);
                             $name = explode(' as ', end($name));
@@ -179,8 +180,8 @@ class Table {
                                 $name = $this->params['REPLACE_COLUMN_KEY'][$key];
                             }
                             echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
- 'name':'" . $column . "', 'defaultContent': ' ',
- 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
+'name':'" . $column . "', 'defaultContent': ' ',
+'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
                         }
                     }
                     ?>
