@@ -22,17 +22,19 @@
  */
 require_once 'require/function_users.php';
 
-if (isset($protectedPost['Valid_modif'])) {
-	$protectedPost['ACCESSLVL'] = $_SESSION['OCS']['lvluser'];
-	$protectedPost['ID'] = $_SESSION['OCS']["loggeduser"];
-	$protectedPost['MODIF'] = $_SESSION['OCS']["loggeduser"];
+echo '<div class="container-fluid">';
 
-	$msg = add_user($_POST, get_profile_labels());
-	if ($msg != $l->g(374)) {
-		msg_error($msg);
-	} else {
-		msg_success($l->g(1186));
-	}
+if (isset($protectedPost['Valid_modif'])) {
+    $protectedPost['ACCESSLVL'] = $_SESSION['OCS']['lvluser'];
+    $protectedPost['ID'] = $_SESSION['OCS']["loggeduser"];
+    $protectedPost['MODIF'] = $_SESSION['OCS']["loggeduser"];
+
+    $msg = add_user($_POST, get_profile_labels());
+    if ($msg != $l->g(374)) {
+        msg_error($msg);
+    } else {
+        msg_success($l->g(1186));
+    }
 }
 
 $form_name = "pass";
@@ -40,11 +42,12 @@ echo open_form($form_name, '', '', 'form-horizontal');
 
 admin_user($_SESSION['OCS']["loggeduser"], true);
 ?>
+</div>
 <div class="row">
-	<div class="col-md-12">
-		<input type="submit" name="Valid_modif" value="<?= $l->g(1363) ?>" class="btn btn-success">
-		<input type="submit" name="Reset_modif" value="<?= $l->g(1364) ?>" class="btn btn-danger">
-	</div>
+    <div class="col-md-12">
+        <input type="submit" name="Valid_modif" value="<?= $l->g(1363) ?>" class="btn btn-success">
+        <input type="submit" name="Reset_modif" value="<?= $l->g(1364) ?>" class="btn btn-danger">
+    </div>
 </div>
 <?php
 echo close_form();
