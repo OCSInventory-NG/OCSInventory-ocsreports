@@ -28,6 +28,7 @@ require_once('require/config/include.php');
 
 
 @session_start();
+// TODO : delete code for next version
 // Magic Quotes :
 // This feature has been deprecated as of PHP 5.3 and deleted as of PHP 5.4.
 if (get_magic_quotes_gpc()) {
