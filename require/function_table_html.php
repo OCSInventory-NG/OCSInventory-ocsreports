@@ -2170,9 +2170,11 @@ function del_selection($form_name) {
             confirme('', idchecked, "<?= $form_name ?>", "del_check", "<?= $l->g(900) ?>");
         }
     </script>
+    <a href="#" onclick="garde_check()">
+        <span class="glyphicon glyphicon-remove delete-span" title="<?= $l->g(162) ?>"></span>
+    </a>
+    <input type="hidden" id="del_check" name="del_check" value="">
     <?php
-    echo '<a href="#" onclick="garde_check()"><span class="glyphicon glyphicon-remove delete-span" title="' . $l->g(162) . '" ></span></a>';
-    echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 }
 
 function js_tooltip() {
