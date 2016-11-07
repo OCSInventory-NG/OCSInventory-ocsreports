@@ -86,9 +86,9 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
 	<div class="row">
 		<div class="col col-md-6 text-left">
 			<p>
-				<?php echo (isset($optPerso[$lbl]) ? "<img width='15px' src='image/red.png'>" : '') ?>
-				<?php echo $lblPerso; ?>
-				<span class="help-block text-success"><?php echo $helpText; ?></span>
+				<?= (isset($optPerso[$lbl]) ? "<img width='15px' src='image/red.png'>" : '') ?>
+				<?= $lblPerso; ?>
+				<span class="help-block text-success"><?= $helpText; ?></span>
 				<?php
 				if (isset($optPerso[$lbl]["IVALUE"])) {
 					echo $optPerso[$lbl]["IVALUE"];

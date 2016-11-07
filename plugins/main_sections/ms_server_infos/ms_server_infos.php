@@ -25,16 +25,16 @@ printEnTete($l->g(1360));
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <h4><?php echo $l->g(25) ?></h4>
+            <h4><?= $l->g(25) ?></h4>
             <br />
             <div class="col-xs-4">
                 <ul class="server-information-ul">
-                    <li><?php echo $l->g(274) ?> :</li>
-                    <li><?php echo $l->g($os == "Linux" ? 1372 : 277) ?> :</li>
-                    <li><?php echo $l->g(1379); ?> :<li>
-                    <li><?php echo $l->g(1378); ?> :</li>
-                    <li><?php echo $l->g(1368); ?> :</li>
-                    <li><?php echo $l->g(1373); ?> :</li>
+                    <li><?= $l->g(274) ?> :</li>
+                    <li><?= $l->g($os == "Linux" ? 1372 : 277) ?> :</li>
+                    <li><?= $l->g(1379); ?> :<li>
+                    <li><?= $l->g(1378); ?> :</li>
+                    <li><?= $l->g(1368); ?> :</li>
+                    <li><?= $l->g(1373); ?> :</li>
                 </ul>
             </div>
             <div class="col-xs-8">
@@ -43,7 +43,7 @@ printEnTete($l->g(1360));
 						$os = php_uname("s");
 						echo ($os == "Linux" ? $os . ' ' . php_uname('m') : $os);
 						?></li>
-                    <li><?php echo php_uname("r"); ?></li>
+                    <li><?= php_uname("r"); ?></li>
                     <li><?php
 						$meminfo = @file_get_contents('/proc/meminfo');
 						if ($meminfo && preg_match("/MemTotal: *([0-9]*)/", $meminfo, $res)) {
@@ -76,32 +76,32 @@ printEnTete($l->g(1360));
 						}
 					}
 					?>
-                    <li><?php echo $distro; ?></li>
+                    <li><?= $distro; ?></li>
                 </ul>
             </div>
         </div>
         <div class="col-md-6">
-            <h4><?php echo $l->g(20); ?></h4>
+            <h4><?= $l->g(20); ?></h4>
             <br />
             <div class="col-xs-4">
                 <ul class="server-information-ul">
-                    <li><?php echo $l->g(1369) ?> :</li>
-                    <li><?php echo $l->g(1370) ?> :</li>
-                    <li><?php echo $l->g(1371); ?> :</li>
-                    <li><?php echo $l->g(277) ?> OCSReports:</li>
+                    <li><?= $l->g(1369) ?> :</li>
+                    <li><?= $l->g(1370) ?> :</li>
+                    <li><?= $l->g(1371); ?> :</li>
+                    <li><?= $l->g(277) ?> OCSReports:</li>
                 </ul>
             </div>
             <div class="col-xs-8">
                 <ul class="server-information-ul-li">
-                    <li><?php echo PHP_VERSION . ' (' . PHP_SAPI . ')'; ?></li>
-                    <li><?php echo $_SERVER['SERVER_SOFTWARE']; ?></li>
+                    <li><?= PHP_VERSION . ' (' . PHP_SAPI . ')'; ?></li>
+                    <li><?= $_SERVER['SERVER_SOFTWARE']; ?></li>
                     <li><?php
 						$sql = "SELECT @@sql_mode as mode, @@version AS vers, @@version_comment AS stype";
 						$res = mysqli_query($_SESSION['OCS']["readServer"], $sql);
 						$info = mysqli_fetch_object($res);
 						echo $info->stype . ' version ' . $info->vers;
 						?></li>
-                    <li><?php echo GUI_VER_SHOW; ?></li>
+                    <li><?= GUI_VER_SHOW; ?></li>
                 </ul>
             </div>
         </div>
@@ -110,7 +110,7 @@ printEnTete($l->g(1360));
     <div class="row">
         <div class="col-md-6">
             <br />
-            <h4><?php echo $l->g(1367); ?></h4>
+            <h4><?= $l->g(1367); ?></h4>
             <br />
             <div class="col-xs-4">
                 <ul class="server-information-ul">
@@ -119,7 +119,7 @@ printEnTete($l->g(1360));
             </div>
             <div class="col-xs-8">
                 <ul class="server-information-ul-li">
-                    <li><?php echo $_SERVER['SERVER_ADDR']; ?></li>
+                    <li><?= $_SERVER['SERVER_ADDR']; ?></li>
                 </ul>
             </div>
         </div>

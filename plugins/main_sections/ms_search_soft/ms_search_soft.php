@@ -47,7 +47,7 @@ echo "\n" . '<script type="text/javascript">
         <div class="form-group">
             <label class="control-label col-sm-2" for="logiciel_text>">Text :</label>
             <div class="col-sm-10">
-                <input class="form-control" type="text" name="logiciel_text"  id="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
+                <input class="form-control" type="text" name="logiciel_text"  id="logiciel_text" value="<?= $protectedPost['logiciel_text'] ?>">
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@ echo "\n" . '<script type="text/javascript">
 <br />
 <div class="row">
     <div class="col-md-12">
-        <input type="submit" class="btn btn-success" id="bouton-submit" value="<?php echo $l->g(13); ?>" name="bouton-submit">
+        <input type="submit" class="btn btn-success" id="bouton-submit" value="<?= $l->g(13); ?>" name="bouton-submit">
     </div>
 </div>
 

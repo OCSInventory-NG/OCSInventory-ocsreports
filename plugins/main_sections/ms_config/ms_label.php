@@ -48,15 +48,15 @@ echo open_form($form_name);
 ?>
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
-        <label for="lbl"><?php echo $l->g(262); ?> :</label>
-        <input type="text" class="form-control" name="lbl" value="<?php echo $val->content; ?>">
+        <label for="lbl"><?= $l->g(262); ?> :</label>
+        <input type="text" class="form-control" name="lbl" value="<?= $val->content; ?>">
     </div>
 </div>
 <br />
 <div class="row">
     <div class="col-md-12">
-        <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-        <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+        <input type="submit" name="Valid_modif" value="<?= $l->g(1363) ?>" class="btn btn-success">
+        <input type="submit" name="Reset_modif" value="<?= $l->g(1364) ?>" class="btn btn-danger">
     </div>
 </div>
 <?php

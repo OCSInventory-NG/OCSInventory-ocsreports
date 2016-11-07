@@ -238,7 +238,7 @@ echo "<h4>" . $l->g(735) . "</h4>";
 formGroup('text', 'NAME_RESTRICT', $l->g(382), 20, 100, $protectedPost['NAME_RESTRICT']);
 ?>
 <div class="form-group">
-    <label class="control-label col-sm-2" for="COMPAR"><?php echo $l->g(381); ?></label>
+    <label class="control-label col-sm-2" for="COMPAR"><?= $l->g(381); ?></label>
     <div class="col-sm-1">
         <select name="COMPAR" id="COMPAR" class="form-control">
             <option value="<">&lt;</option>
@@ -247,12 +247,12 @@ formGroup('text', 'NAME_RESTRICT', $l->g(382), 20, 100, $protectedPost['NAME_RES
         </select>
     </div>
     <div class="col-sm-2">
-        <input type="text" class="form-control" maxlength="100" value="<?php echo $protectedPost['NBRE']; ?>">
+        <input type="text" class="form-control" maxlength="100" value="<?= $protectedPost['NBRE']; ?>">
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        <a href="index.php?<?php echo PAG_INDEX . "=" . $pages_refs['ms_soft_csv'] . "&no_header=1&soft=" . $protectedPost['NAME_RESTRICT'] . "&nb=" . $protectedPost['NBRE'] . "&comp=" . htmlentities($protectedPost['COMPAR'], ENT_COMPAT | ENT_HTML401, "UTF-8") ?>"><?php echo $l->g(765); ?></a>
+        <a href="index.php?<?= PAG_INDEX . "=" . $pages_refs['ms_soft_csv'] . "&no_header=1&soft=" . $protectedPost['NAME_RESTRICT'] . "&nb=" . $protectedPost['NBRE'] . "&comp=" . htmlentities($protectedPost['COMPAR'], ENT_COMPAT | ENT_HTML401, "UTF-8") ?>"><?= $l->g(765); ?></a>
     </div>
 </div>
 <?php
@@ -260,8 +260,8 @@ if ($protectedPost['COMPAR'] == '<' && $protectedPost['NBRE'] <= 15 && $protecte
 	echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_soft_csv'] . "&no_header=1&soft=" . $protectedPost['NAME_RESTRICT'] . "&nb=" . $protectedPost['NBRE'] . "&comp=" . htmlentities($protectedPost['COMPAR'], ENT_COMPAT | ENT_HTML401, "UTF-8") . "&all_computers=yes'>" . $l->g(912) . "</a>";
 }
 ?>
-<input type="submit" class="btn btn-success" value="<?php echo $l->g(393); ?>" name="SUBMIT_FORM">
-<input type="submit" class="btn btn-danger" value="<?php echo $l->g(396); ?>" name="RESET">
+<input type="submit" class="btn btn-success" value="<?= $l->g(393); ?>" name="SUBMIT_FORM">
+<input type="submit" class="btn btn-danger" value="<?= $l->g(396); ?>" name="RESET">
 <?php
 echo close_form();
 

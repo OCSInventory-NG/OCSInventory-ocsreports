@@ -286,10 +286,10 @@ if (mysqli_num_rows($resGroups) > 0) {
     <div class="col-md-4">
         <script>
 			function url(id) {
-				window.location = "<?php echo $hrefBase; ?>&actgrp=1&grp=" + id.options[id.selectedIndex].value;
+				window.location = "<?= $hrefBase; ?>&actgrp=1&grp=" + id.options[id.selectedIndex].value;
 			}
         </script>
-        <a class="btn btn-success" OnClick=url(document.getElementById("groupcombo")) ><?php echo $l->g(589) ?></a>
+        <a class="btn btn-success" OnClick=url(document.getElementById("groupcombo")) ><?= $l->g(589) ?></a>
     </div>
 </div>
 <div class="row margin-top30">

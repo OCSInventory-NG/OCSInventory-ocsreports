@@ -214,7 +214,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 	?>
 
 	<div align=center>
-		<div class="<?php echo $option['table_name']; ?>_top_settings" style="display:none;">
+		<div class="<?= $option['table_name']; ?>_top_settings" style="display:none;">
 		</div>
 		<?php
 		//Display the Column selector
@@ -225,10 +225,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 			<div class="row">
 				<div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
 					<div class="form-group">
-						<label class="control-label col-sm-4" for="select_col<?php echo $option['table_name']; ?>"><?php echo $l->g(1349); ?> :</label>
+						<label class="control-label col-sm-4" for="select_col<?= $option['table_name']; ?>"><?= $l->g(1349); ?> :</label>
 						<div class="col-sm-8">
-							<select class="form-control" id="select_col<?php echo $option['table_name']; ?>" name="select_col<?php echo $option['table_name']; ?>">
-								<option value="default"><?php echo $l->g(6001); ?></option>
+							<select class="form-control" id="select_col<?= $option['table_name']; ?>" name="select_col<?= $option['table_name']; ?>">
+								<option value="default"><?= $l->g(6001); ?></option>
 								<?php
 								foreach ($list_col_can_del as $key => $col) {
 									$name = explode('.', $col);
@@ -254,7 +254,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		?>
 
 
-		<div id="<?php echo $option['table_name']; ?>_csv_download"
+		<div id="<?= $option['table_name']; ?>_csv_download"
 			 style="display: none">
 				 <?php
 				 //Display of the result count
@@ -273,17 +273,17 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		//Check all the checkbox
 		function checkall()
 		{
-			var table_id = "table#<?php echo $option['table_name']; ?>";
+			var table_id = "table#<?= $option['table_name']; ?>";
 			$(table_id + " tbody tr td input:checkbox").each(function () {
 				value = !$(this).attr('checked');
 				document.getElementById($(this).attr('id')).checked = value;
 			});
 		}
 		$(document).ready(function () {
-			var table_name = "<?php echo $option['table_name']; ?>";
-			var table_id = "table#<?php echo $option['table_name']; ?>";
-			var form_name = "form#<?php echo $option['form_name']; ?>";
-			var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?>";
+			var table_name = "<?= $option['table_name']; ?>";
+			var table_id = "table#<?= $option['table_name']; ?>";
+			var form_name = "form#<?= $option['form_name']; ?>";
+			var csrfid = "input#CSRF_<?= $_SESSION['OCS']['CSRFNUMBER']; ?>";
 
 			/*
 			 Table Skeleton Creation.
@@ -299,18 +299,18 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 				"serverSide": true,
 				"dom": dom,
 				"ajax": {
-					'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
+					'url': '<?= $address; ?>&no_header=true&no_footer=true',
 					"type": "POST",
 					//Error handling
 					"error": function (xhr, error, thrown) {
 						var statusErrorMap = {
-							'400': "<?php echo $l->g(1352); ?>",
-							'401': "<?php echo $l->g(1353); ?>",
-							'403': "<?php echo $l->g(1354); ?>",
-							'404': "<?php echo $l->g(1355); ?>",
-							'414': "<?php echo $l->g(1356); ?>",
-							'500': "<?php echo $l->g(1357); ?>",
-							'503': "<?php echo $l->g(1358); ?>"
+							'400': "<?= $l->g(1352); ?>",
+							'401': "<?= $l->g(1353); ?>",
+							'403': "<?= $l->g(1354); ?>",
+							'404': "<?= $l->g(1355); ?>",
+							'414': "<?= $l->g(1356); ?>",
+							'500': "<?= $l->g(1357); ?>",
+							'503': "<?= $l->g(1358); ?>"
 						};
 						if (statusErrorMap[xhr.status] != undefined) {
 							if (xhr.status == 401) {
@@ -326,7 +326,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 							$(".dataTables_scrollHeadInner>table").width('100%');
 						}
 						//Add CSRF
-						d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?> = $(csrfid).val();
+						d.CSRF_<?= $_SESSION['OCS']['CSRFNUMBER']; ?> = $(csrfid).val();
 						var visible = [];
 						if (document.getElementById('checkboxALL')) {
 							document.getElementById('checkboxALL').checked = false;
@@ -426,27 +426,27 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 				],
 				//Translation
 				"language": {
-					"sEmptyTable": "<?php echo $l->g(1334); ?>",
-					"sInfo": "<?php echo $l->g(1335); ?>",
-					"sInfoEmpty": "<?php echo $l->g(1336); ?>",
-					"sInfoFiltered": "<?php echo $l->g(1337); ?>",
+					"sEmptyTable": "<?= $l->g(1334); ?>",
+					"sInfo": "<?= $l->g(1335); ?>",
+					"sInfoEmpty": "<?= $l->g(1336); ?>",
+					"sInfoFiltered": "<?= $l->g(1337); ?>",
 					"sInfoPostFix": "",
-					"sInfoThousands": "<?php echo $l->g(1350); ?>",
-					"decimal": "<?php echo $l->g(1351); ?>",
-					"sLengthMenu": "<?php echo $l->g(1338); ?>",
-					"sLoadingRecords": "<?php echo $l->g(1339); ?>",
-					"sProcessing": "<?php echo $l->g(1340); ?>",
-					"sSearch": "<?php echo $l->g(1341); ?>",
-					"sZeroRecords": "<?php echo $l->g(1342); ?>",
+					"sInfoThousands": "<?= $l->g(1350); ?>",
+					"decimal": "<?= $l->g(1351); ?>",
+					"sLengthMenu": "<?= $l->g(1338); ?>",
+					"sLoadingRecords": "<?= $l->g(1339); ?>",
+					"sProcessing": "<?= $l->g(1340); ?>",
+					"sSearch": "<?= $l->g(1341); ?>",
+					"sZeroRecords": "<?= $l->g(1342); ?>",
 					"oPaginate": {
-						"sFirst": "<?php echo $l->g(1343); ?>",
-						"sLast": "<?php echo $l->g(1344); ?>",
-						"sNext": "<?php echo $l->g(1345); ?>",
-						"sPrevious": "<?php echo $l->g(1346); ?>",
+						"sFirst": "<?= $l->g(1343); ?>",
+						"sLast": "<?= $l->g(1344); ?>",
+						"sNext": "<?= $l->g(1345); ?>",
+						"sPrevious": "<?= $l->g(1346); ?>",
 					},
 					"oAria": {
-						"sSortAscending": ": <?php echo $l->g(1347); ?>",
-						"sSortDescending": ": <?php echo $l->g(1348); ?>",
+						"sSortAscending": ": <?= $l->g(1347); ?>",
+						"sSortDescending": ": <?= $l->g(1348); ?>",
 					}
 				},
 				"scrollX": 'true'
@@ -467,7 +467,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 			$("body").on("click", "#" + table_name + "_settings_toggle", function () {
 				$("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-up");
 				$("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-down");
-				$("#<?php echo $option['table_name']; ?>_settings").fadeToggle();
+				$("#<?= $option['table_name']; ?>_settings").fadeToggle();
 
 			});
 	<?php if ($opt) { ?>
@@ -533,7 +533,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
 	if ($_SESSION['OCS']['DEBUG'] == 'ON') {
 		?><center>
-			<div id="<?php echo $option['table_name']; ?>_debug" class="alert alert-info" role="alert">
+			<div id="<?= $option['table_name']; ?>_debug" class="alert alert-info" role="alert">
 				<b>[DEBUG]TABLE REQUEST[DEBUG]</b>
 				<hr>
 				<b class="datatable_request" style="display:none;">LAST REQUEST:</b>
@@ -2218,15 +2218,15 @@ function del_selection($form_name) {
 		function garde_check(image, id)
 		{
 			var idchecked = '';
-			for (i = 0; i < document.<?php echo $form_name ?>.elements.length; i++)
+			for (i = 0; i < document.<?= $form_name ?>.elements.length; i++)
 			{
-				if (document.<?php echo $form_name ?>.elements[i].name.substring(0, 5) == 'check') {
-					if (document.<?php echo $form_name ?>.elements[i].checked)
-						idchecked = idchecked + document.<?php echo $form_name ?>.elements[i].name.substring(5) + ',';
+				if (document.<?= $form_name ?>.elements[i].name.substring(0, 5) == 'check') {
+					if (document.<?= $form_name ?>.elements[i].checked)
+						idchecked = idchecked + document.<?= $form_name ?>.elements[i].name.substring(5) + ',';
 				}
 			}
 			idchecked = idchecked.substr(0, (idchecked.length - 1));
-			confirme('', idchecked, "<?php echo $form_name ?>", "del_check", "<?php echo $l->g(900) ?>");
+			confirme('', idchecked, "<?= $form_name ?>", "del_check", "<?= $l->g(900) ?>");
 		}
 	</script>
 	<?php

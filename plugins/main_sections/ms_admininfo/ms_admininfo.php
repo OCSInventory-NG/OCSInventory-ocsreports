@@ -213,8 +213,8 @@ if ($protectedPost['onglet'] == 1) {
 
 	<div class="row">
 		<div class="col-md-12">
-			<input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-			<input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+			<input type="submit" name="Valid_modif" value="<?= $l->g(1363) ?>" class="btn btn-success">
+			<input type="submit" name="Reset_modif" value="<?= $l->g(1364) ?>" class="btn btn-danger">
 		</div>
 	</div>
 

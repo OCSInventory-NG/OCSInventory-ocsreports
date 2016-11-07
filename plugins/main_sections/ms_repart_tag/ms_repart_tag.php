@@ -44,9 +44,9 @@ $list_fields_flip = array_flip($list_fields);
 <div class="row">
     <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
         <div class="form-group">
-            <label class="control-label col-sm-4" for="TAG_CHOISE"><?php echo $l->g(340) ?></label>
+            <label class="control-label col-sm-4" for="TAG_CHOISE"><?= $l->g(340) ?></label>
             <div class="col-sm-8">
-				<?php echo show_modif($list_fields_flip, 'TAG_CHOISE', 2, $form_name, array('DEFAULT' => "NO")); ?>
+				<?= show_modif($list_fields_flip, 'TAG_CHOISE', 2, $form_name, array('DEFAULT' => "NO")); ?>
             </div>
         </div>
     </div>

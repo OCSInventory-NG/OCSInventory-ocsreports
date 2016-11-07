@@ -592,10 +592,10 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
     </div>
 
 </div>
-<input type='submit' name='valid' id='valid' class="btn btn-success" value='<?php echo $l->g(13) ?>' OnClick='return verif();'>
+<input type='submit' name='valid' id='valid' class="btn btn-success" value='<?= $l->g(13) ?>' OnClick='return verif();'>
 <input type='hidden' id='digest_algo' name='digest_algo' value='MD5'>
 <input type='hidden' id='digest_encod' name='digest_encod' value='Hexa'>
-<input type='hidden' id='download_rep_creat' name='download_rep_creat' value='<?php echo $default['DOWNLOAD_REP_CREAT'] ?>'>
+<input type='hidden' id='download_rep_creat' name='download_rep_creat' value='<?= $default['DOWNLOAD_REP_CREAT'] ?>'>
 
 </div></div>
 <?php

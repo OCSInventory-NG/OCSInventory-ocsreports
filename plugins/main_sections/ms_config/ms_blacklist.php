@@ -133,7 +133,7 @@ switch ($protectedPost['onglet']) {
 				//var_dump($MACnb_field, $protectedPost, $MACfield_name, $MACnb_value_by_field, $MACsize, $MACseparat, $javascript_mac);
 				?>
 				<div class="input-group">
-					<label style="margin-right: 10px" "><?php echo $l->g(654); ?></label>
+					<label style="margin-right: 10px" "><?= $l->g(654); ?></label>
 					<?php
 					$i = 1;
 					while ($i <= $MACnb_field) {
@@ -141,7 +141,7 @@ switch ($protectedPost['onglet']) {
 							echo $MACseparat;
 						}
 						?>
-						<input type="text" name="<?php echo $MACfield_name . $i; ?>" maxlength="<?php echo $MACnb_value_by_field ?>" size="3" <?php echo $javascript_mac; ?>>
+						<input type="text" name="<?= $MACfield_name . $i; ?>" maxlength="<?= $MACnb_value_by_field ?>" size="3" <?= $javascript_mac; ?>>
 						<?php
 						$i++;
 					}
@@ -152,7 +152,7 @@ switch ($protectedPost['onglet']) {
 				?>
 				<div class="input-group">
 					<div class="col-sm-4">
-						<label style="margin-right: 10px" "><?php echo $l->g(1142); ?></label>
+						<label style="margin-right: 10px" "><?= $l->g(1142); ?></label>
 					</div>
 					<div class="col-sm-8">
 						<?php
@@ -162,7 +162,7 @@ switch ($protectedPost['onglet']) {
 								echo $SUBseparat;
 							}
 							?>
-							<input type="text" name="<?php echo $SUBfield_name . $i; ?>" maxlength="<?php echo $SUBnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
+							<input type="text" name="<?= $SUBfield_name . $i; ?>" maxlength="<?= $SUBnb_value_by_field ?>" size="3" <?= $chiffres; ?>>
 							<?php
 							$i++;
 						}
@@ -171,7 +171,7 @@ switch ($protectedPost['onglet']) {
 				</div>
 				<div class="input-group">
 					<div class="col-sm-4">
-						<label style="margin-right: 10px" "><?php echo $l->g(1143); ?></label>
+						<label style="margin-right: 10px" "><?= $l->g(1143); ?></label>
 					</div>
 					<div class="col-sm-8">
 						<?php
@@ -181,7 +181,7 @@ switch ($protectedPost['onglet']) {
 								echo $MASKseparat;
 							}
 							?>
-							<input type="text" name="<?php echo $MASKfield_name . $i; ?>" maxlength="<?php echo $MASKnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
+							<input type="text" name="<?= $MASKfield_name . $i; ?>" maxlength="<?= $MASKnb_value_by_field ?>" size="3" <?= $chiffres; ?>>
 							<?php
 							$i++;
 						}

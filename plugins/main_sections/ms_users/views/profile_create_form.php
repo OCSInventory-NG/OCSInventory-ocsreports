@@ -27,7 +27,7 @@ function show_profile_create_form() {
 	global $protectedPost;
 	?>
 
-	<h3><?php echo $l->g(1399) ?></h3>
+	<h3><?= $l->g(1399) ?></h3>
 
 	<?php
 	$field_options = array('field_class' => 'big-label');
@@ -42,12 +42,12 @@ function show_profile_create_form() {
 
 	<div class="row">
 		<div class="col-md-12">
-			<input type="submit"  class="btn btn-success" value="<?php echo $l->g(1363) ?>"/>
-			<input type="reset" class="btn btn-danger" value="<?php echo $l->g(1364) ?>"/>
+			<input type="submit"  class="btn btn-success" value="<?= $l->g(1363) ?>"/>
+			<input type="reset" class="btn btn-danger" value="<?= $l->g(1364) ?>"/>
 		</div>
 	</div>
 
-	<?php echo close_form() ?>
+	<?= close_form() ?>
 
 	<?php
 }

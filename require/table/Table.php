@@ -62,17 +62,17 @@ class Table {
 			//Check all the checkbox
 			function checkall()
 			{
-				var table_id = "<?php echo $tableid; ?>";
+				var table_id = "<?= $tableid; ?>";
 				$(table_id + " tbody tr td input:checkbox").each(function () {
 					value = !$(this).attr('checked');
 					document.getElementById($(this).attr('id')).checked = value;
 				});
 			}
 			$(document).ready(function () {
-				var table_name = "<?php echo $tablename; ?>";
-				var table_id = "<?php echo $tableid; ?>";
-				var form_name = "<?php echo $formid; ?>";
-				var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?>";
+				var table_name = "<?= $tablename; ?>";
+				var table_id = "<?= $tableid; ?>";
+				var form_name = "<?= $formid; ?>";
+				var csrfid = "input#CSRF_<?= $_SESSION['OCS']['CSRFNUMBER']; ?>";
 				/*
 				 Table Skeleton Creation.
 				 A Full documentation about DataTable constructor can be found at
@@ -82,18 +82,18 @@ class Table {
 					"processing": true,
 					"serverSide": true,
 					"ajax": {
-						'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
+						'url': '<?= $address; ?>&no_header=true&no_footer=true',
 						"type": "POST",
 						//Error handling
 						"error": function (xhr, error, thrown) {
 							var statusErrorMap = {
-								'400': "<?php echo $l->g(1352); ?>",
-								'401': "<?php echo $l->g(1353); ?>",
-								'403': "<?php echo $l->g(1354); ?>",
-								'404': "<?php echo $l->g(1355); ?>",
-								'414': "<?php echo $l->g(1356); ?>",
-								'500': "<?php echo $l->g(1357); ?>",
-								'503': "<?php echo $l->g(1358); ?>"
+								'400': "<?= $l->g(1352); ?>",
+								'401': "<?= $l->g(1353); ?>",
+								'403': "<?= $l->g(1354); ?>",
+								'404': "<?= $l->g(1355); ?>",
+								'414': "<?= $l->g(1356); ?>",
+								'500': "<?= $l->g(1357); ?>",
+								'503': "<?= $l->g(1358); ?>"
 							};
 							if (statusErrorMap[xhr.status] != undefined) {
 								if (xhr.status == 401) {
@@ -109,7 +109,7 @@ class Table {
 								$(".dataTables_scrollHeadInner>table").width('100%');
 							}
 							//Add CSRF
-							d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?> = $(csrfid).val();
+							d.CSRF_<?= $_SESSION['OCS']['CSRFNUMBER']; ?> = $(csrfid).val();
 							var visible = [];
 
 							if (document.getElementById('checkboxALL')) {
@@ -188,27 +188,27 @@ class Table {
 					],
 					//Translation
 					"language": {
-						"sEmptyTable": "<?php echo $l->g(1334); ?>",
-						"sInfo": "<?php echo $l->g(1335); ?>",
-						"sInfoEmpty": "<?php echo $l->g(1336); ?>",
-						"sInfoFiltered": "<?php echo $l->g(1337); ?>",
+						"sEmptyTable": "<?= $l->g(1334); ?>",
+						"sInfo": "<?= $l->g(1335); ?>",
+						"sInfoEmpty": "<?= $l->g(1336); ?>",
+						"sInfoFiltered": "<?= $l->g(1337); ?>",
 						"sInfoPostFix": "",
-						"sInfoThousands": "<?php echo $l->g(1350); ?>",
-						"decimal": "<?php echo $l->g(1351); ?>",
-						"sLengthMenu": "<?php echo $l->g(1338); ?>",
-						"sLoadingRecords": "<?php echo $l->g(1339); ?>",
-						"sProcessing": "<?php echo $l->g(1340); ?>",
-						"sSearch": "<?php echo $l->g(1341); ?>",
-						"sZeroRecords": "<?php echo $l->g(1342); ?>",
+						"sInfoThousands": "<?= $l->g(1350); ?>",
+						"decimal": "<?= $l->g(1351); ?>",
+						"sLengthMenu": "<?= $l->g(1338); ?>",
+						"sLoadingRecords": "<?= $l->g(1339); ?>",
+						"sProcessing": "<?= $l->g(1340); ?>",
+						"sSearch": "<?= $l->g(1341); ?>",
+						"sZeroRecords": "<?= $l->g(1342); ?>",
 						"oPaginate": {
-							"sFirst": "<?php echo $l->g(1343); ?>",
-							"sLast": "<?php echo $l->g(1344); ?>",
-							"sNext": "<?php echo $l->g(1345); ?>",
-							"sPrevious": "<?php echo $l->g(1346); ?>",
+							"sFirst": "<?= $l->g(1343); ?>",
+							"sLast": "<?= $l->g(1344); ?>",
+							"sNext": "<?= $l->g(1345); ?>",
+							"sPrevious": "<?= $l->g(1346); ?>",
 						},
 						"oAria": {
-							"sSortAscending": ": <?php echo $l->g(1347); ?>",
-							"sSortDescending": ": <?php echo $l->g(1348); ?>",
+							"sSortAscending": ": <?= $l->g(1347); ?>",
+							"sSortDescending": ": <?= $l->g(1348); ?>",
 						}
 					},
 					"scrollX": 'auto',

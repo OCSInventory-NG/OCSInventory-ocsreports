@@ -182,7 +182,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
 		?>
 		<div class="row">
 			<div class='col-md-12'>
-				<input type='submit' class='btn' name='add_static_group' value='<?php echo $l->g(587) ?>'>
+				<input type='submit' class='btn' name='add_static_group' value='<?= $l->g(587) ?>'>
 			</div>
 		</div>
 		<?php
@@ -202,8 +202,8 @@ if (isset($protectedPost['add_static_group']) && $_SESSION['OCS']['profile']->ge
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-			<input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+			<input type="submit" name="Valid_modif" value="<?= $l->g(1363) ?>" class="btn btn-success">
+			<input type="submit" name="Reset_modif" value="<?= $l->g(1364) ?>" class="btn btn-danger">
 		</div>
 	</div>
 	<?php

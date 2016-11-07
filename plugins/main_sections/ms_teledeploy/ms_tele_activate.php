@@ -90,7 +90,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
 			<div class="form-group">
 				<!-- <label class="control-label col-sm-4" for="download>"></label> -->
 				<div class="col-sm-8">
-					<?php echo show_modif(array('download' => $l->g(990), 'server' => $l->g(991)), 'SHOW_SELECT', 2, $form_name); ?>
+					<?= show_modif(array('download' => $l->g(990), 'server' => $l->g(991)), 'SHOW_SELECT', 2, $form_name); ?>
 				</div>
 			</div>
 		</div>

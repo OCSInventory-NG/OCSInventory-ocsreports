@@ -36,7 +36,7 @@ function show_profile_edit_form($profile_id) {
 	echo open_form('edit-profile', '#');
 	?>
 
-	<h3><?php echo $l->g(1412) ?> (<?php echo $profile->getLabelTranslated() ?>)</h3>
+	<h3><?= $l->g(1412) ?> (<?= $profile->getLabelTranslated() ?>)</h3>
 
 	<?php show_form_input('name', array('type' => 'hidden', 'value' => $profile->getName())) ?>
 	<?php show_form_field(array(), array(), 'input', 'new_label', $l->g(1413)) ?>
@@ -63,8 +63,8 @@ function show_profile_edit_form($profile_id) {
 	</div>
 
 	<div class="form-buttons">
-		<input type="submit" value="<?php echo $l->g(1363) ?>"/>
-		<input type="reset" value="<?php echo $l->g(1364) ?>"/>
+		<input type="submit" value="<?= $l->g(1363) ?>"/>
+		<input type="reset" value="<?= $l->g(1364) ?>"/>
 	</div>
 
 	<?php

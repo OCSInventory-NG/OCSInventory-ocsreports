@@ -71,12 +71,12 @@ $col = 1;
 						<div class="col-md-6">
 							<div class="col-xs-4">
 								<ul class="server-information-ul">
-									<li><?php echo $label; ?></li>
+									<li><?= $label; ?></li>
 								</ul>
 							</div>
 							<div class="col-xs-8">
 								<ul class="server-information-ul-li">
-									<li><?php echo $value; ?></li>
+									<li><?= $value; ?></li>
 								</ul>
 							</div>
 						</div>
@@ -88,12 +88,12 @@ $col = 1;
 						<div class="col-md-6">
 							<div class="col-xs-4">
 								<ul class="server-information-ul">
-									<li><?php echo $label; ?></li>
+									<li><?= $label; ?></li>
 								</ul>
 							</div>
 							<div class="col-xs-8">
 								<ul class="server-information-ul-li">
-									<li><?php echo $value; ?></li>
+									<li><?= $value; ?></li>
 								</ul>
 							</div>
 						</div>
