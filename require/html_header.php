@@ -234,8 +234,6 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
     msg_info($l->g(890));
 }
 
-echo "<div class='container-fluid'>";
-
 if ($_SESSION['OCS']["mesmachines"] == "NOTAG" && !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) && $protectedGet[PAG_INDEX] == $pages_refs['ms_debug'])) {
     if (isset($LIST_ERROR)) {
         $msg_error = $LIST_ERROR;
