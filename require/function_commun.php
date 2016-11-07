@@ -415,7 +415,7 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
                 echo "<div class='input-group'>";
 		echo "<select name='".$inputName."' id='".$inputName."' class='form-control ".$class."' ".$attrBalise.">";
 		foreach ($optionsSelect as $option => $value){
-			echo "<option value='".$option."' ".($inputValue[$inputName] == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
+			echo "<option value='".$option."' ".($inputValue == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
 		}
 		echo "</select>";
                 if($groupAddon != ""){
