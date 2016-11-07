@@ -63,43 +63,51 @@ if (isset($protectedPost['Reset_modif'])) {
 //passage en mode
 if (isset($protectedPost['Valid_modif']) && $protectedPost["MODE"] != "") {
 	AddLog("MODE", $list_mode[$protectedPost["MODE"]]);
-	if ($protectedPost["MODE"] == 1) {
-		unset($_SESSION['OCS']['DEBUG'], $_SESSION['OCS']['MODE_LANGUAGE'], $_SESSION['OCS']["usecache"]);
-	} elseif ($protectedPost["MODE"] == 2) {
-		unset($_SESSION['OCS']['MODE_LANGUAGE']);
-		$_SESSION['OCS']['DEBUG'] = "ON";
-	} elseif ($protectedPost["MODE"] == 3) {
-		unset($_SESSION['OCS']['DEBUG']);
-		$_SESSION['OCS']['MODE_LANGUAGE'] = "ON";
-	} elseif ($protectedPost["MODE"] == 4) {
-		$_SESSION['OCS']['MODE_LANGUAGE'] = "ON";
-		$_SESSION['OCS']['DEBUG'] = "ON";
-	} elseif ($protectedPost["MODE"] == 5) {
-		if (!isset($_SESSION['OCS']['TRUE_USER'])) {
-			$true_user = $_SESSION['OCS']['loggeduser'];
-			$list_page_profil = $_SESSION['OCS']['profile']->getPages();
-			$restriction = $_SESSION['OCS']['profile']->getRestriction('GUI');
-			$loggeduser = $protectedPost["FUSER"];
-			unset($_SESSION['OCS']);
-			$_SESSION['OCS']['TRUE_USER'] = $true_user;
-			$_SESSION['OCS']['TRUE_PAGES'] = $list_page_profil;
-			$_SESSION['OCS']['TRUE_RESTRICTION'] = $restriction;
-			$_SESSION['OCS']['loggeduser'] = $loggeduser;
-		} else {
-			$loggeduser = $_SESSION['OCS']['TRUE_USER'];
-			$restriction = $_SESSION['OCS']['TRUE_RESTRICTION'];
-			unset($_SESSION['OCS']);
-			$_SESSION['OCS']['loggeduser'] = $loggeduser;
-			$_SESSION['OCS']['profile']->setRestriction('GUI', $restriction);
-		}
-	} elseif ($protectedPost["MODE"] == 6) {
-		if (isset($_SESSION['OCS']["usecache"])
-				and $_SESSION['OCS']["usecache"] == 1) {
-			$_SESSION['OCS']["usecache"] = 0;
-		} else {
-			$_SESSION['OCS']["usecache"] = 1;
-		}
+	switch ($protectedPost["MODE"]) {
+		case 1:
+			unset($_SESSION['OCS']['DEBUG'], $_SESSION['OCS']['MODE_LANGUAGE'], $_SESSION['OCS']["usecache"]);
+			break;
+
+		case 2:
+			unset($_SESSION['OCS']['MODE_LANGUAGE']);
+			$_SESSION['OCS']['DEBUG'] = "ON";
+			break;
+		case 3:
+			unset($_SESSION['OCS']['DEBUG']);
+			$_SESSION['OCS']['MODE_LANGUAGE'] = "ON";
+			break;
+		case 4:
+			$_SESSION['OCS']['MODE_LANGUAGE'] = "ON";
+			$_SESSION['OCS']['DEBUG'] = "ON";
+			break;
+		case 5:
+			if (!isset($_SESSION['OCS']['TRUE_USER'])) {
+				$true_user = $_SESSION['OCS']['loggeduser'];
+				$list_page_profil = $_SESSION['OCS']['profile']->getPages();
+				$restriction = $_SESSION['OCS']['profile']->getRestriction('GUI');
+				$loggeduser = $protectedPost["FUSER"];
+				unset($_SESSION['OCS']);
+				$_SESSION['OCS']['TRUE_USER'] = $true_user;
+				$_SESSION['OCS']['TRUE_PAGES'] = $list_page_profil;
+				$_SESSION['OCS']['TRUE_RESTRICTION'] = $restriction;
+				$_SESSION['OCS']['loggeduser'] = $loggeduser;
+			} else {
+				$loggeduser = $_SESSION['OCS']['TRUE_USER'];
+				$restriction = $_SESSION['OCS']['TRUE_RESTRICTION'];
+				unset($_SESSION['OCS']);
+				$_SESSION['OCS']['loggeduser'] = $loggeduser;
+				$_SESSION['OCS']['profile']->setRestriction('GUI', $restriction);
+			}
+			break;
+		case 6:
+			if (isset($_SESSION['OCS']["usecache"]) && $_SESSION['OCS']["usecache"] == 1) {
+				$_SESSION['OCS']["usecache"] = 0;
+			} else {
+				$_SESSION['OCS']["usecache"] = 1;
+			}
+			break;
 	}
+
 
 
 	reloadform_closeme('log_out', true);
