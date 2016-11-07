@@ -91,18 +91,18 @@ if (!isset($protectedGet["popup"])) {
                                 <?php if ((isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') || (isset($_SESSION['OCS']['MODE_LANGUAGE']) && $_SESSION['OCS']['MODE_LANGUAGE'] == "ON")) : ?>
                                     <li>
                                         <a href="index.php?<?= PAG_INDEX ?>=<?= $pages_refs['ms_debug'] ?>&head=1">
-                                            <font color="red">
-                                            <?= $l->g(1011) ?>
-                                            </font>
+                                            <span class="red">
+                                                <?= $l->g(1011) ?>
+                                            </span>
                                         </a>
                                     </li>
 
                                     <?php if ($_SESSION['OCS']['DEBUG'] == 'ON') : ?>
                                         <li class="dropdown-header">
                                             CACHE:&nbsp;
-                                            <font color="<?= ($_SESSION['OCS']["usecache"] ? 'green' : 'red') ?>">
-                                            <?= ($_SESSION['OCS']["usecache"] ? 'ON' : 'OFF') ?>
-                                            </font>
+                                            <span class="<?= ($_SESSION['OCS']["usecache"] ? 'green' : 'red') ?>">
+                                                <?= ($_SESSION['OCS']["usecache"] ? 'ON' : 'OFF') ?>
+                                            </span>
                                         </li>
                                         <li class='dropdown-header'>
                                             <span id='tps'>wait...</span>
@@ -114,9 +114,9 @@ if (!isset($protectedGet["popup"])) {
                                         ?>
                                         <li>
                                             <a href="index.php?<?= PAG_INDEX ?>=<?= $pages_refs['ms_debug'] ?>&head=1">
-                                                <font color='green'>
-                                                <?= $l->g(1011) ?>
-                                                </font>
+                                                <span class="green">
+                                                    <?= $l->g(1011) ?>
+                                                </span>
                                             </a>
                                         </li>
                                         <?php

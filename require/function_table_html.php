@@ -975,7 +975,7 @@ function filtre($tab_field, $form_name, $query, $arg = '', $arg_count = '') {
 function tab_list_error($data, $title) {
     echo "<br>";
     echo "<table align='center' width='50%' border='0'  bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
-    echo "<tr><td colspan=20 align='center'><font color='RED'>" . $title . "</font></td></tr><tr>";
+    echo "<tr><td colspan=20 align='center'><span class='red'>" . $title . "</span></td></tr><tr>";
     $i = 0;
     $j = 0;
     while ($data[$i]) {
@@ -1078,7 +1078,7 @@ function show_page($valCount, $form_name) {
                 if ($i < $nbpage - 10 and $i > 10) {
                     $point2 = " ... ";
                 }
-                echo $point . "<font color=red>" . $i . "</font> " . $point2;
+                echo $point . "<span class=red>" . $i . "</span> " . $point2;
             } elseif ($i > $nbpage - 10 or $i < 10) {
                 echo "<a OnClick='pag(\"" . $i . "\",\"page\",\"" . $form_name . "\")'>" . $i . "</a> ";
             } elseif ($i < $nbpage - 10 and $i > 10 and $deja == "") {
@@ -1561,7 +1561,7 @@ function ajaxgestionresults($resultDetails, $list_fields, $tab_options) {
                         if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))])) {
                             $constr = $_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))];
                         } else {
-                            $constr = "<font color=red>" . $l->g(885) . "</font>";
+                            $constr = "<span class=red>" . $l->g(885) . "</span>";
                         }
                         $row[$key] = $value_of_field . " (<small>" . $constr . "</small>)";
                         break;
@@ -1596,7 +1596,7 @@ function ajaxgestionresults($resultDetails, $list_fields, $tab_options) {
                         }
                 }
                 if (!empty($tab_options['COLOR'][$key])) {
-                    $row[$column] = "<font color='" . $tab_options['COLOR'][$key] . "'>" . $row[$column] . "</font>";
+                    $row[$column] = "<span class='" . $tab_options['COLOR'][$key] . "'>" . $row[$column] . "</span>";
                 }
                 if (!empty($tab_options['SHOW_ONLY'][$key])) {
                     if (empty($tab_options['SHOW_ONLY'][$key][$value_of_field]) && empty($tab_options['EXIST'][$key]) || (reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])) {
@@ -2010,7 +2010,7 @@ function gestion_donnees($sql_data, $list_fields, $tab_options, $form_name, $def
                 }
 
                 if (isset($tab_options['COLOR'][$key])) {
-                    $value_of_field = "<font color=" . $tab_options['COLOR'][$key] . ">" . $value_of_field . "</font>";
+                    $value_of_field = "<span class=" . $tab_options['COLOR'][$key] . ">" . $value_of_field . "</span>";
                     $htmlentities = false;
                 }
                 if ($affich == 'OK') {
@@ -2087,7 +2087,7 @@ function gestion_donnees($sql_data, $list_fields, $tab_options, $form_name, $def
                         if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))])) {
                             $constr = $_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))];
                         } else {
-                            $constr = "<font color=red>" . $l->g(885) . "</font>";
+                            $constr = "<span class=red>" . $l->g(885) . "</span>";
                         }
                         $data[$i][$num_col] = $value_of_field . " (<small>" . $constr . "</small>)";
                     } elseif (substr($key, 0, 11) == "PERCENT_BAR") {

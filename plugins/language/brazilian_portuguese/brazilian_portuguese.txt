@@ -730,7 +730,7 @@
 767 CAUTELA: RESULTADO FILTRADO
 768 Numero de gravações
 769 Transferência feita
-770 ATUALIZADO DE 
+770 ATUALIZADO DE
 771 Esta categoria já existe
 772 O nome da categoria não pode ser nulo
 773 Você deve selecionar o nome da categoria
@@ -785,23 +785,23 @@
 819 computadores(s) adicionados ao group
 820 Último contato
 821 MODIFICAÇÃO CONFIGURAÇÃO DO SERVIDOR
-822 Customizar 
-823 Por padrão 
+822 Customizar
+823 Por padrão
 824 Interface logs activation
 825 Diretório de logs
 826 Address to find teledeploy packages fragments to activate
 827 Address to find teledeploy packages INFO files to activate
 828 Rremover computadores com o inventário mais antigo do que
 829 Redistribution packages creation directory
-830 Endereço servidor Ldap 
-831 Porta servidor Ldap 
+830 Endereço servidor Ldap
+831 Porta servidor Ldap
 832 Ldap base name + dc
 833 Nome do campo para definir o login
 834 Version LDAP_OPT_PROTOCOL_VERSION
 835 Add RSX
 836 Gereciar TIPOS
 837 Você não tem acesso a este conjunto de dados
-838 Disk: Drive letter 
+838 Disk: Drive letter
 839 Dico: Tipo
 840 Dico: Formato
 841 Disco: Capacidade
@@ -832,8 +832,8 @@
 866 Rede: Velocidade
 867 Rede: MAC Address
 868 Rede: Status
-869 Rede: Endereço IP 
-870 Rede: Mascára IP 
+869 Rede: Endereço IP
+870 Rede: Mascára IP
 871 Rede: Subnetwork IP
 872 Rede: Gateway IP
 873 Rede: DHCP IP
@@ -850,7 +850,7 @@
 884 WARNING: WITH FILTER visualisation
 885 unknown
 886 Simple desaffection
-887 It's possible that this package is not affected to redistribution servers 
+887 It's possible that this package is not affected to redistribution servers
 888 Remoção
 889 Conectado a
 890 Interface is actually locked on a search with various criterias
@@ -870,9 +870,9 @@
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal informations
-909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE 
+909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
 910 Validar
-911 Switch profile of 
+911 Switch profile of
 912 Export list of computers that have this softwares
 913 Number of non inventoried network interfaces
 914 Number of agents that didn't send inventory since at least
@@ -884,7 +884,7 @@
 920 ERROR, the requested doesn't exists.
 921 Delete this category
 922 To merge, you have to select 2 computers at least
-923 You have no computer in count 
+923 You have no computer in count
 924 EXTRACTION REQUEST NOT CONVENTIONAL!
 925 FUSER functionality
 926 Fuser login:
@@ -912,12 +912,12 @@
 948 Identified peripherals list
 949 Id do computador
 950 NOME DO ARQUIVO
-951 ARQUIVO CRIADO EM 
-952 ARQUIVO MODIFICADO EM 
-953 TAMANHO 
+951 ARQUIVO CRIADO EM
+952 ARQUIVO MODIFICADO EM
+953 TAMANHO
 954 A SESSION loss happened
 955 NO SYSTEM FOUND IN DATABASE
-956 Todos os erros 
+956 Todos os erros
 957 All the SUCCESS
 958 TELEDEPLOY VALUE PROBLEM
 959 TO MUCH SOFTWARES PULLED UP. BE MORE SPECIFIC WITH THE SEARCH
@@ -952,13 +952,13 @@
 986 REMOVE COMPUTERS FOR
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
-989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
+989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
 990 Packages created manually
 991 Packages created automatically
 992 Teledeploy time estimate
 993 Red fields are in error
 994 PDA/SMARTPHONE
-995 ID do usuário 
+995 ID do usuário
 996 Último nome
 997 You must fill user ID
 998 choose a valid profile
@@ -1026,7 +1026,7 @@
 1060 New data
 1061 Tab
 1062 Campo
-1063 Wording 
+1063 Wording
 1064 Mandatório
 1065 Field restraint
 1066 Linked to a status
@@ -1037,7 +1037,7 @@
 1071 Tipo do campo
 1072 Requisições pendentes
 1073 Make a request
-1074 'Workflow' fonction is not activate. 
+1074 'Workflow' fonction is not activate.
 1075 Active it for use it
 1076 ERROR: SEARCH STATUS IS NOT DEFINE
 1077 Status for creating package
@@ -1048,9 +1048,9 @@
 1082 Workflow admin group
 1083 Perimeter identification
 1084 Group name for test
-1085 Group name for restraint perimeter 
+1085 Group name for restraint perimeter
 1086 TAG value for test
-1088 TAG value for restraint perimeter 
+1088 TAG value for restraint perimeter
 1089 No status is active. Start by activating one
 1090 has modify request n°
 1091 A new request has been posted
@@ -1203,7 +1203,7 @@
 1238 Data de instalação
 1239 MHz
 1240 MB
-1241 Number of SNMP devices 
+1241 Number of SNMP devices
 1242 Y-m-d
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
@@ -1261,7 +1261,7 @@
 1306 Gerenciar plugins
 1307 Plugins ativos
 1308 Adicionar plugins
-1309 Teledeploy options 
+1309 Teledeploy options
 1310 Shutdown
 1311 Reboot
 1312 Data width
@@ -1323,9 +1323,9 @@
 2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
-2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
+2041 You must raise both <span class="red">post_max_size</span> and <span class="red">upload_max_filesize</span> in your php.ini to encrease this limit.
 2042 WARNING: your the default root password is set on your mysql server. Change it asap. (using root password=blank)
-2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> mysql value to at least 2MB in your server config file.
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <span class="red">max_allowed_packet</span> mysql value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERRO: Problema de autenticação MySql .
@@ -1420,5 +1420,5 @@
 6001 Offices Licences
 6002 Distribution of Offices Licences
 6003 Número da licença
-6004 Total disponível 
+6004 Total disponível
 6005 Ligar/Desligar

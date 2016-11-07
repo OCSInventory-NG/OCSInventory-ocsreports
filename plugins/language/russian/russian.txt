@@ -31,7 +31,7 @@
 49 Имя
 50 Файл покачки
 51 Комментарии
-53 Описание 
+53 Описание
 54 Процессор(ы)
 55 Число
 56 Административные данные
@@ -99,7 +99,7 @@
 186 Этот файл не содержит "версию файла"
 187 Это неправильный zip-архив
 188 Назад
-189 Вы должны выбрать как минимум 2 компьютера 
+189 Вы должны выбрать как минимум 2 компьютера
 190 О пользователе:
 191 удален
 192 Всего дубликатов
@@ -162,11 +162,11 @@
 249 Невозможно соединиться с сервером MySql. Пожалуйста, введите правильное имя пользователя и пароль.
 250 Имя сервера MySql
 251 Выход
-252 Имя (по Вашему выбору)        	
+252 Имя (по Вашему выбору)
 253 Раздел
-254 Расположение ключа (Ex: SOFTWAREMozilla)  	
+254 Расположение ключа (Ex: SOFTWAREMozilla)
 255 Имя ключа который будет считан (* означает все)
-256 Выбрать 
+256 Выбрать
 257 Ключ реестра
 258 Значение ключа
 259 Ошибка, данные не могут быть внесены (спец. символы не разрешены)
@@ -190,7 +190,7 @@
 277 Версия
 278 Драйвер
 279 Порт
-280 MIB Type 
+280 MIB Type
 281 DHCP IP
 282 Шлюз
 283 Назначение
@@ -283,7 +283,7 @@
 372 Выберите компоненты
 373 Зарегистрированный пользователь
 374 Registered society
-375 Версия OCS NG агента 
+375 Версия OCS NG агента
 376 Компьютер заблокирован. Пожалуйста попробуйте через несколько минут
 377 Частота процессора, Мгц
 380 Категории ПО для GLPI
@@ -390,7 +390,7 @@
 492 ИЗБРАН СборщикомIP в сети
 493 По умолчанию (участие в выборах)
 494 Периодичность инвентаризации
-495 Инветоризировать каждые 
+495 Инветоризировать каждые
 496 дней
 497 По умолчанию, в соответствии с параметром 'FREQUENCY'.
 498 Пакет
@@ -516,14 +516,14 @@
 621 The group was not created. Its name is already in use
 622 Cached
 623 The information you are trying to access does not exist
-624 Do you really want to delete group 
+624 Do you really want to delete group
 625 Принять изменения
 626 Отменить изменения
 627 At least one of the fields is empty... Not made Update.
 628 Redistribution Servers
 629 New group of servers of redistribution
 630 A group of existing servers
-631 Добавить в 
+631 Добавить в
 632 Crush
 633 Management groups servers
 634 Желаемое действие
@@ -548,16 +548,16 @@
 653 ЧерныйСписок MAC-адресов
 654 Введите MAC-адрес для добавления в ЧерныйСписок
 655 Insertion made
-656 This datum already exists in the list 
-657 Fields in red are in error!!! (Empty fields or size < 2) 
+656 This datum already exists in the list
+657 Fields in red are in error!!! (Empty fields or size < 2)
 658 машина не имеет сервера развертывания. <br>Необходимо распространить этот пакет индивидуально
-659 Machines already have this teledeploy package. This package's statut for these machines is now 
+659 Machines already have this teledeploy package. This package's statut for these machines is now
 660 GROUP OF SERVEUR NOT EXIST
 661 PACKAGES FOR SERVER OF REDISTRIBUTION
 662 Правила распространения
 663 INTERNES PROBLEM
 664 Action made
-665 NO SELECTED MACHINE. GROUP OF SERVER NOT CREATED 
+665 NO SELECTED MACHINE. GROUP OF SERVER NOT CREATED
 666 Group of server made
 667 FOR THE PACKAGE
 668 С какими правилами распространять?
@@ -595,12 +595,12 @@
 701 ЧерныйСписок серийных номеров
 702 Введите новый серийный номер для ЧерногоСписка
 703 ЧерныйСписок
-704 Вы уверены, что хотите добавить в ЧерныйСписок 
+704 Вы уверены, что хотите добавить в ЧерныйСписок
 705 Вы уверены, что хотите убрать из ЧерногоСписка
 706 Из ЧерногоСписка
 707 этот серийный номер
 708 этот MAC-адрес
-709 Customized PROLOG_FREQ 
+709 Customized PROLOG_FREQ
 710 Выборочная загрузка
 711 Taken into account modifications
 712 Перевод
@@ -662,7 +662,7 @@
 767 ВНИМАНИЕ: РЕЗУЛЬТАТ ФИЛЬТРАЦИИ
 768 Количество записей
 769 Tranfer Made
-770 UPDATE OF 
+770 UPDATE OF
 771 Эта категория уже существует
 772 Имя категории не должно быть нулевым
 773 Вы должны выбрать имя категории
@@ -689,7 +689,7 @@
 794 Доступно для просмотра
 795 Сегодня подключилось
 796 Сегодня инвентаризировано
-797 Недоступны для просмотра уже более, чем 
+797 Недоступны для просмотра уже более, чем
 798 Активность
 799 Техническое обеспечение
 800 Разное
@@ -701,8 +701,8 @@
 806 Малый обьем памяти
 807 Большой объем памяти
 808 Распределение
-809 Статичные группы 
-810 Динамические группы 
+809 Статичные группы
+810 Динамические группы
 811 Are you sure to want to modify the visibility of the group
 812 The software in 0 is present in CACHE but are not any more settled on machines.<br>They cannot be put in a category of dictionary
 813 Свободного места на диске >
@@ -714,8 +714,8 @@
 819 computer(s) added to group
 820 Last contact
 821 SERVER CONFIGURATION MODIFICATION
-822 Customize 
-823 By default 
+822 Customize
+823 By default
 824 Interface logs activation
 825 Logs directory
 826 Address to find teledeploy packages fragments to activate
@@ -730,7 +730,7 @@
 835 Add RSX
 836 Manage TYPES
 837 You don't have access to this datas
-838 Disk: Drive letter 
+838 Disk: Drive letter
 839 Disk: Type
 840 Disk: Format
 841 Disk: Capacity
@@ -779,7 +779,7 @@
 884 WARNING: WITH FILTER visualisation
 885 unknown
 886 Simple desaffection
-887 It's possible that this package is not affected to redistribution servers 
+887 It's possible that this package is not affected to redistribution servers
 888 Removal
 889 Connected as
 890 Interface is actually locked on a search with various criterias
@@ -799,9 +799,9 @@
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal informations
-909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE 
+909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
 910 Validate
-911 Switch profile of 
+911 Switch profile of
 912 Export list of computers that have this softwares
 913 Number of non inventoried network interfaces
 914 Number of agents that didn't send inventory since at least
@@ -829,7 +829,7 @@
 936 The type field cannot be blank
 937 This type already exists
 938 New type
-939 Computers members of the group 
+939 Computers members of the group
 940 All computers having this package
 941 DISPLAYING STATISTICS ON
 942 You have enter a commentary for this peripheral
@@ -843,7 +843,7 @@
 950 FILE NAME
 951 FILE CREATED IN THE
 952 FILE MODIFIED IN THE
-953 SIZE 
+953 SIZE
 954 A SESSION loss happened
 955 NO SYSTEM FOUND IN DATABASE
 956 All the errors
@@ -879,7 +879,7 @@
 986 REMOVE COMPUTERS FOR
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
-989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
+989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
 990 Packages created manually
 991 Packages created automatically
 992 Teledeploy time estimate
@@ -953,7 +953,7 @@
 1060 New data
 1061 Tab
 1062 Field
-1063 Wording 
+1063 Wording
 1064 Mandatory
 1065 Field restraint
 1066 Linked to a status
@@ -975,10 +975,10 @@
 1082 Workflow admin group
 1083 Perimeter identification
 1084 Group name for test
-1085 Group name for restraint perimeter 
+1085 Group name for restraint perimeter
 1086 TAG value for test
 1087 Value of the test tag
-1088 TAG value for restraint perimeter 
+1088 TAG value for restraint perimeter
 1089 No status is active. Start by activating one
 1090 has modify request n°
 1091 A new request has been posted
@@ -1131,7 +1131,7 @@
 1238 Installation date
 1239 MHz
 1240 MB
-1241 Number of SNMP devices 
+1241 Number of SNMP devices
 1242 Y-m-d
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
@@ -1189,7 +1189,7 @@
 1306 Manage plugins
 1307 Active Plugins
 1308 Add plugins
-1309 Teledeploy options 
+1309 Teledeploy options
 1310 Shutdown
 1311 Reboot
 1312 Data width
@@ -1251,9 +1251,9 @@
 2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
-2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
+2041 You must raise both <span class="red">post_max_size</span> and <span class="red">upload_max_filesize</span> in your php.ini to encrease this limit.
 2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
-2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <span class="red">max_allowed_packet</span> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERROR: MySQL authentication problem.
@@ -1307,7 +1307,7 @@
 2099 ERROR: this MySQL login doesn't have the rights to create the database
 2100 Update old account infos
 2101 Add by script
-2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
+2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files
 2103 DEMO mode: you can't update data
 2104 YOU ARE WATCHING THE DEMO VERSION OF
 2105 Your database is OK.<br>No action taken.

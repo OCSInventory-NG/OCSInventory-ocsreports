@@ -66,8 +66,8 @@ $numeric = "onKeyPress='return scanTouche(event,/[0-9]/)'
 		  onblur='convertToUpper(this)'
 		  onclick='convertToUpper(this)'";
 
-$sup1 = "<br><font color=green size=1><i> (" . $l->g(759) . " 1)</i></font>";
-$sup10 = "<br><font color=green size=1><i> (" . $l->g(759) . " 10)</i></font>";
+$sup1 = "<br><span class=green ><i> (" . $l->g(759) . " 1)</i></span>";
+$sup10 = "<br><span class=green><i> (" . $l->g(759) . " 10)</i></span>";
 
 /*
  *

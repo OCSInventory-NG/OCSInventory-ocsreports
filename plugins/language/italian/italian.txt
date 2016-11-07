@@ -1332,9 +1332,9 @@
 2038 ATTENZIONE: l'estensione GD non installata correttamente.<br>Non sarai in grado di visualizzare nessun oggetto grafico<br>Prova ad abilitare la voce extension=php_gd2.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php-gd (Linux).
 2039 ATTENZIONE: l'estensione OpenSSL per PHP non installata correttamente.<br>Alcune caratteristiche dell'installazione automatica non saranno disponibili.<br>Prova ad abilitare la voce extension=php_openssl.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php-openssl (Linux).
 2040 ATTENZIONE: non sarai in grado di creare nessun pacchetto d'installazione di grandezza superiore a
-2041 Devi incrementare entrambi i parametri <font color="red">post_max_size</font> e <font color="red">upload_max_filesize</font> nel file php.ini per superare questo limite.
+2041 Devi incrementare entrambi i parametri <span class="red">post_max_size</span> e <span class="red">upload_max_filesize</span> nel file php.ini per superare questo limite.
 2042 ATTENZIONE: il tuo account root in MySQL ha la password predefinita. Cambiala appena possibile. (root password=blank)
-2043 ATTENZIONE: l'utente fornito non è root.<br>Se hai problemi con il caricamento di file, prova a modificare il parametro globale di MySQL <font color="red">max_allowed_packet</font> ad un valore di almeno 2MB nel file di configurazione.
+2043 ATTENZIONE: l'utente fornito non è root.<br>Se hai problemi con il caricamento di file, prova a modificare il parametro globale di MySQL <span class="red">max_allowed_packet</span> ad un valore di almeno 2MB nel file di configurazione.
 2044 Etichetta inserita
 2045 Etichetta NON inserita (all'avvio del client non sarà richiesto nessun tag)
 2046 ERRORE: MySQL ha rilevato problemi con autenticazione.

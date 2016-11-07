@@ -472,3 +472,15 @@ iframe{
 .rowMarginTop30{
     margin-top: 30px;
 }
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.blue {
+    color: blue;
+}

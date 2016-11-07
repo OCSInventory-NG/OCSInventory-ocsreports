@@ -46,7 +46,7 @@ if (!AJAX) {
 
     $fin = microtime(true);
     if ($_SESSION['OCS']["DEBUG"] == "ON") {
-        echo "<b>CACHE:&nbsp;<font color='" . ($_SESSION['OCS']["usecache"] ? "green'><b>ON</b>" : "red'><b>OFF</b>") . "</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>" . round($fin - $debut, 3) . " secondes</b></font>&nbsp;&nbsp;&nbsp;";
+        echo "<b>CACHE:&nbsp;<span class='" . ($_SESSION['OCS']["usecache"] ? "green'><b>ON</b>" : "red'><b>OFF</b>") . "</span>&nbsp;&nbsp;&nbsp;<b>" . round($fin - $debut, 3) . " secondes</b>&nbsp;&nbsp;&nbsp;";
         echo "<script type='text/javascript'>document.getElementById(\"tps\").innerHTML=\"<b>" . round($fin - $debut, 3) . " secondes</b>\"</script>";
     }
     echo open_form('ACTION_CLIC');

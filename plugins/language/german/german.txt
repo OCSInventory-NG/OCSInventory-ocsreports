@@ -1,24 +1,24 @@
-1 Anfragen  
+1 Anfragen
 2 Alle Rechner
 3 Rechner mit Software...
 4 Rechner ohne Software...
 5 Unity-Codes unter meiner Verantwortung
 6 Geräte mit abgelaufener Garantie
 7 Details zu Geräten mit abgelaufener Garantie
-8 Wählen Sie Ihre Anfrage 
-9 Suche mit verschiedenen Kriterien 
+8 Wählen Sie Ihre Anfrage
+9 Suche mit verschiedenen Kriterien
 10 Rechner nach TAGS
 11 Rechner nach TAGS
 12 TAG-Wert
 13 Senden
-14 Verwaltung 
+14 Verwaltung
 15 TAGS
 16 Admins
 17 Agent
 18 Revision
 19 Software-Version
 20 Software
-21 erstes Datum 
+21 erstes Datum
 22 Garantiezeit abgelaufen
 23 Rechner
 24 Benutzer
@@ -35,9 +35,9 @@
 35 Rechnername
 36 Seriennummer
 37 Befehls-Buchstabe
-38 Auslieferungsreihenfolge 
+38 Auslieferungsreihenfolge
 39 Quelle
-40 Code 
+40 Code
 41 Zurücksetzen
 42 Kein Ergebnis
 43 Hauptmenü
@@ -116,7 +116,7 @@
 116 Hinzufügen
 117 Registry
 118 Gehe zu Seite
-119 Wollen Sie wirklich ID löschen 
+119 Wollen Sie wirklich ID löschen
 120 Null
 121 Rechner löschen
 122 Löschen
@@ -133,7 +133,7 @@
 133 Inventar
 134 Neue Datei in Basis einfügen
 135 Vorsicht, sie sind dabei diese Datei endgültig zu löschen!
-136 Exportieren 
+136 Exportieren
 137 Datei
 138 Erstellen
 139 Erstellen / Löschen von
@@ -162,13 +162,13 @@
 180 Nutzer nicht registriert
 181 Login-Problem
 182 Rechner mit bestimmtem TAG
-183 Exportieren 
+183 Exportieren
 184 Diese Datei enthält kein "use constant version"
 185 Version muss grösser 1 sein
 186 Diese Datei ist keine gültige .ver-Datei
 187 Diese Datei ist keine gültige ZIP-Datei
 188 Zurück
-189 Sie müssen mindestens 2 Rechner wählen 
+189 Sie müssen mindestens 2 Rechner wählen
 190 Kontoinfo:
 191 gelöscht
 192 Zusammenfassung doppelter Geräte
@@ -231,9 +231,9 @@
 249 Kann nicht zum MySQL-Server verbinden, bitte gültigen Benutzer und Passwort eingeben
 250 MySQL-Hostname
 251 Ausloggen
-252 Name (sie wählen)        	
-253 Registry-Hive    	
-254 Pfad des Schlüssels (z.B. SOFTWARE/Microsoft)  	
+252 Name (sie wählen)
+253 Registry-Hive
+254 Pfad des Schlüssels (z.B. SOFTWARE/Microsoft)
 255 Name des Schlüssels der gelesen wird (* für alles)
 256 Auswählen
 257 Registrierungsschlüssel
@@ -247,7 +247,7 @@
 265 Alles
 266 ungültiges Datum
 267 dd/mm/yyyy
-268 Taktfrequenz 
+268 Taktfrequenz
 269 %d/%m/%Y
 270 Modem(s)
 271 Steckplätze
@@ -259,7 +259,7 @@
 277 Version
 278 Treiber
 279 Port
-280 MIB-Typ 
+280 MIB-Typ
 281 DHCP-IP
 282 Gateway(s)
 283 Zweck
@@ -393,7 +393,7 @@
 426 Gültigkeit von Warenbeständen. (IMMER: Warenbestand an jedem LOGON. NIE: kein Warenbestand)
 427 Definiert die Kriterien nach denen doppelte Rechner automatisch zusammengeführt werden.
 428 Verteilen
-429 Taktfrequenz 
+429 Taktfrequenz
 430 Massenverarbeitung
 431 Aktivieren
 432 Nicht benachrichtigt
@@ -437,7 +437,7 @@
 470 HTTPS-Adresse
 471 Fragment-Adresse
 472 FEHLER: kann Verzeichnis nicht löschen!
-473 Zeitstempel muss eine Zahl sein 
+473 Zeitstempel muss eine Zahl sein
 474 Zeitstempel muss 10 Zeichen lang sein
 475 Zeitstempel
 476 oder Paket manuell aktivieren
@@ -460,7 +460,7 @@
 493 Standard (kann ausgewählt werden)
 494 Benutzerdefinierter Inventur-Intervall
 495 Inventur alle
-496 Tag(e) 
+496 Tag(e)
 497 Standard, nutzt den 'INTERVALL'-Parameter.
 498 Paket
 499 Server
@@ -476,7 +476,7 @@
 509 ALLE
 510 Kein Paket
 511 Sekunden
-512 Software-Verteilung 
+512 Software-Verteilung
 513 Pakete erstellen
 514 Aktivieren
 515 Aktiviert
@@ -509,7 +509,7 @@
 542 Mittwoch
 543 Donnerstag
 544 Freitag
-545 Samstag 
+545 Samstag
 546 mit Status
 547 Alle
 548 Alle außer ERFOLGREICH
@@ -517,7 +517,7 @@
 550 Datei (optional, kann mit 'AUSFÜHREN' auf dem Client-Rechner gestartet werden)
 551 Dieser Paketname existiert bereits.
 552 <i>Sie müssen eine Suche durchführen und dann auf das Ergebnis der Abfrage diese aktivierten Pakete anwenden.<br>Sie können auch ein Paket auf einem einzelnen Rechner installieren wenn Sie den Tab 'Benutzerdefiniert' in den Rechner-Details auswählen.</i>.
-553 Windows Lizenz-Nr. 
+553 Windows Lizenz-Nr.
 554 Bildschirm: Serien-Nr.
 555 Bildschirm: Hersteller
 556 Bildschirm: Überschrift
@@ -617,15 +617,15 @@
 654 Neue MAC-Adresse für schwarze Liste eingeben
 655 eingefügt
 656 Dieses Datum existiert schon in der Liste
-657 Felder in rot sind Fehlerhaft (Leere Felder oder Größe < 2) 
+657 Felder in rot sind Fehlerhaft (Leere Felder oder Größe < 2)
 658 Rechner haben keinen Weiterverteilungsservers. <br>Auf diesen müssen die Pakete gesondert installiert werden.
-659 Rechner haben dieses Paket bereits installiert. Der Status des Pakets auf diesen Rechnern ist jetzt 
+659 Rechner haben dieses Paket bereits installiert. Der Status des Pakets auf diesen Rechnern ist jetzt
 660 SERVERGRUPPE EXISTIERT NICHT
 661 PAKETE FÜR WEITERVERTEILUNGSSERVER
-662 Auswahlregeln 
+662 Auswahlregeln
 663 INTERNES PROBLEM
 664 Aktion ausgeführt
-665 KEINE RECHNER AUSGEWÄHLT, GRUPPE NICHT ERSTELLT. 
+665 KEINE RECHNER AUSGEWÄHLT, GRUPPE NICHT ERSTELLT.
 666 Server-Gruppe erstellt.
 667 FÜR DAS PAKET.
 668 welche Regel anwenden?
@@ -662,16 +662,16 @@
 700 Auswahlkriterium für schwarze Liste
 701 Seriennummer zur schwarzen Liste hinzufügen
 702 Geben Sie die Seriennumer ein, die zur schwarzen Liste hinzugefügt werden soll.
-704 Sind Sie sicher? 
+704 Sind Sie sicher?
 705 Aus der schwarzen Liste entfernen?
 706 Entfernen
 707 Diese Seriennummer
 708 Diese MAC-Adresse
-709 Benutzerdefinierte PROLOG_FREQ 
+709 Benutzerdefinierte PROLOG_FREQ
 710 Benutzerdefinierter Download
 711 Taken into account modifications
 712 Sprachdatei
-712 Sprachdatei  
+712 Sprachdatei
 713 Wollen Sie diese Sprachdatei wirklich ersetzen?
 714 Referenz-Sprachdatei
 715 Wählen Sie die zu bearbeitende Sprachdatei
@@ -724,12 +724,12 @@
 762 Größe der Ergebnisseite (kann zu Leistungsproblemen führen)
 763 Datei aus eigenen Modulen einschliessen
 764 Die folgenden Optionen können nicht über die GUI gesetzt werden. Siehe ocsinventory-server.conf
-765 Gesamte Software 
-766 DIE ABFRAGE WAR OHNE ERGEBNIS 
+765 Gesamte Software
+766 DIE ABFRAGE WAR OHNE ERGEBNIS
 767 ACHTUNG: ERGEBNIS MIT AKTIVEM FILTER
 768 Aufnahme-Nummer
 769 Verschoben.
-770 AKTUALISIERUNG VON 
+770 AKTUALISIERUNG VON
 771 Diese Kategorie existiert bereits.
 772 Der Kategoriename darf nicht leer sein.
 773 Sie müssen einen Kategorie-Namen auswählen.
@@ -737,7 +737,7 @@
 775 Verzeichnis zur Paket-Erstellung
 776 Verzeichnis für das Cachen der IP-Discover-Analysedaten
 777 Sitzungsdauer
-778 Anzahl verschiedener ARBEITSGRUPPEN 
+778 Anzahl verschiedener ARBEITSGRUPPEN
 779 Unterschiedliche TAGs
 780 Unterschiedliche SUBNETZE
 781 Geräte die auf Software-Verteilung warten
@@ -755,11 +755,11 @@
 793 Geräte in Datenbank
 794 Geräte im Netz sichtbar
 795 Geräte die heute Verbindung hatten
-796 Geräte mit Inventur heute 
+796 Geräte mit Inventur heute
 797 Geräte nicht gesehen seit
-798 AKTIVITÄT 
+798 AKTIVITÄT
 799 HARDWARE
-800 VERSCHIEDENES 
+800 VERSCHIEDENES
 801 Dieses Feld verbergen
 802 Dieses Feld anzeigen
 803 Anzahl der Tage seit dem letzten Kontakt zum Server
@@ -775,17 +775,17 @@
 813 Anzahl Festplatten mit verbleibendem Speicherplatz >
 814 Anzahl Festplatten mit verbleibendem Speicherplatz <
 815 Anzahl Festplatten mit verbleibendem Speicherplatz zwischen
-816 Maximal noch freier Plattenplatz  
+816 Maximal noch freier Plattenplatz
 817 Minimal noch freier Plattenplatz
 818 Aus der Gruppe entfernen
 819 Rechner zur Gruppe hinzugefügt
 820 Letzter Kontakt
 821 SERVER CONFIGURATION MODIFICATION
 822 Anpassen
-823 Standardmäßig 
+823 Standardmäßig
 824 GUI-Log-Aktivierung
 825 Logdatei-Verzeichnis
-826 Adresse für zu aktivierende Fragment-Dateien zur Software-Verteilung 
+826 Adresse für zu aktivierende Fragment-Dateien zur Software-Verteilung
 827 Adresse für zu aktivierende INFO-Dateien zur Software-Verteilung
 828 Rechner aus der Liste entfernen wenn Inventar älter als
 829 Verzeichnes zur Erstellung von Paketen für die Weiterverteilung
@@ -797,11 +797,11 @@
 835 RSX hinzufügen
 836 Verwalte Typen
 837 Sie haben keinen Zugriff auf diese Daten
-838 Laufwerk: Laufwerksbuchstabe 
+838 Laufwerk: Laufwerksbuchstabe
 839 Laufwerk: Typ
 840 Laufwerk: Format
 841 Laufwerk: Kapazität
-842 Laufwerk: Freier Speicherplatz 
+842 Laufwerk: Freier Speicherplatz
 843 Laufwerk: Name
 844 Gruppe: ID
 845 Gruppe: statisch?
@@ -847,7 +847,7 @@
 884 WARNUNG: ANZEIGE MIT FILTER
 885 unbekannt
 886 Einfaches Zurücknehmen
-887 Es ist möglich, dass dieses Paket nicht auf die Weiterverteilungsserver übertragen wurde. 
+887 Es ist möglich, dass dieses Paket nicht auf die Weiterverteilungsserver übertragen wurde.
 888 Entfernen
 889 Verbunden als
 890 Oberfläche ist momentant wegen einer Suche mit mehreren Kriterien gesperrt.
@@ -867,13 +867,13 @@
 906 Software-Paket aus Verteilung entfernen
 907 Beschreibung um Pakete von diesem Rechner zu entfernen
 908 Mobile terminal informations
-909 ÄNDERUNG NICHT DURCHGEFÜHRT: UNGÜLTIGES NEUES PROFIL 
+909 ÄNDERUNG NICHT DURCHGEFÜHRT: UNGÜLTIGES NEUES PROFIL
 910 Überprüfen
-911 Zu Profil wechseln 
+911 Zu Profil wechseln
 912 Liste der Rechner mit dieser Software exportieren
 913 Anzahl nicht erfasster Netzwerk-Schnittstellen
 914 Anzahl der Agenten die keine Inventar versendet haben seit mindestens
-915 Abfragen 
+915 Abfragen
 916 Der Wert muss höher sein als
 917 INTERVALL-Wert
 918 Unterschied zwischen LASTDATE und LASTCOME
@@ -897,7 +897,7 @@
 936 Das Feld für den Typ darf nicht leer sein.
 937 Dieser Typ existiert bereits.
 938 Neuer Typ
-939 Rechner die Mitglieder dieser Gruppe sind 
+939 Rechner die Mitglieder dieser Gruppe sind
 940 Alle Rechner auf denen dieses Paket installiert ist
 941 ZEIGE STATISTIK FÜR
 942 Sie müssen einen Kommentar für dieses Peripherie-Gerät eingeben.
@@ -947,7 +947,7 @@
 986 RECHNER ENTFERNEN FÜR
 987 Dieser Registrierungsschlüssel existiert bereits.
 988 ES MÜSSEN ALLE FELDER AUSGEFÜLLT WERDEN.
-989 DIE ANGEFORDERTEN DATEN EXISTIEREN NICHT. DIE DATEN KONNTEN IN DER DATENBANK NICHT GEFUNDEN WERDEN. 
+989 DIE ANGEFORDERTEN DATEN EXISTIEREN NICHT. DIE DATEN KONNTEN IN DER DATENBANK NICHT GEFUNDEN WERDEN.
 990 Manuell erstellte Pakete
 991 Automatisch erstellte Pakete
 992 Voraussichtliche Dauer der Verteilung
@@ -974,15 +974,15 @@
 1013 WARTUNG
 1014 Wechseln zu
 1015 Nutzer-Modus
-1016 ROOT-Login 
+1016 ROOT-Login
 1017 ROOT-Passwort
 1018 (Nichts eingeben für anonyme Verbindung)
 1019 Ergebnis sperren
 1020 Name of the tag information
 1021 Software-Verteilung verwalten
 1022 Tag-Verwaltung
-1023 Verteilte Pakete mit Status 
-1024 wird gelöscht 
+1023 Verteilte Pakete mit Status
+1024 wird gelöscht
 1025 Zurücknehmen
 1026 Paket auf Rechnern gelöscht
 1027 Kategorien
@@ -1008,8 +1008,8 @@
 1047 INFO
 1048 Datei hinzufügen
 1049 ILLEGALE AKTION
-1050 Installierte Programme suchen 
-1051 Suche 
+1050 Installierte Programme suchen
+1051 Suche
 1052 Verlauf
 1053 Änderung anwenden
 1054 anwenden
@@ -1017,11 +1017,11 @@
 1056 Benachrichtigen Sie Ihren Administrator
 1057 Verbindung zum Mail-Server fehlgeschlagen
 1058 Keine gültige E-Mail-Adresse
-1059 Vorhandene Felder 
+1059 Vorhandene Felder
 1060 Neues Feld
 1061 Tab
 1062 Feld
-1063 Beschreibung 
+1063 Beschreibung
 1064 Pflicht
 1065 Feld-Einschränkung
 1066 Verknüpft mit einem Status
@@ -1043,10 +1043,10 @@
 1082 Workflow Admin-Gruppe
 1083 Perimeter identification
 1084 Gruppen-Name für den Test
-1085 Group name for restraint perimeter 
+1085 Group name for restraint perimeter
 1086 TAG-Wert für den Test
 1087 Wert für den Test-TAG
-1088 TAG value for restraint perimeter 
+1088 TAG value for restraint perimeter
 1089 Kein Status aktiv. Beginnen Sie in dem Sie einen aktivieren.
 1090 hat folgende Anfrage geändert: n°
 1091 Es gibt eine neue Anfrage
@@ -1086,7 +1086,7 @@
 1125 Prozentsatz
 1126 Datum der Notiz
 1127 Verfasser der Notiz
-1128 Notiz 
+1128 Notiz
 1129 Gelöschtes Paket
 1130 Sprach-Editor
 1131 Beschreibung des Eintrags
@@ -1095,9 +1095,9 @@
 1134 Keine IpP-Discover-Daten
 1135 Rechner ist schon in der Weiterverteilungsgruppe
 1136 SNMP
-1137 SNMP-Dienst aktivieren/deaktivieren 
+1137 SNMP-Dienst aktivieren/deaktivieren
 1138 Zeige alle Subnetze
-1139 Verwalten 
+1139 Verwalten
 1140 Subnetze verwalten
 1141 Subnetz hinzugefügt
 1142 Neues Subnetz für schwarze Liste eingeben
@@ -1147,7 +1147,7 @@
 1186 Ihre Daten wurden aktualisiert.
 1187 Konfiguration noch nicht abgeschlossen.
 1188 Diese Gruppe ist als TEST deklariert
-1189 Diese Gruppe ist als EINGESCHRÄNKT deklariert 
+1189 Diese Gruppe ist als EINGESCHRÄNKT deklariert
 1190 Sie können keinem Paket einen höhern Level zuweisen
 1191 Information: Die Konfiguration der 'Workflow'-Funktion läuft
 1192 Gruppe kann TEST Pakete erhalten
@@ -1199,7 +1199,7 @@
 1238 Installations-Datum
 1239 MHz
 1240 MB
-1241 Anzahl SNMP-Geräte 
+1241 Anzahl SNMP-Geräte
 1242 Y-m-d
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 Diese Datei darf nicht leer sein.
@@ -1229,7 +1229,7 @@
 1268 UUID
 1269 Maschine gehostet von
 1270 DDMMYYYY
-1271 Rechner im Subnetz 
+1271 Rechner im Subnetz
 1272 Rechner löschen
 1273 Sie haben nicht die Berechtigung Rechner zu löschen.
 1274 Profil aktualisiert.
@@ -1305,7 +1305,7 @@
 2024 Sicherheitsproblem: Sie verwenden das Standard-Datenbankpasswort!
 2025 Ändern Sie das OCS-Datenbankpasswort in MySQL
 2026 Sicherheitsproblem: Sie verwenden das Standard-Admin-Passwort für die OCS-GUI!
-2027 Ändern Sie das Admin-Kennwort in der OCS-GUI! 
+2027 Ändern Sie das Admin-Kennwort in der OCS-GUI!
 2028 Authentifizierungs-Schlüssel
 
 
@@ -1320,9 +1320,9 @@
 2038 WARNUNG: GD für PHP ist nicht oder unvollständig installiert.<br>Die grafischen Darstellungen werden nicht verfügbar sein.<br>Versuchen Sie extension=php_gd2.dll (Windows) in der php.ini auszukommentieren, oder versuchen Sie GD zu installieren (php-gd, Linux).
 2039 WARNUNG: OpenSSL für PHP ist nicht oder unvollständig installiert.<br>Nicht alle Teile der automatischen Software-Verteilung werden verfügbar sein. Versuchen Sie php-openssl zu installieren (Linux).
 2040 WARNUNG: Sie werden keine Software-Pakete verteilen können die größer sind als
-2041 Sie müssen sowohl <font color="red">post_max_size</font> als auch <font color="red">upload_max_filesize</font> in Ihrer php.ini anpassen um dieses Limit zu erhöhen.
+2041 Sie müssen sowohl <span class="red">post_max_size</span> als auch <span class="red">upload_max_filesize</span> in Ihrer php.ini anpassen um dieses Limit zu erhöhen.
 2042 WARNUNG: Das Standard-Root-Passwort ist auf dem MySQL-Server gesetzt. Ändern Sie es bitte SOFORT! (Mit: root password=blank)
-2043 WARNUNG: Der Nutzer den Sie angegeben haben ist nicht Root.<br>Wenn Sie Probleme mit dem Datei-Upload haben versuchen Sie <font color="red">max_allowed_packet</font> inder MySQL-Konfiguration auf mindestens 2 MB zu erhöhen.
+2043 WARNUNG: Der Nutzer den Sie angegeben haben ist nicht Root.<br>Wenn Sie Probleme mit dem Datei-Upload haben versuchen Sie <span class="red">max_allowed_packet</span> inder MySQL-Konfiguration auf mindestens 2 MB zu erhöhen.
 2044 Label hinzugefügt.
 2045 Label NICHT hinzugefügt (es wird beim Start auf dem Client nicht nach einem TAG gefragt.)
 2046 FEHLER: MySQL Login-Problem.
@@ -1374,9 +1374,9 @@
 2097 Lassen Sie dieses Feld leer wenn die Abfrage des TAGS nicht beim Start der Windows-Clients angezeigt werden soll.
 2098 FEHLER: ZIP für PHP ist nicht oder unvollständig installiert.<br>Kommentieren Sie 'extension=php_zip.dll' in Ihrer php.ini aus (Windows), oder installieren Sie 'libphp-pclzip' (Linux).
 2099 FEHLER: Dieses MySQL-Konto hat nicht genügend Rechte um die Datenbank zu erstellen.
-2100 Alte Konten aktualisieren 
+2100 Alte Konten aktualisieren
 2101 von Skript hinzugefügt.
-2102 WARNUNG: Wenn Sie den Standard-Datenbank-Namen (ocsweb) ändern müssen auch die OCS-Engine-Dateien angepasst werden. 
+2102 WARNUNG: Wenn Sie den Standard-Datenbank-Namen (ocsweb) ändern müssen auch die OCS-Engine-Dateien angepasst werden.
 2103 DEMO-Modus: Sie können keine Daten aktualisieren.
 2104 DIES IST DER DEMO-MODUS VON:
 2105 Ihre Datenbank ist OK.<br>Keine Änderungen vorgenommen.

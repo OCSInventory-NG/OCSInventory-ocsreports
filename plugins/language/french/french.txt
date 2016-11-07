@@ -1334,9 +1334,9 @@
 2038 AVERTISSEMENT: La librairie GD de PHP n'est pas installée correctement. <br> Les graphiques ne seront utilisables qu'en flash  <br> Pour corriger cela, essayez en décommentant extension = php_gd2.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php5-gd (Linux).
 2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-openssl (Linux).
 2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement d'une taille plus grande que
-2041 Vous devez modifier <font color="red">post_max_size</font> et <font color="red">upload_max_filesize</font> dans la configuration du vhost, pour augmenter cette limite.
+2041 Vous devez modifier <span class="red">post_max_size</span> et <span class="red">upload_max_filesize</span> dans la configuration du vhost, pour augmenter cette limite.
 2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur MySQL. Changez-le dès que possible. (Mot de passe root => vide)
-2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <font color="red">max_allowed_packet</font> de MySQL à au moins 2 Mo sur votre serveur le fichier de configuration.
+2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <span class="red">max_allowed_packet</span> de MySQL à au moins 2 Mo sur votre serveur le fichier de configuration.
 2044 Label ajouté
 2045 Label pas encore ajouté (Au lancement du client, aucune demande de TAG ne sera faite)
 2046 ERREUR: problème d'authentification MySQL.

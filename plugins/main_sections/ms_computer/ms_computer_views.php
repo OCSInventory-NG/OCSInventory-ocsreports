@@ -40,7 +40,7 @@ function show_computer_menu($computer_id) {
         $urlPage = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '?'));
         $maClass = '';
         if ($urlPage == $url) {
-            // Current page ? Highlight menu 
+            // Current page ? Highlight menu
             $maClass .= ' id="current" class="active"';
         }
 
@@ -143,7 +143,7 @@ function show_computer_summary($computer) {
                 $resVM = mysql2_query_secure($sqlVM, $_SESSION['OCS']["readServer"], $argVM);
                 $valVM = mysqli_fetch_array($resVM);
                 $data[$key] = $valVM['vmtype'];
-                $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . $valVM['hardware_id'] . "'  target='_blank'><font color=red>" . $valVM['name'] . "</font></a>";
+                $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . $valVM['hardware_id'] . "'  target='_blank'><span class=red>" . $valVM['name'] . "</span></a>";
                 $link[$key] = true;
 
                 if ($data[$key] != '') {

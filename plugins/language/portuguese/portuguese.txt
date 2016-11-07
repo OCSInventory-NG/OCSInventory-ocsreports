@@ -731,7 +731,7 @@
 767 CAUTELA: RESULTADO FILTRADO
 768 Numero de gravações
 769 Transferência feita
-770 ATUALIZADO DE 
+770 ATUALIZADO DE
 771 Esta categoria já existe
 772 O nome da categoria não pode ser nulo
 773 Você deve selecionar o nome da categoria
@@ -786,8 +786,8 @@
 819 computer(s) added to group
 820 Last contact
 821 SERVER CONFIGURATION MODIFICATION
-822 Customize 
-823 By default 
+822 Customize
+823 By default
 824 Interface logs activation
 825 Logs directory
 826 Address to find teledeploy packages fragments to activate
@@ -802,7 +802,7 @@
 835 Add RSX
 836 Manage TYPES
 837 You don't have access to this datas
-838 Disk: Drive letter 
+838 Disk: Drive letter
 839 Disk: Type
 840 Disk: Format
 841 Disk: Capacity
@@ -851,7 +851,7 @@
 884 WARNING: WITH FILTER visualisation
 885 unknown
 886 Simple desaffection
-887 It's possible that this package is not affected to redistribution servers 
+887 It's possible that this package is not affected to redistribution servers
 888 Removal
 889 Connected as
 890 Interface is actually locked on a search with various criterias
@@ -871,21 +871,21 @@
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal informations
-909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE 
+909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
 910 Validate
-911 Switch profile of 
+911 Switch profile of
 912 Export list of computers that have this softwares
 913 Number of non inventoried network interfaces
 914 Number of agents that didn't send inventory since at least
 915 messages
-916 The value must be higher than 
+916 The value must be higher than
 917 FREQUENCY value
 918 Differential between LASTDATE and LASTCOME
 919 Are you sure to want to delete this message
 920 ERROR, the requested doesn't exists.
 921 Delete this category
 922 To merge, you have to select 2 computers at least
-923 You have no computer in count 
+923 You have no computer in count
 924 EXTRACTION REQUEST NOT CONVENTIONAL!
 925 FUSER functionality
 926 Fuser login:
@@ -901,7 +901,7 @@
 936 The type field cannot be blank
 937 This type already exists
 938 New type
-939 Computers members of the group 
+939 Computers members of the group
 940 All computers having this package
 941 DISPLAYING STATISTICS ON
 942 You have enter a commentary for this peripheral
@@ -915,7 +915,7 @@
 950 FILE NAME
 951 FILE CREATED IN THE
 952 FILE MODIFIED IN THE
-953 SIZE 
+953 SIZE
 954 A SESSION loss happened
 955 NO SYSTEM FOUND IN DATABASE
 956 All the errors
@@ -953,13 +953,13 @@
 986 REMOVE COMPUTERS FOR
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
-989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
+989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
 990 Packages created manually
 991 Packages created automatically
 992 Teledeploy time estimate
 993 Red fields are in error
 994 PDA/SMARTPHONE
-995 user ID 
+995 user ID
 996 LASTNAME
 997 You must fill user ID
 998 choose a valid profile
@@ -1027,7 +1027,7 @@
 1060 New data
 1061 Tab
 1062 Field
-1063 Wording 
+1063 Wording
 1064 Mandatory
 1065 Field restraint
 1066 Linked to a status
@@ -1038,7 +1038,7 @@
 1071 Field Type
 1072 Pending resquests
 1073 Make a request
-1074 'Workflow' fonction is not activate. 
+1074 'Workflow' fonction is not activate.
 1075 Active it for use it
 1076 ERROR: SEARCH STATUS IS NOT DEFINE
 1077 Status for creating package
@@ -1049,9 +1049,9 @@
 1082 Workflow admin group
 1083 Perimeter identification
 1084 Group name for test
-1085 Group name for restraint perimeter 
+1085 Group name for restraint perimeter
 1086 TAG value for test
-1088 TAG value for restraint perimeter 
+1088 TAG value for restraint perimeter
 1089 No status is active. Start by activating one
 1090 has modify request n°
 1091 A new request has been posted
@@ -1204,7 +1204,7 @@
 1238 Installation date
 1239 MHz
 1240 MB
-1241 Number of SNMP devices 
+1241 Number of SNMP devices
 1242 Y-m-d
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
@@ -1262,7 +1262,7 @@
 1306 Manage plugins
 1307 Active Plugins
 1308 Add plugins
-1309 Teledeploy options 
+1309 Teledeploy options
 1310 Shutdown
 1311 Reboot
 1312 Data width
@@ -1325,9 +1325,9 @@
 2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
-2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
+2041 You must raise both <span class="red">post_max_size</span> and <span class="red">upload_max_filesize</span> in your php.ini to encrease this limit.
 2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
-2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <span class="red">max_allowed_packet</span> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERROR: MySQL authentication problem.
@@ -1381,7 +1381,7 @@
 2099 ERROR: this MySQL login doesn't have the rights to create the database
 2100 Update old account infos
 2101 Add by script
-2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
+2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files
 2103 DEMO mode: you can't update data
 2104 YOU ARE WATCHING THE DEMO VERSION OF
 2105 Your database is OK.<br>No action taken.
