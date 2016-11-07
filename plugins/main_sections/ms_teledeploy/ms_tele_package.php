@@ -302,21 +302,20 @@ if (!$protectedPost) {
 
 echo "<input type='hidden' name='document_root' value='" . $protectedPost['document_root'] . "'>
 	 <input type='hidden' id='timestamp' name='timestamp' value='" . $protectedPost['timestamp'] . "'>";
-
 echo "<script language='javascript'>
 		function changeLabelAction(){
-		    var displayText = {'EXECUTE' : '" . $l->g(444) . "', 'STORE' : '" . $l->g(445) . "', 'LAUNCH' : '" . $l->g(446) . "'};
-			var select = $(\"#ACTION\");
+            var displayText = {'EXECUTE' : '" . $l->g(444) . "', 'STORE' : '" . $l->g(445) . "', 'LAUNCH' : '" . $l->g(446) . "'};
+			var select = $(\"#ACTION :selected \");
 			var label = $(\"label[for='ACTION_INPUT']\");
 
 			switch(select.val()){
-				case 'EXECUTE':
+				case '0':
 					label.html(displayText.EXECUTE);
 					break;
-				case 'STORE':
+				case '1':
 					label.html(displayText.STORE);
 					break;
-				case 'LAUNCH':
+				case '2':
 					label.html(displayText.LAUNCH);
 					break;
 				default:

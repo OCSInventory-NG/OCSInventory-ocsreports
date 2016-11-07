@@ -82,6 +82,10 @@ a,a:visited, .lienBleu {
     color: #3151CD;
 }
 
+a.btn-success{
+    color: white;
+}
+
 a.deco {
     color:#C7D9F5;
     font-size: 8pt;
