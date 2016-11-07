@@ -69,9 +69,9 @@ function show_profile_edit_form($profile_id) {
 
         <?php
         echo close_form();
-}
+    }
 
-function show_select_field($data, $key, $name, $label, $options) {
+    function show_select_field($data, $key, $name, $label, $options) {
     $field_options = array(
         'field_class' => 'big-label small-input',
         'options' => $options,

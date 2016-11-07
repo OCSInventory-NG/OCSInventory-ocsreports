@@ -401,7 +401,7 @@ function print_computers_real($systemid) {
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
 						where h.id in (" . implode(",", $tab_id) . ") and deviceid <> '_SYSTEMGROUP_'
 										AND deviceid <> '_DOWNLOADGROUP_'";
-	if (is_defined($mesmachines)) {
+    if (is_defined($mesmachines)) {
         $queryDetails .= $mesmachines;
     }
     $tab_options['FILTRE'] = array('h.NAME' => 'Nom');

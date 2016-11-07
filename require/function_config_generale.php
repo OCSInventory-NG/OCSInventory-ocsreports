@@ -264,14 +264,14 @@ function verif_champ() {
         }
     }
 
-	foreach ($supp1 as $unSuppl) {
-		if ($protectedPost[$unSuppl] < 1 && isset($protectedPost[$unSuppl])) {
-			$tab_error[$unSuppl] = '1';
+    foreach ($supp1 as $unSuppl) {
+        if ($protectedPost[$unSuppl] < 1 && isset($protectedPost[$unSuppl])) {
+            $tab_error[$unSuppl] = '1';
         }
     }
-	foreach ($supp10 as $unSuppl0) {
-		if ($protectedPost[$unSuppl0] < 10 && isset($protectedPost[$unSuppl0])) {
-			$tab_error[$unSuppl0] = '10';
+    foreach ($supp10 as $unSuppl0) {
+        if ($protectedPost[$unSuppl0] < 10 && isset($protectedPost[$unSuppl0])) {
+            $tab_error[$unSuppl0] = '10';
         }
     }
     return $tab_error;

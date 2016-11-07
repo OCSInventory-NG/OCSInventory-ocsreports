@@ -206,7 +206,7 @@ if (isset($protectedPost['add_static_group']) && $_SESSION['OCS']['profile']->ge
         </div>
         <?php
     }
-echo '</div>';
+    echo '</div>';
 //fermeture du formulaire
 echo close_form();
 

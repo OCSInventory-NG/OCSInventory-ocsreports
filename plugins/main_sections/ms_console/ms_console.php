@@ -67,11 +67,11 @@ if ($data_tab['DATA'] != array()) {
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES') {
         echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
-		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) && $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN') {
+        if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) && $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN') {
             echo "<img src='image/success.png'>";
-		} else {
+        } else {
             echo "<img src='image/modif_tab.png'>";
-		}
+        }
         echo "</a></td></tr></table>";
     }
     if ($data_on['DATA'][$protectedPost['onglet']]) {
@@ -85,11 +85,11 @@ if ($data_tab['DATA'] != array()) {
             $array_group[$value->id] = $value->name;
         }
         if (is_array($array_group)) {
-			if (is_defined($protectedPost["SUP_PROF"])) {
+            if (is_defined($protectedPost["SUP_PROF"])) {
                 delete($protectedPost['SUP_PROF']);
             }
 
-			if (is_defined($protectedPost["Valid_modif"])) {
+            if (is_defined($protectedPost["Valid_modif"])) {
                 $sql_msg = "select name from config where name like '%s'";
                 $arg = "GUI_REPORT_MSG%";
                 $result_msg = mysql2_query_secure($sql_msg, $_SESSION['OCS']["readServer"], $arg);
@@ -99,9 +99,9 @@ if ($data_tab['DATA'] != array()) {
                 if (isset($list_name_msg)) {
                     $i = 1;
                     foreach ($list_name_msg as $k => $v) {
-						if ($v == $i) {
+                        if ($v == $i) {
                             $i++;
-						}
+                        }
                     }
                 } else {
                     $i = 1;

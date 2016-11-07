@@ -66,11 +66,11 @@ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($prot
 }
 
 if (isset($login) && isset($mdp)) {
-	foreach ($list_methode as $uneMethode) {
-		require_once 'methode/' . $uneMethode;
-		if ($login_successful == "OK") {
+    foreach ($list_methode as $uneMethode) {
+        require_once 'methode/' . $uneMethode;
+        if ($login_successful == "OK") {
             break;
-		}
+        }
     }
 }
 // login ok?
@@ -136,8 +136,8 @@ if ($login_successful == "OK" && isset($login_successful)) {
                 <?php
                 require_once(FOOTER_HTML);
                 die();
-    } else {
-        header('WWW-Authenticate: Basic realm="OcsinventoryNG"');
+            } else {
+                header('WWW-Authenticate: Basic realm="OcsinventoryNG"');
         header('HTTP/1.0 401 Unauthorized');
         die();
     }

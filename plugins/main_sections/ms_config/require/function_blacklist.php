@@ -101,7 +101,7 @@ function add_subnet_add($subnet_value) {
 
 function show_blacklist_fields($nb_field, $default_values, $field_name, $nb_value_by_field, $size, $separat, $javascript = '') {
     global $aff;
-	for ($i = 1; $i <= $nb_field; $i++) {
+    for ($i = 1; $i <= $nb_field; $i++) {
         if ($i != 1) {
             $aff .= $separat;
         }
@@ -113,7 +113,7 @@ function show_blacklist_fields($nb_field, $default_values, $field_name, $nb_valu
 
 function generate_value($values, $field_name, $separat, $nb_field, $limit = array()) {
     $field_value = '';
-	for ($i = 1; $i <= $nb_field; $i++) {
+    for ($i = 1; $i <= $nb_field; $i++) {
         if ($i != 1) {
             $field_value .= $separat;
         }

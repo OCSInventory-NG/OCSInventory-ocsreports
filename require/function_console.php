@@ -241,7 +241,7 @@ function define_tab($data_on = array()) {
     $data_on['ELSE'] = mb_strtoupper($l->g(800), 'UTF-8');
     if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == "YES") {
         $data_on['ADMIN']['MSG'] = mb_strtoupper($l->g(915), 'UTF-8');
-		$default = '';
+        $default = '';
     }
     return array('DATA' => $data_on, 'DEFAULT' => $default);
 }

@@ -136,8 +136,8 @@ if ($protectedPost['tab'] == 'VIEW') {
         </div>
         <?php
     }
-echo "</div>";
-echo close_form();
+    echo "</div>";
+    echo close_form();
 
 if (AJAX) {
     ob_end_clean();

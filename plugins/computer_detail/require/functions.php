@@ -22,7 +22,7 @@
  */
 
 function affich_detail_simple($form_name, $list_fields, $list_col_cant_del, $default_fields, $table, $tab_options = array()) {
-	global $protectedPost;
+    global $protectedPost;
 
     if (AJAX) {
         parse_str($protectedPost['ocs']['0'], $params);
@@ -39,7 +39,7 @@ function affich_detail_simple($form_name, $list_fields, $list_col_cant_del, $def
     foreach ($list_fields as $value) {
         $queryDetails .= $value . ",";
     }
-	// TODO : Buggy code $systemid not initialized
+    // TODO : Buggy code $systemid not initialized
     $queryDetails = substr($queryDetails, 0, -1) . " FROM " . $table . " WHERE (hardware_id=$systemid)";
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     echo close_form();

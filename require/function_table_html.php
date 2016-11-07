@@ -232,8 +232,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                     <?php
                                     foreach ($list_col_can_del as $key => $col) {
                                         $name = explode('.', $col);
-                                    $name = explode(' as ', end($name));
-                                    $value = end($name);
+                                        $name = explode(' as ', end($name));
+                                        $value = end($name);
                                     if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                                         $value = $option['REPLACE_COLUMN_KEY'][$key];
                                     }
@@ -259,8 +259,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 <?php
                 //Display of the result count
                 if (!isset($option['no_download_result'])) {
-                     echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
-                     echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true&base=" . $tab_options['BASE'] . "'><small>(" . $l->g(183) . ")</small></a></div>";
+                    echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
+                    echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true&base=" . $tab_options['BASE'] . "'><small>(" . $l->g(183) . ")</small></a></div>";
                  }
                  ?>
             </div>
@@ -506,8 +506,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         <?php
         if ($titre != "") {
             printEnTete_tab($titre);
-    }
-    echo "<div class='tableContainer'>";
+        }
+        echo "<div class='tableContainer'>";
     echo "<table id='" . $option['table_name'] . "' class='table table-striped table-bordered table-condensed table-hover'><thead><tr>";
     //titre du tableau
     foreach ($columns as $k => $v) {
@@ -542,9 +542,9 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 </center><?php
             }
             return true;
-}
+        }
 
-function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array(), $option = array()) {
+        function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array(), $option = array()) {
     echo "<div align=center>";
     global $protectedGet, $l;
     if ($protectedGet['sens'] == "ASC") {
@@ -574,8 +574,8 @@ function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array()
             <?php
             if ($titre != "") {
                 printEnTete_tab($titre);
-        }
-        echo "<div class='tableContainer' id='data' style=\"width:" . $width . "%;\"><table cellspacing='0' class='ta'><tr>";
+            }
+            echo "<div class='tableContainer' id='data' style=\"width:" . $width . "%;\"><table cellspacing='0' class='ta'><tr>";
         //titre du tableau
         $i = 1;
         foreach ($entete_colonne as $k => $v) {
@@ -2231,8 +2231,8 @@ function del_selection($form_name) {
             </script>
             <?php
             //foreach ($img as $key=>$value){
-    echo "<a href=# onclick=garde_check()><span class='glyphicon glyphicon-remove delete-span' title='" . $l->g(162) . "' ></span></a>";
-    //}
+            echo "<a href=# onclick=garde_check()><span class='glyphicon glyphicon-remove delete-span' title='" . $l->g(162) . "' ></span></a>";
+            //}
     echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 }
 

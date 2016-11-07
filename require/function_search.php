@@ -516,7 +516,7 @@ function add_trait_select($img, $list_id, $form_name, $list_pag, $comp = false) 
             echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
         }
         ?>
-    </div>
+        </div>
 
     <?php
 }

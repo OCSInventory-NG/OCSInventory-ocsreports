@@ -63,8 +63,8 @@ function insert($NAME, $IVALUE, $TVALUE = "") {
 
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
     } else {//else : request
-		foreach ($tab_hadware_id as $hardwareId) {
-			$arg = array($hardwareId, $NAME, $IVALUE);
+        foreach ($tab_hadware_id as $hardwareId) {
+            $arg = array($hardwareId, $NAME, $IVALUE);
             if ($TVALUE != "") {
                 $sql = "INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('%s', '%s', '%s', '%s')";
                 array_push($arg, $TVALUE);
@@ -103,7 +103,7 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
                         echo " " . $end;
                     }
                     echo ")";
-                ?>
+                    ?>
                 </p>
             </div>
         </div>

@@ -192,7 +192,7 @@ if (isset($defaultRole) && $defaultRole != '') {
 
         $restriction = $profile->getRestriction('GUI');
 
-		//if this user has RESTRICTION search all tag for this user
+        //if this user has RESTRICTION search all tag for this user
         if ($restriction == 'YES') {
             $sql = "select tag from tags where login='%s'";
             $arg = array($_SESSION['OCS']["loggeduser"]);

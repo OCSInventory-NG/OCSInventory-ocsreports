@@ -348,11 +348,11 @@ if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])
     $default_value_conf = array('INVENTORY_CACHE_ENABLED' => 1, 'TAB_CACHE' => 0, 'USE_NEW_SOFT_TABLES' => 0);
     $values = look_config_default_values($conf_gui);
     foreach ($conf_gui as $k => $v) {
-		if (isset($values['ivalue'][$v])) {
+        if (isset($values['ivalue'][$v])) {
             $_SESSION['OCS'][$k] = $values['ivalue'][$v];
-		} else {
+        } else {
             $_SESSION['OCS'][$k] = $default_value_conf[$v];
-		}
+        }
     }
 }
 

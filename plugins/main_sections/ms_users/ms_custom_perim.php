@@ -69,8 +69,8 @@ if ($protectedPost['newtag'] != "") {
 
     $tab_options['CACHE'] = 'RESET';
     $sql = "insert into tags (tag,login) values ('%s','%s')";
-	foreach ($array_result as $unResult) {
-		$arg = array($unResult, $protectedGet["id"]);
+    foreach ($array_result as $unResult) {
+        $arg = array($unResult, $protectedGet["id"]);
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
     }
 

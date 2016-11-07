@@ -69,7 +69,7 @@ if ($_SESSION['OCS']["lvluser"] == SADMIN) {
         $temp = "";
         $filename = $rep . '/' . $protectedGet['id_pack'];
         $handfich_final = fopen($rep . '/' . $name, "a+b");
-		for ($i = 1; $i <= $nb_frag; $i++) {
+        for ($i = 1; $i <= $nb_frag; $i++) {
             echo "Lecture du fichier " . $filename . "-" . $i . " en cours...<br>";
             $handlefrag = fopen($filename . "-" . $i, "r+b");
             $temp = fread($handlefrag, filesize($filename . "-" . $i));

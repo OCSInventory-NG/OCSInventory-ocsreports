@@ -140,9 +140,9 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
         }
         $i++;
     }
-	foreach ($data as $uneData) {
+    foreach ($data as $uneData) {
         $toBeWritten .= "\r\n";
-		foreach ($uneData as $donnee) {
+        foreach ($uneData as $donnee) {
             $toBeWritten .= $donnee . $separator;
         }
     }

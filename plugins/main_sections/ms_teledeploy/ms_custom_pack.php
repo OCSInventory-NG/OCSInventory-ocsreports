@@ -56,7 +56,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         '10' => '10',
         '11' => '11',
         '12' => '12');
-	for ($i = 0; $i <= 1; $i++) {
+    for ($i = 0; $i <= 1; $i++) {
         if ($i == 0) {
             $am_pm = '';
         } else {

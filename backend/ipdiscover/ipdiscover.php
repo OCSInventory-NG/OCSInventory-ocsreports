@@ -26,18 +26,18 @@ $list_methode = array(0 => "local.php");
 
 if (!isset($_SESSION['OCS']["ipdiscover"])) {
     //methode pour le calcul des droits
-	foreach ($list_methode as $uneMethode) {
-		require_once('methode/' . $uneMethode);
+    foreach ($list_methode as $uneMethode) {
+        require_once('methode/' . $uneMethode);
         //on garde les droits de l'utilisateur sur l'ipdiscover
         if (isset($list_ip)) {
-			$tab_ip[$uneMethode] = $list_ip;
+            $tab_ip[$uneMethode] = $list_ip;
             unset($list_ip);
         }
     }
 }
 unset($list_ip);
 if (isset($tab_ip)) {
-	foreach ($list_methode as $script) {
+    foreach ($list_methode as $script) {
         if (isset($tab_ip[$script])) {
             foreach ($tab_ip[$script] as $ip => $lbl) {
                 $list_ip[$ip] = $lbl;

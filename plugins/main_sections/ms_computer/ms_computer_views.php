@@ -31,9 +31,9 @@ function show_computer_menu($computer_id) {
     echo "<ul class='nav nav-pills nav-stacked navbar-left'>";
 
     foreach ($menu->getChildren() as $menu_elem) {
-		$url = $menu_renderer->getUrl($menu_elem);
+        $url = $menu_renderer->getUrl($menu_elem);
         $label = $menu_renderer->getLabel($menu_elem);
-		echo "<li><a href='" . $url . "'>" . $label . "</a></li>";
+        echo "<li><a href='" . $url . "'>" . $label . "</a></li>";
     }
 
     echo '</ul>';

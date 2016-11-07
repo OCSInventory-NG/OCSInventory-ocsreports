@@ -60,9 +60,9 @@ if ($protectedPost['onglet'] == 'FILE') {
 
         </script>
         <?php
-	//
-    $form_name1 = "SEND_FILE";
-    $data_config = look_config_default_values(array('LOCAL_URI_SERVER'), '', array('TVALUE' => array('LOCAL_URI_SERVER' => 'http://localhost:80/ocsinventory')));
+        //
+        $form_name1 = "SEND_FILE";
+        $data_config = look_config_default_values(array('LOCAL_URI_SERVER'), '', array('TVALUE' => array('LOCAL_URI_SERVER' => 'http://localhost:80/ocsinventory')));
 
     $server = $data_config['tvalue']['LOCAL_URI_SERVER'];
     $array_port = explode(':', $server);
@@ -83,15 +83,15 @@ if ($protectedPost['onglet'] == 'FILE') {
                 $errstr = $result["errstr"];
                 msg_error($l->g(344) . " " . $errno . " / " . $errstr);
             } else {
-				if (!strstr($result[0], "200")) {
+                if (!strstr($result[0], "200")) {
                     msg_error($l->g(344) . " " . $result[0]);
-				} else {
+                } else {
                     msg_success($l->g(287) . " OK");
                 }
             }
-		} else {
+        } else {
             msg_error($l->g(1244));
-		}
+        }
     }
     printEntete($l->g(560) . ": " . $server);
     echo close_form();
@@ -112,21 +112,21 @@ if ($protectedPost['onglet'] == 'FILE') {
 
     if (isset($protectedPost['Valid_modif'])) {
         $error = '';
-		if (!is_numeric($protectedPost['NB_COMPUTERS'])) {
+        if (!is_numeric($protectedPost['NB_COMPUTERS'])) {
             $error .= $l->g(28) . ',';
-		}
+        }
 
         foreach ($form_fields_typeinput as $key => $value) {
-			if (trim($protectedPost[$key]) == '') {
+            if (trim($protectedPost[$key]) == '') {
                 $error .= $value . ',';
-			}
+            }
         }
 
         if ($error == "") {
             $check_trait = array();
             foreach ($protectedPost as $key => $value) {
                 if ($value != '') {
-					if (substr($key, 0, 7) == 'fields_' || $key == 'TAG') {
+                    if (substr($key, 0, 7) == 'fields_' || $key == 'TAG') {
                         $temp_field = explode('_', $key);
 
                         //checkbox cas
@@ -146,7 +146,7 @@ if ($protectedPost['onglet'] == 'FILE') {
                     $values_fields[] = $value;
                 }
             }
-			for ($i = 0; $i < $protectedPost['NB_COMPUTERS']; $i++) {
+            for ($i = 0; $i < $protectedPost['NB_COMPUTERS']; $i++) {
                 $id_computer = insert_manual_computer($protectedPost, $protectedPost['NB_COMPUTERS']);
                 if (!is_array($fields)) {
                     $fields[] = 'TAG';
@@ -155,9 +155,9 @@ if ($protectedPost['onglet'] == 'FILE') {
                 insertinfo_computer($id_computer, $fields, $values_fields);
             }
             msg_success($l->g(881));
-		} else {
+        } else {
             msg_error($l->g(684) . "<br>" . $error);
-		}
+        }
     }
 
     $i = 0;
@@ -174,11 +174,11 @@ if ($protectedPost['onglet'] == 'FILE') {
         $i++;
         $info_form['FIELDS']['name_field'][$i] = $key;
         $info_form['FIELDS']['type_field'][$i] = 0;
-		if ($key == 'ADDR_MAC_GENERIC') {
+        if ($key == 'ADDR_MAC_GENERIC') {
             $info_form['FIELDS']['value_field'][$i] = (isset($protectedPost[$key]) ? $protectedPost[$key] : RandomMAC());
-		} else {
+        } else {
             $info_form['FIELDS']['value_field'][$i] = (isset($protectedPost[$key]) ? $protectedPost[$key] : rand());
-		}
+        }
         $info_form['FIELDS']['tab_name'][$i] = $value . "*";
         $config[$i]['CONFIG']['SIZE'] = 30;
         $other_data['COMMENT_AFTER'][$i] = '_M';

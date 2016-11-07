@@ -68,11 +68,11 @@ function add_update_key($form_values, $update = false) {
 
     if (isset($req)) {
         mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg_req);
-		if ($update) {
+        if ($update) {
             msg_success($l->g(1185));
-		} else {
+        } else {
             msg_success($l->g(1184));
-		}
+        }
         return true;
     }
 }

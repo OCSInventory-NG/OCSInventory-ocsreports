@@ -49,8 +49,8 @@ if ($protectedPost['FUSION']) {
         echo "<script>alert('" . $l->g(922) . "');</script>";
     } else {
         $afus = array();
-		foreach ($list_id_fusion as $idFusion) {
-			$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $idFusion) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+        foreach ($list_id_fusion as $idFusion) {
+            $res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $idFusion) or die(mysqli_error($_SESSION['OCS']["readServer"]));
             $afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
         }
         if (isset($afus)) {
@@ -221,23 +221,23 @@ echo "<div class='col col-md-12'>";
 function returnTrad($lbl) {
     global $l;
     switch ($lbl) {
-		case "hostname_serial":
-			return $l->g(193);
+        case "hostname_serial":
+            return $l->g(193);
             break;
-		case "hostname_macaddress":
-			return $l->g(194);
+        case "hostname_macaddress":
+            return $l->g(194);
             break;
-		case "macaddress_serial":
-			return $l->g(195);
+        case "macaddress_serial":
+            return $l->g(195);
             break;
-		case "hostname":
-			return $l->g(196);
+        case "hostname":
+            return $l->g(196);
             break;
-		case "ssn":
-			return $l->g(197);
+        case "ssn":
+            return $l->g(197);
             break;
-		case "macaddress":
-			return $l->g(198);
+        case "macaddress":
+            return $l->g(198);
             break;
     }
 }
@@ -249,22 +249,22 @@ foreach ($count_id as $lbl => $count_value) {
     echo "<span>" . returnTrad($lbl) . "</span>";
     echo "</div>";
     echo "<div class='col col-md-2 text-left'>";
-	if ($count_value != 0) {
+    if ($count_value != 0) {
         echo "<a href=# onclick='pag(\"" . $lbl . "\",\"detail\",\"" . $form_name . "\");' alt='" . $l->g(41) . "'>";
-	}
+    }
 
     echo $count_value;
 
-	if ($count_value != 0) {
+    if ($count_value != 0) {
         echo "</a>";
-	}
+    }
 
     echo "</div>";
     echo "</div>";
 
-	if ($protectedPost['detail'] == $lbl && $count_value == 0) {
+    if ($protectedPost['detail'] == $lbl && $count_value == 0) {
         unset($protectedPost['detail']);
-	}
+    }
 }
 echo "</table>";
 echo "<input type=hidden name=detail id=detail value='" . $protectedPost['detail'] . "'>";

@@ -141,15 +141,15 @@ switch ($protectedPost['onglet']) {
                             echo $MACseparat;
                         }
                         ?>
-                        <input type="text" name="<?php echo $MACfield_name . $i; ?>" maxlength="<?php echo $MACnb_value_by_field ?>" size="3" <?php echo $javascript_mac; ?>>
-                        <?php
-                        $i++;
-                    }
+                    <input type="text" name="<?php echo $MACfield_name . $i; ?>" maxlength="<?php echo $MACnb_value_by_field ?>" size="3" <?php echo $javascript_mac; ?>>
+                                        <?php
+                                        $i++;
+                                    }
                     ?>
-                </div>
-                <?php
-            } elseif ($protectedPost['BLACK_CHOICE'] == 3) {
-                ?>
+                                </div>
+                                <?php
+                            } elseif ($protectedPost['BLACK_CHOICE'] == 3) {
+                                ?>
                 <div class="input-group">
                     <div class="col-sm-4">
                         <label style="margin-right: 10px" "><?php echo $l->g(1142); ?></label>
@@ -162,29 +162,29 @@ switch ($protectedPost['onglet']) {
                                 echo $SUBseparat;
                             }
                             ?>
-                            <input type="text" name="<?php echo $SUBfield_name . $i; ?>" maxlength="<?php echo $SUBnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
-                            <?php
-                            $i++;
-                        }
+                        <input type="text" name="<?php echo $SUBfield_name . $i; ?>" maxlength="<?php echo $SUBnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
+                                            <?php
+                                            $i++;
+                                        }
                         ?>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <div class="col-sm-4">
-                        <label style="margin-right: 10px" "><?php echo $l->g(1143); ?></label>
-                    </div>
-                    <div class="col-sm-8">
-                        <?php
-                        $i = 1;
-                        while ($i <= $MASKnb_field) {
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="col-sm-4">
+                                        <label style="margin-right: 10px" "><?php echo $l->g(1143); ?></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <?php
+                                        $i = 1;
+                                        while ($i <= $MASKnb_field) {
                             if ($i != 1) {
                                 echo $MASKseparat;
                             }
                             ?>
-                            <input type="text" name="<?php echo $MASKfield_name . $i; ?>" maxlength="<?php echo $MASKnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
-                            <?php
-                            $i++;
-                        }
+                        <input type="text" name="<?php echo $MASKfield_name . $i; ?>" maxlength="<?php echo $MASKnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
+                                            <?php
+                                            $i++;
+                                        }
                         ?>
 
                                     </div>

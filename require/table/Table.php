@@ -34,7 +34,7 @@ class Table {
     }
 
     public function getColumns() {
-		// TODO : BUGGY CODE
+        // TODO : BUGGY CODE
         $allcolumns = $this->getColumns();
         $columnsreturn;
     }
@@ -252,10 +252,10 @@ class Table {
             }
 
             /*
-     * Called by tab_req
-     */
+             * Called by tab_req
+             */
 
-    public function updateTable() {
+            public function updateTable() {
 
     }
 

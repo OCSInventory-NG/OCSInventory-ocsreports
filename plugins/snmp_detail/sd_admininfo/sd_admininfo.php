@@ -144,8 +144,8 @@ if ($list_tab != '') {
             //cas of checkbox
             if ($val_admin_info['TYPE'] == 4) {
                 $temp_val = explode('&&&', $info_account_id[$name_accountinfo]);
-				foreach ($temp_val as $uneVal) {
-					$protectedPost[$name_accountinfo . '_' . $uneVal] = 'on';
+                foreach ($temp_val as $uneVal) {
+                    $protectedPost[$name_accountinfo . '_' . $uneVal] = 'on';
                 }
             } else {
                 $protectedPost[$name_accountinfo] = $info_account_id[$name_accountinfo];
