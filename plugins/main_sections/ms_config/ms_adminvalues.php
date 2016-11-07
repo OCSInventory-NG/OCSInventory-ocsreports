@@ -120,10 +120,8 @@ if ($protectedPost['onglet'] == 1) {
 		//vérification que le nom du champ n'existe pas pour les nouveaux champs
 		if (trim($protectedPost['newfield']) != '') {
 			$sql_verif = "SELECT count(*) c FROM config WHERE TVALUE = '%s' and NAME like '%s'";
-			//echo $sql_verif;
 			$arg_verif = array($protectedPost['newfield'], $protectedGet['tag'] . "_%");
 			$res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
-			//echo $val_verif = mysqli_fetch_array( $res_verif );
 			$val_verif = mysqli_fetch_array($res_verif);
 			if ($val_verif['c'] > 0) {
 				$ERROR = $l->g(656);

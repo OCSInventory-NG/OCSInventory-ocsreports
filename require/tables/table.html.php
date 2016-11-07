@@ -31,6 +31,4 @@
 		</div>
 	</center>
 	<?php
-
-
  endif ?>

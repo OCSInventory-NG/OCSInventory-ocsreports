@@ -83,14 +83,15 @@ if ($protectedPost['onglet'] == 'FILE') {
 				$errstr = $result["errstr"];
 				msg_error($l->g(344) . " " . $errno . " / " . $errstr);
 			} else {
-				if (!strstr($result[0], "200"))
+				if (!strstr($result[0], "200")) {
 					msg_error($l->g(344) . " " . $result[0]);
-				else {
+				} else {
 					msg_success($l->g(287) . " OK");
 				}
 			}
-		} else
+		} else {
 			msg_error($l->g(1244));
+		}
 	}
 	printEntete($l->g(560) . ": " . $server);
 	echo close_form();
@@ -100,7 +101,7 @@ if ($protectedPost['onglet'] == 'FILE') {
 
 	echo "<input name='GO' class='btn btn-success' id='GO' type='submit' value='" . $l->g(13) . "'>";
 	echo close_form();
-}else {
+} else {
 	require_once('require/function_computers.php');
 	require_once('require/function_admininfo.php');
 	//list fields for form
@@ -111,19 +112,21 @@ if ($protectedPost['onglet'] == 'FILE') {
 
 	if (isset($protectedPost['Valid_modif'])) {
 		$error = '';
-		if (!is_numeric($protectedPost['NB_COMPUTERS']))
+		if (!is_numeric($protectedPost['NB_COMPUTERS'])) {
 			$error .= $l->g(28) . ',';
+		}
 
 		foreach ($form_fields_typeinput as $key => $value) {
-			if (trim($protectedPost[$key]) == '')
+			if (trim($protectedPost[$key]) == '') {
 				$error .= $value . ',';
+			}
 		}
 
 		if ($error == "") {
 			$check_trait = array();
 			foreach ($protectedPost as $key => $value) {
 				if ($value != '') {
-					if (substr($key, 0, 7) == 'fields_' or $key == 'TAG') {
+					if (substr($key, 0, 7) == 'fields_' || $key == 'TAG') {
 						$temp_field = explode('_', $key);
 
 						//checkbox cas

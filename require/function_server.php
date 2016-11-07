@@ -257,14 +257,11 @@ function insert_with_rules($list_id, $rule_detail, $fileid) {
 		while ($val_verif = mysqli_fetch_array($res_verif)) {
 			//création du tableau de doublon
 			$exist[$val_verif['hardware_id']] = $val_verif['hardware_id'];
-
-			//suppression des doublons
-			//unset($tab_final[$val_verif['hardware_id']]);
-			//$nb_exist++;
 		}
 		//suppression des doublons pour remettre le statut a attente de notification
-		if ($exist != '')
+		if ($exist != '') {
 			desactive_mach_serv(implode(',', $exist), $fileid);
+		}
 		//insertion en base
 		$nb_insert = 0;
 		foreach ($tab_final as $key => $value) {

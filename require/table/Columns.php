@@ -100,6 +100,7 @@ class Columns {
 			if ($visible) {
 				$this->columnsvisible[] = $key;
 			}
+			// TODO : BUGGY CODE
 			if ($cantdel) {
 				$this->columnscantdel[] = $key;
 			}
@@ -114,6 +115,7 @@ class Columns {
 	 */
 
 	public function hideColumn($key) {
+		// TODO : BUGGY CODE
 		if ($column) {
 			if (in_array($key, $this->columnsvisible)) {
 				unset($this->columnsvisible[$key]);

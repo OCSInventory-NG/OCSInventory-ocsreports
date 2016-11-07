@@ -29,8 +29,7 @@ if (AJAX) {
 
 require_once('require/function_table_html.php');
 require_once('require/function_files.php');
-// @TODO : buggy code
-$protectedPost['onglet'] == "";
+$protectedPost['onglet'] = "";
 $tab_options = $protectedPost;
 
 $Directory = $_SESSION['OCS']['LOG_DIR'] . "/";

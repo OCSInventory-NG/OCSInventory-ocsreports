@@ -249,19 +249,22 @@ foreach ($count_id as $lbl => $count_value) {
 	echo "<span>" . returnTrad($lbl) . "</span>";
 	echo "</div>";
 	echo "<div class='col col-md-2 text-left'>";
-	if ($count_value != 0)
+	if ($count_value != 0) {
 		echo "<a href=# onclick='pag(\"" . $lbl . "\",\"detail\",\"" . $form_name . "\");' alt='" . $l->g(41) . "'>";
+	}
 
 	echo $count_value;
 
-	if ($count_value != 0)
+	if ($count_value != 0) {
 		echo "</a>";
+	}
 
 	echo "</div>";
 	echo "</div>";
 
-	if ($protectedPost['detail'] == $lbl and $count_value == 0)
+	if ($protectedPost['detail'] == $lbl && $count_value == 0) {
 		unset($protectedPost['detail']);
+	}
 }
 echo "</table>";
 echo "<input type=hidden name=detail id=detail value='" . $protectedPost['detail'] . "'>";

@@ -33,10 +33,9 @@ if (AJAX) {
 require_once('require/function_blacklist.php');
 $form_name = "blacklist";
 
-
-//printEnTete($l->g(703));
-if (!is_defined($protectedPost['onglet']))
+if (!is_defined($protectedPost['onglet'])) {
 	$protectedPost['onglet'] = 1;
+}
 
 $tab_options = $protectedPost;
 
@@ -133,7 +132,7 @@ switch ($protectedPost['onglet']) {
 				//var_dump($MACnb_field, $protectedPost, $MACfield_name, $MACnb_value_by_field, $MACsize, $MACseparat, $javascript_mac);
 				?>
 				<div class="input-group">
-					<label style="margin-right: 10px" "><?= $l->g(654); ?></label>
+					<label style="margin-right: 10px"><?= $l->g(654); ?></label>
 					<?php
 					for ($i = 1; $i <= $MACnb_field; $i++) {
 						if ($i != 1) {
@@ -150,7 +149,7 @@ switch ($protectedPost['onglet']) {
 				?>
 				<div class="input-group">
 					<div class="col-sm-4">
-						<label style="margin-right: 10px" "><?= $l->g(1142); ?></label>
+						<label style="margin-right: 10px"><?= $l->g(1142); ?></label>
 					</div>
 					<div class="col-sm-8">
 						<?php
@@ -167,7 +166,7 @@ switch ($protectedPost['onglet']) {
 				</div>
 				<div class="input-group">
 					<div class="col-sm-4">
-						<label style="margin-right: 10px" "><?= $l->g(1143); ?></label>
+						<label style="margin-right: 10px"><?= $l->g(1143); ?></label>
 					</div>
 					<div class="col-sm-8">
 						<?php

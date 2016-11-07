@@ -354,8 +354,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	$select .= "</select>";
 
 	//on affiche le début de ligne
-	if ($ajout != '')
+	if ($ajout != '') {
 		echo $and_or;
+	}
 	echo "<div class='form-group'>";
 	echo "<label for='InputValue-" . $nameField . "' class='col-sm-2 control-label'>" . $optArray[$value] . "</label>";
 	echo "<div class='col-sm-10'>";
@@ -393,9 +394,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 				$val = data_encode_utf8($val);
 				foreach ($val as $name_of_field => $value_of_request) {
 					if (!is_numeric($name_of_field) and $name_of_field != 'ID') {
-						if (!isset($val['ID']))
+						if (!isset($val['ID'])) {
 							$val['ID'] = $value_of_request;
-						//	echo $val['ID']."=>".$value_of_request."<br>";
+						}
 						$select2 .= "<option value='" . $val['ID'] . "' " . ($protectedPost[$name_select . '-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $value_of_request . "</option>";
 					}
 				}
@@ -404,8 +405,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 		$select2 .= "</select>";
 		echo $select2;
 		if (array_key_exists($value, $opt2SelectField)) {
-			if ($opt2SelectField[$value . "-LBL"] == "calendar")
+			if ($opt2SelectField[$value . "-LBL"] == "calendar") {
 				$opt2SelectField[$value . "-LBL"] = calendars("InputValue-" . $nameField, $l->g(1270));
+			}
 			echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">&nbsp;" . $opt2SelectField[$value . "-LBL"];
 		}
 		echo "</div>";
@@ -420,8 +422,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 		} else {
 			$result = mysqli_query($_SESSION['OCS']["readServer"], $opt2Select[$value . '-SQL1']);
 			while ($val = mysqli_fetch_array($result)) {
-				if (!isset($val['ID']))
+				if (!isset($val['ID'])) {
 					$val['ID'] = $val['NAME'];
+				}
 				$selectValue .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
 			}
 		}
@@ -432,10 +435,11 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	if (array_key_exists($value, $optSelect2Field)) {
 		//gestion de la vision du deuxieme champ de saisi
 		//on fonction du POST
-		if ($protectedPost['SelComp-' . $nameField] == "between")
+		if ($protectedPost['SelComp-' . $nameField] == "between") {
 			$display = "inline";
-		else
+		} else {
 			$display = "none";
+		}
 
 		echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">
 				 <div style='display:" . $display . "' id='FieldInput2-" . $nameField . "'>&nbsp;--&nbsp;<input name='InputValue2-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue2-" . $nameField]) . "\"></div>" . $optSelect2Field[$value . "-LBL"] . "</div>";
@@ -445,8 +449,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 		$selectValue1 = "<select name='SelFieldValue-" . $nameField . "' id='SelFieldValue-" . $nameField . "' class='form-control'>";
 		$result = mysqli_query($_SESSION['OCS']["readServer"], $opt3Select[$value . '-SQL1']);
 		while ($val = mysqli_fetch_array($result)) {
-			if (!isset($val['ID']))
+			if (!isset($val['ID'])) {
 				$val['ID'] = $val['NAME'];
+			}
 			$selectValue1 .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
 		}
 		$selectValue1 .= "</select>";
@@ -454,8 +459,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 		$selectValue2 = "<select name='SelFieldValue2-" . $nameField . "' id='SelFieldValue2-" . $nameField . "' class='form-control'>";
 		$result = mysqli_query($_SESSION['OCS']["readServer"], $opt3Select[$value . '-SQL2']);
 		while ($val = mysqli_fetch_array($result)) {
-			if (!isset($val['ID']))
+			if (!isset($val['ID'])) {
 				$val['ID'] = $val['NAME'];
+			}
 			$selectValue2 .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue2-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
 		}
 		$selectValue2 .= "</select>";

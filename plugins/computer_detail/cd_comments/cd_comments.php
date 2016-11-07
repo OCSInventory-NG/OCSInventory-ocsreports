@@ -28,7 +28,6 @@ if (AJAX) {
 }
 
 $lbl_log = $l->g(1128);
-$list_fields = array();
 if (!isset($protectedPost['SHOW'])) {
 	$protectedPost['SHOW'] = 'NOSHOW';
 }

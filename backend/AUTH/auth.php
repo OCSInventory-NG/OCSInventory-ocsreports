@@ -25,10 +25,10 @@
  * You can add your connexion page for ocs access
  * You have 2 default connexion
  * => Connexion LOGIN/PASSWD on OCS base
- * => Connexion LOGIN/PASSWD on LDAP 
+ * => Connexion LOGIN/PASSWD on LDAP
  * If you want add you method to connect to ocs
  * add your page on /require and modify $list_methode
- * 
+ *
  */
 require_once(BACKEND . 'require/connexion.php');
 //If you want a html form for the connexion
@@ -66,9 +66,9 @@ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($prot
 }
 
 if (isset($login) && isset($mdp)) {
-	foreach($list_methode as $uneMethode) {
+	foreach ($list_methode as $uneMethode) {
 		require_once 'methode/' . $uneMethode;
-		if($login_successful == "OK") {
+		if ($login_successful == "OK") {
 			break;
 		}
 	}
@@ -80,7 +80,6 @@ if ($login_successful == "OK" && isset($login_successful)) {
 	$_SESSION['OCS']['user_group'] = $user_group;
 
 	if ($protectedGet) {
-
 		$get = '';
 		$first = true;
 

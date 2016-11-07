@@ -73,7 +73,6 @@ printEnTete($l->g(7008));
 		$availablePlugins = scan_downloaded_plugins();
 
 		if (!$dep_check || !$per_check) {
-
 			msg_error($l->g(6009));
 		} else {
 			if (!empty($availablePlugins)) {

@@ -95,7 +95,6 @@ if (!defined("SERVER_READ") || !defined("DB_NAME") || !defined("SERVER_WRITE") |
 //connect to databases
 $link_write = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE);
 $link_read = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE);
-//p($link_write);
 if (is_object($link_write) && is_object($link_read)) {
 	$_SESSION['OCS']["writeServer"] = $link_write;
 	$_SESSION['OCS']["readServer"] = $link_read;
@@ -349,10 +348,11 @@ if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])
 	$default_value_conf = array('INVENTORY_CACHE_ENABLED' => 1, 'TAB_CACHE' => 0, 'USE_NEW_SOFT_TABLES' => 0);
 	$values = look_config_default_values($conf_gui);
 	foreach ($conf_gui as $k => $v) {
-		if (isset($values['ivalue'][$v]))
+		if (isset($values['ivalue'][$v])) {
 			$_SESSION['OCS'][$k] = $values['ivalue'][$v];
-		else
+		} else {
 			$_SESSION['OCS'][$k] = $default_value_conf[$v];
+		}
 	}
 }
 

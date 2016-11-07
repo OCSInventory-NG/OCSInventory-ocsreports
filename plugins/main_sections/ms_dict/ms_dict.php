@@ -310,14 +310,13 @@ if ($protectedPost['AFFECT_TYPE'] != '') {
 
 <div class="row margin-top30">
     <div class="col-md-6 col-md-offset-3">
-        <input name='all_item' id='all_item' type='checkbox' <?= (isset($protectedPost['all_item']) ? " checked " : "") . ">" . $l->g(384); ?>
-			   <br />
-			   <?= show_modif($choix_affect, "AFFECT_TYPE", '2', $form_name); ?>
+        <input name="all_item" id="all_item" type="checkbox" <?= (isset($protectedPost['all_item']) ? "checked" : "") ?>><?= $l->g(384) ?>
+		<br />
+		<?= show_modif($choix_affect, "AFFECT_TYPE", '2', $form_name); ?>
     </div>
 </div>
 <?php
 if ($result_exist != false) {
-
 	echo $trans;
 }
 

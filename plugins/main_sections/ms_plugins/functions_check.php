@@ -45,11 +45,9 @@ function install($archiveName) {
  * If not an entry is created in the table "plugins" with the plugins infos.
  */
 function check($plugarray) {
-
 	$conn = new PDO('mysql:host=' . SERVER_WRITE . ';dbname=' . DB_NAME . ';charset=utf8', COMPTE_BASE, PSWD_BASE);
 
 	foreach ($plugarray as $value) {
-
 		$query = $conn->query("SELECT EXISTS( SELECT * FROM `plugins` WHERE name = '" . $value . "' ) AS name_exists");
 		$anwser = $query->fetch();
 
@@ -59,13 +57,11 @@ function check($plugarray) {
 				require MAIN_SECTIONS_DIR . "ms_" . $value . "/install.php";
 
 				if (!function_exists("plugin_version_" . $value) || !function_exists("plugin_init_" . $value) || !function_exists("plugin_delete_" . $value)) {
-
 					rrmdir(MAIN_SECTIONS_DIR . "ms_" . $value);
 					return false;
 				}
 
 				// Retrieve infos from the plugin_version_plugname functions and add it to the database
-
 				$fonc = "plugin_version_" . $value;
 				$infoplugin = $fonc();
 
@@ -79,7 +75,6 @@ function check($plugarray) {
 				return true;
 			} else {
 				rrmdir(MAIN_SECTIONS_DIR . "ms_" . $value);
-
 				return false;
 			}
 		}

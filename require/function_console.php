@@ -241,10 +241,7 @@ function define_tab($data_on = array()) {
 	$data_on['ELSE'] = mb_strtoupper($l->g(800), 'UTF-8');
 	if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == "YES") {
 		$data_on['ADMIN']['MSG'] = mb_strtoupper($l->g(915), 'UTF-8');
-
-		if (!isset($default)) {
-			$default = 'MSG';
-		}
+		$default = '';
 	}
 	return array('DATA' => $data_on, 'DEFAULT' => $default);
 }
@@ -336,7 +333,7 @@ function show_console_field($fields, $form_name) {
 				} elseif ($table[$key] == 'hardware') {
 					$sql_result .= " id in " . $myids['SQL'];
 				} elseif ($table[$key] == 'snmp') {
-					
+
 				} elseif ($table[$key] == 'nk') {
 					$sql_result = substr($sql_result, 0, -4);
 				}
