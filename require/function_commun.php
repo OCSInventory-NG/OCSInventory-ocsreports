@@ -307,7 +307,7 @@ function html_header($noJavascript = false) {
     header("Cache-control: must-revalidate, post-check=0, pre-check=0");
     header("Cache-control: private", false);
     header("Content-type: text/html; charset=utf-8");
-    echo '<!--DOCTYPE html-->
+    echo '<!DOCTYPE html>
         <html>
 			<head>
    				<meta charset="utf-8">

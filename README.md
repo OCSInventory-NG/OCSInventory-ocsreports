@@ -47,6 +47,7 @@ OCS Inventory is GPLv2 licensed
 
 ## Dev notes :
   - Minimal PHP Version : 5.4
+  - HTML5 ([bootstrap](http://getbootstrap.com/css/#overview))
   - Min IE version : 8 ([bootstrap](http://getbootstrap.com/getting-started/#support))
   - Targeted others browser version : latest ([bootstrap](http://getbootstrap.com/getting-started/#support))
 
