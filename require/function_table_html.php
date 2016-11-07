@@ -213,7 +213,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     $opt = false;
     ?>
 
-    <div align=center>
+    <div align="center">
         <div class="<?= $option['table_name']; ?>_top_settings" style="display:none;">
         </div>
         <?php
