@@ -46,7 +46,7 @@ OCS Inventory NG includes the packet deployment functionality to be sure that al
 OCS Inventory is GPLv2 licensed
 
 ## Dev notes :
-  - Minimal PHP Version : 5.3.7 (password_compat requierement)
+  - Minimal PHP Version : 5.4
   - Min IE version : 8 ([bootstrap](http://getbootstrap.com/getting-started/#support))
   - Targeted others browser version : latest ([bootstrap](http://getbootstrap.com/getting-started/#support))
 
