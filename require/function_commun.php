@@ -369,7 +369,15 @@ function open_form($form_name, $action = '', $more = '', $class = '') {
     if (!isset($_SESSION['OCS']['CSRFNUMBER']) || !is_numeric($_SESSION['OCS']['CSRFNUMBER']) || $_SESSION['OCS']['CSRFNUMBER'] >= CSRF) {
         $_SESSION['OCS']['CSRFNUMBER'] = 0;
     }
-    $form = "<form class='" . $class . "' name='" . $form_name . "' id='" . $form_name . "' method='POST' action='" . $action . "' " . $more . " >";
+    $form = "<form name='" . $form_name . "' id='" . $form_name . "' method='POST'";
+    if (!empty($class)) {
+        $form .= " class='" . $class . "'";
+    }
+    if (!empty($action)) {
+        $form .= " action='" . $action . "'";
+    }
+    $form .= " " . $more . " >";
+
     $csrf_value = sha1(microtime());
     $_SESSION['OCS']['CSRF'][$_SESSION['OCS']['CSRFNUMBER']] = $csrf_value;
     $form .= "<input type='hidden' name='CSRF_" . $_SESSION['OCS']['CSRFNUMBER'] . "' id='CSRF_" . $_SESSION['OCS']['CSRFNUMBER'] . "' value='" . $csrf_value . "'>";
