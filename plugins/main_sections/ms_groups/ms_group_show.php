@@ -111,7 +111,7 @@ if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif'])) {
         $arg = array($protectedPost['NAME'], $protectedPost['DESCR'], $systemid);
         $result = mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
     } else {
-        echo "<script>alert('" . $l->g(627) . "')</script>";
+        echo "<script type='text/javascript'>alert('" . $l->g(627) . "')</script>";
     }
 }
 $queryMachine = "SELECT REQUEST,

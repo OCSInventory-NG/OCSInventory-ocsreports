@@ -204,7 +204,7 @@ function dateTimeFromMysql($v) {
 }
 
 function reloadform_closeme($form = '', $close = false) {
-    echo "<script>";
+    echo "<script type='text/javascript'>";
     if ($form != '') {
         echo "window.opener.document.forms['" . $form . "'].submit();";
     }
@@ -270,7 +270,7 @@ function msg($txt, $css, $closeid = false) {
         }
         echo $txt . "</div></center>";
         if ($closeid != false) {
-            echo "<script>$('#my-alert-" . $closeid . "').on('closed.bs.alert', function () {
+            echo "<script type='text/javascript'>$('#my-alert-" . $closeid . "').on('closed.bs.alert', function () {
 			 pag('" . $closeid . "','close_alert','close_msg');
 			})</script>";
 

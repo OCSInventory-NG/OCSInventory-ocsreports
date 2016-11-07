@@ -49,7 +49,7 @@ if (!$cant_active) {
             }
         }
         mysql2_query_secure("DELETE FROM download_enable WHERE FILEID=%s", $_SESSION['OCS']["writeServer"], $protectedPost['DEL_ALL']);
-        echo "<script>window.opener.document.packlist.submit(); self.close();</script>";
+        echo "<script type='text/javascript'>window.opener.document.packlist.submit(); self.close();</script>";
     }
     if ($protectedPost['SUP_PROF'] != '') {
         desactive_packet('', $protectedPost['SUP_PROF']);

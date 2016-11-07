@@ -268,7 +268,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         ?>
     </div>
 
-    <script>
+    <script type="text/javascript">
         //Check all the checkbox
         function checkall()
         {
@@ -555,7 +555,7 @@ function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array()
 
     if (isset($data)) {
         ?>
-        <script>
+        <script type="text/javascript">
             function changerCouleur(obj, state) {
                 if (state == true) {
                     bcolor = obj.style.backgroundColor;
