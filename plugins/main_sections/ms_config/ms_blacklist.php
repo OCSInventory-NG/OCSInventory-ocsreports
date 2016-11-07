@@ -135,15 +135,13 @@ switch ($protectedPost['onglet']) {
 				<div class="input-group">
 					<label style="margin-right: 10px" "><?= $l->g(654); ?></label>
 					<?php
-					$i = 1;
-					while ($i <= $MACnb_field) {
+					for ($i = 1; $i <= $MACnb_field; $i++) {
 						if ($i != 1) {
 							echo $MACseparat;
 						}
 						?>
 						<input type="text" name="<?= $MACfield_name . $i; ?>" maxlength="<?= $MACnb_value_by_field ?>" size="3" <?= $javascript_mac; ?>>
 						<?php
-						$i++;
 					}
 					?>
 				</div>
@@ -156,15 +154,13 @@ switch ($protectedPost['onglet']) {
 					</div>
 					<div class="col-sm-8">
 						<?php
-						$i = 1;
-						while ($i <= $SUBnb_field) {
+						for ($i = 1; $i <= $SUBnb_field; $i++) {
 							if ($i != 1) {
 								echo $SUBseparat;
 							}
 							?>
 							<input type="text" name="<?= $SUBfield_name . $i; ?>" maxlength="<?= $SUBnb_value_by_field ?>" size="3" <?= $chiffres; ?>>
 							<?php
-							$i++;
 						}
 						?>
 					</div>
@@ -175,15 +171,13 @@ switch ($protectedPost['onglet']) {
 					</div>
 					<div class="col-sm-8">
 						<?php
-						$i = 1;
-						while ($i <= $MASKnb_field) {
+						for ($i = 1; $i <= $MASKnb_field; $i++) {
 							if ($i != 1) {
 								echo $MASKseparat;
 							}
 							?>
 							<input type="text" name="<?= $MASKfield_name . $i; ?>" maxlength="<?= $MASKnb_value_by_field ?>" size="3" <?= $chiffres; ?>>
 							<?php
-							$i++;
 						}
 						?>
 

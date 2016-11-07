@@ -231,32 +231,28 @@ function sql_group_cache($cache_sql) {
 	if ($cache_sql['NORMAL']) {
 
 		foreach ($cache_sql['NORMAL'] as $poids => $list) {
-			$i = 0;
-			while ($list[$i]) {
+			foreach ($list as $unList) {
 				$fin_sql = "";
-				if (substr_count($list[$i], "from hardware")) {
+				if (substr_count($unList, "from hardware")) {
 					$fin_sql = " and deviceid<>'_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_' ";
 				} else {
 					$fin_sql = "";
 				}
-				$_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $list[$i] . $fin_sql;
-				$i++;
+				$_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $unList . $fin_sql;
 			}
 		}
 	}
 	//requête de recherche "différent", "n'appartient pas"
 	if ($cache_sql['DIFF']) {
 		foreach ($cache_sql['DIFF'] as $poids => $list) {
-			$i = 0;
-			while ($list[$i]) {
+			foreach ($list as $unList) {
 				$fin_sql = "";
-				if (substr_count($list[$i], "from hardware")) {
+				if (substr_count($unList, "from hardware")) {
 					$fin_sql = " and deviceid<>'_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_' ";
 				} else {
 					$fin_sql = "";
 				}
-				$_SESSION['OCS']['SEARCH_SQL_GROUP'][] = "select distinct id as HARDWARE_ID from hardware where id not in (" . $list[$i] . ")" . $fin_sql;
-				$i++;
+				$_SESSION['OCS']['SEARCH_SQL_GROUP'][] = "select distinct id as HARDWARE_ID from hardware where id not in (" . $unList . ")" . $fin_sql;
 			}
 		}
 	}

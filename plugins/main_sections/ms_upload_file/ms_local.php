@@ -60,7 +60,7 @@ if ($protectedPost['onglet'] == 'FILE') {
 
 	</script>
 	<?php
-	//   
+	//
 	$form_name1 = "SEND_FILE";
 	$data_config = look_config_default_values(array('LOCAL_URI_SERVER'), '', array('TVALUE' => array('LOCAL_URI_SERVER' => 'http://localhost:80/ocsinventory')));
 
@@ -143,21 +143,18 @@ if ($protectedPost['onglet'] == 'FILE') {
 					$values_fields[] = $value;
 				}
 			}
-			/* if ($protectedPost['NB_COMPUTERS'] === 1)
-			  $protectedPost['NB_COMPUTERS']=''; */
-			$i = 0;
-			while ($i < $protectedPost['NB_COMPUTERS']) {
+			for ($i = 0; $i < $protectedPost['NB_COMPUTERS']; $i++) {
 				$id_computer = insert_manual_computer($protectedPost, $protectedPost['NB_COMPUTERS']);
 				if (!is_array($fields)) {
 					$fields[] = 'TAG';
 					$values_fields[] = '';
 				}
 				insertinfo_computer($id_computer, $fields, $values_fields);
-				$i++;
 			}
 			msg_success($l->g(881));
-		} else
+		} else {
 			msg_error($l->g(684) . "<br>" . $error);
+		}
 	}
 
 	$i = 0;
@@ -174,10 +171,11 @@ if ($protectedPost['onglet'] == 'FILE') {
 		$i++;
 		$info_form['FIELDS']['name_field'][$i] = $key;
 		$info_form['FIELDS']['type_field'][$i] = 0;
-		if ($key == 'ADDR_MAC_GENERIC')
+		if ($key == 'ADDR_MAC_GENERIC') {
 			$info_form['FIELDS']['value_field'][$i] = (isset($protectedPost[$key]) ? $protectedPost[$key] : RandomMAC());
-		else
+		} else {
 			$info_form['FIELDS']['value_field'][$i] = (isset($protectedPost[$key]) ? $protectedPost[$key] : rand());
+		}
 		$info_form['FIELDS']['tab_name'][$i] = $value . "*";
 		$config[$i]['CONFIG']['SIZE'] = 30;
 		$other_data['COMMENT_AFTER'][$i] = '_M';
@@ -193,13 +191,11 @@ if ($protectedPost['onglet'] == 'FILE') {
 	$config = array_merge($config, $accountinfo_form['CONFIG']);
 	$other_data['COMMENT_AFTER'] = array_merge($other_data['COMMENT_AFTER'], $accountinfo_form['COMMENT_AFTER']);
 
-
 	$tab_typ_champ = show_field($info_form['FIELDS']['name_field'], $info_form['FIELDS']['type_field'], $info_form['FIELDS']['value_field']);
 	foreach ($config as $key => $value) {
 		$tab_typ_champ[$key]['CONFIG'] = $value['CONFIG'];
 		$tab_typ_champ[$key]['COMMENT_AFTER'] = $other_data['COMMENT_AFTER'][$key];
 	}
-
 
 	if (isset($tab_typ_champ)) {
 		modif_values($info_form['FIELDS']['tab_name'], $tab_typ_champ, $tab_hidden, array(

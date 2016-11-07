@@ -144,10 +144,8 @@ if ($list_tab != '') {
 			//cas of checkbox
 			if ($val_admin_info['TYPE'] == 4) {
 				$temp_val = explode('&&&', $info_account_id[$name_accountinfo]);
-				$i = 0;
-				while (isset($temp_val[$i])) {
-					$protectedPost[$name_accountinfo . '_' . $temp_val[$i]] = 'on';
-					$i++;
+				foreach ($temp_val as $uneVal) {
+					$protectedPost[$name_accountinfo . '_' . $uneVal] = 'on';
 				}
 			} else {
 				$protectedPost[$name_accountinfo] = $info_account_id[$name_accountinfo];

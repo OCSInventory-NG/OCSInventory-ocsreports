@@ -154,11 +154,9 @@ function generate_xml($req) {
 	if (isset($req[0])) {
 		//création du début du xml
 		$xml = "<xmldef>";
-		$i = 0;
 		//concaténation des différentes requetes
-		while (isset($req[$i])) {
-			$xml .= "<REQUEST>" . clean($req[$i]) . "</REQUEST>";
-			$i++;
+		foreach ($req as $uneReq) {
+			$xml .= "<REQUEST>" . clean($uneReq) . "</REQUEST>";
 		}
 		$xml .= "</xmldef>";
 	} else { //si aucune requete n'exite, on renvoie un xml vide

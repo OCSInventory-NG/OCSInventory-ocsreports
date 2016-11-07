@@ -80,9 +80,7 @@ class MsStatsTop extends MsStats {
 				$first = 0;
 				$j = 0;
 				foreach ($data as $k => $v) {
-					$i = 0;
-					while ($v[$i]) {
-
+					foreach ($v as $unV) {
 						$jonct = '';
 						if (($k == 'LIKE' || $k == '=') && $first != 0) {
 							$jonct = ' OR ';
@@ -96,8 +94,7 @@ class MsStatsTop extends MsStats {
 							$j = 0;
 						}
 						$sql .= $jonct . " name " . $k . " '%s'";
-						$arg[] = $v[$i];
-						$i++;
+						$arg[] = $unV;
 						$first++;
 					}
 				}

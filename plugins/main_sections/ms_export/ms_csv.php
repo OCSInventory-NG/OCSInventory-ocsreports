@@ -140,13 +140,11 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
 		}
 		$i++;
 	}
-	$i = 0;
-	while ($data[$i]) {
+	foreach ($data as $uneData) {
 		$toBeWritten .= "\r\n";
-		foreach ($data[$i] as $field_name => $donnee) {
+		foreach ($uneData as $donnee) {
 			$toBeWritten .= $donnee . $separator;
 		}
-		$i++;
 	}
 
 	$filename = "export.csv";

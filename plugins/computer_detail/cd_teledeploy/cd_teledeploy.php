@@ -58,10 +58,8 @@ if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "Y
 }
 $queryDetails .= "	union SELECT PKG_ID,'%s','%s','%s','%s','%s','%s'
                                         FROM download_history h LEFT JOIN download_available a ON h.pkg_id=a.fileid where hardware_id=%s and name is null";
-$i = 0;
-while ($i < 6) {
+for ($i = 0; $i < 6; $i++) {
 	array_push($arg, $pack_sup);
-	$i++;
 }
 array_push($arg, $systemid);
 $tab_options['ARG_SQL'] = $arg;

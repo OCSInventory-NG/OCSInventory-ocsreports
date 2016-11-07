@@ -264,19 +264,15 @@ function verif_champ() {
 		}
 	}
 
-	$i = 0;
-	while ($supp1[$i]) {
-		if ($protectedPost[$supp1[$i]] < 1 && isset($protectedPost[$supp1[$i]])) {
-			$tab_error[$supp1[$i]] = '1';
+	foreach ($supp1 as $unSuppl) {
+		if ($protectedPost[$unSuppl] < 1 && isset($protectedPost[$unSuppl])) {
+			$tab_error[$unSuppl] = '1';
 		}
-		$i++;
 	}
-	$i = 0;
-	while ($supp10[$i]) {
-		if ($protectedPost[$supp10[$i]] < 10 && isset($protectedPost[$supp10[$i]])) {
-			$tab_error[$supp10[$i]] = '10';
+	foreach ($supp10 as $unSuppl0) {
+		if ($protectedPost[$unSuppl0] < 10 && isset($protectedPost[$unSuppl0])) {
+			$tab_error[$unSuppl0] = '10';
 		}
-		$i++;
 	}
 	return $tab_error;
 }
@@ -708,11 +704,7 @@ function pageredistrib() {
 		'DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT',
 		'DOWNLOAD_REDISTRIB' => 'DOWNLOAD_REDISTRIB');
 	$values = look_config_default_values($champs);
-	$i = 0;
-	while ($i < 10) {
-		$priority[$i] = $i;
-		$i++;
-	}
+
 	if (isset($values['tvalue']['DOWNLOAD_REP_CREAT'])) {
 		$select_rep_creat = 'CUSTOM';
 	} else {

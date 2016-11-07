@@ -270,14 +270,12 @@ if ($protectedPost['Valid-search'] and $protectedPost['Valid'] != '') {
 						//		on se retrouve donc avec un champ AND/OR sur le deuxième champ IP ADD
 						//		qu'il ne faut pas prendre en compte
 						if ($i != 0) {
-							$k = $i;
 							//on regarde si dans les champs précédent on a bien
 							//le même champ pour traiter le champ AND/OR
-							while ($k > 0) {
+							for ($k = $i; $k > 0; $k--) {
 								if ($table[$k] == $table[$i] and $field[$k] == $field[$i]) {
 									$field_and_or[$i] = $protectedPost["SelAndOr-" . $table[$i] . "-" . $field[$i] . "-" . $fieldNumber[$i]];
 								}
-								$k--;
 							}
 						}
 						if (isset($protectedPost[$valeur[0] . "2-" . $table[$i] . "-" . $field[$i] . "-" . $fieldNumber[$i]]))
@@ -328,11 +326,9 @@ if ($protectedPost['Valid-search'] and $protectedPost['Valid'] != '') {
 			msg_info($debug);
 	}
 	$i = 0;
-	//tableau des requêtes à executer
-	//qui est contruit au fur et a mesure
+	//tableau des requêtes à executer qui est contruit au fur et a mesure
 	$sql_search = array();
 	while ($table[$i]) {
-
 		//initialisation de la variable des requêtes temporaires
 		$sql_temp = "";
 		if ($field_compar[$i] == "" and substr($field_value[$i], 0, 4) != "ALL_")

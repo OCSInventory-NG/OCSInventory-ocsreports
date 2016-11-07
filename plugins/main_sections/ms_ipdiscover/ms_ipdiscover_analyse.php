@@ -56,13 +56,11 @@ if (is_defined($protectedPost['reset'])) {
 	$ret = parse_xml_file($file_name, $tabBalises, "HOST");
 	if ($ret != array()) {
 		$sql = "select ";
-		$i = 0;
-		while ($ret[$i]) {
-			foreach ($ret[$i] as $key => $value) {
+		foreach ($ret as $unRet) {
+			foreach ($unRet as $key => $value) {
 				$sql .= "'" . $value . "' as " . $key . ",";
 			}
 			$sql = substr($sql, 0, -1) . " union select ";
-			$i++;
 		}
 		$sql = substr($sql, 0, -13);
 		$default_fields = $tabBalises;

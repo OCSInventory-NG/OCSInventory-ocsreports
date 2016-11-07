@@ -23,7 +23,7 @@
 /*
  * It Set Management light
  * Admin your accountinfo
- * 
+ *
  */
 if (AJAX) {
 	parse_str($protectedPost['ocs']['0'], $params);
@@ -117,10 +117,8 @@ if ($protectedPost['onglet'] == 1) {
 	if (is_defined($protectedPost['del_check'])) {
 		$list = $protectedPost['del_check'];
 		$tab_values = explode(',', $list);
-		$i = 0;
-		while ($tab_values[$i]) {
-			del_accountinfo($tab_values[$i]);
-			$i++;
+		foreach ($tab_values as $aValue) {
+			del_accountinfo($aValue);
 		}
 	}
 
@@ -137,7 +135,7 @@ if ($protectedPost['onglet'] == 1) {
 	if (!isset($protectedPost['SHOW'])) {
 		$protectedPost['SHOW'] = 'NOSHOW';
 	}
-	if (!(isset($protectedPost["pcparpage"]))) {
+	if (!isset($protectedPost["pcparpage"])) {
 		$protectedPost["pcparpage"] = 10;
 	}
 
@@ -160,8 +158,6 @@ if ($protectedPost['onglet'] == 1) {
 	$nb_result = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 	//traitement par lot
 	del_selection($form_name);
-
-	//}
 } elseif ($protectedPost['onglet'] == 2) {
 	//NAME FIELD
 	$config['JAVASCRIPT'][1] = $sql_field;
@@ -217,8 +213,6 @@ if ($protectedPost['onglet'] == 1) {
 			<input type="submit" name="Reset_modif" value="<?= $l->g(1364) ?>" class="btn btn-danger">
 		</div>
 	</div>
-
-
 	<?php
 }
 

@@ -56,8 +56,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
 		'10' => '10',
 		'11' => '11',
 		'12' => '12');
-	$i = 0;
-	while ($i <= 1) {
+	for ($i = 0; $i <= 1; $i++) {
 		if ($i == 0) {
 			$am_pm = '';
 		} else {
@@ -70,7 +69,6 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
 				}
 			}
 		}
-		$i++;
 	}
 	$config['COMMENT_AFTER'][0] = datePick("INSTALL_DATE");
 	$config['JAVASCRIPT'][0] = "READONLY " . dateOnClick("INSTALL_DATE");
