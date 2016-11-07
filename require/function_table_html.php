@@ -1534,23 +1534,23 @@ function ajaxgestionresults($resultDetails, $list_fields, $tab_options) {
                         } else {
                             $image = $tab_options['MODIF']['IMG'];
                         }
-                        $row[$key] = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"MODIF\",\"" . $form_name . "\");'><img src=" . $image . "></a>";
+                        $row[$key] = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"MODIF\",\"" . $form_name . "\");'><img src=" . $image . " alt='image'></a>";
                         break;
                     case "SELECT":
-                        $row[$key] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SELECT\",\"" . htmlspecialchars($tab_options['QUESTION']['SELECT'], ENT_QUOTES) . "\");'><img src=image/prec16.png></a>";
+                        $row[$key] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SELECT\",\"" . htmlspecialchars($tab_options['QUESTION']['SELECT'], ENT_QUOTES) . "\");'><img src=image/prec16.png alt=prec></a>";
                         $lien = 'KO';
                         break;
                     case "OTHER":
-                        $row[$key] = "<a href=#  OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER\",\"" . $form_name . "\");'><img src=image/red.png></a>";
+                        $row[$key] = "<a href=#  OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER\",\"" . $form_name . "\");'><img src=image/red.png alt=red></a>";
                         break;
                     case "ZIP":
                         $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_compress'] . "&no_header=1&timestamp=" . $value_of_field . "&type=" . $tab_options['TYPE']['ZIP'] . "\"><img src=image/archives.png></a>";
                         break;
                     case "STAT":
-                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $value_of_field . "\"><img src='image/stat.png'></a>";
+                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $value_of_field . "\"><img src='image/stat.png' alt='stat'></a>";
                         break;
                     case "ACTIVE":
-                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active=" . $value_of_field . "\"><img src='image/activer.png' ></a>";
+                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active=" . $value_of_field . "\"><img src='image/activer.png' alt='activer'></a>";
                         break;
                     case "SHOWACTIVE":
                         if (!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])) {
@@ -2044,7 +2044,7 @@ function gestion_donnees($sql_data, $list_fields, $tab_options, $form_name, $def
                         } else {
                             $lbl_msg = $l->g(640) . " " . $value_of_field;
                         }
-                        $data[$i][$num_col] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SUP_PROF\",\"" . htmlspecialchars($lbl_msg, ENT_QUOTES) . "\");'><img src=image/delete-small.png></a>";
+                        $data[$i][$num_col] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SUP_PROF\",\"" . htmlspecialchars($lbl_msg, ENT_QUOTES) . "\");'><img src=image/delete-small.png alt=delete></a>";
                         $lien = 'KO';
                     } elseif ($key == "MODIF") {
                         if (!isset($tab_options['MODIF']['IMG'])) {
@@ -2052,22 +2052,22 @@ function gestion_donnees($sql_data, $list_fields, $tab_options, $form_name, $def
                         } else {
                             $image = $tab_options['MODIF']['IMG'];
                         }
-                        $data[$i][$num_col] = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"MODIF\",\"" . $form_name . "\");'><img src=" . $image . "></a>";
+                        $data[$i][$num_col] = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"MODIF\",\"" . $form_name . "\");'><img src=" . $image . " alt='image'></a>";
                         $lien = 'KO';
                     } elseif ($key == "SELECT") {
-                        $data[$i][$num_col] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SELECT\",\"" . htmlspecialchars($tab_options['QUESTION']['SELECT'], ENT_QUOTES) . "\");'><img src=image/prec16.png></a>";
+                        $data[$i][$num_col] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SELECT\",\"" . htmlspecialchars($tab_options['QUESTION']['SELECT'], ENT_QUOTES) . "\");'><img src=image/prec16.png alt=prec></a>";
                         $lien = 'KO';
                     } elseif ($key == "OTHER") {
-                        $data[$i][$num_col] = "<a href=#  OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER\",\"" . $form_name . "\");'><img src=image/red.png></a>";
+                        $data[$i][$num_col] = "<a href=#  OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER\",\"" . $form_name . "\");'><img src=image/red.png alt='red'></a>";
                         $lien = 'KO';
                     } elseif ($key == "ZIP") {
                         $data[$i][$num_col] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_compress'] . "&no_header=1&timestamp=" . $value_of_field . "&type=" . $tab_options['TYPE']['ZIP'] . "\"><img src=image/archives.png></a>";
                         $lien = 'KO';
                     } elseif ($key == "STAT") {
-                        $data[$i][$num_col] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $value_of_field . "\"><img src='image/stat.png'></a>";
+                        $data[$i][$num_col] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $value_of_field . "\"><img src='image/stat.png' alt='stat'></a>";
                         $lien = 'KO';
                     } elseif ($key == "ACTIVE") {
-                        $data[$i][$num_col] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active=" . $value_of_field . "\"><img src='image/activer.png' ></a>";
+                        $data[$i][$num_col] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active=" . $value_of_field . "\"><img src='image/activer.png' alt='activer'></a>";
                         $lien = 'KO';
                     } elseif ($key == "SHOWACTIVE") {
                         $data[$i][$num_col] = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_actives'] . "&head=1&timestamp=" . $donnees['FILEID'] . "' target=_blank>" . $value_of_field . "</a>";
