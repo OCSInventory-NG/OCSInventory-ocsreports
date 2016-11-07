@@ -476,31 +476,41 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 			 * 12 = QRCode
 			 * 13 = Disabled
 			 * */
-			if ($field['INPUT_TYPE'] == 0 ||
-					$field['INPUT_TYPE'] == 1 ||
-					$field['INPUT_TYPE'] == 6 ||
-					$field['INPUT_TYPE'] == 10
-			) {
-				$inputType = 'text';
-			} else if ($field['INPUT_TYPE'] == 2 ||
-					$field['INPUT_TYPE'] == 11) {
-				$inputType = 'select';
-			} else if ($field['INPUT_TYPE'] == 3) {
-				$inputType = 'hidden';
-			} else if ($field['INPUT_TYPE'] == 4) {
-				$inputType = 'password';
-			} else if ($field['INPUT_TYPE'] == 5) {
-				$inputType = 'checkbox';
-			} else if ($field['INPUT_TYPE'] == 8) {
-				$inputType = 'button';
-			} else if ($field['INPUT_TYPE'] == 9) {
-				$inputType = 'link';
-			} else if ($field['INPUT_TYPE'] == 13) {
-				$inputType = 'disabled';
-			} else if ($field['INPUT_TYPE'] == 12) {
-				$inputType = 'qrcode';
-			} else {
-				$inputType = 'hidden';
+			switch ($field['INPUT_TYPE']) {
+				case 0:
+				case 1:
+				case 6:
+				case 10:
+					$inputType = 'text';
+					break;
+				case 2:
+				case 11:
+					$inputType = 'select';
+					break;
+				case 3:
+					$inputType = 'hidden';
+					break;
+				case 4:
+					$inputType = 'password';
+					break;
+				case 5:
+					$inputType = 'checkbox';
+					break;
+				case 8:
+					$inputType = 'button';
+					break;
+				case 9:
+					$inputType = 'link';
+					break;
+				case 12:
+					$inputType = 'qrcode';
+					break;
+				case 13:
+					$inputType = 'disabled';
+					break;
+				default:
+					$inputType = 'hidden';
+					break;
 			}
 
 			echo "<div class='form-group'>";
