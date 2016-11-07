@@ -36,8 +36,8 @@ function show_profile_create_form() {
 
 
         formGroup('text', 'name', $l->g(1396), '', '', $protectedPost['name']);
-    formGroup('text', 'label', $l->g(1397), '', '', $protectedPost['label']);
-    formGroup('select', 'duplicate_profile', $l->g(1398), '', '', $protectedPost['duplicate_profile'], '', get_profile_labels(), get_profile_labels());
+        formGroup('text', 'label', $l->g(1397), '', '', $protectedPost['label']);
+        formGroup('select', 'duplicate_profile', $l->g(1398), '', '', $protectedPost['duplicate_profile'], '', get_profile_labels(), get_profile_labels());
     ?>
 
         <div class="row">

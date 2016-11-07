@@ -138,8 +138,8 @@ if ($login_successful == "OK" && isset($login_successful)) {
                 die();
             } else {
                 header('WWW-Authenticate: Basic realm="OcsinventoryNG"');
-        header('HTTP/1.0 401 Unauthorized');
-        die();
+                header('HTTP/1.0 401 Unauthorized');
+                die();
     }
 }
 ?>

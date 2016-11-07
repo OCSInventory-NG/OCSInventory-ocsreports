@@ -127,8 +127,8 @@ if (!isset($info_id['ERROR'])) {
                 $protectedPost['choix_activ'] = "MAN";
                 echo "<input type='hidden' name='choix_activ' value='MAN'>";
             }
-    echo "<br>";
-    if (is_defined($protectedPost['choix_activ'])) {
+            echo "<br>";
+            if (is_defined($protectedPost['choix_activ'])) {
         if ($protectedPost['choix_activ'] == "MAN") {
             $tab_name = array($l->g(471), $l->g(470));
             $name_field = array("FILE_SERV", "HTTPS_SERV");

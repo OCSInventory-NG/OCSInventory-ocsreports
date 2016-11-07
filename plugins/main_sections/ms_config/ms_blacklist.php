@@ -145,19 +145,19 @@ switch ($protectedPost['onglet']) {
                                         <?php
                                         $i++;
                                     }
-                    ?>
+                                    ?>
                                 </div>
                                 <?php
                             } elseif ($protectedPost['BLACK_CHOICE'] == 3) {
                                 ?>
-                <div class="input-group">
-                    <div class="col-sm-4">
-                        <label style="margin-right: 10px" "><?php echo $l->g(1142); ?></label>
-                    </div>
-                    <div class="col-sm-8">
-                        <?php
-                        $i = 1;
-                        while ($i <= $SUBnb_field) {
+                                <div class="input-group">
+                                    <div class="col-sm-4">
+                                        <label style="margin-right: 10px" "><?php echo $l->g(1142); ?></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <?php
+                                        $i = 1;
+                                        while ($i <= $SUBnb_field) {
                             if ($i != 1) {
                                 echo $SUBseparat;
                             }
@@ -166,7 +166,7 @@ switch ($protectedPost['onglet']) {
                                             <?php
                                             $i++;
                                         }
-                        ?>
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="input-group">
@@ -177,15 +177,15 @@ switch ($protectedPost['onglet']) {
                                         <?php
                                         $i = 1;
                                         while ($i <= $MASKnb_field) {
-                            if ($i != 1) {
-                                echo $MASKseparat;
+                                            if ($i != 1) {
+                                                echo $MASKseparat;
                             }
                             ?>
                         <input type="text" name="<?php echo $MASKfield_name . $i; ?>" maxlength="<?php echo $MASKnb_value_by_field ?>" size="3" <?php echo $chiffres; ?>>
                                             <?php
                                             $i++;
                                         }
-                        ?>
+                                        ?>
 
                                     </div>
                                 </div>

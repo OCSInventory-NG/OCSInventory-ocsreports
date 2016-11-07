@@ -234,8 +234,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                         $name = explode('.', $col);
                                         $name = explode(' as ', end($name));
                                         $value = end($name);
-                                    if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
-                                        $value = $option['REPLACE_COLUMN_KEY'][$key];
+                                        if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
+                                            $value = $option['REPLACE_COLUMN_KEY'][$key];
                                     }
                                     if (array_key_exists($key, $lbl_column)) {
                                         echo "<option value='$value'>$lbl_column[$key]</option>";
@@ -261,8 +261,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 if (!isset($option['no_download_result'])) {
                     echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
                     echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true&base=" . $tab_options['BASE'] . "'><small>(" . $l->g(183) . ")</small></a></div>";
-                 }
-                 ?>
+                }
+                ?>
             </div>
             <?php
             echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a>";
@@ -508,8 +508,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             printEnTete_tab($titre);
         }
         echo "<div class='tableContainer'>";
-    echo "<table id='" . $option['table_name'] . "' class='table table-striped table-bordered table-condensed table-hover'><thead><tr>";
-    //titre du tableau
+        echo "<table id='" . $option['table_name'] . "' class='table table-striped table-bordered table-condensed table-hover'><thead><tr>";
+        //titre du tableau
     foreach ($columns as $k => $v) {
         if (array_key_exists($k, $lbl_column)) {
             echo "<th><font >" . $lbl_column[$k] . "</font></th>";
@@ -545,8 +545,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         }
 
         function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array(), $option = array()) {
-    echo "<div align=center>";
-    global $protectedGet, $l;
+            echo "<div align=center>";
+            global $protectedGet, $l;
     if ($protectedGet['sens'] == "ASC") {
         $sens = "DESC";
     } else {
@@ -576,8 +576,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 printEnTete_tab($titre);
             }
             echo "<div class='tableContainer' id='data' style=\"width:" . $width . "%;\"><table cellspacing='0' class='ta'><tr>";
-        //titre du tableau
-        $i = 1;
+            //titre du tableau
+            $i = 1;
         foreach ($entete_colonne as $k => $v) {
             if (in_array($v, $lien)) {
                 echo "<th class='ta' >" . $v . "</th>";
@@ -2233,8 +2233,8 @@ function del_selection($form_name) {
             //foreach ($img as $key=>$value){
             echo "<a href=# onclick=garde_check()><span class='glyphicon glyphicon-remove delete-span' title='" . $l->g(162) . "' ></span></a>";
             //}
-    echo "<input type='hidden' id='del_check' name='del_check' value=''>";
-}
+            echo "<input type='hidden' id='del_check' name='del_check' value=''>";
+        }
 
 function js_tooltip() {
     echo "<script language='javascript' type='text/javascript' src='js/tooltip.js'></script>";

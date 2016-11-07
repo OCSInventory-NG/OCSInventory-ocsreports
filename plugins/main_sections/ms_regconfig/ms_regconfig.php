@@ -139,8 +139,8 @@ if ($protectedPost['tab'] == 'VIEW') {
     echo "</div>";
     echo close_form();
 
-if (AJAX) {
-    ob_end_clean();
+    if (AJAX) {
+        ob_end_clean();
     if (is_array($sql)) {
         tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
     } else {

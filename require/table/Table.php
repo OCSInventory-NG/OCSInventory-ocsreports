@@ -256,11 +256,11 @@ class Table {
              */
 
             public function updateTable() {
+                
+            }
 
-    }
-
-    public function setParams($params) {
-        $this->params = $params;
+            public function setParams($params) {
+                $this->params = $params;
     }
 
     public function getParams() {

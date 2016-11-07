@@ -64,8 +64,8 @@ if ($protectedPost['onglet'] == 'FILE') {
         $form_name1 = "SEND_FILE";
         $data_config = look_config_default_values(array('LOCAL_URI_SERVER'), '', array('TVALUE' => array('LOCAL_URI_SERVER' => 'http://localhost:80/ocsinventory')));
 
-    $server = $data_config['tvalue']['LOCAL_URI_SERVER'];
-    $array_port = explode(':', $server);
+        $server = $data_config['tvalue']['LOCAL_URI_SERVER'];
+        $array_port = explode(':', $server);
     $port_trait = array_pop($array_port);
     $array_port = explode('/', $port_trait);
     $port = $array_port[0];

@@ -72,8 +72,8 @@ function show_profile_edit_form($profile_id) {
     }
 
     function show_select_field($data, $key, $name, $label, $options) {
-    $field_options = array(
-        'field_class' => 'big-label small-input',
+        $field_options = array(
+            'field_class' => 'big-label small-input',
         'options' => $options,
         'value' => $data[$name]
     );
