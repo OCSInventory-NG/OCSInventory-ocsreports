@@ -32,6 +32,7 @@ require_once('require/function_commun.php');
 require_once('require/function_files.php');
 require_once('var.php');
 html_header(true);
+
 if (!isset($_SESSION['OCS']['LANGUAGE']) || !isset($_SESSION['OCS']["LANGUAGE_FILE"])) {
 	if (isset($_COOKIE['LANG'])) {
 		$_SESSION['OCS']['LANGUAGE'] = $_COOKIE['LANG'];
@@ -40,6 +41,55 @@ if (!isset($_SESSION['OCS']['LANGUAGE']) || !isset($_SESSION['OCS']["LANGUAGE_FI
 		$_SESSION['OCS']['LANGUAGE'] = DEFAULT_LANGUAGE;
 	}
 	$_SESSION['OCS']["LANGUAGE_FILE"] = new language($_SESSION['OCS']['LANGUAGE']);
+}
+
+/**
+ * Check for requierements
+ */
+//messages lbl
+$msg_lbl = array();
+$msg_lbl['info'] = array();
+$msg_lbl['warning'] = array();
+$msg_lbl['error'] = array();
+
+//msg=no php-session function
+if (!function_exists('session_start')) {
+	$msg_lbl['error'][] = $l->g(2035);
+}
+//msg= no mysqli_connect function
+if (!function_exists('mysqli_connect')) {
+	$msg_lbl['error'][] = $l->g(2037);
+}
+if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(ETC_DIR))) {
+	$msg_lbl['error'][] = "<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
+}
+//msg for phpversion
+if (version_compare(phpversion(), '5.3.7', '<')) {
+	$msg_lbl['warning'][] = $l->g(2113) . " " . phpversion() . " ) ";
+}
+if (!class_exists('SoapClient')) {
+	$msg_lbl['warning'][] = $l->g(6006);
+}
+if (!function_exists('xml_parser_create')) {
+	$msg_lbl['warning'][] = $l->g(2036);
+}
+if (!function_exists('imagefontwidth')) {
+	$msg_lbl['warning'][] = $l->g(2038);
+}
+if (!function_exists('openssl_open')) {
+	$msg_lbl['warning'][] = $l->g(2039);
+}
+
+//show messages
+foreach ($msg_lbl as $k => $v) {
+	$show = implode("<br>", $v);
+	if ($show != '') {
+		call_user_func_array("msg_" . $k, array($show));
+		//stop if error
+		if ($k == "error") {
+			die();
+		}
+	}
 }
 
 $l = $_SESSION['OCS']["LANGUAGE_FILE"];
