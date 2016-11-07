@@ -74,7 +74,7 @@ function subnet_name($systemid) {
 function print_item_header($text) {
     echo "<table align=\"center\"  width='100%'  cellpadding='4'>";
     echo "<tr>";
-    echo "<td align='center' width='100%'><b><span class='blue'>" . mb_strtoupper($text) . "</span></b></td>";
+    echo "<td align='center' width='100%'><b><span class='blue text-uppercase'>" . $text . "</span></b></td>";
     echo "</tr>";
     echo "</table>";
 }

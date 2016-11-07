@@ -176,7 +176,7 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
         }
 
         echo '<div class="col col-md-6">';
-        echo '<h5>' . mb_strtoupper($cat_labels[$cat_key]) . '</h5>';
+        echo '<h5 class="text-uppercase">' . $cat_labels[$cat_key] . '</h5>';
 
         foreach ($cat as $name => $label) {
             $value = $data[$name];
