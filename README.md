@@ -59,7 +59,7 @@ OCS Inventory is GPLv2 licensed
 
   - [Web interface : bootstrap - v3.3.7] (https://github.com/twbs/bootstrap) HTML/CSS/JS framework for responsive design
 
-  - [JavaScript : jquery - v1.11.0] (https://github.com/jquery/jquery) jQuery JavaScript Library
+  - [JavaScript : jquery - v1.12.4] (https://github.com/jquery/jquery) jQuery JavaScript Library
   - [JavaScript : jquery-migrate-1 - v1.2.1] (https://github.com/jquery/jquery-migrate) APIs and features removed from jQuery core
   - [JavaScript : jquery-fileupload - v5.40.1] (https://github.com/blueimp/jQuery-File-Upload) jQuery plugin for uploading files
   - [JavaScript : jquery-iframe-transport - v1.8.2] (https://github.com/blueimp/jQuery-File-Upload) jquery-fileupload dependency
