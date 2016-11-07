@@ -56,8 +56,8 @@ if (is_defined($list_id)) {
         if (isset($data_fields_account)) {
             updateinfo_computer($list_id, $data_fields_account, 'LIST');
             unset($_SESSION['OCS']['DATA_CACHE']['TAB_MULTICRITERE']);
-            echo "<script language='javascript'> window.opener.document.multisearch.submit();</script>";
-            echo "<script language='javascript'> window.opener.document.show_all.submit();</script>";
+            echo "<script type='text/javascript'> window.opener.document.multisearch.submit();</script>";
+            echo "<script type='text/javascript'> window.opener.document.show_all.submit();</script>";
         }
     }
 

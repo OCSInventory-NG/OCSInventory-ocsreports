@@ -21,14 +21,14 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
 
-    ob_start();
+	ob_start();
 }
 print_item_header($l->g(92));
 if (!isset($protectedPost['SHOW'])) {
-    $protectedPost['SHOW'] = 'NOSHOW';
+	$protectedPost['SHOW'] = 'NOSHOW';
 }
 $form_name = "affich_drives";
 $table_name = $form_name;
@@ -37,17 +37,17 @@ $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = array($l->g(85) => 'LETTER',
-    $l->g(66) => 'TYPE',
-    $l->g(70) => 'VOLUMN',
-    $l->g(86) => 'FILESYSTEM',
-    $l->g(88) . " (MB)" => 'FREE',
-    $l->g(87) . " (MB)" => 'TOTAL',
-    "PERCENT_BAR" => 'CAPACITY');
+	$l->g(66) => 'TYPE',
+	$l->g(70) => 'VOLUMN',
+	$l->g(86) => 'FILESYSTEM',
+	$l->g(88) . " (MB)" => 'FREE',
+	$l->g(87) . " (MB)" => 'TOTAL',
+	"PERCENT_BAR" => 'CAPACITY');
 
 if ($show_all_column) {
-    $list_col_cant_del = $list_fields;
+	$list_col_cant_del = $list_fields;
 } else {
-    $list_col_cant_del = array('PERCENT_BAR' => 'PERCENT_BAR', $l->g(85) => $l->g(85));
+	$list_col_cant_del = array('PERCENT_BAR' => 'PERCENT_BAR', $l->g(85) => $l->g(85));
 }
 
 $default_fields = $list_fields;
@@ -57,8 +57,8 @@ $queryDetails = "SELECT *, round(100-(FREE*100/TOTAL)) AS CAPACITY FROM drives W
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
-    ob_start();
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+	ob_start();
 }
 ?>

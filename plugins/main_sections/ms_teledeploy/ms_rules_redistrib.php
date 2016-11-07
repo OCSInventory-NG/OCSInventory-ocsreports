@@ -109,20 +109,18 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
         $numero = $protectedPost['NUM_RULES'] + 1;
         $tab_nom = $l->g(674) . " " . show_modif($protectedPost['RULE_NAME'], "RULE_NAME", "0");
         $tab = "<table align='center'>";
-        $i = 1;
-        while ($i < $numero + 1) {
+        for ($i = 1; $i < $numero + 1; $i++) {
             if ($i == 1) {
                 $entete = 'YES';
             } else {
                 $entete = 'NO';
             }
             $tab .= fields_conditions_rules($i, $entete);
-            $i++;
         }
         echo $tab_nom;
         echo $tab;
         echo "</tr></table>";
-        echo "<a onclick='return pag(" . $numero . ",\"NUM_RULES\",\"rules\")'><font color=green>" . $l->g(682) . "</font></a>&nbsp<a onclick='return pag(\"RAZ\",\"RAZ\",\"rules\");'><font color=\"red\">" . $l->g(113) . "</font></a><br><br>";
+        echo "<a onclick='return pag(" . $numero . ",\"NUM_RULES\",\"rules\")'><span class=green>" . $l->g(682) . "</span></a>&nbsp<a onclick='return pag(\"RAZ\",\"RAZ\",\"rules\");'><span class=\"red\">" . $l->g(113) . "</span></a><br><br>";
         if ($protectedPost['MODIF'] != "" || $protectedPost['OLD_MODIF'] != "") {
             echo "<input type='submit'  value='" . $l->g(625) . "' name='MODIF_RULE' onclick='return check();' class='btn'>";
         } else {

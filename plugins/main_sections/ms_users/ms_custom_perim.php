@@ -24,9 +24,9 @@
  * Add tags for users
  */
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 
 $form_name = 'taguser';
@@ -40,60 +40,58 @@ require_once 'require/function_commun.php';
 require_once('require/function_admininfo.php');
 $info_tag = find_info_accountinfo('1', 'COMPUTERS');
 if (is_array($info_tag)) {
-    foreach ($info_tag as $key => $value) {
-        $info_value_tag = accountinfo_tab($value['id']);
-        if (is_array($info_value_tag)) {
-            $tab_options['REPLACE_VALUE'][$value['comment']] = $info_value_tag;
-        }
-    }
+	foreach ($info_tag as $key => $value) {
+		$info_value_tag = accountinfo_tab($value['id']);
+		if (is_array($info_value_tag)) {
+			$tab_options['REPLACE_VALUE'][$value['comment']] = $info_value_tag;
+		}
+	}
 }
 //END SHOW ACCOUNTINFO
 
 printEnTete($l->g(616) . " " . $protectedGet["id"]);
 if ($protectedPost['newtag'] != "") {
-    if (isset($protectedPost['use_generic_0'])) {
-        if (is_array($info_value_tag)) {
-            $arg = str_replace(array("*", "?"), "", $protectedPost["newtag"]);
-            $array_result = find_value_in_field(1, $arg);
-        } else {
-            $arg = str_replace(array("*", "?"), array("%", "_"), $protectedPost["newtag"]);
-            $sql = "select distinct TAG from accountinfo where TAG like '%s'";
-            $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-            while ($val_account_data = mysqli_fetch_array($res)) {
-                $array_result[] = $val_account_data['TAG'];
-            }
-        }
-    } else {
-        $array_result[] = $protectedPost["newtag"];
-    }
+	if (isset($protectedPost['use_generic_0'])) {
+		if (is_array($info_value_tag)) {
+			$arg = str_replace(array("*", "?"), "", $protectedPost["newtag"]);
+			$array_result = find_value_in_field(1, $arg);
+		} else {
+			$arg = str_replace(array("*", "?"), array("%", "_"), $protectedPost["newtag"]);
+			$sql = "select distinct TAG from accountinfo where TAG like '%s'";
+			$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+			while ($val_account_data = mysqli_fetch_array($res)) {
+				$array_result[] = $val_account_data['TAG'];
+			}
+		}
+	} else {
+		$array_result[] = $protectedPost["newtag"];
+	}
 
-    $tab_options['CACHE'] = 'RESET';
-    $sql = "insert into tags (tag,login) values ('%s','%s')";
-    $i = 0;
-    while (isset($array_result[$i])) {
-        $arg = array($array_result[$i], $protectedGet["id"]);
-        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-        $i++;
-    }
+	$tab_options['CACHE'] = 'RESET';
+	$sql = "insert into tags (tag,login) values ('%s','%s')";
+	foreach ($array_result as $unResult) {
+		$arg = array($unResult, $protectedGet["id"]);
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+	}
 
-    unset($protectedPost['newtag']);
+	unset($protectedPost['newtag']);
 }
 
 //suppression d'une liste de tag
 if (is_defined($protectedPost['del_check'])) {
-    $sql = "DELETE FROM tags WHERE tag in ";
-    $arg_sql = array();
-    $sql = mysql2_prepare($sql, $arg_sql, $protectedPost['del_check']);
-    $sql['SQL'] .= " AND login='%s'";
-    array_push($sql['ARG'], $protectedGet["id"]);
-    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);
-    $tab_options['CACHE'] = 'RESET';
+	$sql = "DELETE FROM tags WHERE tag in ";
+	$arg_sql = array();
+	$sql = mysql2_prepare($sql, $arg_sql, $protectedPost['del_check']);
+	$sql['SQL'] .= " AND login='%s'";
+	array_push($sql['ARG'], $protectedGet["id"]);
+	mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);
+	$tab_options['CACHE'] = 'RESET';
 }
 
 if (isset($protectedPost['SUP_PROF'])) {
-    $sql = "DELETE FROM tags WHERE tag='%s' AND login='%s'";
-    $arg = array($protectedPost['SUP_PROF'], $protectedGet["id"]);
-    mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+	$sql = "DELETE FROM tags WHERE tag='%s' AND login='%s'";
+	$arg = array($protectedPost['SUP_PROF'], $protectedGet["id"]);
+	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 }
 echo "<br>";
 
@@ -121,10 +119,10 @@ $img['image/delete.png'] = $l->g(162);
 del_selection($form_name);
 
 if (is_array($info_value_tag) && !isset($protectedPost['use_generic_0'])) {
-    $type = 2;
+	$type = 2;
 } else {
-    $type = 0;
-    $info_value_tag = $protectedPost['newtag'];
+	$type = 0;
+	$info_value_tag = $protectedPost['newtag'];
 }
 
 echo "<div class='row'>";
@@ -139,7 +137,7 @@ echo "</div>";
 echo close_form();
 
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
 ?>

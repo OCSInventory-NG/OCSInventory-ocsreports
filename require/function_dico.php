@@ -90,7 +90,7 @@ function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
             if (!isset($already_exist)) {
                 $sql = "insert dico_soft (extracted,formatted) select distinct NAME,'" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $new_cat) . "' from " . $table . " where ID in (" . implode(",", $list_soft) . ")";
             } else {
-                echo "<script>alert('" . $l->g(771) . "')</script>";
+                echo "<script type='text/javascript'>alert('" . $l->g(771) . "')</script>";
             }
         }
         if ($sql != '') {

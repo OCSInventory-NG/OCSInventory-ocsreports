@@ -67,7 +67,6 @@ if (isset($protectedGet['systemid'])) {
     $systemid = $protectedGet['systemid'];
     if ($systemid == "") {
         return $l->g(837);
-        die();
     }
 } elseif (isset($protectedPost['systemid'])) {
     $systemid = $protectedPost['systemid'];
@@ -87,7 +86,7 @@ if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
 if (isset($protectedGet['state'])) {
     $state = $protectedGet['state'];
     if ($state == "MAJ") {
-        echo "<script language='javascript'>window.location.reload();</script>\n";
+        echo "<script type='text/javascript'>window.location.reload();</script>\n";
     }
 }
 
@@ -112,7 +111,7 @@ if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif'])) {
         $arg = array($protectedPost['NAME'], $protectedPost['DESCR'], $systemid);
         $result = mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
     } else {
-        echo "<script>alert('" . $l->g(627) . "')</script>";
+        echo "<script type='text/javascript'>alert('" . $l->g(627) . "')</script>";
     }
 }
 $queryMachine = "SELECT REQUEST,
@@ -126,7 +125,7 @@ $result = mysql2_query_secure($queryMachine, $_SESSION['OCS']["readServer"], $ar
 $item = mysqli_fetch_object($result);
 
 if (!$item) {
-    echo "<script language='javascript'>wait(0);</script>";
+    echo "<script type='text/javascript'>wait(0);</script>";
     echo "<center><font class='warn'>" . $l->g(623) . "</font></center>";
     flush();
     die();
@@ -276,8 +275,8 @@ if ($server_group) {
     echo "</tr></table>";
 
 
-    if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
-        echo "<br><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn' >".$l->g(501)."</a><br><br> ";
+    if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
+        echo "<br><a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_pack'] . "&head=1&idchecked=" . $systemid . "&origine=mach\" class='btn' >" . $l->g(501) . "</a><br><br> ";
     }
 
 
@@ -297,7 +296,7 @@ if ($server_group) {
     endswitch;
 }
 if (!AJAX) {
-    echo "<script language='javascript'>wait(0);</script>";
+    echo "<script type='text/javascript'>wait(0);</script>";
     flush();
     echo "</body>";
     echo "</html>";
@@ -393,7 +392,7 @@ function print_computers_real($systemid) {
     }
     $form_name = "calcul_computer_groupcache";
     $table_name = $form_name;
-    echo "<font color=red><b>" . $l->g(927) . "</b></font>";
+    echo "<span class=red><b>" . $l->g(927) . "</b></span>";
     echo open_form($form_name);
     $queryDetails = "SELECT ";
     foreach ($list_fields as $value) {
@@ -402,7 +401,7 @@ function print_computers_real($systemid) {
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
 						where h.id in (" . implode(",", $tab_id) . ") and deviceid <> '_SYSTEMGROUP_'
 										AND deviceid <> '_DOWNLOADGROUP_'";
-    if (isset($mesmachines) && $mesmachines != '') {
+    if (is_defined($mesmachines)) {
         $queryDetails .= $mesmachines;
     }
     $tab_options['FILTRE'] = array('h.NAME' => 'Nom');
@@ -530,7 +529,7 @@ function print_perso($systemid) {
 
     //DOWNLOAD_SWITCH
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["DOWNLOAD_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-    echo $td3 . $l->g(417) . " <font color=green size=1><i>DOWNLOAD</i></font> </td>";
+    echo $td3 . $l->g(417) . " <span class=green><i>DOWNLOAD</i></span></td>";
     if (isset($optPerso["DOWNLOAD_SWITCH"])) {
         if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 0) {
             echo $td3 . $l->g(733) . "</td>";
@@ -552,24 +551,24 @@ function print_perso($systemid) {
     echo "</tr>";
 
     //DOWNLOAD_CYCLE_LATENCY
-    optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720) . " <font color=green size=1><i>DOWNLOAD_CYCLE_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
+    optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720) . " <span class=green><i>DOWNLOAD_CYCLE_LATENCY</i></span>", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
 
     //DOWNLOAD_FRAG_LATENCY
-    optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721) . " <font color=green size=1><i>DOWNLOAD_FRAG_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
+    optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721) . " <span class=green><i>DOWNLOAD_FRAG_LATENCY</i></span>", $optPerso, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
 
 
     //DOWNLOAD_PERIOD_LATENCY
-    optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
+    optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722) . " <span class=green><i>DOWNLOAD_PERIOD_LATENCY</i></span>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
 
     //DOWNLOAD_PERIOD_LENGTH
-    optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LENGTH</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
+    optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723) . " <span class=green><i>DOWNLOAD_PERIOD_LENGTH</i></span>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
 
     //PROLOG_FREQ
-    optperso("PROLOG_FREQ", $l->g(724) . " <font color=green size=1><i>PROLOG_FREQ</i></font>", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
+    optperso("PROLOG_FREQ", $l->g(724) . " <span class=green><i>PROLOG_FREQ</i></span>", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
 
     //SNMP_SWITCH
     echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["SNMP_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-    echo $td3 . $l->g(1197) . " <font color=green size=1><i>SNMP_SWITCH</i></font></td>";
+    echo $td3 . $l->g(1197) . " <span class=green><i>SNMP_SWITCH</i></span></td>";
     if (isset($optPerso["SNMP_SWITCH"])) {
         if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 0) {
             echo $td3 . $l->g(733) . "</td>";

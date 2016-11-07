@@ -66,7 +66,7 @@ class TableRenderer {
                 )
             );
 
-            echo '<script>';
+            echo "<script type='text/javascript'>";
             require 'require/tables/tables.js';
             echo 'tables.language = ' . json_encode($lang) . ';';
             echo '</script>';

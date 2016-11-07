@@ -102,7 +102,7 @@ if (!isset($info_id['ERROR'])) {
         if ($protectedPost['choix_activ'] == "AUTO") {
             activ_pack_server($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV_REDISTRIB']);
         }
-        echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
+        echo "<script type='text/javascript'> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
     }
 
     if ($_SESSION['OCS']["use_redistribution"] == 1) {
@@ -114,9 +114,9 @@ if (!isset($info_id['ERROR'])) {
             <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
 
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="choix_activ>"><?php echo $l->g(514); ?> :</label>
+                    <label class="control-label col-sm-4" for="choix_activ>"><?= $l->g(514); ?> :</label>
                     <div class="col-sm-8">
-                        <?php echo show_modif($list_choise, 'choix_activ', 2, $form_name); ?>
+                        <?= show_modif($list_choise, 'choix_activ', 2, $form_name); ?>
                     </div>
                 </div>
             </div>

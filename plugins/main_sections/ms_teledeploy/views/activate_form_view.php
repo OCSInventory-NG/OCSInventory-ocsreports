@@ -22,32 +22,32 @@
  */
 
 function show_activate_form($timestamp, $data, $errors) {
-    // @TODO translations
-    $package = get_package_info($timestamp);
-    $redistrib_pack = get_redistrib_package_info($timestamp);
+	// @TODO translations
+	$package = get_package_info($timestamp);
+	$redistrib_pack = get_redistrib_package_info($timestamp);
 
-    echo '<h3>Package ' . $package['NAME'] . ' (' . $package['FILEID'] . ')</h3>';
+	echo '<h3>Package ' . $package['NAME'] . ' (' . $package['FILEID'] . ')</h3>';
 
-    echo '<a href="#" target="_blank">Download</a>';
-    if ($redistrib_pack) {
-        echo ' - <a href="#" target="_blank">Download redistribution package</a>';
-    }
-    echo ' - <a href="#" target="_blank">View info file</a>';
+	echo '<a href="#" target="_blank">Download</a>';
+	if ($redistrib_pack) {
+		echo ' - <a href="#" target="_blank">Download redistribution package</a>';
+	}
+	echo ' - <a href="#" target="_blank">View info file</a>';
 
 
-    echo open_form('activate_pack');
-    echo '<div class="form-frame">';
+	echo open_form('activate_pack');
+	echo '<div class="form-frame">';
 
-    show_form_field($data, $errors, 'select', 'METHOD', 'Activation method', array(
-        'type' => 'radio',
-        'options' => array(
-            ''
-        )
-    ));
+	show_form_field($data, $errors, 'select', 'METHOD', 'Activation method', array(
+		'type' => 'radio',
+		'options' => array(
+			''
+		)
+	));
 
-    echo '</div>';
+	echo '</div>';
 
-    echo close_form();
+	echo close_form();
 }
 
 ?>

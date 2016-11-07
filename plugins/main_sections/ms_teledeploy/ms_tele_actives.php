@@ -49,7 +49,7 @@ if (!$cant_active) {
             }
         }
         mysql2_query_secure("DELETE FROM download_enable WHERE FILEID=%s", $_SESSION['OCS']["writeServer"], $protectedPost['DEL_ALL']);
-        echo "<script>window.opener.document.packlist.submit(); self.close();</script>";
+        echo "<script type='text/javascript'>window.opener.document.packlist.submit(); self.close();</script>";
     }
     if ($protectedPost['SUP_PROF'] != '') {
         desactive_packet('', $protectedPost['SUP_PROF']);
@@ -59,7 +59,7 @@ if (!$cant_active) {
 $sql_details = "select distinct priority,fragments,size from download_available where fileid=%s";
 $res_details = mysql2_query_secure($sql_details, $_SESSION['OCS']["readServer"], $protectedGet['timestamp']);
 $val_details = mysqli_fetch_array($res_details);
-$tps = "<br>" . $l->g(992) . " : <b><font color=red>" . tps_estimated($val_details) . "</font></b>";
+$tps = "<br>" . $l->g(992) . " : <b><span class=red>" . tps_estimated($val_details) . "</span></b>";
 PrintEnTete($l->g(481) . $tps);
 echo "<br>";
 $form_name = "tele_actives";

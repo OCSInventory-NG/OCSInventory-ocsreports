@@ -20,14 +20,14 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-echo "<script language='javascript'>
+echo "<script type='text/javascript'>
 	function active(id, sens) {
 		var mstyle = document.getElementById(id).style.display	= (sens!=0?\"block\" :\"none\");
 	}</script>";
 
 function javascript_pack() {
     global $protectedPost;
-    echo "<script language='javascript'>
+    echo "<script type='text/javascript'>
 	function time_deploy(name,name_value,other_name,other_value){
 		var tps_cycle=" . $_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_CYCLE_LATENCY'] * $_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'] . ";
 		var nb_frag_by_cycle=" . ($protectedPost['PRIORITY'] != 0 ? floor($_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH'] / $protectedPost['PRIORITY']) : $_SESSION['OCS']['CONFIG_DOWNLOAD']['DOWNLOAD_PERIOD_LENGTH']) . ";

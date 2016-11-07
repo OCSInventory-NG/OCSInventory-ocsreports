@@ -22,20 +22,20 @@
  */
 //UPDATE/DELETE
 if ($protectedPost['Valid_modif']) {
-    $sql = "DELETE FROM deploy WHERE name='%s'";
-    $arg = "label";
-    $msg = $l->g(261);
+	$sql = "DELETE FROM deploy WHERE name='%s'";
+	$arg = "label";
+	$msg = $l->g(261);
 
-    if (trim($protectedPost['lbl']) != "") {
-        $protectedPost["lbl"] = str_replace(array("\t", "\n", "\r"), array("", "", ""), $protectedPost["lbl"]);
-        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-        $sql = "INSERT INTO deploy VALUES('%s','%s')";
-        $arg = array('label', $protectedPost["lbl"]);
-        $msg = $l->g(260);
-    }
+	if (trim($protectedPost['lbl']) != "") {
+		$protectedPost["lbl"] = str_replace(array("\t", "\n", "\r"), array("", "", ""), $protectedPost["lbl"]);
+		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+		$sql = "INSERT INTO deploy VALUES('%s','%s')";
+		$arg = array('label', $protectedPost["lbl"]);
+		$msg = $l->g(260);
+	}
 
-    mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-    msg_success($msg);
+	mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+	msg_success($msg);
 }
 //Looking for the label
 $reqL = "SELECT content FROM deploy WHERE name='%s'";
@@ -48,15 +48,15 @@ echo open_form($form_name);
 ?>
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
-        <label for="lbl"><?php echo $l->g(262); ?> :</label>
-        <input type="text" class="form-control" name="lbl" value="<?php echo $val->content; ?>">
+        <label for="lbl"><?= $l->g(262); ?> :</label>
+        <input type="text" class="form-control" name="lbl" value="<?= $val->content; ?>">
     </div>
 </div>
 <br />
 <div class="row">
     <div class="col-md-12">
-        <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-        <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+        <input type="submit" name="Valid_modif" value="<?= $l->g(1363) ?>" class="btn btn-success">
+        <input type="submit" name="Reset_modif" value="<?= $l->g(1364) ?>" class="btn btn-danger">
     </div>
 </div>
 <?php

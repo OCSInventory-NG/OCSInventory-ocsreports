@@ -86,7 +86,7 @@ if ($list_tab != '') {
         if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO'])) {
             $show_admin_button .= "<img src='image/success.png'></a>";
         } else {
-            $show_admin_button .= "<img src='image/modif_tab.png'></a>";
+            $show_admin_button .= "<img src='image/modif_tab.png' alt='modif_tab'></a>";
         }
     } else {
         $show_admin_button = '';
@@ -144,10 +144,8 @@ if ($list_tab != '') {
             //cas of checkbox
             if ($val_admin_info['TYPE'] == 4) {
                 $temp_val = explode('&&&', $info_account_id[$name_accountinfo]);
-                $i = 0;
-                while (isset($temp_val[$i])) {
-                    $protectedPost[$name_accountinfo . '_' . $temp_val[$i]] = 'on';
-                    $i++;
+                foreach ($temp_val as $uneVal) {
+                    $protectedPost[$name_accountinfo . '_' . $uneVal] = 'on';
                 }
             } else {
                 $protectedPost[$name_accountinfo] = $info_account_id[$name_accountinfo];

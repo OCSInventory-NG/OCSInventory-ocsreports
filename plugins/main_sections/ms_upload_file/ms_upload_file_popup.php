@@ -46,7 +46,7 @@ $item = mysqli_fetch_object($result);
 
 $field = $item->Field;
 if (isset($field) && $field != '') {
-    echo "<script language='javascript'>
+    echo "<script type='text/javascript'>
 			function verif()
 			 {
 				var msg='';

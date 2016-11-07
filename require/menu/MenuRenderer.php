@@ -28,170 +28,171 @@
  *
  */
 class MenuRenderer {
-    private $active_link;
-    private $parent_elem_clickable;
 
-    public function __construct() {
-        $this->active_link = null;
-        $this->parent_elem_clickable = false;
-    }
+	private $active_link;
+	private $parent_elem_clickable;
 
-    public function render(Menu $menu) {
-        $html = '<ul class="nav navbar-nav">';
+	public function __construct() {
+		$this->active_link = null;
+		$this->parent_elem_clickable = false;
+	}
 
-        foreach ($menu->getChildren() as $menu_elem) {
-            $html .= $this->renderElem($menu_elem);
-        }
+	public function render(Menu $menu) {
+		$html = '<ul class="nav navbar-nav">';
 
-        $html .= '</ul>';
+		foreach ($menu->getChildren() as $menu_elem) {
+			$html .= $this->renderElem($menu_elem);
+		}
 
-        return $html;
-    }
+		$html .= '</ul>';
 
-    /**
-     * Render a MenuElem with html tag
-     *
-     * @param MenuElem $menu_elem The MenuElem to convert
-     * @param integer  $level The level
-     *
-     * @return string The html tag code
-     */
-    public function renderElem(MenuElem $menu_elem, $level = 0) {
-        // Hook to check if the elem must be displayed or not
-        if (!$this->canSeeElem($menu_elem)) {
-            return '';
-        }
+		return $html;
+	}
 
-        if ($this->isParentElemClickable() || !$menu_elem->hasChildren()) {
-            $href = $this->getUrl($menu_elem);
-        } else {
-            $href = "#";
-        }
+	/**
+	 * Render a MenuElem with html tag
+	 *
+	 * @param MenuElem $menu_elem The MenuElem to convert
+	 * @param integer  $level The level
+	 *
+	 * @return string The html tag code
+	 */
+	public function renderElem(MenuElem $menu_elem, $level = 0) {
+		// Hook to check if the elem must be displayed or not
+		if (!$this->canSeeElem($menu_elem)) {
+			return '';
+		}
 
-        $label = $this->getLabel($menu_elem);
-        $attrs = $this->buildAttrs($menu_elem);
+		if ($this->isParentElemClickable() || !$menu_elem->hasChildren()) {
+			$href = $this->getUrl($menu_elem);
+		} else {
+			$href = "#";
+		}
 
-        $html = "<li " . $attrs['li'] . ">";
-        $html .= "<a href='$href' " . $attrs['a'] . ">$label</a>";
+		$label = $this->getLabel($menu_elem);
+		$attrs = $this->buildAttrs($menu_elem);
 
-        if ($menu_elem->hasChildren()) {
-            $children_html = '';
-            foreach ($menu_elem->getChildren() as $child_elem) {
-                $children_html .= $this->renderElem($child_elem, $level + 1);
-            }
+		$html = "<li " . $attrs['li'] . ">";
+		$html .= "<a href='$href' " . $attrs['a'] . ">$label</a>";
 
-            // Hide menu elem if none of its children could be displayed
-            if (empty($children_html)) {
-                return '';
-            }
+		if ($menu_elem->hasChildren()) {
+			$children_html = '';
+			foreach ($menu_elem->getChildren() as $child_elem) {
+				$children_html .= $this->renderElem($child_elem, $level + 1);
+			}
 
-            $html .= '<ul class="dropdown-menu">';
-            $html .= $children_html;
-            $html .= '</ul>';
-        }
+			// Hide menu elem if none of its children could be displayed
+			if (empty($children_html)) {
+				return '';
+			}
 
-        $html .= '</li>';
+			$html .= '<ul class="dropdown-menu">';
+			$html .= $children_html;
+			$html .= '</ul>';
+		}
 
-        return $html;
-    }
+		$html .= '</li>';
 
-    public function getActiveLink() {
-        return $this->active_link;
-    }
+		return $html;
+	}
 
-    public function setActiveLink($active_link) {
-        $this->active_link = $active_link;
-    }
+	public function getActiveLink() {
+		return $this->active_link;
+	}
 
-    public function isParentElemClickable() {
-        return $this->parent_elem_clickable;
-    }
+	public function setActiveLink($active_link) {
+		$this->active_link = $active_link;
+	}
 
-    public function setParentElemClickable($parent_elem_clickable) {
-        $this->parent_elem_clickable = $parent_elem_clickable;
-    }
+	public function isParentElemClickable() {
+		return $this->parent_elem_clickable;
+	}
 
-    protected function canSeeElem(MenuElem $menu_elem) {
-        //@TODO : buggy code
-        return true;
-    }
+	public function setParentElemClickable($parent_elem_clickable) {
+		$this->parent_elem_clickable = $parent_elem_clickable;
+	}
 
-    protected function getUrl(MenuElem $menu_elem) {
-        return $menu_elem->getUrl();
-    }
+	protected function canSeeElem(MenuElem $menu_elem) {
+		//@TODO : buggy code
+		return true;
+	}
 
-    protected function getLabel(MenuElem $menu_elem) {
-        $label = $this->translateLabel($menu_elem->getLabel());
+	protected function getUrl(MenuElem $menu_elem) {
+		return $menu_elem->getUrl();
+	}
 
-        if ($menu_elem->hasChildren() && $level == 0) {
-            $label .= ' <b class="caret"></b>';
-        }
+	protected function getLabel(MenuElem $menu_elem) {
+		$label = $this->translateLabel($menu_elem->getLabel());
 
-        return $label;
-    }
+		if ($menu_elem->hasChildren() && $level == 0) {
+			$label .= ' <b class="caret"></b>';
+		}
 
-    protected function buildAttrs(MenuElem $menu_elem) {
-        $attr_li = $attr_a = array();
+		return $label;
+	}
 
-        if ($menu_elem->hasChildren()) {
-            //@TODO : buggy code
-            if ($level > 0) {
-                $attr_li['class'][] = 'dropdown-submenu';
+	protected function buildAttrs(MenuElem $menu_elem) {
+		$attr_li = $attr_a = array();
 
-                if (!$this->isParentElemClickable()) {
-                    $attr_a['class'][] = 'dropdown-toggle';
-                } else {
-                    $attr_a['class'][] = 'dropdown-submenu-toggle';
-                }
-            } else {
-                $attr_li['class'][] = 'dropdown';
-            }
-            $attr_a['data-toggle'][] = 'dropdown';
-        }
+		if ($menu_elem->hasChildren()) {
+			//@TODO : buggy code
+			if ($level > 0) {
+				$attr_li['class'][] = 'dropdown-submenu';
 
-        if ($this->getActiveLink() && $this->getActiveLink() == $menu_elem->getUrl()) {
-            $attr_li['class'][] = 'active';
-        } else if ($menu_elem->getLabel() == 'divider' && $menu_elem->getUrl() == 'divider') {
-            $attr_li['class'] = 'divider';
-        }
+				if (!$this->isParentElemClickable()) {
+					$attr_a['class'][] = 'dropdown-toggle';
+				} else {
+					$attr_a['class'][] = 'dropdown-submenu-toggle';
+				}
+			} else {
+				$attr_li['class'][] = 'dropdown';
+			}
+			$attr_a['data-toggle'][] = 'dropdown';
+		}
 
-        $attr_string_li = $this->attrToString($attr_li);
-        $attr_string_a = $this->attrToString($attr_a);
+		if ($this->getActiveLink() && $this->getActiveLink() == $menu_elem->getUrl()) {
+			$attr_li['class'][] = 'active';
+		} else if ($menu_elem->getLabel() == 'divider' && $menu_elem->getUrl() == 'divider') {
+			$attr_li['class'] = 'divider';
+		}
 
-        return array(
-            'li' => $attr_string_li,
-            'a' => $attr_string_a
-        );
-    }
+		$attr_string_li = $this->attrToString($attr_li);
+		$attr_string_a = $this->attrToString($attr_a);
 
-    /**
-     * Convert array tag attributes to string
-     *
-     * @param array $attr Array of attribute
-     *
-     * @return string Conversion of attribute array to string
-     */
-    protected function attrToString(array $attr) {
-        $html = '';
-        foreach ($attr as $name => $value) {
-            if (is_array($value)) {
-                $val = implode(' ', $value);
-            } else {
-                $val = $value;
-            }
-            $html .= "$name='" . $val . "' ";
-        }
-        return $html;
-    }
+		return array(
+			'li' => $attr_string_li,
+			'a' => $attr_string_a
+		);
+	}
 
-    protected function translateLabel($label) {
-        global $l;
+	/**
+	 * Convert array tag attributes to string
+	 *
+	 * @param array $attr Array of attribute
+	 *
+	 * @return string Conversion of attribute array to string
+	 */
+	protected function attrToString(array $attr) {
+		$html = '';
+		foreach ($attr as $name => $value) {
+			if (is_array($value)) {
+				$val = implode(' ', $value);
+			} else {
+				$val = $value;
+			}
+			$html .= "$name='" . $val . "' ";
+		}
+		return $html;
+	}
 
-        if (substr($label, 0, 2) == 'g(') {
-            $label = ucfirst($l->g(substr(substr($label, 2), 0, -1)));
-        }
+	protected function translateLabel($label) {
+		global $l;
 
-        return strip_tags_array($label);
-    }
+		if (substr($label, 0, 2) == 'g(') {
+			$label = ucfirst($l->g(substr(substr($label, 2), 0, -1)));
+		}
+
+		return strip_tags_array($label);
+	}
 
 }

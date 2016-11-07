@@ -28,26 +28,26 @@
  */
 
 function print_r_V2($array) {
-    $array = strip_tags_array($array);
-    print "<table border='1'>";
-    if (is_array($array)) {
-        foreach ($array as $key => $val) {
-            print "<tr><td><font size=2>" . $key . "</td><td><font size=2>";
-            if (is_array($array[$key])) {
-                print_r_V2($array[$key]);
-                print "</td></tr>";
-            } else {
-                print $val . "</td></tr>";
-            }
-        }
-        print "</table>";
-    } else {
-        print_r($array);
-    }
+	$array = strip_tags_array($array);
+	print "<table border='1'>";
+	if (is_array($array)) {
+		foreach ($array as $key => $val) {
+			print "<tr><td><font size=2>" . $key . "</td><td><font size=2>";
+			if (is_array($array[$key])) {
+				print_r_V2($array[$key]);
+				print "</td></tr>";
+			} else {
+				print $val . "</td></tr>";
+			}
+		}
+		print "</table>";
+	} else {
+		print_r($array);
+	}
 }
 
 function p($array) {
-    print_r_V2($array);
+	print_r_V2($array);
 }
 
 ?>

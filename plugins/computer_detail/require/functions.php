@@ -22,29 +22,32 @@
  */
 
 function affich_detail_simple($form_name, $list_fields, $list_col_cant_del, $default_fields, $table, $tab_options = array()) {
-    if (AJAX) {
-        parse_str($protectedPost['ocs']['0'], $params);
-        $protectedPost += $params;
-        ob_start();
-    }
-    $form_name = "affich_controllers";
-    $table_name = $form_name;
-    $tab_options = $protectedPost;
-    $tab_options['form_name'] = $form_name;
-    $tab_options['table_name'] = $table_name;
-    echo open_form($form_name, '', '', 'form-horizontal');
-    $queryDetails = "SELECT ";
-    foreach ($list_fields as $value) {
-        $queryDetails .= $value . ",";
-    }
-    $queryDetails = substr($queryDetails, 0, -1) . " FROM " . $table . " WHERE (hardware_id=$systemid)";
-    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-    echo close_form();
-    if (AJAX) {
-        ob_end_clean();
-        tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
-        ob_start();
-    }
+	global $protectedPost;
+
+	if (AJAX) {
+		parse_str($protectedPost['ocs']['0'], $params);
+		$protectedPost += $params;
+		ob_start();
+	}
+	$form_name = "affich_controllers";
+	$table_name = $form_name;
+	$tab_options = $protectedPost;
+	$tab_options['form_name'] = $form_name;
+	$tab_options['table_name'] = $table_name;
+	echo open_form($form_name, '', '', 'form-horizontal');
+	$queryDetails = "SELECT ";
+	foreach ($list_fields as $value) {
+		$queryDetails .= $value . ",";
+	}
+	// TODO : Buggy code $systemid not initialized
+	$queryDetails = substr($queryDetails, 0, -1) . " FROM " . $table . " WHERE (hardware_id=$systemid)";
+	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+	echo close_form();
+	if (AJAX) {
+		ob_end_clean();
+		tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+		ob_start();
+	}
 }
 
 ?>

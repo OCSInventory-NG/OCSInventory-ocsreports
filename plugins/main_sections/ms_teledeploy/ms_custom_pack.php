@@ -56,8 +56,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         '10' => '10',
         '11' => '11',
         '12' => '12');
-    $i = 0;
-    while ($i <= 1) {
+    for ($i = 0; $i <= 1; $i++) {
         if ($i == 0) {
             $am_pm = '';
         } else {
@@ -70,7 +69,6 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 }
             }
         }
-        $i++;
     }
     $config['COMMENT_AFTER'][0] = datePick("INSTALL_DATE");
     $config['JAVASCRIPT'][0] = "READONLY " . dateOnClick("INSTALL_DATE");
@@ -135,7 +133,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         if (isset($form_to_reload)) {
             //add this $var => not delete this package on computer detail
             $_SESSION['OCS']["justAdded"] = true;
-            echo "<script language='javascript'> window.opener.document." . $form_to_reload . ".submit();</script>";
+            echo "<script type='text/javascript'> window.opener.document." . $form_to_reload . ".submit();</script>";
         }
     }
 
@@ -151,10 +149,10 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
     $def_onglets['MACH'] = $l->g(980);
     $def_onglets['SERV_GROUP'] = $l->g(981);
 
-	//show tab
-	if ($list_id){
-		show_tabs($def_onglets,$form_name,'onglet',true);
-			echo '<div class="col col-md-10" >';
+    //show tab
+    if ($list_id) {
+        show_tabs($def_onglets, $form_name, 'onglet', true);
+        echo '<div class="col col-md-10" >';
 
         if ($protectedPost['onglet'] == 'SERV_GROUP') {
             $sql_rules = "select distinct rule,rule_name from download_affect_rules order by 1";
@@ -178,7 +176,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
 
         if ($protectedPost['onglet'] == 'MACH') {
             $selectValues = array('' => '', 'NO' => $l->g(454), 'YES' => $l->g(455));
-            formGroup('select', 'DWL_OPT', $l->g(1292), '', '', $protectedPost['DWL_OPT'], '', $selectValues, $selectValues, 'onclick=document.'.$form_name.'.submit();');
+            formGroup('select', 'DWL_OPT', $l->g(1292), '', '', $protectedPost['DWL_OPT'], '', $selectValues, $selectValues, 'onclick=document.' . $form_name . '.submit();');
         }
 
         if (($protectedPost['onglet'] == 'MACH' && $protectedPost['DWL_OPT'] != '') || ($protectedPost['onglet'] == 'SERV_GROUP' && $protectedPost['rule_choise'] != '')) {

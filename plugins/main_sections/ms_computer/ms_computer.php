@@ -22,9 +22,9 @@
  */
 @session_start();
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 require('require/function_opt_param.php');
 require('require/function_graphic.php');
@@ -34,19 +34,19 @@ require_once('ms_computer_views.php');
 //recherche des infos de la machine
 $item = info($protectedGet, $protectedPost['systemid']);
 if (!is_object($item)) {
-    msg_error($item);
-    require_once(FOOTER_HTML);
-    die();
+	msg_error($item);
+	require_once(FOOTER_HTML);
+	die();
 }
 //you can't view groups'detail by this way
 if ($item->DEVICEID == "_DOWNLOADGROUP_" || $item->DEVICEID == "_SYSTEMGROUP_") {
-    die('FORBIDDEN');
+	die('FORBIDDEN');
 }
 
 $systemid = $item->ID;
 
 if (!isset($protectedGet['option']) && !isset($protectedGet['cat'])) {
-    $protectedGet['cat'] = 'admin';
+	$protectedGet['cat'] = 'admin';
 }
 
 show_computer_title($item);
@@ -56,74 +56,74 @@ show_computer_menu($item->ID);
 echo '<div class="col col-md-10">';
 
 if (isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
-    show_computer_summary($item);
+	show_computer_summary($item);
 }
 
 //Wake On Lan function
 if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
-    require_once('require/function_wol.php');
-    $wol = new Wol();
-    $sql = "select MACADDR,IPADDRESS from networks WHERE (hardware_id=%s) and status='Up'";
-    $arg = array($item->ID);
-    $resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $msg = "";
+	require_once('require/function_wol.php');
+	$wol = new Wol();
+	$sql = "select MACADDR,IPADDRESS from networks WHERE (hardware_id=%s) and status='Up'";
+	$arg = array($item->ID);
+	$resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+	$msg = "";
 
-    while ($item = mysqli_fetch_object($resultDetails)) {
-        $wol->wake($item->MACADDR);
+	while ($item = mysqli_fetch_object($resultDetails)) {
+		$wol->wake($item->MACADDR);
 
-        if ($wol->wol_send == $l->g(1282)) {
-            msg_info($wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS);
-        } else {
-            msg_error($wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS);
-        }
-    }
+		if ($wol->wol_send == $l->g(1282)) {
+			msg_info($wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS);
+		} else {
+			msg_error($wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS);
+		}
+	}
 }
 
 if (AJAX) {
-    ob_end_clean();
+	ob_end_clean();
 }
 
 $plugins_serializer = new XMLPluginsSerializer();
 $plugins = $plugins_serializer->unserialize(file_get_contents('config/computer/plugins.xml'));
 
 if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('software', 'hardware', 'devices', 'admin', 'config', 'teledeploy', 'other'))) {
-    // If category
-    foreach ($plugins as $plugin) {
-        if ($plugin->getCategory() == $protectedGet['cat']) {
-            $plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
-            $protectedPost['computersectionrequest'] = $plugin->getId();
-            if (file_exists($plugin_file)) {
-                if ($plugin->getHideFrame()) {
-                    require $plugin_file;
-                } else {
-                    echo '<div class="plugin-name-' . $plugin->getId() . ' ">';
-                    require $plugin_file;
-                }
-            }
-        }
-    }
+	// If category
+	foreach ($plugins as $plugin) {
+		if ($plugin->getCategory() == $protectedGet['cat']) {
+			$plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
+			$protectedPost['computersectionrequest'] = $plugin->getId();
+			if (file_exists($plugin_file)) {
+				if ($plugin->getHideFrame()) {
+					require $plugin_file;
+				} else {
+					echo '<div class="plugin-name-' . $plugin->getId() . ' ">';
+					require $plugin_file;
+				}
+			}
+		}
+	}
 } else if (isset($protectedGet['option']) && isset($plugins[$protectedGet['option']])) {
-    // If specific plugin
-    $plugin = $plugins[$protectedGet['option']];
-    $plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
+	// If specific plugin
+	$plugin = $plugins[$protectedGet['option']];
+	$plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
 
-    if (file_exists($plugin_file)) {
-        if (!AJAX) {
-            echo '<div class="plugin-name-' . $plugin->getId() . '">';
-        }
-        require $plugin_file;
-        if (!AJAX) {
-            echo '</div>';
-        }
-    }
+	if (file_exists($plugin_file)) {
+		if (!AJAX) {
+			echo '<div class="plugin-name-' . $plugin->getId() . '">';
+		}
+		require $plugin_file;
+		if (!AJAX) {
+			echo '</div>';
+		}
+	}
 } else {
-    // Else error
-    msg_error('Page not found');
+	// Else error
+	msg_error('Page not found');
 }
 
 echo '</div>';
 
 if (AJAX) {
-    ob_end_clean();
+	ob_end_clean();
 }
 ?>

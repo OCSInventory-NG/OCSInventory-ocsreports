@@ -173,7 +173,7 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
     $val_count = count_noinv_network_devices($dpt[$protectedPost['DPT_CHOISE']]);
 
     $strEnTete = "<p>" . $_SESSION['OCS']["ipdiscover_id"] . " " . $dpt[$protectedPost['DPT_CHOISE']] . " <br>";
-    $strEnTete .= "(<font color='red'>" . $val_count . "</font> " . $l->g(219) . ")</p>";
+    $strEnTete .= "(<span class='red'>" . $val_count . "</span> " . $l->g(219) . ")</p>";
     printEnTete($strEnTete);
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }

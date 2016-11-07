@@ -172,7 +172,7 @@ if (isset($protectedPost['valid'])) {
         unset($protectedPost['valid']);
     } else {
         //some fields are empty?
-        echo "<script language='javascript'>
+        echo "<script type='text/javascript'>
 			function verif2()
 			 {
 				var msg = '';
@@ -303,7 +303,7 @@ if (!$protectedPost) {
 echo "<input type='hidden' name='document_root' value='" . $protectedPost['document_root'] . "'>
 	 <input type='hidden' id='timestamp' name='timestamp' value='" . $protectedPost['timestamp'] . "'>";
 
-echo "<script language='javascript'>
+echo "<script type='text/javascript'>
 		function changeLabelAction(){
 		    var displayText = {'EXECUTE' : '" . $l->g(444) . "', 'STORE' : '" . $l->g(445) . "', 'LAUNCH' : '" . $l->g(446) . "'};
 			var select = $(\"#ACTION\");
@@ -416,8 +416,9 @@ echo "<script language='javascript'>
 	</script>";
 
 echo "<div ";
-if ($protectedPost['valid'])
+if ($protectedPost['valid']) {
     echo " style='display:none;'";
+}
 echo ">";
 
 $arrayName = array(
@@ -448,58 +449,56 @@ $config_input = array(
 $list_os = array("WINDOWS", "LINUX", "MAC");
 $list_proto = array("HTTP");
 
-$arrayName = [
-	"os" => $l->g(25),
-	"name" => $l->g(49),
-	"visible" => $l->g(52),
-	"description" => $l->g(53),
-	"package_name" => $l->g(438),
-	"proto" => $l->g(439),
-	"prio" => $l->g(440),
-	"action" => $l->g(443),
-	"title_user_notif" => $l->g(447),
-	"warn_user" => $l->g(448),
-	"notify_text" => $l->g(449),
-	"notify_countdown" => $l->g(450),
-	"user_can_abort" => $l->g(451),
-	"user_can_delay" => $l->g(452),
-	"need_user_action" => $l->g(453),
-	"file" => $l->g(549),
-	"title_redistribution" => $l->g(628),
-	"redistribution" => $l->g(1008),
-	"path_remote_server" => $l->g(1009)
-];
-$config_input=[
-	'MAXLENGTH'=>255,
-	'SIZE'=>50
-];
-$list_os = [
-	"WINDOWS" => "WINDOWS",
-	"LINUX" => "UNIX/LINUX",
-	"MAC" => "MACOS"
-];
-$list_proto = ["HTTP"];
+$arrayName = array(
+    "os" => $l->g(25),
+    "name" => $l->g(49),
+    "visible" => $l->g(52),
+    "description" => $l->g(53),
+    "package_name" => $l->g(438),
+    "proto" => $l->g(439),
+    "prio" => $l->g(440),
+    "action" => $l->g(443),
+    "title_user_notif" => $l->g(447),
+    "warn_user" => $l->g(448),
+    "notify_text" => $l->g(449),
+    "notify_countdown" => $l->g(450),
+    "user_can_abort" => $l->g(451),
+    "user_can_delay" => $l->g(452),
+    "need_user_action" => $l->g(453),
+    "file" => $l->g(549),
+    "title_redistribution" => $l->g(628),
+    "redistribution" => $l->g(1008),
+    "path_remote_server" => $l->g(1009)
+);
+$config_input = array(
+    'MAXLENGTH' => 255,
+    'SIZE' => 50
+);
+$list_os = array(
+    "WINDOWS" => "WINDOWS",
+    "LINUX" => "UNIX/LINUX",
+    "MAC" => "MACOS"
+);
+$list_proto = array("HTTP");
 
-$i = 0;
-while ($i < 10) {
+for ($i = 0; $i < 10; $i++) {
     $list_prio["$i"] = "$i";
-    $i++;
 }
 
 $yes_no = array("0", "1");
 
-$list_action = [
-	"EXECUTE" => $l->g(456),
-	"STORE" => $l->g(457),
-	"LAUNCH" => $l->g(458)
-];
+$list_action = array(
+    "EXECUTE" => $l->g(456),
+    "STORE" => $l->g(457),
+    "LAUNCH" => $l->g(458)
+);
 
-$arrayDisplayValue = [
-	"yes_no" => [
-		"0" => $l->g(454),
-		"1" => $l->g(455)
-	],
-];
+$arrayDisplayValue = array(
+    "yes_no" => array(
+        "0" => $l->g(454),
+        "1" => $l->g(455)
+    )
+);
 $list_action = array("EXECUTE", "STORE", "LAUNCH");
 
 $arrayDisplayValue = array(
@@ -527,7 +526,7 @@ formGroup('select', 'PROTOCOLE', $arrayName['proto'], '', $config_input['MAXLENG
 formGroup('select', 'PRIORITY', $arrayName['prio'], '', $config_input['MAXLENGTH'], $protectedPost, '', $list_prio, $list_prio);
 formGroup('file', 'teledeploy_file', $arrayName['file'], '', $config_input['MAXLENGTH'], $protectedPost['teledeploy_file'], '', '', "accept='archive/zip'");
 formGroup('select', 'ACTION', $arrayName['action'], '', $config_input['MAXLENGTH'], $protectedPost, '', $list_action, $list_action, "onchange='changeLabelAction()' ");
-formGroup('text', 'ACTION_INPUT', $l->g(444), '' ,$config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
+formGroup('text', 'ACTION_INPUT', $l->g(444), '', $config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
 
 echo "<br />";
 echo "<h4>" . $arrayName['title_redistribution'] . "</h4>";
@@ -559,7 +558,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     }
 </script>
 <?php
-formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', [0,1], [0 => 'No', 1 => 'Yes'], "onchange='redistributeUse()' ");
+formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'), "onchange='redistributeUse()' ");
 ?>
 <div id="REDISTRIB_USE_div" style="display: none;">
     <?php
@@ -592,10 +591,10 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
     </div>
 
 </div>
-<input type='submit' name='valid' id='valid' class="btn btn-success" value='<?php echo $l->g(13) ?>' OnClick='return verif();'>
+<input type='submit' name='valid' id='valid' class="btn btn-success" value='<?= $l->g(13) ?>' OnClick='return verif();'>
 <input type='hidden' id='digest_algo' name='digest_algo' value='MD5'>
 <input type='hidden' id='digest_encod' name='digest_encod' value='Hexa'>
-<input type='hidden' id='download_rep_creat' name='download_rep_creat' value='<?php echo $default['DOWNLOAD_REP_CREAT'] ?>'>
+<input type='hidden' id='download_rep_creat' name='download_rep_creat' value='<?= $default['DOWNLOAD_REP_CREAT'] ?>'>
 
 </div></div>
 <?php

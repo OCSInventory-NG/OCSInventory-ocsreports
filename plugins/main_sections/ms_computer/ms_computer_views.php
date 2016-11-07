@@ -27,27 +27,29 @@ function show_computer_menu($computer_id) {
 
     $menu_renderer = new ComputerMenuRenderer($computer_id, $_SESSION['OCS']['url_service']);
 
-
     echo "<div class='left-menu col col-md-2'>";
     echo "<ul class='nav nav-pills nav-stacked navbar-left'>";
 
-
     foreach ($menu->getChildren() as $menu_elem) {
+        $url = $menu_renderer->getUrl($menu_elem);
 
-        $url = $menu_elem->getUrl();
+        /**
+         * Highlight current item
+         */
+        // Got the current page URL
+        $urlPage = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '?'));
+        $maClass = '';
+        if ($urlPage == $url) {
+            // Current page ? Highlight menu
+            $maClass .= ' id="current" class="active"';
+        }
+
         $label = $menu_renderer->getLabel($menu_elem);
-
-
-
-        echo "<li ";
-        //if ($activeMenu == $url) {
-        //    echo "class='active'";
-        //}
-        echo " ><a href=' ".$menu_renderer->getUrl($menu_elem) ."'>" . $label . "</a></li>";
+        echo "<li$maClass><a href='" . $url . "'>" . $label . "</a></li>";
     }
 
-	echo '</ul>';
-	echo '</div>';
+    echo '</ul>';
+    echo '</div>';
 }
 
 function show_computer_title($computer) {
@@ -141,7 +143,7 @@ function show_computer_summary($computer) {
                 $resVM = mysql2_query_secure($sqlVM, $_SESSION['OCS']["readServer"], $argVM);
                 $valVM = mysqli_fetch_array($resVM);
                 $data[$key] = $valVM['vmtype'];
-                $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . $valVM['hardware_id'] . "'  target='_blank'><font color=red>" . $valVM['name'] . "</font></a>";
+                $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . $valVM['hardware_id'] . "'  target='_blank'><span class=red>" . $valVM['name'] . "</span></a>";
                 $link[$key] = true;
 
                 if ($data[$key] != '') {
@@ -174,7 +176,7 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
         }
 
         echo '<div class="col col-md-6">';
-        echo '<h5>' . mb_strtoupper($cat_labels[$cat_key]) . '</h5>';
+        echo '<h5 class="text-uppercase">' . $cat_labels[$cat_key] . '</h5>';
 
         foreach ($cat as $name => $label) {
             $value = $data[$name];
@@ -199,7 +201,6 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
             echo '</div>';
         }
     }
-
 }
 
 ?>

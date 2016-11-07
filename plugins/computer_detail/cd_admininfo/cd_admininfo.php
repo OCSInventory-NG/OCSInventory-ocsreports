@@ -109,9 +109,9 @@ if (!is_array($info_account_id)) {
         if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && !$show_all_column) {
             $show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
             if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO'])) {
-                $show_admin_button .= "<img src=image/success.png></a>";
+                $show_admin_button .= "<img src=image/success.png alt=success></a>";
             } else {
-                $show_admin_button .= "<img src=image/modif_tab.png></a>";
+                $show_admin_button .= "<img src=image/modif_tab.png alt=modif_tab></a>";
             }
         } else {
             $show_admin_button = '';
@@ -151,9 +151,7 @@ if (!is_array($info_account_id)) {
             if ($nb_row != $num_row) {
                 $up_png .= updown($val_admin_info['ID'], 'DOWN');
             }
-            if ($val_admin_info['TYPE'] == 2
-                    or $val_admin_info['TYPE'] == 4
-                    or $val_admin_info['TYPE'] == 7) {
+            if ($val_admin_info['TYPE'] == 2 || $val_admin_info['TYPE'] == 4 || $val_admin_info['TYPE'] == 7) {
                 array_push($config['JAVASCRIPT'], '');
                 array_push($config['SIZE'], '');
                 if ($admin_accountinfo) {
@@ -224,7 +222,7 @@ if (!is_array($info_account_id)) {
                 }
 
                 array_push($config['SELECT_DEFAULT'], "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $protectedGet['systemid']);
-                array_push($config['JAVASCRIPT'], "onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $protectedGet['systemid'] . "\")");
+                array_push($config['JAVASCRIPT'], "onclick='window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $protectedGet['systemid'] . "\")'");
                 array_push($config['SIZE'], 'width=80 height=80');
             } else {
                 array_push($value_field, $info_account_id[$name_accountinfo]);

@@ -38,7 +38,7 @@ if ($protectedGet['origine'] != "mach") {
         $choise_req_selection['SEL'] = $l->g(585);
         $select_choise = show_modif($choise_req_selection, 'CHOISE', 2, $form_name);
     }
-    echo "<font color=red><b>";
+    echo "<span class=red><b>";
     if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '' || $protectedPost['CHOISE'] == '') {
         echo $l->g(901);
         $list_id = $_SESSION['OCS']['ID_REQ'];
@@ -56,7 +56,7 @@ if ($protectedGet['origine'] != "mach") {
     $list_id = $protectedGet['idchecked'];
 }
 
-echo "</b></font>";
+echo "</b></span>";
 if (strpos($protectedGet['img'], "config_search.png")) {
     include ("opt_param.php");
 }

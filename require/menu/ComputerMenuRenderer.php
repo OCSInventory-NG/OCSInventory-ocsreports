@@ -25,29 +25,31 @@
  * Renders the computer menu
  */
 class ComputerMenuRenderer extends MenuRenderer {
-    private $computer_id;
-    private $urls;
 
-    public function __construct($computer_id, $urls) {
-        parent::__construct();
+	private $computer_id;
+	private $urls;
 
-        $this->computer_id = $computer_id;
-        $this->urls = $urls;
-    }
+	public function __construct($computer_id, $urls) {
+		parent::__construct();
+
+		$this->computer_id = $computer_id;
+		$this->urls = $urls;
+	}
 
 	public function getUrl(MenuElem $menu_elem) {
-		return "?".PAG_INDEX."=".$this->urls->getUrl('ms_computer')."&head=1&systemid=".$this->computer_id."&".$menu_elem->getUrl();
+		return "?" . PAG_INDEX . "=" . $this->urls->getUrl('ms_computer') . "&head=1&systemid=" . $this->computer_id . "&" . $menu_elem->getUrl();
 	}
 
 	public function getLabel(MenuElem $menu_elem) {
-    	$label = $this->translateLabel($menu_elem->getLabel());
-    	
-    	if ($menu_elem->hasChildren() and $level == 0) {
-    		$label .= ' <b class="right-caret"></b>';
-    	}
-    	
-    	return $label;
+		$label = $this->translateLabel($menu_elem->getLabel());
+
+		if ($menu_elem->hasChildren()) {
+			$label .= ' <b class="right-caret"></b>';
+		}
+
+		return $label;
 	}
 
 }
+
 ?>

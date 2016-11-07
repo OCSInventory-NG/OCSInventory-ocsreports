@@ -21,9 +21,9 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 
 require_once('require/function_snmp.php');
@@ -36,26 +36,26 @@ $tab_options['table_name'] = $table_name;
 
 //delete snmp
 if ($protectedPost['SUP_PROF'] != '') {
-    deleteDid_snmp($protectedPost['SUP_PROF']);
-    $tab_options['CACHE'] = 'RESET';
+	deleteDid_snmp($protectedPost['SUP_PROF']);
+	$tab_options['CACHE'] = 'RESET';
 }
 
 if (is_defined($protectedPost['del_check'])) {
-    deleteDid_snmp($protectedPost['del_check']);
-    $tab_options['CACHE'] = 'RESET';
+	deleteDid_snmp($protectedPost['del_check']);
+	$tab_options['CACHE'] = 'RESET';
 }
 
 echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = array('TAG' => 'TAG',
-    'NAME_SNMP' => 'NAME',
-    $l->g(352) => 'UPTIME',
-    $l->g(95) => 'MACADDR',
-    $l->g(34) => 'IPADDR',
-    $l->g(1227) => 'CONTACT',
-    $l->g(295) => 'LOCATION',
-    $l->g(33) => 'DOMAIN',
-    $l->g(66) => 'TYPE',
-    $l->g(1228) => 'SNMPDEVICEID'
+	'NAME_SNMP' => 'NAME',
+	$l->g(352) => 'UPTIME',
+	$l->g(95) => 'MACADDR',
+	$l->g(34) => 'IPADDR',
+	$l->g(1227) => 'CONTACT',
+	$l->g(295) => 'LOCATION',
+	$l->g(33) => 'DOMAIN',
+	$l->g(66) => 'TYPE',
+	$l->g(1228) => 'SNMPDEVICEID'
 );
 
 $tab_options['FILTRE'] = array_flip($list_fields);
@@ -81,7 +81,7 @@ $img['image/delete.png'] = $l->g(162);
 del_selection($form_name);
 echo close_form();
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
 ?>

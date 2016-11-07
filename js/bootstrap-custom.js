@@ -20,7 +20,7 @@
  * MA 02110-1301, USA.
  */
 $(function () {
-    $(".dropdown-submenu-toggle").click(function () {
-        window.location = this.href;
-    });
+	$(".dropdown-submenu-toggle").click(function () {
+		window.location = this.href;
+	});
 });

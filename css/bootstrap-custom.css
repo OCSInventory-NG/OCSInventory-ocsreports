@@ -97,7 +97,7 @@
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-	background-color: #961b7e;
+    background-color: #961b7e;
 }
 
 /*
@@ -110,4 +110,10 @@ Open menus on mouse hover
 .text-success{
     color: #5cb85c;
     font-weight: bold;
+}
+
+/* bootstrap -> Quick floats -> center */
+.pull-center {
+    margin-left: auto;
+    margin-right: auto;
 }

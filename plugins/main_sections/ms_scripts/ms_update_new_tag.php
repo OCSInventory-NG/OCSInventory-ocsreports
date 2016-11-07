@@ -111,16 +111,16 @@ if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isse
     echo '<div class="col col-md-12" >';
     echo "<p><font size=4><i>Summary of actions to be undertaken</i></font></p>";
     if (isset($add_colum_accountinfo)) {
-        echo "<p><b><font color=red>add column in accountinfo table<br>
-					(orphans found in accountinfo_config table (Inconsistency))</font></b></p>";
+        echo "<p><b><span class=red>add column in accountinfo table<br>
+					(orphans found in accountinfo_config table (Inconsistency))</span></b></p>";
         foreach ($add_colum_accountinfo as $key => $values) {
             echo $values . "<br>";
         }
     }
 
     if (isset($add_lign_accountinfo_config)) {
-        echo "<p><b><font color=blue>add lignes in accountinfo_config table<br>
-					(orphans found in accountinfo table (=> 2.0))</font></b></p>";
+        echo "<p><b><span class=blue>add lignes in accountinfo_config table<br>
+					(orphans found in accountinfo table (=> 2.0))</span></b></p>";
         foreach ($add_lign_accountinfo_config as $key => $values) {
             $i = 0;
             echo "<p>";
@@ -128,7 +128,7 @@ if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isse
                 echo $values[$i];
                 echo "&nbsp;";
                 if ($i == 5) {
-                    echo "<br>";
+                    echo "<br />";
                 }
                 $i++;
             }
@@ -136,8 +136,8 @@ if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isse
         }
     }
     if (isset($rename_col_accountinfo)) {
-        echo "<p><b><font color=blue>Renaming of old columns in accountinfo table
-					<br>(=> 2.0)</font></b></p>";
+        echo "<p><b><span class=blue>Renaming of old columns in accountinfo table
+					<br>(=> 2.0)</span></b></p>";
         foreach ($rename_col_accountinfo as $key => $values) {
             echo $values[0] . "<br>";
         }

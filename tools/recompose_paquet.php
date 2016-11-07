@@ -46,11 +46,11 @@ if ($_SESSION['OCS']["lvluser"] == SADMIN) {
                 //récupération du nom du fichier
                 $name = $info_traite[10];
                 if (substr($name, 0, 4) != 'NAME') {
-                    "<font color=red>PROBLEME AVEC LE NOM DU FICHIER</font><br>";
+                    "<span class=red>PROBLEME AVEC LE NOM DU FICHIER</span><br>";
                     $valid = 'KO';
                 }
                 if (substr($info_traite[6], 0, 5) != 'FRAGS') {
-                    "<font color=red>PROBLEME AVEC LE NOMBRE DE FRAGMENT</font><br>";
+                    "<span class=red>PROBLEME AVEC LE NOMBRE DE FRAGMENT</span><br>";
                     $valid = 'KO';
                 }
                 $name = substr($name, 6);
@@ -67,20 +67,18 @@ if ($_SESSION['OCS']["lvluser"] == SADMIN) {
 
     if ($protectedGet['id_pack'] != '' && $valid == 'OK') {
         $temp = "";
-        $i = 1;
         $filename = $rep . '/' . $protectedGet['id_pack'];
         $handfich_final = fopen($rep . '/' . $name, "a+b");
-        while ($i <= $nb_frag) {
+        for ($i = 1; $i <= $nb_frag; $i++) {
             echo "Lecture du fichier " . $filename . "-" . $i . " en cours...<br>";
             $handlefrag = fopen($filename . "-" . $i, "r+b");
             $temp = fread($handlefrag, filesize($filename . "-" . $i));
             fclose($handlefrag);
             fwrite($handfich_final, $temp);
             flush();
-            $i++;
         }
         fclose($handfich_final);
-        echo "<br><font color=green>FICHIER CREE</font>";
+        echo "<br><span class=green>FICHIER CREE</span>";
     }
 } else {
     echo "PAGE INDISPONIBLE";

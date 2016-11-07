@@ -25,72 +25,74 @@
  * Handle properties of every column of the table
  */
 abstract class Column {
-    private $label;
-    private $key;
-    private $visible;
-    private $deletable;
-    private $sortable;
 
-    public function __construct($key, $label, $visible, $deletable, $sortable) {
-        $this->key = $key;
-        $this->label = $label;
-        $this->visible = $visible;
-        $this->deletable = $deletable;
-        $this->sortable = $sortable;
-    }
+	private $label;
+	private $key;
+	private $visible;
+	private $deletable;
+	private $sortable;
 
-    /*
-     * Return the column display content
-     */
+	public function __construct($key, $label, $visible, $deletable, $sortable) {
+		$this->key = $key;
+		$this->label = $label;
+		$this->visible = $visible;
+		$this->deletable = $deletable;
+		$this->sortable = $sortable;
+	}
 
-    public function getLabel() {
-        return $this->label;
-    }
+	/*
+	 * Return the column display content
+	 */
 
-    /*
-     * Set the column display content
-     */
+	public function getLabel() {
+		return $this->label;
+	}
 
-    public function setLabel($label) {
-        $this->label = $label;
-    }
+	/*
+	 * Set the column display content
+	 */
 
-    /*
-     * 	@params ( false || true )
-     *  Set the display options of the column :
-     *  visibility : displayed or not
-     * 	deletable : appears in Hide/Show list
-     * 	sortable : up and down arrows on the right
-     *
-     */
+	public function setLabel($label) {
+		$this->label = $label;
+	}
 
-    public function setVisible($visible) {
-        $this->visible = $visible;
-    }
+	/*
+	 * 	@params ( false || true )
+	 *  Set the display options of the column :
+	 *  visibility : displayed or not
+	 * 	deletable : appears in Hide/Show list
+	 * 	sortable : up and down arrows on the right
+	 *
+	 */
 
-    public function setDeletable($deletable) {
-        $this->deletable = $deletable;
-    }
+	public function setVisible($visible) {
+		$this->visible = $visible;
+	}
 
-    public function setSortable($sortable) {
-        $this->sortable = $sortable;
-    }
+	public function setDeletable($deletable) {
+		$this->deletable = $deletable;
+	}
 
-    /*
-     * Return the display options of the column
-     */
+	public function setSortable($sortable) {
+		$this->sortable = $sortable;
+	}
 
-    public function isVisible() {
-        return $this->visible;
-    }
+	/*
+	 * Return the display options of the column
+	 */
 
-    public function isDeletable() {
-        return $this->deletable;
-    }
+	public function isVisible() {
+		return $this->visible;
+	}
 
-    public function isSortable() {
-        return $this->sortable;
-    }
+	public function isDeletable() {
+		return $this->deletable;
+	}
+
+	public function isSortable() {
+		return $this->sortable;
+	}
 
 }
+
 ?>

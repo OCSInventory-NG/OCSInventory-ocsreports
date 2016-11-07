@@ -71,10 +71,10 @@ if ($protectedPost['Valid'] == $l->g(103)) {
             $form_to_reload = 'config_group';
         }
         if (isset($form_to_reload)) {
-            echo "<script language='javascript'> window.opener.document." . $form_to_reload . ".submit();</script>";
+            echo "<script type='text/javascript'> window.opener.document." . $form_to_reload . ".submit();</script>";
         }
     } else {
-        echo "<script>alert('" . $l->g(983) . "')</script>";
+        echo "<script type='text/javascript'>alert('" . $l->g(983) . "')</script>";
     }
 }
 

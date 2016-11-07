@@ -121,7 +121,7 @@ if ($valBumf > $valBpms) {
 } else {
     $MaxAvail = trim(mb_strtoupper($valTumf), "M");
 }
-$msg_lbl['info'][] = $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "<br><br><font color=red>" . $l->g(2102) . "</font>";
+$msg_lbl['info'][] = $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "<br><br><span class=red>" . $l->g(2102) . "</span>";
 //msg=no php-session function
 if (!function_exists('session_start')) {
     $msg_lbl['error'][] = $l->g(2035);
@@ -131,10 +131,10 @@ if (!function_exists('mysqli_connect')) {
     $msg_lbl['error'][] = $l->g(2037);
 }
 if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(ETC_DIR))) {
-    $msg_lbl['error'][] = "<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
+    $msg_lbl['error'][] = "<br><div class='class='center-block alert alert-danger'><b>" . $l->g(2052) . "</b></div>";
 }
 //msg for phpversion
-if (version_compare(phpversion(), '5.3.7', '<')) {
+if (version_compare(phpversion(), '5.4.0', '<')) {
     $msg_lbl['warning'][] = $l->g(2113) . " " . phpversion() . " ) ";
 }
 if (!class_exists('SoapClient')) {
@@ -241,22 +241,22 @@ if (isset($_POST["name"])) {
             fclose($ch);
             if (!mysqli_connect($_POST["host"], $name_connect, $pass_connect)) {
                 if (mysqli_connect_errno() == 0) {
-                    echo "<br><center><font color=red><b>" . $l->g(2043) .
+                    echo "<br><div class='class='center-block alert alert-danger'><b>" . $l->g(2043) .
                     " " . $l->g(2044) .
-                    "</b><br></font></center>";
+                    "</b><br></div>";
                     die();
                 } else {
-                    echo "<br><center><font color=red><b>" . $l->g(2043) .
+                    echo "<br><div class='class='center-block alert alert-danger'><b>" . $l->g(2043) .
                     " (" . $l->g(2017) .
                     " " . $l->g(2010) .
                     "=" . $_POST["host"] .
                     " " . $l->g(2011) .
                     "=ocs " . $l->g(2014) .
                     "=ocs)"
-                    . "</b><br></font></center>";
+                    . "</b><br></div>";
                 }
 
-                echo "<br><center><font color=red><b>" . $l->g(2065) . "</b></font></center>";
+                echo "<br><div class='class='center-block alert alert-danger'><b>" . $l->g(2065) . "</b></div>";
                 unlink(CONF_MYSQL);
             } else {
                 msg_success("<b>" . $l->g(2050) . "</b><br><br><b><a href='index.php'>" . $l->g(2051) . "</a></b>");

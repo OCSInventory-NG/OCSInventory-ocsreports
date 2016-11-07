@@ -22,6 +22,8 @@
  */
 require_once 'require/function_users.php';
 
+echo '<div class="container-fluid">';
+
 if (isset($protectedPost['Valid_modif'])) {
     $protectedPost['ACCESSLVL'] = $_SESSION['OCS']['lvluser'];
     $protectedPost['ID'] = $_SESSION['OCS']["loggeduser"];
@@ -39,14 +41,13 @@ $form_name = "pass";
 echo open_form($form_name, '', '', 'form-horizontal');
 
 admin_user($_SESSION['OCS']["loggeduser"], true);
-
 ?>
-    <div class="row">
-        <div class="col-md-12">
-            <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-            <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
-        </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <input type="submit" name="Valid_modif" value="<?= $l->g(1363) ?>" class="btn btn-success">
+        <input type="submit" name="Reset_modif" value="<?= $l->g(1364) ?>" class="btn btn-danger">
     </div>
+</div>
 <?php
-
 echo close_form();

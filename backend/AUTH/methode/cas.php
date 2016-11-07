@@ -29,8 +29,8 @@ $login = $cas->getUser();
 $mdp = "";
 
 if ($login) {
-    $login_successful = "OK";
-    $cnx_origine = "CAS";
-    $user_group = "CAS";
+	$login_successful = "OK";
+	$cnx_origine = "CAS";
+	$user_group = "CAS";
 }
 ?>

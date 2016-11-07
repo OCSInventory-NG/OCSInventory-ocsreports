@@ -21,41 +21,41 @@
  * MA 02110-1301, USA.
  */
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 
 require_once 'require/function_commun.php';
 
 if (!class_exists('plugins')) {
-    require 'plugins.class.php';
+	require 'plugins.class.php';
 }
 
 if (!function_exists('rrmdir')) {
-    require 'functions_delete.php';
+	require 'functions_delete.php';
 }
 
 if (!function_exists('exec_plugin_soap_client')) {
-    require 'functions_webservices.php';
+	require 'functions_webservices.php';
 }
 
 if (!function_exists('install')) {
-    require 'functions_check.php';
+	require 'functions_check.php';
 }
 
 if ($protectedPost['SUP_PROF'] != '') {
-    delete_plugin($protectedPost['SUP_PROF']);
-    $tab_options['CACHE'] = 'RESET';
+	delete_plugin($protectedPost['SUP_PROF']);
+	$tab_options['CACHE'] = 'RESET';
 }
 
 if (is_defined($protectedPost['del_check'])) {
-    $delarray = explode(",", $protectedPost['del_check']);
+	$delarray = explode(",", $protectedPost['del_check']);
 
-    foreach ($delarray as $value) {
-        delete_plugin($value);
-    }
-    $tab_options['CACHE'] = 'RESET';
+	foreach ($delarray as $value) {
+		delete_plugin($value);
+	}
+	$tab_options['CACHE'] = 'RESET';
 }
 
 $dep_check = checkDependencies();
@@ -67,79 +67,78 @@ printEnTete($l->g(7008));
 <div class="container">
     <div class="col col-md-12">
 
-        <?php
-        echo open_form("PluginInstall", '', '', 'form-horizontal');
+		<?php
+		echo open_form("PluginInstall", '', '', 'form-horizontal');
 
-        $availablePlugins = scan_downloaded_plugins();
+		$availablePlugins = scan_downloaded_plugins();
 
-        if (!$dep_check || !$per_check) {
+		if (!$dep_check || !$per_check) {
+			msg_error($l->g(6009));
+		} else {
+			if (!empty($availablePlugins)) {
+				?>
+				<div class="form-group">
+					<div class="col col-sm-5 col-sm-offset-3">
+						<select class="form-control" name="plugin">
+							<?php
+							foreach ($availablePlugins as $key => $value) {
+								$name = explode(".", $value);
+								$info = new SplFileInfo(PLUGINS_DL_DIR . "/" . $value);
 
-            msg_error($l->g(6009));
-        } else {
-            if (!empty($availablePlugins)) {
-                ?>
-                <div class="form-group">
-                    <div class="col col-sm-5 col-sm-offset-3">
-                        <select class="form-control" name="plugin">
-                            <?php
-                            foreach ($availablePlugins as $key => $value) {
-                                $name = explode(".", $value);
-                                $info = new SplFileInfo(PLUGINS_DL_DIR . "/" . $value);
+								if ($info->getExtension() == "zip") {
+									echo "<option value=$value >$name[0]</option>";
+								}
+							}
+							?>
+						</select>
+					</div>
+					<div class="col col-sm-2">
+						<input type="submit" class="form-control btn btn-success" value="Install">
+					</div>
+				</div>
 
-                                if ($info->getExtension() == "zip") {
-                                    echo "<option value=$value >$name[0]</option>";
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="col col-sm-2">
-                        <input type="submit" class="form-control btn btn-success" value="Install">
-                    </div>
-                </div>
-
-                <?php
-            } else {
-                msg_warning($l->g(7014));
-            }
-        }
+				<?php
+			} else {
+				msg_warning($l->g(7014));
+			}
+		}
 
 
-        echo close_form();
-        ?>
+		echo close_form();
+		?>
     </div>
 </div>
 <?php
 if (isset($protectedPost['plugin'])) {
 
-    $pluginArchive = $protectedPost['plugin'];
+	$pluginArchive = $protectedPost['plugin'];
 
-    $bool = install($pluginArchive);
+	$bool = install($pluginArchive);
 
-    if ($bool) {
-        $pluginame = explode(".", $pluginArchive);
+	if ($bool) {
+		$pluginame = explode(".", $pluginArchive);
 
-        $plugintab = array("name" => $pluginame[0]);
+		$plugintab = array("name" => $pluginame[0]);
 
-        $isok = check($plugintab);
+		$isok = check($plugintab);
 
-        mv_computer_detail($pluginame[0]);
-        $result = mv_server_side($pluginame[0]);
+		mv_computer_detail($pluginame[0]);
+		$result = mv_server_side($pluginame[0]);
 
-        if ($result) {
-            exec_plugin_soap_client($pluginame[0], 1);
-        }
+		if ($result) {
+			exec_plugin_soap_client($pluginame[0], 1);
+		}
 
-        if ($isok) {
-            $msg = $l->g(6003) . " " . $pluginame[0] . " " . $l->g(7013);
-            msg_success($msg);
-        } else {
-            $msg = $l->g(2001) . " " . $pluginame[0] . " " . $l->g(7011) . "<br>" . $l->g(7012);
-            msg_error($msg);
-        }
-    } else {
-        msg_error($l->g(7010));
-    }
+		if ($isok) {
+			$msg = $l->g(6003) . " " . $pluginame[0] . " " . $l->g(7013);
+			msg_success($msg);
+		} else {
+			$msg = $l->g(2001) . " " . $pluginame[0] . " " . $l->g(7011) . "<br>" . $l->g(7012);
+			msg_error($msg);
+		}
+	} else {
+		msg_error($l->g(7010));
+	}
 }
 
 // Plugins Tab
@@ -153,11 +152,11 @@ $tab_options['table_name'] = $table_name;
 
 echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = array('ID' => 'id',
-    $l->g(7002) => 'name',
-    $l->g(7003) => 'version',
-    $l->g(7004) => 'licence',
-    $l->g(7005) => 'author',
-    $l->g(7006) => 'reg_date'
+	$l->g(7002) => 'name',
+	$l->g(7003) => 'version',
+	$l->g(7004) => 'licence',
+	$l->g(7005) => 'author',
+	$l->g(7006) => 'reg_date'
 );
 
 $tab_options['FILTRE'] = array_flip($list_fields);
@@ -184,7 +183,7 @@ del_selection($form_name);
 echo close_form();
 
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
 ?>

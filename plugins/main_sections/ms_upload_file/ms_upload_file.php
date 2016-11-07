@@ -44,7 +44,7 @@ function return_bytes($val) {
     return $val;
 }
 ?>
-<script language='javascript'>
+<script type='text/javascript'>
 
     function getext(filename) {
         var parts = filename.split('.');

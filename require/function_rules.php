@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">
     function check() {
         var msg = '';
         if (document.getElementById('RULE_NAME').value == "") {

@@ -32,12 +32,12 @@
  */
 
 if (AJAX) {
-    parse_str($protectedPost['ocs']['0'], $params);
-    $protectedPost += $params;
-    ob_start();
+	parse_str($protectedPost['ocs']['0'], $params);
+	$protectedPost += $params;
+	ob_start();
 }
 if (!isset($protectedPost['SHOW'])) {
-    $protectedPost['SHOW'] = 'NOSHOW';
+	$protectedPost['SHOW'] = 'NOSHOW';
 }
 print_item_header($l->g(79));
 $form_name = "affich_printers";
@@ -47,15 +47,15 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 $list_fields = array($l->g(49) => 'NAME',
-    $l->g(278) => 'DRIVER',
-    $l->g(279) => 'PORT',
-    $l->g(53) => 'DESCRIPTION',
-    $l->g(1323) => 'SERVERNAME',
-    $l->g(1324) => 'SHARENAME',
-    $l->g(1325) => 'RESOLUTION',
-    $l->g(51) => 'COMMENT',
-    $l->g(1326) => 'SHARED',
-    $l->g(1327) => 'NETWORK');
+	$l->g(278) => 'DRIVER',
+	$l->g(279) => 'PORT',
+	$l->g(53) => 'DESCRIPTION',
+	$l->g(1323) => 'SERVERNAME',
+	$l->g(1324) => 'SHARENAME',
+	$l->g(1325) => 'RESOLUTION',
+	$l->g(51) => 'COMMENT',
+	$l->g(1326) => 'SHARED',
+	$l->g(1327) => 'NETWORK');
 $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
 $tab_options['FILTRE'] = array_flip($list_fields);
@@ -63,8 +63,8 @@ $queryDetails = "SELECT * FROM printers WHERE (hardware_id=$systemid)";
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();
 if (AJAX) {
-    ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
-    ob_start();
+	ob_end_clean();
+	tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+	ob_start();
 }
 ?>

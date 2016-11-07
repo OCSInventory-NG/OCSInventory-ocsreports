@@ -1,8 +1,8 @@
-<div align="center">
-    <script>tables.showTable(<?php echo $tableName ?>, <?php echo $csrfNumber ?>, <?php echo $url ?>, <?php echo $postData ?>, <?php echo $columns ?>);</script>
+<div class="pull-center">
+    <script type="text/javascript">tables.showTable(<?= $tableName ?>, <?= $csrfNumber ?>, <?= $url ?>, <?= $postData ?>, <?= $columns ?>);</script>
 
     <div class="tableContainer">
-        <table id="<?php echo htmlspecialchars($table->getName()) ?>" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="<?= htmlspecialchars($table->getName()) ?>" class="table table-striped table-bordered table-condensed table-hover">
             <thead><tr><?php
                     foreach ($table->getColumns() as $name => $col) {
                         echo "<th>" . $col->getLabel() . "</th>";
@@ -23,7 +23,7 @@
 
 <?php if ($_SESSION['OCS']['DEBUG'] == 'ON'): ?>
     <center>
-        <div id="<?php echo htmlspecialchars($table->getName()) ?>_debug" class="alert alert-info" role="alert">
+        <div id="<?= htmlspecialchars($table->getName()) ?>_debug" class="alert alert-info" role="alert">
             <b>[DEBUG]TABLE REQUEST[DEBUG]</b>
             <hr>
             <b class="datatable_request" style="display:none;">LAST REQUEST:</b>
@@ -31,4 +31,6 @@
         </div>
     </center>
     <?php
+
+
  endif ?>

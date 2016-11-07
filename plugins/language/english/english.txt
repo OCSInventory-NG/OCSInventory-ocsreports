@@ -1334,9 +1334,9 @@
 2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
-2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your vhost configuration to encrease this limit.
+2041 You must raise both <span class="red">post_max_size</span> and <span class="red">upload_max_filesize</span> in your vhost configuration to encrease this limit.
 2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
-2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <span class="red">max_allowed_packet</span> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERROR: MySQL authentication problem.

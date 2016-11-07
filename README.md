@@ -46,7 +46,8 @@ OCS Inventory NG includes the packet deployment functionality to be sure that al
 OCS Inventory is GPLv2 licensed
 
 ## Dev notes :
-  - Minimal PHP Version : 5.3.7 (password_compat requierement)
+  - Minimal PHP Version : 5.4
+  - HTML5 ([bootstrap](http://getbootstrap.com/css/#overview))
   - Min IE version : 8 ([bootstrap](http://getbootstrap.com/getting-started/#support))
   - Targeted others browser version : latest ([bootstrap](http://getbootstrap.com/getting-started/#support))
 
@@ -58,13 +59,13 @@ OCS Inventory is GPLv2 licensed
 
   - [Web interface : bootstrap - v3.3.7] (https://github.com/twbs/bootstrap) HTML/CSS/JS framework for responsive design
 
-  - [JavaScript : jquery - v1.11.0] (https://github.com/jquery/jquery) jQuery JavaScript Library
+  - [JavaScript : jquery - v1.12.4] (https://github.com/jquery/jquery) jQuery JavaScript Library
   - [JavaScript : jquery-migrate-1 - v1.2.1] (https://github.com/jquery/jquery-migrate) APIs and features removed from jQuery core
   - [JavaScript : jquery-fileupload - v5.40.1] (https://github.com/blueimp/jQuery-File-Upload) jQuery plugin for uploading files
   - [JavaScript : jquery-iframe-transport - v1.8.2] (https://github.com/blueimp/jQuery-File-Upload) jquery-fileupload dependency
   - [JavaScript : jquery-ui-widget - v1.10.4] (https://github.com/jquery/jquery-ui) jquery-fileupload dependency
-  - [JavaScript : Datatables - v1.10.2] (https://github.com/DataTables/DataTables) Tables plug-in for jQuery
-  - [JavaScript : Datatables-bootstrap - v???] (https://github.com/DataTables/DataTables) datatables dependency for bootstrap integration
+  - [JavaScript : Datatables - v1.10.12] (https://github.com/DataTables/DataTables) Tables plug-in for jQuery
+  - [JavaScript : Datatables-bootstrap - v1.10.12] (https://github.com/DataTables/DataTables) datatables dependency for bootstrap integration
 
   - [JavaScript : elycharts - v2.1.4] (https://github.com/voidlabs/elycharts) Charting library
   - [JavaScript : raphael - v1.5.2] (https://github.com/DmitryBaranovskiy/raphael/) elycharts dependency

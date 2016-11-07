@@ -33,7 +33,7 @@ if (is_defined($protectedPost['LOCK'])) {
         $_SESSION['OCS']["TRUE_mesmachines"] = array();
     }
     $_SESSION['OCS']["mesmachines"] = " a.hardware_id in (" . $list_id . ")";
-    echo "<script language='javascript'> window.opener.document.multisearch.submit();self.close();</script>";
+    echo "<script type='text/javascript'> window.opener.document.multisearch.submit();self.close();</script>";
 }
 
 if ($protectedPost['CHOISE'] != "") {

@@ -35,7 +35,7 @@ $i = 0;
 
 while (isset($list_plugins[$i])) {
     if (file_exists($Directory . $list_plugins[$i] . "/" . $list_plugins[$i] . ".png")) {
-        $show_lang .= "<img src='plugins/language/" . $list_plugins[$i] . "/" . $list_plugins[$i] . ".png' width=\"20\" height=\"15\" OnClick='pag(\"" . $list_plugins[$i] . "\",\"LANG\",\"ACTION_CLIC\");'>&nbsp;";
+        $show_lang .= "<img src='plugins/language/" . $list_plugins[$i] . "/" . $list_plugins[$i] . ".png' width=\"20\" height=\"15\" OnClick='pag(\"" . $list_plugins[$i] . "\",\"LANG\",\"ACTION_CLIC\");' alt='$list_plugins[$i]'>&nbsp;";
     } else {
         $show_lang .= "<a href=# OnClick='pag(\"" . $list_plugins[$i] . "\",\"LANG\",\"ACTION_CLIC\");'>" . $list_lbl[$list_plugins[$i]] . "</a>&nbsp;";
     }

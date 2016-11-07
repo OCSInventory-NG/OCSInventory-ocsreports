@@ -49,16 +49,18 @@ function info_snmp($snmp_id) {
             $arg = array(strtolower($table), $snmp_id);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
             $array['data'][$table] = mysqli_fetch_object($result);
-            if ($array['data'][$table] != '')
+            if ($array['data'][$table] != '') {
                 $array['lbl'] = $lbl;
+            }
         }
         return $array;
     }
 }
 
 function subnet_name($systemid) {
-    if (!is_numeric($systemid))
+    if (!is_numeric($systemid)) {
         return false;
+    }
     $reqSub = "select NAME,NETID from subnet left join networks on networks.ipsubnet = subnet.netid
 				where  networks.status='Up' and hardware_id=" . $systemid;
     $resSub = mysqli_query($_SESSION['OCS']["readServer"], $reqSub) or die(mysqli_error($_SESSION['OCS']["readServer"]));
@@ -72,7 +74,7 @@ function subnet_name($systemid) {
 function print_item_header($text) {
     echo "<table align=\"center\"  width='100%'  cellpadding='4'>";
     echo "<tr>";
-    echo "<td align='center' width='100%'><b><font color='blue'>" . mb_strtoupper($text) . "</font></b></td>";
+    echo "<td align='center' width='100%'><b><span class='blue text-uppercase'>" . $text . "</span></b></td>";
     echo "</tr>";
     echo "</table>";
 }
@@ -82,7 +84,7 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
     $data_exist = false;
     $show_table = "<table ALIGN = 'Center' class='" . $class . "' ><tr><td align =center colspan=20>";
     if ($title != '') {
-        $show_table .= "<i><b><big>" . $title . "</big></b><br><br></i></td></tr><tr><td align =center>";
+        $show_table .= "<i><b><b>" . $title . "</b></b><br><br></i></td></tr><tr><td align =center>";
     }
     $show_table .= "		<table align=center border='0' width='100%'  ><tr>";
     $i = 0;
@@ -90,9 +92,7 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
         if (is_object($values)) {
             foreach ($values as $field => $field_value) {
                 $data_exist = true;
-                if (trim($field_value) != ''
-                        and $field != 'ID'
-                        and $field != 'SNMP_ID') {
+                if (trim($field_value) != '' && $field != 'ID' && $field != 'SNMP_ID') {
                     if ($i == $nb_col) {
                         $show_table .= "</tr><tr>";
                         $i = 0;

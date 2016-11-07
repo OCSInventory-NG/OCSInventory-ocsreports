@@ -241,10 +241,7 @@ function define_tab($data_on = array()) {
     $data_on['ELSE'] = mb_strtoupper($l->g(800), 'UTF-8');
     if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == "YES") {
         $data_on['ADMIN']['MSG'] = mb_strtoupper($l->g(915), 'UTF-8');
-
-        if (!isset($default)) {
-            $default = 'MSG';
-        }
+        $default = '';
     }
     return array('DATA' => $data_on, 'DEFAULT' => $default);
 }
@@ -296,13 +293,13 @@ function show_console_field($fields, $form_name) {
     $no_groups_sql = " deviceid != '_SYSTEMGROUP_' and deviceid != '_DOWNLOADGROUP_' ";
     $no_show = look_config_default_values('OCS_REPORT_%', 1);
 
-    echo "<table ALIGN = 'Center' cellspacing='5' CELLPADDING='4'><tr ><td align =center><font size=2>";
+    echo "<table class='pull-center'>";
     foreach ($fields as $key => $value) {
         if (isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
             if (isset($no_show['name'][$key])) {
-                $icon = "<td align=center><a href=# OnClick='pag(\"" . $key . "\",\"NO_VISIBLE\",\"" . $form_name . "\");'><img src='image/red.png'></a></td>";
+                $icon = "<td><a href=# OnClick='pag(\"" . $key . "\",\"NO_VISIBLE\",\"" . $form_name . "\");'><img src='image/red.png'></a></td>";
             } else {
-                $icon = "<td align=center><a href=# OnClick='pag(\"" . $key . "\",\"VISIBLE\",\"" . $form_name . "\");'><img src='image/green.png'></a></td>";
+                $icon = "<td><a href=# OnClick='pag(\"" . $key . "\",\"VISIBLE\",\"" . $form_name . "\");'><img src='image/green.png'></a></td>";
             }
         } else {
             $icon = "";
@@ -374,9 +371,9 @@ function show_console_field($fields, $form_name) {
                 $link_me_end = "";
             }
 
-            echo $value . "</font></td><td>&nbsp;</td><td align=center><font size=2><B>" . $link_me_begin . $id_count . $link_me_end . "</B></font></td>" . $icon . "</tr><tr><td align =center><font size=2>";
+            echo "<tr><td>" . $value . "</td><td>&nbsp;</td><td><b>" . $link_me_begin . $id_count . $link_me_end . "</b></td>" . $icon . "</tr>";
         } elseif ($_SESSION['OCS']['DEBUG'] == 'ON') {
-            echo "<font color=red><b>ERROR=>" . $value . "</b></font></font></td><td>&nbsp;</td><td align=center></font></td>" . $icon . "</tr><tr><td align =center><font size=2>";
+            echo "<tr><td><span class=red><b>ERROR=>" . $value . "</b></span></td><td>&nbsp;</td><td></td>" . $icon . "</tr>";
         }
     }
     echo "</table>";

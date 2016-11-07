@@ -1333,9 +1333,9 @@
 2038 警告： GD for PHPが がインストールされていません。<br>画像表示が利用出来ません。<br>Windowsの場合、php.iniで extension=php_gd2.dll のコメントを解除（行頭のセミコロンを削除）してください。Linuxの場合、 php5-gd package パッケージをインストールして下さい。
 2039 警告： OpenSSL for PHP がインストールされていません。<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 警告：  You will not be able to build any deployment package with size greater than
-2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
+2041 You must raise both <span class="red">post_max_size</span> and <span class="red">upload_max_filesize</span> in your php.ini to encrease this limit.
 2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
-2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
+2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <span class="red">max_allowed_packet</span> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERROR: MySQL authentication problem.
