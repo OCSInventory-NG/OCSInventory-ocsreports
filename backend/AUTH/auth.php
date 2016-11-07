@@ -66,12 +66,11 @@ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($prot
 }
 
 if (isset($login) && isset($mdp)) {
-    $i = 0;
-    while ($list_methode[$i]) {
-        require_once('methode/' . $list_methode[$i]);
-        if ($login_successful == "OK")
+	foreach($list_methode as $uneMethode) {
+		require_once 'methode/' . $uneMethode;
+		if($login_successful == "OK") {
             break;
-        $i++;
+		}
     }
 }
 // login ok?

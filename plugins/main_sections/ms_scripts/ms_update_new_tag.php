@@ -128,7 +128,7 @@ if (isset($add_colum_accountinfo) || isset($add_lign_accountinfo_config) || isse
                 echo $values[$i];
                 echo "&nbsp;";
                 if ($i == 5) {
-                    echo "<br>";
+					echo "<br />";
                 }
                 $i++;
             }

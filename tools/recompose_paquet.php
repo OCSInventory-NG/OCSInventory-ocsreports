@@ -67,17 +67,15 @@ if ($_SESSION['OCS']["lvluser"] == SADMIN) {
 
     if ($protectedGet['id_pack'] != '' && $valid == 'OK') {
         $temp = "";
-        $i = 1;
         $filename = $rep . '/' . $protectedGet['id_pack'];
         $handfich_final = fopen($rep . '/' . $name, "a+b");
-        while ($i <= $nb_frag) {
+		for ($i = 1; $i <= $nb_frag; $i++) {
             echo "Lecture du fichier " . $filename . "-" . $i . " en cours...<br>";
             $handlefrag = fopen($filename . "-" . $i, "r+b");
             $temp = fread($handlefrag, filesize($filename . "-" . $i));
             fclose($handlefrag);
             fwrite($handfich_final, $temp);
             flush();
-            $i++;
         }
         fclose($handfich_final);
         echo "<br><font color=green>FICHIER CREE</font>";

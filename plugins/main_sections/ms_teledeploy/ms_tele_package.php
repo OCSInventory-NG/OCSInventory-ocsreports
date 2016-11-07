@@ -480,10 +480,8 @@ $list_os = [
 ];
 $list_proto = ["HTTP"];
 
-$i = 0;
-while ($i < 10) {
+for ($i = 0; $i < 10; $i++) {
     $list_prio["$i"] = "$i";
-    $i++;
 }
 
 $yes_no = array("0", "1");

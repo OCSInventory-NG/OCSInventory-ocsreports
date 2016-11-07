@@ -109,15 +109,13 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
         $numero = $protectedPost['NUM_RULES'] + 1;
         $tab_nom = $l->g(674) . " " . show_modif($protectedPost['RULE_NAME'], "RULE_NAME", "0");
         $tab = "<table align='center'>";
-        $i = 1;
-        while ($i < $numero + 1) {
+		for ($i = 1; $i < $numero + 1; $i++) {
             if ($i == 1) {
                 $entete = 'YES';
             } else {
                 $entete = 'NO';
             }
             $tab .= fields_conditions_rules($i, $entete);
-            $i++;
         }
         echo $tab_nom;
         echo $tab;
