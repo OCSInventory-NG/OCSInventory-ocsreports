@@ -222,7 +222,7 @@ if (!is_array($info_account_id)) {
                 }
 
                 array_push($config['SELECT_DEFAULT'], "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $protectedGet['systemid']);
-                array_push($config['JAVASCRIPT'], "onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $protectedGet['systemid'] . "\")");
+                array_push($config['JAVASCRIPT'], "onclick='window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $protectedGet['systemid'] . "\")'");
                 array_push($config['SIZE'], 'width=80 height=80');
             } else {
                 array_push($value_field, $info_account_id[$name_accountinfo]);

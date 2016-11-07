@@ -543,7 +543,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
             } else if ($inputType == 'button' || $inputType == 'link') {
                 echo "<a href='" . $field['DEFAULT_VALUE'] . "' class='" . ($inputType == 'button') ? 'btn' : '' . "' " . $field['CONFIG']['JAVASCRIPT'] . "></a>";
             } else if ($inputType == 'qrcode') {
-                echo "<img src='" . $field['CONFIG']['DEFAULT'] . "' " . $field['CONFIG']['SIZE'] . " " . $field['CONFIG']['JAVASCRIPT'] . ">";
+                echo "<img alt='img' src='" . $field['CONFIG']['DEFAULT'] . "' " . $field['CONFIG']['SIZE'] . " " . $field['CONFIG']['JAVASCRIPT'] . ">";
             } else {
                 echo "<input type='" . $inputType . "' name='" . $field['INPUT_NAME'] . "' id='" . $field['INPUT_NAME'] . "' value='" . $field['DEFAULT_VALUE'] . "' class='form-control' " . $field['CONFIG']['JAVASCRIPT'] . ">";
             }
