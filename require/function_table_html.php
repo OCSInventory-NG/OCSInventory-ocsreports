@@ -213,7 +213,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     $opt = false;
     ?>
 
-    <div align="center">
+    <div class="pull-center">
         <div class="<?= $option['table_name']; ?>_top_settings" style="display:none;">
         </div>
         <?php
@@ -512,9 +512,9 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     //titre du tableau
     foreach ($columns as $k => $v) {
         if (array_key_exists($k, $lbl_column)) {
-            echo "<th><font >" . $lbl_column[$k] . "</font></th>";
+            echo "<th>" . $lbl_column[$k] . "</th>";
         } else {
-            echo "<th><font >" . $k . "</font></th>";
+            echo "<th>" . $k . "</th>";
         }
     }
 
@@ -2155,7 +2155,7 @@ function gestion_donnees($sql_data, $list_fields, $tab_options, $form_name, $def
 function del_selection($form_name) {
     global $l;
     ?>
-    <script language=javascript>
+    <script type="text/javascript">
         function garde_check(image, id)
         {
             var idchecked = '';
@@ -2171,9 +2171,7 @@ function del_selection($form_name) {
         }
     </script>
     <?php
-    //foreach ($img as $key=>$value){
-    echo "<a href=# onclick=garde_check()><span class='glyphicon glyphicon-remove delete-span' title='" . $l->g(162) . "' ></span></a>";
-    //}
+    echo '<a href="#" onclick="garde_check()"><span class="glyphicon glyphicon-remove delete-span" title="' . $l->g(162) . '" ></span></a>';
     echo "<input type='hidden' id='del_check' name='del_check' value=''>";
 }
 

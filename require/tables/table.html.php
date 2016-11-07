@@ -1,4 +1,4 @@
-<div align="center">
+<div class="pull-center">
     <script type="text/javascript">tables.showTable(<?= $tableName ?>, <?= $csrfNumber ?>, <?= $url ?>, <?= $postData ?>, <?= $columns ?>);</script>
 
     <div class="tableContainer">
@@ -31,5 +31,6 @@
         </div>
     </center>
     <?php
+
 
  endif ?>
