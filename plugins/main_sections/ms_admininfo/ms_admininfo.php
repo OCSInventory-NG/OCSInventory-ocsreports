@@ -82,7 +82,7 @@ if (isset($msg['SUCCESS'])) {
 }
 
 echo open_form($form_name, '', '', 'form-horizontal');
-show_tabs($data_on,$form_name,"onglet",true);
+show_tabs($data_on, $form_name, "onglet", true);
 echo '<div class="col col-md-10" >';
 
 $table = "accountinfo";
@@ -100,11 +100,11 @@ if ($protectedPost['onglet'] == 1) {
     <div class="row">
         <div class="col col-md-6 col-md-offset-3">
 
-            <?php
-            formGroup('select', 'ACCOUNTINFO_CHOISE', $l->g(56), '', '', $protectedPost, '', $accountinfo_choise, $accountinfo_choise, 'onchange="document.admin_info.submit();"');
-            ?>
+                <?php
+                formGroup('select', 'ACCOUNTINFO_CHOISE', $l->g(56), '', '', $protectedPost, '', $accountinfo_choise, $accountinfo_choise, 'onchange="document.admin_info.submit();"');
+                ?>
+            </div>
         </div>
-    </div>
 
     <?php
     if ($protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP") {
@@ -204,22 +204,22 @@ if ($protectedPost['onglet'] == 1) {
 
     $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
 
-	formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost, '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
-	formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
-	formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl']);
-	formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost, '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "document.admin_info.submit();");
-	formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost, '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE']);
-?>
+    formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost, '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+    formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+    formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl']);
+    formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost, '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "document.admin_info.submit();");
+    formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost, '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE']);
+    ?>
 
-<div class="row">
-    <div class="col-md-12">
-        <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-        <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
+            <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+        </div>
     </div>
-</div>
 
 
-<?php
+    <?php
 }
 
 echo "</div>";

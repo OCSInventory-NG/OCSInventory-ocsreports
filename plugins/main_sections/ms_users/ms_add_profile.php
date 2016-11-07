@@ -23,14 +23,14 @@
 global $l;
 
 if (!AJAX) {
-	require_once 'views/users_views.php';
-	require_once 'views/profile_create_form.php';
+    require_once 'views/users_views.php';
+    require_once 'views/profile_create_form.php';
 
     echo "<div class='col col-md-2'>";
     show_users_left_menu('ms_add_profile');
     echo "</div>";
-	
-	echo '<div class="col col-md-10">';
+
+    echo '<div class="col col-md-10">';
 
     if (!is_writable(DOCUMENT_REAL_ROOT . '/config/profiles')) {
         msg_error($l->g(2116));

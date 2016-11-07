@@ -63,7 +63,7 @@ if ($protectedPost['search']) {
     $search_count = "";
 }
 //show first lign of onglet
-show_tabs($def_onglets,$form_name,"onglet",true);
+show_tabs($def_onglets, $form_name, "onglet", true);
 echo '<div class="col col-md-10" >';
 //attention=> result with restriction
 if ($search_count != "" || $search_cache != "") {
@@ -304,23 +304,21 @@ if ($protectedPost['AFFECT_TYPE'] != '') {
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <input class='btn btn-success' type='submit' value='<?php echo $l->g(393); ?>'>
-        <button class='btn btn-danger' value='<?php echo $l->g(396); ?>' onclick='return pag("RESET","RESET","<?php echo $form_name ?>");' ><?php echo $l->g(396); ?></button>
+        <button class='btn btn-danger' value='<?php echo $l->g(396); ?>' onclick='return pag("RESET", "RESET", "<?php echo $form_name ?>");' ><?php echo $l->g(396); ?></button>
     </div>
 </div>
 
 <div class="row margin-top30">
     <div class="col-md-6 col-md-offset-3">
         <input name='all_item' id='all_item' type='checkbox' <?php echo (isset($protectedPost['all_item']) ? " checked " : "") . ">" . $l->g(384); ?>
-        <br />
-        <?php echo show_modif($choix_affect, "AFFECT_TYPE", '2', $form_name); ?>
+               <br />
+               <?php echo show_modif($choix_affect, "AFFECT_TYPE", '2', $form_name); ?>
     </div>
 </div>
 <?php
-
 if ($result_exist != false) {
 
-     echo $trans;
-
+    echo $trans;
 }
 
 echo '</div>';

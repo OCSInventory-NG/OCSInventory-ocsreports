@@ -33,44 +33,42 @@ function show_profile_edit_form($profile_id) {
     $profiles = get_profiles();
     $profile = $profiles[$profile_id];
 
-	echo open_form('edit-profile', '#');
+    echo open_form('edit-profile', '#');
+    ?>
 
-	?>
-	
-	<h3><?php echo $l->g(1412) ?> (<?php echo $profile->getLabelTranslated() ?>)</h3>
-	
-	<?php show_form_input('name', array('type' => 'hidden', 'value' => $profile->getName())) ?>
-	<?php show_form_field(array(), array(), 'input', 'new_label', $l->g(1413)) ?>
-	
-	<div class="form-frame-profile">
-		<div class="form-column">
-			<h4>Restrictions</h4>
-			<?php show_restrictions_frame($profile, $yes_no) ?>
-			
-			<br><br><br>
-			<h4>Blacklist</h4>
-			<?php show_blacklist_frame($profile, $yes_no) ?>
-		</div>
-		
-		<div class="form-column">
-			<h4>Configuration</h4>
-			<?php show_config_frame($profile, $yes_no) ?>
-		</div>
-	</div>
-	
-	<div class="form-frame-profile-pages">
-		<h4>Pages</h4>
-		<?php show_pages_frame($profile, $yes_no) ?>
-	</div>
-	
-	<div class="form-buttons">
-		<input type="submit" value="<?php echo $l->g(1363) ?>"/>
-		<input type="reset" value="<?php echo $l->g(1364) ?>"/>
-	</div>
-	
-	<?php
-		
-	echo close_form();
+    <h3><?php echo $l->g(1412) ?> (<?php echo $profile->getLabelTranslated() ?>)</h3>
+
+        <?php show_form_input('name', array('type' => 'hidden', 'value' => $profile->getName())) ?>
+        <?php show_form_field(array(), array(), 'input', 'new_label', $l->g(1413)) ?>
+
+        <div class="form-frame-profile">
+            <div class="form-column">
+                <h4>Restrictions</h4>
+                <?php show_restrictions_frame($profile, $yes_no) ?>
+
+                <br><br><br>
+                <h4>Blacklist</h4>
+                <?php show_blacklist_frame($profile, $yes_no) ?>
+            </div>
+
+            <div class="form-column">
+                <h4>Configuration</h4>
+                <?php show_config_frame($profile, $yes_no) ?>
+            </div>
+        </div>
+
+        <div class="form-frame-profile-pages">
+            <h4>Pages</h4>
+            <?php show_pages_frame($profile, $yes_no) ?>
+        </div>
+
+        <div class="form-buttons">
+            <input type="submit" value="<?php echo $l->g(1363) ?>"/>
+            <input type="reset" value="<?php echo $l->g(1364) ?>"/>
+        </div>
+
+        <?php
+        echo close_form();
 }
 
 function show_select_field($data, $key, $name, $label, $options) {

@@ -181,53 +181,53 @@ function admin_user($id_user = null, $is_my_account = false) {
     //$name_field[]="USER_GROUP";
 
 
-    $tab_name[]=$l->g(1366)." :";
-    $tab_name[]=$l->g(996)." :";
-    $tab_name[]=$l->g(1117)." :";
-    $tab_name[]=$l->g(51)." :";
+    $tab_name[] = $l->g(1366) . " :";
+    $tab_name[] = $l->g(996) . " :";
+    $tab_name[] = $l->g(1117) . " :";
+    $tab_name[] = $l->g(51) . " :";
     //$tab_name[]="Groupe de l'utilisateur: ";
 
 
-    $type_field[]= 0; 
-    $type_field[]= 0; 
-    $type_field[]= 0; 
-    $type_field[]= 0; 
-    //$type_field[]= 2; 
+    $type_field[] = 0;
+    $type_field[] = 0;
+    $type_field[] = 0;
+    $type_field[] = 0;
+    //$type_field[]= 2;
 
-    $tab_hidden['MODIF']=$id_user;
-    $sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
-    $arg=$id_user;
-    $res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-    $row=mysqli_fetch_object($res);
-    if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
-            $protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
-            $protectedPost['USER_GROUP']=$row->USER_GROUP;
-            $value_field=array($row->ID,$list_profil,$list_groups);
+    $tab_hidden['MODIF'] = $id_user;
+    $sql = "select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
+    $arg = $id_user;
+    $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+    $row = mysqli_fetch_object($res);
+    if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES') {
+        $protectedPost['ACCESSLVL'] = $row->NEW_ACCESSLVL;
+        $protectedPost['USER_GROUP'] = $row->USER_GROUP;
+        $value_field = array($row->ID, $list_profil, $list_groups);
     }
-    $value_field[]=$row->FIRSTNAME;
-    $value_field[]=$row->LASTNAME;
-    $value_field[]=$row->EMAIL;
-    $value_field[]=$row->COMMENTS;
+    $value_field[] = $row->FIRSTNAME;
+    $value_field[] = $row->LASTNAME;
+    $value_field[] = $row->EMAIL;
+    $value_field[] = $row->COMMENTS;
 
-    if ($_SESSION['OCS']['cnx_origine'] == "LOCAL"){
-            $name_field[]="PASSWORD";
-            $type_field[]=4;
-            $tab_name[]=$l->g(217)." :";
-            $value_field[]=$protectedPost['PASSWORD'];
+    if ($_SESSION['OCS']['cnx_origine'] == "LOCAL") {
+        $name_field[] = "PASSWORD";
+        $type_field[] = 4;
+        $tab_name[] = $l->g(217) . " :";
+        $value_field[] = $protectedPost['PASSWORD'];
     }
-    $tab_typ_champ=show_field($name_field,$type_field,$value_field);
-    foreach ($tab_typ_champ as $id=>$values){
-            $tab_typ_champ[$id]['CONFIG']['SIZE']=40;
+    $tab_typ_champ = show_field($name_field, $type_field, $value_field);
+    foreach ($tab_typ_champ as $id => $values) {
+        $tab_typ_champ[$id]['CONFIG']['SIZE'] = 40;
     }
-    if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES'){
-            $tab_typ_champ[2]["CONFIG"]['DEFAULT']="YES";
-    //	$tab_typ_champ[1]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
-            $tab_typ_champ[2]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+    if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_USER_GROUP') == 'YES') {
+        $tab_typ_champ[2]["CONFIG"]['DEFAULT'] = "YES";
+        //	$tab_typ_champ[1]['COMMENT_AFTER']="<a href=# onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_admin_profil']."&head=1\",\"admin_profil\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+        $tab_typ_champ[2]['COMMENT_AFTER'] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_adminvalues'] . "&head=1&tag=USER_GROUP\",\"admin_user_group\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
     }
 
     if (isset($tab_typ_champ)) {
 
-        foreach ($tab_name as $index => $fields){
+        foreach ($tab_name as $index => $fields) {
 
             $indexType = $tab_typ_champ[$index]['INPUT_TYPE'];
 
@@ -237,48 +237,46 @@ function admin_user($id_user = null, $is_my_account = false) {
             $inputName = $tab_typ_champ[$index]['INPUT_NAME'];
             $inputValue = $protectedPost[$inputName];
 
-            if($indexType == 0 ||
+            if ($indexType == 0 ||
                     $indexType == 1 ||
                     $indexType == 6 ||
                     $indexType == 10
-            ){
-                    $inputType = 'text';
-            } else if($indexType == 2){
-                    $inputType = 'select';
-                    $selectValues = $tab_typ_champ[$index]['DEFAULT_VALUE'];
-                    $inputValue = $protectedPost;
-                    // If data is sended with post
-                    if(isset($protectedPost[$inputName])){
-                        $tab_typ_champ[$index]['DEFAULT_VALUE'] = array($inputName => $protectedPost[$inputName]);
-                    }
-            } else if($indexType == 3){
-                    $inputType = 'hidden';
-            } else if($indexType == 4){
-                    $inputType = 'password';
-            } else if($indexType == 5){
-                    $inputType = 'checkbox';
-            } else if($indexType == 8){
-                    $inputType = 'button';
-            } else if($indexType == 9){
-                    $inputType = 'link';
+            ) {
+                $inputType = 'text';
+            } else if ($indexType == 2) {
+                $inputType = 'select';
+                $selectValues = $tab_typ_champ[$index]['DEFAULT_VALUE'];
+                $inputValue = $protectedPost;
+                // If data is sended with post
+                if (isset($protectedPost[$inputName])) {
+                    $tab_typ_champ[$index]['DEFAULT_VALUE'] = array($inputName => $protectedPost[$inputName]);
+                }
+            } else if ($indexType == 3) {
+                $inputType = 'hidden';
+            } else if ($indexType == 4) {
+                $inputType = 'password';
+            } else if ($indexType == 5) {
+                $inputType = 'checkbox';
+            } else if ($indexType == 8) {
+                $inputType = 'button';
+            } else if ($indexType == 9) {
+                $inputType = 'link';
             } else {
-                    $inputType = 'hidden';
+                $inputType = 'hidden';
             }
 
-            if($inputName == "ID" && $id_user != null){
+            if ($inputName == "ID" && $id_user != null) {
                 formGroup('hidden', 'MODIF', '', '', '', $id_user, '', '', '', '', '');
                 formGroup('text', $inputName, $fields, '', '', $id_user, '', $selectValues, $selectValues, 'readonly', '');
-            }else{
-                if($tab_typ_champ[$index]['COMMENT_AFTER'] === null){
+            } else {
+                if ($tab_typ_champ[$index]['COMMENT_AFTER'] === null) {
                     $tab_typ_champ[$index]['COMMENT_AFTER'] = "";
                 }
-                
-                formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
+
+                formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '', $tab_typ_champ[$index]['COMMENT_AFTER']);
             }
-
         }
-
-    }	
+    }
 }
 
 function updatePassword($id_user, $password) {

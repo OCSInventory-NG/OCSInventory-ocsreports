@@ -77,20 +77,20 @@ if (AJAX) {
 
     echo json_encode($response);
 } else {
-	$ajax = false;
-	
-	require_once('views/users_views.php');
-	require_once('require/function_search.php');
-	require_once('require/tables/TableRenderer.php');
-	
-	// HTML OUTPUT
-	echo "<div class='col col-md-2'>";
-	show_users_left_menu('ms_profiles');
-	echo "</div>";
-	
-	echo '<div class="col col-md-10">';
-	
-	echo '<h3>'.$l->g(1401).'</h3>';
+    $ajax = false;
+
+    require_once('views/users_views.php');
+    require_once('require/function_search.php');
+    require_once('require/tables/TableRenderer.php');
+
+    // HTML OUTPUT
+    echo "<div class='col col-md-2'>";
+    show_users_left_menu('ms_profiles');
+    echo "</div>";
+
+    echo '<div class="col col-md-10">';
+
+    echo '<h3>' . $l->g(1401) . '</h3>';
 
     $table_renderer = new TableRenderer();
     $table_renderer->show($table, $profiles);

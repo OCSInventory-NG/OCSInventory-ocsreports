@@ -111,20 +111,20 @@ if (!isset($info_id['ERROR'])) {
         ?>
         <div class="row">
 
-            <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+                    <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
 
-                <div class="form-group">
-                    <label class="control-label col-sm-4" for="choix_activ>"><?php echo $l->g(514); ?> :</label>
-                    <div class="col-sm-8">
-                        <?php echo show_modif($list_choise, 'choix_activ', 2, $form_name); ?>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="choix_activ>"><?php echo $l->g(514); ?> :</label>
+                            <div class="col-sm-8">
+                                <?php echo show_modif($list_choise, 'choix_activ', 2, $form_name); ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <?php
-    } else {
+                <?php
+            } else {
 
-        $protectedPost['choix_activ'] = "MAN";
+                $protectedPost['choix_activ'] = "MAN";
         echo "<input type='hidden' name='choix_activ' value='MAN'>";
     }
     echo "<br>";

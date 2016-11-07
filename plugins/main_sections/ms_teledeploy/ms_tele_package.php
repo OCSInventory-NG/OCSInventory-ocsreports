@@ -449,34 +449,34 @@ $list_os = array("WINDOWS", "LINUX", "MAC");
 $list_proto = array("HTTP");
 
 $arrayName = [
-	"os" => $l->g(25),
-	"name" => $l->g(49),
-	"visible" => $l->g(52),
-	"description" => $l->g(53),
-	"package_name" => $l->g(438),
-	"proto" => $l->g(439),
-	"prio" => $l->g(440),
-	"action" => $l->g(443),
-	"title_user_notif" => $l->g(447),
-	"warn_user" => $l->g(448),
-	"notify_text" => $l->g(449),
-	"notify_countdown" => $l->g(450),
-	"user_can_abort" => $l->g(451),
-	"user_can_delay" => $l->g(452),
-	"need_user_action" => $l->g(453),
-	"file" => $l->g(549),
-	"title_redistribution" => $l->g(628),
-	"redistribution" => $l->g(1008),
-	"path_remote_server" => $l->g(1009)
+    "os" => $l->g(25),
+    "name" => $l->g(49),
+    "visible" => $l->g(52),
+    "description" => $l->g(53),
+    "package_name" => $l->g(438),
+    "proto" => $l->g(439),
+    "prio" => $l->g(440),
+    "action" => $l->g(443),
+    "title_user_notif" => $l->g(447),
+    "warn_user" => $l->g(448),
+    "notify_text" => $l->g(449),
+    "notify_countdown" => $l->g(450),
+    "user_can_abort" => $l->g(451),
+    "user_can_delay" => $l->g(452),
+    "need_user_action" => $l->g(453),
+    "file" => $l->g(549),
+    "title_redistribution" => $l->g(628),
+    "redistribution" => $l->g(1008),
+    "path_remote_server" => $l->g(1009)
 ];
-$config_input=[
-	'MAXLENGTH'=>255,
-	'SIZE'=>50
+$config_input = [
+    'MAXLENGTH' => 255,
+    'SIZE' => 50
 ];
 $list_os = [
-	"WINDOWS" => "WINDOWS",
-	"LINUX" => "UNIX/LINUX",
-	"MAC" => "MACOS"
+    "WINDOWS" => "WINDOWS",
+    "LINUX" => "UNIX/LINUX",
+    "MAC" => "MACOS"
 ];
 $list_proto = ["HTTP"];
 
@@ -489,16 +489,16 @@ while ($i < 10) {
 $yes_no = array("0", "1");
 
 $list_action = [
-	"EXECUTE" => $l->g(456),
-	"STORE" => $l->g(457),
-	"LAUNCH" => $l->g(458)
+    "EXECUTE" => $l->g(456),
+    "STORE" => $l->g(457),
+    "LAUNCH" => $l->g(458)
 ];
 
 $arrayDisplayValue = [
-	"yes_no" => [
-		"0" => $l->g(454),
-		"1" => $l->g(455)
-	],
+    "yes_no" => [
+        "0" => $l->g(454),
+        "1" => $l->g(455)
+    ],
 ];
 $list_action = array("EXECUTE", "STORE", "LAUNCH");
 
@@ -527,7 +527,7 @@ formGroup('select', 'PROTOCOLE', $arrayName['proto'], '', $config_input['MAXLENG
 formGroup('select', 'PRIORITY', $arrayName['prio'], '', $config_input['MAXLENGTH'], $protectedPost, '', $list_prio, $list_prio);
 formGroup('file', 'teledeploy_file', $arrayName['file'], '', $config_input['MAXLENGTH'], $protectedPost['teledeploy_file'], '', '', "accept='archive/zip'");
 formGroup('select', 'ACTION', $arrayName['action'], '', $config_input['MAXLENGTH'], $protectedPost, '', $list_action, $list_action, "onchange='changeLabelAction()' ");
-formGroup('text', 'ACTION_INPUT', $l->g(444), '' ,$config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
+formGroup('text', 'ACTION_INPUT', $l->g(444), '', $config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
 
 echo "<br />";
 echo "<h4>" . $arrayName['title_redistribution'] . "</h4>";
@@ -559,7 +559,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     }
 </script>
 <?php
-formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', [0,1], [0 => 'No', 1 => 'Yes'], "onchange='redistributeUse()' ");
+formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', [0, 1], [0 => 'No', 1 => 'Yes'], "onchange='redistributeUse()' ");
 ?>
 <div id="REDISTRIB_USE_div" style="display: none;">
     <?php

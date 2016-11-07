@@ -21,18 +21,18 @@
  * MA 02110-1301, USA.
  */
 
-class MsStatsConnexion extends MsStats{
-    
-    public function getTabName(){
+class MsStatsConnexion extends MsStats {
+
+    public function getTabName() {
         global $l;
-        
+
         return $l->g(1255);
     }
-    
-    public function showForm(){
-        
+
+    public function showForm() {
+
         require('require/function_stats.php');
-        
+
         global $l;
         global $protectedPost;
 
@@ -42,7 +42,7 @@ class MsStatsConnexion extends MsStats{
             msg_info("No Files");
             return false;
         }
-        
+
         $fd = fopen($ms_cfg_file, "r");
         $max = 0;
         $array_profil[7] = $l->g(1259);
@@ -74,7 +74,7 @@ class MsStatsConnexion extends MsStats{
         fclose($fd);
         if (isset($find_connexion)) {
             echo '<CENTER><div id="chart" style="width: 700px; height: 500px"></div></CENTER>';
-            echo  '<script type="text/javascript">
+            echo '<script type="text/javascript">
             $(function() {
               $("#chart").chart({
               template: "line_speed_stat",
@@ -151,5 +151,5 @@ class MsStatsConnexion extends MsStats{
             msg_warning($l->g(766));
         }
     }
-    
+
 }

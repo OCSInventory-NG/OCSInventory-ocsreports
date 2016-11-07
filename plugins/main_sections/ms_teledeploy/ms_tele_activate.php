@@ -59,7 +59,7 @@ if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
     unset($protectedPost['MODIF']);
 }
 
-show_tabs($data_on,$form_name,"onglet",true);
+show_tabs($data_on, $form_name, "onglet", true);
 
 echo '<div class="col col-md-10" >';
 
@@ -301,18 +301,18 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     $tab_options['table_name'] = $table_name;
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     //only for profils who can activate packet
-    if (!$cant_active){		
-            del_selection($form_name);
-            if ($protectedPost['SHOW_SELECT'] == 'download'){
-                    $config_input=array('MAXLENGTH'=>10,'SIZE'=>15);
-                    $activ_manuel=show_modif($protectedPost['manualActive'],'manualActive',0,'',$config_input);
-                    echo "<br/><b>".$l->g(476)."</b>".$l->g(475).": ".$activ_manuel."  ";
-                    echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
-            }
+    if (!$cant_active) {
+        del_selection($form_name);
+        if ($protectedPost['SHOW_SELECT'] == 'download') {
+            $config_input = array('MAXLENGTH' => 10, 'SIZE' => 15);
+            $activ_manuel = show_modif($protectedPost['manualActive'], 'manualActive', 0, '', $config_input);
+            echo "<br/><b>" . $l->g(476) . "</b>" . $l->g(475) . ": " . $activ_manuel . "  ";
+            echo "<a href='#' OnClick='manualActive();'><img src='image/activer.png'></a>";
+        }
     }
-}elseif ( $protectedPost['onglet'] == "DELETED_PACKET") {
-    
-    if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
+} elseif ($protectedPost['onglet'] == "DELETED_PACKET") {
+
+    if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != '') {
         remove_packet($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';
     }

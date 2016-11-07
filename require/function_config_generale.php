@@ -813,7 +813,6 @@ function pageConnexion() {
     ligne('CONEX_LDAP_CHECK_FIELD2_VALUE', $l->g(1115), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD2_VALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_CHECK_FIELD2_ROLE', $l->g(1116), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD2_ROLE'], 'SELECT_VALUE' => $role1));
     ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'], 'SELECT_VALUE' => $default_role));
-
 }
 
 function pagesnmp() {
@@ -835,7 +834,6 @@ function pagesplugin() {
     $values = look_config_default_values($champs);
 
     ligne('OCS_SERVER_ADDRESS', 'Give your ocs server ip address', 'input', array('VALUE' => $values['tvalue']['OCS_SERVER_ADDRESS'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-
 }
 
 function pageswol() {

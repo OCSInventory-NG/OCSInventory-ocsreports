@@ -218,46 +218,45 @@ $resGroups = mysql2_query_secure($sql_groups, $_SESSION['OCS']["readServer"], $a
 
 if (mysqli_num_rows($resGroups) > 0) {
     while ($valGroups = mysqli_fetch_array($resGroups)) {
-
-?>
-
-<div class="row" xmlns="http://www.w3.org/1999/html">
-    <div class="col-md-12">
-        <p>
-<?php
-        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
-            echo $l->g(607)." <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_group_show'] . "&head=1&systemid=" . $valGroups["group_id"] . "' target='_blank'>" . $valGroups["name"] . "</a> (";
-        } else {
-            echo "<strong>" . $valGroups["name"] . "</strong>";
-        }
-
-        switch ($valGroups["static"]) {
-            case 0: echo "<span class='text-success'>" . $l->g(81) . " " . $l->g(596) . "</span>";
-                break;
-            case 1: echo "<span class='text-info'>" . $l->g(610) . "</span>";
-                break;
-            case 2: echo "<span class='text-danger'>" . $l->g(597) . "</span>";
-                break;
-        }
-
-        echo ")";
-        echo "<br />";
-
-        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
-            $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration&grp=" . $valGroups["group_id"];
-            switch ($valGroups["static"]) {
-                case 0: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=2'>" . $l->g(600) . "</a>";
-                    break;
-                case 1: echo "<a href='$hrefBase&actgrp=0' alt='" . $l->g(818) . "'><span class='glyphicon glyphicon-remove delete-span delete-span-xs'></span></a>";
-                    break;
-                case 2: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=0'>" . $l->g(41) . "</a>";
-                    break;
-            }
-        }
         ?>
-        </p>
-    </div>
-</div>
+
+        <div class="row" xmlns="http://www.w3.org/1999/html">
+            <div class="col-md-12">
+                <p>
+                    <?php
+                    if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
+                        echo $l->g(607) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_group_show'] . "&head=1&systemid=" . $valGroups["group_id"] . "' target='_blank'>" . $valGroups["name"] . "</a> (";
+                    } else {
+                        echo "<strong>" . $valGroups["name"] . "</strong>";
+                    }
+
+                    switch ($valGroups["static"]) {
+                        case 0: echo "<span class='text-success'>" . $l->g(81) . " " . $l->g(596) . "</span>";
+                            break;
+                        case 1: echo "<span class='text-info'>" . $l->g(610) . "</span>";
+                            break;
+                        case 2: echo "<span class='text-danger'>" . $l->g(597) . "</span>";
+                            break;
+                    }
+
+                    echo ")";
+                    echo "<br />";
+
+                    if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
+                        $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration&grp=" . $valGroups["group_id"];
+                        switch ($valGroups["static"]) {
+                            case 0: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=2'>" . $l->g(600) . "</a>";
+                                break;
+                            case 1: echo "<a href='$hrefBase&actgrp=0' alt='" . $l->g(818) . "'><span class='glyphicon glyphicon-remove delete-span delete-span-xs'></span></a>";
+                                break;
+                            case 2: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=0'>" . $l->g(41) . "</a>";
+                                break;
+                        }
+                    }
+                    ?>
+                        </p>
+                    </div>
+                </div>
 
         <?php
     }
@@ -267,27 +266,27 @@ if (mysqli_num_rows($resGroups) > 0) {
     <div class="col-md-4 col-md-offset-2">
         <select name="groupcombo" id="groupcombo" class="form-control">
 
-        <?php
-        $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration";
+            <?php
+            $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration";
 
-        $reqGroups = "SELECT h.name,h.id,h.workgroup
+            $reqGroups = "SELECT h.name,h.id,h.workgroup
 					  FROM hardware h,groups g
 					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
-        if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
-            $reqGroups .= " and workgroup = 'GROUP_4_ALL'";
-        }
-        $reqGroups .= " order by h.name";
-        $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
-        while ($valGroups = mysqli_fetch_array($resGroups)) {
-            echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
-        }
-        ?>
+            if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
+                $reqGroups .= " and workgroup = 'GROUP_4_ALL'";
+            }
+            $reqGroups .= " order by h.name";
+            $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
+            while ($valGroups = mysqli_fetch_array($resGroups)) {
+                echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+            }
+            ?>
         </select>
     </div>
     <div class="col-md-4">
         <script>
             function url(id) {
-                window.location="<?php echo $hrefBase; ?>&actgrp=1&grp=" + id.options[id.selectedIndex].value;
+                window.location = "<?php echo $hrefBase; ?>&actgrp=1&grp=" + id.options[id.selectedIndex].value;
             }
         </script>
         <a class="btn btn-success" OnClick=url(document.getElementById("groupcombo")) ><?php echo $l->g(589) ?></a>
@@ -297,7 +296,7 @@ if (mysqli_num_rows($resGroups) > 0) {
     <div class="col-md-12">
         <?php
         if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
-        echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" alt=". $l->g(2122) ." class='btn btn-success'>". $l->g(2122) ."</a>";
+            echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" alt=" . $l->g(2122) . " class='btn btn-success'>" . $l->g(2122) . "</a>";
         }
         ?>
     </div>

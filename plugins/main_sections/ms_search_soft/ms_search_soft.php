@@ -39,7 +39,7 @@ echo "\n" . '<script type="text/javascript">
 ?>
 <div class="row">
     <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
-            <?php remplirListe("logiciel_select", $l->g(20)); ?>
+        <?php remplirListe("logiciel_select", $l->g(20)); ?>
     </div>
 </div>
 <div class="row">

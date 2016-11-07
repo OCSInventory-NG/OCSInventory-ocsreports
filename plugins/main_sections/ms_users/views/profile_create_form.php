@@ -23,36 +23,32 @@
 require_once 'require/function_users.php';
 
 function show_profile_create_form() {
-	global $l;
-	global $protectedPost;
+    global $l;
+    global $protectedPost;
+    ?>
 
-	?>
+    <h3><?php echo $l->g(1399) ?></h3>
 
-		<h3><?php echo $l->g(1399) ?></h3>
-		
-		<?php
-		
-		$field_options = array('field_class' => 'big-label');
-		
-		echo open_form('create-profile', '#', '', 'form-horizontal');
-		
+        <?php
+        $field_options = array('field_class' => 'big-label');
 
-		formGroup('text', 'name', $l->g(1396), '', '', $protectedPost['name']);
-		formGroup('text', 'label', $l->g(1397), '', '', $protectedPost['label']);
-		formGroup('select', 'duplicate_profile', $l->g(1398), '', '', $protectedPost['duplicate_profile'], '', get_profile_labels(), get_profile_labels());
+    echo open_form('create-profile', '#', '', 'form-horizontal');
 
 
-	?>
+    formGroup('text', 'name', $l->g(1396), '', '', $protectedPost['name']);
+    formGroup('text', 'label', $l->g(1397), '', '', $protectedPost['label']);
+    formGroup('select', 'duplicate_profile', $l->g(1398), '', '', $protectedPost['duplicate_profile'], '', get_profile_labels(), get_profile_labels());
+    ?>
 
-		<div class="row">
-			<div class="col-md-12">
-				<input type="submit"  class="btn btn-success" value="<?php echo $l->g(1363) ?>"/>
-				<input type="reset" class="btn btn-danger" value="<?php echo $l->g(1364) ?>"/>
-			</div>
-		</div>
-		
-		<?php echo close_form() ?>
-	
-	<?php
-}
-?>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit"  class="btn btn-success" value="<?php echo $l->g(1363) ?>"/>
+                <input type="reset" class="btn btn-danger" value="<?php echo $l->g(1364) ?>"/>
+            </div>
+        </div>
+
+        <?php echo close_form() ?>
+
+        <?php
+    }
+    ?>

@@ -94,22 +94,22 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
                     echo $optPerso[$lbl]["IVALUE"];
                 }
                 ?>
-            </p>
-        </div>
-        <div class="col col-md-6">
-            <p>
-                <?php
-                // TODO: Strange spaces on display page
-                echo $l->g(488). " (".$default_value;
-                if(isset($end)){
-                    echo " ".$end;
-                }
-                echo ")";
+                </p>
+            </div>
+            <div class="col col-md-6">
+                <p>
+                    <?php
+                    // TODO: Strange spaces on display page
+                    echo $l->g(488) . " (" . $default_value;
+                    if (isset($end)) {
+                        echo " " . $end;
+                    }
+                    echo ")";
                 ?>
-            </p>
+                </p>
+            </div>
         </div>
-    </div>
-    <hr />
-    <?php
-}
-?>
+        <hr />
+        <?php
+    }
+    ?>

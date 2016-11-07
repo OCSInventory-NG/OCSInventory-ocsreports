@@ -21,34 +21,33 @@
  * MA 02110-1301, USA.
  */
 
-class MsStats{
-    
+class MsStats {
     public $form_name = "stats";
-    
+
     /**
      * Return header name for page
      * @return String
      */
-    public function getHeaderName(){
+    public function getHeaderName() {
         global $l;
-        
+
         return $l->g(1251);
     }
-    
+
     /**
      * Return form name for page
      * @return String
      */
-    static public function getFormName(){
+    static public function getFormName() {
         return "stats";
     }
-    
+
     /**
      * Check for all available stats page
      * By default : Connexion Top / Bad Connexion / Top software
      * @return Array : Class names of available pages
      */
-    public function checkForStatsPages(){
+    public function checkForStatsPages() {
         $pages_names = array();
         foreach ($_SESSION['OCS']['url_service']->getUrls() as $name => $url) {
             if (substr($name, 0, 9) == 'ms_stats_' && $url['directory'] == 'ms_stats') {
@@ -56,18 +55,18 @@ class MsStats{
                 $pages_names[] = $name;
             }
         }
-        
+
         return $pages_names;
     }
-    
+
     /**
      * Generate tab data from available stats pages
      * 
      * @param Array $available_pages : Array of available stats page
      * 
      * @return Array : Data on for show tabs
-     */ 
-    public function createShowTabsArray($available_pages){
+     */
+    public function createShowTabsArray($available_pages) {
         $data_on = array();
         foreach ($available_pages as $key => $value) {
             $class = new $value();
@@ -75,7 +74,7 @@ class MsStats{
         }
         return $data_on;
     }
-    
+
     /**
      * Create and display data of the stats form
      * 
@@ -83,19 +82,17 @@ class MsStats{
      * @param String $default_display : Default value if no onglet selected
      * 
      * @return HTML
-     */ 
-    public function generateStatsData($post_data, $default_display){
-        
-        if(isset($post_data['onglet'])){
+     */
+    public function generateStatsData($post_data, $default_display) {
+
+        if (isset($post_data['onglet'])) {
             $used_class = $post_data['onglet'];
-        }else{
+        } else {
             $used_class = $default_display;
         }
-        
+
         $class = new $used_class();
         $class->showForm();
-        
     }
- 
-}
 
+}

@@ -76,20 +76,18 @@ $tab_options['form_name'] = $form_name;
 
 echo open_form($form_name, '', '', 'form-horizontal');
 //view all groups
-if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
-	$def_onglets['DYNA']=$l->g(810); //Dynamic group
-	$def_onglets['STAT']=$l->g(809); //Static group centraux
-	if ($_SESSION['OCS']["use_redistribution"] == 1)
-		$def_onglets['SERV']=mb_strtoupper($l->g(651));
-	if ($protectedPost['onglet'] == "")
-	$protectedPost['onglet']="STAT";	
-	//show onglet
-	show_tabs($def_onglets,$form_name,"onglet",true);
-	echo '<div class="col col-md-10">';
-
-
-}else{	
-	$protectedPost['onglet']="STAT";
+if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
+    $def_onglets['DYNA'] = $l->g(810); //Dynamic group
+    $def_onglets['STAT'] = $l->g(809); //Static group centraux
+    if ($_SESSION['OCS']["use_redistribution"] == 1)
+        $def_onglets['SERV'] = mb_strtoupper($l->g(651));
+    if ($protectedPost['onglet'] == "")
+        $protectedPost['onglet'] = "STAT";
+    //show onglet
+    show_tabs($def_onglets, $form_name, "onglet", true);
+    echo '<div class="col col-md-10">';
+}else {
+    $protectedPost['onglet'] = "STAT";
 }
 
 $list_fields = array('GROUP_NAME' => 'h.NAME',
@@ -198,16 +196,16 @@ if (isset($protectedPost['add_static_group']) && $_SESSION['OCS']['profile']->ge
             formGroup('text', 'NAME', $l->g(577), '20', '', $protectedPost['NAME']);
             formGroup('text', 'DESCR', $l->g(53), '', '', $protectedPost['DESCR']);
             ?>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-            <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
+                <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
+            </div>
         </div>
-    </div>
-    <?php
-}
+        <?php
+    }
 echo '</div>';
 //fermeture du formulaire
 echo close_form();

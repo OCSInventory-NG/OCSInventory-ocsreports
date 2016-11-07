@@ -35,27 +35,27 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
-if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
-	if (!in_array($protectedGet['value'],$_SESSION['OCS']["subnet_ipdiscover"])){
-		msg_error($l->g(837));
-		require_once(FOOTER_HTML);
-		die();	
-	}
-	$protectedPost['onglet'] = 'ADMIN_RSX';
-	$protectedPost['MODIF']=$protectedGet['value'];
-	$left_menu_displayed=false;
-}else{
-	$data_on['ADMIN_RSX']=$l->g(1140);
-	$data_on['ADMIN_TYPE']=$l->g(836);
-	
-	if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES')
-		$data_on['ADMIN_SMTP']=$l->g(1205);
-	
-	if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
-	unset($protectedPost['MODIF']);	
-	
-	show_tabs($data_on,$form_name,"onglet",true);
-	$left_menu_displayed=true;
+if (isset($protectedGet['value']) and $protectedGet['value'] != '') {
+    if (!in_array($protectedGet['value'], $_SESSION['OCS']["subnet_ipdiscover"])) {
+        msg_error($l->g(837));
+        require_once(FOOTER_HTML);
+        die();
+    }
+    $protectedPost['onglet'] = 'ADMIN_RSX';
+    $protectedPost['MODIF'] = $protectedGet['value'];
+    $left_menu_displayed = false;
+} else {
+    $data_on['ADMIN_RSX'] = $l->g(1140);
+    $data_on['ADMIN_TYPE'] = $l->g(836);
+
+    if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES')
+        $data_on['ADMIN_SMTP'] = $l->g(1205);
+
+    if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
+        unset($protectedPost['MODIF']);
+
+    show_tabs($data_on, $form_name, "onglet", true);
+    $left_menu_displayed = true;
 }
 
 echo '<div class="col col-md-10" >';

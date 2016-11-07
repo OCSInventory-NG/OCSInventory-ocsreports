@@ -43,11 +43,11 @@ function show_computer_menu($computer_id) {
         //if ($activeMenu == $url) {
         //    echo "class='active'";
         //}
-        echo " ><a href=' ".$menu_renderer->getUrl($menu_elem) ."'>" . $label . "</a></li>";
+        echo " ><a href=' " . $menu_renderer->getUrl($menu_elem) . "'>" . $label . "</a></li>";
     }
 
-	echo '</ul>';
-	echo '</div>';
+    echo '</ul>';
+    echo '</div>';
 }
 
 function show_computer_title($computer) {
@@ -199,7 +199,6 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
             echo '</div>';
         }
     }
-
 }
 
 ?>

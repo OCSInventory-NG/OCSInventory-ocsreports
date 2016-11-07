@@ -21,13 +21,13 @@
  * MA 02110-1301, USA.
  */
 if (!AJAX) {
-	require_once 'views/users_views.php';
+    require_once 'views/users_views.php';
 
     echo "<div class='col col-md-2'>";
-	show_users_left_menu('ms_users');
+    show_users_left_menu('ms_users');
     echo "</div>";
-	
-	echo '<div class="col col-md-10">';
+
+    echo '<div class="col col-md-10">';
 }
 
 require_once 'require/function_users.php';
@@ -43,20 +43,17 @@ if (isset($protectedPost['Valid_modif'])) {
 echo open_form('my_account', '', '', 'form-horizontal');
 
 admin_user($_GET['user_id']);
-
 ?>
-    <div class="row">
-        <div class="col-md-12">
-            <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-            <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
-        </div>
+<div class="row">
+    <div class="col-md-12">
+        <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
+        <input type="submit" name="Reset_modif" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
     </div>
+</div>
 <?php
-
 echo close_form();
 
 if (!AJAX) {
     echo '</div>';
 }
-
 ?>

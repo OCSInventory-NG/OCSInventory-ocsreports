@@ -276,8 +276,8 @@ if ($server_group) {
     echo "</tr></table>";
 
 
-    if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
-        echo "<br><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn' >".$l->g(501)."</a><br><br> ";
+    if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
+        echo "<br><a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_pack'] . "&head=1&idchecked=" . $systemid . "&origine=mach\" class='btn' >" . $l->g(501) . "</a><br><br> ";
     }
 
 

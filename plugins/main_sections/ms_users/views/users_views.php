@@ -34,13 +34,13 @@ function show_users_left_menu($activeMenu = null) {
 
 
     echo '<ul class="nav nav-pills nav-stacked navbar-left">';
-    foreach ($menu as $key=>$value){
+    foreach ($menu as $key => $value) {
 
         echo "<li ";
         if ($activeMenu == $value[1]) {
             echo "class='active'";
         }
-        echo " ><a href='?function=".$key."'>".$value[0]."</a></li>";
+        echo " ><a href='?function=" . $key . "'>" . $value[0] . "</a></li>";
     }
     echo '</ul>';
 }
