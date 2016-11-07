@@ -423,7 +423,7 @@ if ($url_name) {
 		}
 		//Here we parse the form
 		if ($csrf) {
-			msg_error("<big>CSRF ATTACK!!!</big>");
+			msg_error("<b>CSRF ATTACK!!!</b>");
 			require_once(FOOTER_HTML);
 			die();
 		}

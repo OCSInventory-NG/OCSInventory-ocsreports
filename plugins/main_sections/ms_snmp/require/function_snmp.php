@@ -84,7 +84,7 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
 	$data_exist = false;
 	$show_table = "<table ALIGN = 'Center' class='" . $class . "' ><tr><td align =center colspan=20>";
 	if ($title != '') {
-		$show_table .= "<i><b><big>" . $title . "</big></b><br><br></i></td></tr><tr><td align =center>";
+		$show_table .= "<i><b><b>" . $title . "</b></b><br><br></i></td></tr><tr><td align =center>";
 	}
 	$show_table .= "		<table align=center border='0' width='100%'  ><tr>";
 	$i = 0;

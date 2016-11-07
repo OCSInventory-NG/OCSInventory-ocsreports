@@ -218,7 +218,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
                 $msg_tooltip .= "<div " . $tooltip . ">" . $values . "</div>";
             }
         }
-        msg_error("<big>" . $l->g(1263) . "</big><br>" . $msg_tooltip, "top_msg_alert");
+        msg_error("<b>" . $l->g(1263) . "</b><br>" . $msg_tooltip, "top_msg_alert");
     }
 //warning are detected
     if ($msg_header_warning != array()) {
