@@ -23,8 +23,9 @@
 require_once('require/function_search.php');
 PrintEnTete($l->g(976));
 $form_name = "lock_affect";
-echo open_form($form_name);
-echo "<div align=center>";
+echo open_form($form_name, '', '', 'form-horizontal');
+echo "<div class='row'>";
+echo "<div class='col-md-12'>";
 $list_id = multi_lot($form_name, $l->g(601));
 if (is_defined($protectedPost['LOCK'])) {
     if (isset($_SESSION['OCS']["mesmachines"])) {
@@ -41,6 +42,7 @@ if ($protectedPost['CHOISE'] != "") {
     echo "<br><br>" . $l->g(979);
     echo "<br><br><input type='submit' value=" . $l->g(977) . " name='LOCK' class='btn'>";
 }
+echo "</div>";
 echo "</div>";
 echo close_form();
 ?>

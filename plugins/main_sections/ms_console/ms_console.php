@@ -69,7 +69,7 @@ if ($data_tab['DATA'] != array()){
 		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) and $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
 			echo "<img src='image/success.png'>";
 		else
-			echo "<img src='image/modif_tab.png'>";
+			echo "<span class='glyphicon glyphicon-edit'></span>";
 		echo "</a></td></tr></table>";
 	}
 	if ($data_on['DATA'][$protectedPost['onglet']]){

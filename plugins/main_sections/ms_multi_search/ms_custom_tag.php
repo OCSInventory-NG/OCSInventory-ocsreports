@@ -24,8 +24,9 @@ require_once('require/function_search.php');
 require_once('require/function_admininfo.php');
 $form_name = "lock_affect";
 
-echo open_form($form_name);
-echo "<div align=center>";
+echo open_form($form_name, '', '', 'form-horizontal');
+echo "<div class='row'>";
+echo "<div class='col-md-12'>";
 $list_id = multi_lot($form_name, $l->g(601));
 if (is_defined($list_id)) {
     //cas of TAG INFO
@@ -37,7 +38,7 @@ if (is_defined($list_id)) {
             if (substr($field, 0, 5) == "check") {
                 $temp = substr($field, 5);
                 if (array_key_exists($temp, $info_account_id)) {
-                    //cas of checkbox
+                    //cas of checkboxtag_seach
                     foreach ($protectedPost as $field2 => $value2) {
                         $casofcheck = explode('_', $field2);
                         if ($casofcheck[0] . '_' . $casofcheck[1] == $temp) {
@@ -145,11 +146,10 @@ if (is_defined($list_id)) {
                     $i++;
                 }
             }
-            tab_modif_values($tab_name, $tab_typ_champ, array('TAG_MODIF' => $protectedPost['MODIF'], 'FIELD_FORMAT' => $type_field[$protectedPost['MODIF']]), array(
+            modif_values($tab_name, $tab_typ_champ, array('TAG_MODIF' => $protectedPost['MODIF'], 'FIELD_FORMAT' => $type_field[$protectedPost['MODIF']]), array(
                 'title' => $l->g(895)
             ));
         } elseif ($protectedPost['onglet'] == "SUP_PACK") {
-            echo "<div class='mvt_bordure'>";
             $queryDetails = "select d_a.fileid,d_a.name
 									from download_available d_a, download_enable d_e
 									where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
@@ -177,10 +177,7 @@ if (is_defined($list_id)) {
                 }
                 echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "' class='btn'>";
             }
-
-            echo "</div>";
         } elseif ($protectedPost['onglet'] == "WOL") {
-            echo "<div class='mvt_bordure'>";
             echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "' class='btn'>";
             echo "</div>";
         }

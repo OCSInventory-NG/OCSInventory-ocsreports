@@ -143,7 +143,6 @@ if (!isset($protectedPost['ADD_FILE'])) {
 }
 
 if (is_defined($protectedPost['ADD_FILE'])) {
-    $css = "mvt_bordure";
     $form_name1 = "SEND_FILE";
     //search max_allowed_packet value on mysql conf
     $sql = "SHOW VARIABLES LIKE 'max_allowed_packet'";
@@ -153,10 +152,12 @@ if (is_defined($protectedPost['ADD_FILE'])) {
     $upload_max_filesize = $value['Value'] / 1048576;
 
     msg_info($l->g(2022) . ' ' . $valBumf . $l->g(1240) . "<br>" . $l->g(2106) . " " . $upload_max_filesize . $l->g(1240));
-    echo open_form($form_name1, '', "enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
-    echo '<div class="' . $css . '" >';
-    echo $l->g(1048) . ": <input id='file_upload' name='file_upload' type='file' accept=''>";
-    echo "<br /><br /><input name='GO' class='btn btn-success' id='GO' type='submit' value='" . $l->g(13) . "'>&nbsp;&nbsp;";
+    echo open_form($form_name1, '', "enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"", 'form-horizontal');
+    echo '<div class="row">';
+    echo '<div class="col-md-12">';
+    formGroup('file', 'file_upload', $l->g(1048));
+    echo "<input name='GO' class='btn btn-success' id='GO' type='submit' value='" . $l->g(13) . "'>";
+    echo "</div>";
     echo "</div>";
     echo close_form();
     echo "<br>";

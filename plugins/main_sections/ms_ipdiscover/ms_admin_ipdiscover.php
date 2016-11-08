@@ -44,6 +44,7 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	$protectedPost['onglet'] = 'ADMIN_RSX';
 	$protectedPost['MODIF']=$protectedGet['value'];
 	$left_menu_displayed=false;
+    echo '<div class="col col-md-12">';
 }else{
 	$data_on['ADMIN_RSX']=$l->g(1140);
 	$data_on['ADMIN_TYPE']=$l->g(836);
@@ -56,9 +57,9 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	
 	show_tabs($data_on,$form_name,"onglet",true);
 	$left_menu_displayed=true;
+    echo '<div class="col col-md-10">';
 }
 
-echo '<div class="col col-md-10" >';
 if ($protectedPost['onglet'] == 'ADMIN_RSX') {
     $method = verif_base_methode('OCS');
     if (!$method) {
@@ -194,7 +195,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         $tab_typ_champ[0]['INPUT_TYPE'] = 0;
         $tab_name[0] = $l->g(938) . ": ";
         $tab_hidden['pcparpage'] = $protectedPost["pcparpage"];
-        tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+        modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
             'title' => $title,
             'show_frame' => false
         ));
