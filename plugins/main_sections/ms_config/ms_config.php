@@ -74,7 +74,7 @@ if (is_defined($MAJ)) {
 }
 printEnTete($l->g(107));
 $form_name = 'modif_onglet';
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 show_tabs($def_onglets,$form_name,"onglet",true);
 echo '<div class="col col-md-10">';
 switch ($protectedPost['onglet']) {
