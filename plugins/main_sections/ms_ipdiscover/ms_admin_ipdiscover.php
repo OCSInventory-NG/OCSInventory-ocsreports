@@ -195,7 +195,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         $tab_typ_champ[0]['INPUT_TYPE'] = 0;
         $tab_name[0] = $l->g(938) . ": ";
         $tab_hidden['pcparpage'] = $protectedPost["pcparpage"];
-        tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+        modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
             'title' => $title,
             'show_frame' => false
         ));

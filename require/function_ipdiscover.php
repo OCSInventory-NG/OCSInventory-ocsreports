@@ -196,7 +196,7 @@ function form_add_community($title = '', $default_value, $form) {
     }
     $tab_hidden['ADD_COMM'] = $protectedPost['ADD_COMM'];
     $tab_hidden['ID'] = $protectedPost['ID'];
-    tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+    modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
         'title' => $title,
         'show_frame' => false
     ));
