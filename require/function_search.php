@@ -535,7 +535,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
                     $choise_req_selection['SEL'] = $l->g(585);
                 }
                 $choise_req_selection[] = " ";
-                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='document.".$form_name."_affect.submit();'");
+                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
             }
             if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '') {
                 msg_info($l->g(901));
