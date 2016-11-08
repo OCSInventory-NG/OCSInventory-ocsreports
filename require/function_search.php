@@ -534,8 +534,8 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
                 } else {
                     $choise_req_selection['SEL'] = $l->g(585);
                 }
-                $select_choise = show_modif($choise_req_selection, 'CHOISE', 2, $form_name);
-                echo "<center>" . $lbl_choise . " " . $select_choise . "</center><br>";
+                $choise_req_selection[] = " ";
+                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='document.lock_affect.submit();'");
             }
             if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '') {
                 msg_info($l->g(901));
