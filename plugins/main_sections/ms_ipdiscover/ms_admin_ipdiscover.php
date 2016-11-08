@@ -58,7 +58,7 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	$left_menu_displayed=true;
 }
 
-echo '<div class="col col-md-10" >';
+echo '<div class="col col-md-12">';
 if ($protectedPost['onglet'] == 'ADMIN_RSX') {
     $method = verif_base_methode('OCS');
     if (!$method) {

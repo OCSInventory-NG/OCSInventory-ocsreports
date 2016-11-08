@@ -64,7 +64,6 @@ function form_add_subnet($title = '', $default_value, $form) {
     }
 
     $value_field = array($default_value['RSX_NAME'], $default_value['ID_NAME'], $default_value['ADD_IP'], $default_value['ADD_SX_RSX']);
-    var_dump($default_value);
 
     $tab_typ_champ = show_field($name_field, $type_field, $value_field);
     foreach ($tab_typ_champ as $id => $values) {
