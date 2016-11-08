@@ -182,7 +182,7 @@ add_trait_select($list_fonct, $list_id, $form_name, $list_pag, true);
 echo "<br><br>";
 
 if ($entete && $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
-    echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-trash'></span></a>";
+    echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-remove delete-span'></span></a>";
     echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
 }
 

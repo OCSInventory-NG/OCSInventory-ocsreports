@@ -1519,175 +1519,175 @@ function ajaxlimit($tab_options) {
 
 //fonction qui met en forme les resultats
 /*
- * ResultDetails : Query return
- * $resultDetails = mysqli_result
- * $list_fields : Each available column of the table
- * $list_fields = array {
- * 						'NAME'=>'h.name', ...
- * 						'Column name' => Database value,
- * 						 }
- * Tab_options : All the options for the specific table
- * $tab_options= array{
- * 						'form_name'=> "show_all",....
- * 						'Option' => value,
- * 						}
- */
-function ajaxgestionresults($resultDetails, $list_fields, $tab_options) {
-    global $protectedPost, $l, $pages_refs;
-    $form_name = $tab_options['form_name'];
-    $_SESSION['OCS']['list_fields'][$tab_options['table_name']] = $list_fields;
-    $_SESSION['OCS']['col_tab'][$tab_options['table_name']] = array_flip($list_fields);
-    if ($resultDetails) {
-        if (isset($tab_options['JAVA']['CHECK'])) {
-            $javascript = "OnClick='confirme(\"" . htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES) . "\"," . $value_of_field . ",\"" . $form_name . "\",\"CONFIRM_CHECK\",\"" . htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES) . " \")'";
-        } else {
-            $javascript = "";
-        }
-
-        while ($row = mysqli_fetch_assoc($resultDetails)) {
-            if (isset($tab_options['AS'])) {
-                foreach ($tab_options['AS'] as $k => $v) {
-                    if ($v != "SNAME") {
-                        $n = explode('.', $k);
-                        $n = end($n);
-                        $row[$n] = $row[$v];
-                    }
-                }
-            }
-            $row_temp = $row;
-            foreach ($row as $rowKey => $rowValue) {
-                $row[$rowKey] = htmlentities($rowValue);
-            }
-            foreach ($list_fields as $key => $column) {
-                $name = explode('.', $column);
-                $column = end($name);
-                $value_of_field = $row[$column];
-                switch ($key) {
-                    case "CHECK":
-                        if ($value_of_field != '&nbsp;') {
-                            $row[$key] = "<input type='checkbox' name='check" . $value_of_field . "' id='check" . $value_of_field . "' " . $javascript . " " . (isset($tab_options['check' . $value_of_field]) ? " checked " : "") . ">";
-                        }
-                        break;
-                    case "SUP":
-                        if ($value_of_field != '&nbsp;') {
-                            if (isset($tab_options['LBL_POPUP'][$key])) {
-                                if (isset($row[$tab_options['LBL_POPUP'][$key]]))
-                                    $lbl_msg = $l->g(640) . " " . $row_temp[$tab_options['LBL_POPUP'][$key]];
-                                else
-                                    $lbl_msg = $tab_options['LBL_POPUP'][$key];
-                            } else
-                                $lbl_msg = $l->g(640) . " " . $value_of_field;
-                            $row[$key] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SUP_PROF\",\"" . htmlspecialchars($lbl_msg, ENT_QUOTES) . "\");'><span class='glyphicon glyphicon-remove'></span></a>";
-                        }
-                        break;
-                    case "NAME":
-                        if (!isset($tab_options['NO_NAME']['NAME'])) {
-                            $link_computer = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1";
-                            if ($row['ID'])
-                                $link_computer .= "&systemid=" . $row['ID'];
-                            if ($row['MD5_DEVICEID'])
-                                $link_computer .= "&crypt=" . $row['MD5_DEVICEID'];
-                            $row[$column] = "<a href='" . $link_computer . "'>" . $value_of_field . "</a>";
-                        }
-                        break;
-                    case "GROUP_NAME":
-                        $row['NAME'] = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_group_show'] . "&head=1&systemid=" . $row['ID'] . "' target='_blank'>" . $value_of_field . "</a>";
-                        break;
-                    case "NULL":
-                        $row[$key] = "&nbsp";
-                        break;
-                    case "MODIF":
-                        if (!isset($tab_options['MODIF']['IMG']))
-                            $image = "image/modif_tab.png";
-                        else
-                            $image = $tab_options['MODIF']['IMG'];
-                        $row[$key] = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"MODIF\",\"" . $form_name . "\");'><img src=" . $image . "></a>";
-                        break;
-                    case "SELECT":
-                        $row[$key] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SELECT\",\"" . htmlspecialchars($tab_options['QUESTION']['SELECT'], ENT_QUOTES) . "\");'><img src=image/prec16.png></a>";
-                        $lien = 'KO';
-                        break;
-                    case "OTHER":
-                        $row[$key] = "<a href=#  OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER\",\"" . $form_name . "\");'><img src=image/red.png></a>";
-                        break;
-                    case "ZIP":
-                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_compress'] . "&no_header=1&timestamp=" . $value_of_field . "&type=" . $tab_options['TYPE']['ZIP'] . "\"><img src=image/archives.png></a>";
-                        break;
-                    case "STAT":
-                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $value_of_field . "\"><img src='image/stat.png'></a>";
-                        break;
-                    case "ACTIVE":
-                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active=" . $value_of_field . "\"><img src='image/activer.png' ></a>";
-                        break;
-                    case "SHOWACTIVE":
-                        if (!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])) {
-                            $row[$column] = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_actives'] . "&head=1&timestamp=" . $row['FILEID'] . "' >" . $value_of_field . "</a>";
-                        }
-                        break;
-                    case "MAC":
-                        if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))]))
-                            $constr = $_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))];
-                        else
-                            $constr = "<font color=red>" . $l->g(885) . "</font>";
-                        $row[$key] = $value_of_field . " (<small>" . $constr . "</small>)";
-                        break;
-                    case "MOD_TAGS":
-                        if ($value_of_field != '&nbsp;') {
-                            $row[$key] = "<center><a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_perim'] . "&head=1&id=" . $value_of_field . "' ><img src='image/modif_tab.png'></a><center>";
-                        }
-                        break;
-                    default :
-                        if (substr($key, 0, 11) == "PERCENT_BAR") {
-                            //require_once("function_graphic.php");
-                            //echo percent_bar($value_of_field);
-                            $row[$column] = "<CENTER>" . percent_bar($value_of_field) . "</CENTER>";
-                        }
-                        if (!empty($tab_options['REPLACE_VALUE'][$key])) {
-                            $row[$column] = $tab_options['REPLACE_VALUE'][$key][$value_of_field];
-                        }
-                        if (!empty($tab_options['VALUE'][$key])) {
-                            if (!empty($tab_options['LIEN_CHAMP'][$key])) {
-                                $value_of_field = $tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
-                            } else {
-                                $row[$column] = $tab_options['VALUE'][$key][$row['ID']];
-                            }
-                        }
-                        if (!empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])) {
-                            $row[$column] = $tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
-                        }
-                        if (!empty($tab_options['LIEN_LBL'][$key])) {
-                            $row[$column] = "<a href='" . $tab_options['LIEN_LBL'][$key] . $row[$tab_options['LIEN_CHAMP'][$key]] . "'>" . $value_of_field . "</a>";
-                        }
-                        if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])) {
-                            $row[$tab_options['REPLACE_COLUMN_KEY'][$key]] = $row[$column];
-                            unset($row[$column]);
-                        }
-                }
-                if (!empty($tab_options['COLOR'][$key])) {
-                    $row[$column] = "<font color='" . $tab_options['COLOR'][$key] . "'>" . $row[$column] . "</font>";
-                }
-                if (!empty($tab_options['SHOW_ONLY'][$key])) {
-                    if (empty($tab_options['SHOW_ONLY'][$key][$value_of_field]) && empty($tab_options['EXIST'][$key]) || (reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])) {
-                        $row[$key] = "";
-                    }
-                }
-            }
-            $actions = array(
-                "MODIF",
-                "SUP",
-                "ZIP",
-                "STAT",
-                "ACTIVE",
-            );
-            foreach ($actions as $action) {
-                $row['ACTIONS'] .= " " . $row[$action];
-            }
-            $rows[] = $row;
-        }
-    } else {
-        $rows = 0;
-    }
-    return $rows;
+* ResultDetails : Query return 
+* $resultDetails = mysqli_result 
+* $list_fields : Each available column of the table
+* $list_fields = array {  
+* 						'NAME'=>'h.name', ...
+* 						'Column name' => Database value,
+* 						 }
+* Tab_options : All the options for the specific table
+* $tab_options= array{
+* 						'form_name'=> "show_all",....
+* 						'Option' => value,
+* 						}
+*/
+function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
+	global $protectedPost,$l,$pages_refs;
+	$form_name=$tab_options['form_name'];
+	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
+	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
+	if($resultDetails){
+		if (isset($tab_options['JAVA']['CHECK'])){
+			$javascript="OnClick='confirme(\"".htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
+		}else{
+			$javascript="";
+		}
+			
+		while($row = mysqli_fetch_assoc($resultDetails))
+		{
+			if (isset($tab_options['AS'])){
+				foreach($tab_options['AS'] as $k=>$v){
+					if($v!="SNAME"){
+						$n = explode('.',$k);
+						$n = end($n);
+						$row[$n]= $row[$v];
+					}
+				}
+			}
+			$row_temp = $row;
+			foreach($row as $rowKey=>$rowValue){
+				$row[$rowKey]=htmlentities($rowValue);
+			}
+			foreach($list_fields as $key=>$column){
+				$name = explode('.',$column);
+				$column = end($name);
+				$value_of_field = $row[$column];
+				switch($key){
+					case "CHECK":
+						if ($value_of_field!= '&nbsp;'){
+							$row[$key] = "<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($tab_options['check'.$value_of_field])? " checked ": "").">";
+						}
+						break;
+					case "SUP":
+						if ( $value_of_field!= '&nbsp;'){
+							if (isset($tab_options['LBL_POPUP'][$key])){
+								if (isset($row[$tab_options['LBL_POPUP'][$key]]))
+									$lbl_msg=$l->g(640)." ".$row_temp[$tab_options['LBL_POPUP'][$key]];
+								else
+									$lbl_msg=$tab_options['LBL_POPUP'][$key];
+							}else
+								$lbl_msg=$l->g(640)." ".$value_of_field;
+							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";					
+						}
+						break;
+					case "NAME":
+						if ( !isset($tab_options['NO_NAME']['NAME'])){
+							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
+							if ($row['ID'])
+								$link_computer.="&systemid=".$row['ID'];
+							if ($row['MD5_DEVICEID'])
+								$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
+							$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
+						}
+						break;
+					case "GROUP_NAME":
+						$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
+						break;
+					case "NULL":
+						$row[$key]="&nbsp";
+						break;
+					case "MODIF":
+						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
+						break;
+					case "SELECT":
+						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
+						$lien = 'KO';
+						break;
+					case "OTHER":
+						$row[$key]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
+						break;
+					case "ZIP":
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png></a>";
+						break;
+					case "STAT":
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png'></a>";
+						break;
+					case "ACTIVE":
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' ></a>";
+						break;
+					case "SHOWACTIVE":					
+						if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
+							$row[$column]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' >".$value_of_field."</a>";
+						}
+						break;
+					case "MAC":
+						if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
+							$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
+						else
+							$constr="<font color=red>".$l->g(885)."</font>";
+						$row[$key]=$value_of_field." (<small>".$constr."</small>)";
+						break;
+					case "MOD_TAGS":
+						if ($value_of_field!= '&nbsp;'){
+							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><span class='glyphicon glyphicon-edit'></span></a><center>";
+						}
+						break;
+					default :
+						if (substr($key,0,11) == "PERCENT_BAR"){
+							//require_once("function_graphic.php");
+							//echo percent_bar($value_of_field);
+							$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
+						}
+						if (!empty($tab_options['REPLACE_VALUE'][$key])){
+							$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
+						}
+						if(!empty($tab_options['VALUE'][$key])){
+							if(!empty($tab_options['LIEN_CHAMP'][$key])){
+								$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
+							}else{
+								$row[$column] = $tab_options['VALUE'][$key][$row['ID']];
+							}
+						}
+						if(!empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])){
+							$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
+						}
+						if (!empty($tab_options['LIEN_LBL'][$key])){
+							$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
+						}
+						if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){
+							$row[$tab_options['REPLACE_COLUMN_KEY'][$key]]=$row[$column];
+							unset($row[$column]);
+						}
+						
+					}
+				if(!empty($tab_options['COLOR'][$key])){
+					$row[$column]= "<font color='".$tab_options['COLOR'][$key]."'>".$row[$column]."</font>";
+				}
+				if(!empty($tab_options['SHOW_ONLY'][$key])){
+					if(empty($tab_options['SHOW_ONLY'][$key][$value_of_field])&& empty($tab_options['EXIST'][$key])
+									||(reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])){
+						$row[$key]="";
+					}
+				}
+				
+			}
+			$actions = array(
+				"MODIF",
+				"SUP",
+				"ZIP",
+				"STAT",
+				"ACTIVE",
+			);
+			foreach($actions as $action){
+				$row['ACTIONS'].= " ".$row[$action];
+			}
+			$rows[] = $row;
+		}
+	}else{
+		$rows = 0;
+	}
+	return $rows;
 }
 
 //fonction qui ggere le retour de la requete Ajax 
@@ -1944,11 +1944,130 @@ function gestion_donnees($sql_data, $list_fields, $tab_options, $form_name, $def
                 //utf8 or not?
                 $value_of_field = data_encode_utf8($value_of_field);
 
-                $col[$i] = $key;
-                if ($protectedPost['sens_' . $table_name] == "ASC")
-                    $sens = "DESC";
-                else
-                    $sens = "ASC";
+				
+				if (isset($tab_options['JAVA']['CHECK'])){
+						$javascript="OnClick='confirme(\"".htmlspecialchars($donnees[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
+				}else
+						$javascript="";
+				
+				//si on a demander un affichage que sur certaine ID
+				if (is_array($tab_options) and !$tab_options['SHOW_ONLY'][$key][$value_of_field] and $tab_options['SHOW_ONLY'][$key]){
+					$key = "NULL";
+				}		
+				
+				if (isset($tab_options['COLOR'][$key])){
+					$value_of_field="<font color=".$tab_options['COLOR'][$key].">".$value_of_field."</font>";
+					$htmlentities=false;
+				}
+				if ($affich == 'OK'){
+					
+					$lbl_column=array("SUP"=>$l->g(122),
+									  "MODIF"=>$l->g(115),
+									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
+					if (!isset($tab_options['NO_NAME']['NAME']))
+							$lbl_column["NAME"]=$l->g(23);
+					//modify lbl of column
+					if (!isset($entete[$num_col]) 
+						or ($entete[$num_col] == $key and !isset($tab_options['LBL'][$key]))){
+						if (array_key_exists($key,$lbl_column))
+							$entete[$num_col]=$lbl_column[$key];
+						else
+							$entete[$num_col]=$truelabel;
+					}
+					if ($key == "NULL" or isset($key2)){
+						$data[$i][$num_col]="&nbsp";
+						$lien = 'KO';
+					}elseif ($key == "GROUP_NAME"){
+						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
+					}elseif ($key == "SUP" and $value_of_field!= '&nbsp;'){
+						if (isset($tab_options['LBL_POPUP'][$key])){
+							if (isset($donnees[$tab_options['LBL_POPUP'][$key]]))
+								$lbl_msg=$l->g(640)." ".$donnees[$tab_options['LBL_POPUP'][$key]];
+							else
+								$lbl_msg=$tab_options['LBL_POPUP'][$key];
+						}else
+							$lbl_msg=$l->g(640)." ".$value_of_field;
+						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/delete-small.png></a>";
+						$lien = 'KO';		
+					}elseif ($key == "MODIF"){
+						$data[$i][$num_col]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
+						$lien = 'KO';
+					}elseif ($key == "SELECT"){
+						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
+						$lien = 'KO';
+					}elseif ($key == "OTHER"){
+						$data[$i][$num_col]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
+						$lien = 'KO';
+					}elseif ($key == "ZIP"){
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png></a>";
+						$lien = 'KO';
+					}
+					elseif ($key == "STAT"){
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png'></a>";
+						$lien = 'KO';
+					}elseif ($key == "ACTIVE"){
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' ></a>";
+						$lien = 'KO';
+					}elseif ($key == "SHOWACTIVE"){
+						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";
+					}
+					elseif ($key == "CHECK" and $value_of_field!= '&nbsp;'){
+						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
+						$lien = 'KO';
+					}
+					elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){
+							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
+							if ($donnees['ID'])
+								$link_computer.="&systemid=".$donnees['ID'];
+							if ($donnees['MD5_DEVICEID'])
+								$link_computer.= "&crypt=".$donnees['MD5_DEVICEID'];
+							$data[$i][$num_col]="<a href='".$link_computer."'  target='_blank'>".$value_of_field."</a>";
+					}elseif ($key == "MAC"){
+						//echo substr($value_of_field,0,8);
+						//echo $_SESSION['OCS']["mac"][substr($value_of_field,0,8)];
+						if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
+						$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
+						else
+						$constr="<font color=red>".$l->g(885)."</font>";
+						//echo "=>".$constr."<br>";
+						$data[$i][$num_col]=$value_of_field." (<small>".$constr."</small>)";						
+					}elseif (substr($key,0,11) == "PERCENT_BAR"){
+						require_once("function_graphic.php");
+						$data[$i][$num_col]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
+						//$lien = 'KO';						
+					}
+					else{		
+						if (isset($tab_options['OTHER'][$key][$value_of_field])){
+							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=".$tab_options['OTHER']['IMG']."></a>";
+						}elseif (isset($tab_options['OTHER_BIS'][$key][$value_of_field])){
+							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_BIS\",\"".$form_name."\");'><img src=".$tab_options['OTHER_BIS']['IMG']."></a>";
+						}elseif (isset($tab_options['OTHER_TER'][$key][$value_of_field])){
+							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_TER\",\"".$form_name."\");'><img src=".$tab_options['OTHER_TER']['IMG']."></a>";
+						}else{
+							$end="";
+						}
+						if ($htmlentities)
+							//$value_of_field=htmlentities($value_of_field,ENT_COMPAT,'UTF-8');
+							$value_of_field=strip_tags_array($value_of_field);
+							
+						$data[$i][$num_col]=$value_of_field.$end;
+						
+					}
+					
+				}
+	
+				if ($lien == 'OK'){
+					$deb="<a onclick='return tri(\"".$value."\",\"tri_".$table_name."\",\"".$sens."\",\"sens_".$table_name."\",\"".$form_name."\");' >";
+					$fin="</a>";
+					$entete[$num_col]=$deb.$entete[$num_col].$fin;
+					if ($protectedPost['tri_'.$table_name] == $value){
+						if ($protectedPost['sens_'.$table_name] == 'ASC')
+							$img="<img src='image/down.png'>";
+						else
+							$img="<img src='image/up.png'>";
+						$entete[$num_col]=$img.$entete[$num_col];
+					}
+				}
 
                 $affich = 'OK';
                 //on n'affiche pas de lien sur les colonnes non présentes dans la requete

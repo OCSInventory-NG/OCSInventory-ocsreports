@@ -25,7 +25,7 @@ require_once('require/function_config_generale.php');
 require_once('require/function_search.php');
 
 $form_name = "param_affect";
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 $list_id = multi_lot($form_name, $l->g(601));
 
 $def_onglets['SERV'] = $l->g(499); //Serveur

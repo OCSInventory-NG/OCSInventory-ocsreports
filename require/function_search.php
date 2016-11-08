@@ -521,16 +521,19 @@ function add_trait_select($img, $list_id, $form_name, $list_pag, $comp = false) 
     <?php
 }
 
-function multi_lot($form_name, $lbl_choise) {
-    global $protectedPost, $protectedGet, $l;
-    $list_id = "";
-    if (!isset($protectedGet['origine'])) {
-        if (is_defined($protectedGet['idchecked'])) {
-            if (!isset($protectedGet['comp'])) {
-                $choise_req_selection['REQ'] = $l->g(584);
-                $choise_req_selection['SEL'] = $l->g(585);
-            } else {
-                $choise_req_selection['SEL'] = $l->g(585);
+    function multi_lot($form_name, $lbl_choise) {
+        global $protectedPost, $protectedGet, $l;
+        $list_id = "";
+        if (!isset($protectedGet['origine'])) {
+            if (is_defined($protectedGet['idchecked'])) {
+                if (!isset($protectedGet['comp'])) {
+                    $choise_req_selection['REQ'] = $l->g(584);
+                    $choise_req_selection['SEL'] = $l->g(585);
+                } else {
+                    $choise_req_selection['SEL'] = $l->g(585);
+                }
+                $choise_req_selection[] = " ";
+                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
             }
             $select_choise = show_modif($choise_req_selection, 'CHOISE', 2, $form_name);
             echo "<center>" . $lbl_choise . " " . $select_choise . "</center><br>";

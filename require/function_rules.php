@@ -145,18 +145,28 @@ function add_rule($RULE_NAME, $RULE_VALUES, $ID_RULE = '') {
 
 function fields_conditions_rules($num, $entete = 'NO') {
     global $l, $protectedPost;
-    if ($entete != 'NO') {
-        $tab .= "<tr bgcolor='#C7D9F5'><td>" . $l->g(675) . "</td><td>" . $l->g(676) . "</td><td>" . $l->g(677) . "</td><td>" . $l->g(678) . "</td></tr>";
-    }
-    $CFIELD = array('NAME' => $l->g(679), 'IPADDRESS' => '@IP', 'IPSUBNET' => 'IPSUBNET', 'WORKGROUP' => $l->g(680), 'USERID' => $l->g(681));
-    $OP = array('EGAL' => "=", 'DIFF' => "<>", 'LIKE' => 'LIKE');
+
+    $CFIELD = array(
+        'NAME' => $l->g(679),
+        'IPADDRESS' => '@IP',
+        'IPSUBNET' => 'IPSUBNET',
+        'WORKGROUP' => $l->g(680),
+        'USERID' => $l->g(681)
+    );
+    $OP = array(
+        'EGAL' => "=",
+        'DIFF' => "<>",
+        'LIKE' => 'LIKE'
+    );
+
     if (!isset($protectedPost["PRIORITE_" . $num])) {
         $protectedPost["PRIORITE_" . $num] = $num;
     }
-    $tab .= "<tr><td>" . show_modif($protectedPost["PRIORITE_" . $num], "PRIORITE_" . $num, '0') . "</td>";
-    $tab .= "<td>" . show_modif($CFIELD, "CFIELD_" . $num, '2') . "</td>";
-    $tab .= "<td>" . show_modif($OP, "OP_" . $num, '2') . "</td>";
-    $tab .= "<td>" . show_modif($CFIELD, "COMPTO_" . $num, '2') . "</td>";
-    return $tab;
+
+    formGroup('text', "PRIORITE_" . $num, $l->g(675), '', '', $protectedPost["PRIORITE_" . $num]);
+    formGroup('select', "CFIELD_" . $num, $l->g(676), '', '', $protectedPost["PRIORITE_" . $num], '', $CFIELD, $CFIELD);
+    formGroup('select', "OP_" . $num, $l->g(677), '', '', $protectedPost["PRIORITE_" . $num], '', $OP, $OP);
+    formGroup('select', "COMPTO_" . $num, $l->g(678), '', '', $protectedPost["PRIORITE_" . $num], '', $CFIELD, $CFIELD);
+
 }
 ?>

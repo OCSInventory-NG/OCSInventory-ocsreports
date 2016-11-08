@@ -129,7 +129,7 @@ if (isset($systemid)) {
         $data2[$i]['REP_STORE'] = $item->ADD_REP;
         $data2[$i]['SUP'] = "<img src=image/delete-small.png OnClick='confirme(\"" . $item->NAME . "\",\"" . $item->ID . "\",\"" . $form_name . "\",\"supp\",\"" . $l->g(640) . " " . $l->g(644) . " \");'>";
         if ($data2[$i]['IP_ADDR'] != "") {
-            $data2[$i]['MODIF'] = "<img src=image/modif_tab.png OnClick='pag(\"" . $i . "\",\"modif\",\"" . $form_name . "\")'>";
+            $data2[$i]['MODIF'] = "<a OnClick='pag(\"" . $i . "\",\"modif\",\"" . $form_name . "\")'><span class='glyphicon glyphicon-edit'></span></a>";
         } else {
             $data2[$i]['MODIF'] = "";
         }

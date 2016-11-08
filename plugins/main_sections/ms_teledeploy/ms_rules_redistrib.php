@@ -77,7 +77,6 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $table_name;
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-    echo "<br>";
 
     //Modif a rule => get this values
     if ($protectedPost['MODIF'] != "" && $protectedPost['OLD_MODIF'] != $protectedPost['MODIF']) {
@@ -98,6 +97,11 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
         }
         $protectedPost['NUM_RULES'] = $i - 2;
     }
+    ?>
+    <div class="row rowMarginTop30">
+        <div class="col-md-12">
+
+    <?php
 
     //new rule
     if ($protectedPost['NEW_RULE'] || $protectedPost['NUM_RULES'] || $protectedPost['MODIF'] != "") {
@@ -107,24 +111,36 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
             $modif = $protectedPost['OLD_MODIF'];
         }
         $numero = $protectedPost['NUM_RULES'] + 1;
-        $tab_nom = $l->g(674) . " " . show_modif($protectedPost['RULE_NAME'], "RULE_NAME", "0");
-        $tab = "<table align='center'>";
-        for ($i = 1; $i < $numero + 1; $i++) {
+
+
+        formGroup('text', 'RULE_NAME', $l->g(674), '', '', $protectedPost['RULE_NAME']);
+        $i = 1;
+        while ($i < $numero + 1) {
             if ($i == 1) {
                 $entete = 'YES';
             } else {
                 $entete = 'NO';
             }
-            $tab .= fields_conditions_rules($i, $entete);
+            fields_conditions_rules($i, $entete);
+            $i++;
         }
-        echo $tab_nom;
-        echo $tab;
-        echo "</tr></table>";
-        echo "<a onclick='return pag(" . $numero . ",\"NUM_RULES\",\"rules\")'><font color=green>" . $l->g(682) . "</font></a>&nbsp<a onclick='return pag(\"RAZ\",\"RAZ\",\"rules\");'><font color=\"red\">" . $l->g(113) . "</font></a><br><br>";
+        ?>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-success" onclick='return pag(<?php echo $numero ?>,"NUM_RULES","rules")'><?php echo $l->g(682); ?></a>
+                <a class="btn btn-danger" onclick='return pag("RAZ","RAZ","rules");'><?php echo $l->g(113) ?></a>
+            </div>
+        </div>
+        <div class="row rowMarginTop30">
+            <div class="col-md-12">
+        <?php
         if ($protectedPost['MODIF'] != "" || $protectedPost['OLD_MODIF'] != "") {
-            echo "<input type='submit'  value='" . $l->g(625) . "' name='MODIF_RULE' onclick='return check();' class='btn'>";
+            echo "<input type='submit' value='" . $l->g(625) . "' name='MODIF_RULE' onclick='return check();' class='btn btn-success'>";
         } else {
-            echo "<input type='submit'  value='" . $l->g(683) . "' name='ADD_RULE' onclick='return check();' class='btn'>";
+            echo "<input type='submit' value='" . $l->g(683) . "' name='ADD_RULE' onclick='return check();' class='btn btn-success'>";
         }
         echo "<input type='hidden' id='NUM_RULES' name='NUM_RULES' value=''>";
         echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";
@@ -132,6 +148,13 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     } else {
         echo "<input type='submit' class='btn' value='" . $l->g(685) . "' name='NEW_RULE'>";
     }
+
+    ?>
+            </div>
+        </div>
+
+    <?php
+
     echo close_form();
 } else {
     msg_info($l->g(1182));
