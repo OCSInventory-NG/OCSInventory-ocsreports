@@ -1655,11 +1655,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="&nbsp";
 						break;
 					case "MODIF":
-						if (!isset($tab_options['MODIF']['IMG']))
-							$image="image/modif_tab.png";
-						else
-							$image=$tab_options['MODIF']['IMG'];
-						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
+						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
 						break;
 					case "SELECT":
 						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
@@ -1691,7 +1687,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						break;
 					case "MOD_TAGS":
 						if ($value_of_field!= '&nbsp;'){
-							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><img src='image/modif_tab.png'></a><center>";
+							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><span class='glyphicon glyphicon-edit'></span></a><center>";
 						}
 						break;
 					default :
@@ -2184,11 +2180,7 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/delete-small.png></a>";
 						$lien = 'KO';		
 					}elseif ($key == "MODIF"){
-						if (!isset($tab_options['MODIF']['IMG']))
-						$image="image/modif_tab.png";
-						else
-						$image=$tab_options['MODIF']['IMG'];
-						$data[$i][$num_col]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><img src=".$image."></a>";
+						$data[$i][$num_col]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
 						$lien = 'KO';
 					}elseif ($key == "SELECT"){
 						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";

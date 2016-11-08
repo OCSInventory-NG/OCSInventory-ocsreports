@@ -111,7 +111,7 @@ if (!is_array($info_account_id)) {
             if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO'])) {
                 $show_admin_button .= "<img src=image/success.png></a>";
             } else {
-                $show_admin_button .= "<img src=image/modif_tab.png></a>";
+                $show_admin_button .= "<span class='glyphicon glyphicon-edit'></span></a>";
             }
         } else {
             $show_admin_button = '';
