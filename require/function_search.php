@@ -279,7 +279,6 @@ function jockers_trait($field_value) {
         $field_value_modif = str_replace("?", "_", $field_value_modif);
     }
     //on retourne la valeur traitée
-    //echo "<br>".$field_value_modif."<br>".$field_value."<br>";
     if ($field_value_modif == $field_value) {
         return "'%" . $field_value . "%'";
     } else {
@@ -358,8 +357,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
     $select .= "</select>";
 
     //on affiche le début de ligne
-    if ($ajout != '')
+    if ($ajout != '') {
         echo $and_or;
+    }
     echo "<div class='form-group'>";
     echo "<label for='InputValue-" . $nameField . "' class='col-sm-2 control-label'>" . $optArray[$value] . "</label>";
     echo "<div class='col-sm-10'>";
@@ -408,8 +408,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         $select2 .= "</select>";
         echo $select2;
         if (array_key_exists($value, $opt2SelectField)) {
-            if ($opt2SelectField[$value . "-LBL"] == "calendar")
+            if ($opt2SelectField[$value . "-LBL"] == "calendar") {
                 $opt2SelectField[$value . "-LBL"] = calendars("InputValue-" . $nameField, $l->g(1270));
+            }
             echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">&nbsp;" . $opt2SelectField[$value . "-LBL"];
         }
         echo "</div>";
@@ -424,8 +425,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         } else {
             $result = mysqli_query($_SESSION['OCS']["readServer"], $opt2Select[$value . '-SQL1']);
             while ($val = mysqli_fetch_array($result)) {
-                if (!isset($val['ID']))
+                if (!isset($val['ID'])) {
                     $val['ID'] = $val['NAME'];
+                }
                 $selectValue .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
             }
         }
@@ -436,10 +438,11 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
     if (array_key_exists($value, $optSelect2Field)) {
         //gestion de la vision du deuxieme champ de saisi
         //on fonction du POST
-        if ($protectedPost['SelComp-' . $nameField] == "between")
+        if ($protectedPost['SelComp-' . $nameField] == "between") {
             $display = "inline";
-        else
+        } else {
             $display = "none";
+        }
 
         echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">
 				 <div style='display:" . $display . "' id='FieldInput2-" . $nameField . "'>&nbsp;--&nbsp;<input name='InputValue2-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue2-" . $nameField]) . "\"></div>" . $optSelect2Field[$value . "-LBL"] . "</div>";
@@ -449,8 +452,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         $selectValue1 = "<select name='SelFieldValue-" . $nameField . "' id='SelFieldValue-" . $nameField . "' class='form-control'>";
         $result = mysqli_query($_SESSION['OCS']["readServer"], $opt3Select[$value . '-SQL1']);
         while ($val = mysqli_fetch_array($result)) {
-            if (!isset($val['ID']))
+            if (!isset($val['ID'])) {
                 $val['ID'] = $val['NAME'];
+            }
             $selectValue1 .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
         }
         $selectValue1 .= "</select>";
@@ -458,8 +462,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         $selectValue2 = "<select name='SelFieldValue2-" . $nameField . "' id='SelFieldValue2-" . $nameField . "' class='form-control'>";
         $result = mysqli_query($_SESSION['OCS']["readServer"], $opt3Select[$value . '-SQL2']);
         while ($val = mysqli_fetch_array($result)) {
-            if (!isset($val['ID']))
+            if (!isset($val['ID'])) {
                 $val['ID'] = $val['NAME'];
+            }
             $selectValue2 .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue2-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
         }
         $selectValue2 .= "</select>";
@@ -516,27 +521,24 @@ function add_trait_select($img, $list_id, $form_name, $list_pag, $comp = false) 
             echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
         }
         ?>
-        </div>
+    </div>
 
     <?php
 }
 
-    function multi_lot($form_name, $lbl_choise) {
-        global $protectedPost, $protectedGet, $l;
-        $list_id = "";
-        if (!isset($protectedGet['origine'])) {
-            if (is_defined($protectedGet['idchecked'])) {
-                if (!isset($protectedGet['comp'])) {
-                    $choise_req_selection['REQ'] = $l->g(584);
-                    $choise_req_selection['SEL'] = $l->g(585);
-                } else {
-                    $choise_req_selection['SEL'] = $l->g(585);
-                }
-                $choise_req_selection[] = " ";
-                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
+function multi_lot($form_name, $lbl_choise) {
+    global $protectedPost, $protectedGet, $l;
+    $list_id = "";
+    if (!isset($protectedGet['origine'])) {
+        if (is_defined($protectedGet['idchecked'])) {
+            if (!isset($protectedGet['comp'])) {
+                $choise_req_selection['REQ'] = $l->g(584);
+                $choise_req_selection['SEL'] = $l->g(585);
+            } else {
+                $choise_req_selection['SEL'] = $l->g(585);
             }
-            $select_choise = show_modif($choise_req_selection, 'CHOISE', 2, $form_name);
-            echo "<center>" . $lbl_choise . " " . $select_choise . "</center><br>";
+            $choise_req_selection[] = " ";
+            formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#" . $form_name . "\").submit();'");
         }
         if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '') {
             msg_info($l->g(901));
