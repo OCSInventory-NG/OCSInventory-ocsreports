@@ -222,20 +222,20 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             $opt = true;
             ?>
 
-        <div class="row">
-                    <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
-                        <div class="form-group">
-                            <label class="control-label col-sm-4" for="select_col<?php echo $option['table_name']; ?>"><?php echo $l->g(1349); ?> :</label>
-                            <div class="col-sm-8">
-                                <select class="form-control" id="select_col<?php echo $option['table_name']; ?>" name="select_col<?php echo $option['table_name']; ?>">
-                                    <option value="default"><?php echo $l->g(6001); ?></option>
-                                    <?php
-                                    foreach ($list_col_can_del as $key => $col) {
-                                        $name = explode('.', $col);
-                                        $name = explode(' as ', end($name));
-                                        $value = end($name);
-                                        if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
-                                            $value = $option['REPLACE_COLUMN_KEY'][$key];
+            <div class="row">
+                <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="select_col<?php echo $option['table_name']; ?>"><?php echo $l->g(1349); ?> :</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="select_col<?php echo $option['table_name']; ?>" name="select_col<?php echo $option['table_name']; ?>">
+                                <option value="default"><?php echo $l->g(6001); ?></option>
+                                <?php
+                                foreach ($list_col_can_del as $key => $col) {
+                                    $name = explode('.', $col);
+                                    $name = explode(' as ', end($name));
+                                    $value = end($name);
+                                    if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
+                                        $value = $option['REPLACE_COLUMN_KEY'][$key];
                                     }
                                     if (array_key_exists($key, $lbl_column)) {
                                         echo "<option value='$value'>$lbl_column[$key]</option>";
@@ -244,272 +244,272 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                     }
                                 }
                                 ?>
-                                    </select>
-                                </div>
-                            </div>
+                            </select>
                         </div>
                     </div>
-                    <?php
-                }
-                ?>
-
-
-            <div id="<?php echo $option['table_name']; ?>_csv_download"
-                 style="display: none">
-                <?php
-                //Display of the result count
-                if (!isset($option['no_download_result'])) {
-                    echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
-                    echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true&base=" . $tab_options['BASE'] . "'><small>(" . $l->g(183) . ")</small></a></div>";
-                }
-                ?>
+                </div>
             </div>
             <?php
-            echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a>";
-            ?>
+        }
+        ?>
+
+
+        <div id="<?php echo $option['table_name']; ?>_csv_download"
+             style="display: none">
+                 <?php
+                 //Display of the result count
+                 if (!isset($option['no_download_result'])) {
+                     echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
+                     echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true&base=" . $tab_options['BASE'] . "'><small>(" . $l->g(183) . ")</small></a></div>";
+                 }
+                 ?>
         </div>
+        <?php
+        echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a>";
+        ?>
+    </div>
 
     <script>
-            //Check all the checkbox
-            function checkall()
-            {
-                var table_id = "table#<?php echo $option['table_name']; ?>";
-                $(table_id + " tbody tr td input:checkbox").each(function () {
-                    value = !$(this).attr('checked');
-                    document.getElementById($(this).attr('id')).checked = value;
-                });
-            }
-            $(document).ready(function () {
-                var table_name = "<?php echo $option['table_name']; ?>";
-                var table_id = "table#<?php echo $option['table_name']; ?>";
-                var form_name = "form#<?php echo $option['form_name']; ?>";
-                var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?>";
+        //Check all the checkbox
+        function checkall()
+        {
+            var table_id = "table#<?php echo $option['table_name']; ?>";
+            $(table_id + " tbody tr td input:checkbox").each(function () {
+                value = !$(this).attr('checked');
+                document.getElementById($(this).attr('id')).checked = value;
+            });
+        }
+        $(document).ready(function () {
+            var table_name = "<?php echo $option['table_name']; ?>";
+            var table_id = "table#<?php echo $option['table_name']; ?>";
+            var form_name = "form#<?php echo $option['form_name']; ?>";
+            var csrfid = "input#CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?>";
 
-                /*
-                 Table Skeleton Creation.
-                 A Full documentation about DataTable constructor can be found at
-                 https://datatables.net/manual/index
-                 */
-                var dom = '<<"row"lf ' +
-                        '<"dataTables_processing" r>><"#' + table_name + '_settings" >' +
-                        't<"row" <"col-md-2" i><"col-md-10" p>>>';
+            /*
+             Table Skeleton Creation.
+             A Full documentation about DataTable constructor can be found at
+             https://datatables.net/manual/index
+             */
+            var dom = '<<"row"lf ' +
+                    '<"dataTables_processing" r>><"#' + table_name + '_settings" >' +
+                    't<"row" <"col-md-2" i><"col-md-10" p>>>';
 
-                var table = $(table_id).dataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "dom": dom,
-                    "ajax": {
-                        'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
-                        "type": "POST",
-                        //Error handling
-                        "error": function (xhr, error, thrown) {
-                            var statusErrorMap = {
-                                '400': "<?php echo $l->g(1352); ?>",
-                                '401': "<?php echo $l->g(1353); ?>",
-                                '403': "<?php echo $l->g(1354); ?>",
-                                '404': "<?php echo $l->g(1355); ?>",
-                                '414': "<?php echo $l->g(1356); ?>",
-                                '500': "<?php echo $l->g(1357); ?>",
-                                '503': "<?php echo $l->g(1358); ?>"
-                            };
-                            if (statusErrorMap[xhr.status] != undefined) {
-                                if (xhr.status == 401) {
-                                    window.location.reload();
-                                }
+            var table = $(table_id).dataTable({
+                "processing": true,
+                "serverSide": true,
+                "dom": dom,
+                "ajax": {
+                    'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
+                    "type": "POST",
+                    //Error handling
+                    "error": function (xhr, error, thrown) {
+                        var statusErrorMap = {
+                            '400': "<?php echo $l->g(1352); ?>",
+                            '401': "<?php echo $l->g(1353); ?>",
+                            '403': "<?php echo $l->g(1354); ?>",
+                            '404': "<?php echo $l->g(1355); ?>",
+                            '414': "<?php echo $l->g(1356); ?>",
+                            '500': "<?php echo $l->g(1357); ?>",
+                            '503': "<?php echo $l->g(1358); ?>"
+                        };
+                        if (statusErrorMap[xhr.status] != undefined) {
+                            if (xhr.status == 401) {
+                                window.location.reload();
                             }
-                        },
-                        //Set the $_POST request to the ajax file. d contains all datatables needed info
-                        "data": function (d) {
-                            if ($(table_id).width() < $(this).width()) {
-                                $(table_id).width('100%');
-                                $(".dataTables_scrollHeadInner").width('100%');
-                                $(".dataTables_scrollHeadInner>table").width('100%');
+                        }
+                    },
+                    //Set the $_POST request to the ajax file. d contains all datatables needed info
+                    "data": function (d) {
+                        if ($(table_id).width() < $(this).width()) {
+                            $(table_id).width('100%');
+                            $(".dataTables_scrollHeadInner").width('100%');
+                            $(".dataTables_scrollHeadInner>table").width('100%');
+                        }
+                        //Add CSRF
+                        d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?> = $(csrfid).val();
+                        var visible = [];
+                        if (document.getElementById('checkboxALL')) {
+                            document.getElementById('checkboxALL').checked = false;
+                        }
+                        $.each(d.columns, function (index, value) {
+                            var col = "." + this['data'];
+                            if ($(table_id).DataTable().column(col).visible()) {
+                                visible.push(index);
                             }
-                            //Add CSRF
-                            d.CSRF_<?php echo $_SESSION['OCS']['CSRFNUMBER']; ?> = $(csrfid).val();
-                            var visible = [];
-                            if (document.getElementById('checkboxALL')) {
-                                document.getElementById('checkboxALL').checked = false;
-                            }
-                            $.each(d.columns, function (index, value) {
-                                var col = "." + this['data'];
-                                if ($(table_id).DataTable().column(col).visible()) {
-                                    visible.push(index);
-                                }
-                            });
-                            var ocs = [];
-                            //Add the actual $_POST to the $_POST of the ajax request
-            <?php
-            foreach ($protectedPost as $key => $value) {
-                if (!is_array($value)) {
-                    echo "d['" . $key . "'] = '" . $value . "'; \n";
-                }
-            }
-            ?>
-                            ocs.push($(form_name).serialize());
-                            d.visible_col = visible;
-                            d.ocs = ocs;
-                        },
-                        "dataSrc": function (json) {
-                            if (json.customized) {
-                                $("#reset" + table_name).show();
-                            } else {
-                                $("#reset" + table_name).hide();
-                            }
-                            if (json.debug) {
-                                $("<p>" + json.debug + "</p><hr>").hide().prependTo('#' + table_name + '_debug div').fadeIn(1000);
-                                $(".datatable_request").show();
-                            }
-                            return json.data;
-                        },
-
+                        });
+                        var ocs = [];
+                        //Add the actual $_POST to the $_POST of the ajax request
+    <?php
+    foreach ($protectedPost as $key => $value) {
+        if (!is_array($value)) {
+            echo "d['" . $key . "'] = '" . $value . "'; \n";
+        }
+    }
+    ?>
+                        ocs.push($(form_name).serialize());
+                        d.visible_col = visible;
+                        d.ocs = ocs;
+                    },
+                    "dataSrc": function (json) {
+                        if (json.customized) {
+                            $("#reset" + table_name).show();
+                        } else {
+                            $("#reset" + table_name).hide();
+                        }
+                        if (json.debug) {
+                            $("<p>" + json.debug + "</p><hr>").hide().prependTo('#' + table_name + '_debug div').fadeIn(1000);
+                            $(".datatable_request").show();
+                        }
+                        return json.data;
                     },
 
-                    //Save datatable state (page length, sort order, ...) in localStorage
-                    "stateSave": true,
-                    "stateDuration": 0,
-                    //Override search filter and page start after loading last datatable state
-                    "stateLoadParams": function (settings, data) {
-                        data.search.search = "";
-                        data.start = 0;
-                    },
+                },
 
-                    //Column definition
-                    "columns": [
-            <?php
-            $index = 0;
+                //Save datatable state (page length, sort order, ...) in localStorage
+                "stateSave": true,
+                "stateDuration": 0,
+                //Override search filter and page start after loading last datatable state
+                "stateLoadParams": function (settings, data) {
+                    data.search.search = "";
+                    data.start = 0;
+                },
+
+                //Column definition
+                "columns": [
+    <?php
+    $index = 0;
 //Visibility handling
-            foreach ($columns as $key => $column) {
-                if (!empty($visible_col)) {
-                    if ((in_array($index, $visible_col))) {
-                        $visible = 'true';
-                    } else {
-                        $visible = 'false';
-                    }
-                    $index ++;
-                } else {
-                    if (( (in_array($key, $default_fields)) || (in_array($key, $list_col_cant_del)) || array_key_exists($key, $default_fields) || ($key == "ACTIONS" )) && !(in_array($key, $actions))
-                    ) {
-                        $visible = 'true';
-                    } else {
-                        $visible = 'false';
-                    }
-                }
-                //Can the column be ordered
-                if (in_array($key, $columns_special) || !empty($option['NO_TRI'][$key]) || $key == "ACTIONS") {
-                    $orderable = 'false';
-                } else {
-                    $orderable = 'true';
-                }
-                //Cannot search in Delete or checkbox columns
-                if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)) {
-                    if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
-                        $key = $option['REPLACE_COLUMN_KEY'][$key];
-                    }
-                    echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
+    foreach ($columns as $key => $column) {
+        if (!empty($visible_col)) {
+            if ((in_array($index, $visible_col))) {
+                $visible = 'true';
+            } else {
+                $visible = 'false';
+            }
+            $index ++;
+        } else {
+            if (( (in_array($key, $default_fields)) || (in_array($key, $list_col_cant_del)) || array_key_exists($key, $default_fields) || ($key == "ACTIONS" )) && !(in_array($key, $actions))
+            ) {
+                $visible = 'true';
+            } else {
+                $visible = 'false';
+            }
+        }
+        //Can the column be ordered
+        if (in_array($key, $columns_special) || !empty($option['NO_TRI'][$key]) || $key == "ACTIONS") {
+            $orderable = 'false';
+        } else {
+            $orderable = 'true';
+        }
+        //Cannot search in Delete or checkbox columns
+        if (!array_key_exists($key, $columns_unique) || in_array($key, $columns_special)) {
+            if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
+                $key = $option['REPLACE_COLUMN_KEY'][$key];
+            }
+            echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
 'name':'" . $key . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ",'searchable': false,
 'visible' : " . $visible . "}, \n";
-                } else {
-                    $name = explode('.', $column);
-                    $name = explode(' as ', end($name));
-                    $name = end($name);
-                    if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
-                        $name = $option['REPLACE_COLUMN_KEY'][$key];
-                    }
-                    echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
+        } else {
+            $name = explode('.', $column);
+            $name = explode(' as ', end($name));
+            $name = end($name);
+            if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
+                $name = $option['REPLACE_COLUMN_KEY'][$key];
+            }
+            echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
 'name':'" . $column . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
-                }
-            }
-            ?>
-                    ],
-                    //Translation
-                    "language": {
-                        "sEmptyTable": "<?php echo $l->g(1334); ?>",
-                        "sInfo": "<?php echo $l->g(1335); ?>",
-                        "sInfoEmpty": "<?php echo $l->g(1336); ?>",
-                        "sInfoFiltered": "<?php echo $l->g(1337); ?>",
-                        "sInfoPostFix": "",
-                        "sInfoThousands": "<?php echo $l->g(1350); ?>",
-                        "decimal": "<?php echo $l->g(1351); ?>",
-                        "sLengthMenu": "<?php echo $l->g(1338); ?>",
-                        "sLoadingRecords": "<?php echo $l->g(1339); ?>",
-                        "sProcessing": "<?php echo $l->g(1340); ?>",
-                        "sSearch": "<?php echo $l->g(1341); ?>",
-                        "sZeroRecords": "<?php echo $l->g(1342); ?>",
-                        "oPaginate": {
-                            "sFirst": "<?php echo $l->g(1343); ?>",
-                            "sLast": "<?php echo $l->g(1344); ?>",
-                            "sNext": "<?php echo $l->g(1345); ?>",
-                            "sPrevious": "<?php echo $l->g(1346); ?>",
-                        },
-                        "oAria": {
-                            "sSortAscending": ": <?php echo $l->g(1347); ?>",
-                            "sSortDescending": ": <?php echo $l->g(1348); ?>",
-                        }
+        }
+    }
+    ?>
+                ],
+                //Translation
+                "language": {
+                    "sEmptyTable": "<?php echo $l->g(1334); ?>",
+                    "sInfo": "<?php echo $l->g(1335); ?>",
+                    "sInfoEmpty": "<?php echo $l->g(1336); ?>",
+                    "sInfoFiltered": "<?php echo $l->g(1337); ?>",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": "<?php echo $l->g(1350); ?>",
+                    "decimal": "<?php echo $l->g(1351); ?>",
+                    "sLengthMenu": "<?php echo $l->g(1338); ?>",
+                    "sLoadingRecords": "<?php echo $l->g(1339); ?>",
+                    "sProcessing": "<?php echo $l->g(1340); ?>",
+                    "sSearch": "<?php echo $l->g(1341); ?>",
+                    "sZeroRecords": "<?php echo $l->g(1342); ?>",
+                    "oPaginate": {
+                        "sFirst": "<?php echo $l->g(1343); ?>",
+                        "sLast": "<?php echo $l->g(1344); ?>",
+                        "sNext": "<?php echo $l->g(1345); ?>",
+                        "sPrevious": "<?php echo $l->g(1346); ?>",
                     },
-                    "scrollX": 'true'
-                });
-
-                //Column Show/Hide
-                $("#select_col" + table_name).change(function () {
-                    var col = "." + $(this).val();
-                    $(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
-                    $(table_id).DataTable().ajax.reload();
-                    $("#select_col" + table_name).val('default');
-                });
-
-                $("<span id='" + table_name + "_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#" + table_name + "_filter label");
-                $("#" + table_name + "_settings").hide();
-                $("." + table_name + "_top_settings").contents().appendTo("#" + table_name + "_settings");
-                $("#" + table_name + "_settings").addClass('table_settings');
-                $("body").on("click", "#" + table_name + "_settings_toggle", function () {
-                    $("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-up");
-                    $("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-down");
-                    $("#<?php echo $option['table_name']; ?>_settings").fadeToggle();
-
-                });
-            <?php if ($opt) { ?>
-                        $("#" + table_name + "_settings_toggle").show();
-                <?php
-            }
-//Csv Export
-            if (!isset($option['no_download_result'])) {
-                ?>
-                        $(table_id).on('draw.dt', function () {
-                            var start = $(table_id).DataTable().page.info().start + 1;
-                            var end = $(table_id).DataTable().page.info().end;
-                            var total = $(table_id).DataTable().page.info().recordsDisplay;
-                            //Show one line only if results fit in one page
-                            if (total == 0) {
-                                $('#' + table_name + '_csv_download').hide();
-                                $("#" + table_name + "_settings_toggle").hide();
-                            } else {
-                                if (end != total || start != 1) {
-                                    $('#' + table_name + '_csv_page').show();
-                                    $('#infopage_' + table_name).text(start + "-" + end);
-                                } else {
-                                    $('#' + table_name + '_csv_page').hide();
-                                }
-                                $('#infototal_' + table_name).text(total);
-                                $('#' + table_name + '_csv_download').show();
-                                $("#" + table_name + "_settings_toggle").show();
-                            }
-                        });
-                <?php
-            }
-            ?>
+                    "oAria": {
+                        "sSortAscending": ": <?php echo $l->g(1347); ?>",
+                        "sSortDescending": ": <?php echo $l->g(1348); ?>",
+                    }
+                },
+                "scrollX": 'true'
             });
 
-        </script>
+            //Column Show/Hide
+            $("#select_col" + table_name).change(function () {
+                var col = "." + $(this).val();
+                $(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
+                $(table_id).DataTable().ajax.reload();
+                $("#select_col" + table_name).val('default');
+            });
+
+            $("<span id='" + table_name + "_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#" + table_name + "_filter label");
+            $("#" + table_name + "_settings").hide();
+            $("." + table_name + "_top_settings").contents().appendTo("#" + table_name + "_settings");
+            $("#" + table_name + "_settings").addClass('table_settings');
+            $("body").on("click", "#" + table_name + "_settings_toggle", function () {
+                $("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-up");
+                $("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-down");
+                $("#<?php echo $option['table_name']; ?>_settings").fadeToggle();
+
+            });
+    <?php if ($opt) { ?>
+                $("#" + table_name + "_settings_toggle").show();
         <?php
-        if ($titre != "") {
-            printEnTete_tab($titre);
-        }
-        echo "<div class='tableContainer'>";
-        echo "<table id='" . $option['table_name'] . "' class='table table-striped table-bordered table-condensed table-hover'><thead><tr>";
-        //titre du tableau
+    }
+//Csv Export
+    if (!isset($option['no_download_result'])) {
+        ?>
+                $(table_id).on('draw.dt', function () {
+                    var start = $(table_id).DataTable().page.info().start + 1;
+                    var end = $(table_id).DataTable().page.info().end;
+                    var total = $(table_id).DataTable().page.info().recordsDisplay;
+                    //Show one line only if results fit in one page
+                    if (total == 0) {
+                        $('#' + table_name + '_csv_download').hide();
+                        $("#" + table_name + "_settings_toggle").hide();
+                    } else {
+                        if (end != total || start != 1) {
+                            $('#' + table_name + '_csv_page').show();
+                            $('#infopage_' + table_name).text(start + "-" + end);
+                        } else {
+                            $('#' + table_name + '_csv_page').hide();
+                        }
+                        $('#infototal_' + table_name).text(total);
+                        $('#' + table_name + '_csv_download').show();
+                        $("#" + table_name + "_settings_toggle").show();
+                    }
+                });
+        <?php
+    }
+    ?>
+        });
+
+    </script>
+    <?php
+    if ($titre != "") {
+        printEnTete_tab($titre);
+    }
+    echo "<div class='tableContainer'>";
+    echo "<table id='" . $option['table_name'] . "' class='table table-striped table-bordered table-condensed table-hover'><thead><tr>";
+    //titre du tableau
     foreach ($columns as $k => $v) {
         if (array_key_exists($k, $lbl_column)) {
             echo "<th><font >" . $lbl_column[$k] . "</font></th>";
@@ -533,20 +533,20 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
     if ($_SESSION['OCS']['DEBUG'] == 'ON') {
         ?><center>
-                    <div id="<?php echo $option['table_name']; ?>_debug" class="alert alert-info" role="alert">
-                        <b>[DEBUG]TABLE REQUEST[DEBUG]</b>
-                        <hr>
-                        <b class="datatable_request" style="display:none;">LAST REQUEST:</b>
-                        <div></div>
-                    </div>
-                </center><?php
-            }
-            return true;
-        }
+            <div id="<?php echo $option['table_name']; ?>_debug" class="alert alert-info" role="alert">
+                <b>[DEBUG]TABLE REQUEST[DEBUG]</b>
+                <hr>
+                <b class="datatable_request" style="display:none;">LAST REQUEST:</b>
+                <div></div>
+            </div>
+        </center><?php
+    }
+    return true;
+}
 
-        function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array(), $option = array()) {
-            echo "<div align=center>";
-            global $protectedGet, $l;
+function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array(), $option = array()) {
+    echo "<div align=center>";
+    global $protectedGet, $l;
     if ($protectedGet['sens'] == "ASC") {
         $sens = "DESC";
     } else {
@@ -555,29 +555,29 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
     if (isset($data)) {
         ?>
-    <script>
-                function changerCouleur(obj, state) {
-                    if (state == true) {
-                        bcolor = obj.style.backgroundColor;
-                        fcolor = obj.style.color;
-                        obj.style.backgroundColor = '#FFDAB9';
-                        obj.style.color = 'red';
-                        return true;
-                    } else {
-                        obj.style.backgroundColor = bcolor;
-                        obj.style.color = fcolor;
-                        return true;
-                    }
-                    return false;
+        <script>
+            function changerCouleur(obj, state) {
+                if (state == true) {
+                    bcolor = obj.style.backgroundColor;
+                    fcolor = obj.style.color;
+                    obj.style.backgroundColor = '#FFDAB9';
+                    obj.style.color = 'red';
+                    return true;
+                } else {
+                    obj.style.backgroundColor = bcolor;
+                    obj.style.color = fcolor;
+                    return true;
                 }
-            </script>
-            <?php
-            if ($titre != "") {
-                printEnTete_tab($titre);
+                return false;
             }
-            echo "<div class='tableContainer' id='data' style=\"width:" . $width . "%;\"><table cellspacing='0' class='ta'><tr>";
-            //titre du tableau
-            $i = 1;
+        </script>
+        <?php
+        if ($titre != "") {
+            printEnTete_tab($titre);
+        }
+        echo "<div class='tableContainer' id='data' style=\"width:" . $width . "%;\"><table cellspacing='0' class='ta'><tr>";
+        //titre du tableau
+        $i = 1;
         foreach ($entete_colonne as $k => $v) {
             if (in_array($v, $lien)) {
                 echo "<th class='ta' >" . $v . "</th>";
@@ -1356,8 +1356,8 @@ function ajaxfiltre($queryDetails, $tab_options) {
 
 /*
  *  NOT USED YET
- *   
- * 	SUPPOSED TO ADD HAVING CLAUSE WHEN FILTERING TABLES RESULTS 
+ *
+ * 	SUPPOSED TO ADD HAVING CLAUSE WHEN FILTERING TABLES RESULTS
  */
 
 // function ajaxfiltrehaving($queryDetails,$tab_options){
@@ -1519,178 +1519,179 @@ function ajaxlimit($tab_options) {
 
 //fonction qui met en forme les resultats
 /*
-* ResultDetails : Query return 
-* $resultDetails = mysqli_result 
-* $list_fields : Each available column of the table
-* $list_fields = array {  
-* 						'NAME'=>'h.name', ...
-* 						'Column name' => Database value,
-* 						 }
-* Tab_options : All the options for the specific table
-* $tab_options= array{
-* 						'form_name'=> "show_all",....
-* 						'Option' => value,
-* 						}
-*/
-function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
-	global $protectedPost,$l,$pages_refs;
-	$form_name=$tab_options['form_name'];
-	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
-	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
-	if($resultDetails){
-		if (isset($tab_options['JAVA']['CHECK'])){
-			$javascript="OnClick='confirme(\"".htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
-		}else{
-			$javascript="";
-		}
-			
-		while($row = mysqli_fetch_assoc($resultDetails))
-		{
-			if (isset($tab_options['AS'])){
-				foreach($tab_options['AS'] as $k=>$v){
-					if($v!="SNAME"){
-						$n = explode('.',$k);
-						$n = end($n);
-						$row[$n]= $row[$v];
-					}
-				}
-			}
-			$row_temp = $row;
-			foreach($row as $rowKey=>$rowValue){
-				$row[$rowKey]=htmlentities($rowValue);
-			}
-			foreach($list_fields as $key=>$column){
-				$name = explode('.',$column);
-				$column = end($name);
-				$value_of_field = $row[$column];
-				switch($key){
-					case "CHECK":
-						if ($value_of_field!= '&nbsp;'){
-							$row[$key] = "<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($tab_options['check'.$value_of_field])? " checked ": "").">";
-						}
-						break;
-					case "SUP":
-						if ( $value_of_field!= '&nbsp;'){
-							if (isset($tab_options['LBL_POPUP'][$key])){
-								if (isset($row[$tab_options['LBL_POPUP'][$key]]))
-									$lbl_msg=$l->g(640)." ".$row_temp[$tab_options['LBL_POPUP'][$key]];
-								else
-									$lbl_msg=$tab_options['LBL_POPUP'][$key];
-							}else
-								$lbl_msg=$l->g(640)." ".$value_of_field;
-							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";					
-						}
-						break;
-					case "NAME":
-						if ( !isset($tab_options['NO_NAME']['NAME'])){
-							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
-							if ($row['ID'])
-								$link_computer.="&systemid=".$row['ID'];
-							if ($row['MD5_DEVICEID'])
-								$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
-							$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
-						}
-						break;
-					case "GROUP_NAME":
-						$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
-						break;
-					case "NULL":
-						$row[$key]="&nbsp";
-						break;
-					case "MODIF":
-						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
-						break;
-					case "SELECT":
-						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
-						$lien = 'KO';
-						break;
-					case "OTHER":
-						$row[$key]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
-						break;
-					case "ZIP":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png></a>";
-						break;
-					case "STAT":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png'></a>";
-						break;
-					case "ACTIVE":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' ></a>";
-						break;
-					case "SHOWACTIVE":					
-						if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
-							$row[$column]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$row['FILEID']."' >".$value_of_field."</a>";
-						}
-						break;
-					case "MAC":
-						if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
-							$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
-						else
-							$constr="<font color=red>".$l->g(885)."</font>";
-						$row[$key]=$value_of_field." (<small>".$constr."</small>)";
-						break;
-					case "MOD_TAGS":
-						if ($value_of_field!= '&nbsp;'){
-							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><span class='glyphicon glyphicon-edit'></span></a><center>";
-						}
-						break;
-					default :
-						if (substr($key,0,11) == "PERCENT_BAR"){
-							//require_once("function_graphic.php");
-							//echo percent_bar($value_of_field);
-							$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
-						}
-						if (!empty($tab_options['REPLACE_VALUE'][$key])){
-							$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];				
-						}
-						if(!empty($tab_options['VALUE'][$key])){
-							if(!empty($tab_options['LIEN_CHAMP'][$key])){
-								$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
-							}else{
-								$row[$column] = $tab_options['VALUE'][$key][$row['ID']];
-							}
-						}
-						if(!empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])){
-							$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
-						}
-						if (!empty($tab_options['LIEN_LBL'][$key])){
-							$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
-						}
-						if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){
-							$row[$tab_options['REPLACE_COLUMN_KEY'][$key]]=$row[$column];
-							unset($row[$column]);
-						}
-						
-					}
-				if(!empty($tab_options['COLOR'][$key])){
-					$row[$column]= "<font color='".$tab_options['COLOR'][$key]."'>".$row[$column]."</font>";
-				}
-				if(!empty($tab_options['SHOW_ONLY'][$key])){
-					if(empty($tab_options['SHOW_ONLY'][$key][$value_of_field])&& empty($tab_options['EXIST'][$key])
-									||(reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])){
-						$row[$key]="";
-					}
-				}
-				
-			}
-			$actions = array(
-				"MODIF",
-				"SUP",
-				"ZIP",
-				"STAT",
-				"ACTIVE",
-			);
-			foreach($actions as $action){
-				$row['ACTIONS'].= " ".$row[$action];
-			}
-			$rows[] = $row;
-		}
-	}else{
-		$rows = 0;
-	}
-	return $rows;
+ * ResultDetails : Query return
+ * $resultDetails = mysqli_result
+ * $list_fields : Each available column of the table
+ * $list_fields = array {
+ * 						'NAME'=>'h.name', ...
+ * 						'Column name' => Database value,
+ * 						 }
+ * Tab_options : All the options for the specific table
+ * $tab_options= array{
+ * 						'form_name'=> "show_all",....
+ * 						'Option' => value,
+ * 						}
+ */
+function ajaxgestionresults($resultDetails, $list_fields, $tab_options) {
+    global $l, $pages_refs;
+    $form_name = $tab_options['form_name'];
+    $_SESSION['OCS']['list_fields'][$tab_options['table_name']] = $list_fields;
+    $_SESSION['OCS']['col_tab'][$tab_options['table_name']] = array_flip($list_fields);
+    if ($resultDetails) {
+        if (isset($tab_options['JAVA']['CHECK'])) {
+            $javascript = "OnClick='confirme(\"" . htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES) . "\"," . $value_of_field . ",\"" . $form_name . "\",\"CONFIRM_CHECK\",\"" . htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES) . " \")'";
+        } else {
+            $javascript = "";
+        }
+
+        while ($row = mysqli_fetch_assoc($resultDetails)) {
+            if (isset($tab_options['AS'])) {
+                foreach ($tab_options['AS'] as $k => $v) {
+                    if ($v != "SNAME") {
+                        $n = explode('.', $k);
+                        $n = end($n);
+                        $row[$n] = $row[$v];
+                    }
+                }
+            }
+            $row_temp = $row;
+            foreach ($row as $rowKey => $rowValue) {
+                $row[$rowKey] = htmlentities($rowValue);
+            }
+            foreach ($list_fields as $key => $column) {
+                $name = explode('.', $column);
+                $column = end($name);
+                $value_of_field = $row[$column];
+                switch ($key) {
+                    case "CHECK":
+                        if ($value_of_field != '&nbsp;') {
+                            $row[$key] = "<input type='checkbox' name='check" . $value_of_field . "' id='check" . $value_of_field . "' " . $javascript . " " . (isset($tab_options['check' . $value_of_field]) ? " checked " : "") . ">";
+                        }
+                        break;
+                    case "SUP":
+                        if ($value_of_field != '&nbsp;') {
+                            if (isset($tab_options['LBL_POPUP'][$key])) {
+                                if (isset($row[$tab_options['LBL_POPUP'][$key]])) {
+                                    $lbl_msg = $l->g(640) . " " . $row_temp[$tab_options['LBL_POPUP'][$key]];
+                                } else {
+                                    $lbl_msg = $tab_options['LBL_POPUP'][$key];
+                                }
+                            } else {
+                                $lbl_msg = $l->g(640) . " " . $value_of_field;
+                            }
+                            $row[$key] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SUP_PROF\",\"" . htmlspecialchars($lbl_msg, ENT_QUOTES) . "\");'><span class='glyphicon glyphicon-remove'></span></a>";
+                        }
+                        break;
+                    case "NAME":
+                        if (!isset($tab_options['NO_NAME']['NAME'])) {
+                            $link_computer = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1";
+                            if ($row['ID']) {
+                                $link_computer .= "&systemid=" . $row['ID'];
+                            }
+                            if ($row['MD5_DEVICEID']) {
+                                $link_computer .= "&crypt=" . $row['MD5_DEVICEID'];
+                            }
+                            $row[$column] = "<a href='" . $link_computer . "'>" . $value_of_field . "</a>";
+                        }
+                        break;
+                    case "GROUP_NAME":
+                        $row['NAME'] = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_group_show'] . "&head=1&systemid=" . $row['ID'] . "' target='_blank'>" . $value_of_field . "</a>";
+                        break;
+                    case "NULL":
+                        $row[$key] = "&nbsp";
+                        break;
+                    case "MODIF":
+                        $row[$key] = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"MODIF\",\"" . $form_name . "\");'><span class='glyphicon glyphicon-edit'></span></a>";
+                        break;
+                    case "SELECT":
+                        $row[$key] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SELECT\",\"" . htmlspecialchars($tab_options['QUESTION']['SELECT'], ENT_QUOTES) . "\");'><img src=image/prec16.png></a>";
+                        $lien = 'KO';
+                        break;
+                    case "OTHER":
+                        $row[$key] = "<a href=#  OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER\",\"" . $form_name . "\");'><img src=image/red.png></a>";
+                        break;
+                    case "ZIP":
+                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_compress'] . "&no_header=1&timestamp=" . $value_of_field . "&type=" . $tab_options['TYPE']['ZIP'] . "\"><img src=image/archives.png></a>";
+                        break;
+                    case "STAT":
+                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $value_of_field . "\"><img src='image/stat.png'></a>";
+                        break;
+                    case "ACTIVE":
+                        $row[$key] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active=" . $value_of_field . "\"><img src='image/activer.png' ></a>";
+                        break;
+                    case "SHOWACTIVE":
+                        if (!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])) {
+                            $row[$column] = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_actives'] . "&head=1&timestamp=" . $row['FILEID'] . "' >" . $value_of_field . "</a>";
+                        }
+                        break;
+                    case "MAC":
+                        if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))])) {
+                            $constr = $_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))];
+                        } else {
+                            $constr = "<font color=red>" . $l->g(885) . "</font>";
+                        }
+                        $row[$key] = $value_of_field . " (<small>" . $constr . "</small>)";
+                        break;
+                    case "MOD_TAGS":
+                        if ($value_of_field != '&nbsp;') {
+                            $row[$key] = "<center><a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_perim'] . "&head=1&id=" . $value_of_field . "' ><span class='glyphicon glyphicon-edit'></span></a><center>";
+                        }
+                        break;
+                    default :
+                        if (substr($key, 0, 11) == "PERCENT_BAR") {
+                            //require_once("function_graphic.php");
+                            //echo percent_bar($value_of_field);
+                            $row[$column] = "<CENTER>" . percent_bar($value_of_field) . "</CENTER>";
+                        }
+                        if (!empty($tab_options['REPLACE_VALUE'][$key])) {
+                            $row[$column] = $tab_options['REPLACE_VALUE'][$key][$value_of_field];
+                        }
+                        if (!empty($tab_options['VALUE'][$key])) {
+                            if (!empty($tab_options['LIEN_CHAMP'][$key])) {
+                                $value_of_field = $tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
+                            } else {
+                                $row[$column] = $tab_options['VALUE'][$key][$row['ID']];
+                            }
+                        }
+                        if (!empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])) {
+                            $row[$column] = $tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
+                        }
+                        if (!empty($tab_options['LIEN_LBL'][$key])) {
+                            $row[$column] = "<a href='" . $tab_options['LIEN_LBL'][$key] . $row[$tab_options['LIEN_CHAMP'][$key]] . "'>" . $value_of_field . "</a>";
+                        }
+                        if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])) {
+                            $row[$tab_options['REPLACE_COLUMN_KEY'][$key]] = $row[$column];
+                            unset($row[$column]);
+                        }
+                }
+                if (!empty($tab_options['COLOR'][$key])) {
+                    $row[$column] = "<font color='" . $tab_options['COLOR'][$key] . "'>" . $row[$column] . "</font>";
+                }
+                if (!empty($tab_options['SHOW_ONLY'][$key])) {
+                    if (empty($tab_options['SHOW_ONLY'][$key][$value_of_field]) && empty($tab_options['EXIST'][$key]) || (reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])) {
+                        $row[$key] = "";
+                    }
+                }
+            }
+            $actions = array(
+                "MODIF",
+                "SUP",
+                "ZIP",
+                "STAT",
+                "ACTIVE",
+            );
+            foreach ($actions as $action) {
+                $row['ACTIONS'] .= " " . $row[$action];
+            }
+            $rows[] = $row;
+        }
+    } else {
+        $rows = 0;
+    }
+    return $rows;
 }
 
-//fonction qui ggere le retour de la requete Ajax 
+//fonction qui ggere le retour de la requete Ajax
 /*
  * $list_fields : Each available column of the table
  * $list_fields = array {
@@ -1944,130 +1945,124 @@ function gestion_donnees($sql_data, $list_fields, $tab_options, $form_name, $def
                 //utf8 or not?
                 $value_of_field = data_encode_utf8($value_of_field);
 
-				
-				if (isset($tab_options['JAVA']['CHECK'])){
-						$javascript="OnClick='confirme(\"".htmlspecialchars($donnees[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
-				}else
-						$javascript="";
-				
-				//si on a demander un affichage que sur certaine ID
-				if (is_array($tab_options) and !$tab_options['SHOW_ONLY'][$key][$value_of_field] and $tab_options['SHOW_ONLY'][$key]){
-					$key = "NULL";
-				}		
-				
-				if (isset($tab_options['COLOR'][$key])){
-					$value_of_field="<font color=".$tab_options['COLOR'][$key].">".$value_of_field."</font>";
-					$htmlentities=false;
-				}
-				if ($affich == 'OK'){
-					
-					$lbl_column=array("SUP"=>$l->g(122),
-									  "MODIF"=>$l->g(115),
-									  "CHECK"=>$l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
-					if (!isset($tab_options['NO_NAME']['NAME']))
-							$lbl_column["NAME"]=$l->g(23);
-					//modify lbl of column
-					if (!isset($entete[$num_col]) 
-						or ($entete[$num_col] == $key and !isset($tab_options['LBL'][$key]))){
-						if (array_key_exists($key,$lbl_column))
-							$entete[$num_col]=$lbl_column[$key];
-						else
-							$entete[$num_col]=$truelabel;
-					}
-					if ($key == "NULL" or isset($key2)){
-						$data[$i][$num_col]="&nbsp";
-						$lien = 'KO';
-					}elseif ($key == "GROUP_NAME"){
-						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$donnees['ID']."' target='_blank'>".$value_of_field."</a>";
-					}elseif ($key == "SUP" and $value_of_field!= '&nbsp;'){
-						if (isset($tab_options['LBL_POPUP'][$key])){
-							if (isset($donnees[$tab_options['LBL_POPUP'][$key]]))
-								$lbl_msg=$l->g(640)." ".$donnees[$tab_options['LBL_POPUP'][$key]];
-							else
-								$lbl_msg=$tab_options['LBL_POPUP'][$key];
-						}else
-							$lbl_msg=$l->g(640)." ".$value_of_field;
-						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><img src=image/delete-small.png></a>";
-						$lien = 'KO';		
-					}elseif ($key == "MODIF"){
-						$data[$i][$num_col]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
-						$lien = 'KO';
-					}elseif ($key == "SELECT"){
-						$data[$i][$num_col]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
-						$lien = 'KO';
-					}elseif ($key == "OTHER"){
-						$data[$i][$num_col]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
-						$lien = 'KO';
-					}elseif ($key == "ZIP"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png></a>";
-						$lien = 'KO';
-					}
-					elseif ($key == "STAT"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png'></a>";
-						$lien = 'KO';
-					}elseif ($key == "ACTIVE"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' ></a>";
-						$lien = 'KO';
-					}elseif ($key == "SHOWACTIVE"){
-						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";
-					}
-					elseif ($key == "CHECK" and $value_of_field!= '&nbsp;'){
-						$data[$i][$num_col]="<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($protectedPost['check'.$value_of_field])? " checked ": "").">";
-						$lien = 'KO';
-					}
-					elseif ($key == "NAME" and !isset($tab_options['NO_NAME']['NAME'])){
-							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
-							if ($donnees['ID'])
-								$link_computer.="&systemid=".$donnees['ID'];
-							if ($donnees['MD5_DEVICEID'])
-								$link_computer.= "&crypt=".$donnees['MD5_DEVICEID'];
-							$data[$i][$num_col]="<a href='".$link_computer."'  target='_blank'>".$value_of_field."</a>";
-					}elseif ($key == "MAC"){
-						//echo substr($value_of_field,0,8);
-						//echo $_SESSION['OCS']["mac"][substr($value_of_field,0,8)];
-						if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
-						$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
-						else
-						$constr="<font color=red>".$l->g(885)."</font>";
-						//echo "=>".$constr."<br>";
-						$data[$i][$num_col]=$value_of_field." (<small>".$constr."</small>)";						
-					}elseif (substr($key,0,11) == "PERCENT_BAR"){
-						require_once("function_graphic.php");
-						$data[$i][$num_col]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
-						//$lien = 'KO';						
-					}
-					else{		
-						if (isset($tab_options['OTHER'][$key][$value_of_field])){
-							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=".$tab_options['OTHER']['IMG']."></a>";
-						}elseif (isset($tab_options['OTHER_BIS'][$key][$value_of_field])){
-							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_BIS\",\"".$form_name."\");'><img src=".$tab_options['OTHER_BIS']['IMG']."></a>";
-						}elseif (isset($tab_options['OTHER_TER'][$key][$value_of_field])){
-							$end="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER_TER\",\"".$form_name."\");'><img src=".$tab_options['OTHER_TER']['IMG']."></a>";
-						}else{
-							$end="";
-						}
-						if ($htmlentities)
-							//$value_of_field=htmlentities($value_of_field,ENT_COMPAT,'UTF-8');
-							$value_of_field=strip_tags_array($value_of_field);
-							
-						$data[$i][$num_col]=$value_of_field.$end;
-						
-					}
-					
-				}
-	
-				if ($lien == 'OK'){
-					$deb="<a onclick='return tri(\"".$value."\",\"tri_".$table_name."\",\"".$sens."\",\"sens_".$table_name."\",\"".$form_name."\");' >";
-					$fin="</a>";
-					$entete[$num_col]=$deb.$entete[$num_col].$fin;
-					if ($protectedPost['tri_'.$table_name] == $value){
-						if ($protectedPost['sens_'.$table_name] == 'ASC')
-							$img="<img src='image/down.png'>";
-						else
-							$img="<img src='image/up.png'>";
-						$entete[$num_col]=$img.$entete[$num_col];
-					}
-				}
+
+                if (isset($tab_options['JAVA']['CHECK'])) {
+                    $javascript = "OnClick='confirme(\"" . htmlspecialchars($donnees[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES) . "\"," . $value_of_field . ",\"" . $form_name . "\",\"CONFIRM_CHECK\",\"" . htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES) . " \")'";
+                } else
+                    $javascript = "";
+
+                //si on a demander un affichage que sur certaine ID
+                if (is_array($tab_options) and ! $tab_options['SHOW_ONLY'][$key][$value_of_field] and $tab_options['SHOW_ONLY'][$key]) {
+                    $key = "NULL";
+                }
+
+                if (isset($tab_options['COLOR'][$key])) {
+                    $value_of_field = "<font color=" . $tab_options['COLOR'][$key] . ">" . $value_of_field . "</font>";
+                    $htmlentities = false;
+                }
+                if ($affich == 'OK') {
+
+                    $lbl_column = array("SUP" => $l->g(122),
+                        "MODIF" => $l->g(115),
+                        "CHECK" => $l->g(1119) . "<input type='checkbox' name='ALL' id='ALL' Onclick='checkall();'>");
+                    if (!isset($tab_options['NO_NAME']['NAME']))
+                        $lbl_column["NAME"] = $l->g(23);
+                    //modify lbl of column
+                    if (!isset($entete[$num_col])
+                            or ( $entete[$num_col] == $key and ! isset($tab_options['LBL'][$key]))) {
+                        if (array_key_exists($key, $lbl_column))
+                            $entete[$num_col] = $lbl_column[$key];
+                        else
+                            $entete[$num_col] = $truelabel;
+                    }
+                    if ($key == "NULL" or isset($key2)) {
+                        $data[$i][$num_col] = "&nbsp";
+                        $lien = 'KO';
+                    } elseif ($key == "GROUP_NAME") {
+                        $data[$i][$num_col] = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_group_show'] . "&head=1&systemid=" . $donnees['ID'] . "' target='_blank'>" . $value_of_field . "</a>";
+                    } elseif ($key == "SUP" and $value_of_field != '&nbsp;') {
+                        if (isset($tab_options['LBL_POPUP'][$key])) {
+                            if (isset($donnees[$tab_options['LBL_POPUP'][$key]]))
+                                $lbl_msg = $l->g(640) . " " . $donnees[$tab_options['LBL_POPUP'][$key]];
+                            else
+                                $lbl_msg = $tab_options['LBL_POPUP'][$key];
+                        } else
+                            $lbl_msg = $l->g(640) . " " . $value_of_field;
+                        $data[$i][$num_col] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SUP_PROF\",\"" . htmlspecialchars($lbl_msg, ENT_QUOTES) . "\");'><img src=image/delete-small.png></a>";
+                        $lien = 'KO';
+                    }elseif ($key == "MODIF") {
+                        $data[$i][$num_col] = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"MODIF\",\"" . $form_name . "\");'><span class='glyphicon glyphicon-edit'></span></a>";
+                        $lien = 'KO';
+                    } elseif ($key == "SELECT") {
+                        $data[$i][$num_col] = "<a href=# OnClick='confirme(\"\",\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"" . $form_name . "\",\"SELECT\",\"" . htmlspecialchars($tab_options['QUESTION']['SELECT'], ENT_QUOTES) . "\");'><img src=image/prec16.png></a>";
+                        $lien = 'KO';
+                    } elseif ($key == "OTHER") {
+                        $data[$i][$num_col] = "<a href=#  OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER\",\"" . $form_name . "\");'><img src=image/red.png></a>";
+                        $lien = 'KO';
+                    } elseif ($key == "ZIP") {
+                        $data[$i][$num_col] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_compress'] . "&no_header=1&timestamp=" . $value_of_field . "&type=" . $tab_options['TYPE']['ZIP'] . "\"><img src=image/archives.png></a>";
+                        $lien = 'KO';
+                    } elseif ($key == "STAT") {
+                        $data[$i][$num_col] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $value_of_field . "\"><img src='image/stat.png'></a>";
+                        $lien = 'KO';
+                    } elseif ($key == "ACTIVE") {
+                        $data[$i][$num_col] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active=" . $value_of_field . "\"><img src='image/activer.png' ></a>";
+                        $lien = 'KO';
+                    } elseif ($key == "SHOWACTIVE") {
+                        $data[$i][$num_col] = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_actives'] . "&head=1&timestamp=" . $donnees['FILEID'] . "' target=_blank>" . $value_of_field . "</a>";
+                    } elseif ($key == "CHECK" and $value_of_field != '&nbsp;') {
+                        $data[$i][$num_col] = "<input type='checkbox' name='check" . $value_of_field . "' id='check" . $value_of_field . "' " . $javascript . " " . (isset($protectedPost['check' . $value_of_field]) ? " checked " : "") . ">";
+                        $lien = 'KO';
+                    } elseif ($key == "NAME" and ! isset($tab_options['NO_NAME']['NAME'])) {
+                        $link_computer = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1";
+                        if ($donnees['ID'])
+                            $link_computer .= "&systemid=" . $donnees['ID'];
+                        if ($donnees['MD5_DEVICEID'])
+                            $link_computer .= "&crypt=" . $donnees['MD5_DEVICEID'];
+                        $data[$i][$num_col] = "<a href='" . $link_computer . "'  target='_blank'>" . $value_of_field . "</a>";
+                    }elseif ($key == "MAC") {
+                        //echo substr($value_of_field,0,8);
+                        //echo $_SESSION['OCS']["mac"][substr($value_of_field,0,8)];
+                        if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))]))
+                            $constr = $_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field, 0, 8))];
+                        else
+                            $constr = "<font color=red>" . $l->g(885) . "</font>";
+                        //echo "=>".$constr."<br>";
+                        $data[$i][$num_col] = $value_of_field . " (<small>" . $constr . "</small>)";
+                    }elseif (substr($key, 0, 11) == "PERCENT_BAR") {
+                        require_once("function_graphic.php");
+                        $data[$i][$num_col] = "<CENTER>" . percent_bar($value_of_field) . "</CENTER>";
+                        //$lien = 'KO';
+                    } else {
+                        if (isset($tab_options['OTHER'][$key][$value_of_field])) {
+                            $end = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER\",\"" . $form_name . "\");'><img src=" . $tab_options['OTHER']['IMG'] . "></a>";
+                        } elseif (isset($tab_options['OTHER_BIS'][$key][$value_of_field])) {
+                            $end = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER_BIS\",\"" . $form_name . "\");'><img src=" . $tab_options['OTHER_BIS']['IMG'] . "></a>";
+                        } elseif (isset($tab_options['OTHER_TER'][$key][$value_of_field])) {
+                            $end = "<a href=# OnClick='pag(\"" . htmlspecialchars($value_of_field, ENT_QUOTES) . "\",\"OTHER_TER\",\"" . $form_name . "\");'><img src=" . $tab_options['OTHER_TER']['IMG'] . "></a>";
+                        } else {
+                            $end = "";
+                        }
+                        if ($htmlentities)
+                        //$value_of_field=htmlentities($value_of_field,ENT_COMPAT,'UTF-8');
+                            $value_of_field = strip_tags_array($value_of_field);
+
+                        $data[$i][$num_col] = $value_of_field . $end;
+                    }
+                }
+
+                if ($lien == 'OK') {
+                    $deb = "<a onclick='return tri(\"" . $value . "\",\"tri_" . $table_name . "\",\"" . $sens . "\",\"sens_" . $table_name . "\",\"" . $form_name . "\");' >";
+                    $fin = "</a>";
+                    $entete[$num_col] = $deb . $entete[$num_col] . $fin;
+                    if ($protectedPost['tri_' . $table_name] == $value) {
+                        if ($protectedPost['sens_' . $table_name] == 'ASC')
+                            $img = "<img src='image/down.png'>";
+                        else
+                            $img = "<img src='image/up.png'>";
+                        $entete[$num_col] = $img . $entete[$num_col];
+                    }
+                }
 
                 $affich = 'OK';
                 //on n'affiche pas de lien sur les colonnes non présentes dans la requete
@@ -2333,27 +2328,27 @@ function gestion_donnees($sql_data, $list_fields, $tab_options, $form_name, $def
 function del_selection($form_name) {
     global $l;
     ?>
-        <script language=javascript>
-                function garde_check(image, id)
-                {
-                    var idchecked = '';
-                    for (i = 0; i < document.<?php echo $form_name ?>.elements.length; i++)
-                    {
-                        if (document.<?php echo $form_name ?>.elements[i].name.substring(0, 5) == 'check') {
-                            if (document.<?php echo $form_name ?>.elements[i].checked)
-                                idchecked = idchecked + document.<?php echo $form_name ?>.elements[i].name.substring(5) + ',';
-                        }
-                    }
-                    idchecked = idchecked.substr(0, (idchecked.length - 1));
-                    confirme('', idchecked, "<?php echo $form_name ?>", "del_check", "<?php echo $l->g(900) ?>");
+    <script language=javascript>
+        function garde_check(image, id)
+        {
+            var idchecked = '';
+            for (i = 0; i < document.<?php echo $form_name ?>.elements.length; i++)
+            {
+                if (document.<?php echo $form_name ?>.elements[i].name.substring(0, 5) == 'check') {
+                    if (document.<?php echo $form_name ?>.elements[i].checked)
+                        idchecked = idchecked + document.<?php echo $form_name ?>.elements[i].name.substring(5) + ',';
                 }
-            </script>
-            <?php
-            //foreach ($img as $key=>$value){
-            echo "<a href=# onclick=garde_check()><span class='glyphicon glyphicon-remove delete-span' title='" . $l->g(162) . "' ></span></a>";
-            //}
-            echo "<input type='hidden' id='del_check' name='del_check' value=''>";
+            }
+            idchecked = idchecked.substr(0, (idchecked.length - 1));
+            confirme('', idchecked, "<?php echo $form_name ?>", "del_check", "<?php echo $l->g(900) ?>");
         }
+    </script>
+    <?php
+    //foreach ($img as $key=>$value){
+    echo "<a href=# onclick=garde_check()><span class='glyphicon glyphicon-remove delete-span' title='" . $l->g(162) . "' ></span></a>";
+    //}
+    echo "<input type='hidden' id='del_check' name='del_check' value=''>";
+}
 
 function js_tooltip() {
     echo "<script language='javascript' type='text/javascript' src='js/tooltip.js'></script>";
