@@ -56,8 +56,9 @@ require_once('require/function_console.php');
 $data_on = define_tab();
 $data_tab = show_active_tab($data_on);
 echo open_form($form_name);
-if (isset($protectedPost["onglet"]) and ! isset($data_tab['DATA'][$protectedPost["onglet"]]))
+if (isset($protectedPost["onglet"]) && !isset($data_tab['DATA'][$protectedPost["onglet"]])) {
     $protectedPost["onglet"] = $data_tab['DEFAULT'];
+}
 
 if ($data_tab['DATA'] != array()) {
     show_tabs($data_tab['DATA'], $form_name, "onglet", true);
@@ -66,10 +67,11 @@ if ($data_tab['DATA'] != array()) {
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES') {
         echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
-        if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) and $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
+        if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) && $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN') {
             echo "<img src='image/success.png'>";
-        else
+        } else {
             echo "<span class='glyphicon glyphicon-edit'></span>";
+        }
         echo "</a></td></tr></table>";
     }
     if ($data_on['DATA'][$protectedPost['onglet']]) {
@@ -97,9 +99,10 @@ if ($data_tab['DATA'] != array()) {
                 }
                 if (isset($list_name_msg)) {
                     $i = 1;
-                    foreach ($list_name_msg as $k => $v) {
-                        if ($v == $i)
+                    foreach ($list_name_msg as $v) {
+                        if ($v == $i) {
                             $i++;
+                        }
                     }
                 } else {
                     $i = 1;
@@ -164,7 +167,7 @@ if ($data_tab['DATA'] != array()) {
                             }
                             if (isset($list_name_msg)) {
                                 $i = 1;
-                                foreach ($list_name_msg as $k => $v) {
+                                foreach ($list_name_msg as $v) {
                                     if ($v == $i) {
                                         $i++;
                                     }
@@ -294,7 +297,7 @@ if ($data_tab['DATA'] != array()) {
                 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
             }
             echo close_form();
-//show messages
+            //show messages
             if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES") {
                 $info_msg = look_config_default_values('GUI_REPORT_MSG%', 'LIKE');
                 if (is_array($info_msg['ivalue'])) {
