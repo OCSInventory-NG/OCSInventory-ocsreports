@@ -101,60 +101,57 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     <div class="row rowMarginTop30">
         <div class="col-md-12">
 
-    <?php
+            <?php
+            //new rule
+            if ($protectedPost['NEW_RULE'] || $protectedPost['NUM_RULES'] || $protectedPost['MODIF'] != "") {
+                if ($protectedPost['MODIF'] != "") {
+                    $modif = $protectedPost['MODIF'];
+                } else {
+                    $modif = $protectedPost['OLD_MODIF'];
+                }
+                $numero = $protectedPost['NUM_RULES'] + 1;
 
-    //new rule
-    if ($protectedPost['NEW_RULE'] || $protectedPost['NUM_RULES'] || $protectedPost['MODIF'] != "") {
-        if ($protectedPost['MODIF'] != "") {
-            $modif = $protectedPost['MODIF'];
-        } else {
-            $modif = $protectedPost['OLD_MODIF'];
-        }
-        $numero = $protectedPost['NUM_RULES'] + 1;
 
-
-        formGroup('text', 'RULE_NAME', $l->g(674), '', '', $protectedPost['RULE_NAME']);
-        $i = 1;
-        while ($i < $numero + 1) {
-            if ($i == 1) {
-                $entete = 'YES';
-            } else {
-                $entete = 'NO';
-            }
-            fields_conditions_rules($i, $entete);
-            $i++;
-        }
-        ?>
+                formGroup('text', 'RULE_NAME', $l->g(674), '', '', $protectedPost['RULE_NAME']);
+                $i = 1;
+                while ($i < $numero + 1) {
+                    if ($i == 1) {
+                        $entete = 'YES';
+                    } else {
+                        $entete = 'NO';
+                    }
+                    fields_conditions_rules($i, $entete);
+                    $i++;
+                }
+                ?>
 
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <a class="btn btn-success" onclick='return pag(<?php echo $numero ?>,"NUM_RULES","rules")'><?php echo $l->g(682); ?></a>
-                <a class="btn btn-danger" onclick='return pag("RAZ","RAZ","rules");'><?php echo $l->g(113) ?></a>
+                <a class="btn btn-success" onclick='return pag(<?php echo $numero ?>, "NUM_RULES", "rules")'><?php echo $l->g(682); ?></a>
+                <a class="btn btn-danger" onclick='return pag("RAZ", "RAZ", "rules");'><?php echo $l->g(113) ?></a>
             </div>
         </div>
         <div class="row rowMarginTop30">
             <div class="col-md-12">
-        <?php
-        if ($protectedPost['MODIF'] != "" || $protectedPost['OLD_MODIF'] != "") {
-            echo "<input type='submit' value='" . $l->g(625) . "' name='MODIF_RULE' onclick='return check();' class='btn btn-success'>";
-        } else {
-            echo "<input type='submit' value='" . $l->g(683) . "' name='ADD_RULE' onclick='return check();' class='btn btn-success'>";
-        }
-        echo "<input type='hidden' id='NUM_RULES' name='NUM_RULES' value=''>";
-        echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";
-        echo "<input type='hidden' id='OLD_MODIF' name='OLD_MODIF' value='" . $modif . "'>";
-    } else {
-        echo "<input type='submit' class='btn' value='" . $l->g(685) . "' name='NEW_RULE'>";
-    }
-
-    ?>
-            </div>
+                <?php
+                if ($protectedPost['MODIF'] != "" || $protectedPost['OLD_MODIF'] != "") {
+                    echo "<input type='submit' value='" . $l->g(625) . "' name='MODIF_RULE' onclick='return check();' class='btn btn-success'>";
+                } else {
+                    echo "<input type='submit' value='" . $l->g(683) . "' name='ADD_RULE' onclick='return check();' class='btn btn-success'>";
+                }
+                echo "<input type='hidden' id='NUM_RULES' name='NUM_RULES' value=''>";
+                echo "<input type='hidden' id='RAZ' name='RAZ' value=''>";
+                echo "<input type='hidden' id='OLD_MODIF' name='OLD_MODIF' value='" . $modif . "'>";
+            } else {
+                echo "<input type='submit' class='btn' value='" . $l->g(685) . "' name='NEW_RULE'>";
+            }
+            ?>
         </div>
+    </div>
 
     <?php
-
     echo close_form();
 } else {
     msg_info($l->g(1182));
