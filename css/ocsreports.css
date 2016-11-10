@@ -476,3 +476,12 @@ iframe{
 .rowMarginTop30{
     margin-top: 30px;
 }
+
+.roundRed{
+    display: inline-block;
+    vertical-align: middle;
+    height: 15px;
+    width: 15px;
+    border-radius: 100%;
+    background: rgba(193, 46, 42,   1);
+}

@@ -165,6 +165,7 @@ function show_computer_summary($computer) {
 }
 
 function show_summary($data, $labels, $cat_labels, $links = array()) {
+
     $nb_col = 2;
     $i = 0;
 

@@ -86,25 +86,30 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
     <div class="row">
         <div class="col col-md-6 text-left">
             <p>
-                <?php echo (isset($optPerso[$lbl]) ? "<img width='15px' src='image/red.png'>" : '') ?>
+                <?php echo (isset($optPerso[$lbl]) ? "<span class='roundRed'></span>" : '') ?>
                 <?php echo $lblPerso; ?>
                 <span class="help-block text-success"><?php echo $helpText; ?></span>
-                <?php
-                if (isset($optPerso[$lbl]["IVALUE"])) {
-                    echo $optPerso[$lbl]["IVALUE"];
-                }
-                ?>
             </p>
         </div>
         <div class="col col-md-6">
             <p>
                 <?php
-                // TODO: Strange spaces on display page
-                echo $l->g(488). " (".$default_value;
+                if(isset($optPerso[$lbl])){
+
+                    echo $optPerso[$lbl]['IVALUE'];
+
+                } else{
+                    // TODO: Strange spaces on display page
+                    echo $l->g(488). " (".$default_value;
+                }
+
                 if(isset($end)){
                     echo " ".$end;
                 }
-                echo ")";
+                if(!isset($optPerso[$lbl])){
+                    echo ")";
+                }
+
                 ?>
             </p>
         </div>
