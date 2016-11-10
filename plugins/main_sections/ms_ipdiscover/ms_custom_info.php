@@ -249,8 +249,9 @@ if (is_defined($protectedPost['MODIF'])) {
         $fipdisc = "ipdiscover-util.pl";
         $values = look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDISCOVER_IPD_DIR' => array('TVALUE' => VARLIB_DIR)));
         $IPD_DIR = $values['tvalue']['IPDISCOVER_IPD_DIR'] . "/ipd";
-        if ($scriptPresent = @stat($fipdisc)) {
-            $filePresent = true;
+
+        $scriptPresent = @stat($fipdisc);
+        if ($scriptPresent !== FALSE) {
             if (!is_executable($fipdisc)) {
                 $msg_info = $fipdisc . " " . $l->g(341);
             } else if (!is_writable($IPD_DIR)) {

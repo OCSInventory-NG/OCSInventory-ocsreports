@@ -53,10 +53,9 @@ $col = 1;
 <div class="container">
     <div class="row">
         <?php
+        foreach ($info['snmp'] as $k => $v) {
 
-        foreach ($info['snmp'] as $k => $v){
-
-            if($k == 'ID'){
+            if ($k == 'ID') {
 
             } else {
 
@@ -67,7 +66,6 @@ $col = 1;
                         $label = $lbl_affich[$k];
                     }
                     $value = $v;
-
                     ?>
                     <?php if ($col >= 5): ?>
                         <div class="col-md-6">
@@ -115,8 +113,6 @@ $col = 1;
 
 </div>
 <?php
-
-
 unset($item['data']['snmp']);
 $second_tab = bandeau($item['data'], $lbl_affich, $item['lbl'], 'mvt_bordure');
 

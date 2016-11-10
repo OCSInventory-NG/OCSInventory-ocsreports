@@ -95,7 +95,6 @@ if ($f1_value != '') {
         //if we find it, unset the array and store only the match, else leave as it is
         foreach ($f1_value as $group) {
             if ($group == $config['LDAP_CHECK_FIELD1_VALUE']) {
-                $f1_value = array();
                 $f1_value = $group;
             }
         }
@@ -109,16 +108,13 @@ if ($f1_value != '') {
 }
 
 if ($f2_value != '') {
-    //NEW CODE BELOW
     if ($f2_name == "memberof") {
         foreach ($f2_value as $group) {
             if ($group == $config['LDAP_CHECK_FIELD2_VALUE']) {
-                $f2_value = array();
                 $f2_value = $group;
             }
         }
     }
-    //END NEW CODE
     if ($f2_value == $config['LDAP_CHECK_FIELD2_VALUE']) {
         $defaultRole = $config['LDAP_CHECK_FIELD2_ROLE'];
     }
@@ -196,8 +192,7 @@ if (isset($defaultRole) && $defaultRole != '') {
 
         $restriction = $profile->getRestriction('GUI');
 
-        //if this user has RESTRICTION
-        //search all tag for this user
+        //if this user has RESTRICTION search all tag for this user
         if ($restriction == 'YES') {
             $sql = "select tag from tags where login='%s'";
             $arg = array($_SESSION['OCS']["loggeduser"]);

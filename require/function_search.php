@@ -279,7 +279,6 @@ function jockers_trait($field_value) {
         $field_value_modif = str_replace("?", "_", $field_value_modif);
     }
     //on retourne la valeur traitée
-    //echo "<br>".$field_value_modif."<br>".$field_value."<br>";
     if ($field_value_modif == $field_value) {
         return "'%" . $field_value . "%'";
     } else {
@@ -326,12 +325,9 @@ function generate_sql($table_name) {
 //fonction qui permet d'afficher la ligne de recherche en fonction
 //du type du champ
 function show_ligne($value, $id_field, $ajout, $form_name) {
-
     global $optSelectField, $opt2SelectField, $opt2Select, $optSelect2Field, $opt3Select, $optSelect, $optArray, $l, $protectedPost;
-
     echo "<div class='row'>";
     echo "<div class='col-md-12'>";
-
     $nameField = $value . "-" . $id_field;
     if ($ajout != '') {
         $and_or = show_modif(array('AND' => 'AND', 'OR' => 'OR'), "SelAndOr-" . $nameField, 2, '', array('DEFAULT' => 'NO'));
@@ -343,31 +339,29 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
     } else { //si on garde les valeurs par défaut
         $champ_select = array('exact' => $l->g(410), 'ressemble' => $l->g(129), 'diff' => $l->g(130));
     }
-
-	//on génére le premier champ select
-	$select="<select name='SelComp-".$nameField."' id='SelComp-".$nameField."' class='form-control'>";
-	$countHl=0;
-	foreach ($champ_select as $k=>$v){
-		//si un javascript a été passé en paramètre
-		if ($k!='javascript'){
-			//on remplace la chaine générique field_name du javascript par le vrai nom de champ
-			$champ_select['javascript'][$k] =str_replace("field_name", $nameField, $champ_select['javascript'][$k]);
-			$select .= "<option value='".$k."' ".($protectedPost['SelComp-'.$nameField] == $k ? " selected":"")." ".$champ_select['javascript'][$k]." ".($countHl%2==1?" class='hi'":" class='down'")." >".$v."</option>";
-		}
-		$countHl++;
-	}
-	$select .= "</select>";
-
-	//on affiche le début de ligne
-	if ($ajout != '') echo $and_or;
-	echo "<div class='form-group'>";
-	echo "<label for='InputValue-".$nameField."' class='col-sm-2 control-label'>".$optArray[$value]."</label>";
-	echo "<div class='col-sm-10'>";
-
-	echo "<div class='input-group'>";
-
+    //on génére le premier champ select
+    $select = "<select name='SelComp-" . $nameField . "' id='SelComp-" . $nameField . "' class='form-control'>";
+    $countHl = 0;
+    foreach ($champ_select as $k => $v) {
+        //si un javascript a été passé en paramètre
+        if ($k != 'javascript') {
+            //on remplace la chaine générique field_name du javascript par le vrai nom de champ
+            $champ_select['javascript'][$k] = str_replace("field_name", $nameField, $champ_select['javascript'][$k]);
+            $select .= "<option value='" . $k . "' " . ($protectedPost['SelComp-' . $nameField] == $k ? " selected" : "") . " " . $champ_select['javascript'][$k] . " " . ($countHl % 2 == 1 ? " class='hi'" : " class='down'") . " >" . $v . "</option>";
+        }
+        $countHl++;
+    }
+    $select .= "</select>";
+    //on affiche le début de ligne
+    if ($ajout != '') {
+        echo $and_or;
+    }
+    echo "<div class='form-group'>";
+    echo "<label for='InputValue-" . $nameField . "' class='col-sm-2 control-label'>" . $optArray[$value] . "</label>";
+    echo "<div class='col-sm-10'>";
+    echo "<div class='input-group'>";
     //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
-    if( array_key_exists($value,$optSelectField)) {
+    if (array_key_exists($value, $optSelectField)) {
         echo $select . "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">";
         if ($optSelectField[$value . "-LBL"] == "calendar") {
             echo "<span class='input-group-addon'>";
@@ -377,114 +371,109 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
     }
     //TITRE,CHAMPSELECT,(pour $optSelect)
     //et les champs suivants en plus pour $opt2SelectField: CHAMP (EGAL,LIKE,NOTLIKE) et valeur
-    if( array_key_exists($value,$opt2SelectField) or array_key_exists($value,$optSelect)){
-        if (array_key_exists($value,$opt2SelectField)){
-            $data=$opt2SelectField;
+    if (array_key_exists($value, $opt2SelectField) or array_key_exists($value, $optSelect)) {
+        if (array_key_exists($value, $opt2SelectField)) {
+            $data = $opt2SelectField;
             //nom en Value3 car le traitement doit se faire sur la valeur de ce champ (cas particulier)
-            $name_select='SelFieldValue3';
+            $name_select = 'SelFieldValue3';
+        } else {
+            $data = $optSelect;
+            $name_select = 'SelFieldValue';
         }
-        else{
-            $data=$optSelect;
-            $name_select='SelFieldValue';
-        }
-        $select2="<select name='".$name_select."-".$nameField."' id='".$name_select."-".$nameField."'>";
-
-        if (is_array($data[$value.'-SQL1'])){
-            foreach ($data[$value.'-SQL1'] as $k=>$v){
-                $select2 .= "<option value='".$k."' ".($protectedPost[$name_select."-".$nameField] == $k ? " selected":"").">".$v."</option>";
+        $select2 = "<select name='" . $name_select . "-" . $nameField . "' id='" . $name_select . "-" . $nameField . "'>";
+        if (is_array($data[$value . '-SQL1'])) {
+            foreach ($data[$value . '-SQL1'] as $k => $v) {
+                $select2 .= "<option value='" . $k . "' " . ($protectedPost[$name_select . "-" . $nameField] == $k ? " selected" : "") . ">" . $v . "</option>";
             }
-        }else{
-            $result = mysqli_query($_SESSION['OCS']["readServer"], $data[$value.'-SQL1']);
-            while( $val = mysqli_fetch_array( $result ) ) {
-                $val=data_encode_utf8($val);
-                foreach ($val as $name_of_field=>$value_of_request){
-                    if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
-                        if (!isset($val['ID']))
-                            $val['ID']=$value_of_request;
-                        //	echo $val['ID']."=>".$value_of_request."<br>";
-                        $select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
+        } else {
+            $result = mysqli_query($_SESSION['OCS']["readServer"], $data[$value . '-SQL1']);
+            while ($val = mysqli_fetch_array($result)) {
+                $val = data_encode_utf8($val);
+                foreach ($val as $name_of_field => $value_of_request) {
+                    if (!is_numeric($name_of_field) and $name_of_field != 'ID') {
+                        if (!isset($val['ID'])) {
+                            $val['ID'] = $value_of_request;
+                        }
+                        $select2 .= "<option value='" . $val['ID'] . "' " . ($protectedPost[$name_select . '-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $value_of_request . "</option>";
                     }
                 }
-
             }
         }
         $select2 .= "</select>";
         echo $select2;
-        if (array_key_exists($value,$opt2SelectField)){
-            if ($opt2SelectField[$value."-LBL"] == "calendar")
-                $opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,$l->g(1270));
-            echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">".$opt2SelectField[$value."-LBL"];
+        if (array_key_exists($value, $opt2SelectField)) {
+            if ($opt2SelectField[$value . "-LBL"] == "calendar") {
+                $opt2SelectField[$value . "-LBL"] = calendars("InputValue-" . $nameField, $l->g(1270));
+            }
+            echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">" . $opt2SelectField[$value . "-LBL"];
         }
     }
     //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),CHAMPSELECT
-    if( array_key_exists($value,$opt2Select)){
-        $selectValue="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' class='form-control'>";
-        if (is_array($opt2Select[$value.'-SQL1'])){
-            foreach ($opt2Select[$value.'-SQL1'] as $k=>$v){
-                $selectValue .= "<option value='".$k."' ".($protectedPost['SelFieldValue-'.$nameField] == $k ? " selected":"").">".$v."</option>";
+    if (array_key_exists($value, $opt2Select)) {
+        $selectValue = "<select name='SelFieldValue-" . $nameField . "' id='SelFieldValue-" . $nameField . "' class='form-control'>";
+        if (is_array($opt2Select[$value . '-SQL1'])) {
+            foreach ($opt2Select[$value . '-SQL1'] as $k => $v) {
+                $selectValue .= "<option value='" . $k . "' " . ($protectedPost['SelFieldValue-' . $nameField] == $k ? " selected" : "") . ">" . $v . "</option>";
             }
-        }else{
-            $result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt2Select[$value.'-SQL1']);
-            while( $val = mysqli_fetch_array( $result ) ) {
-                if (!isset($val['ID']))
-                    $val['ID']=$val['NAME'];
-                $selectValue .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+        } else {
+            $result = mysqli_query($_SESSION['OCS']["readServer"], $opt2Select[$value . '-SQL1']);
+            while ($val = mysqli_fetch_array($result)) {
+                if (!isset($val['ID'])) {
+                    $val['ID'] = $val['NAME'];
+                }
+                $selectValue .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
             }
         }
         $selectValue .= "</select>";
-        echo $select.$selectValue;
+        echo $select . $selectValue;
     }
     //TITRE,CHAMPSELECT,valeur1,valeur2
-    if( array_key_exists($value,$optSelect2Field)){
+    if (array_key_exists($value, $optSelect2Field)) {
         //gestion de la vision du deuxieme champ de saisi
         //on fonction du POST
-        if ($protectedPost['SelComp-'.$nameField] == "between")
-            $display="inline";
-        else
-            $display="none";
-
-        echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">
-				 <div style='display:".$display."' id='FieldInput2-".$nameField."'> -- 
-				 <input name='InputValue2-".$nameField."' value=\"".stripslashes($protectedPost["InputValue2-".$nameField])."\">
-				 </div>".$optSelect2Field[$value."-LBL"];
+        if ($protectedPost['SelComp-' . $nameField] == "between") {
+            $display = "inline";
+        } else {
+            $display = "none";
+        }
+        echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">
+				 <div style='display:" . $display . "' id='FieldInput2-" . $nameField . "'> --
+				 <input name='InputValue2-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue2-" . $nameField]) . "\">
+				 </div>" . $optSelect2Field[$value . "-LBL"];
     }
-
-    if( array_key_exists($value,$opt3Select)){
-        $selectValue1="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' class='form-control'>";
-        $result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt3Select[$value.'-SQL1']);
-        while( $val = mysqli_fetch_array( $result ) ) {
-            if (!isset($val['ID']))
-                $val['ID']=$val['NAME'];
-            $selectValue1 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+    if (array_key_exists($value, $opt3Select)) {
+        $selectValue1 = "<select name='SelFieldValue-" . $nameField . "' id='SelFieldValue-" . $nameField . "' class='form-control'>";
+        $result = mysqli_query($_SESSION['OCS']["readServer"], $opt3Select[$value . '-SQL1']);
+        while ($val = mysqli_fetch_array($result)) {
+            if (!isset($val['ID'])) {
+                $val['ID'] = $val['NAME'];
+            }
+            $selectValue1 .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
         }
         $selectValue1 .= "</select>";
-
-        $selectValue2="<select name='SelFieldValue2-".$nameField."' id='SelFieldValue2-".$nameField."' class='form-control'>";
-        $result = mysqli_query( $_SESSION['OCS']["readServer"],$opt3Select[$value.'-SQL2'] );
-        while( $val = mysqli_fetch_array( $result ) ) {
-            if (!isset($val['ID']))
-                $val['ID']=$val['NAME'];
-            $selectValue2 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue2-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+        $selectValue2 = "<select name='SelFieldValue2-" . $nameField . "' id='SelFieldValue2-" . $nameField . "' class='form-control'>";
+        $result = mysqli_query($_SESSION['OCS']["readServer"], $opt3Select[$value . '-SQL2']);
+        while ($val = mysqli_fetch_array($result)) {
+            if (!isset($val['ID'])) {
+                $val['ID'] = $val['NAME'];
+            }
+            $selectValue2 .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue2-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
         }
         $selectValue2 .= "</select>";
-        echo $select.$l->g(667).":".$selectValue1.$l->g(546).":".$selectValue2;
+        echo $select . $l->g(667) . ":" . $selectValue1 . $l->g(546) . ":" . $selectValue2;
     }
-
     echo "</div>"; // input group
-    echo "<button class='btn btn-danger btn-block' alt='".$l->g(41)."' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'><span class='glyphicon glyphicon-remove delete-span delete-span-xs' style='color:white'></span></button>";
+    echo "<button class='btn btn-danger btn-block' alt='" . $l->g(41) . "' onclick='pag(\"" . $id_field . "\",\"delfield\",\"" . $form_name . "\");'><span class='glyphicon glyphicon-remove delete-span delete-span-xs' style='color:white'></span></button>";
     echo "</div>"; // col
     echo "</div>"; // form group
     echo "</div>"; // col
-
     echo "</div>"; // row
-
 }
 
-function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
-{
-	global 	$l;
-	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
-	echo "<script language=javascript>
+function add_trait_select($img, $list_id, $form_name, $list_pag, $comp = false) {
+    global $l;
+    $_SESSION['OCS']['ID_REQ'] = id_without_idgroups($list_id);
+    echo "<script language=javascript>
 		function garde_check(image,id,computer)
 		 {
 			var idchecked = '';
@@ -514,86 +503,86 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 			}
 		}
 	</script>";
-        ?>
-        <div class="btn-group">
-            <?php
-            foreach ($img as $key => $value) {
-                echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
-            }
-            ?>
-        </div>
-
+    ?>
+    <div class="btn-group">
         <?php
-    }
+        foreach ($img as $key => $value) {
+            echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
+        }
+        ?>
+    </div>
 
-    function multi_lot($form_name, $lbl_choise) {
-        global $protectedPost, $protectedGet, $l;
-        $list_id = "";
-        if (!isset($protectedGet['origine'])) {
-            if (is_defined($protectedGet['idchecked'])) {
-                if (!isset($protectedGet['comp'])) {
-                    $choise_req_selection['REQ'] = $l->g(584);
-                    $choise_req_selection['SEL'] = $l->g(585);
-                } else {
-                    $choise_req_selection['SEL'] = $l->g(585);
-                }
-                $choise_req_selection[] = " ";
-                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
+    <?php
+}
+
+function multi_lot($form_name, $lbl_choise) {
+    global $protectedPost, $protectedGet, $l;
+    $list_id = "";
+    if (!isset($protectedGet['origine'])) {
+        if (is_defined($protectedGet['idchecked'])) {
+            if (!isset($protectedGet['comp'])) {
+                $choise_req_selection['REQ'] = $l->g(584);
+                $choise_req_selection['SEL'] = $l->g(585);
+            } else {
+                $choise_req_selection['SEL'] = $l->g(585);
             }
-            if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '') {
-                msg_info($l->g(901));
-                if ($protectedGet['idchecked'] == '') {
-                    echo "<input type='hidden' name='CHOISE' value='" . $protectedPost['CHOISE'] . "'>";
-                    $protectedPost['CHOISE'] = 'REQ';
-                }
-                $list_id = $_SESSION['OCS']['ID_REQ'];
+            $choise_req_selection[] = " ";
+            formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#" . $form_name . "\").submit();'");
+        }
+        if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '') {
+            msg_info($l->g(901));
+            if ($protectedGet['idchecked'] == '') {
+                echo "<input type='hidden' name='CHOISE' value='" . $protectedPost['CHOISE'] . "'>";
+                $protectedPost['CHOISE'] = 'REQ';
             }
-            if ($protectedPost['CHOISE'] == 'SEL') {
-                msg_info($l->g(902));
-                $list_id = $protectedGet['idchecked'];
-            }
-            //gestion tableau
-            if (is_array($list_id)) {
-                $list_id = implode(",", $list_id);
-            }
-        } else {
+            $list_id = $_SESSION['OCS']['ID_REQ'];
+        }
+        if ($protectedPost['CHOISE'] == 'SEL') {
+            msg_info($l->g(902));
             $list_id = $protectedGet['idchecked'];
         }
-
-        if ($list_id != "") {
-            return $list_id;
-        } else {
-            return false;
+        //gestion tableau
+        if (is_array($list_id)) {
+            $list_id = implode(",", $list_id);
         }
+    } else {
+        $list_id = $protectedGet['idchecked'];
     }
 
-    function found_soft_type($type, $id = "", $name = "") {
-        $sql = "select id, name from %s ";
-        $arg = array($type);
-        if ($id != "") {
-            $sql .= " where id=%s";
-            array_push($id, $arg);
-        } elseif ($name != "") {
-            $sql .= " where name='%s'";
-            array_push($name, $arg);
-        }
-        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($item = mysqli_fetch_object($result)) {
-            $res[$item->id] = $item->name;
-        }
-        return $res;
+    if ($list_id != "") {
+        return $list_id;
+    } else {
+        return false;
     }
+}
 
-    function id_without_idgroups($list_id) {
-        $sql = "select id from hardware where deviceid <> '_SYSTEMGROUP_'
+function found_soft_type($type, $id = "", $name = "") {
+    $sql = "select id, name from %s ";
+    $arg = array($type);
+    if ($id != "") {
+        $sql .= " where id=%s";
+        array_push($id, $arg);
+    } elseif ($name != "") {
+        $sql .= " where name='%s'";
+        array_push($name, $arg);
+    }
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+    while ($item = mysqli_fetch_object($result)) {
+        $res[$item->id] = $item->name;
+    }
+    return $res;
+}
+
+function id_without_idgroups($list_id) {
+    $sql = "select id from hardware where deviceid <> '_SYSTEMGROUP_'
 										AND deviceid <> '_DOWNLOADGROUP_'
 										AND id in ";
-        $arg = array();
-        $sql = mysql2_prepare($sql, $arg, $list_id);
-        $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
-        while ($item = mysqli_fetch_object($result)) {
-            $res[$item->id] = $item->id;
-        }
-        return $res;
+    $arg = array();
+    $sql = mysql2_prepare($sql, $arg, $list_id);
+    $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
+    while ($item = mysqli_fetch_object($result)) {
+        $res[$item->id] = $item->id;
     }
-    ?>
+    return $res;
+}
+?>

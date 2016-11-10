@@ -543,13 +543,14 @@ function interprete_accountinfo($list_fields, $tab_options) {
 }
 
 /*
-*
-*   Convert administration data type to html input
-*
-*/
-function adminData_to_input($typeID){
+ *
+ *   Convert administration data type to html input
+ *
+ */
 
-    switch ($typeID){
+function adminData_to_input($typeID) {
+
+    switch ($typeID) {
 
         case '2':
             return 'select';

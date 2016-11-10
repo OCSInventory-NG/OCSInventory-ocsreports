@@ -21,25 +21,25 @@
  * MA 02110-1301, USA.
  */
 
-class MsStatsTop extends MsStats{
-    
-    public function getTabName(){
+class MsStatsTop extends MsStats {
+
+    public function getTabName() {
         global $l;
-        
+
         return $l->g(800);
     }
-    
-    public function showForm(){
-        
+
+    public function showForm() {
+
         global $l;
         global $protectedPost;
-        
+
         require('require/function_stats.php');
-        
+
         $rep_ocs = explode('/', $_SERVER['SCRIPT_FILENAME']);
         array_pop($rep_ocs);
         $file_restriction_soft = implode($rep_ocs, '/') . "/plugins/main_sections/ms_stats/files/ms_stats_top_soft.txt";
-        
+
         require_once('require/function_stats.php');
         if (!is_defined($protectedPost['CHOICE_OP'])) {
             $protectedPost['CHOICE_OP'] = 'TOP_SOFT';
@@ -80,9 +80,7 @@ class MsStatsTop extends MsStats{
                 $first = 0;
                 $j = 0;
                 foreach ($data as $k => $v) {
-                    $i = 0;
-                    while ($v[$i]) {
-
+                    foreach ($v as $unV) {
                         $jonct = '';
                         if (($k == 'LIKE' || $k == '=') && $first != 0) {
                             $jonct = ' OR ';
@@ -96,8 +94,7 @@ class MsStatsTop extends MsStats{
                             $j = 0;
                         }
                         $sql .= $jonct . " name " . $k . " '%s'";
-                        $arg[] = $v[$i];
-                        $i++;
+                        $arg[] = $unV;
                         $first++;
                     }
                 }
@@ -189,5 +186,5 @@ class MsStatsTop extends MsStats{
             echo "</div><br>";
         }
     }
+
 }
-    

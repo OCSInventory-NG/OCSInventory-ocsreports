@@ -302,15 +302,12 @@ function RandomMAC() {
     $word = "A,B,C,D,E,F,0,1,2,3,4,5,6,7,8,9";
     $mac = '';
     $array = explode(",", $word);
-    while ($j < 8) {
-        $i = 0;
-        while ($i < 2) {
+    for ($j = 0; $j < 8; $j++) {
+        for ($i = 0; $i < 2; $i++) {
             shuffle($array);
             $mac .= $array[0];
-            $i++;
         }
         $mac .= ":";
-        $j++;
     }
 
     return substr($mac, 0, -1);

@@ -35,19 +35,19 @@ class ComputerMenuRenderer extends MenuRenderer {
         $this->urls = $urls;
     }
 
-	public function getUrl(MenuElem $menu_elem) {
-		return "?".PAG_INDEX."=".$this->urls->getUrl('ms_computer')."&head=1&systemid=".$this->computer_id."&".$menu_elem->getUrl();
-	}
+    public function getUrl(MenuElem $menu_elem) {
+        return "?" . PAG_INDEX . "=" . $this->urls->getUrl('ms_computer') . "&head=1&systemid=" . $this->computer_id . "&" . $menu_elem->getUrl();
+    }
 
-	public function getLabel(MenuElem $menu_elem) {
-    	$label = $this->translateLabel($menu_elem->getLabel());
-    	
-    	if ($menu_elem->hasChildren() and $level == 0) {
-    		$label .= ' <b class="right-caret"></b>';
-    	}
-    	
-    	return $label;
-	}
+    public function getLabel(MenuElem $menu_elem) {
+        $label = $this->translateLabel($menu_elem->getLabel());
+
+        if ($menu_elem->hasChildren()) {
+            $label .= ' <b class="right-caret"></b>';
+        }
+
+        return $label;
+    }
 
 }
 ?>

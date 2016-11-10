@@ -73,12 +73,11 @@ printEnTete($l->g(7008));
         $availablePlugins = scan_downloaded_plugins();
 
         if (!$dep_check || !$per_check) {
-
             msg_error($l->g(6009));
         } else {
             if (!empty($availablePlugins)) {
                 ?>
-                <div class="form-group">
+        <div class="form-group">
                     <div class="col col-sm-5 col-sm-offset-3">
                         <select class="form-control" name="plugin">
                             <?php
@@ -91,12 +90,12 @@ printEnTete($l->g(7008));
                                 }
                             }
                             ?>
-                        </select>
-                    </div>
-                    <div class="col col-sm-2">
-                        <input type="submit" class="form-control btn btn-success" value="Install">
-                    </div>
-                </div>
+                                </select>
+                            </div>
+                            <div class="col col-sm-2">
+                                <input type="submit" class="form-control btn btn-success" value="Install">
+                            </div>
+                        </div>
 
                 <?php
             } else {

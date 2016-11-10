@@ -187,8 +187,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
 }
 echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'>
 <tr BGCOLOR='#C7D9F5'><td width='30px'>&nbsp;</td><td align='center'><b>" . $l->g(81) . "</b></td><td align='center'><b>" . $l->g(55) . "</b></td></tr>";
-$j = 0;
-while ($j < $i) {
+for ($j = 0; $j < $i; $j++) {
     $nb += $count_value[$j];
     echo "<tr>";
     if (isset($arr_FCColors[$j])) {
@@ -202,7 +201,6 @@ while ($j < $i) {
         echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_speed_stat'] . "&head=1&ta=" . urlencode($link[$j]) . "&stat=" . $protectedGet["stat"] . "\">&nbsp<img src='image/stat.png'></a>";
     }
     echo "	</td></tr>";
-    $j++;
 }
 echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>" . $l->g(87) . "</b></td><td><b>" . $nb . "</b></td></tr>";
 echo "</table><br><br>";

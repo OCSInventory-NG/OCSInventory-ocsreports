@@ -63,7 +63,7 @@ if ($protectedPost['search']) {
     $search_count = "";
 }
 //show first lign of onglet
-show_tabs($def_onglets,$form_name,"onglet",true);
+show_tabs($def_onglets, $form_name, "onglet", true);
 echo '<div class="col col-md-10" >';
 //attention=> result with restriction
 if ($search_count != "" || $search_cache != "") {
@@ -304,25 +304,24 @@ if ($protectedPost['AFFECT_TYPE'] != '') {
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <input class='btn btn-success' type='submit' value='<?php echo $l->g(393); ?>'>
-        <button class='btn btn-danger' value='<?php echo $l->g(396); ?>' onclick='return pag("RESET","RESET","<?php echo $form_name ?>");' ><?php echo $l->g(396); ?></button>
+        <button class='btn btn-danger' value='<?php echo $l->g(396); ?>' onclick='return pag("RESET", "RESET", "<?php echo $form_name ?>");' ><?php echo $l->g(396); ?></button>
     </div>
 </div>
 
 <div class="row margin-top30">
     <div class="col-md-6 col-md-offset-3">
         <input name='all_item' id='all_item' type='checkbox' <?php echo (isset($protectedPost['all_item']) ? " checked " : "") . ">" . $l->g(384); ?>
-        <br />
-        <?php
-        formGroup('select', 'AFFECT_TYPE', $l->g(1119), '', '', $protectedPost['AFFECT_TYPE'], '', $choix_affect, $choix_affect);
+               <br />
+               <?php
+               formGroup('select', 'AFFECT_TYPE', $l->g(1119), '', '', $protectedPost['AFFECT_TYPE'], '', $choix_affect, $choix_affect);
 
-        if ($result_exist != false) {
-            formGroup('text', 'NEW_CAT', $l->g(449), '', 100, $protectedPost['NEW_CAT']);
-        }
-        ?>
+               if ($result_exist != false) {
+                   formGroup('text', 'NEW_CAT', $l->g(449), '', 100, $protectedPost['NEW_CAT']);
+               }
+               ?>
     </div>
 </div>
 <?php
-
 echo '</div>';
 echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 echo "<input type='hidden' name='TRANS' id='TRANS' value=''>";

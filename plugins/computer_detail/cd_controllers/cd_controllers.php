@@ -28,8 +28,9 @@ if (AJAX) {
 }
 
 print_item_header($l->g(93));
-if (!isset($protectedPost['SHOW']))
+if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
+}
 $form_name = "affich_controllers";
 $table_name = $form_name;
 $tab_options = $protectedPost;
