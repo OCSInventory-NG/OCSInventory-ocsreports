@@ -326,6 +326,7 @@ function generate_sql($table_name) {
 //fonction qui permet d'afficher la ligne de recherche en fonction
 //du type du champ
 function show_ligne($value, $id_field, $ajout, $form_name) {
+
     global $optSelectField, $opt2SelectField, $opt2Select, $optSelect2Field, $opt3Select, $optSelect, $optArray, $l, $protectedPost;
 
     echo "<div class='row'>";
@@ -364,117 +365,119 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	echo "<div class='col-sm-10'>";
 
 	echo "<div class='input-group'>";
-	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
-	if( array_key_exists($value,$optSelectField)) {
-		echo $select . "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">";
-		if ($optSelectField[$value . "-LBL"] == "calendar") {
-			echo "<span class='input-group-addon'>";
-			echo calendars("InputValue-" . $nameField, $l->g(1270));
-			echo "</span>";
-		}
-	}
-	//TITRE,CHAMPSELECT,(pour $optSelect)
-	//et les champs suivants en plus pour $opt2SelectField: CHAMP (EGAL,LIKE,NOTLIKE) et valeur
-	if( array_key_exists($value,$opt2SelectField) or array_key_exists($value,$optSelect)){
-		if (array_key_exists($value,$opt2SelectField)){
-			$data=$opt2SelectField;
-			//nom en Value3 car le traitement doit se faire sur la valeur de ce champ (cas particulier)
-			$name_select='SelFieldValue3';
-		}
-		else{
-			$data=$optSelect;
-			$name_select='SelFieldValue';
-		}
-		$select2="<select name='".$name_select."-".$nameField."' id='".$name_select."-".$nameField."'>";
 
-		if (is_array($data[$value.'-SQL1'])){
-			foreach ($data[$value.'-SQL1'] as $k=>$v){
-				$select2 .= "<option value='".$k."' ".($protectedPost[$name_select."-".$nameField] == $k ? " selected":"").">".$v."</option>";
-			}
-		}else{
-			$result = mysqli_query($_SESSION['OCS']["readServer"], $data[$value.'-SQL1']);
-			while( $val = mysqli_fetch_array( $result ) ) {
-				$val=data_encode_utf8($val);
-				foreach ($val as $name_of_field=>$value_of_request){
-					if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
-						if (!isset($val['ID']))
-							$val['ID']=$value_of_request;
-						//	echo $val['ID']."=>".$value_of_request."<br>";
-						$select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
-					}
-				}
+    //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
+    if( array_key_exists($value,$optSelectField)) {
+        echo $select . "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">";
+        if ($optSelectField[$value . "-LBL"] == "calendar") {
+            echo "<span class='input-group-addon'>";
+            echo calendars("InputValue-" . $nameField, $l->g(1270));
+            echo "</span>";
+        }
+    }
+    //TITRE,CHAMPSELECT,(pour $optSelect)
+    //et les champs suivants en plus pour $opt2SelectField: CHAMP (EGAL,LIKE,NOTLIKE) et valeur
+    if( array_key_exists($value,$opt2SelectField) or array_key_exists($value,$optSelect)){
+        if (array_key_exists($value,$opt2SelectField)){
+            $data=$opt2SelectField;
+            //nom en Value3 car le traitement doit se faire sur la valeur de ce champ (cas particulier)
+            $name_select='SelFieldValue3';
+        }
+        else{
+            $data=$optSelect;
+            $name_select='SelFieldValue';
+        }
+        $select2="<select name='".$name_select."-".$nameField."' id='".$name_select."-".$nameField."'>";
 
-			}
-		}
-		$select2 .= "</select>";
-		echo $select2;
-		if (array_key_exists($value,$opt2SelectField)){
-			if ($opt2SelectField[$value."-LBL"] == "calendar")
-				$opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,$l->g(1270));
-			echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">&nbsp;".$opt2SelectField[$value."-LBL"];
-		}
-        echo "</div>";
-	}
-	//TITRE,CHAMP (EGAL,LIKE,NOTLIKE),CHAMPSELECT
-	if( array_key_exists($value,$opt2Select)){
-		$selectValue="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' class='form-control'>";
-		if (is_array($opt2Select[$value.'-SQL1'])){
-			foreach ($opt2Select[$value.'-SQL1'] as $k=>$v){
-				$selectValue .= "<option value='".$k."' ".($protectedPost['SelFieldValue-'.$nameField] == $k ? " selected":"").">".$v."</option>";
-			}
-		}else{
-			$result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt2Select[$value.'-SQL1']);
-			while( $val = mysqli_fetch_array( $result ) ) {
-				if (!isset($val['ID']))
-					$val['ID']=$val['NAME'];
-				$selectValue .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
-			}
-		}
-		$selectValue .= "</select>";
-		echo $select.$selectValue."</div>";
-	}
-	//TITRE,CHAMPSELECT,valeur1,valeur2
-	if( array_key_exists($value,$optSelect2Field)){
-		//gestion de la vision du deuxieme champ de saisi
-		//on fonction du POST
-		if ($protectedPost['SelComp-'.$nameField] == "between")
-			$display="inline";
-		else
-			$display="none";
+        if (is_array($data[$value.'-SQL1'])){
+            foreach ($data[$value.'-SQL1'] as $k=>$v){
+                $select2 .= "<option value='".$k."' ".($protectedPost[$name_select."-".$nameField] == $k ? " selected":"").">".$v."</option>";
+            }
+        }else{
+            $result = mysqli_query($_SESSION['OCS']["readServer"], $data[$value.'-SQL1']);
+            while( $val = mysqli_fetch_array( $result ) ) {
+                $val=data_encode_utf8($val);
+                foreach ($val as $name_of_field=>$value_of_request){
+                    if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
+                        if (!isset($val['ID']))
+                            $val['ID']=$value_of_request;
+                        //	echo $val['ID']."=>".$value_of_request."<br>";
+                        $select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
+                    }
+                }
 
-		echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">
-				 <div style='display:".$display."' id='FieldInput2-".$nameField."'>&nbsp;--&nbsp;<input name='InputValue2-".$nameField."' value=\"".stripslashes($protectedPost["InputValue2-".$nameField])."\"></div>".$optSelect2Field[$value."-LBL"]."</div>";
-	}
+            }
+        }
+        $select2 .= "</select>";
+        echo $select2;
+        if (array_key_exists($value,$opt2SelectField)){
+            if ($opt2SelectField[$value."-LBL"] == "calendar")
+                $opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,$l->g(1270));
+            echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">".$opt2SelectField[$value."-LBL"];
+        }
+    }
+    //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),CHAMPSELECT
+    if( array_key_exists($value,$opt2Select)){
+        $selectValue="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' class='form-control'>";
+        if (is_array($opt2Select[$value.'-SQL1'])){
+            foreach ($opt2Select[$value.'-SQL1'] as $k=>$v){
+                $selectValue .= "<option value='".$k."' ".($protectedPost['SelFieldValue-'.$nameField] == $k ? " selected":"").">".$v."</option>";
+            }
+        }else{
+            $result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt2Select[$value.'-SQL1']);
+            while( $val = mysqli_fetch_array( $result ) ) {
+                if (!isset($val['ID']))
+                    $val['ID']=$val['NAME'];
+                $selectValue .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+            }
+        }
+        $selectValue .= "</select>";
+        echo $select.$selectValue;
+    }
+    //TITRE,CHAMPSELECT,valeur1,valeur2
+    if( array_key_exists($value,$optSelect2Field)){
+        //gestion de la vision du deuxieme champ de saisi
+        //on fonction du POST
+        if ($protectedPost['SelComp-'.$nameField] == "between")
+            $display="inline";
+        else
+            $display="none";
 
-	if( array_key_exists($value,$opt3Select)){
-		$selectValue1="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' class='form-control'>";
-		$result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt3Select[$value.'-SQL1']);
-		while( $val = mysqli_fetch_array( $result ) ) {
-			if (!isset($val['ID']))
-				$val['ID']=$val['NAME'];
-			$selectValue1 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
-		}
-		$selectValue1 .= "</select>";
+        echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">
+				 <div style='display:".$display."' id='FieldInput2-".$nameField."'> -- 
+				 <input name='InputValue2-".$nameField."' value=\"".stripslashes($protectedPost["InputValue2-".$nameField])."\">
+				 </div>".$optSelect2Field[$value."-LBL"];
+    }
 
-		$selectValue2="<select name='SelFieldValue2-".$nameField."' id='SelFieldValue2-".$nameField."' class='form-control'>";
-		$result = mysqli_query( $_SESSION['OCS']["readServer"],$opt3Select[$value.'-SQL2'] );
-		while( $val = mysqli_fetch_array( $result ) ) {
-			if (!isset($val['ID']))
-				$val['ID']=$val['NAME'];
-			$selectValue2 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue2-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
-		}
-		$selectValue2 .= "</select>";
-		echo $select.$l->g(667).":".$selectValue1.$l->g(546).":".$selectValue2."</div>";
-	}
+    if( array_key_exists($value,$opt3Select)){
+        $selectValue1="<select name='SelFieldValue-".$nameField."' id='SelFieldValue-".$nameField."' class='form-control'>";
+        $result = mysqli_query($_SESSION['OCS']["readServer"] ,$opt3Select[$value.'-SQL1']);
+        while( $val = mysqli_fetch_array( $result ) ) {
+            if (!isset($val['ID']))
+                $val['ID']=$val['NAME'];
+            $selectValue1 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+        }
+        $selectValue1 .= "</select>";
 
-	echo "</div>";
+        $selectValue2="<select name='SelFieldValue2-".$nameField."' id='SelFieldValue2-".$nameField."' class='form-control'>";
+        $result = mysqli_query( $_SESSION['OCS']["readServer"],$opt3Select[$value.'-SQL2'] );
+        while( $val = mysqli_fetch_array( $result ) ) {
+            if (!isset($val['ID']))
+                $val['ID']=$val['NAME'];
+            $selectValue2 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue2-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
+        }
+        $selectValue2 .= "</select>";
+        echo $select.$l->g(667).":".$selectValue1.$l->g(546).":".$selectValue2;
+    }
+
+    echo "</div>"; // input group
     echo "<button class='btn btn-danger btn-block' alt='".$l->g(41)."' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'><span class='glyphicon glyphicon-remove delete-span delete-span-xs' style='color:white'></span></button>";
+    echo "</div>"; // col
+    echo "</div>"; // form group
+    echo "</div>"; // col
 
-    echo "</div>";
-    echo "</div>";
+    echo "</div>"; // row
 
-	echo "</div>";
-	echo "</div>";
 }
 
 function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)

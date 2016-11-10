@@ -158,7 +158,7 @@ if (!isset($info_id['ERROR'])) {
                     }
                 }
             }
-            tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+            modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
                 'title' => $l->g(465) . ' => ' . $info_id['NAME'] . " (" . $protectedGet["active"] . ")"
             ));
         }

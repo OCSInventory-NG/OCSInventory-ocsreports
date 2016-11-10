@@ -300,17 +300,29 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $table_name;
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-    //only for profils who can activate packet
-    if (!$cant_active){		
-            del_selection($form_name);
-            if ($protectedPost['SHOW_SELECT'] == 'download'){
-                    $config_input=array('MAXLENGTH'=>10,'SIZE'=>15);
-                    formGroup('text', 'manualActive', $l->g(476) . " " . $l->g(475), '', 10);
-                ?>
-                <a href="#" class="btn btn-success" onclick="manualActive()"><?php echo $l->g(13); ?></a>
-                <?php
-            }
+
+    if (!$cant_active){
+        del_selection($form_name);
     }
+    ?>
+    <div class="row rowMarginTop30">
+        <div class="col-md-6 col-md-offset-3">
+            <?php if ($protectedPost['SHOW_SELECT'] == 'download'): ?>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="manualActive"><?php echo $l->g(476); ?></label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input type="text" name="manualActive" id="manualActive" size="" maxlength="10" value="<?php echo isset($protectedPost['manualActive']); ?>" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="btn btn-success" onclick="manualActive()"><?php echo $l->g(13); ?></a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php
+    //only for profils who can activate packet
+
 }elseif ( $protectedPost['onglet'] == "DELETED_PACKET") {
     
     if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){

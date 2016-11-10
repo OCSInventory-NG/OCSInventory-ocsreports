@@ -460,7 +460,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 $("#select_col" + table_name).val('default');
             });
 
-            $("<span id='" + table_name + "_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#" + table_name + "_filter label");
+            //$("<span id='" + table_name + "_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#" + table_name + "_filter label");
             $("#" + table_name + "_settings").hide();
             $("." + table_name + "_top_settings").contents().appendTo("#" + table_name + "_settings");
             $("#" + table_name + "_settings").addClass('table_settings');
@@ -649,6 +649,7 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 		return "<input type='text' name='" . $input_name . "' id='" . $input_name . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $name . "\" class='form-control'\" " . $configinput['JAVASCRIPT'] . ">";
 	elseif ($input_type == 2) {
 		$champs = "<div class='form-group'>";
+
 
         echo "<div class='col col-sm-10 col-sm-offset-2'>";
 		$champs .= "<select name='" . $input_name . "' id='" . $input_name . "' " . (isset($configinput['JAVASCRIPT']) ? $configinput['JAVASCRIPT'] : '');
