@@ -460,7 +460,6 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 $("#select_col" + table_name).val('default');
             });
 
-            $("<span id='" + table_name + "_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#" + table_name + "_filter label");
             $("#" + table_name + "_settings").hide();
             $("." + table_name + "_top_settings").contents().appendTo("#" + table_name + "_settings");
             $("#" + table_name + "_settings").addClass('table_settings');

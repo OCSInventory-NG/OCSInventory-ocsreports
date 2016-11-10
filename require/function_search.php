@@ -326,10 +326,8 @@ function generate_sql($table_name) {
 //du type du champ
 function show_ligne($value, $id_field, $ajout, $form_name) {
     global $optSelectField, $opt2SelectField, $opt2Select, $optSelect2Field, $opt3Select, $optSelect, $optArray, $l, $protectedPost;
-
     echo "<div class='row'>";
     echo "<div class='col-md-12'>";
-
     $nameField = $value . "-" . $id_field;
     if ($ajout != '') {
         $and_or = show_modif(array('AND' => 'AND', 'OR' => 'OR'), "SelAndOr-" . $nameField, 2, '', array('DEFAULT' => 'NO'));
@@ -341,7 +339,6 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
     } else { //si on garde les valeurs par défaut
         $champ_select = array('exact' => $l->g(410), 'ressemble' => $l->g(129), 'diff' => $l->g(130));
     }
-
     //on génére le premier champ select
     $select = "<select name='SelComp-" . $nameField . "' id='SelComp-" . $nameField . "' class='form-control'>";
     $countHl = 0;
@@ -355,7 +352,6 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         $countHl++;
     }
     $select .= "</select>";
-
     //on affiche le début de ligne
     if ($ajout != '') {
         echo $and_or;
@@ -363,7 +359,6 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
     echo "<div class='form-group'>";
     echo "<label for='InputValue-" . $nameField . "' class='col-sm-2 control-label'>" . $optArray[$value] . "</label>";
     echo "<div class='col-sm-10'>";
-
     echo "<div class='input-group'>";
     //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
     if (array_key_exists($value, $optSelectField)) {
@@ -386,7 +381,6 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
             $name_select = 'SelFieldValue';
         }
         $select2 = "<select name='" . $name_select . "-" . $nameField . "' id='" . $name_select . "-" . $nameField . "'>";
-
         if (is_array($data[$value . '-SQL1'])) {
             foreach ($data[$value . '-SQL1'] as $k => $v) {
                 $select2 .= "<option value='" . $k . "' " . ($protectedPost[$name_select . "-" . $nameField] == $k ? " selected" : "") . ">" . $v . "</option>";
@@ -397,9 +391,9 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
                 $val = data_encode_utf8($val);
                 foreach ($val as $name_of_field => $value_of_request) {
                     if (!is_numeric($name_of_field) and $name_of_field != 'ID') {
-                        if (!isset($val['ID']))
+                        if (!isset($val['ID'])) {
                             $val['ID'] = $value_of_request;
-                        //	echo $val['ID']."=>".$value_of_request."<br>";
+                        }
                         $select2 .= "<option value='" . $val['ID'] . "' " . ($protectedPost[$name_select . '-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $value_of_request . "</option>";
                     }
                 }
@@ -411,9 +405,8 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
             if ($opt2SelectField[$value . "-LBL"] == "calendar") {
                 $opt2SelectField[$value . "-LBL"] = calendars("InputValue-" . $nameField, $l->g(1270));
             }
-            echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">&nbsp;" . $opt2SelectField[$value . "-LBL"];
+            echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">" . $opt2SelectField[$value . "-LBL"];
         }
-        echo "</div>";
     }
     //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),CHAMPSELECT
     if (array_key_exists($value, $opt2Select)) {
@@ -432,7 +425,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
             }
         }
         $selectValue .= "</select>";
-        echo $select . $selectValue . "</div>";
+        echo $select . $selectValue;
     }
     //TITRE,CHAMPSELECT,valeur1,valeur2
     if (array_key_exists($value, $optSelect2Field)) {
@@ -443,11 +436,11 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         } else {
             $display = "none";
         }
-
         echo $select . "<input name='InputValue-" . $nameField . "' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">
-				 <div style='display:" . $display . "' id='FieldInput2-" . $nameField . "'>&nbsp;--&nbsp;<input name='InputValue2-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue2-" . $nameField]) . "\"></div>" . $optSelect2Field[$value . "-LBL"] . "</div>";
+				 <div style='display:" . $display . "' id='FieldInput2-" . $nameField . "'> --
+				 <input name='InputValue2-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue2-" . $nameField]) . "\">
+				 </div>" . $optSelect2Field[$value . "-LBL"];
     }
-
     if (array_key_exists($value, $opt3Select)) {
         $selectValue1 = "<select name='SelFieldValue-" . $nameField . "' id='SelFieldValue-" . $nameField . "' class='form-control'>";
         $result = mysqli_query($_SESSION['OCS']["readServer"], $opt3Select[$value . '-SQL1']);
@@ -458,7 +451,6 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
             $selectValue1 .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
         }
         $selectValue1 .= "</select>";
-
         $selectValue2 = "<select name='SelFieldValue2-" . $nameField . "' id='SelFieldValue2-" . $nameField . "' class='form-control'>";
         $result = mysqli_query($_SESSION['OCS']["readServer"], $opt3Select[$value . '-SQL2']);
         while ($val = mysqli_fetch_array($result)) {
@@ -468,17 +460,14 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
             $selectValue2 .= "<option value='" . $val['ID'] . "' " . ($protectedPost['SelFieldValue2-' . $nameField] == $val['ID'] ? " selected" : "") . ">" . $val['NAME'] . "</option>";
         }
         $selectValue2 .= "</select>";
-        echo $select . $l->g(667) . ":" . $selectValue1 . $l->g(546) . ":" . $selectValue2 . "</div>";
+        echo $select . $l->g(667) . ":" . $selectValue1 . $l->g(546) . ":" . $selectValue2;
     }
-
-    echo "</div>";
+    echo "</div>"; // input group
     echo "<button class='btn btn-danger btn-block' alt='" . $l->g(41) . "' onclick='pag(\"" . $id_field . "\",\"delfield\",\"" . $form_name . "\");'><span class='glyphicon glyphicon-remove delete-span delete-span-xs' style='color:white'></span></button>";
-
-    echo "</div>";
-    echo "</div>";
-
-    echo "</div>";
-    echo "</div>";
+    echo "</div>"; // col
+    echo "</div>"; // form group
+    echo "</div>"; // col
+    echo "</div>"; // row
 }
 
 function add_trait_select($img, $list_id, $form_name, $list_pag, $comp = false) {
