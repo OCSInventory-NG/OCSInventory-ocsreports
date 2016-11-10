@@ -30,6 +30,7 @@ $tab_options = $protectedPost;
 require_once('require/function_opt_param.php');
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
+
 $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
 if (array($accountinfo_value['TAB_OPTIONS'])) {
     $tab_options = $accountinfo_value['TAB_OPTIONS'];
@@ -143,11 +144,8 @@ if ($item->CREATE_TIME == "") {
     $server_group = false;
 }
 incPicker();
-$tdhdpb = "<td  align='left' width='20%'>";
-$tdhfpb = "</td>";
-$tdhd = "<td  align='left' width='20%'><b>";
-$tdhf = ":</b></td>";
-$tdpopup = "<td align='left' width='20%' onclick=\"javascript: OuvrirPopup('group_chang_value.php', '', 'resizable=no, location=no, width=400, height=200, menubar=no, status=no, scrollbars=no, menubar=no')\">";
+
+$tdpopup = "onclick=\"javascript: OuvrirPopup('group_chang_value.php', '', 'resizable=no, location=no, width=400, height=200, menubar=no, status=no, scrollbars=no, menubar=no')";
 
 //if user clic on modify
 if ($protectedPost['MODIF_x']) {
@@ -160,7 +158,7 @@ if ($protectedPost['MODIF_x']) {
     $button_valid = "<input title='" . $l->g(625) . "' value='" . $l->g(625) . "' name='Valid_modif' type='submit' class='btn btn-success'>";
     $button_reset = "<input title='" . $l->g(626) . "' value='" . $l->g(626) . "' name='Reset_modif' type='submit' class='btn btn-danger'>";
 } else { //only show the botton for modify
-    $img_modif = "<input title='" . $l->g(115) . "' value='" . $l->g(115) . "' name='MODIF_x' type='submit' class='btn'><br />";
+    $img_modif = "<input title='" . $l->g(115) . "' value='" . $l->g(115) . "' name='MODIF_x' type='submit' class='btn'>";
     $name = $item->NAME;
     $description = $item->DESCRIPTION;
     $button_valid = "";
@@ -168,43 +166,64 @@ if ($protectedPost['MODIF_x']) {
 }
 //form for modify values of group's
 echo open_form('CHANGE', '', '', 'form-horizontal');
-echo "<table align='center' width='65%' border='0' cellspacing=20 bgcolor='#C7D9F5' style='border: solid thin; border-color:#A1B1F9'>";
 
-echo "<tr>" . $tdhd . $l->g(577) . $tdhf . $tdhdpb . $name . $tdhfpb;
-echo $tdhd . $l->g(593) . $tdhf . $tdhdpb . dateTimeFromMysql($item->LASTDATE) . $tdhfpb;
+$dataValue = array();
+$labelValue = array();
+
+$labelValue[] = $l->g(577);
+$dataValue[] = $name;
+
+$labelValue[] = $l->g(593);
+$dataValue[] = dateTimeFromMysql($item->LASTDATE);
+
 if (!$pureStat) {
-    echo "</tr><tr>" . $tdhd . $l->g(594) . $tdhf . $tdhdpb . date("F j, Y, g:i a", $item->CREATE_TIME) . $tdhfpb;
+    $labelValue[] = $l->g(594);
+    $dataValue[] = date("F j, Y, g:i a", $item->CREATE_TIME);
 }
-echo "</tr><tr><td>&nbsp;</td></tr>";
-echo $tdhd . $l->g(615) . $tdhf . "<td  align='left' width='20%' colspan='3'>";
-if (!$pureStat) {
-    echo $item->REQUEST;
 
+$labelValue[] = $l->g(615);
+
+if (!$pureStat) {
+
+    $temp = $item->REQUEST;
     //affichage des requetes qui ont formé ce groupe
     if ($item->XMLDEF != "") {
         $tab_list_sql = regeneration_sql($item->XMLDEF);
         $i = 1;
         while ($tab_list_sql[$i]) {
-            echo $i . ") => " . $tab_list_sql[$i] . "<br>";
+            $temp .= $i . ") => " . $tab_list_sql[$i];
             $i++;
         }
     }
+    $dataValue[] = $temp;
 } else {
-    echo $l->g(595);
+    $dataValue[] = $l->g(595);
 }
 
-echo "</tr><tr>" . $tdhd . $l->g(53) . $tdhf . $tdhdpb . $description . $tdhfpb;
-
-if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
-    echo "<tr><td align='center' colspan=4><br />" . $button_valid . "&nbsp&nbsp" . $button_reset . "&nbsp&nbsp" . $img_modif . "<br /></td></tr>";
-}
-echo "$tdhfpb</table>";
+$labelValue[] = $l->g(53);
+$dataValue[] = $description;
+?>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <?php
+        show_resume($dataValue, $labelValue);
+        ?>
+    </div>
+</div>
+<div class="row rowMarginTop30">
+    <div class="col-md-12">
+        <?php
+        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
+            echo $button_valid;
+            echo $button_reset;
+            echo $img_modif;
+        }
+        ?>
+    </div>
+</div>
+<?php
 echo close_form();
-$td1 = "<td height=20px id='color' align='center'><FONT FACE='tahoma' SIZE=2 color=blue><b>";
-$td2 = "<td height=20px bgcolor='white' align='center'>";
-$td3 = $td2;
-$td4 = "<td height=20px bgcolor='#F0F0F0' align='center'>";
-//*/// END COMPUTER SUMMARY
+
 if ($server_group) {
     $sql_affect_pack = "select da.NAME, da.PRIORITY,da.FRAGMENTS,da.SIZE,da.OSNAME,de.INFO_LOC,de.CERT_FILE,de.CERT_PATH,de.PACK_LOC
 			from download_enable de,download_available da
@@ -228,26 +247,17 @@ if ($server_group) {
     }
 
     if (isset($PACK_LIST)) {
-        echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
-        echo "<tr><td height=20px colspan=10 align='center'>" . $l->g(481) . "</td></tr>";
-        echo "<tr><td></td>";
         foreach ($PACK_LIST[0] as $key => $value) {
-            echo $td2 . "<i><b>" . $key . "</b></i></td>";
+            echo $key;
         }
-        echo "</tr>";
         $i = 0;
         while ($PACK_LIST[$i]) {
-            echo "<tr>";
-            echo "<td bgcolor='white' align='center' valign='center'><img width='15px' src='image/red.png'></td>";
-            $ii++;
-            $td3 = $ii % 2 == 0 ? $td2 : $td4;
+            echo "<img width='15px' src='image/red.png'>";
             foreach ($PACK_LIST[$i] as $key => $value) {
-                echo $td3 . $value . "</td>";
+                echo $value;
             }
-            echo "</tr>";
             $i++;
         }
-        echo "</table>";
     }
     require(MAIN_SECTIONS_DIR . "/" . $_SESSION['OCS']['url_service']->getDirectory('ms_server_redistrib') . "/ms_server_redistrib.php");
 } else {
@@ -258,13 +268,11 @@ if ($server_group) {
     }
 
 
-    $lblAdm = Array($l->g(500));
-    $imgAdm = Array("ms_config");
-    $lblHdw = Array($l->g(580), $l->g(581));
-    $imgHdw = Array("ms_all_computersred", "ms_all_computers",);
+    $lblAdm = array($l->g(500));
+    $imgAdm = array("ms_config");
+    $lblHdw = array($l->g(580), $l->g(581));
+    $imgHdw = array("ms_all_computersred", "ms_all_computers",);
 
-    echo "<table width='20%' border=0 align='center' cellpadding='0' cellspacing='0'>
-			<tr>";
     echo img($lblAdm[0], 1);
 
     if (!$pureStat) {
@@ -272,15 +280,10 @@ if ($server_group) {
     }
 
     echo img($lblHdw[1], 1);
-    echo "</tr></table>";
-
 
     if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
-        echo "<br><a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_pack'] . "&head=1&idchecked=" . $systemid . "&origine=mach\" class='btn' >" . $l->g(501) . "</a><br><br> ";
+        echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_pack'] . "&head=1&idchecked=" . $systemid . "&origine=mach\" class='btn' >" . $l->g(501) . "</a>";
     }
-
-
-    echo"<br><br><br>";
 
     switch ($opt) :
         case $l->g(500): print_perso($systemid);
@@ -470,129 +473,127 @@ function print_computers_cached($systemid) {
 }
 
 function print_perso($systemid) {
-    global $l, $td2, $td3, $td4, $pages_refs;
-    //@TODO : buggy code
-    $i = 0;
+    global $l, $pages_refs;
+
     $queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
     $resultDetails = mysqli_query($_SESSION['OCS']["readServer"], $queryDetails) or die(mysqli_error($_SESSION['OCS']["readServer"]));
     $form_name = 'config_group';
-    echo open_form($form_name);
-    echo "<table BORDER='0' WIDTH = '95%' ALIGN = 'Center' CELLPADDING='0' BGCOLOR='#C7D9F5' BORDERCOLOR='#9894B5'>";
+    echo open_form($form_name, '', '', 'form-horizontal');
 
     while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
         $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
         $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
     }
 
-    $ii++;
-    $td3 = $ii % 2 == 0 ? $td2 : $td4;
-    //IPDISCOVER
-    echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["IPDISCOVER"]) && $optPerso["IPDISCOVER"]["IVALUE"] != 1 ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>&nbsp;</td>";
-    echo $td3 . $l->g(489) . "</td>";
-    if (isset($optPerso["IPDISCOVER"])) {
-        if ($optPerso["IPDISCOVER"]["IVALUE"] == 0) {
-            echo $td3 . $l->g(490) . "</td>";
-        } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 2) {
-            echo $td3 . $l->g(491) . " " . $optPerso["IPDISCOVER"]["TVALUE"] . "</td>";
-        } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 1) {
-            echo $td3 . $l->g(492) . " " . $optPerso["IPDISCOVER"]["TVALUE"] . "</td>";
-        }
-    } else {
-        echo $td3 . $l->g(493) . "</td>";
-    }
-    if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
-        echo "<td align=center rowspan=8><a class='btn' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
-		" . $l->g(285) . "</a></td></tr>";
-    }
-
-    $ii++;
-    $td3 = $ii % 2 == 0 ? $td2 : $td4;
     $field_name = array('DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_FRAG_LATENCY',
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP');
     $optdefault = look_config_default_values($field_name);
+
+    //IPDISCOVER
+    (isset($optPerso["IPDISCOVER"]) && $optPerso["IPDISCOVER"]["IVALUE"] != 1 ? "<img width='15px' src='image/red.png'>" : "");
+
+    if (isset($optPerso["IPDISCOVER"])) {
+        if ($optPerso["IPDISCOVER"]["IVALUE"] == 0) {
+            $default = $l->g(490);
+        } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 2) {
+            $default = $l->g(491) . $optPerso["IPDISCOVER"]["TVALUE"];
+        } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 1) {
+            $default = $l->g(492) . $optPerso["IPDISCOVER"]["TVALUE"];
+        }
+    } else {
+        $default = $l->g(493);
+    }
+
+    optperso('IPDISCOVER', $l->g(489), '', '', null, $default);
+
     //FREQUENCY
-    echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["FREQUENCY"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-    echo $td3 . $l->g(494) . "</td>";
+    (isset($optPerso["FREQUENCY"]) ? "<img width='15px' src='image/red.png'>" : "");
     if (isset($optPerso["FREQUENCY"])) {
         if ($optPerso["FREQUENCY"]["IVALUE"] == 0) {
-            echo $td3 . $l->g(485) . "</td>";
+            $default = $l->g(485);
         } else if ($optPerso["FREQUENCY"]["IVALUE"] == -1) {
-            echo $td3 . $l->g(486) . "</td>";
+            $default = $l->g(486);
         } else {
-            echo $td3 . $l->g(495) . " " . $optPerso["FREQUENCY"]["IVALUE"] . " " . $l->g(496) . "</td>";
+            $default = $l->g(495) . $optPerso["FREQUENCY"]["IVALUE"] . $l->g(496);
         }
     } else {
-        echo $td3 . $l->g(497) . "</td>";
+        $default = $l->g(497);
     }
 
-    echo "</tr>";
+    optperso('FREQUENCY', $l->g(494), '', '', null, $default);
 
     //DOWNLOAD_SWITCH
-    echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["DOWNLOAD_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-    echo $td3 . $l->g(417) . " <font color=green size=1><i>DOWNLOAD</i></font> </td>";
+    (isset($optPerso["DOWNLOAD_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "" );
     if (isset($optPerso["DOWNLOAD_SWITCH"])) {
         if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 0) {
-            echo $td3 . $l->g(733) . "</td>";
+            $default = $l->g(733);
         } else if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 1) {
-            echo $td3 . $l->g(205) . "</td>";
+            $default = $l->g(205);
         } else {
-            echo $td3 . "</td>";
+            $default = null;
         }
     } else {
-        echo $td3 . $l->g(488) . "(";
         if ($optdefault['ivalue']["DOWNLOAD"] == 1) {
-            echo $l->g(205);
+            $default = $l->g(205);
         } else {
-            echo $l->g(733);
+            $default = $l->g(733);
         }
-        echo ")</td>";
     }
 
-    echo "</tr>";
+    //DOWNLOAD
+    optperso("DOWNLOAD", $l->g(417), "DOWNLOAD", '', $default, null);
 
     //DOWNLOAD_CYCLE_LATENCY
-    optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720) . " <font color=green size=1><i>DOWNLOAD_CYCLE_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
+    optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
 
+    if (isset($optPerso['DOWNLOAD_FRAG_LATENCY']['IVALUE'])) {
+        $default = null;
+        $end = $optPerso['DOWNLOAD_FRAG_LATENCY']['IVALUE'] . " " . $l->g(511);
+    } else {
+        $default = $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"];
+        $end = $l->g(511);
+    }
     //DOWNLOAD_FRAG_LATENCY
-    optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721) . " <font color=green size=1><i>DOWNLOAD_FRAG_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
-
+    optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso, $default, $end);
 
     //DOWNLOAD_PERIOD_LATENCY
-    optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LATENCY</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
+    optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
 
     //DOWNLOAD_PERIOD_LENGTH
-    optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723) . " <font color=green size=1><i>DOWNLOAD_PERIOD_LENGTH</i></font>", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
+    optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
 
     //PROLOG_FREQ
-    optperso("PROLOG_FREQ", $l->g(724) . " <font color=green size=1><i>PROLOG_FREQ</i></font>", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
+    optperso("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
 
     //SNMP_SWITCH
-    echo "<tr><td bgcolor='white' align='center' valign='center'>" . (isset($optPerso["SNMP_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "&nbsp;") . "</td>";
-    echo $td3 . $l->g(1197) . " <font color=green size=1><i>SNMP_SWITCH</i></font></td>";
+    (isset($optPerso["SNMP_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "");
     if (isset($optPerso["SNMP_SWITCH"])) {
         if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 0) {
-            echo $td3 . $l->g(733) . "</td>";
+            $default = $l->g(733);
         } else if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 1) {
-            echo $td3 . $l->g(205) . "</td>";
+            $default = $l->g(205);
         } else {
-            echo $td3 . "</td>";
+            $default = null;
         }
     } else {
-        echo $td3 . $l->g(488) . "(";
         if ($optdefault['ivalue']["SNMP"] == 1) {
-            echo $l->g(205);
+            $default = $l->g(205);
         } else {
-            echo $l->g(733);
+            $default = $l->g(733);
         }
-        echo ")</td>";
     }
-    echo "</tr>";
+
+    optperso('SNMP_SWITCH', $l->g(1197), 'SNMP_SWITCH', '', $default, null);
 
     //TELEDEPLOY
     require_once('require/function_machine.php');
     show_packages($systemid, "ms_group_show");
 
-    echo "</table>";
+    if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
+        echo "<a class='btn' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
+		" . $l->g(285) . "</a>";
+    }
+
     echo close_form();
 }
 
@@ -618,4 +619,33 @@ function show_stat($fileId) {
     echo $td3 . "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $fileId . "&group=" . $protectedGet['systemid'] . "\" target=_blank><img src='image/stat.png'></a></td>";
 }
 
+/**
+ * @param array $data
+ * @param array $labels
+ */
+function show_resume($data, $labels) {
+
+    $nb_col = 2;
+    $i = 0;
+
+    foreach ($data as $key => $value) {
+        if ($i % $nb_col == 0) {
+            echo '<div class="row">';
+        }
+
+        echo '<div class="col col-md-6">';
+
+        if (trim($value) != '') {
+            echo '<span class="summary-header text-left">' . $labels[$key] . ' :</span>';
+            echo '<span class="summary-value text-left">' . $value . '</span>';
+        }
+
+        echo '</div>';
+
+        $i++;
+        if ($i % $nb_col == 0) {
+            echo '</div>';
+        }
+    }
+}
 ?>

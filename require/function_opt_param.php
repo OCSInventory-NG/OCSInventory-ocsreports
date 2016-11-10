@@ -63,8 +63,9 @@ function insert($NAME, $IVALUE, $TVALUE = "") {
 
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
     } else {//else : request
-        foreach ($tab_hadware_id as $hardwareId) {
-            $arg = array($hardwareId, $NAME, $IVALUE);
+        $i = 0;
+        while ($tab_hadware_id[$i]) {
+            $arg = array($tab_hadware_id[$i], $NAME, $IVALUE);
             if ($TVALUE != "") {
                 $sql = "INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('%s', '%s', '%s', '%s')";
                 array_push($arg, $TVALUE);
@@ -73,6 +74,7 @@ function insert($NAME, $IVALUE, $TVALUE = "") {
             }
 
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+            $i++;
         }
     }
 }
@@ -84,30 +86,33 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
     <div class="row">
         <div class="col col-md-6 text-left">
             <p>
-                <?php echo (isset($optPerso[$lbl]) ? "<img width='15px' src='image/red.png'>" : '') ?>
+                <?php echo (isset($optPerso[$lbl]) ? "<span class='roundRed'></span>" : '') ?>
                 <?php echo $lblPerso; ?>
                 <span class="help-block text-success"><?php echo $helpText; ?></span>
+            </p>
+        </div>
+        <div class="col col-md-6">
+            <p>
                 <?php
-                if (isset($optPerso[$lbl]["IVALUE"])) {
-                    echo $optPerso[$lbl]["IVALUE"];
-                }
-                ?>
-                </p>
-            </div>
-            <div class="col col-md-6">
-                <p>
-                    <?php
+                if (isset($optPerso[$lbl])) {
+
+                    echo $optPerso[$lbl]['IVALUE'];
+                } else {
                     // TODO: Strange spaces on display page
                     echo $l->g(488) . " (" . $default_value;
-                    if (isset($end)) {
-                        echo " " . $end;
-                    }
+                }
+
+                if (isset($end)) {
+                    echo " " . $end;
+                }
+                if (!isset($optPerso[$lbl])) {
                     echo ")";
-                    ?>
-                </p>
-            </div>
+                }
+                ?>
+            </p>
         </div>
-        <hr />
-        <?php
-    }
-    ?>
+    </div>
+    <hr />
+    <?php
+}
+?>
