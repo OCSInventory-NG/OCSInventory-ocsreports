@@ -94,20 +94,22 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
         <div class="col col-md-6">
             <p>
                 <?php
-                if (isset($optPerso[$lbl])) {
+                if(isset($optPerso[$lbl])){
 
                     echo $optPerso[$lbl]['IVALUE'];
-                } else {
+
+                } else{
                     // TODO: Strange spaces on display page
-                    echo $l->g(488) . " (" . $default_value;
+                    echo $l->g(488). " (".$default_value;
                 }
 
-                if (isset($end)) {
-                    echo " " . $end;
+                if(isset($end)){
+                    echo " ".$end;
                 }
-                if (!isset($optPerso[$lbl])) {
+                if(!isset($optPerso[$lbl])){
                     echo ")";
                 }
+
                 ?>
             </p>
         </div>
