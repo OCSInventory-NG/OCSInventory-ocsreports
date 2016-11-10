@@ -115,7 +115,7 @@ if (is_defined($protectedPost['MODIF'])) {
 
     $tab_typ_champ[0]['DEFAULT_VALUE'] = $protectedPost['MODIF'];
     $tab_typ_champ[0]['INPUT_NAME'] = "MAC";
-    $tab_typ_champ[0]['INPUT_TYPE'] = 3;
+    $tab_typ_champ[0]['INPUT_TYPE'] = 13;
     $tab_name[0] = $l->g(95) . ": ";
 
     $tab_typ_champ[1]['DEFAULT_VALUE'] = $protectedPost['COMMENT'];
@@ -244,7 +244,7 @@ if (is_defined($protectedPost['MODIF'])) {
         $tab_options['table_name'] = $table_name;
         $form_name = $table_name;
         $tab_options['form_name'] = $form_name;
-        echo open_form($form_name);
+        echo open_form($form_name, '', '', 'form-horizontal');
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
         $fipdisc = "ipdiscover-util.pl";
         $values = look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDISCOVER_IPD_DIR' => array('TVALUE' => VARLIB_DIR)));
@@ -265,7 +265,6 @@ if (is_defined($protectedPost['MODIF'])) {
         echo close_form();
     }
 }
-
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
