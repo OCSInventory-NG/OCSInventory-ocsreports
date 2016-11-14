@@ -117,4 +117,34 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
     <hr />
     <?php
 }
+
+
+function optpersoGroup($lbl, $lblPerso, $helpText, $optPerso, $value = '', $supp = '') {
+    global $l;
+    ?>
+    <div class="row">
+        <div class="col col-md-6 text-left">
+            <p>
+                <?php echo ($supp != '' ? "<span class='roundRed'></span>" : '') ?>
+                <?php echo $lblPerso; ?>
+                <span class="help-block text-success"><?php echo $helpText; ?></span>
+            </p>
+        </div>
+        <div class="col col-md-6">
+            <p>
+                <?php
+
+                if($value != ''){
+                    echo $l->g(488). " (".$value.")";
+                } else{
+                    echo $supp;
+                }
+
+                ?>
+            </p>
+        </div>
+    </div>
+    <hr />
+    <?php
+}
 ?>

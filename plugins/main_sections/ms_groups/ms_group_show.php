@@ -287,7 +287,7 @@ if ($server_group) {
     echo img($lblHdw[1], 1);
 
     if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
-        echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn' >".$l->g(501)."</a>";
+        echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
     }
 
     switch ($opt) :
@@ -496,50 +496,52 @@ function print_perso($systemid) {
     $optdefault = look_config_default_values($field_name);
 
      //IPDISCOVER
-    (isset($optPerso["IPDISCOVER"]) && $optPerso["IPDISCOVER"]["IVALUE"] != 1 ? "<img width='15px' src='image/red.png'>" : "");
-
     if (isset($optPerso["IPDISCOVER"])) {
+        $default = '';
         if ($optPerso["IPDISCOVER"]["IVALUE"] == 0) {
-            $default = $l->g(490);
+            $supp = $l->g(490);
         } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 2) {
-            $default = $l->g(491) . $optPerso["IPDISCOVER"]["TVALUE"];
+            $supp = $l->g(491) . $optPerso["IPDISCOVER"]["TVALUE"];
         } else if ($optPerso["IPDISCOVER"]["IVALUE"] == 1) {
-            $default = $l->g(492) . $optPerso["IPDISCOVER"]["TVALUE"];
+            $supp = $l->g(492) . $optPerso["IPDISCOVER"]["TVALUE"];
         }
     } else {
         $default = $l->g(493);
     }
 
-    optperso('IPDISCOVER', $l->g(489), '', '', null, $default);
+
+    optpersoGroup('IPDISCOVER', $l->g(489), '', '', $default, $supp);
 
     //FREQUENCY
-    (isset($optPerso["FREQUENCY"]) ? "<img width='15px' src='image/red.png'>" : "");
     if (isset($optPerso["FREQUENCY"])) {
+        $default = '';
         if ($optPerso["FREQUENCY"]["IVALUE"] == 0) {
-            $default = $l->g(485);
+            $supp = $l->g(485);
         } else if ($optPerso["FREQUENCY"]["IVALUE"] == -1) {
-            $default = $l->g(486);
+            $supp = $l->g(486);
         } else {
-            $default = $l->g(495) . $optPerso["FREQUENCY"]["IVALUE"] . $l->g(496);
+            $supp = $l->g(495) . $optPerso["FREQUENCY"]["IVALUE"] . $l->g(496);
         }
     } else {
-       $default = $l->g(497);
+        $supp = '';
+        $default = $l->g(497);
     }
 
-    optperso('FREQUENCY', $l->g(494), '', '', null, $default);
+    optpersoGroup('FREQUENCY', $l->g(494), '', '', $default, $supp);
 
     //DOWNLOAD_SWITCH
-    (isset($optPerso["DOWNLOAD_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "" );
     if (isset($optPerso["DOWNLOAD_SWITCH"])) {
+        $default = '';
         if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 0) {
-            $default = $l->g(733);
+            $supp = $l->g(733);
         } else if ($optPerso["DOWNLOAD_SWITCH"]["IVALUE"] == 1) {
-            $default = $l->g(205);
+            $supp = $l->g(205);
         } else {
-            $default = null;
+            $supp = null;
         }
     }
     else {
+        $supp = '';
         if ($optdefault['ivalue']["DOWNLOAD"] == 1) {
             $default = $l->g(205);
         } else {
@@ -548,45 +550,72 @@ function print_perso($systemid) {
     }
 
     //DOWNLOAD
-    optperso("DOWNLOAD", $l->g(417), "DOWNLOAD", '', $default, null);
+    optpersoGroup("DOWNLOAD", $l->g(417), "DOWNLOAD", '', $default, $supp);
 
-    var_dump($optPerso);
+    if(isset($optPerso["DOWNLOAD_CYCLE_LATENCY"])){
+        $default = '';
+        $supp = $optPerso["DOWNLOAD_CYCLE_LATENCY"]["IVALUE"] . " ".$l->g(511);
+    } else{
+        $supp = '';
+        $default = $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"] . " ".$l->g(511);
+    }
+
     //DOWNLOAD_CYCLE_LATENCY
-    optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
-
-    var_dump($optdefault);
-    var_dump($optPerso);
+    optpersoGroup("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso, $default, $supp);
 
     if(isset($optPerso['DOWNLOAD_FRAG_LATENCY']['IVALUE'])){
-        $default = null;
-        $end = $optPerso['DOWNLOAD_FRAG_LATENCY']['IVALUE'] . " " . $l->g(511);
+        $default = '';
+        $supp = $optPerso['DOWNLOAD_FRAG_LATENCY']['IVALUE'] . " " . $l->g(511);
     } else{
-        $default = $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"];
-        $end = $l->g(511);
+        $default = $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"]. " " . $l->g(511);
+        $supp = '';
     }
     //DOWNLOAD_FRAG_LATENCY
-    optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso, $default, $end);
+    optpersoGroup("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso, $default, $supp);
 
+    if(isset($optPerso['DOWNLOAD_PERIOD_LATENCY']['IVALUE'])){
+        $default = '';
+        $supp = $optPerso['DOWNLOAD_PERIOD_LATENCY']['IVALUE'] . " " . $l->g(511);
+    } else{
+        $default = $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"]. " " . $l->g(511);
+        $supp = '';
+    }
     //DOWNLOAD_PERIOD_LATENCY
-    optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
+    optpersoGroup("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso, $default, $supp);
 
+
+    if(isset($optPerso['DOWNLOAD_PERIOD_LENGTH']['IVALUE'])){
+        $default = '';
+        $supp = $optPerso['DOWNLOAD_PERIOD_LENGTH']['IVALUE'];
+    } else{
+        $default = $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"];
+        $supp = '';
+    }
     //DOWNLOAD_PERIOD_LENGTH
-    optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
+    optpersoGroup("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso, $default, $supp);
 
+    if(isset($optPerso['PROLOG_FREQ']['IVALUE'])){
+        $default = '';
+        $supp = $optPerso['PROLOG_FREQ']['IVALUE'] . " " . $l->g(730);
+    } else{
+        $default = $optdefault['ivalue']["PROLOG_FREQ"] . " " . $l->g(730);
+        $supp = '';
+    }
     //PROLOG_FREQ
-    optperso("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
+    optpersoGroup("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso, $default, $supp);
 
     //SNMP_SWITCH
-    (isset($optPerso["SNMP_SWITCH"]) ? "<img width='15px' src='image/red.png'>" : "");
      if (isset($optPerso["SNMP_SWITCH"])) {
+         $default = '';
         if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 0) {
-            $default = $l->g(733);
+            $supp = $l->g(733);
         } else if ($optPerso["SNMP_SWITCH"]["IVALUE"] == 1) {
-            $default = $l->g(205);
+            $supp = $l->g(205);
         } else {
-            $default = null;
+            $supp = null;
         }
     } else {
+         $supp = '';
         if ($optdefault['ivalue']["SNMP"] == 1) {
             $default = $l->g(205);
         } else {
@@ -594,14 +623,14 @@ function print_perso($systemid) {
         }
     }
 
-    optperso('SNMP_SWITCH', $l->g(1197), 'SNMP_SWITCH', '', $default, null);
+    optpersoGroup('SNMP_SWITCH', $l->g(1197), 'SNMP_SWITCH', '', $default, $supp);
 
     //TELEDEPLOY
     require_once('require/function_machine.php');
     show_packages($systemid, "ms_group_show");
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
-        echo "<a class='btn' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
+        echo "<a class='btn btn-success' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
 		" . $l->g(285) . "</a>";
     }
 
@@ -614,20 +643,20 @@ function img($a, $avail) {
     if ($avail) {
         $href = "<a href='index.php?" . PAG_INDEX . "=" . $protectedGet[PAG_INDEX] . "&head=1&systemid=" . urlencode($systemid) . "&option=" . urlencode($a) . "'>";
         $fhref = "</a>";
-        $img = '<button type="button" class="btn">' . $a . '</button>';
+        $img = '<button type="button" class="btn btn-default spaceX-10-right">' . $a . '</button>';
     } else {
         $href = "";
         $fhref = "";
-        $img = '<button type="button" class="btn">' . $a . '</button>';
+        $img = '<button type="button" class="btn btn-default spaceX-10-right">' . $a . '</button>';
     }
 
-    return "<td width='80px' align='center'>" . $href . $img . $fhref . "</td>";
+    return $href . $img . $fhref;
 }
 
 function show_stat($fileId) {
-    global $td3, $protectedGet, $pages_refs;
+    global $protectedGet, $pages_refs;
 
-    echo $td3 . "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $fileId . "&group=" . $protectedGet['systemid'] . "\" target=_blank><img src='image/stat.png'></a></td>";
+    echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $fileId . "&group=" . $protectedGet['systemid'] . "\" target=_blank><img src='image/stat.png'></a>";
 }
 
 

@@ -111,3 +111,20 @@ Open menus on mouse hover
     color: #5cb85c;
     font-weight: bold;
 }
+
+.btn-default {
+    text-shadow: none;
+
+    background: #e0e0e0;
+    filter: none;
+
+    border: none !important;
+    background-image: none !important;
+
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.btn-default:hover{
+    background: #e0e0e0;
+    border: none;
+}

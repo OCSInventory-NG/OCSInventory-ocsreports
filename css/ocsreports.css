@@ -483,5 +483,9 @@ iframe{
     height: 15px;
     width: 15px;
     border-radius: 100%;
-    background: rgba(193, 46, 42,   1);
+    background: rgba(193, 46, 42, 1);
+}
+
+.spaceX-10-right{
+    margin-right: 10px;
 }
