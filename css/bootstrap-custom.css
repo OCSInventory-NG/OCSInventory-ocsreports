@@ -128,3 +128,7 @@ Open menus on mouse hover
     background: #e0e0e0;
     border: none;
 }
+
+input[type=checkbox], input[type=radio] {
+    margin: 4px 4px 0;
+}

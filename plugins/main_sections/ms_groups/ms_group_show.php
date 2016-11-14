@@ -290,6 +290,7 @@ if ($server_group) {
         echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
     }
 
+    echo "<div class='col-md-10 col-md-offset-2'>";
     switch ($opt) :
         case $l->g(500): print_perso($systemid);
             break;
@@ -302,6 +303,7 @@ if ($server_group) {
         default : print_perso($systemid);
             break;
     endswitch;
+        echo "</div>";
 }
 if (!AJAX) {
     echo "<script language='javascript'>wait(0);</script>";
@@ -669,9 +671,7 @@ function show_resume($data, $labels) {
 
     $nb_col = 2;
     $i = 0;
-
     foreach ($data as $key => $value) {
-
         if ($i % $nb_col == 0) {
             echo '<div class="row">';
         }
