@@ -22,6 +22,7 @@
  */
 
 function show_computer_menu($computer_id) {
+    global $protectedGet;
     $menu_serializer = new XMLMenuSerializer();
     $menu = $menu_serializer->unserialize(file_get_contents('config/computer/menu.xml'));
 
@@ -36,13 +37,10 @@ function show_computer_menu($computer_id) {
 
         $url = $menu_elem->getUrl();
         $label = $menu_renderer->getLabel($menu_elem);
-
-
-
         echo "<li ";
-        //if ($activeMenu == $url) {
-        //    echo "class='active'";
-        //}
+        if ($protectedGet['cat'] == explode('=',$url)[1]) {
+            echo "class='active'";
+        }
         echo " ><a href=' ".$menu_renderer->getUrl($menu_elem) ."'>" . $label . "</a></li>";
     }
 
