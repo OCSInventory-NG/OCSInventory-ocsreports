@@ -28,7 +28,7 @@ require_once('require/function_table_html.php');
 require_once('var.php');
 //show header
 html_header(true);
-
+echo "<div class='container-fluid'>";
 function printEnTeteInstall($ent) {
     echo "<h3>$ent</h3>";
 }
@@ -304,10 +304,12 @@ if (isset($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"])) {
     $value_field = array($valNme, $valPass, $valdatabase, $valServ);
 }
 $tab_typ_champ = show_field($name_field, $type_field, $value_field);
-tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
     'button_name' => 'INSTALL',
     'show_button' => 'BUTTON',
     'form_name' => $form_name
 ));
+
+echo "</div>";
 die();
 ?>

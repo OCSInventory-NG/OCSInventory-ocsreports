@@ -277,7 +277,7 @@ if ($server_group) {
     $imgAdm = array("ms_config");
     $lblHdw = array($l->g(580), $l->g(581));
     $imgHdw = array("ms_all_computersred", "ms_all_computers",);
-
+        echo "<div class='row rowMarginTop30'>";
     echo img($lblAdm[0], 1);
 
     if (!$pureStat) {
@@ -286,11 +286,13 @@ if ($server_group) {
 
     echo img($lblHdw[1], 1);
 
-    if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
-        echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
-    }
+        if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
+            echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
+        }
+        echo "</div>";
 
-    echo "<div class='col-md-10 col-md-offset-2'>";
+        echo "<div class='row rowMarginTop30'>";
+        echo "<div class='col-md-10 col-md-offset-2'>";
     switch ($opt) :
         case $l->g(500): print_perso($systemid);
             break;
@@ -303,6 +305,7 @@ if ($server_group) {
         default : print_perso($systemid);
             break;
     endswitch;
+        echo "</div>";
         echo "</div>";
 }
 if (!AJAX) {

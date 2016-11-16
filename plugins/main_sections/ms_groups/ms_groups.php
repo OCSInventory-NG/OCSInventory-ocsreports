@@ -192,7 +192,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
 //if user want add a new group
 if (isset($protectedPost['add_static_group']) && $_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
     ?>
-    <div class="row">
+    <div class="row rowMarginTop30">
         <div class="col-md-12">
             <?php
             formGroup('text', 'NAME', $l->g(577), '20', '', $protectedPost['NAME']);
