@@ -178,7 +178,11 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
 
         if ($protectedPost['onglet'] == 'MACH') {
             $selectValues = array('' => '', 'NO' => $l->g(454), 'YES' => $l->g(455));
-            formGroup('select', 'DWL_OPT', $l->g(1292), '', '', $protectedPost['DWL_OPT'], '', $selectValues, $selectValues, 'onclick=document.'.$form_name.'.submit();');
+            formGroup('select', 'DWL_OPT', $l->g(1292), '', '', $protectedPost['DWL_OPT'], '', $selectValues, $selectValues);
+            ?>
+
+            <button class="btn btn-success" onclick="document.<?php echo $form_name; ?>.submit()"><?php echo $l->g(910); ?></button>
+            <?php
         }
 
         if (($protectedPost['onglet'] == 'MACH' && $protectedPost['DWL_OPT'] != '') || ($protectedPost['onglet'] == 'SERV_GROUP' && $protectedPost['rule_choise'] != '')) {
