@@ -28,6 +28,7 @@ foreach ($_POST as $key => $value) {
     $temp_post[$key] = $value;
 }
 $protectedPost = $temp_post;
+var_dump($protectedPost);
 if (isset($protectedPost["VALID_END"])) {
     //configure description of this package
     $description_details = $protectedPost['DESCRIPTION'];
@@ -263,7 +264,7 @@ $default_value = array(
     'OS' => 'WINDOWS',
     'PROTOCOLE' => 'HTTP',
     'PRIORITY' => '5',
-    'ACTION' => 'STORE',
+    'ACTION' => 'EXECUTE',
     'REDISTRIB_PRIORITY' => '5'
 );
 
@@ -444,8 +445,6 @@ $config_input = array(
     'MAXLENGTH' => 255,
     'SIZE' => 50
 );
-$list_os = array("WINDOWS", "LINUX", "MAC");
-$list_proto = array("HTTP");
 
 $arrayName = [
 	"os" => $l->g(25),
@@ -477,7 +476,9 @@ $list_os = [
 	"LINUX" => "UNIX/LINUX",
 	"MAC" => "MACOS"
 ];
-$list_proto = ["HTTP"];
+$list_proto = [
+    "HTTP" => "HTTP"
+];
 
 $i = 0;
 while ($i < 10) {
@@ -499,7 +500,6 @@ $arrayDisplayValue = [
 		"1" => $l->g(455)
 	],
 ];
-$list_action = array("EXECUTE", "STORE", "LAUNCH");
 
 $arrayDisplayValue = array(
     "ACTION" => array(
