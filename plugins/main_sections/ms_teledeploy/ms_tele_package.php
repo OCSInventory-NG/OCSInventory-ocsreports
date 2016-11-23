@@ -28,7 +28,6 @@ foreach ($_POST as $key => $value) {
     $temp_post[$key] = $value;
 }
 $protectedPost = $temp_post;
-var_dump($protectedPost);
 if (isset($protectedPost["VALID_END"])) {
     //configure description of this package
     $description_details = $protectedPost['DESCRIPTION'];
@@ -310,13 +309,13 @@ echo "<script language='javascript'>
 			var label = $(\"label[for='ACTION_INPUT']\");
 
 			switch(select.val()){
-				case '0':
+				case 'EXECUTE':
 					label.html(displayText.EXECUTE);
 					break;
-				case '1':
+				case 'STORE':
 					label.html(displayText.STORE);
 					break;
-				case '2':
+				case 'LAUNCH':
 					label.html(displayText.LAUNCH);
 					break;
 				default:
