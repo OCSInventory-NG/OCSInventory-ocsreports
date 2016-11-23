@@ -561,8 +561,8 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
 ?>
 <div id="REDISTRIB_USE_div" style="display: none;">
     <?php
-    formGroup('text', 'DOWNLOAD_SERVER_DOCROOT', $arrayName['path_remote_server'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['DOWNLOAD_SERVER_DOCROOT'], '', $list_prio);
-    formGroup('select', 'REDISTRIB_PRIORITY', $arrayName['prio'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost, '', $list_prio, $list_prio);
+    formGroup('text', 'DOWNLOAD_SERVER_DOCROOT', $arrayName['path_remote_server'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $default['DOWNLOAD_SERVER_DOCROOT'], '', $list_prio);
+    formGroup('select', 'REDISTRIB_PRIORITY', $arrayName['prio'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_PRIORITY'], '', $list_prio, $list_prio);
     echo "</div>";
 
     echo "<br />";
@@ -575,7 +575,7 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
     <div id="NOTIFY_USER_div" style="display: none;">
         <?php
         formGroup('text', 'NOTIFY_TEXT', $arrayName['notify_text'], '', '', $protectedPost['NOTIFY_TEXT']);
-        formGroup('text', 'NOTIFY_COUNTDOWN', $arrayName['notify_countdown'], 4, 4, $protectedPost['NOTIFY_TEXT'], '', '', '', ' onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"', $l->g(511));
+        formGroup('text', 'NOTIFY_COUNTDOWN', $arrayName['notify_countdown'], 4, 4, $protectedPost['NOTIFY_COUNTDOWN'], '', '', '', ' onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"', $l->g(511));
         formGroup('select', 'NOTIFY_CAN_ABORT', $arrayName['user_can_abort'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
         formGroup('select', 'NOTIFY_CAN_DELAY', $arrayName['user_can_delay'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
         ?>
