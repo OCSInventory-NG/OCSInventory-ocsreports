@@ -248,6 +248,18 @@ if (!is_array($info_account_id)) {
 
             $nb_row++;
         }
+        
+        // If is a select get default data
+        foreach($name_field as $key => $value){
+            if($config['SELECT_DEFAULT'][$key] == 'YES'){
+                $sql_selected_data = "SELECT ".$value." FROM `accountinfo` WHERE `HARDWARE_ID` = ".$protectedGet['systemid'];
+                $result = mysql2_query_secure($sql_selected_data, $_SESSION['OCS']["readServer"]);
+                while ($admininfo_default_data = mysqli_fetch_array($result)) {
+                    $config['SELECTED_VALUE'][$key] = $admininfo_default_data[$value];
+                }
+            }
+        }
+
         $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
         if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES') {
             $tab_hidden = array('ADMIN' => '', 'UP' => '', 'DOWN' => '');
@@ -262,7 +274,14 @@ if (!is_array($info_account_id)) {
             $showbutton = false;
         }
         echo "<div class='row'>";
-        echo "<div class='col col-md-6 col-md-offset-2'>";
+
+        if($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES'){
+            echo "<ul class='nav nav-tabs pull-right'>";
+                echo $show_admin_button;
+            echo "</ul>";
+        }
+
+        echo "<div class='col col-md-6 col-md-offset-3'>";
         modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
             'show_button' => $showbutton,
             'form_name' => $form_name = 'NO_FORM',

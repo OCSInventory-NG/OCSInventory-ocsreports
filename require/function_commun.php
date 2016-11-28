@@ -455,11 +455,11 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 		'top_action' => null,
 		'show_frame' => true
 	), $options);
-
+        
 	if ($options['form_name'] != 'NO_FORM') {
 		echo open_form($options['form_name'], '', '', 'form-horizontal');
 	}
-
+        
 	if (is_array($field_labels)) {
 		foreach ($field_labels as $key => $label) {
 
@@ -520,7 +520,11 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                 }else if($inputType == 'select'){
                                     echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
                                     foreach ($field['DEFAULT_VALUE'] as $key => $value){
-                                            echo "<option value='".$key."'>".$value."</option>";
+                                            if($key == $field['CONFIG']['SELECTED_VALUE']){
+                                                echo "<option value='".$key."' selected>".$value."</option>";
+                                            }else{
+                                                echo "<option value='".$key."'>".$value."</option>";
+                                            }
                                     }
                                     echo "</select>";
                                 } else if($inputType == 'checkbox'){
@@ -545,7 +549,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 
 		}
 	}
-
+        
 	if ($options['show_button'] === 'BUTTON') {
 		echo '<div class="form-buttons">';
 		echo '<input type="submit" name="Valid_'.$options['button_name'].'" value="'.$l->g(13).'"/>';

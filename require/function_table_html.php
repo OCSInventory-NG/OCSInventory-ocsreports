@@ -903,6 +903,9 @@ function show_field($name_field,$type_field,$value_field,$config=array()){
 		
 		if (isset($config['SELECT_DEFAULT'][$key]))	{
 			$tab_typ_champ[$key]['CONFIG']['DEFAULT']=$config['SELECT_DEFAULT'][$key];
+                        if($tab_typ_champ[$key]['CONFIG']['DEFAULT'] == 'YES'){
+                            $tab_typ_champ[$key]['CONFIG']['SELECTED_VALUE'] = $config['SELECTED_VALUE'][$key];
+                        }
 		}
 		if (isset($config['JAVASCRIPT'][$key]))	{
 			$tab_typ_champ[$key]['CONFIG']['JAVASCRIPT']=$config['JAVASCRIPT'][$key];
