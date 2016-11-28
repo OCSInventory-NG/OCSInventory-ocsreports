@@ -49,11 +49,11 @@ if (!isset($protectedGet['option']) && !isset($protectedGet['cat'])) {
     $protectedGet['cat'] = 'admin';
 }
 
-show_computer_title($item);
-
 show_computer_menu($item->ID);
 
 echo '<div class="col col-md-10">';
+
+show_computer_title($item);
 
 if (isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
     show_computer_summary($item);
