@@ -155,6 +155,22 @@ function show_packages($systemid, $page = "ms_computer") {
     $resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"], $arg_query);
     if (mysqli_num_rows($resDeploy) > 0) {
 
+        ?>
+        <div class='row'>
+            <div class='col-md-12'>
+                <p>
+                    <table class='table table-striped'>
+                      <thead>
+                        <tr>
+                          <th><?php echo $l->g(1037) ?></th>
+                          <th><?php echo $l->g(475) ?></th>
+                          <th><?php echo $l->g(499) ?></th>
+                          <th><?php echo $l->g(1102) ?></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+        <?php 
+        
         while ($valDeploy = mysqli_fetch_array($resDeploy)) {
             $ii++;
             $td3 = $ii % 2 == 0 ? $td2 : $td4;
@@ -165,52 +181,60 @@ function show_packages($systemid, $page = "ms_computer") {
                     or ! strpos($valDeploy["comment"], "[VISIBLE"))
                     or ( $_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'NO') == "NO"
                     and preg_match("[VISIBLE=0]", $valDeploy["comment"]))) {
-                echo "<div class='row'>";
-                echo "<div class='col-md-12'>";
-                echo "<p>";
-                echo "<span class='roundRed'></span>";
-                echo "<span><strong> ". $l->g(498) . " " . $valDeploy["name"] . "</strong></span>";
-                if (isset($valDeploy["fileid"]))  {
-                    echo " ("  . $valDeploy["fileid"]  . ")";
-                }
-
-                if ($valDeploy["name_server"] != "") {
-                    echo " (" . $l->g(499) . " redistrib: <a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&systemid=" . $valDeploy["id"] . "' target='_blank'><b>" . $valDeploy["name_server"] . "</b></a>";
-                } else {
-                    echo " (" . $l->g(499) . ": " . $valDeploy["pack_loc"] . " ";
-                }
-                echo ")";
-                if ($page == "ms_computer") {
-                    echo $l->g(81) . ": " . ($valDeploy["tvalue"] != "" ? $valDeploy["tvalue"] : $l->g(482));
-                    echo ($valDeploy["comments"] != "" ? " (" . $valDeploy["comments"] . ")" : "");
-                    if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
-                        echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&suppack=" . $valDeploy["ivalue"] . "&systemid=" .
-                        urlencode($systemid) . "&option=cd_configuration'>" . $l->g(122) . "</a>";
-                    } elseif (strstr($valDeploy["tvalue"], 'ERR_') || strstr($valDeploy["tvalue"], 'EXIT_CODE')) {
-                        echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&affect_reset=" . $valDeploy["ivalue"] . "&systemid=" .
-                        urlencode($systemid) . "&option=cd_configuration'>" . $l->g(113) . "</a>";
-                        if ($valDeploy["name"] != $l->g(1129)) {
-                            echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&affect_again=" . $valDeploy["ivalue"] . "&systemid=" .
-                            urlencode($systemid) . "&option=cd_configuration'>" . $l->g(1246) . "</a>";
+                
+                    ?>
+                    <tr>
+                        <td><?php echo $valDeploy["name"]  ?></td>
+                        <td><?php echo $valDeploy["fileid"] ?></td>
+                        <td><?php 
+                        if ($valDeploy["name_server"] != "") {
+                            echo " redistrib: <a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&systemid=" . $valDeploy["id"] . "' target='_blank'><b>" . $valDeploy["name_server"] . "</b></a>";
+                        } else {
+                            echo  $valDeploy["pack_loc"];
+                        } 
+                        ?>
+                        </td>
+                        <td><?php  
+                        if ($page == "ms_computer") {
+                        echo $l->g(81) . ": " . ($valDeploy["tvalue"] != "" ? $valDeploy["tvalue"] : $l->g(482));
+                        echo ($valDeploy["comments"] != "" ? " (" . $valDeploy["comments"] . ")" : "");
+                        if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
+                            echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&suppack=" . $valDeploy["ivalue"] . "&systemid=" .
+                            urlencode($systemid) . "&option=cd_configuration'>" . $l->g(122) . "</a>";
+                        } elseif (strstr($valDeploy["tvalue"], 'ERR_') || strstr($valDeploy["tvalue"], 'EXIT_CODE')) {
+                            echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&affect_reset=" . $valDeploy["ivalue"] . "&systemid=" .
+                            urlencode($systemid) . "&option=cd_configuration'>" . $l->g(113) . "</a>";
+                            if ($valDeploy["name"] != $l->g(1129)) {
+                                echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&affect_again=" . $valDeploy["ivalue"] . "&systemid=" .
+                                urlencode($systemid) . "&option=cd_configuration'>" . $l->g(1246) . "</a>";
+                            }
+                        } elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')) {
+                            if (isset($valDeploy["comments"]) && strtotime($valDeploy["comments"]) < strtotime("-12 week")) {
+                                echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&reset_notified=" . $valDeploy["ivalue"] . "&systemid=" .
+                                urlencode($systemid) . "&option=cd_configuration'><img src=image/delete-small.png></a>";
+                            }
                         }
-                    } elseif (strstr($valDeploy["tvalue"], 'NOTIFIED')) {
-                        if (isset($valDeploy["comments"]) && strtotime($valDeploy["comments"]) < strtotime("-12 week")) {
-                            echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&reset_notified=" . $valDeploy["ivalue"] . "&systemid=" .
-                            urlencode($systemid) . "&option=cd_configuration'><img src=image/delete-small.png></a>";
+                        } else {
+                            if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
+                                echo " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&popup=1&suppack=" . $valDeploy["ivalue"] . "&systemid=" .
+                                urlencode($systemid) . "&option=" . urlencode($l->g(500)) . "'>" . $l->g(122) . "</a>";
+                            }
+                            show_stat($valDeploy["fileid"]);
                         }
+                        ?></td>
+                    </tr> 
+                    <?php
                     }
-                } else {
-                    if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
-                        echo " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&popup=1&suppack=" . $valDeploy["ivalue"] . "&systemid=" .
-                        urlencode($systemid) . "&option=" . urlencode($l->g(500)) . "'>" . $l->g(122) . "</a>";
-                    }
-                    show_stat($valDeploy["fileid"]);
                 }
-                echo "</p>";
-                echo "</div>";
-                echo "</div>";
-            }
-        }
+                ?>
+                    </tbody>
+                </table>
+            </p>
+        </div>
+    </div>
+    <?php
+            
+        
     }
 }
 

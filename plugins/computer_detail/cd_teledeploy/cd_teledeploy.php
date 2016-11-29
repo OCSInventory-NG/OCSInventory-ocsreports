@@ -27,8 +27,12 @@ if (AJAX) {
 }
 
 if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
-    echo "<br><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn' >".$l->g(501)."</a><br><br> ";
+    echo "<br><a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' role='button' >".$l->g(501)."</a><br><br> ";
 }
+
+print_item_header($l->g(481));
+
+show_packages($protectedGet['systemid']);
 
 print_item_header($l->g(512));
 
