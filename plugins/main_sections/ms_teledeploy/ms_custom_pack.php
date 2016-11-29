@@ -181,7 +181,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
             formGroup('select', 'DWL_OPT', $l->g(1292), '', '', $protectedPost['DWL_OPT'], '', $selectValues, $selectValues);
             ?>
 
-            <button class="btn btn-success" onclick="document.<?php echo $form_name; ?>.submit()"><?php echo $l->g(910); ?></button>
+            <p><button class="btn btn-success" onclick="document.<?php echo $form_name; ?>.submit()"><?php echo $l->g(910); ?></button></p>
             <?php
         }
 

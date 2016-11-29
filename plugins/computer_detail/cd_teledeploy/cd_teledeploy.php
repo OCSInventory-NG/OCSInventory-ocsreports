@@ -32,7 +32,7 @@ if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
 
 show_packages($protectedGet['systemid']);
 
-print_item_header($l->g(512));
+print_item_header($l->g(1052));
 
 $form_name = "affich_packets";
 $table_name = $form_name;

@@ -198,7 +198,7 @@ function show_packages($systemid, $page = "ms_computer") {
                         </td>
                         <td><?php  
                         if ($page == "ms_computer") {
-                        echo $l->g(81) . ": " . ($valDeploy["tvalue"] != "" ? $valDeploy["tvalue"] : $l->g(482));
+                        echo ($valDeploy["tvalue"] != "" ? $valDeploy["tvalue"] : $l->g(482));
                         echo ($valDeploy["comments"] != "" ? " (" . $valDeploy["comments"] . ")" : "");
                         if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
                             echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&head=1&suppack=" . $valDeploy["ivalue"] . "&systemid=" .
