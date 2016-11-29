@@ -528,16 +528,19 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 
     function multi_lot($form_name, $lbl_choise) {
         global $protectedPost, $protectedGet, $l;
+        
+        echo "<div class='col col-md-10 col-md-offset-1'>";
+        
         $list_id = "";
         if (!isset($protectedGet['origine'])) {
             if (is_defined($protectedGet['idchecked'])) {
+                $choise_req_selection['NONE'] = " ";
                 if (!isset($protectedGet['comp'])) {
                     $choise_req_selection['REQ'] = $l->g(584);
                     $choise_req_selection['SEL'] = $l->g(585);
                 } else {
                     $choise_req_selection['SEL'] = $l->g(585);
                 }
-                $choise_req_selection[] = " ";
                 formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
             }
             if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '') {
@@ -559,6 +562,8 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
         } else {
             $list_id = $protectedGet['idchecked'];
         }
+        
+        echo "</div>";
 
         if ($list_id != "") {
             return $list_id;
