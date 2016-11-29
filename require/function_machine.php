@@ -154,6 +154,8 @@ function show_packages($systemid, $page = "ms_computer") {
     $arg_query = array($systemid, $l->g(1129), $l->g(1129), $systemid);
     $resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"], $arg_query);
     if (mysqli_num_rows($resDeploy) > 0) {
+        
+    print_item_header($l->g(481));
 
         ?>
         <div class='row'>
