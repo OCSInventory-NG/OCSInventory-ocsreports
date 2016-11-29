@@ -273,7 +273,11 @@ function admin_user($id_user = null, $is_my_account = false) {
                     $tab_typ_champ[$index]['COMMENT_AFTER'] = "";
                 }
                 
-                formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
+                if($inputType != 'select'){
+                    formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
+                }else{
+                    formGroup($inputType, $inputName, $fields, '', '', $protectedPost[$inputName], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
+                }
             }
 
         }
