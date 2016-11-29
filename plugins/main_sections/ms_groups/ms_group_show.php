@@ -292,7 +292,7 @@ if ($server_group) {
         echo "</div>";
 
         echo "<div class='row rowMarginTop30'>";
-        echo "<div class='col-md-10 col-md-offset-2'>";
+        echo "<div class='col-md-10 col-md-offset-1'>";
     switch ($opt) :
         case $l->g(500): print_perso($systemid);
             break;
@@ -305,12 +305,12 @@ if ($server_group) {
         default : print_perso($systemid);
             break;
     endswitch;
-        echo "</div>";
-        echo "</div>";
 }
 if (!AJAX) {
     echo "<script language='javascript'>wait(0);</script>";
     flush();
+    echo "</div>";
+    echo "</div>";
     echo "</body>";
     echo "</html>";
 }
@@ -331,13 +331,22 @@ function form_action_group($systemid) {
     $reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=%s";
     $resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"], $systemid);
     $valGrpStat = mysqli_fetch_array($resGrpStat);
-    echo "<center>" . $l->g(585) . ": <select name='actshowgroup' id='actshowgroup'>";
     if (($valGrpStat['REQUEST'] == "" || $valGrpStat['REQUEST'] == null) && ($valGrpStat['XMLDEF'] == "" || $valGrpStat['XMLDEF'] == null)) {
-        echo "<option value='0'>" . $l->g(818) . "</option></select>";
+        $arrayData = array(
+            '0' => $l->g(818)
+        );
     } else {
-        echo "<option value='0'>" . $l->g(590) . "</option><option value='1'>" . $l->g(591) . "</option><option value='2'>" . $l->g(592) . "</option></select>";
+        $arrayData = array(
+            '0' => $l->g(590),
+            '1' => $l->g(591),
+            '2' => $l->g(592)
+        );
     }
-    echo "<input type='submit' value='" . $l->g(13) . "' name='modify' id='modify'></center>";
+    echo "<div class='col-md-8 col-md-offset-2'>";
+    formGroup('select', 'actshowgroup', $l->g(585), '', '', '', '', $arrayData, $arrayData, '');
+    echo "<input type='submit' name='modify' class='btn btn-info' value=".$l->g(13).">";
+    echo "</div>";
+    
 }
 
 function update_computer_group($hardware_id, $group_id, $static) {
@@ -454,7 +463,7 @@ function print_computers_cached($systemid) {
 
     $form_name = "list_computer_groupcache";
     $table_name = $form_name;
-    echo open_form($form_name);
+    echo open_form($form_name, '', '', 'form-horizontal');
 
     $queryDetails = "SELECT ";
     foreach ($list_fields as $value) {
