@@ -412,9 +412,12 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         $select2 .= "</select>";
         echo $select2;
         if (array_key_exists($value,$opt2SelectField)){
-            if ($opt2SelectField[$value."-LBL"] == "calendar")
-                $opt2SelectField[$value."-LBL"]= calendars("InputValue-".$nameField,$l->g(1270));
-            echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">".$opt2SelectField[$value."-LBL"];
+            echo $select."<input name='InputValue-".$nameField."' class='form-control' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">";
+            if ($opt2SelectField[$value."-LBL"] == "calendar") {
+                echo "<span class='input-group-addon'>";
+                echo calendars("InputValue-" . $nameField, $l->g(1270));
+                echo "</span>";
+            }
         }
     }
     //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),CHAMPSELECT
