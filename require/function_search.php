@@ -468,7 +468,11 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
             $selectValue2 .= "<option value='".$val['ID']."' ".($protectedPost['SelFieldValue2-'.$nameField] == $val['ID'] ? " selected":"").">".$val['NAME']."</option>";
         }
         $selectValue2 .= "</select>";
-        echo $select.$l->g(667).":".$selectValue1.$l->g(546).":".$selectValue2;
+        echo $select;
+        echo "<input class='form-control' id='disabledInput' value='".$l->g(667)." :' type='text' disabled>";
+        echo $selectValue1;
+        echo "<input class='form-control' id='disabledInput' value='".$l->g(546)." :' type='text' disabled>";
+        echo $selectValue2;
     }
 
     echo "</div>"; // input group
