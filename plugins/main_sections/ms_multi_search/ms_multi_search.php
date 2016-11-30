@@ -1251,7 +1251,7 @@ $protectedPost['multiSearch']=$l->g(32);
 <div class="row">
 <?php
 	echo "<div class='col col-md-12'>";
-		echo "<span class='glyphicon glyphicon-remove delete-span' alt='".$l->g(41)."' onclick='pag(\"ok\",\"reset\",\"".$form_name."\")'></span>";
+		echo "<p><span class='glyphicon glyphicon-remove delete-span' alt='".$l->g(41)."' onclick='pag(\"ok\",\"reset\",\"".$form_name."\")'></span></p>";
 	echo "</div>";
 echo "</div>";
 
