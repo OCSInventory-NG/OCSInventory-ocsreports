@@ -119,6 +119,10 @@ if ($protectedPost['tab'] == 'VIEW'){
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
          <?php
+         if (is_defined($protectedPost['MODIF'])) {
+             formGroup('hidden', 'id', '', '', '', $protectedPost['MODIF'], '', '', '', '');
+         }
+         
          formGroup('text', 'NAME', $l->g(252), '', 255, $protectedPost['NAME']);
 
          formGroup('select', 'REGTREE', $l->g(253), '', '', $protectedPost['REGTREE'], '', $list_registry_key, $list_registry_key);
