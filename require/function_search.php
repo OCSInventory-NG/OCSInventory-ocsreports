@@ -387,7 +387,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
             $data=$optSelect;
             $name_select='SelFieldValue';
         }
-        $select2="<select name='".$name_select."-".$nameField."' id='".$name_select."-".$nameField."'>";
+        $select2="<select name='".$name_select."-".$nameField."' id='".$name_select."-".$nameField."' class='form-control'>";
 
         if (is_array($data[$value.'-SQL1'])){
             foreach ($data[$value.'-SQL1'] as $k=>$v){
@@ -396,11 +396,12 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         }else{
             $result = mysqli_query($_SESSION['OCS']["readServer"], $data[$value.'-SQL1']);
             while( $val = mysqli_fetch_array( $result ) ) {
-                $val=data_encode_utf8($val);
+                //$val= utf8_encode($val);
                 foreach ($val as $name_of_field=>$value_of_request){
                     if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
-                        if (!isset($val['ID']))
+                        if (!isset($val['ID'])){
                             $val['ID']=$value_of_request;
+                        } 
                         //	echo $val['ID']."=>".$value_of_request."<br>";
                         $select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
                     }
