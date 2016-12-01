@@ -61,8 +61,14 @@ if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !is
 }
 
 echo open_form($form_name, '', '', 'form-horizontal');
+if($protectedPost['onglet'] == '1'){
+    echo '<div class="col-md-12">';
+}else{
+    echo '<div class="col-md-11">';
+}
+echo '<p>';
 onglet($data_on, $form_name, "onglet", 2);
-echo '<div class="col-md-12">';
+echo '</p>';
 
 if ($protectedPost['onglet'] == 1) {
     $tab_options['CACHE'] = 'RESET';
