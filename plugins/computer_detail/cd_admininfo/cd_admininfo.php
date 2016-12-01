@@ -280,7 +280,7 @@ if (!is_array($info_account_id)) {
                 echo $show_admin_button;
             echo "</ul>";
         }
-
+        
         echo "<div class='col col-md-6 col-md-offset-3'>";
         modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
             'show_button' => $showbutton,
