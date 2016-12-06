@@ -27,6 +27,7 @@ $form_name = "lock_affect";
 echo open_form($form_name, '', '', 'form-horizontal');
 echo "<div class='row'>";
 echo "<div class='col-md-12'>";
+
 $list_id = multi_lot($form_name, $l->g(601));
 if (is_defined($list_id)) {
     //cas of TAG INFO
@@ -105,8 +106,10 @@ if (is_defined($list_id)) {
         $protectedPost['onglet'] = "TAG";
     }
     //show onglet
+    echo "<p>";
     onglet($def_onglets, $form_name, "onglet", 7);
-
+    echo "</p>";
+    
     if (is_defined($protectedPost['CHOISE'])) {
         if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == "TAG") {
             require_once('require/function_admininfo.php');
@@ -114,6 +117,8 @@ if (is_defined($list_id)) {
             $tab_typ_champ = array();
             $i = 0;
             $dont_show_type = array(8, 3);
+            echo "</div>";
+            echo "<div class='col-md-10 col-md-offset-1'>";
             foreach ($field_of_accountinfo['LIST_FIELDS'] as $id => $lbl) {
                 if (!in_array($field_of_accountinfo['LIST_TYPE'][$id], $dont_show_type)) {
                     if ($field_of_accountinfo['LIST_NAME'][$id] == "TAG") {
@@ -158,7 +163,11 @@ if (is_defined($list_id)) {
                 $List[$val["fileid"]] = $val["name"];
             }
             $select = show_modif($List, 'pack_list', 2, $form_name);
-            echo $l->g(970) . ": " . $select;
+            echo "</div>";
+            echo "<div class='col-md-10 col-md-offset-1'>";
+            echo $select;
+            echo "<div class='col-md-12'>";
+           
             if ($protectedPost['pack_list'] != "") {
                 $sql = "select count(*) c, tvalue from download_enable d_e,devices d
 							where d.name='DOWNLOAD' and d.IVALUE=d_e.ID and d_e.fileid='%s'
@@ -182,6 +191,7 @@ if (is_defined($list_id)) {
             echo "</div>";
         }
     }
+    echo "</div>";
 }
 echo close_form();
 ?>
