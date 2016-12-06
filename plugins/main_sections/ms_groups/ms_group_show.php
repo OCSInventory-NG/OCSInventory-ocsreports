@@ -345,7 +345,7 @@ function form_action_group($systemid) {
     }
     echo "<div class='col-md-8 col-md-offset-2'>";
     formGroup('select', 'actshowgroup', $l->g(585), '', '', '', '', $arrayData, $arrayData, '');
-    echo "<input type='submit' name='modify' class='btn btn-info' value=".$l->g(13).">";
+    echo "<input type='submit' name='modify' class='btn btn-success' value=".$l->g(13).">";
     echo "</div>";
     
 }
