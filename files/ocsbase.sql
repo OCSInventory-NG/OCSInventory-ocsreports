@@ -1,1053 +1,1143 @@
+-- If it's a new database
+--
+-- Table structure for table `accesslog`
+--
+
+CREATE TABLE `accesslog` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `USERID` varchar(255) DEFAULT NULL,
+  `LOGDATE` datetime DEFAULT NULL,
+  `PROCESSES` text,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `USERID` (`USERID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
-CREATE TABLE hardware (
-  ID INTEGER NOT NULL auto_increment,
-  DEVICEID VARCHAR(255) not NULL,
-  NAME VARCHAR(255) default NULL,
-  WORKGROUP VARCHAR(255) default NULL,
-  USERDOMAIN VARCHAR(255) default NULL,
-  OSNAME VARCHAR(255) default NULL,
-  OSVERSION VARCHAR(255) default NULL,
-  OSCOMMENTS VARCHAR(255) default NULL,
-  PROCESSORT VARCHAR(255) default NULL,
-  PROCESSORS INTEGER default 0,
-  PROCESSORN SMALLINT default NULL,
-  MEMORY INTEGER default NULL,
-  SWAP INTEGER default NULL,
-  IPADDR VARCHAR(255) default NULL,
-  DNS VARCHAR(255) default NULL,
-  DEFAULTGATEWAY VARCHAR(255) default NULL,
-  ETIME DATETIME default NULL,
-  LASTDATE DATETIME default NULL,
-  LASTCOME DATETIME default NULL,
-  QUALITY DECIMAL(7,4) default 0,
-  FIDELITY BIGINT default 1,
-  USERID VARCHAR(255) default NULL,
-  `TYPE` INTEGER default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  WINCOMPANY VARCHAR(255) default NULL,
-  WINOWNER VARCHAR(255) default NULL,
-  WINPRODID VARCHAR(255) default NULL,
-  WINPRODKEY VARCHAR(255) default NULL,
-  USERAGENT VARCHAR(50) default NULL,
-  CHECKSUM BIGINT UNSIGNED default 0,
-  SSTATE INTEGER default 0,
-  IPSRC VARCHAR(255) default NULL,
-  UUID VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID),
-  INDEX NAME (NAME),
-  INDEX CHECKSUM (CHECKSUM),
-  INDEX USERID(USERID),
-  INDEX WORKGROUP(WORKGROUP),
-  INDEX OSNAME(OSNAME),
-  INDEX MEMORY(MEMORY),
-  INDEX DEVICEID (DEVICEID)
-) ENGINE=INNODB ;
+--
+-- Table structure for table `accountinfo`
+--
 
-CREATE TABLE accesslog (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  USERID VARCHAR(255) default NULL,
-  LOGDATE DATETIME default NULL,
-  PROCESSES TEXT,
-  INDEX USERID(USERID),
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE accountinfo (
-  HARDWARE_ID INTEGER NOT NULL,
-  TAG VARCHAR(255) default 'NA',
-  primary key(HARDWARE_ID),
-  INDEX TAG (TAG)
-) ENGINE=INNODB ;
-
-CREATE TABLE deploy (
-  NAME VARCHAR(255) NOT NULL,
-  CONTENT LONGBLOB NOT NULL,
-  PRIMARY KEY  (NAME)
-) ENGINE=MYISAM ;
-
-CREATE TABLE netmap (
-  IP VARCHAR(15) NOT NULL,
-  MAC VARCHAR(17) NOT NULL,
-  MASK VARCHAR(15) NOT NULL,
-  NETID VARCHAR(15) NOT NULL,
-  DATE TIMESTAMP default CURRENT_TIMESTAMP,
-  NAME VARCHAR(255) default NULL,
-  PRIMARY KEY  (MAC),
-  INDEX IP (IP),
-  INDEX NETID (NETID)
-) ENGINE=INNODB ;
-
-CREATE TABLE bios (
-  HARDWARE_ID INTEGER NOT NULL,
-  SMANUFACTURER VARCHAR(255) default NULL,
-  SMODEL VARCHAR(255) default NULL,
-  SSN VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  BMANUFACTURER VARCHAR(255) default NULL,
-  BVERSION VARCHAR(255) default NULL,
-  BDATE VARCHAR(255) default NULL,
-  ASSETTAG VARCHAR(255) default NULL,
-  PRIMARY KEY  (HARDWARE_ID),
-  INDEX SSN (SSN),
-  INDEX ASSETTAG (ASSETTAG)
-) ENGINE=INNODB ;
-
-CREATE TABLE config (
-  NAME VARCHAR(50) NOT NULL,
-  IVALUE INTEGER default NULL,
-  TVALUE VARCHAR(255) default NULL,
-  COMMENTS TEXT,
-  PRIMARY KEY (NAME)
-) ENGINE=MYISAM ;
-
-CREATE TABLE controllers (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  MANUFACTURER VARCHAR(255) default NULL,
-  NAME VARCHAR(255) default NULL,
-  CAPTION VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  VERSION VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE devices (
-  HARDWARE_ID INTEGER NOT NULL,
-  NAME VARCHAR(50) NOT NULL,
-  IVALUE INTEGER default NULL,
-  TVALUE VARCHAR(255) default NULL,
-  COMMENTS TEXT,
-  INDEX HARDWARE_ID (HARDWARE_ID),
-  INDEX TVALUE (TVALUE),
-  INDEX IVALUE (IVALUE),
-  INDEX NAME (NAME)
-) ENGINE=INNODB ;
-
-CREATE TABLE drives (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  LETTER VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  FILESYSTEM VARCHAR(255) default NULL,
-  TOTAL INTEGER default NULL,
-  FREE INTEGER default NULL,
-  NUMFILES INTEGER default NULL,
-  VOLUMN VARCHAR(255) default NULL,
-  CREATEDATE DATE default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE files (
-  NAME VARCHAR(255) NOT NULL,
-  VERSION VARCHAR(255) NOT NULL,
-  OS VARCHAR(255) NOT NULL,
-  CONTENT LONGBLOB NOT NULL,
-  PRIMARY KEY  (NAME, OS, VERSION)
-) ENGINE=MYISAM ;
-
-CREATE TABLE inputs (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  MANUFACTURER VARCHAR(255) default NULL,
-  CAPTION VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  INTERFACE VARCHAR(255) default NULL,
-  POINTTYPE VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE memories (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  CAPTION VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  CAPACITY VARCHAR(255) default NULL,
-  PURPOSE VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  SPEED VARCHAR(255) default NULL,
-  NUMSLOTS SMALLINT default NULL,
-  SERIALNUMBER VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE modems (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  NAME VARCHAR(255) default NULL,
-  MODEL VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE monitors (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  MANUFACTURER VARCHAR(255) default NULL,
-  CAPTION VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  SERIAL VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
+CREATE TABLE `accountinfo` (
+  `HARDWARE_ID` int(11) NOT NULL,
+  `TAG` varchar(255) DEFAULT 'NA',
+  PRIMARY KEY (`HARDWARE_ID`),
+  KEY `TAG` (`TAG`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
-CREATE TABLE networks (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  TYPEMIB VARCHAR(255) default NULL,
-  SPEED VARCHAR(255) default NULL,
-  MTU VARCHAR(255) default NULL,
-  MACADDR VARCHAR(255) default NULL,
-  `STATUS` VARCHAR(255) default NULL,
-  IPADDRESS VARCHAR(255) default NULL,
-  IPMASK VARCHAR(255) default NULL,
-  IPGATEWAY VARCHAR(255) default NULL,
-  IPSUBNET VARCHAR(255) default NULL,
-  IPDHCP VARCHAR(255) default NULL,
-  VIRTUALDEV BOOL default FALSE,
-  PRIMARY KEY  (ID, HARDWARE_ID),
-  INDEX MACADDR (MACADDR),
-  INDEX IPADDRESS(IPADDRESS),
-  INDEX IPGATEWAY(IPGATEWAY),
-  INDEX IPSUBNET (IPSUBNET)
-) ENGINE=INNODB ;
+--
+-- Table structure for table `accountinfo_config`
+--
 
-CREATE TABLE network_devices(
-  ID INTEGER NOT NULL auto_increment,
-  DESCRIPTION VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  MACADDR VARCHAR(255) default NULL,
-  `USER` VARCHAR(255) default NULL,
-  PRIMARY KEY (ID),
-  INDEX MACADDR (MACADDR)
-) ENGINE=MYISAM ;
+CREATE TABLE `accountinfo_config` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME_ACCOUNTINFO` varchar(255) DEFAULT NULL,
+  `TYPE` int(11) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `ID_TAB` int(11) DEFAULT NULL,
+  `COMMENT` varchar(255) DEFAULT NULL,
+  `SHOW_ORDER` int(11) NOT NULL,
+  `ACCOUNT_TYPE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
-CREATE TABLE operators (
-  ID VARCHAR(255) NOT NULL default '',
-  FIRSTNAME VARCHAR(255) default NULL,
-  LASTNAME VARCHAR(255) default NULL,
-  PASSWD VARCHAR(50) default NULL,
-  ACCESSLVL INTEGER default NULL,
-  COMMENTS text,
-  PRIMARY KEY  (ID)
-) ENGINE=MYISAM ;
+--
+-- Dumping data for table `accountinfo_config`
+--
 
-CREATE TABLE ports (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  NAME VARCHAR(255) default NULL,
-  CAPTION VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
+LOCK TABLES `accountinfo_config` WRITE;
+INSERT INTO `accountinfo_config` (`ID`,`NAME_ACCOUNTINFO`,`TYPE`,`NAME`,`ID_TAB`,`COMMENT`,`SHOW_ORDER`,`ACCOUNT_TYPE`) VALUES (1,'TAG',0,'TAG',1,'TAG',1,'COMPUTERS'),(2,'TAG',0,'TAG',1,'TAG',1,'SNMP');
+UNLOCK TABLES;
 
-CREATE TABLE printers (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  NAME VARCHAR(255) default NULL,
-  DRIVER VARCHAR(255) default NULL,
-  PORT VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
+--
+-- Table structure for table `bios`
+--
 
-CREATE TABLE regconfig (
-  ID INTEGER NOT NULL auto_increment,
-  NAME VARCHAR(255) default NULL,
-  REGTREE INTEGER default NULL,
-  REGKEY text,
-  REGVALUE VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID),
-  KEY NAME (NAME)
-) ENGINE=MYISAM ;
+CREATE TABLE `bios` (
+  `HARDWARE_ID` int(11) NOT NULL,
+  `SMANUFACTURER` varchar(255) DEFAULT NULL,
+  `SMODEL` varchar(255) DEFAULT NULL,
+  `SSN` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `BMANUFACTURER` varchar(255) DEFAULT NULL,
+  `BVERSION` varchar(255) DEFAULT NULL,
+  `BDATE` varchar(255) DEFAULT NULL,
+  `ASSETTAG` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`),
+  KEY `SSN` (`SSN`),
+  KEY `ASSETTAG` (`ASSETTAG`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-CREATE TABLE registry (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  NAME VARCHAR(255) default NULL,
-  REGVALUE VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID),
-  KEY NAME (NAME)
-) ENGINE=INNODB ;
-
-CREATE TABLE slots (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  NAME VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  DESIGNATION VARCHAR(255) default NULL,
-  PURPOSE VARCHAR(255) default NULL,
-  `STATUS` VARCHAR(255) default NULL,
-  PSHARE tinyint(4) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE softwares (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  PUBLISHER VARCHAR(255) default NULL,
-  NAME VARCHAR(255) default NULL,
-  VERSION VARCHAR(255) default NULL,
-  FOLDER text,
-  COMMENTS text,
-  FILENAME VARCHAR(255) default NULL,
-  FILESIZE INTEGER default '0',
-  SOURCE INTEGER default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID),
-  INDEX NAME (NAME),
-  INDEX `VERSION`(`VERSION`)
-) ENGINE=INNODB ;
-
-CREATE TABLE `sounds` (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  MANUFACTURER VARCHAR(255) default NULL,
-  NAME VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE storages (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  MANUFACTURER VARCHAR(255) default NULL,
-  NAME VARCHAR(255) default NULL,
-  MODEL VARCHAR(255) default NULL,
-  DESCRIPTION VARCHAR(255) default NULL,
-  `TYPE` VARCHAR(255) default NULL,
-  DISKSIZE INTEGER default NULL,
-  SERIALNUMBER VARCHAR(255) default NULL,
-  FIRMWARE VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE videos (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  NAME VARCHAR(255) default NULL,
-  CHIPSET VARCHAR(255) default NULL,
-  MEMORY VARCHAR(255) default NULL,
-  RESOLUTION VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE devicetype (
-  ID INTEGER NOT NULL auto_increment,
-  NAME VARCHAR(255) default NULL,
-  PRIMARY KEY  (ID)
-) ENGINE=MYISAM ;
-
-CREATE TABLE subnet (
-  NETID VARCHAR(15) NOT NULL,
-  NAME VARCHAR(255),
-  ID INTEGER,
-  MASK VARCHAR(255),
-  PRIMARY KEY (NETID),
-  INDEX ID(ID)
-) ENGINE=MYISAM ;
-
-CREATE TABLE virtualmachines (
-  ID INTEGER NOT NULL auto_increment,
-  HARDWARE_ID INTEGER NOT NULL,
-  NAME VARCHAR(255) default NULL,
-  STATUS VARCHAR(255) default NULL,
-  SUBSYSTEM VARCHAR(255) default NULL,
-  VMTYPE VARCHAR(255) default NULL,
-  UUID VARCHAR(255) default NULL,
-  VCPU INTEGER default NULL,
-  MEMORY INTEGER default NULL,
-  PRIMARY KEY  (ID, HARDWARE_ID)
-) ENGINE=INNODB ;
-
-CREATE TABLE locks(
-  HARDWARE_ID INTEGER NOT NULL PRIMARY KEY,
-  ID INTEGER DEFAULT NULL,
-  SINCE TIMESTAMP,
-  INDEX SINCE (SINCE)
-) ENGINE=HEAP ;
-
-CREATE TABLE dico_ignored(
-  EXTRACTED VARCHAR(255) NOT NULL,
-  PRIMARY KEY(EXTRACTED)
-) ENGINE=MYISAM ;
-
-CREATE TABLE dico_soft( 
-  EXTRACTED VARCHAR(255) NOT NULL,
-  FORMATTED VARCHAR(255) NOT NULL,
-  PRIMARY KEY(EXTRACTED)
-) ENGINE=MYISAM ;
-
-CREATE TABLE deleted_equiv(
-  DATE TIMESTAMP, 
-  DELETED VARCHAR(255) NOT NULL,
-  EQUIVALENT VARCHAR(255) default NULL
-) ENGINE=MYISAM ;
-
-CREATE TABLE download_available(
-	FILEID VARCHAR(255) NOT NULL PRIMARY KEY,
-	NAME VARCHAR(255) NOT NULL,
-	PRIORITY INTEGER NOT NULL,
-	FRAGMENTS INTEGER NOT NULL,
-	SIZE INTEGER NOT NULL,
-	OSNAME VARCHAR(255) NOT NULL,
-	COMMENT TEXT
-) ENGINE = INNODB;
-
-CREATE TABLE download_enable(
-	ID INTEGER NOT NULL auto_increment PRIMARY KEY,
-	FILEID VARCHAR(255) NOT NULL,
-	INFO_LOC VARCHAR(255) NOT NULL,
-	PACK_LOC VARCHAR(255) NOT NULL,
-	CERT_PATH VARCHAR(255),
-	CERT_FILE VARCHAR(255),
-	INDEX FILEID(FILEID)
-) ENGINE = INNODB;
-
-CREATE TABLE download_history(
-	HARDWARE_ID INTEGER NOT NULL,
-	PKG_ID INTEGER default NULL,
-	PKG_NAME VARCHAR(255),
-	PRIMARY KEY(HARDWARE_ID, PKG_ID)
-) ENGINE = INNODB;
-
-CREATE TABLE conntrack(
-	IP VARCHAR(255),
-	`TIMESTAMP` TIMESTAMP,
-	PRIMARY KEY(IP)
-) ENGINE = HEAP;
-
-CREATE TABLE groups(
-	HARDWARE_ID integer default NULL,
-	REQUEST longtext,
-	CREATE_TIME INT,
-	PRIMARY KEY(HARDWARE_ID)
-) ENGINE=MYISAM;
-
-CREATE TABLE groups_cache(
-	HARDWARE_ID integer NOT NULL default 0,
-	GROUP_ID integer NOT NULL default 0,
-	STATIC integer default 0,
-	PRIMARY KEY(HARDWARE_ID,GROUP_ID)
-) ENGINE=MYISAM;
-
-CREATE TABLE blacklist_macaddresses(
-	ID INTEGER auto_increment,
-	MACADDRESS VARCHAR(255),
-	PRIMARY KEY(MACADDRESS),
-	INDEX ID(ID)
-) ENGINE = MYISAM;
-
-CREATE TABLE blacklist_serials(
-	ID INTEGER auto_increment,
-	SERIAL VARCHAR(255),
-	PRIMARY KEY(SERIAL),
-	INDEX ID(ID)
-) ENGINE = MYISAM;
-
-CREATE TABLE registry_name_cache(
-        ID INTEGER auto_increment,
-        NAME VARCHAR(255) UNIQUE,
-        PRIMARY KEY(ID)
-) ENGINE = MYISAM;
-TRUNCATE TABLE registry_name_cache;
-INSERT INTO registry_name_cache(name) SELECT DISTINCT name FROM registry;
-
-CREATE TABLE registry_regvalue_cache(
-	ID INTEGER auto_increment,
-	REGVALUE VARCHAR(255) UNIQUE,
-	PRIMARY KEY(ID)
-) ENGINE = MYISAM;
-TRUNCATE TABLE registry_regvalue_cache;
-INSERT INTO registry_regvalue_cache(regvalue) SELECT DISTINCT regvalue FROM registry;
-
-CREATE TABLE hardware_osname_cache(
-        ID INTEGER auto_increment,
-        OSNAME VARCHAR(255) UNIQUE,
-        PRIMARY KEY(ID)
-) ENGINE = MYISAM;
-TRUNCATE TABLE hardware_osname_cache;
-INSERT INTO hardware_osname_cache(osname) SELECT DISTINCT osname FROM hardware;
-
-CREATE TABLE softwares_name_cache(
-        ID INTEGER auto_increment,
-        NAME VARCHAR(255) UNIQUE,
-        PRIMARY KEY(ID)
-) ENGINE = MYISAM;
-TRUNCATE TABLE softwares_name_cache;
-INSERT INTO softwares_name_cache(name) SELECT DISTINCT name FROM softwares;
-
-CREATE TABLE tags (
-  Tag VARCHAR(255) NOT NULL default '',
-  Login VARCHAR(255) NOT NULL default '',
-  PRIMARY KEY  (Tag,Login),
-  KEY Tag (Tag),
-  KEY Login (Login)
-) ENGINE=MyISAM;
-
-CREATE TABLE engine_mutex (
-  NAME varchar(255) NOT NULL default '',
-  PID int(11) default NULL,
-  TAG varchar(255) NOT NULL default '',
-  PRIMARY KEY  (NAME,TAG)
-) ENGINE=MEMORY DEFAULT CHARSET=latin1;
-
-CREATE TABLE engine_persistent (
- ID int(11) NOT NULL auto_increment,
- NAME varchar(255) NOT NULL default '',
- IVALUE int(11) default NULL,
- TVALUE varchar(255) default NULL,
-  UNIQUE KEY NAME (NAME),
-  KEY ID (ID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-CREATE TABLE journallog (
-  HARDWARE_ID INT(11) not null,
-  ID integer auto_increment not null,
-  JOURNALLOG LONGTEXT,
-  LISTENERNAME VARCHAR(255) default 'NONAME',
-  `DATE` VARCHAR(255) default null,
-  STATUS INTEGER default 0,
-  ERRORCODE INTEGER default 0,
-  PRIMARY KEY(ID,HARDWARE_ID)
-) ENGINE=INNODB;
-
-CREATE TABLE javainfo (
-  HARDWARE_ID INT(11) not null,
-  JAVANAME VARCHAR(255) default 'NONAME',
-  JAVAPATHLEVEL INTEGER default 0,
-  JAVACOUNTRY VARCHAR(255),
-  JAVACLASSPATH VARCHAR(255) default null,
-  JAVAHOME VARCHAR(255) default null,
-  PRIMARY KEY (HARDWARE_ID)
-)ENGINE=INNODB;
-
-ALTER TABLE devices ADD INDEX IVALUE (IVALUE);
-ALTER TABLE devices ADD INDEX NAME (NAME);
-ALTER TABLE monitors ADD COLUMN SERIAL VARCHAR(255);
-ALTER TABLE netmap ADD COLUMN MASK VARCHAR(15);
-ALTER TABLE netmap ADD COLUMN NETID VARCHAR(15);
-ALTER TABLE netmap ADD INDEX NETID (NETID);
-ALTER TABLE netmap ADD COLUMN DATE TIMESTAMP;
-ALTER TABLE netmap ADD COLUMN NAME VARCHAR(255) default NULL;
-ALTER TABLE networks ADD COLUMN IPSUBNET VARCHAR(15);
-ALTER TABLE networks ADD INDEX IPSUBNET (IPSUBNET);
-ALTER TABLE networks ADD INDEX MACADDR (MACADDR);
-ALTER TABLE hardware ADD COLUMN CHECKSUM INTEGER default NULL;
-ALTER TABLE hardware CHANGE COLUMN CHECKSUM CHECKSUM INTEGER default 131071;
-ALTER TABLE hardware CHANGE COLUMN CHECKSUM CHECKSUM BIGINT UNSIGNED default 262143;
-ALTER TABLE hardware add column WINPRODKEY VARCHAR(255) default NULL;
-ALTER TABLE hardware add column USERDOMAIN VARCHAR(255) default NULL;
-ALTER TABLE hardware ADD COLUMN SSTATE INTEGER default 0;
-ALTER TABLE hardware ADD COLUMN DEFAULTGATEWAY VARCHAR(255) default NULL;
-ALTER TABLE hardware ADD COLUMN DNS VARCHAR(255) default NULL;
-ALTER TABLE drives ADD COLUMN CREATEDATE DATE default NULL;
-ALTER TABLE hardware ADD COLUMN IPSRC VARCHAR(255) default NULL;
-
-ALTER TABLE hardware CHANGE ID ID INTEGER;
-ALTER TABLE hardware DROP PRIMARY KEY;
-ALTER TABLE hardware ADD COLUMN ID integer not NULL FIRST;
-ALTER TABLE hardware ADD INDEX ID (ID);
-ALTER TABLE hardware CHANGE ID ID INTEGER auto_increment;
-ALTER TABLE hardware add PRIMARY KEY(DEVICEID, ID);
-
-ALTER TABLE bios DROP PRIMARY KEY;
-ALTER TABLE bios ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE bios SET bios.HARDWARE_ID= (SELECT ID FROM hardware WHERE bios.DEVICEID = hardware.DEVICEID);
-ALTER TABLE bios DROP DEVICEID;
-ALTER TABLE bios ADD PRIMARY KEY(HARDWARE_ID);
-ALTER TABLE bios ADD COLUMN ASSETTAG VARCHAR(255) default NULL;
-ALTER TABLE bios ADD INDEX ASSETTAG (ASSETTAG);
 ALTER TABLE `bios` ADD COLUMN `MMANUFACTURER` varchar(255) default NULL;
 ALTER TABLE `bios` ADD COLUMN `MMODEL` varchar(255) default NULL;
 ALTER TABLE `bios` ADD COLUMN `MSN` varchar(255) default NULL;
 
-ALTER TABLE accountinfo DROP PRIMARY KEY;
-ALTER TABLE accountinfo ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE accountinfo SET accountinfo.HARDWARE_ID= (SELECT ID FROM hardware WHERE accountinfo.DEVICEID = hardware.DEVICEID);
-ALTER TABLE accountinfo DROP DEVICEID;
-ALTER TABLE accountinfo ADD PRIMARY KEY(HARDWARE_ID);
 
-ALTER TABLE devices DROP PRIMARY KEY;
-ALTER TABLE devices ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE devices SET devices.HARDWARE_ID= (SELECT ID FROM hardware WHERE devices.DEVICEID = hardware.DEVICEID);
-ALTER TABLE devices DROP DEVICEID;
-ALTER TABLE devices ADD INDEX HARDWARE_ID (HARDWARE_ID);
+--
+-- Table structure for table `blacklist_macaddresses`
+--
 
-ALTER TABLE controllers change ID ID INTEGER;
-ALTER TABLE controllers DROP PRIMARY KEY;
-ALTER TABLE controllers ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE controllers SET controllers.HARDWARE_ID= (SELECT ID FROM hardware WHERE controllers.DEVICEID = hardware.DEVICEID);
-ALTER TABLE controllers ADD INDEX ID (ID);
-ALTER TABLE controllers change ID ID INTEGER auto_increment;
-ALTER TABLE controllers ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE controllers DROP DEVICEID;
+CREATE TABLE `blacklist_macaddresses` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `MACADDRESS` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`MACADDRESS`),
+  KEY `ID` (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=UTF8;
 
-ALTER TABLE slots change ID ID INTEGER;
-ALTER TABLE slots DROP PRIMARY KEY;
-ALTER TABLE slots ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE slots SET slots.HARDWARE_ID= (SELECT ID FROM hardware WHERE slots.DEVICEID = hardware.DEVICEID);
-ALTER TABLE slots ADD INDEX ID (ID);
-ALTER TABLE slots change ID ID INTEGER auto_increment;
-ALTER TABLE slots ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE slots DROP DEVICEID;
+--
+-- Dumping data for table `blacklist_macaddresses`
+--
 
-ALTER TABLE registry change ID ID INTEGER;
-ALTER TABLE registry DROP PRIMARY KEY;
-ALTER TABLE registry ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE registry SET registry.HARDWARE_ID= (SELECT ID FROM hardware WHERE registry.DEVICEID = hardware.DEVICEID);
-ALTER TABLE registry ADD INDEX ID (ID);
-ALTER TABLE registry change ID ID INTEGER auto_increment;
-ALTER TABLE registry ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE registry DROP DEVICEID;
+LOCK TABLES `blacklist_macaddresses` WRITE;
 
-INSERT INTO network_devices(DESCRIPTION,TYPE,MACADDR,`USER`) SELECT DESCRIPTION,TYPE,MACADDR,TYPEMIB FROM networks WHERE DEVICEID LIKE "NETWORK_DEVICE-%";
-DELETE FROM network_devices WHERE DEVICEID LIKE "NETWORK_DEVICE-%";
+INSERT INTO `blacklist_macaddresses` VALUES (1,'00:00:00:00:00:00'),(2,'FF:FF:FF:FF:FF:FF'),(3,'44:45:53:54:00:00'),(4,'44:45:53:54:00:01'),(5,'00:01:02:7D:9B:1C'),(6,'00:08:A1:46:06:35'),(7,'00:08:A1:66:E2:1A'),(8,'00:09:DD:10:37:68'),(9,'00:0F:EA:9A:E2:F0'),(10,'00:10:5A:72:71:F3'),(11,'00:11:11:85:08:8B'),(12,'10:11:11:11:11:11'),(13,'44:45:53:54:61:6F'),(14,'');
 
-ALTER TABLE networks change ID ID INTEGER;
-ALTER TABLE networks DROP PRIMARY KEY;
-ALTER TABLE networks ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE networks SET networks.HARDWARE_ID= (SELECT ID FROM hardware WHERE networks.DEVICEID = hardware.DEVICEID);
-ALTER TABLE networks ADD INDEX ID (ID);
-ALTER TABLE networks change ID ID INTEGER auto_increment;
-ALTER TABLE networks ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE networks DROP DEVICEID;
+UNLOCK TABLES;
 
-ALTER TABLE memories change ID ID INTEGER;
-ALTER TABLE memories DROP PRIMARY KEY;
-ALTER TABLE memories ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE memories SET memories.HARDWARE_ID= (SELECT ID FROM hardware WHERE memories.DEVICEID = hardware.DEVICEID);
-ALTER TABLE memories ADD INDEX ID (ID);
-ALTER TABLE memories change ID ID INTEGER auto_increment;
-ALTER TABLE memories ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE memories DROP DEVICEID;
-ALTER TABLE memories ADD COLUMN SERIALNUMBER VARCHAR(255) default NULL AFTER NUMSLOTS;
+--
+-- Table structure for table `blacklist_serials`
+--
 
-ALTER TABLE drives change ID ID INTEGER;
-ALTER TABLE drives DROP PRIMARY KEY;
-ALTER TABLE drives ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE drives SET drives.HARDWARE_ID= (SELECT ID FROM hardware WHERE drives.DEVICEID = hardware.DEVICEID);
-ALTER TABLE drives ADD INDEX ID (ID);
-ALTER TABLE drives change ID ID INTEGER auto_increment;
-ALTER TABLE drives ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE drives DROP DEVICEID;
+CREATE TABLE `blacklist_serials` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SERIAL` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`SERIAL`),
+  KEY `ID` (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=UTF8;
 
-ALTER TABLE storages change ID ID INTEGER;
-ALTER TABLE storages DROP PRIMARY KEY;
-ALTER TABLE storages ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE storages SET storages.HARDWARE_ID= (SELECT ID FROM hardware WHERE storages.DEVICEID = hardware.DEVICEID);
-ALTER TABLE storages ADD INDEX ID (ID);
-ALTER TABLE storages change ID ID INTEGER auto_increment;
-ALTER TABLE storages ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE storages DROP DEVICEID;
-ALTER TABLE storages ADD COLUMN SERIALNUMBER VARCHAR(255) default NULL AFTER DISKSIZE;
-ALTER TABLE storages ADD COLUMN FIRMWARE VARCHAR(255) default NULL AFTER SERIALNUMBER;
+--
+-- Dumping data for table `blacklist_serials`
+--
 
-ALTER TABLE ports change ID ID INTEGER;
-ALTER TABLE ports DROP PRIMARY KEY;
-ALTER TABLE ports ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE ports SET ports.HARDWARE_ID= (SELECT ID FROM hardware WHERE ports.DEVICEID = hardware.DEVICEID);
-ALTER TABLE ports ADD INDEX ID (ID);
-ALTER TABLE ports change ID ID INTEGER auto_increment;
-ALTER TABLE ports ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE ports DROP DEVICEID;
+LOCK TABLES `blacklist_serials` WRITE;
 
-ALTER TABLE accesslog change ID ID INTEGER;
-ALTER TABLE accesslog DROP PRIMARY KEY;
-ALTER TABLE accesslog ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE accesslog SET accesslog.HARDWARE_ID= (SELECT ID FROM hardware WHERE accesslog.DEVICEID = hardware.DEVICEID);
-ALTER TABLE accesslog ADD INDEX ID (ID);
-ALTER TABLE accesslog change ID ID INTEGER auto_increment;
-ALTER TABLE accesslog ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE accesslog DROP DEVICEID;
+INSERT INTO `blacklist_serials` VALUES (1,'N/A'),(2,'(null string)'),(3,'INVALID'),(4,'SYS-1234567890'),(5,'SYS-9876543210'),(6,'SN-12345'),(7,'SN-1234567890'),(8,'1111111111'),(9,'1111111'),(10,'1'),(11,'0123456789'),(12,'12345'),(13,'123456'),(14,'1234567'),(15,'12345678'),(16,'123456789'),(17,'1234567890'),(18,'123456789000'),(19,'12345678901234567'),(20,'0000000000'),(21,'000000000'),(22,'00000000'),(23,'0000000'),(24,'000000'),(25,'NNNNNNN'),(26,'xxxxxxxxxxx'),(27,'EVAL'),(28,'IATPASS'),(29,'none'),(30,'To Be Filled By O.E.M.'),(31,'Tulip Computers'),(32,'Serial Number xxxxxx'),(33,'SN-123456fvgv3i0b8o5n6n7k'),(34,'');
 
-ALTER TABLE softwares change ID ID INTEGER;
-ALTER TABLE softwares DROP PRIMARY KEY;
-ALTER TABLE softwares ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE softwares SET softwares.HARDWARE_ID= (SELECT ID FROM hardware WHERE softwares.DEVICEID = hardware.DEVICEID);
-ALTER TABLE softwares ADD INDEX ID (ID);
-ALTER TABLE softwares change ID ID INTEGER auto_increment;
-ALTER TABLE softwares ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE softwares DROP DEVICEID;
+UNLOCK TABLES;
 
-ALTER TABLE monitors change ID ID INTEGER;
-ALTER TABLE monitors DROP PRIMARY KEY;
-ALTER TABLE monitors ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE monitors SET monitors.HARDWARE_ID= (SELECT ID FROM hardware WHERE monitors.DEVICEID = hardware.DEVICEID);
-ALTER TABLE monitors ADD INDEX ID (ID);
-ALTER TABLE monitors change ID ID INTEGER auto_increment;
-ALTER TABLE monitors ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE monitors DROP DEVICEID;
-
-ALTER TABLE modems change ID ID INTEGER;
-ALTER TABLE modems DROP PRIMARY KEY;
-ALTER TABLE modems ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE modems SET modems.HARDWARE_ID= (SELECT ID FROM hardware WHERE modems.DEVICEID = hardware.DEVICEID);
-ALTER TABLE modems ADD INDEX ID (ID);
-ALTER TABLE modems change ID ID INTEGER auto_increment;
-ALTER TABLE modems ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE modems DROP DEVICEID;
-
-ALTER TABLE inputs change ID ID INTEGER;
-ALTER TABLE inputs DROP PRIMARY KEY;
-ALTER TABLE inputs ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE inputs SET inputs.HARDWARE_ID= (SELECT ID FROM hardware WHERE inputs.DEVICEID = hardware.DEVICEID);
-ALTER TABLE inputs ADD INDEX ID (ID);
-ALTER TABLE inputs change ID ID INTEGER auto_increment;
-ALTER TABLE inputs ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE inputs DROP DEVICEID;
-
-ALTER TABLE printers change ID ID INTEGER;
-ALTER TABLE printers DROP PRIMARY KEY;
-ALTER TABLE printers ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE printers SET printers.HARDWARE_ID= (SELECT ID FROM hardware WHERE printers.DEVICEID = hardware.DEVICEID);
-ALTER TABLE printers ADD INDEX ID (ID);
-ALTER TABLE printers change ID ID INTEGER auto_increment;
-ALTER TABLE printers ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE printers DROP DEVICEID;
-ALTER TABLE printers ADD COLUMN DESCRIPTION VARCHAR(255);
+--
+-- Table structure for table `blacklist_subnet`
+--
 
 
-ALTER TABLE videos change ID ID INTEGER;
-ALTER TABLE videos DROP PRIMARY KEY;
-ALTER TABLE videos ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE videos SET videos.HARDWARE_ID= (SELECT ID FROM hardware WHERE videos.DEVICEID = hardware.DEVICEID);
-ALTER TABLE videos ADD INDEX ID (ID);
-ALTER TABLE videos change ID ID INTEGER auto_increment;
-ALTER TABLE videos ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE videos DROP DEVICEID;
+CREATE TABLE `blacklist_subnet` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SUBNET` varchar(20) NOT NULL DEFAULT '',
+  `MASK` varchar(20)  NOT NULL DEFAULT '',
+  PRIMARY KEY (`SUBNET`,`MASK`),
+  KEY `ID` (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
-ALTER TABLE sounds change ID ID INTEGER;
-ALTER TABLE sounds DROP PRIMARY KEY;
-ALTER TABLE sounds ADD COLUMN HARDWARE_ID integer not NULL FIRST;
-UPDATE sounds SET sounds.HARDWARE_ID= (SELECT ID FROM hardware WHERE sounds.DEVICEID = hardware.DEVICEID);
-ALTER TABLE sounds ADD INDEX ID (ID);
-ALTER TABLE sounds change ID ID INTEGER auto_increment;
-ALTER TABLE sounds ADD PRIMARY KEY(HARDWARE_ID,ID);
-ALTER TABLE sounds DROP DEVICEID;
 
-DROP TABLE IF EXISTS tag;
-TRUNCATE TABLE locks;
 
-ALTER TABLE softwares CHANGE NAME NAME VARCHAR(255) default NULL;
-ALTER TABLE locks DROP DEVICEID;
-ALTER TABLE locks ADD HARDWARE_ID INTEGER NOT NULL PRIMARY KEY FIRST;
-ALTER TABLE locks ADD INDEX SINCE (SINCE);
+--
+-- Table structure for table `config`
+--
 
-DROP TABLE IF EXISTS dico_cat;
-ALTER TABLE accesslog ADD INDEX USERID(USERID);
-ALTER TABLE download_enable ADD INDEX FILEID(FILEID);
-ALTER TABLE hardware ADD INDEX USERID(USERID);
-ALTER TABLE hardware ADD INDEX WORKGROUP(WORKGROUP);
-ALTER TABLE hardware ADD INDEX OSNAME(OSNAME);
-ALTER TABLE hardware ADD INDEX MEMORY(MEMORY);
-ALTER TABLE networks ADD INDEX IPADDRESS(IPADDRESS);
-ALTER TABLE networks ADD INDEX IPGATEWAY(IPGATEWAY);
-ALTER TABLE softwares ADD INDEX `VERSION`(`VERSION`);
-ALTER TABLE subnet ADD INDEX ID(ID);
-ALTER TABLE hardware CHANGE QUALITY QUALITY DECIMAL(7,4) default NULL;
 
-ALTER TABLE groups change REVALIDATE_FROM REVALIDATE_FROM INT default 0; 	 
-ALTER TABLE groups change CREATE_TIME CREATE_TIME INT default 0;
-UPDATE groups SET CREATE_TIME=0 WHERE CREATE_TIME IS NULL;
-UPDATE groups SET REVALIDATE_FROM=0 WHERE REVALIDATE_FROM IS NULL;
+CREATE TABLE `config` (
+  `NAME` varchar(50) NOT NULL,
+  `IVALUE` int(11) DEFAULT NULL,
+  `TVALUE` varchar(255) DEFAULT NULL,
+  `COMMENTS` text,
+  PRIMARY KEY (`NAME`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Dumping data for table `config`
+--
+
+LOCK TABLES `config` WRITE;
 
 DELETE FROM config WHERE name='GUI_VERSION';
-DELETE FROM config WHERE name='IP_MIN_QUALITY';
 
-INSERT INTO config VALUES ('FREQUENCY', 0, '', 'Specify the frequency (days) of inventories. (0: inventory at each login. -1: no inventory)');
-INSERT INTO config VALUES ('PROLOG_FREQ', 24, '', 'Specify the frequency (hours) of prolog, on agents');
-INSERT INTO config VALUES ('INVENTORY_ON_STARTUP',1,'1','Launch inventory on agent service statup');
-INSERT INTO config VALUES ('IPDISCOVER', 2, '', 'Max number of computers per gateway retrieving IP on the network');
-INSERT INTO config VALUES ('INVENTORY_DIFF', 1, '', 'Activate/Deactivate inventory incremental writing');
-INSERT INTO config VALUES ('IPDISCOVER_LATENCY', 100, '', 'Default latency between two arp requests');
-INSERT INTO config VALUES ('INVENTORY_TRANSACTION', 1, '', 'Enable/disable db commit at each inventory section');
-INSERT INTO config VALUES ('REGISTRY', 0, '', 'Activates or not the registry query function');
-INSERT INTO config VALUES ('IPDISCOVER_MAX_ALIVE', 7, '','Max number of days before an Ip Discover computer is replaced');
-INSERT INTO config VALUES ('DEPLOY', 1, '', 'Activates or not the automatic deployment option');
-INSERT INTO config VALUES ('UPDATE', 0, '', 'Activates or not the update feature');
-INSERT INTO config VALUES ('TRACE_DELETED', 0, '', 'Trace deleted/duplicated computers (Activated by GLPI)');
-INSERT INTO config VALUES ('LOGLEVEL', 0, '', 'ocs engine loglevel');
-INSERT INTO config VALUES ('AUTO_DUPLICATE_LVL', 7, '', 'Duplicates bitmap');
-INSERT INTO config VALUES ('DOWNLOAD', 0, '', 'Activate softwares auto deployment feature');
-INSERT INTO config VALUES ('DOWNLOAD_CYCLE_LATENCY', 60, '', 'Time between two cycles (seconds)');
-INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LENGTH', 10, '', 'Number of cycles in a period');
-INSERT INTO config VALUES ('DOWNLOAD_FRAG_LATENCY', 10, '', 'Time between two downloads (seconds)');
-INSERT INTO config VALUES ('DOWNLOAD_PERIOD_LATENCY', 1, '', 'Time between two periods (seconds)');
-INSERT INTO config VALUES ('DOWNLOAD_TIMEOUT', 30, '', 'Validity of a package (in days)');
-INSERT INTO config VALUES ('DOWNLOAD_PACK_DIR','','/var/lib/ocsinventory-reports','Directory for download files');
-INSERT INTO config VALUES ('IPDISCOVER_IPD_DIR','','/var/lib/ocsinventory-reports','Directory for Ipdiscover files');
-INSERT INTO config VALUES ('WARN_UPDATE',1,'1','Warn user if an update is available');
+INSERT INTO `config` VALUES ('FREQUENCY',0,'','Specify the frequency (days) of inventories. (0: inventory at each login. -1: no inventory)'),('PROLOG_FREQ',24,'','Specify the frequency (hours) of prolog, on agents'),('IPDISCOVER',2,'','Max number of computers per gateway retrieving IP on the network'),('INVENTORY_DIFF',1,'','Activate/Deactivate inventory incremental writing'),('IPDISCOVER_LATENCY',100,'','Default latency between two arp requests'),('INVENTORY_TRANSACTION',1,'','Enable/disable db commit at each inventory section'),('REGISTRY',0,'','Activates or not the registry query function'),('IPDISCOVER_MAX_ALIVE',7,'','Max number of days before an Ip Discover computer is replaced'),('DEPLOY',1,'','Activates or not the automatic deployment option'),('UPDATE',0,'','Activates or not the update feature'),('TRACE_DELETED',0,'','Trace deleted/duplicated computers (Activated by GLPI)'),('LOGLEVEL',0,'','ocs engine loglevel'),('AUTO_DUPLICATE_LVL',7,'','Duplicates bitmap'),('DOWNLOAD',0,'','Activate softwares auto deployment feature'),('DOWNLOAD_CYCLE_LATENCY',60,'','Time between two cycles (seconds)'),('DOWNLOAD_PERIOD_LENGTH',10,'','Number of cycles in a period'),('DOWNLOAD_FRAG_LATENCY',10,'','Time between two downloads (seconds)'),('DOWNLOAD_PERIOD_LATENCY',1,'','Time between two periods (seconds)'),('DOWNLOAD_TIMEOUT',30,'','Validity of a package (in days)'),('DOWNLOAD_PACK_DIR',0,'/var/lib/ocsinventory-reports','Directory for download files'),('IPDISCOVER_IPD_DIR',0,'/var/lib/ocsinventory-reports','Directory for Ipdiscover files'),('DOWNLOAD_SERVER_URI',0,'$IP$/local','Server url used for group of server'),('DOWNLOAD_SERVER_DOCROOT',0,'d:\\tele_ocs','Server directory used for group of server'),('LOCK_REUSE_TIME',600,'','Validity of a computer\'s lock'),('INVENTORY_WRITE_DIFF',0,'','Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load'),('INVENTORY_CACHE_ENABLED',1,'','Enable some stuff to improve DB queries, especially for GUI multicriteria searching system'),('DOWNLOAD_GROUPS_TRACE_EVENTS',1,'','Specify if you want to track packages affected to a group on computer\'s level'),('ENABLE_GROUPS',1,'','Enable the computer\'s groups feature'),('GROUPS_CACHE_OFFSET',43200,'','Random number computed in the defined range. Designed to avoid computing many groups in the same process'),('GROUPS_CACHE_REVALIDATE',43200,'','Specify the validity of computer\'s groups (default: compute it once a day - see offset)'),('IPDISCOVER_BETTER_THRESHOLD',1,'','Specify the minimal difference to replace an ipdiscover agent'),('IPDISCOVER_NO_POSTPONE',0,'','Disable the time before a first election (not recommended)'),('IPDISCOVER_USE_GROUPS',1,'','Enable groups for ipdiscover (for example, you might want to prevent some groups'),('GENERATE_OCS_FILES',0,'','Use with ocsinventory-injector, enable the multi entities feature'),('OCS_FILES_FORMAT',0,'OCS','Generate either compressed file or clear XML text'),('OCS_FILES_OVERWRITE',0,'','Specify if you want to keep trace of all inventory between to synchronisation with the higher level server'),('OCS_FILES_PATH',0,'/tmp','Path to ocs files directory (must be writeable)'),('OCS_SERVER_ADDRESS',0,'127.0.0.1','Ocs serveur ip for plugin webservice'),('PROLOG_FILTER_ON',0,'','Enable prolog filter stack'),('INVENTORY_FILTER_ENABLED',0,'','Enable core filter system to modify some things \"on the fly\"'),('INVENTORY_FILTER_FLOOD_IP',0,'','Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period'),('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',300,'','Period definition for INVENTORY_FILTER_FLOOD_IP'),('INVENTORY_FILTER_ON',0,'','Enable inventory filter stack'),('GUI_REPORT_RAM_MAX',512,'','Filter on RAM for console page'),('GUI_REPORT_RAM_MINI',128,'','Filter on RAM for console page'),('GUI_REPORT_NOT_VIEW',3,'','Filter on DAY for console page'),('GUI_REPORT_PROC_MINI',1000,'','Filter on Hard Drive for console page'),('GUI_REPORT_DD_MAX',4000,'','Filter on Hard Drive for console page'),('GUI_REPORT_PROC_MAX',3000,'','Filter on PROCESSOR for console page'),('GUI_REPORT_DD_MINI',500,'','Filter on PROCESSOR for console page'),('GUI_REPORT_AGIN_MACH',30,'','Filter on lastdate for console page'),('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo'),('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo'),('SNMP_INVENTORY_DIFF',1,NULL,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)'),('SNMP_DIR',0,'/var/lib/ocsinventory-reports/snmp','Directory for download files');
 
-INSERT INTO blacklist_serials(SERIAL) VALUES ('N/A'),('(null string)'),('INVALID'),('SYS-1234567890'),('SYS-9876543210'),('SN-12345'),('SN-1234567890'),('1111111111'),('1111111'),('1'),('0123456789'),('12345'),('123456'),('1234567'),('12345678'),('123456789'),('1234567890'),('123456789000'),('12345678901234567'),('0000000000'),('000000000'),('00000000'),('0000000'),('000000'),('NNNNNNN'),('xxxxxxxxxxx'),('EVAL'),('IATPASS'),('none'),('To Be Filled By O.E.M.'),('Tulip Computers'),('Serial Number xxxxxx'),('SN-123456fvgv3i0b8o5n6n7k'),('');
-INSERT INTO blacklist_macaddresses(MACADDRESS) VALUES ('00:00:00:00:00:00'),('FF:FF:FF:FF:FF:FF'),('44:45:53:54:00:00'),('44:45:53:54:00:01'),('00:01:02:7D:9B:1C'),('00:08:A1:46:06:35'),('00:08:A1:66:E2:1A'),('00:09:DD:10:37:68'),('00:0F:EA:9A:E2:F0'),('00:10:5A:72:71:F3'),('00:11:11:85:08:8B'),('10:11:11:11:11:11'),('44:45:53:54:61:6F'),('');
+INSERT INTO `config` VALUES('WARN_UPDATE',1,'1','Warn user if an update is available');
 
+INSERT INTO `config` VALUES('INVENTORY_ON_STARTUP',1,'1','Launch inventory on agent service statup');
 
-INSERT INTO operators(ID,FIRSTNAME,LASTNAME,PASSWD,ACCESSLVL,COMMENTS) VALUES ('admin','admin','admin','admin',1, 'Default administrator account');
-INSERT INTO config VALUES ('PASSWORD_VERSION',1,'PASSWORD_BCRYPT','Password encryption version');
+INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 
 INSERT INTO config VALUES ('GUI_VERSION', 0, '7010', 'Version of the installed GUI and database');
+UNLOCK TABLES;
+-- BEGIN 2.0RC3 --
+DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
+-- END 2.0RC3 --
 
-CREATE TABLE download_servers (
-  HARDWARE_ID int(11) NOT NULL,
-  URL varchar(250) collate latin1_general_ci NOT NULL,
-  ADD_PORT int(11) NOT NULL,
-  ADD_REP varchar(250) collate latin1_general_ci NOT NULL,
-  GROUP_ID int(11) NOT NULL,
-  PRIMARY KEY  (HARDWARE_ID)
-) ENGINE=MyISAM;
+--
+-- Table structure for table `conntrack`
+--
 
-CREATE TABLE download_affect_rules (
-  ID int(11) NOT NULL auto_increment,
-  RULE int(11) NOT NULL,
-  PRIORITY int(11) NOT NULL,
-  CFIELD varchar(20) collate latin1_general_ci NOT NULL,
-  OP varchar(20) collate latin1_general_ci NOT NULL,
-  COMPTO varchar(20) collate latin1_general_ci NOT NULL,
-  SERV_VALUE varchar(20) collate latin1_general_ci default NULL,
-  RULE_NAME varchar(200) collate latin1_general_ci NOT NULL,
-  PRIMARY KEY  (ID)
-) ENGINE=MyISAM;
+CREATE TABLE `conntrack` (
+  `IP` varchar(255) NOT NULL DEFAULT '',
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`IP`)
+) ENGINE=MEMORY DEFAULT CHARSET=UTF8;
 
 
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('DOWNLOAD_SERVER_URI','','$IP$/local','Server url used for group of server');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('DOWNLOAD_SERVER_DOCROOT','','d:\\\\tele_ocs','Server directory used for group of server');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('LOCK_REUSE_TIME',600,'','Validity of a computer\'s lock');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_DIFF',1,'','Configure engine to update inventory regarding to CHECKSUM agent value (lower DB backend load)');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_TRANSACTION',1,'','Make engine consider an inventory as a transaction (lower concurency, better disk usage)');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_WRITE_DIFF',0,'','Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_CACHE_ENABLED',1,'','Enable some stuff to improve DB queries, especially for GUI multicriteria searching system');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('DOWNLOAD_GROUPS_TRACE_EVENTS',1,'','Specify if you want to track packages affected to a group on computer\'s level');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('ENABLE_GROUPS',1,'','Enable the computer\'s groups feature');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GROUPS_CACHE_OFFSET',43200,'','Random number computed in the defined range. Designed to avoid computing many groups in the same process');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GROUPS_CACHE_REVALIDATE',43200,'','Specify the validity of computer\'s groups (default: compute it once a day - see offset)');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('IPDISCOVER_BETTER_THRESHOLD',1,'','Specify the minimal difference to replace an ipdiscover agent');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('IPDISCOVER_NO_POSTPONE',0,'','Disable the time before a first election (not recommended)');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('IPDISCOVER_USE_GROUPS',1,'','Enable groups for ipdiscover (for example, you might want to prevent some groups');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GENERATE_OCS_FILES',0,'','Use with ocsinventory-injector, enable the multi entities feature');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('OCS_FILES_FORMAT','','OCS','Generate either compressed file or clear XML text');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('OCS_FILES_OVERWRITE',0,'','Specify if you want to keep trace of all inventory between to synchronisation with the higher level server');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('OCS_FILES_PATH','','/tmp','Path to ocs files directory (must be writeable)');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('OCS_SERVER_ADDRESS','','127.0.0.1','Ocs serveur ip for plugin webservice');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('PROLOG_FILTER_ON',0,'','Enable prolog filter stack');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_FILTER_ENABLED',0,'','Enable core filter system to modify some things "on the fly"');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_FILTER_FLOOD_IP',0,'','Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',300,'','Period definition for INVENTORY_FILTER_FLOOD_IP');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('INVENTORY_FILTER_ON',0,'','Enable inventory filter stack');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_RAM_MAX',512,'','Filter on RAM for console page');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_RAM_MINI',128,'','Filter on RAM for console page');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_NOT_VIEW',3,'','Filter on DAY for console page');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_PROC_MINI',1000,'','Filter on Hard Drive for console page');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_DD_MAX',4000,'','Filter on Hard Drive for console page');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_PROC_MAX',3000,'','Filter on PROCESSOR for console page');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_DD_MINI',500,'','Filter on PROCESSOR for console page');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('GUI_REPORT_AGIN_MACH',30,'','Filter on lastdate for console page');
 
 
-ALTER TABLE download_enable ADD SERVER_ID INT(11);
-ALTER TABLE download_enable ADD GROUP_ID INT(11);
-ALTER TABLE groups ADD REVALIDATE_FROM INT(11);
-ALTER TABLE groups ADD XMLDEF longtext;
+--
+-- Table structure for table `controllers`
+--
 
-CREATE TABLE prolog_conntrack (
-  ID int(11) NOT NULL auto_increment,
-  DEVICEID varchar(255) default NULL,
-  TIMESTAMP int(11) default NULL,
-  PID int(11) default NULL,
-  KEY ID (ID),
-  KEY DEVICEID (DEVICEID)
-) ENGINE=MEMORY; 
+CREATE TABLE `controllers` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `MANUFACTURER` varchar(255) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `CAPTION` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `VERSION` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-CREATE TABLE itmgmt_comments (
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  HARDWARE_ID int(11) NOT NULL,
-  COMMENTS longtext,
-  USER_INSERT varchar(100) DEFAULT NULL,
-  DATE_INSERT date DEFAULT NULL,
-  ACTION varchar(255) DEFAULT NULL,
-  VISIBLE int(11) DEFAULT NULL,
+
+--
+-- Table structure for table `deleted_equiv`
+--
+
+CREATE TABLE `deleted_equiv` (
+  `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `DELETED` varchar(255) NOT NULL,
+  `EQUIVALENT` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `deploy`
+--
+
+CREATE TABLE `deploy` (
+  `NAME` varchar(255) NOT NULL,
+  `CONTENT` longblob NOT NULL,
+  PRIMARY KEY (`NAME`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `devices`
+--
+
+CREATE TABLE `devices` (
+  `HARDWARE_ID` int(11) NOT NULL,
+  `NAME` varchar(50) NOT NULL,
+  `IVALUE` int(11) DEFAULT NULL,
+  `TVALUE` varchar(255) DEFAULT NULL,
+  `COMMENTS` text,
+  KEY `HARDWARE_ID` (`HARDWARE_ID`),
+  KEY `TVALUE` (`TVALUE`),
+  KEY `IVALUE` (`IVALUE`),
+  KEY `NAME` (`NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `devicetype`
+--
+
+CREATE TABLE `devicetype` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
-UPDATE operators SET passwd=md5('admin') where ID='admin';
 
-CREATE TABLE languages (
-  NAME varchar(60) COLLATE latin1_general_ci NOT NULL,
-  IMG blob,
-  JSON_VALUE longtext CHARACTER SET latin1,
-  PRIMARY KEY (NAME)
-) ENGINE=MyISAM;
+--
+-- Table structure for table `dico_ignored`
+--
 
-CREATE TABLE temp_files (
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  TABLE_NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  FIELDS_NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  FILE blob,
-  COMMENT longtext CHARACTER SET latin1,
-  AUTHOR varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  FILE_NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  FILE_TYPE varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  FILE_SIZE int(11) DEFAULT NULL,
-  ID_DDE int(11) DEFAULT NULL,
-  PRIMARY KEY (ID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+CREATE TABLE `dico_ignored` (
+  `EXTRACTED` varchar(255) NOT NULL,
+  PRIMARY KEY (`EXTRACTED`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `dico_soft`
+--
+
+CREATE TABLE `dico_soft` (
+  `EXTRACTED` varchar(255) NOT NULL,
+  `FORMATTED` varchar(255) NOT NULL,
+  PRIMARY KEY (`EXTRACTED`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 
 
-ALTER TABLE networks ADD COLUMN VIRTUALDEV BOOL not NULL DEFAULT FALSE;
-ALTER TABLE hardware ADD COLUMN UUID VARCHAR(255) default NULL;
-ALTER TABLE operators ADD COLUMN NEW_ACCESSLVL VARCHAR(255) default NULL;
-ALTER TABLE operators ADD COLUMN EMAIL VARCHAR(255) default NULL;
-UPDATE operators SET NEW_ACCESSLVL='sadmin' where ACCESSLVL=1;
-UPDATE operators SET NEW_ACCESSLVL='admin' where ACCESSLVL=2;
-UPDATE operators SET NEW_ACCESSLVL='ladmin' where ACCESSLVL=3;
-ALTER TABLE operators ADD COLUMN USER_GROUP VARCHAR(255) default NULL;
+--
+-- Table structure for table `download_affect_rules`
+--
+
+CREATE TABLE `download_affect_rules` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `RULE` int(11) NOT NULL,
+  `PRIORITY` int(11) NOT NULL,
+  `CFIELD` varchar(20) NOT NULL,
+  `OP` varchar(20) NOT NULL,
+  `COMPTO` varchar(20) NOT NULL,
+  `SERV_VALUE` varchar(20) DEFAULT NULL,
+  `RULE_NAME` varchar(200)  NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `download_available`
+--
+
+CREATE TABLE `download_available` (
+  `FILEID` varchar(255) NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `PRIORITY` int(11) NOT NULL,
+  `FRAGMENTS` int(11) NOT NULL,
+  `SIZE` int(11) NOT NULL,
+  `OSNAME` varchar(255) NOT NULL,
+  `COMMENT` text,
+  `ID_WK` int(11) DEFAULT NULL,
+  `DELETED` int(1) DEFAULT '0',
+  PRIMARY KEY (`FILEID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `download_enable`
+--
+
+CREATE TABLE `download_enable` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `FILEID` varchar(255) NOT NULL,
+  `INFO_LOC` varchar(255) NOT NULL,
+  `PACK_LOC` varchar(255) NOT NULL,
+  `CERT_PATH` varchar(255) DEFAULT NULL,
+  `CERT_FILE` varchar(255) DEFAULT NULL,
+  `SERVER_ID` int(11) DEFAULT NULL,
+  `GROUP_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FILEID` (`FILEID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `download_history`
+--
+
+CREATE TABLE `download_history` (
+  `HARDWARE_ID` int(11) NOT NULL,
+  `PKG_ID` int(11) NOT NULL DEFAULT '0',
+  `PKG_NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`PKG_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `download_servers`
+--
+
+CREATE TABLE `download_servers` (
+  `HARDWARE_ID` int(11) NOT NULL,
+  `URL` varchar(250) NOT NULL,
+  `ADD_PORT` int(11) NOT NULL,
+  `ADD_REP` varchar(250) NOT NULL,
+  `GROUP_ID` int(11) NOT NULL,
+  PRIMARY KEY (`HARDWARE_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `downloadwk_conf_values`
+--
+
+CREATE TABLE `downloadwk_conf_values` (
+  `FIELD` int(11) DEFAULT NULL,
+  `VALUE` varchar(100) DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `DEFAULT_FIELD` int(1) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `downloadwk_fields`
+--
+
+CREATE TABLE `downloadwk_fields` (
+  `TAB` varchar(100) DEFAULT NULL,
+  `FIELD` varchar(100) DEFAULT NULL,
+  `TYPE` int(11) DEFAULT NULL,
+  `LBL` varchar(100) DEFAULT NULL,
+  `MUST_COMPLETED` int(11) DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `VALUE` varchar(255) DEFAULT NULL,
+  `DEFAULT_FIELD` int(1) DEFAULT NULL,
+  `RESTRICTED` int(1) DEFAULT NULL,
+  `LINK_STATUS` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=UTF8;
+
+--
+-- Dumping data for table `downloadwk_fields`
+--
+
+LOCK TABLES `downloadwk_fields` WRITE;
+INSERT INTO `downloadwk_fields` VALUES ('1','USER',3,'1038',1,1,'loggeduser',1,0,0),('2','NAME_TELEDEPLOY',0,'1037',1,2,'',1,0,0),('2','INFO_PACK',0,'53',1,3,'',1,0,0),('3','PRIORITY',2,'1039',1,4,'',1,0,0),('3','NOTIF_USER',2,'1040',1,5,'',1,0,0),('3','REPORT_USER',2,'1041',1,6,'',1,0,0),('3','REBOOT',2,'1042',1,7,'',1,0,0),('4','VALID_INSTALL',6,'1043',1,8,'',1,0,0),('4','STATUS',2,'1046',0,9,'2',1,1,0),('5','LIST_HISTO',10,'1052',0,10,'select AUTHOR,DATE,ACTION from downloadwk_history where id_dde=%s$$$$OLD_MODIF',1,0,0);
+UNLOCK TABLES;
+
+--
+-- Table structure for table `downloadwk_history`
+--
+
+CREATE TABLE `downloadwk_history` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_DDE` int(11) DEFAULT NULL,
+  `AUTHOR` varchar(255) DEFAULT NULL,
+  `DATE` date DEFAULT NULL,
+  `ACTION` longtext,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+--
+-- Table structure for table `downloadwk_pack`
+--
+
+CREATE TABLE `downloadwk_pack` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `LOGIN_USER` varchar(255) DEFAULT NULL,
+  `GROUP_USER` varchar(255) DEFAULT NULL,
+  `Q_DATE` int(11) DEFAULT NULL,
+  `fields_1` varchar(255) DEFAULT NULL,
+  `fields_2` varchar(255) DEFAULT NULL,
+  `fields_3` varchar(255) DEFAULT NULL,
+  `fields_4` varchar(255) DEFAULT NULL,
+  `fields_5` varchar(255) DEFAULT NULL,
+  `fields_6` varchar(255) DEFAULT NULL,
+  `fields_7` varchar(255) DEFAULT NULL,
+  `fields_8` varchar(255) DEFAULT NULL,
+  `fields_9` varchar(255) DEFAULT NULL,
+  `fields_10` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `downloadwk_statut_request`
+--
+
+CREATE TABLE `downloadwk_statut_request` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(20) DEFAULT NULL,
+  `LBL` varchar(255) DEFAULT NULL,
+  `ACTIF` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=UTF8;
+
+--
+-- Dumping data for table `downloadwk_statut_request`
+--
+
+LOCK TABLES `downloadwk_statut_request` WRITE;
+INSERT INTO `downloadwk_statut_request` VALUES (1,'NIV0','DELETE',0),(2,'NIV1','WAITING FOR INCLUSION',0),(3,'NIV2','ACKNOWLEDGEMENT',0),(4,'NIV3','REFUSAL',0),(5,'NIV4','NEED TO CHANGE',0),(6,'NIV5','CREATE PACKAGE',0),(7,'NIV6','LOCAL TEST',0),(8,'NIV7','PERIMETER LIMITED DEPLOYMENT',0),(9,'NIV8','DURING DEPLOYMENT',0);
+UNLOCK TABLES;
+
+--
+-- Table structure for table `downloadwk_tab_values`
+--
+
+CREATE TABLE `downloadwk_tab_values` (
+  `FIELD` varchar(100) DEFAULT NULL,
+  `VALUE` varchar(100) DEFAULT NULL,
+  `LBL` varchar(100)  DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `DEFAULT_FIELD` int(1) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=UTF8;
+
+--
+-- Dumping data for table `downloadwk_tab_values`
+--
+
+LOCK TABLES `downloadwk_tab_values` WRITE;
+INSERT INTO `downloadwk_tab_values` VALUES ('TAB','INFO_DEM','1033',1,1),('TAB','INFO_PAQUET','1034',2,1),('TAB','INFO_CONF','1035',3,1),('TAB','INFO_VALID','1036',4,1),('TAB','INFO_HISTO','1052',5,1);
+UNLOCK TABLES;
+
+--
+-- Table structure for table `drives`
+--
+
+CREATE TABLE `drives` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `LETTER` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `FILESYSTEM` varchar(255) DEFAULT NULL,
+  `TOTAL` int(11) DEFAULT NULL,
+  `FREE` int(11) DEFAULT NULL,
+  `NUMFILES` int(11) DEFAULT NULL,
+  `VOLUMN` varchar(255) DEFAULT NULL,
+  `CREATEDATE` date DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `engine_mutex`
+--
+
+CREATE TABLE `engine_mutex` (
+  `NAME` varchar(255) NOT NULL DEFAULT '',
+  `PID` int(11) DEFAULT NULL,
+  `TAG` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`NAME`,`TAG`)
+) ENGINE=MEMORY DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `engine_persistent`
+--
+
+CREATE TABLE `engine_persistent` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) NOT NULL DEFAULT '',
+  `IVALUE` int(11) DEFAULT NULL,
+  `TVALUE` varchar(255) DEFAULT NULL,
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `ID` (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `files`
+--
+
+CREATE TABLE `files` (
+  `NAME` varchar(100) NOT NULL,
+  `VERSION` varchar(50) NOT NULL,
+  `OS` varchar(70) NOT NULL,
+  `CONTENT` longblob NOT NULL,
+  PRIMARY KEY (`NAME`,`OS`,`VERSION`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE `groups` (
+  `HARDWARE_ID` int(11) NOT NULL DEFAULT '0',
+  `REQUEST` longtext,
+  `CREATE_TIME` int(11) DEFAULT '0',
+  `REVALIDATE_FROM` int(11) DEFAULT NULL,
+  `XMLDEF` longtext,
+  PRIMARY KEY (`HARDWARE_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `groups_cache`
+--
+
+CREATE TABLE `groups_cache` (
+  `HARDWARE_ID` int(11) NOT NULL DEFAULT '0',
+  `GROUP_ID` int(11) NOT NULL DEFAULT '0',
+  `STATIC` int(11) DEFAULT '0',
+  PRIMARY KEY (`HARDWARE_ID`,`GROUP_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `hardware`
+--
+
+CREATE TABLE `hardware` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `DEVICEID` varchar(255) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `WORKGROUP` varchar(255) DEFAULT NULL,
+  `USERDOMAIN` varchar(255) DEFAULT NULL,
+  `OSNAME` varchar(255) DEFAULT NULL,
+  `OSVERSION` varchar(255) DEFAULT NULL,
+  `OSCOMMENTS` varchar(255) DEFAULT NULL,
+  `PROCESSORT` varchar(255) DEFAULT NULL,
+  `PROCESSORS` int(11) DEFAULT '0',
+  `PROCESSORN` smallint(6) DEFAULT NULL,
+  `MEMORY` int(11) DEFAULT NULL,
+  `SWAP` int(11) DEFAULT NULL,
+  `IPADDR` varchar(255) DEFAULT NULL,
+  `DNS` varchar(255) DEFAULT NULL,
+  `DEFAULTGATEWAY` varchar(255) DEFAULT NULL,
+  `ETIME` datetime DEFAULT NULL,
+  `LASTDATE` datetime DEFAULT NULL,
+  `LASTCOME` datetime DEFAULT NULL,
+  `QUALITY` decimal(7,4) DEFAULT NULL,
+  `FIDELITY` bigint(20) DEFAULT '1',
+  `USERID` varchar(255) DEFAULT NULL,
+  `TYPE` int(11) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `WINCOMPANY` varchar(255) DEFAULT NULL,
+  `WINOWNER` varchar(255) DEFAULT NULL,
+  `WINPRODID` varchar(255) DEFAULT NULL,
+  `WINPRODKEY` varchar(255) DEFAULT NULL,
+  `USERAGENT` varchar(50) DEFAULT NULL,
+  `CHECKSUM` bigint(20) unsigned DEFAULT '262143',
+  `SSTATE` int(11) DEFAULT '0',
+  `IPSRC` varchar(255) DEFAULT NULL,
+  `UUID` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`DEVICEID`,`ID`),
+  KEY `NAME` (`NAME`),
+  KEY `CHECKSUM` (`CHECKSUM`),
+  KEY `USERID` (`USERID`),
+  KEY `WORKGROUP` (`WORKGROUP`),
+  KEY `OSNAME` (`OSNAME`),
+  KEY `MEMORY` (`MEMORY`),
+  KEY `DEVICEID` (`DEVICEID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `hardware_osname_cache`
+--
+
+CREATE TABLE `hardware_osname_cache` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `OSNAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `OSNAME` (`OSNAME`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+--
+-- Table structure for table `inputs`
+--
+
+CREATE TABLE `inputs` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `MANUFACTURER` varchar(255) DEFAULT NULL,
+  `CAPTION` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `INTERFACE` varchar(255) DEFAULT NULL,
+  `POINTTYPE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+--
+-- Table structure for table `itmgmt_comments`
+--
+
+CREATE TABLE `itmgmt_comments` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `COMMENTS` longtext,
+  `USER_INSERT` varchar(100) DEFAULT NULL,
+  `DATE_INSERT` date DEFAULT NULL,
+  `ACTION` varchar(255) DEFAULT NULL,
+  `VISIBLE` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `javainfo`
+--
+
+CREATE TABLE `javainfo` (
+  `HARDWARE_ID` int(11) NOT NULL,
+  `JAVANAME` varchar(255) DEFAULT 'NONAME',
+  `JAVAPATHLEVEL` int(11) DEFAULT '0',
+  `JAVACOUNTRY` varchar(255) DEFAULT NULL,
+  `JAVACLASSPATH` varchar(255) DEFAULT NULL,
+  `JAVAHOME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `journallog`
+--
+
+CREATE TABLE `journallog` (
+  `HARDWARE_ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `JOURNALLOG` longtext,
+  `LISTENERNAME` varchar(255) DEFAULT 'NONAME',
+  `DATE` varchar(255) DEFAULT NULL,
+  `STATUS` int(11) DEFAULT '0',
+  `ERRORCODE` int(11) DEFAULT '0',
+  PRIMARY KEY (`ID`,`HARDWARE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `languages`
+--
+
+CREATE TABLE `languages` (
+  `NAME` varchar(60) NOT NULL,
+  `IMG` blob,
+  `JSON_VALUE` longtext,
+  PRIMARY KEY (`NAME`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `locks`
+--
+
+CREATE TABLE `locks` (
+  `HARDWARE_ID` int(11) NOT NULL,
+  `ID` int(11) DEFAULT NULL,
+  `SINCE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`HARDWARE_ID`),
+  KEY `SINCE` (`SINCE`)
+) ENGINE=MEMORY DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `memories`
+--
+
+CREATE TABLE `memories` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `CAPTION` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `CAPACITY` varchar(255) DEFAULT NULL,
+  `PURPOSE` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `SPEED` varchar(255) DEFAULT NULL,
+  `NUMSLOTS` smallint(6) DEFAULT NULL,
+  `SERIALNUMBER` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `modems`
+--
+
+CREATE TABLE `modems` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `MODEL` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `monitors`
+--
+
+CREATE TABLE `monitors` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `MANUFACTURER` varchar(255) DEFAULT NULL,
+  `CAPTION` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `SERIAL` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `netmap`
+--
+
+CREATE TABLE `netmap` (
+  `IP` varchar(15) NOT NULL,
+  `MAC` varchar(17) NOT NULL,
+  `MASK` varchar(15) NOT NULL,
+  `NETID` varchar(15) NOT NULL,
+  `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`MAC`),
+  KEY `IP` (`IP`),
+  KEY `NETID` (`NETID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `network_devices`
+--
+
+CREATE TABLE `network_devices` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `MACADDR` varchar(255) DEFAULT NULL,
+  `USER` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `MACADDR` (`MACADDR`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `networks`
+--
+
+CREATE TABLE `networks` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `TYPEMIB` varchar(255) DEFAULT NULL,
+  `SPEED` varchar(255) DEFAULT NULL,
+  `MTU` VARCHAR(255) default NULL,
+  `MACADDR` varchar(255) DEFAULT NULL,
+  `STATUS` varchar(255) DEFAULT NULL,
+  `IPADDRESS` varchar(255) DEFAULT NULL,
+  `IPMASK` varchar(255) DEFAULT NULL,
+  `IPGATEWAY` varchar(255) DEFAULT NULL,
+  `IPSUBNET` varchar(255) DEFAULT NULL,
+  `IPDHCP` varchar(255) DEFAULT NULL,
+  `VIRTUALDEV` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `MACADDR` (`MACADDR`),
+  KEY `IPADDRESS` (`IPADDRESS`),
+  KEY `IPGATEWAY` (`IPGATEWAY`),
+  KEY `IPSUBNET` (`IPSUBNET`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `operators`
+--
+
+CREATE TABLE `operators` (
+  `ID` varchar(255) NOT NULL DEFAULT '',
+  `FIRSTNAME` varchar(255) DEFAULT NULL,
+  `LASTNAME` varchar(255) DEFAULT NULL,
+  `PASSWD` varchar(50) DEFAULT NULL,
+  `ACCESSLVL` int(11) DEFAULT NULL,
+  `COMMENTS` text,
+  `NEW_ACCESSLVL` varchar(255) DEFAULT NULL,
+  `EMAIL` varchar(255) DEFAULT NULL,
+  `USER_GROUP` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+--
+-- Dumping data for table `operators`
+--
+
+LOCK TABLES `operators` WRITE;
+INSERT INTO `operators` VALUES ('admin','admin','admin','21232f297a57a5a743894a0e4a801fc3',1,'Default administrator account','sadmin',NULL,NULL);
+UNLOCK TABLES;
+
 ALTER TABLE `operators` MODIFY `PASSWD` VARCHAR(255);
 ALTER TABLE `operators` ADD COLUMN `PASSWORD_VERSION` int(11) default 0;
-ALTER TABLE download_available ADD COLUMN ID_WK int(11) default NULL;
-ALTER TABLE `download_available` ADD `DELETED` INT(1) NOT NULL DEFAULT '0';
 
-CREATE TABLE downloadwk_tab_values (
-  FIELD varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
-  VALUE varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
-  LBL varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  DEFAULT_FIELD int(1) DEFAULT NULL,
-  PRIMARY KEY (ID)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+--
+-- Table structure for table `ports`
+--
 
-INSERT INTO downloadwk_tab_values (ID,FIELD,VALUE,LBL,DEFAULT_FIELD) values (1,'TAB','INFO_DEM','1033',1);
-INSERT INTO downloadwk_tab_values (ID,FIELD,VALUE,LBL,DEFAULT_FIELD) values (2,'TAB','INFO_PAQUET','1034',1);
-INSERT INTO downloadwk_tab_values (ID,FIELD,VALUE,LBL,DEFAULT_FIELD) values (3,'TAB','INFO_CONF','1035',1);
-INSERT INTO downloadwk_tab_values (ID,FIELD,VALUE,LBL,DEFAULT_FIELD) values (4,'TAB','INFO_VALID','1036',1);
-INSERT INTO downloadwk_tab_values (ID,FIELD,VALUE,LBL,DEFAULT_FIELD) values (5,'TAB','INFO_HISTO','1052',1);
+CREATE TABLE `ports` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `CAPTION` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-CREATE TABLE downloadwk_fields (
-  TAB varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
-  FIELD varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
-  TYPE int(11) DEFAULT NULL,
-  LBL varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
-  MUST_COMPLETED int(11) DEFAULT NULL,
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  VALUE varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  DEFAULT_FIELD int(1) DEFAULT NULL,
-  RESTRICTED int(1) DEFAULT NULL,
-  LINK_STATUS int(11) DEFAULT NULL,
-  PRIMARY KEY (ID)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+--
+-- Table structure for table `printers`
+--
 
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (1,'USER',3,1038,1,'loggeduser',1,0,0,1);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (2,'NAME_TELEDEPLOY',0,1037,1,'',1,0,0,2);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (2,'INFO_PACK',0,53,1,'',1,0,0,3);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (3,'PRIORITY',2,1039,1,'',1,0,0,4);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (3,'NOTIF_USER',2,1040,1,'',1,0,0,5);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (3,'REPORT_USER',2,1041,1,'',1,0,0,6);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (3,'REBOOT',2,1042,1,'',1,0,0,7);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (4,'VALID_INSTALL',6,1043,1,'',1,0,0,8);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (4,'STATUS',2,1046,0,'2',1,1,0,9);
-INSERT INTO downloadwk_fields (TAB,FIELD,TYPE,LBL,MUST_COMPLETED,VALUE,DEFAULT_FIELD,RESTRICTED,LINK_STATUS,ID) values (5,'LIST_HISTO',10,1052,0,'select AUTHOR,DATE,ACTION from downloadwk_history where id_dde=%s$$$$OLD_MODIF',1,0,0,10);
-
-CREATE TABLE downloadwk_pack (
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  LOGIN_USER varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  GROUP_USER varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  Q_DATE int(11) DEFAULT NULL,
-  fields_1 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_2 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_3 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_4 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_5 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_6 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_7 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_8 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_9 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  fields_10 varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  PRIMARY KEY (ID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
-CREATE TABLE downloadwk_statut_request (
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  NAME varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
-  LBL varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  ACTIF int(11) DEFAULT NULL,
-  PRIMARY KEY (ID)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (1,'NIV0','DELETE',0);
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (2,'NIV1','WAITING FOR INCLUSION',0);
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (3,'NIV2','ACKNOWLEDGEMENT',0);
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (4,'NIV3','REFUSAL',0);
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (5,'NIV4','NEED TO CHANGE',0);
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (6,'NIV5','CREATE PACKAGE',0);
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (7,'NIV6','LOCAL TEST',0);
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (8,'NIV7','PERIMETER LIMITED DEPLOYMENT',0);
-INSERT INTO downloadwk_statut_request (ID,NAME,LBL,ACTIF) values (9,'NIV8','DURING DEPLOYMENT',0);
-
-CREATE TABLE downloadwk_conf_values (
-  FIELD int(11) DEFAULT NULL,
-  VALUE varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  DEFAULT_FIELD int(1) DEFAULT NULL,
-  PRIMARY KEY (ID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
-CREATE TABLE downloadwk_history (
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  ID_DDE int(11) DEFAULT NULL,
-  AUTHOR varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  DATE date DEFAULT NULL,
-  ACTION longtext CHARACTER SET latin1,
-  PRIMARY KEY (ID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
-CREATE TABLE accountinfo_config(
-  ID int(11) NOT NULL AUTO_INCREMENT,
-  NAME_ACCOUNTINFO varchar(255) DEFAULT NULL,
-  TYPE int(11) DEFAULT NULL,
-  NAME varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  ID_TAB int(11) DEFAULT NULL,
-  COMMENT varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  SHOW_ORDER int(11) NOT NULL,
-  PRIMARY KEY (ID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo');
-insert into config (NAME,IVALUE,TVALUE,COMMENTS) values ('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo');
-ALTER TABLE subnet CHANGE ID ID VARCHAR(255);
-
-CREATE TABLE blacklist_subnet(
-	ID INTEGER auto_increment,
-	SUBNET VARCHAR(255),
-	MASK VARCHAR(255),
-	PRIMARY KEY(SUBNET,MASK),
-	INDEX ID(ID)
-) ENGINE = MYISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
-ALTER TABLE accountinfo_config ADD COLUMN ACCOUNT_TYPE VARCHAR(255) default NULL;
-INSERT INTO accountinfo_config (`ID`,`NAME_ACCOUNTINFO`,`TYPE`,`NAME`,`ID_TAB`,`COMMENT`,`SHOW_ORDER`,`ACCOUNT_TYPE`) VALUES (1,'TAG',0,'TAG',1,'TAG',1,'COMPUTERS'),(2,'TAG',0,'TAG',1,'TAG',1,'SNMP');
-UPDATE accountinfo_config SET ACCOUNT_TYPE='COMPUTERS' where ACCOUNT_TYPE IS NULL;
+CREATE TABLE `printers` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `DRIVER` varchar(255) DEFAULT NULL,
+  `PORT` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
-CREATE TABLE snmp_accountinfo (
-  SNMP_ID INTEGER NOT NULL,
-  TAG VARCHAR(255) default 'NA',
-  primary key(SNMP_ID),
-  INDEX TAG (TAG)
-) ENGINE=INNODB ;
+--
+-- Table structure for table `prolog_conntrack`
+--
 
-insert into config (NAME,IVALUE,COMMENTS) values ('SNMP_INVENTORY_DIFF',1,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)');
-INSERT INTO config VALUES ('SNMP_DIR','','/var/lib/ocsinventory-reports/snmp','Directory for download files');
+CREATE TABLE `prolog_conntrack` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `DEVICEID` varchar(255) DEFAULT NULL,
+  `TIMESTAMP` int(11) DEFAULT NULL,
+  `PID` int(11) DEFAULT NULL,
+  KEY `ID` (`ID`),
+  KEY `DEVICEID` (`DEVICEID`)
+) ENGINE=MEMORY DEFAULT CHARSET=UTF8;
 
-ALTER TABLE softwares ADD COLUMN GUID VARCHAR(255) DEFAULT NULL;
-ALTER TABLE softwares ADD COLUMN LANGUAGE VARCHAR(255) DEFAULT NULL;
-ALTER TABLE softwares ADD COLUMN INSTALLDATE DATETIME DEFAULT NULL ;
-ALTER TABLE softwares ADD COLUMN BITSWIDTH int(11) DEFAULT NULL;
+
+--
+-- Table structure for table `regconfig`
+--
+
+CREATE TABLE `regconfig` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) DEFAULT NULL,
+  `REGTREE` int(11) DEFAULT NULL,
+  `REGKEY` text,
+  `REGVALUE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `NAME` (`NAME`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `registry`
+--
+
+CREATE TABLE `registry` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `REGVALUE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `NAME` (`NAME`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `registry_name_cache`
+--
+
+CREATE TABLE `registry_name_cache` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `NAME` (`NAME`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `registry_regvalue_cache`
+--
+
+CREATE TABLE `registry_regvalue_cache` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `REGVALUE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `REGVALUE` (`REGVALUE`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `slots`
+--
+
+CREATE TABLE `slots` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `DESIGNATION` varchar(255) DEFAULT NULL,
+  `PURPOSE` varchar(255) DEFAULT NULL,
+  `STATUS` varchar(255) DEFAULT NULL,
+  `PSHARE` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `snmp_accountinfo`
+--
+
+CREATE TABLE `snmp_accountinfo` (
+  `SNMP_ID` int(11) NOT NULL,
+  `TAG` varchar(255) DEFAULT 'NA',
+  PRIMARY KEY (`SNMP_ID`),
+  KEY `TAG` (`TAG`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `softwares`
+--
+
+CREATE TABLE `softwares` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `PUBLISHER` varchar(255) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `VERSION` varchar(255) DEFAULT NULL,
+  `FOLDER` text,
+  `COMMENTS` text,
+  `FILENAME` varchar(255) DEFAULT NULL,
+  `FILESIZE` int(11) DEFAULT '0',
+  `SOURCE` int(11) DEFAULT NULL,
+  `GUID` varchar(255) DEFAULT NULL,
+  `LANGUAGE` varchar(255) DEFAULT NULL,
+  `INSTALLDATE` DATETIME DEFAULT NULL,
+  `BITSWIDTH` int(11) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `NAME` (`NAME`),
+  KEY `VERSION` (`VERSION`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+--
+-- Table structure for table `softwares_name_cache`
+--
+
+CREATE TABLE `softwares_name_cache` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `NAME` (`NAME`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `sounds`
+--
+
+CREATE TABLE `sounds` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `MANUFACTURER` varchar(255) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `storages`
+--
+
+CREATE TABLE `storages` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `MANUFACTURER` varchar(255) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `MODEL` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `DISKSIZE` int(11) DEFAULT NULL,
+  `SERIALNUMBER` varchar(255) DEFAULT NULL,
+  `FIRMWARE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `subnet`
+--
+
+
+CREATE TABLE `subnet` (
+  `NETID` varchar(15) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `ID` varchar(255) DEFAULT NULL,
+  `MASK` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`NETID`),
+  KEY `ID` (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+--
+-- Table structure for table `tags`
+--
+
+
+CREATE TABLE `tags` (
+  `Tag` varchar(100) NOT NULL DEFAULT '',
+  `Login` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Tag`,`Login`),
+  KEY `Tag` (`Tag`),
+  KEY `Login` (`Login`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+
+--
+-- Table structure for table `temp_files`
+--
+
+
+CREATE TABLE `temp_files` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TABLE_NAME` varchar(255) DEFAULT NULL,
+  `FIELDS_NAME` varchar(255) DEFAULT NULL,
+  `FILE` blob,
+  `COMMENT` longtext,
+  `AUTHOR` varchar(255) DEFAULT NULL,
+  `FILE_NAME` varchar(255) DEFAULT NULL,
+  `FILE_TYPE` varchar(255) DEFAULT NULL,
+  `FILE_SIZE` int(11) DEFAULT NULL,
+  `ID_DDE` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
+
+--
+-- Table structure for table `videos`
+--
+
+CREATE TABLE `videos` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `CHIPSET` varchar(255) DEFAULT NULL,
+  `MEMORY` varchar(255) DEFAULT NULL,
+  `RESOLUTION` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`HARDWARE_ID`,`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+--
+-- Table strucutre for table 'plugins'
+--
+
+CREATE TABLE IF NOT EXISTS `plugins` (
+  `id` int(6) unsigned NOT NULL,
+  `name` varchar(30) COLLATE utf8_bin NOT NULL,
+  `version` double NOT NULL,
+  `licence` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `verminocs` double NOT NULL,
+  `activated` tinyint(1) NOT NULL,
+  `reg_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+ALTER TABLE `plugins` ADD PRIMARY KEY (`id`);
+ALTER TABLE `plugins` MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT;
+
+--
+-- Table structure for table `virtualmachines`
+--
+CREATE TABLE `virtualmachines` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int(11) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `STATUS` varchar(255) DEFAULT NULL,
+  `SUBSYSTEM` varchar(255) DEFAULT NULL,
+  `VMTYPE` varchar(255) DEFAULT NULL,
+  `UUID` varchar(255) DEFAULT NULL,
+  `VCPU` int(11) DEFAULT NULL,
+  `MEMORY` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`,`HARDWARE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 CREATE TABLE snmp (
@@ -1310,12 +1400,6 @@ CREATE TABLE snmp_localprinters (
 ) DEFAULT CHARSET=UTF8;
 
 
-CREATE TABLE snmp_accountinfo (
-SNMP_ID INTEGER NOT NULL,
-TAG VARCHAR(255) default 'NA',
-primary key(SNMP_ID),
-INDEX TAG (TAG)
-) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE snmp_laststate (
 SNMP_ID INTEGER NOT NULL,
@@ -1345,12 +1429,8 @@ MODEMS VARCHAR(255) DEFAULT NULL,
 LOCALPRINTERS VARCHAR(255) DEFAULT NULL,
 PRIMARY KEY (SNMP_ID) ) DEFAULT CHARSET=UTF8;
 
-INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
-ALTER TABLE groups CHANGE REVALIDATE_FROM REVALIDATE_FROM INT(11) default 0;
-UPDATE groups set REVALIDATE_FROM = 0 where REVALIDATE_FROM is null;
-
-DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
-
+ALTER TABLE groups CHANGE REVALIDATE_FROM REVALIDATE_FROM INT(11) DEFAULT 0;
+UPDATE groups SET REVALIDATE_FROM = 0 WHERE REVALIDATE_FROM is null;
 INSERT INTO config VALUES ('SESSION_VALIDITY_TIME',600,'','Validity of a session (prolog=>postinventory)');
 
 CREATE TABLE ssl_store (
@@ -1367,7 +1447,6 @@ ALTER TABLE snmp_loadbalancers ADD COLUMN MANUFACTURER varchar(255) DEFAULT NULL
 ALTER TABLE snmp_loadbalancers ADD COLUMN TYPE varchar(255) DEFAULT NULL;
 ALTER TABLE hardware ADD COLUMN ARCH varchar(10) DEFAULT NULL;
 
-
 CREATE TABLE snmp_communities (
  ID INTEGER NOT NULL auto_increment,
  VERSION VARCHAR(5) default NULL,
@@ -1383,7 +1462,9 @@ ALTER TABLE accountinfo_config ADD COLUMN DEFAULT_VALUE varchar(255) DEFAULT NUL
 INSERT INTO config VALUES ('LOG_DIR',0,'/var/lib/ocsinventory-reports','Directory for logs files');
 INSERT INTO config VALUES ('LOG_SCRIPT',0,'/var/lib/ocsinventory-reports','Directory for logs scripts files');
 INSERT INTO config VALUES ('WOL_PORT',0,'7,9','Wol ports');
+INSERT INTO config VALUES ('PASSWORD_VERSION',1,'PASSWORD_BCRYPT','Password encryption version');
 ALTER TABLE temp_files change file file longblob;
+
 CREATE TABLE cpus (
   ID int(11) NOT NULL AUTO_INCREMENT,
   HARDWARE_ID int(11) NOT NULL,
@@ -1434,20 +1515,6 @@ ALTER TABLE printers ADD COLUMN SHARED INTEGER DEFAULT NULL;
 ALTER TABLE printers ADD COLUMN NETWORK INTEGER DEFAULT NULL;
 ALTER TABLE sim ADD COLUMN DEVICEID VARCHAR(255) DEFAULT NULL;
 
-CREATE TABLE IF NOT EXISTS `plugins` (
-  `id` int(6) unsigned NOT NULL,
-  `name` varchar(30) COLLATE utf8_bin NOT NULL,
-  `version` double NOT NULL,
-  `licence` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
-  `verminocs` double NOT NULL,
-  `activated` tinyint(1) NOT NULL,
-  `reg_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
-ALTER TABLE `plugins` ADD PRIMARY KEY (`id`);
-ALTER TABLE `plugins` MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT;
-
 CREATE TABLE batteries (
    `ID` int(11) not null AUTO_INCREMENT,
    `HARDWARE_ID` int(11), 
@@ -1466,5 +1533,4 @@ CREATE TABLE batteries (
    key `NAME` (`NAME`),
    key `MANUFACTURER` (`MANUFACTURER`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
 
