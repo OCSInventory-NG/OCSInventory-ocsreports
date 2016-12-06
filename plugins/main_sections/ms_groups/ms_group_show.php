@@ -156,8 +156,9 @@ if ($protectedPost['MODIF_x']) {
     $name = show_modif($item->NAME, 'NAME', 0);
     $description = show_modif($item->DESCRIPTION, 'DESCR', 1);
     //show new bottons
+    echo "<div class='btn-toolbar'>";
     $button_valid = "<input title='" . $l->g(625) . "' value='" . $l->g(625) . "' name='Valid_modif' type='submit' class='btn btn-success'>";
-    $button_reset = "<input title='" . $l->g(626) . "' value='" . $l->g(626) . "' name='Reset_modif' type='submit' class='btn btn-danger'>";
+    echo "</div>";
 } else { //only show the botton for modify
     $img_modif = "<input title='" . $l->g(115) . "' value='" . $l->g(115) . "' name='MODIF_x' type='submit' class='btn'>";
     $name = $item->NAME;
