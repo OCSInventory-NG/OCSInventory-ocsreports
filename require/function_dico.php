@@ -52,11 +52,18 @@ function del_soft($onglet, $list_soft) {
 
 function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
     global $l;
+    
+    // If new cat and exist cat are empty return
+    if($new_cat == '' and $exist_cat == ''){
+        return ;
+    }
+    
     if ($_SESSION['OCS']['usecache']) {
         $table = "softwares_name_cache";
     } else {
         $table = "softwares";
     }
+    
     //verif is this cat exist
     if ($new_cat != '') {
         $sql_verif = "select extracted from dico_soft where formatted ='" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $new_cat) . "'";

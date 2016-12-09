@@ -23,7 +23,6 @@
 if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
     $protectedPost += $params;
-
     ob_start();
 }
 
@@ -37,6 +36,7 @@ if ($_SESSION['OCS']['usecache']) {
 } else {
     $table = "softwares";
 }
+
 //form name
 $form_name = 'admin_param';
 //form open
@@ -55,8 +55,8 @@ if ($protectedPost['RESET'] == "RESET") {
     unset($protectedPost['search']);
 }
 //filtre
-if ($protectedPost['search']) {
-    $search_cache = " and cache.name like '%" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $protectedPost['search']) . "%' ";
+if ( isset($protectedPost['search']) && $protectedPost['search'] != "" ){
+    $search_cache = " and cache.name like '%" . mysqli_real_escape_string( $_SESSION['OCS']["readServer"], $protectedPost['search']) . "%' ";
     $search_count = " and extracted like '%" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $protectedPost['search']) . "%' ";
 } else {
     $search = "";
@@ -83,8 +83,23 @@ if ($protectedPost['TRANS'] == "TRANS") {
             }
         }
     }
-    if ($list_check != '') {
-        trans($protectedPost['onglet'], $list_check, $protectedPost['AFFECT_TYPE'], $protectedPost['NEW_CAT'], $protectedPost['EXIST_CAT']);
+    
+    // If list check and protected post are OK for transfer
+    if ($list_check != '' && ( isset($protectedPost['NEW_CAT']) || isset($protectedPost['EXIST_CAT'])  ) ) {
+        if($protectedPost['EXIST_CAT'] != "NONE"){
+            trans($protectedPost['onglet'], $list_check, $protectedPost['AFFECT_TYPE'], '', $protectedPost['EXIST_CAT']);
+            unset($protectedPost['EXIST_CAT']); 
+        }
+        
+        if($protectedPost['NEW_CAT'] != ""){
+            trans($protectedPost['onglet'], $list_check, $protectedPost['AFFECT_TYPE'], $protectedPost['NEW_CAT'], '');
+            unset($protectedPost['NEW_CAT']);
+        }
+
+        // unset vars
+        $list_check = "";
+        $protectedPost['AFFECT_TYPE'] = 'NONE';
+ 
     }
 }
 //delete a soft in list => return in 'NEW' liste
@@ -126,7 +141,9 @@ if ($protectedPost['onglet'] == 'CAT') {
     }
     //show all categories
     if ($i <= 20) {
+        echo "<p>";  
         onglet($list_cat, $form_name, "onglet_soft", 5);
+        echo "</p>";
     } else {
         echo "<p>" . $l->g(398) . ": " . show_modif($list_cat, 'onglet_soft', 2, $form_name) . "</p>";
     }
@@ -153,7 +170,7 @@ if ($protectedPost['onglet'] == 'CAT') {
     $querydico .= " from dico_soft left join " . $table . " cache on dico_soft.extracted=cache.name
 				 where formatted='" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $list_cat[$protectedPost['onglet_soft']]) . "' " . $search_count . " group by EXTRACTED";
 }
-/* * *****************************************************CAS OF NEW****************************************************** */
+/* ******************************************************CAS OF NEW****************************************************** */
 if ($protectedPost['onglet'] == 'NEW') {
     $sql_list_alpha = "select
     distinct left(trim(name),1) alpha
@@ -181,8 +198,10 @@ if ($protectedPost['onglet'] == 'NEW') {
     if (!isset($protectedPost['onglet_soft'])) {
         $protectedPost['onglet_soft'] = $_SESSION['OCS']['FIRST_DICO'];
     }
+    echo "<p>";
     onglet($list_alpha, $form_name, "onglet_soft", 20);
-
+    echo "</p>";
+    
     //search all soft for the tab as selected
     $search_soft = "select distinct trim(name) name from " . $table . " cache
     where name like '" . $_SESSION['OCS']['ONGLET_SOFT'][$protectedPost['onglet_soft']] . "%'
@@ -199,12 +218,12 @@ if ($protectedPost['onglet'] == 'NEW') {
     }
 
     $list_fields = array('SOFT_NAME' => 'NAME',
-        'ID' => 'ID',
         'QTE' => 'QTE',
+        'ID' => 'ID',
         'CHECK' => 'ID');
     $table_name = "CAT_NEW";
     $default_fields = array('SOFT_NAME' => 'SOFT_NAME', 'QTE' => 'QTE', 'CHECK' => 'CHECK');
-    $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'CHECK' => 'CHECK');
+    $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'QTE' => 'QTE', 'CHECK' => 'CHECK');
     $querydico = 'SELECT ';
     foreach ($list_fields as $key => $value) {
         if ($key != 'CHECK' && $key != 'QTE') {
@@ -273,6 +292,7 @@ if (isset($querydico)) {
 }
 
 //récupération de toutes les catégories
+$list_categories['NONE'] = " ";
 $list_categories['IGNORED'] = "IGNORED";
 $list_categories['UNCHANGED'] = "UNCHANGED";
 $sql_list_categories = "select distinct(formatted) name from dico_soft where formatted!=extracted order by formatted";
@@ -281,21 +301,12 @@ while ($item_list_categories = mysqli_fetch_object($result_list_categories)) {
     $list_categories[$item_list_categories->name] = $item_list_categories->name;
 }
 //définition de toutes les options possibles
+$choix_affect['NONE'] = " ";
 $choix_affect['NEW_CAT'] = $l->g(385);
 $choix_affect['EXIST_CAT'] = $l->g(387);
 
-if ($protectedPost['AFFECT_TYPE'] == 'EXIST_CAT') {
-    $trans .= show_modif($list_categories, "EXIST_CAT", '2');
-    $verif_field = "EXIST_CAT";
-} elseif ($protectedPost['AFFECT_TYPE'] == 'NEW_CAT') {
-    $trans .= show_modif(stripslashes($protectedPost['NEW_CAT']), "NEW_CAT", '0');
-    $verif_field = "NEW_CAT";
-}
-if ($protectedPost['AFFECT_TYPE'] != '') {
-    $trans .= "<input type='button' class='btn' name='TRANSF' value='" . $l->g(13) . "' onclick='return verif_field(\"" . $verif_field . "\",\"TRANS\",\"" . $form_name . "\");'>";
-}
+if($protectedPost['onglet'] == "NEW"){
 ?>
-
 <div class="row">
     <div class="col-md-6 col-md-offset-4">
         <?php formGroup('text', 'search', $l->g(1051), '', '', $protectedPost['search']); ?>
@@ -307,27 +318,37 @@ if ($protectedPost['AFFECT_TYPE'] != '') {
         <button class='btn btn-danger' value='<?php echo $l->g(396); ?>' onclick='return pag("RESET","RESET","<?php echo $form_name ?>");' ><?php echo $l->g(396); ?></button>
     </div>
 </div>
-
 <div class="row margin-top30">
     <div class="col-md-6 col-md-offset-3">
         <input name='all_item' id='all_item' type='checkbox' <?php echo (isset($protectedPost['all_item']) ? " checked " : "") . ">" . $l->g(384); ?>
         <br />
         <?php
-        formGroup('select', 'AFFECT_TYPE', $l->g(1119), '', '', $protectedPost['AFFECT_TYPE'], '', $choix_affect, $choix_affect);
-
-        if ($result_exist != false) {
-            formGroup('text', 'NEW_CAT', $l->g(449), '', 100, $protectedPost['NEW_CAT']);
+        formGroup('select', 'AFFECT_TYPE', $l->g(1381), '', '', $protectedPost['AFFECT_TYPE'], '', $choix_affect, $choix_affect, 'onchange="document.admin_param.submit();"');
+        
+        if(isset($protectedPost['AFFECT_TYPE']) && $protectedPost['AFFECT_TYPE'] != "NONE"){
+            if ($protectedPost['AFFECT_TYPE'] == "NEW_CAT") {
+                formGroup('text', 'NEW_CAT', $l->g(391), '', 100, $protectedPost['NEW_CAT']);
+            }elseif($protectedPost['AFFECT_TYPE'] == "EXIST_CAT"){
+                formGroup('select', 'EXIST_CAT', $l->g(388), '', 100, $protectedPost['EXIST_CAT'], '', $list_categories, $list_categories);
+            }
+            echo "<input type='hidden' name='TRANS' id='TRANS' value='TRANS'>";
+            echo "<input type='submit' class='btn btn-success' value=".$l->g(13).">";
         }
+
         ?>
     </div>
 </div>
 <?php
+}
 
 echo '</div>';
 echo "<input type='hidden' name='RESET' id='RESET' value=''>";
-echo "<input type='hidden' name='TRANS' id='TRANS' value=''>";
 echo "<input type='hidden' name='SUP_CAT' id='SUP_CAT' value=''>";
 echo close_form();
+
+if(isset($protectedPost['search'])){
+    unset($tab_options['search']);
+}
 
 if (AJAX) {
     ob_end_clean();
