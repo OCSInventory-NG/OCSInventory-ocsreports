@@ -52,12 +52,12 @@ if ($protectedPost['onglet'] == "") {
 }
 //reset search
 if ($protectedPost['RESET'] == "RESET") {
-    unset($protectedPost['search']);
+    unset($protectedPost['custom_search']);
 }
 //filtre
-if ( isset($protectedPost['search']) && $protectedPost['search'] != "" ){
-    $search_cache = " and cache.name like '%" . mysqli_real_escape_string( $_SESSION['OCS']["readServer"], $protectedPost['search']) . "%' ";
-    $search_count = " and extracted like '%" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $protectedPost['search']) . "%' ";
+if ( isset($protectedPost['custom_search']) && $protectedPost['custom_search'] != "" ){
+    $search_cache = " and cache.name like '%" . mysqli_real_escape_string( $_SESSION['OCS']["readServer"], $protectedPost['custom_search']) . "%' ";
+    $search_count = " and extracted like '%" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $protectedPost['custom_search']) . "%' ";
 } else {
     $search = "";
     $search_count = "";
@@ -309,7 +309,7 @@ if($protectedPost['onglet'] == "NEW"){
 ?>
 <div class="row">
     <div class="col-md-6 col-md-offset-4">
-        <?php formGroup('text', 'search', $l->g(1051), '', '', $protectedPost['search']); ?>
+        <?php formGroup('text', 'custom_search', $l->g(1051), '', '', $protectedPost['custom_search']); ?>
     </div>
 </div>
 <div class="row">
@@ -346,8 +346,8 @@ echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 echo "<input type='hidden' name='SUP_CAT' id='SUP_CAT' value=''>";
 echo close_form();
 
-if(isset($protectedPost['search'])){
-    unset($tab_options['search']);
+if(isset($protectedPost['custom_search'])){
+    unset($tab_options['custom_search']);
 }
 
 if (AJAX) {
