@@ -134,7 +134,7 @@ if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_
     $msg_lbl['error'][] = "<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
 }
 //msg for phpversion
-if (version_compare(phpversion(), '5.3.7', '<')) {
+if (version_compare(phpversion(), '5.4', '<')) {
     $msg_lbl['warning'][] = $l->g(2113) . " " . phpversion() . " ) ";
 }
 if (!class_exists('SoapClient')) {

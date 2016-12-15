@@ -1400,7 +1400,7 @@
 2110 Expected version
 2111 Perform the update
 2112 The following file is not present or is not readable
-2113 Your PHP installation is older than version 5.3.7 and will not be compatible with incoming versions (version&nbsp;:&nbsp;
+2113 Your PHP installation is older than version 5.4 and will not be compatible with incoming versions (version&nbsp;:&nbsp;
 2114 No sql file found for version
 2115 The user you typed does not seem to be root
 2116 The config/profiles directory is not writable

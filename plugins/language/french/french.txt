@@ -1401,7 +1401,7 @@
 2110 Version attendue
 2111 Effectuer la mise à jour
 2112 Le fichier suivant n'est pas présent ou n'est pas accessible en lecture
-2113 La version actuelle de php est inférieure à la version 5.3.7 et ne sera plus compatible dans le futur (version&nbsp;:&nbsp;
+2113 La version actuelle de php est inférieure à la version 5.4 et ne sera plus compatible dans le futur (version&nbsp;:&nbsp;
 2114 Aucun fichier sql pour la version
 2115 L'utilisateur que vous avez tapé ne semble pas être root
 2116 Le répertoire config/profiles n'est pas disponible en écriture
