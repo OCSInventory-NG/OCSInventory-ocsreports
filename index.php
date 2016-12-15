@@ -33,17 +33,6 @@ require_once('require/menu/include.php');
 require_once('require/config/include.php');
 
 @session_start();
-// Magic Quotes :
-// This feature has been deprecated as of PHP 5.3 and deleted as of PHP 5.4.
-if (get_magic_quotes_gpc()) {
-
-    function magicQuotes_awStripslashes(&$value, $key) {
-        $value = stripslashes($value);
-    }
-
-    $gpc = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
-    array_walk_recursive($gpc, 'magicQuotes_awStripslashes');
-}
 
 $debut = microtime(true);
 
