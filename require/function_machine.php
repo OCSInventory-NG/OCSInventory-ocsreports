@@ -151,6 +151,7 @@ function show_packages($systemid, $page = "ms_computer") {
 						LEFT JOIN download_available a ON e.fileid=a.fileid
 						LEFT JOIN hardware h on h.id=e.server_id
 			WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=%s";
+
     $arg_query = array($systemid, $l->g(1129), $l->g(1129), $systemid);
     $resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"], $arg_query);
     if (mysqli_num_rows($resDeploy) > 0) {
@@ -239,5 +240,7 @@ function show_packages($systemid, $page = "ms_computer") {
         
     }
 }
+
+
 
 ?>

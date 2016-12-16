@@ -220,4 +220,63 @@ function group_4_all($id_group) {
     return $return_result;
 }
 
+function show_redistrib_groups_packages($systemid){
+
+    global $l;
+    
+    $query = "select da.NAME, da.PRIORITY,da.FRAGMENTS,da.SIZE,da.OSNAME,de.INFO_LOC,de.CERT_FILE,de.CERT_PATH,de.PACK_LOC
+                from download_enable de,download_available da
+                where de.GROUP_ID =%s
+                and da.FILEID=de.FILEID
+                group by de.fileid;";
+    
+    $arg_query = array($systemid);
+    $resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"], $arg_query);
+    if (mysqli_num_rows($resDeploy) > 0) {
+        ?>
+        <div class='row'>
+            <div class='col-md-12'>
+                <p>
+                    <table class='table table-striped'>
+                      <thead>
+                        <tr>
+                          <th><?php echo $l->g(49) ?></th>
+                          <th><?php echo $l->g(440) ?></th>
+                          <th><?php echo $l->g(464) ?></th>
+                          <th><?php echo $l->g(462) ?></th>
+                          <th><?php echo $l->g(1387) ?></th>
+                          <th>INFO_LOC</th>
+                          <th>CERT_FILE</th>
+                          <th>CERT_PATH</th>
+                          <th>PACK_LOC</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        <?php
+                        while ($valDeploy = mysqli_fetch_array($resDeploy)) {
+                            ?>
+                          <tr>
+                            <td><?php echo $valDeploy['NAME'] ?></td>
+                            <td><?php echo $valDeploy['PRIORITY'] ?></td>
+                            <td><?php echo $valDeploy['FRAGMENTS'] ?></td>
+                            <td><?php echo $valDeploy['SIZE'] ?></td>
+                            <td><?php echo $valDeploy['OSNAME'] ?></td>
+                            <td><?php echo $valDeploy['INFO_LOC'] ?></td>
+                            <td><?php echo $valDeploy['CERT_FILE'] ?></td>
+                            <td><?php echo $valDeploy['CERT_PATH'] ?></td>
+                            <td><?php echo $valDeploy['PACK_LOC'] ?></td>
+                          </tr>
+                            <?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </p>
+            </div>
+        </div>
+        <?php
+    }
+}
+
 ?>

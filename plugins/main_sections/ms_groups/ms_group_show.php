@@ -104,7 +104,7 @@ if (isset($protectedGet["suppack"])) {
 }
 
 //update values if user want modify groups' values
-if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif'])) {
+if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif']) && !isset($protectedPost['MODIF'])) {
     if (trim($protectedPost['NAME']) != '' && trim($protectedPost['DESCR']) != '') {
         $req = "UPDATE hardware SET " .
                 "NAME='%s'," .
@@ -230,43 +230,12 @@ show_resume($dataValue, $labelValue);
 echo close_form();
 
 if ($server_group) {
-    $sql_affect_pack = "select da.NAME, da.PRIORITY,da.FRAGMENTS,da.SIZE,da.OSNAME,de.INFO_LOC,de.CERT_FILE,de.CERT_PATH,de.PACK_LOC
-			from download_enable de,download_available da
-			where de.GROUP_ID =%s
-			and da.FILEID=de.FILEID
-			group by de.fileid;";
-    $arg = $systemid;
-    $res_affect_pack = mysql2_query_secure($sql_affect_pack, $_SESSION['OCS']["readServer"], $arg);
-    $i = 0;
-    while ($val_affect_pack = mysqli_fetch_array($res_affect_pack)) {
-        $PACK_LIST[$i]['NAME'] = $val_affect_pack['NAME'];
-        $PACK_LIST[$i]['PRIORITY'] = $val_affect_pack['PRIORITY'];
-        $PACK_LIST[$i]['FRAGMENTS'] = $val_affect_pack['FRAGMENTS'];
-        $PACK_LIST[$i]['SIZE'] = $val_affect_pack['SIZE'];
-        $PACK_LIST[$i]['OSNAME'] = $val_affect_pack['OSNAME'];
-        $PACK_LIST[$i]['INFO_LOC'] = $val_affect_pack['INFO_LOC'];
-        $PACK_LIST[$i]['CERT_FILE'] = $val_affect_pack['CERT_FILE'];
-        $PACK_LIST[$i]['CERT_PATH'] = $val_affect_pack['CERT_PATH'];
-        $PACK_LIST[$i]['PACK_LOC'] = $val_affect_pack['PACK_LOC'];
-        $i++;
-    }
-
-    if (isset($PACK_LIST)) {
-        foreach ($PACK_LIST[0] as $key => $value) {
-            echo $key;
-        }
-        $i = 0;
-        while ($PACK_LIST[$i]) {
-            echo "<img width='15px' src='image/red.png'>";
-            foreach ($PACK_LIST[$i] as $key => $value) {
-                echo $value;
-            }
-            $i++;
-        }
-    }
+    
     require(MAIN_SECTIONS_DIR . "/" . $_SESSION['OCS']['url_service']->getDirectory('ms_server_redistrib') . "/ms_server_redistrib.php");
-    }
-    else {
+
+}
+else {
+        
     if (!isset($protectedGet["option"])) {
         $opt = $l->g(500);
     } else {
