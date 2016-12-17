@@ -8,7 +8,7 @@ use Cwd;
 use Ocsinventory::Agent::Config;
 
 
-my $old_linux_agent_dir = "/etc/ocsinventory-client";
+my $old_unix_agent_dir = "/etc/ocsinventory-client";
 
 my $config;
 my @cacert;
@@ -19,8 +19,8 @@ my $cron_line;
 my $option;
 my $nowizard;
 my $configdir;
-my $remove_old_linux;
-my $old_linux_config;
+my $remove_old_unix;
+my $old_unix_config;
 my $nossl;
 my $download;
 my $snmp;
@@ -46,10 +46,10 @@ for $option (@ARGV){
         $config->{tag} = $1;
     } elsif($option=~/--crontab$/){
         $crontab = 1;
-    } elsif($option=~/--get-old-linux-agent-config$/){
-        $old_linux_config = 1;
-    } elsif($option=~/--remove-old-linux-agent$/){
-        $remove_old_linux = 1;
+    } elsif($option=~/--get-old-unix-agent-config$/){
+        $old_unix_config = 1;
+    } elsif($option=~/--remove-old-unix-agent$/){
+        $remove_old_unix = 1;
     } elsif($option=~/--debug$/){
         $config->{debug} = 1;
     } elsif($option=~/--logfile=(\S*)$/){
@@ -75,8 +75,8 @@ Usage :
 \t--password=password           set password for OCS Inventory NG server Apache authentication (if needed)
 \t--realm=realm                 set realm name for OCS Inventory NG server Apache authentication (if needed)
 \t--crontab                     set a crontab while installing OCS Inventory NG Unix Unified agent
-\t--get-old-linux-agent-config  retrieve old OCS Inventory NG Linux agent configuration (if needed)
-\t--remove-old-linux-agent      remove old OCS Inventory NG Linux agent from system (if needed)
+\t--get-old-unix-agent-config  retrieve old OCS Inventory NG Unix agent configuration (if needed)
+\t--remove-old-unix-agent      remove old OCS Inventory NG Unix agent from system (if needed)
 \t--debug                       activate debug mode configuration option while installing OCS Inventory NG Unix Unified agent
 \t--logfile=path                set OCS Inventory NG Unix Unified agent log file path (if needed) 
 \t--nossl                       disable SSL CA verification configuration option while installing OCS Inventory NG Unix Unified agent (not recommended)
@@ -127,9 +127,9 @@ unless ($nowizard) {
         }
     }
 
-    #Old linux agent
-    if (ask_yn("Should the old linux_agent settings be imported ?", 'y')) {
-        $old_linux_config=1;
+    #Old unix agent
+    if (ask_yn("Should the old unix_agent settings be imported ?", 'y')) {
+        $old_unix_config=1;
     }
 
     #Getting agent configuration if exists
@@ -192,8 +192,8 @@ unless ($nowizard) {
         }
     }
 
-    #Remove old linux agent ?
-    $remove_old_linux = ask_yn ("Should I remove the old linux_agent", 'n') unless $remove_old_linux;
+    #Remove old unix agent ?
+    $remove_old_unix = ask_yn ("Should I remove the old unix_agent", 'n') unless $remove_old_unix;
 
     #Enable debug option ?
     $config->{debug} = ask_yn("Do you want to activate debug configuration option ?", 'y') unless $config->{debug};
@@ -231,24 +231,24 @@ unless ($nowizard) {
 
 ################ Here we go... ##############
 
-#Old linux agent
-if (-f $old_linux_agent_dir.'/ocsinv.conf' && $old_linux_config) {
+#Old unix agent
+if (-f $old_unix_agent_dir.'/ocsinv.conf' && $old_unix_config) {
   
-    print STDERR "Getting old OCS Inventory NG Linux agent configuration...\n";
-    my $ocsinv = XMLin($old_linux_agent_dir.'/ocsinv.conf');
+    print STDERR "Getting old OCS Inventory NG Unix agent configuration...\n";
+    my $ocsinv = XMLin($old_unix_agent_dir.'/ocsinv.conf');
     $config->{server} = mkFullServerUrl($ocsinv->{'OCSFSERVER'});
 
-    if (-f $old_linux_agent_dir.'/cacert.pem') {
-        open CACERT, $old_linux_agent_dir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
+    if (-f $old_unix_agent_dir.'/cacert.pem') {
+        open CACERT, $old_unix_agent_dir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
         @cacert = <CACERT>;
         close CACERT;
     }
 
     my $admcontent = '';
 
-    if (-f "$old_linux_agent_dir/ocsinv.adm") {
-        if (!open(ADM, "<:encoding(iso-8859-1)", "$old_linux_agent_dir/ocsinv.adm")) {
-            warn "Can't open $old_linux_agent_dir/ocsinv.adm";
+    if (-f "$old_unix_agent_dir/ocsinv.adm") {
+        if (!open(ADM, "<:encoding(iso-8859-1)", "$old_unix_agent_dir/ocsinv.adm")) {
+            warn "Can't open $old_unix_agent_dir/ocsinv.adm";
         } else {
             $admcontent .= $_ foreach (<ADM>);
             close ADM;
@@ -316,7 +316,7 @@ if ($crontab) {
     if ($^O =~ /solaris/) {
         my $cron = `crontab -l`;
 
-        # Let's suppress Linux cron/anacron user column
+        # Let's suppress Unix cron/anacron user column
         $cron_line =~ s/ root /  /;
         $cron .= $cron_line;
 
@@ -364,9 +364,9 @@ if (grep (/$configdir/,@default_configdirs)) {
 }
 
 
-#Removing old linux agent if needed
-if ($remove_old_linux) {
-    print STDERR "Removing old OCS Inventory Linux agent...\n";
+#Removing old unix agent if needed
+if ($remove_old_unix) {
+    print STDERR "Removing old OCS Inventory Unix agent...\n";
     foreach (qw#
         /etc/ocsinventory-client
         /etc/logrotate.d/ocsinventory-client
