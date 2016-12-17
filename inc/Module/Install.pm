@@ -71,12 +71,6 @@ not:
 
 END_DIE
 
-    # This reportedly fixes a rare Win32 UTC file time issue, but
-    # as this is a non-cross-platform XS module not in the core,
-    # we shouldn't really depend on it. See RT #24194 for detail.
-    # (Also, this module only supports Perl 5.6 and above).
-    eval "use Win32::UTCFileTime" if $^O eq 'MSWin32' && $] >= 5.006;
-
     # If the script that is loading Module::Install is from the future,
     # then make will detect this and cause it to re-run over and over
     # again. This is bad. Rather than taking action to touch it (which

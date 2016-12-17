@@ -323,18 +323,6 @@ sub _check_lock {
     local *LOCK;
     return unless open(LOCK, $lock);
 
-    if (
-            ( $^O eq 'MSWin32' ? _under_cpan() : <LOCK> == getppid() )
-        and ( $CPAN::Config->{prerequisites_policy} || '' ) ne 'ignore'
-    ) {
-        print <<'END_MESSAGE';
-
-*** Since we're running under CPAN, I'll just let it take care
-    of the dependency's installation later.
-END_MESSAGE
-        return 1;
-    }
-
     close LOCK;
     return;
 }
