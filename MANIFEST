@@ -204,7 +204,6 @@ lib/Ocsinventory/Agent/Modules/Databases/Oracle.pm
 lib/Ocsinventory/Agent/Modules/Databases/Oracle/Instances.pm
 lib/Ocsinventory/Agent/Modules/Download.pm
 lib/Ocsinventory/Agent/Modules/Example.pm
-lib/Ocsinventory/Agent/Modules/Processes.pm
 lib/Ocsinventory/Agent/Modules/Snmp.pm
 lib/Ocsinventory/Agent/Modules/Snmp/11.pm
 lib/Ocsinventory/Agent/Modules/Snmp/231.pm
@@ -242,7 +241,7 @@ memconf
 META.yml
 ocsinventory-agent
 postinst.pl
-README
+README.md
 resources/cpuinfo/cpuinfo-vmware-esx
 resources/cpuinfo/linux-686-1
 resources/cpuinfo/linux-alpha-1
