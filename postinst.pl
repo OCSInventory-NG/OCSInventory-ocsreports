@@ -101,6 +101,8 @@ my @default_configdirs = ("/etc/ocsinventory", "/usr/local/etc/ocsinventory", "/
 unless ($config->{basevardir}) {
     if ($^O =~ /solaris/) {
         $config->{basevardir} = '/var/opt/ocsinventory-agent';
+    } elsif ($^O =~ /bsd/) {
+        $config->{basevardir} = '/var/db/ocsinventory-agent';
     } else { 
         $config->{basevardir} = '/var/lib/ocsinventory-agent'
     }
@@ -173,7 +175,7 @@ unless ($nowizard) {
     }
 
     #Getting crontab
-    if ($^O =~ /solaris/) {
+    if ($^O =~ /solaris/ || $^O =~ /bsd/) {
         if (ask_yn("Do yo want to install the cron task in current user crontab ?", 'y')) {
             $crontab = 1;
         }
@@ -313,7 +315,7 @@ if ($crontab) {
 
     print STDERR "Setting crontab...\n";
 
-    if ($^O =~ /solaris/) {
+    if ($^O =~ /solaris/ || $^O =~ /bsd/) {
         my $cron = `crontab -l`;
 
         # Let's suppress Unix cron/anacron user column
