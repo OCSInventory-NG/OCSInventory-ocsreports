@@ -592,13 +592,13 @@ sub addProcess {
 
     my $content = {};
 
-    foreach my $key (qw/CMD CPUUSAGE MEM PID STARTED TTY USER VIRTUALMEMORY/) {
+    foreach my $key (qw/COMMANDLINE CPUUSAGE PROCESSMEMORY PROCESSID STARTED TTY USERNAME VIRTUALMEMORY/) {
         if (exists $args->{$key}) {
             $content->{$key}[0] = $args->{$key} if $args->{$key};
         }
     }
 
-    push @{$xmltags->{PROCESSES}}, $content;
+    push @{$xmltags->{RUNNING_PROCESSES}}, $content;
 }
 
 

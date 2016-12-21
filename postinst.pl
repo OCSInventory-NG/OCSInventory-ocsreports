@@ -75,8 +75,8 @@ Usage :
 \t--password=password           set password for OCS Inventory NG server Apache authentication (if needed)
 \t--realm=realm                 set realm name for OCS Inventory NG server Apache authentication (if needed)
 \t--crontab                     set a crontab while installing OCS Inventory NG Unix Unified agent
-\t--get-old-unix-agent-config  retrieve old OCS Inventory NG Unix agent configuration (if needed)
-\t--remove-old-unix-agent      remove old OCS Inventory NG Unix agent from system (if needed)
+\t--get-old-unix-agent-config   retrieve old OCS Inventory NG Unix agent configuration (if needed)
+\t--remove-old-unix-agent       remove old OCS Inventory NG Unix agent from system (if needed)
 \t--debug                       activate debug mode configuration option while installing OCS Inventory NG Unix Unified agent
 \t--logfile=path                set OCS Inventory NG Unix Unified agent log file path (if needed) 
 \t--nossl                       disable SSL CA verification configuration option while installing OCS Inventory NG Unix Unified agent (not recommended)
@@ -241,7 +241,7 @@ if (-f $old_unix_agent_dir.'/ocsinv.conf' && $old_unix_config) {
     $config->{server} = mkFullServerUrl($ocsinv->{'OCSFSERVER'});
 
     if (-f $old_unix_agent_dir.'/cacert.pem') {
-        open CACERT, $old_unix_agent_dir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
+        open CACERT, $old_unix_agent_dir.'/cacert.pem' or die "Can't import the CA certificate: ".$!;
         @cacert = <CACERT>;
         close CACERT;
     }
@@ -449,7 +449,7 @@ if ($now) {
         print "   -> Success!\n";
     } else {
         print "   -> Failed!\n";
-    print "You may want to launch the agent with the --verbose or --debug flag.\n";
+        print "You may want to launch the agent with the --verbose or --debug flag.\n";
     }
 }
 
