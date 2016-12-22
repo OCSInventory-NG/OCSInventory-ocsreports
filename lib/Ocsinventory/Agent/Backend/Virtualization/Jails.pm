@@ -19,9 +19,9 @@ sub run {
 
     foreach my $j (@jail) {
         my @jparam=split('\s',$j);
-	    my $vmid=$jparam[6];
+        my $vmid=$jparam[6];
         my $name=$jparam[7];
-		my $subsystem=$jparam[9];
+        my $subsystem=$jparam[9];
         my $status="running";
         my $ipaddr=$jparam[36];
 		
