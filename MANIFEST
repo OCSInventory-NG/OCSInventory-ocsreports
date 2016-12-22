@@ -182,6 +182,7 @@ lib/Ocsinventory/Agent/Backend/OS/Solaris/Packages.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Slots.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Storages.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Users.pm
+lib/Ocsinventory/Agent/Backend/Virtualization/Jails.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Libvirt.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Lxc.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Parallels.pm
