@@ -28,6 +28,7 @@ if (is_defined($values['tvalue']['EXPORT_SEP'])) {
 }
 $link = $_SESSION['OCS']["readServer"];
 $toBeWritten = "";
+
 //log directory
 if (isset($protectedGet['log']) && !preg_match("/([^A-Za-z0-9.])/", $protectedGet['log'])) {
     $Directory = $_SESSION['OCS']['LOG_DIR'] . "/";
@@ -42,12 +43,12 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
 } elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     $toBeWritten = "";
     //gestion des entetes
-    foreach ($_SESSION['OCS']['col_tab'][$protectedGet['tablename']] as $name) {
-        if ($name != 'SUP' && $name != 'CHECK' && $name != 'NAME') {
-            if ($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name]{1} == ".") {
-                $lbl = substr(strrchr($_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name], "."), 1);
+    foreach ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']] as $name => $nothing) {
+        if ($name != 'SUP' && $name != 'CHECK' && $name != 'NAME' && $name != 'ACTIONS') {
+            if ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name]{1} == ".") {
+                $lbl = substr(strrchr($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name], "."), 1);
             } else {
-                $lbl = $_SESSION['OCS']['list_fields'][$protectedGet['tablename']][$name];
+                $lbl = $_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name];
             }
             $col[$lbl] = $name;
             $toBeWritten .= $name . $separator;

@@ -382,10 +382,16 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 "columns": [
     <?php
     $index = 0;
+    
+    // Unset visible columns session var
+    unset($_SESSION['OCS']['visible_col'][$option['table_name']]);
+        
 //Visibility handling
     foreach ($columns as $key => $column) {
         if (!empty($visible_col)) {
             if ((in_array($index, $visible_col))) {
+                // add visibles columns
+                $_SESSION['OCS']['visible_col'][$option['table_name']][$key] = $column;
                 $visible = 'true';
             } else {
                 $visible = 'false';
