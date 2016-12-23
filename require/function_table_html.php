@@ -140,6 +140,7 @@ function xml_decode($txt) {
  */
 function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list_col_cant_del) {
     global $protectedPost, $l, $pages_refs;
+    
     //Translated name of the column
     $lbl_column = array("ACTIONS" => $l->g(1381),
         "CHECK" => "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
@@ -219,6 +220,9 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         <?php
         //Display the Column selector
         if (!empty($list_col_can_del)) {
+            // Sort columns show / hide select by default
+            ksort($list_col_can_del);
+            
             $opt = true;
             ?>
 
