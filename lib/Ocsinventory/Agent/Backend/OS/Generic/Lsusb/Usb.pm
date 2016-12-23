@@ -2,6 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Lsusb::Usb;
 
 use strict;
 use Config;
+use Data::Dumper;
 
 my $vendor;
 my $product;
@@ -19,11 +20,11 @@ sub run {
 
     foreach (`lsusb`) {
         if (/^Bus\s+(\d+)\sDevice\s(\d*):\sID\s(\d+):(\d+)*/i) {
-            next if (grep (/$4/,qw(0001 0002)));
+            next if (grep (/$4/,qw(0001 0002 0024)));
             $bus=$1;
             $device=$2;
             #if (defined $bus && defined $device) {
-            my @detail = `lsusb -v -s $bus:$device`;
+            my @detail = `lsusb -v -s $bus:$device 2>/dev/null`;
             foreach my $d (@detail) {
                 if ($d =~ /^\s*iManufacturer\s*\d+\s*(.*)/i) {
                     $vendor = $1;
@@ -40,16 +41,16 @@ sub run {
                     $interface = $1;
                 }
             }
+            # Add information to $current
+            $common->addUsb({
+                DESCRIPTION   => $product,
+                INTERFACE     => $interface,
+                MANUFACTURER  => $vendor,
+                SERIAL        => $serial,
+                TYPE          => $protocol,
+           });
         }
     }
-    # Add information to $current
-    $common->addUsb({
-        DESCRIPTION   => $product,
-        INTERFACE     => $interface,
-        MANUFACTURER  => $vendor,
-        SERIAL        => $serial,
-        TYPE          => $protocol,
-    });
 }
 
 1;
