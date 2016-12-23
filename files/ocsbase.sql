@@ -84,7 +84,7 @@ CREATE TABLE `blacklist_macaddresses` (
   `MACADDRESS` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`MACADDRESS`),
   KEY `ID` (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `blacklist_macaddresses`
@@ -105,7 +105,7 @@ CREATE TABLE `blacklist_serials` (
   `SERIAL` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`SERIAL`),
   KEY `ID` (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `blacklist_serials`
@@ -379,7 +379,7 @@ CREATE TABLE `downloadwk_fields` (
   `RESTRICTED` int(1) DEFAULT NULL,
   `LINK_STATUS` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `downloadwk_fields`
@@ -435,7 +435,7 @@ CREATE TABLE `downloadwk_statut_request` (
   `LBL` varchar(255) DEFAULT NULL,
   `ACTIF` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `downloadwk_statut_request`
@@ -456,7 +456,7 @@ CREATE TABLE `downloadwk_tab_values` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `DEFAULT_FIELD` int(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `downloadwk_tab_values`
