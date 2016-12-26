@@ -109,7 +109,8 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(34) => "h.ipaddr",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
-    $l->g(210) => "e.bdate");
+    $l->g(210) => "e.bdate",
+    $l->g(61) => "vname");
 if ($show_mac_addr) {
     $list_fields2[$l->g(95)] = "n.macaddr";
     $list_fields2[$l->g(208)] = "n.ipmask";
@@ -118,6 +119,42 @@ if ($show_mac_addr) {
 }
 
 $list_fields = array_merge($list_fields, $list_fields2);
+
+// Create select field
+$select_fields2 = array($l->g(46) => "h.lastdate",
+    'NAME' => 'h.name',
+    $l->g(949) => "h.ID",
+    $l->g(24) => "h.userid",
+    $l->g(25) => "h.osname",
+    $l->g(568) => "h.memory",
+    $l->g(569) => "h.processors",
+    $l->g(33) => "h.workgroup",
+    $l->g(275) => "h.osversion",
+    $l->g(286) => "h.oscomments",
+    $l->g(350) => "h.processort",
+    $l->g(351) => "h.processorn",
+    $l->g(50) => "h.swap",
+    $l->g(352) => "h.lastcome",
+    $l->g(353) => "h.quality",
+    $l->g(354) => "h.fidelity",
+    $l->g(53) => "h.description",
+    $l->g(355) => "h.wincompany",
+    $l->g(356) => "h.winowner",
+    $l->g(357) => "h.useragent",
+    $l->g(64) => "e.smanufacturer",
+    $l->g(284) => "e.bmanufacturer",
+    $l->g(36) => "e.ssn",
+    $l->g(65) => "e.smodel",
+    $l->g(209) => "e.bversion",
+    $l->g(34) => "h.ipaddr",
+    $l->g(557) => "h.userdomain",
+    $l->g(1247) => "h.ARCH",
+    $l->g(210) => "e.bdate",
+    $l->g(61) => "v.name as vname");
+
+// List for select
+$select_fields = array_merge($list_fields, $select_fields2);
+
 $tab_options['FILTRE'] = array_flip($list_fields);
 $tab_options['FILTRE']['h.name'] = $l->g(23);
 asort($tab_options['FILTRE']);
@@ -130,7 +167,7 @@ $default_fields2 = array($_SESSION['OCS']['TAG_LBL']['TAG'] => $_SESSION['OCS'][
     $l->g(24) => $l->g(24), $l->g(25) => $l->g(25), $l->g(568) => $l->g(568),
     $l->g(569) => $l->g(569));
 $default_fields = array_merge($default_fields, $default_fields2);
-$sql = prepare_sql_tab($list_fields, array('SUP', 'CHECK'));
+$sql = prepare_sql_tab($select_fields, array('SUP', 'CHECK'));
 $tab_options['ARG_SQL'] = $sql['ARG'];
 $queryDetails = $sql['SQL'] . " from hardware h
 				LEFT JOIN accountinfo a ON a.hardware_id=h.id  ";
@@ -139,9 +176,12 @@ if ($show_mac_addr) {
     $queryDetails .= "	LEFT JOIN networks n ON n.hardware_id=h.id ";
     $queryDetails .= " AND h.IPADDR=n.IPADDRESS ";
 }
-$queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id
-				where deviceid<>'_SYSTEMGROUP_'
-						AND deviceid<>'_DOWNLOADGROUP_' ";
+// BIOS INFOS
+$queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id ";
+// VIDEOS CARDS INFOS
+$queryDetails .= "LEFT JOIN videos v ON v.hardware_id=h.id ";
+$queryDetails .= "where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
+// TAG RESTRICTIONS
 if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
     $tag = $_GET['value'];
     $queryDetails .= "AND a.TAG= '$tag' ";
@@ -192,4 +232,5 @@ if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
+
 ?>
