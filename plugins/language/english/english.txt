@@ -687,7 +687,7 @@
 799 HARDWARE
 800 OTHER
 801 Don't show this field
-802 Show this fied
+802 Show this field
 803 Counts in the daytime since the machine don't contact server
 804 Minimum speed processor
 805 Maximum speed processor

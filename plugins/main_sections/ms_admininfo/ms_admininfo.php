@@ -203,22 +203,27 @@ if ($protectedPost['onglet'] == 1) {
 
     $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
 
-      $tab_typ_champ[3]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=TAB_ACCOUNTAG&form=admin_info,\"admin_tab_accountag\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
+    $tab_typ_champ[3]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=TAB_ACCOUNTAG&form=admin_info,\"admin_tab_accountag\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
     
-        if( (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != "") || (isset($protectedPost['MODIF_OLD']) && $protectedPost['MODIF_OLD'] != "") ){
-            formGroup('hidden', 'MODIF_OLD', '', '', '', $protectedPost['MODIF'], '', '', '', '');
-            formGroup('hidden', 'newfield', '', '', '', $protectedPost['newfield']);
-            formGroup('hidden', 'accountinfo', '', '', '', $protectedPost['accountinfo']);
-            formGroup('text', 'accountinfo', $l->g(56), '', '', $protectedPost['accountinfo'], '', '', '', "disabled");
-            formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "disabled");
-            
-        }else{
-            formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'], '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
-            formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
-        }
-	formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl']);
-	formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost, '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "document.admin_info.submit();", $tab_typ_champ[3]['COMMENT_AFTER']);
-	formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost, '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE']);
+    if( (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != "") || (isset($protectedPost['MODIF_OLD']) && $protectedPost['MODIF_OLD'] != "") ){
+        formGroup('hidden', 'MODIF_OLD', '', '', '', $protectedPost['MODIF'], '', '', '', '');
+        formGroup('hidden', 'newfield', '', '', '', $protectedPost['newfield']);
+        formGroup('hidden', 'accountinfo', '', '', '', $protectedPost['accountinfo']);
+        formGroup('text', 'accountinfo', $l->g(56), '', '', $protectedPost['accountinfo'], '', '', '', "disabled");
+        formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "disabled");
+
+    }else{
+        formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'], '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+        formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+    }
+    formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl']);
+    formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost['newtype'], '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "onchange='document.admin_info.submit();'");
+    formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost['account_tab'], '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE'],'', $tab_typ_champ[3]['COMMENT_AFTER']);
+
+    if($protectedPost['newtype'] == 8){
+        formGroup('select', 'default_value', $l->g(1099), '', '', $protectedPost['default_value'], '', $tab_typ_champ[5]['DEFAULT_VALUE'], $tab_typ_champ[5]['DEFAULT_VALUE'], '', '');
+    }
+    
 ?>
 
 <div class="row">
