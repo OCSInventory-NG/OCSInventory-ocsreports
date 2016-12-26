@@ -47,6 +47,9 @@ $version_database = $_SESSION['OCS']['SQL_BASE_VERS'];
 $form_name = 'form_update';
 $rep_maj = 'files/update/';
 
+// Check requirements 
+check_requirements();
+
 //search all sql files for update
 $list_fichier = scanDirectory($rep_maj, "sql");
 echo "<form name='" . $form_name . "' id='" . $form_name . "' method='POST'>";

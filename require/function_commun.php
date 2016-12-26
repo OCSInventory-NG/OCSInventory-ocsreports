@@ -571,6 +571,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 		echo close_form();
 	}
 }
+
 /**
  * Test if a var is defined && contains something (not only blank char)
  * @param type $var var to test
@@ -595,6 +596,110 @@ function is_defined(&$var) {
         }
     }
     return $result;
+}
+
+function check_requirements(){
+    
+    global $l;
+    
+    //messages lbl
+    $msg_lbl = array();
+    $msg_lbl['info'] = array();
+    $msg_lbl['warning'] = array();
+    $msg_lbl['error'] = array();
+    //msg=you have to update database
+    if (isset($fromAuto) && $fromAuto == true) {
+        $msg_lbl['info'][] = $l->g(2031) . " " . $valUpd["tvalue"] . " " . $l->g(2032) . " (" . GUI_VER . "). " . $l->g(2033);
+    }
+    //msg=your config file doesn't exist
+    if (isset($fromdbconfig_out) && $fromdbconfig_out == true) {
+        $msg_lbl['info'][] = $l->g(2034);
+    }
+    //max to upload
+    $pms = "post_max_size";
+    $umf = "upload_max_filesize";
+    $valTpms = ini_get($pms);
+    $valTumf = ini_get($umf);
+    $valBpms = return_bytes($valTpms);
+    $valBumf = return_bytes($valTumf);
+    if ($valBumf > $valBpms) {
+        $MaxAvail = trim(mb_strtoupper($valTpms), "M");
+    } else {
+        $MaxAvail = trim(mb_strtoupper($valTumf), "M");
+    }
+    $msg_lbl['info'][] = $l->g(2040) . " " . $MaxAvail . $l->g(1240) . "<br>" . $l->g(2041) . "<br><br><font color=red>" . $l->g(2102) . "</font>";
+    //msg=no php-session function
+    if (!function_exists('session_start')) {
+        $msg_lbl['error'][] = $l->g(2035);
+    }
+    //msg= no mysqli_connect function
+    if (!function_exists('mysqli_connect')) {
+        $msg_lbl['error'][] = $l->g(2037);
+    }
+    if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(ETC_DIR))) {
+        $msg_lbl['error'][] = "<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
+    }
+    //msg for phpversion
+    if (version_compare(phpversion(), '5.4', '<')) {
+        $msg_lbl['warning'][] = $l->g(2113) . " " . phpversion() . " ) ";
+    }
+    if (!class_exists('SoapClient')) {
+        $msg_lbl['warning'][] = $l->g(6006);
+    }
+    if (!function_exists('xml_parser_create')) {
+        $msg_lbl['warning'][] = $l->g(2036);
+    }
+    if (!function_exists('imagefontwidth')) {
+        $msg_lbl['warning'][] = $l->g(2038);
+    }
+    if (!function_exists('openssl_open')) {
+        $msg_lbl['warning'][] = $l->g(2039);
+    }
+    // Check if var lib directory is writable
+    if (is_writable(VARLIB_DIR)) {
+        if (!file_exists(VARLIB_DIR . "/download")) {
+            mkdir(VARLIB_DIR . "/download");
+        }
+        if (!file_exists(VARLIB_DIR . "/logs")) {
+            mkdir(VARLIB_DIR . "/logs");
+        }
+        if (!file_exists(VARLIB_DIR . "/scripts")) {
+            mkdir(VARLIB_DIR . "/scripts");
+        }
+    } else {
+        $msg_lbl['warning'][] = "Var lib dir should be writable : " . VARLIB_DIR;
+    }
+    // Check if ocsreports is writable
+    if (!is_writable(ETC_DIR)) {
+        $msg_lbl['warning'][] = "Ocs reports' dir should be writable : " . ETC_DIR;
+    }
+    //show messages
+    foreach ($msg_lbl as $k => $v) {
+        $show = implode("<br>", $v);
+        if ($show != '') {
+            call_user_func_array("msg_" . $k, array($show));
+            //stop if error
+            if ($k == "error") {
+                die();
+            }
+        }
+    }
+    
+}
+
+function return_bytes($val) {
+    $val = trim($val);
+    $last = strtolower($val{strlen($val) - 1});
+    switch ($last) {
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
+    }
+
+    return $val;
 }
 
 ?>
