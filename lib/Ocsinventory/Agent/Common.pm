@@ -571,7 +571,7 @@ sub addVirtualMachine {
 
     my $content = {};
 
-    foreach my $key (qw/CORES MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU VMID/) {
+    foreach my $key (qw/CORES IPADDR MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU VMID/) {
         if (exists $args->{$key}) {
             $content->{$key}[0] = $args->{$key} if $args->{$key};
         }
