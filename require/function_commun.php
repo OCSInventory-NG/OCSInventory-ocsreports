@@ -598,6 +598,10 @@ function is_defined(&$var) {
     return $result;
 }
 
+/**
+ * Check for all php dependencies in a function
+ * Called on install and update
+ */
 function check_requirements(){
     
     global $l;
@@ -687,6 +691,12 @@ function check_requirements(){
     
 }
 
+/**
+ * From a byte value return an int
+ * 
+ * @param type $val
+ * @return int
+ */
 function return_bytes($val) {
     $val = trim($val);
     $last = strtolower($val{strlen($val) - 1});
