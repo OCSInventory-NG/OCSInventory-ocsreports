@@ -1360,7 +1360,7 @@
 2068 non è stato inserito. Devi configurare la voce max_allowed_packet in MySQL con, almeno, il valore minimo di 2MB
 2070 mancante, se non effettui una nuova installazione la funzione di DEPLOY non sarà disponibile
 2071 ATTENZIONE: uno o più file erano già caricati
-2072 File di Deploy correttamente caricati
+2072 File per il Deploy correttamente caricati
 2073 Tabella 'files' troncata
 2074 Tabella 'files' vuota
 2076 Nessun file subnet.csv da importare
