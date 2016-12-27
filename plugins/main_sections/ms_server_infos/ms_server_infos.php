@@ -47,14 +47,14 @@ printEnTete($l->g(1360));
                     <li><?php
                         $meminfo = @file_get_contents('/proc/meminfo');
                         if ($meminfo && preg_match("/MemTotal: *([0-9]*)/", $meminfo, $res)) {
-                            $res = sprintf("%.d " . $l->g(57), intval($res[1]) / 1024);
-                            echo $res . " Mo";
+                            $res = sprintf("%.d " . $l->g(1240), intval($res[1]) / 1024);
+                            echo $res;
                         }
                         ?></li>
                     <li><?php
                         if ($meminfo && preg_match("/MemAvailable: *([0-9]*)/", $meminfo, $res)) {
-                            $res = sprintf("%.d " . $l->g(57), intval($res[1]) / 1024);
-                            echo $res . " Mo";
+                            $res = sprintf("%.d " . $l->g(1240), intval($res[1]) / 1024);
+                            echo $res;
                         }
                         ?></li>
                     <li><?php
