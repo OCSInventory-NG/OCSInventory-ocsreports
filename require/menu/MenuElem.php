@@ -1,35 +1,33 @@
 <?php
-
-/**
- * MenuElem class file
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
  *
- * PHP version 5
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
  *
- * @category Cat
- * @package  MyPackage
- * @author   Cédric <cedric@factorfx.com>
- * @license  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License, version 2
- * @link     http://factorfx.com
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
  *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
  */
 
 /**
  * MenuElem class
  *
- * The class generate one menu element
- *
- * @category Cat
- * @package  MyPackage
- * @author   Cédric <cedric@factorfx.com>
- * @license  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License, version 2
- * @link     http://factorfx.com
- *      
+ * The class generate one menu element     
  */
-class MenuElem extends Menu
-{
-    
+class MenuElem extends Menu {
     private $_label;
-
     private $_url;
 
     /**
@@ -40,21 +38,19 @@ class MenuElem extends Menu
      * @param array  $_children Children
      * @param number $_priority The priority of the MenuElem
      */
-    public function __construct($label, $url , array $_children = array(), $_priority = 0)
-    {
+    public function __construct($label, $url, array $_children = array(), $_priority = 0) {
         $this->_label = $label;
         $this->_url = $url;
-        
+
         parent::__construct($_children, $_priority);
     }
-    
+
     /**
      * Get the MenuElem label
      * 
      * @return string $this->label 
      */
-    public function getLabel()
-    {
+    public function getLabel() {
         return $this->_label;
     }
 
@@ -65,8 +61,7 @@ class MenuElem extends Menu
      * 
      * @return MenuElem
      */
-    public function setLabel($_label)
-    {
+    public function setLabel($_label) {
         $this->_label = $_label;
         return $this;
     }
@@ -76,8 +71,7 @@ class MenuElem extends Menu
      * 
      * @return string $this->_url
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->_url;
     }
 
@@ -88,9 +82,9 @@ class MenuElem extends Menu
      * 
      * @return MenuElem
      */
-    public function setUrl($_url)
-    {
+    public function setUrl($_url) {
         $this->_url = $_url;
         return $this;
     }
+
 }

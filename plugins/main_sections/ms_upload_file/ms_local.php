@@ -1,25 +1,37 @@
-<?php 
-//====================================================================================
-// OCS INVENTORY REPORTS
-// Copyleft Pierre LEMMET 2005
-// Web: http://www.ocsinventory-ng.org
-//
-// This code is open source and may be copied and modified as long as the source
-// code is always made freely available.
-// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-//====================================================================================
-//Modified on $Date: 2010 Erwan Goalou
+<?php
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 require_once('require/function_files.php');
 $form_name="insert_computers";
 $data_on['FILE']=$l->g(288);
 $data_on['MANUEL']=$l->g(1258);
-echo open_form($form_name);
+echo open_form($form_name, '', '', 'form-horizontal');
 //$protectedPost['onglet']='FILE';
-show_tabs($data_on,$form_name,"onglet",4);
-echo "<div class='right-content mlt_bordure' >";
+show_tabs($data_on,$form_name,"onglet",true);
+echo "<div class='col col-md-10' >";
 
 if ($protectedPost['onglet'] == 'FILE'){
-	echo "<script language='javascript'>  
+	?>
+	<script language='javascript'>
 	    
 	    function getext(filename){
 	    	 var parts = filename.split('.');
@@ -32,7 +44,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 	    }    
 	
 	    function verif_file_format(champ){
-	        var ExtList=new Array('ocs','OCS','xml','XML');
+	        var ExtList=['ocs','OCS','xml','XML'];
 			filename = document.getElementById(champ).value.toLowerCase();
 			fileExt = getext(filename);
 			for (i=0; i<ExtList.length; i++)
@@ -42,11 +54,12 @@ if ($protectedPost['onglet'] == 'FILE'){
 					return (true);
 				}
 			}
-			alert('".mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(559))."');
+			alert('<?php mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(559)) ?>');
 			return (false);
 	     }
 	          
-	</script>";
+	</script>
+	<?php
 	//   
 	$form_name1="SEND_FILE";
 	$data_config=look_config_default_values(array('LOCAL_URI_SERVER'),'',
@@ -80,17 +93,13 @@ if ($protectedPost['onglet'] == 'FILE'){
 			}else
 				msg_error($l->g(1244));
 	}
-	printEntete("<i>".$l->g(560).": ".$server);
+	printEntete($l->g(560).": ".$server);
 	echo close_form();
 	echo "<br>";
-	echo open_form($form_name1,'',"enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"");
-	echo '<div class="field">';
-	echo '<label for="file_upload">'.$l->g(1048).' :</label>';
-	echo '<input id="file_upload" name="file_upload" type="file" accept="">';
-	echo '</div>';
-	echo '<div class="form-buttons">';
-	echo "<input name='GO' id='GO' type='submit' value='".$l->g(13)."'>";
-	echo '</div>';
+	echo open_form($form_name1,'',"enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"", 'form-horizontal');
+	formGroup('file', 'file_upload', $l->g(1048), '', '', $protectedPost['file_upload']);
+
+	echo "<input name='GO' class='btn btn-success' id='GO' type='submit' value='".$l->g(13)."'>";
 	echo close_form();
 }else{
 	require_once('require/function_computers.php');
@@ -152,8 +161,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 		}else
 			msg_error($l->g(684)."<br>".$error);
 	}
-	
-	
+
 	$i=0;
 	$info_form['FIELDS']['name_field'][$i]='NB_COMPUTERS';
 	$info_form['FIELDS']['type_field'][$i]=0;
@@ -196,12 +204,12 @@ if ($protectedPost['onglet'] == 'FILE'){
 	
 	
 	if (isset($tab_typ_champ)){
-		tab_modif_values($info_form['FIELDS']['tab_name'],$tab_typ_champ,$tab_hidden, array(
+		modif_values($info_form['FIELDS']['tab_name'],$tab_typ_champ,$tab_hidden, array(
 			'show_frame' => false
 		));
-	}	
+	}
+
 	echo "</div>";
 	echo close_form();
 }
-
 ?>

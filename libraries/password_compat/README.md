@@ -1,9 +1,9 @@
 password_compat
 ===============
 
-[![Build Status](https://travis-ci.org/ircmaxell/password_compat.png?branch=master)](https://travis-ci.org/ircmaxell/password_compat)
+[![Build Status](https://travis-ci.org/ircmaxell/password_compat.png?branch=master)](https://travis-ci.org/ircmaxell/password_compat) [![Code Climate](https://codeclimate.com/github/ircmaxell/password_compat/badges/gpa.svg)](https://codeclimate.com/github/ircmaxell/password_compat)
 
-This library is intended to provide forward compatibility with the [password_*](http://php.net/password) functions being worked on for PHP 5.5.
+This library is intended to provide forward compatibility with the [password_*](http://php.net/password) functions that ship with PHP 5.5.
 
 See [the RFC](https://wiki.php.net/rfc/password_hash) for more detailed information.
 
@@ -13,7 +13,7 @@ Requirements
 
 This library requires `PHP >= 5.3.7` OR a version that has the `$2y` fix backported into it (such as RedHat provides). Note that Debian's 5.3.3 version is **NOT** supported.
 
-The runtime checks have been removed due to this version issue. To see if password_compat is available for your system, run the included `version-test.php`. If it outputs "Pass", you can safely use the library. If not, you cannot. 
+The runtime checks have been removed due to this version issue. To see if password_compat is available for your system, run the included `version-test.php`. If it outputs "Pass", you can safely use the library. If not, you cannot.
 
 If you attempt to use password-compat on an unsupported version, attempts to create or verify hashes will return `false`. You have been warned!
 
@@ -22,7 +22,7 @@ The reason for this is that PHP prior to 5.3.7 contains a [security issue with i
 Installation
 ============
 
-To install, simply `require` the `password.php` file under `lib`. 
+To install, simply `require` the `password.php` file under `lib`.
 
 You can also install it via `Composer` by using the [Packagist archive](http://packagist.org/packages/ircmaxell/password-compat).
 
@@ -74,3 +74,8 @@ From time to time you may update your hashing parameters (algorithm, cost, etc).
 		}
 	}
 ````
+
+Security Vulnerabilities
+========================
+
+If you have found a security issue, please contact the author directly at [ircmaxell@php.net](mailto:ircmaxell@php.net).

@@ -1,172 +1,178 @@
 <?php
-//====================================================================================
-// OCS INVENTORY REPORTS
-// Copyleft Pierre LEMMET 2006
-// Web: http://www.ocsinventory-ng.org
-//
-// This code is open source and may be copied and modified as long as the source
-// code is always made freely available.
-// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-//====================================================================================
-//Modified on $Date: 2010 $$Author: Erwan Goalou
-
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 require_once('require/function_telediff.php');
-foreach ($_POST as $key=>$value){
-	$temp_post[$key]=$value;
+
+echo "<div class='container'><div class='col-md-8 col-xs-offset-0 col-md-offset-2'>";
+
+foreach ($_POST as $key => $value) {
+    $temp_post[$key] = $value;
 }
-$protectedPost=$temp_post;
-if( isset( $protectedPost["VALID_END"] ) ) {
-	//configure description of this package
-	$description_details=$protectedPost['DESCRIPTION'];
-	if (isset($protectedPost['TYPE_PACK']) and $protectedPost['TYPE_PACK'] != '')
-		$description_details .= "  [Type=".$protectedPost['TYPE_PACK']."]";
-	if (isset($protectedPost['VISIBLE']) and $protectedPost['VISIBLE'] != '')
-		$description_details .= "  [VISIBLE=".$protectedPost['VISIBLE']."]";
+$protectedPost = $temp_post;
+if (isset($protectedPost["VALID_END"])) {
+    //configure description of this package
+    $description_details = $protectedPost['DESCRIPTION'];
+    if (is_defined($protectedPost['TYPE_PACK'])) {
+        $description_details .= "  [Type=" . $protectedPost['TYPE_PACK'] . "]";
+    }
+    if (is_defined($protectedPost['VISIBLE'])) {
+        $description_details .= "  [VISIBLE=" . $protectedPost['VISIBLE'] . "]";
+    }
 
-	$sql_details=array('document_root'=>$protectedPost['document_root'],
-					   'timestamp'=>$protectedPost['timestamp'],
-					   'nbfrags'=>$protectedPost["nbfrags"],
-					   'name'=>$protectedPost['NAME'],
-					   'os'=>$protectedPost['OS'],
-					   'description'=>$description_details,
-					   'size'=>$protectedPost['SIZE'],
-					   'id_wk'=>$protectedPost['LIST_DDE_CREAT']);
+    $sql_details = array('document_root' => $protectedPost['document_root'],
+        'timestamp' => $protectedPost['timestamp'],
+        'nbfrags' => $protectedPost["nbfrags"],
+        'name' => $protectedPost['NAME'],
+        'os' => $protectedPost['OS'],
+        'description' => $description_details,
+        'size' => $protectedPost['SIZE'],
+        'id_wk' => $protectedPost['LIST_DDE_CREAT']);
 
-	$info_details=array('PRI'=>$protectedPost['PRIORITY'],
-						'ACT'=>$protectedPost['ACTION'],
-						'DIGEST'=>$protectedPost['digest'],
-						'PROTO'=>$protectedPost['PROTOCOLE'],
-						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
-						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['ACTION_INPUT'],
-						'NAME'=>$protectedPost['ACTION_INPUT'],
-						'COMMAND'=>$protectedPost['ACTION_INPUT'],
-						'NOTIFY_USER'=>$protectedPost['NOTIFY_USER'],
-						'NOTIFY_TEXT'=>$protectedPost['NOTIFY_TEXT'],
-						'NOTIFY_COUNTDOWN'=>$protectedPost['NOTIFY_COUNTDOWN'],
-						'NOTIFY_CAN_ABORT'=>$protectedPost['NOTIFY_CAN_ABORT'],
-						'NOTIFY_CAN_DELAY'=>$protectedPost['NOTIFY_CAN_DELAY'],
-						'NEED_DONE_ACTION'=>$protectedPost['NEED_DONE_ACTION'],
-						'NEED_DONE_ACTION_TEXT'=>$protectedPost['NEED_DONE_ACTION_TEXT'],
-						'GARDEFOU'=>"rien");
-	create_pack($sql_details,$info_details);
+    $info_details = array('PRI' => $protectedPost['PRIORITY'],
+        'ACT' => $protectedPost['ACTION'],
+        'DIGEST' => $protectedPost['digest'],
+        'PROTO' => $protectedPost['PROTOCOLE'],
+        'DIGEST_ALGO' => $protectedPost["digest_algo"],
+        'DIGEST_ENCODE' => $protectedPost["digest_encod"],
+        'PATH' => $protectedPost['ACTION_INPUT'],
+        'NAME' => $protectedPost['ACTION_INPUT'],
+        'COMMAND' => $protectedPost['ACTION_INPUT'],
+        'NOTIFY_USER' => $protectedPost['NOTIFY_USER'],
+        'NOTIFY_TEXT' => $protectedPost['NOTIFY_TEXT'],
+        'NOTIFY_COUNTDOWN' => $protectedPost['NOTIFY_COUNTDOWN'],
+        'NOTIFY_CAN_ABORT' => $protectedPost['NOTIFY_CAN_ABORT'],
+        'NOTIFY_CAN_DELAY' => $protectedPost['NOTIFY_CAN_DELAY'],
+        'NEED_DONE_ACTION' => $protectedPost['NEED_DONE_ACTION'],
+        'NEED_DONE_ACTION_TEXT' => $protectedPost['NEED_DONE_ACTION_TEXT'],
+        'GARDEFOU' => "rien");
+    create_pack($sql_details, $info_details);
 
-if ($protectedPost['REDISTRIB_USE'] == 1){
+    if ($protectedPost['REDISTRIB_USE'] == 1) {
+        $timestamp_redistrib = time();
+        $server_dir = $protectedPost['download_rep_creat'];
+        //create zip file for redistribution servers
+        $zipfile = new ZipArchive();
+        $rep = $protectedPost['document_root'] . $sql_details['timestamp'] . "/";
 
-		$timestamp_redistrib= time();
-		$server_dir=$protectedPost['download_rep_creat'];
-		//create zip file for redistribution servers
-		$zipfile = new ZipArchive();
-		$rep = $protectedPost['document_root'].$sql_details['timestamp']."/";
+        if (!file_exists($server_dir)) {
+            mkdir($server_dir);
+        }
+        if (!file_exists($server_dir . $timestamp_redistrib)) {
+            mkdir($server_dir . $timestamp_redistrib);
+        }
 
-		if (!file_exists($server_dir)){
-			mkdir($server_dir);
-		}
-		if (!file_exists($server_dir.$timestamp_redistrib)){
-			mkdir($server_dir.$timestamp_redistrib);
-		}
+        $zipfile->open($server_dir . $timestamp_redistrib . "/" . $timestamp_redistrib . "_redistrib.zip", ZipArchive::CREATE);
+        $zipfile->addEmptyDir($sql_details['timestamp']);
 
-		$zipfile->open($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip", ZipArchive::CREATE);
-		$zipfile->addEmptyDir($sql_details['timestamp']);
+        $dir = opendir($rep);
 
-		$dir = opendir($rep);
+        while ($f = readdir($dir)) {
+            if (is_file($rep . $f)) {
+                $zipfile->addFile($rep . $f, $sql_details['timestamp'] . "/" . basename($rep . $f));
+            }
+        }
 
-		while($f = readdir($dir)){
-		   if(is_file($rep.$f)){
-		   	$zipfile -> addFile($rep.$f,$sql_details['timestamp']."/".basename($rep.$f));
-		   }
-		}
+        $zipfile->close();
 
-		$zipfile -> close();
+        closedir($dir);
+        flush();
 
-		closedir($dir);
-		flush();
+        //crypt the file
+        $digest = crypt_file($server_dir . $timestamp_redistrib . "/" . $timestamp_redistrib . "_redistrib.zip", $protectedPost["digest_algo"], $protectedPost["digest_encod"]);
+        //change name of this file to "tmp" for use function of create a package
+        rename($server_dir . $timestamp_redistrib . "/" . $timestamp_redistrib . "_redistrib.zip", $server_dir . $timestamp_redistrib . "/tmp");
+        //create temp file
+        $fSize = filesize($server_dir . $timestamp_redistrib . "/tmp");
+        $sql_details = array('document_root' => $server_dir,
+            'timestamp' => $timestamp_redistrib,
+            'nbfrags' => $protectedPost['nbfrags_redistrib'],
+            'name' => $protectedPost['NAME'] . '_redistrib',
+            'os' => $protectedPost['OS'],
+            'description' => '[PACK REDISTRIBUTION ' . $protectedPost['timestamp'] . ']',
+            'size' => $fSize,
+            'id_wk' => $protectedPost['LIST_DDE_CREAT']);
 
-		//crypt the file
-		$digest=crypt_file($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip",$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
-		//change name of this file to "tmp" for use function of create a package
-		rename($server_dir.$timestamp_redistrib."/".$timestamp_redistrib."_redistrib.zip", $server_dir.$timestamp_redistrib."/tmp");
-		//create temp file
-		$fSize = filesize( $server_dir.$timestamp_redistrib."/tmp");
-		$sql_details=array('document_root'=>$server_dir,
-					   'timestamp'=>$timestamp_redistrib,
-					   'nbfrags'=>$protectedPost['nbfrags_redistrib'],
-					   'name'=>$protectedPost['NAME'].'_redistrib',
-					   'os'=>$protectedPost['OS'],
-					   'description'=>'[PACK REDISTRIBUTION '.$protectedPost['timestamp'].']',
-					   'size'=>$fSize,
-					   'id_wk'=>$protectedPost['LIST_DDE_CREAT']);
+        $info_details = array('PRI' => $protectedPost['REDISTRIB_PRIORITY'],
+            'ACT' => 'STORE',
+            'DIGEST' => $digest,
+            'PROTO' => $protectedPost['PROTOCOLE'],
+            'DIGEST_ALGO' => $protectedPost["digest_algo"],
+            'DIGEST_ENCODE' => $protectedPost["digest_encod"],
+            'PATH' => $protectedPost['DOWNLOAD_SERVER_DOCROOT'],
+            'NAME' => '',
+            'COMMAND' => '',
+            'NOTIFY_USER' => '0',
+            'NOTIFY_TEXT' => '',
+            'NOTIFY_COUNTDOWN' => '',
+            'NOTIFY_CAN_ABORT' => '0',
+            'NOTIFY_CAN_DELAY' => '0',
+            'NEED_DONE_ACTION' => '0',
+            'NEED_DONE_ACTION_TEXT' => '',
+            'GARDEFOU' => "rien");
 
-		$info_details=array('PRI'=>$protectedPost['REDISTRIB_PRIORITY'],
-						'ACT'=>'STORE',
-						'DIGEST'=>$digest,
-						'PROTO'=>$protectedPost['PROTOCOLE'],
-						'DIGEST_ALGO'=>$protectedPost["digest_algo"],
-						'DIGEST_ENCODE'=>$protectedPost["digest_encod"],
-						'PATH'=>$protectedPost['DOWNLOAD_SERVER_DOCROOT'],
-						'NAME'=>'',
-						'COMMAND'=>'',
-						'NOTIFY_USER'=>'0',
-						'NOTIFY_TEXT'=>'',
-						'NOTIFY_COUNTDOWN'=>'',
-						'NOTIFY_CAN_ABORT'=>'0',
-						'NOTIFY_CAN_DELAY'=>'0',
-						'NEED_DONE_ACTION'=>'0',
-						'NEED_DONE_ACTION_TEXT'=>'',
-						'GARDEFOU'=>"rien");
-
-		create_pack($sql_details,$info_details);
-	}
-	unset($protectedPost,$_SESSION['OCS']['DATA_CACHE']);
+        create_pack($sql_details, $info_details);
+    }
+    unset($protectedPost, $_SESSION['OCS']['DATA_CACHE']);
 }
-$lign_begin="<tr height='30px' bgcolor='white'><td>";
-$td_colspan2=":</td><td colspan='2'>";
-$lign_end="</td></tr>";
-$form_name="create_pack";
-echo open_form($form_name,'',"enctype='multipart/form-data'");
+$form_name = "create_pack";
+printEnTete($l->g(434));
+echo open_form($form_name, '', "enctype='multipart/form-data'", "form-horizontal");
 
+if (isset($protectedPost['valid'])) {
+    looking4config();
 
-if (isset($protectedPost['valid'])){
-	looking4config();
+    //file exist
+    if (file_exists($_FILES["teledeploy_file"]["tmp_name"]) && is_readable($_FILES["teledeploy_file"]["tmp_name"]) && filesize($_FILES["teledeploy_file"]["tmp_name"]) > 0) {
+        //is it a zip file or TAR.GZ file?
+        $name_file_extention = explode('.', $_FILES["teledeploy_file"]["name"]);
+        $extention = array_pop($name_file_extention);
+        if (strtoupper($extention) != "ZIP" && strtoupper($extention) != "GZ") {
+            $error = $l->g(1231);
+            //ok
+        } elseif (strtoupper($extention) == "GZ" && strtoupper(array_pop($name_file_extention)) != "TAR") {
+            $error = $l->g(1232);
+        }
+    }
+    //file not exist
+    else {
+        if ($protectedPost['ACTION'] != 'EXECUTE') {
+            $error = $l->g(436) . " " . $_FILES["teledeploy_file"]["tmp_name"];
+        }
+    }
 
+    //the package name is exist in database?
+    $verifN = "SELECT fileid FROM download_available WHERE name='%s'";
+    $argverifN = $protectedPost["NAME"];
+    $resN = mysql2_query_secure($verifN, $_SESSION['OCS']["readServer"], $argverifN);
+    if (mysqli_num_rows($resN) != 0) {
+        $error = $l->g(551);
+    }
 
-
-	//file exist
-	if (file_exists($_FILES["teledeploy_file"]["tmp_name"]) && is_readable($_FILES["teledeploy_file"]["tmp_name"])
-									&& filesize($_FILES["teledeploy_file"]["tmp_name"]) > 0){
-		//is it a zip file or TAR.GZ file?
-		$name_file_extention=explode('.',$_FILES["teledeploy_file"]["name"]);
-		$extention=array_pop($name_file_extention);
-		if (strtoupper($extention) != "ZIP" and strtoupper($extention) != "GZ"){
-			$error=$l->g(1231);
-			//ok
-		}elseif(strtoupper($extention) == "GZ" and strtoupper(array_pop($name_file_extention)) != "TAR"){
-			$error=$l->g(1232);
-		}
-	}
-	//file not exist
-	else{
-		if ($protectedPost['ACTION'] != 'EXECUTE')
-			$error=$l->g(436)." ".$_FILES["teledeploy_file"]["tmp_name"];
-	}
-
-	//the package name is exist in database?
-	$verifN = "SELECT fileid FROM download_available WHERE name='%s'";
-	$argverifN=$protectedPost["NAME"];
-	$resN = mysql2_query_secure( $verifN, $_SESSION['OCS']["readServer"], $argverifN);
-	if( mysqli_num_rows( $resN ) != 0 )
-	$error=$l->g(551);
-
-
-
-	if ($error){
-		 msg_error($error);
-		 unset($protectedPost['valid']);
-	}
-	else{
-
-		//some fields are empty?
-		echo "<script language='javascript'>
+    if ($error) {
+        msg_error($error);
+        unset($protectedPost['valid']);
+    } else {
+        //some fields are empty?
+        echo "<script language='javascript'>
 			function verif2()
 			 {
 				var msg = '';
@@ -201,132 +207,130 @@ if (isset($protectedPost['valid'])){
 				}
 
 				msg_trait(msg);
-
 			}
 
 			function msg_trait(msg){
-
 				if (msg != ''){
-					alert ('".$l->g(1001)."');
+					alert ('" . $l->g(1001) . "');
 					return false;
 				}else{
-						pag(\"END\",\"VALID_END\",\"".$form_name."\");
+						pag(\"END\",\"VALID_END\",\"" . $form_name . "\");
 						return true;
 					}
-
 			}
-
 		</script>";
 
+        //get the file
+        if (!($_FILES["teledeploy_file"]["size"] == 0 && $protectedPost['ACTION'] == 'EXECUTE')) {
+            $size = filesize($_FILES["teledeploy_file"]["tmp_name"]);
+            //crypt the file
+            $digest = crypt_file($_FILES["teledeploy_file"]["tmp_name"], $protectedPost["digest_algo"], $protectedPost["digest_encod"]);
+            //create temp file
+            creat_temp_file($protectedPost['document_root'] . $protectedPost['timestamp'], $_FILES["teledeploy_file"]["tmp_name"]);
+        }
+        $digName = $protectedPost["digest_algo"] . " / " . $protectedPost["digest_encod"];
 
+        $title_creat = "<h4>" . $l->g(435) . ": " . "[" . $protectedPost['NAME'] . "]</h4><br/>";
+        $name_file = $l->g(446) . ": " . $_FILES["teledeploy_file"]["name"] . "<br/>";
+        $ident = $l->g(460) . ": " . $protectedPost['timestamp'] . "<br/>";
+        $view_digest = $l->g(461) . ": " . $digName . " " . $digest . "<br/>";
+        $total_ko = $l->g(462) . ": " . round($size / 1024) . " " . $l->g(516) . "<br/><br/>";
 
-	//get the file
-	if (!($_FILES["teledeploy_file"]["size"]== 0 and $protectedPost['ACTION'] == 'EXECUTE')){
-		$size = filesize($_FILES["teledeploy_file"]["tmp_name"]);
-		//crypt the file
-		$digest=crypt_file($_FILES["teledeploy_file"]["tmp_name"],$protectedPost["digest_algo"],$protectedPost["digest_encod"]);
-		//create temp file
-		creat_temp_file($protectedPost['document_root'].$protectedPost['timestamp'],$_FILES["teledeploy_file"]["tmp_name"]);
-	}
-	$digName = $protectedPost["digest_algo"]. " / ".$protectedPost["digest_encod"];
+        echo $title_creat . $name_file . $ident . $view_digest . $total_ko;
 
-	$title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(435)." "."[".$protectedPost['NAME']."]</b></td></tr>";
+        // INPUT
+        input_pack_taille("tailleFrag", "nbfrags", round($size), '8', round($size / 1024), $l->g(463), $l->g(516));
+        input_pack_taille("nbfrags", "tailleFrag", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
+        time_deploy($l->g(1002));
+        $java_script = "verif2();";
 
-	$name_file=$lign_begin.$l->g(446).$td_colspan2.$_FILES["teledeploy_file"]["name"].$lign_end;
-	$ident=$lign_begin.$l->g(460).$td_colspan2.$protectedPost['timestamp'].$lign_end;
-	$view_digest=$lign_begin.$l->g(461)." ".$digName.$td_colspan2.$digest.$lign_end;
-	$total_ko=$lign_begin.$l->g(462).$td_colspan2.round($size/1024)." ".$l->g(516).$lign_end;
+        if ($protectedPost['REDISTRIB_USE'] == 1) {
+            echo "<br />";
+            echo "<h4>" . $l->g(1003) . "</h4>";
+            input_pack_taille("tailleFrag_redistrib", "nbfrags_redistrib", round($size), '8', round($size / 1024), $l->g(463), $l->g(516));
+            input_pack_taille("nbfrags_redistrib", "tailleFrag_redistrib", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
+            $java_script = "verif_redistributor();";
+        }
 
-	//create the field of the frag's size
-	$taille_frag=$lign_begin.$l->g(463).$td_colspan2;
-	$taille_frag.= input_pack_taille("tailleFrag","nbfrags",round($size),'8',round($size/1024));
-	$taille_frag.=$l->g(516).$lign_end;
-	$tps=$lign_begin.$l->g(1002).$td_colspan2;
-	$tps.= time_deploy();
-	$tps.=$lign_end;
-
-	//create the field of the frag number
-	$nb_frag=$lign_begin.$l->g(464).$td_colspan2;
-	$nb_frag.= input_pack_taille("nbfrags","tailleFrag",round($size),'5','1');
-	$nb_frag.=$lign_end;
-	echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5'>";
-	echo $title_creat.$name_file.$ident.$view_digest.$total_ko.$taille_frag.$nb_frag.$tps;
-	$java_script="verif2();";
-	if($protectedPost['REDISTRIB_USE'] == 1){
-		$title_creat_redistrib="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(1003)."</b></td></tr>";
-		$taille_frag_redistrib=$lign_begin.$l->g(463).$td_colspan2;
-		$taille_frag_redistrib.= input_pack_taille("tailleFrag_redistrib","nbfrags_redistrib",round($size),'8',round($size/1024));
-		$taille_frag_redistrib.=$l->g(516).$lign_end;
-		$nb_frag_redistrib=$lign_begin.$l->g(464).$td_colspan2;
-		$nb_frag_redistrib.= input_pack_taille("nbfrags_redistrib","tailleFrag_redistrib",round($size),'5','1');
-		$nb_frag_redistrib.=$lign_end;
-		echo $title_creat_redistrib.$taille_frag_redistrib.$nb_frag_redistrib;
-		$java_script="verif_redistributor();";
-	}
-	echo "</table>";
-	echo "<br><input type='button' name='TEST_END' id='TEST_END' OnClick='".$java_script."' value='".$l->g(13)."'>";
-	echo "<input type='hidden' name='digest' value='".$digest."'>";
-	echo "<input type='hidden' name='VALID_END' id='VALID_END' value=''>";
-	echo "<input type='hidden' name='SIZE' value='".$size."'>";
-	}
+        echo "<input type='button' class='btn btn-success' name='TEST_END' id='TEST_END' OnClick='" . $java_script . "' value='" . $l->g(13) . "'>";
+        echo "<input type='hidden' name='digest' value='" . $digest . "'>";
+        echo "<input type='hidden' name='VALID_END' id='VALID_END' value=''>";
+        echo "<input type='hidden' name='SIZE' value='" . $size . "'>";
+    }
 }
 
-//check default values
-$default_value=array('OS'=>'WINDOWS',
-					 'PROTOCOLE'=>'HTTP',
-					 'PRIORITY'=>'5',
-					 'ACTION'=>'STORE',
-					 'REDISTRIB_PRIORITY'=>'5');
+$default_value = array(
+    'OS' => 'WINDOWS',
+    'PROTOCOLE' => 'HTTP',
+    'PRIORITY' => '5',
+    'ACTION' => 'EXECUTE',
+    'REDISTRIB_PRIORITY' => '5'
+);
 
-if (!$protectedPost){
-	//get timestamp
-	$protectedPost['timestamp'] = time();
+if (!$protectedPost) {
+    //get timestamp
+    $protectedPost['timestamp'] = time();
 
-	foreach ($default_value as $key=>$value)
-		$protectedPost[$key]=$value;
-	$val_document_root=look_config_default_values(array('DOWNLOAD_PACK_DIR'));
-	if (isset($val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']))
-		$document_root = $val_document_root["tvalue"]['DOWNLOAD_PACK_DIR']."/download/";
-	else{
-		//if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
-		$document_root = VARLIB_DIR.'/download/';
-	}
+    foreach ($default_value as $key => $value) {
+        $protectedPost[$key] = $value;
+    }
+    $val_document_root = look_config_default_values(array('DOWNLOAD_PACK_DIR'));
+    if (isset($val_document_root["tvalue"]['DOWNLOAD_PACK_DIR'])) {
+        $document_root = $val_document_root["tvalue"]['DOWNLOAD_PACK_DIR'] . "/download/";
+    } else {
+        //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
+        $document_root = VARLIB_DIR . '/download/';
+    }
 
-	$rep_exist=file_exists($document_root);
-	//create directory if it's not exist
-	if (!$rep_exist){
-		$creat=@mkdir($document_root);
-		if (!$creat){
-			msg_error($document_root."<br>".$l->g(1004).".<br>".$l->g(1005));
-			return;
-		}
-	}
-	//apache user can be write in this directory?
-	$rep_ok=is_writable ($document_root);
-	if (!$rep_ok){
-		msg_error($l->g(1007)." ".$document_root." ".$l->g(1004).".<br>".$l->g(1005));
-		return;
-	}
-	$protectedPost['document_root']=$document_root;
+    $rep_exist = file_exists($document_root);
+    //create directory if it's not exist
+    if (!$rep_exist) {
+        $creat = @mkdir($document_root);
+        if (!$creat) {
+            msg_error($document_root . "<br>" . $l->g(1004) . ".<br>" . $l->g(1005));
+            return;
+        }
+    }
+    //apache user can be write in this directory?
+    $rep_ok = is_writable($document_root);
+    if (!$rep_ok) {
+        msg_error($l->g(1007) . " " . $document_root . " " . $l->g(1004) . ".<br>" . $l->g(1005));
+        return;
+    }
+    $protectedPost['document_root'] = $document_root;
 }
 
-echo "<input type='hidden' name='document_root' value='".$protectedPost['document_root']."'>
-	 <input type='hidden' id='timestamp' name='timestamp' value='".$protectedPost['timestamp']."'>";
-
-
+echo "<input type='hidden' name='document_root' value='" . $protectedPost['document_root'] . "'>
+	 <input type='hidden' id='timestamp' name='timestamp' value='" . $protectedPost['timestamp'] . "'>";
 echo "<script language='javascript'>
+		function changeLabelAction(){
+            var displayText = {'EXECUTE' : '" . $l->g(444) . "', 'STORE' : '" . $l->g(445) . "', 'LAUNCH' : '" . $l->g(446) . "'};
+			var select = $(\"#ACTION :selected \");
+			var label = $(\"label[for='ACTION_INPUT']\");
+
+			switch(select.val()){
+				case 'EXECUTE':
+					label.html(displayText.EXECUTE);
+					break;
+				case 'STORE':
+					label.html(displayText.STORE);
+					break;
+				case 'LAUNCH':
+					label.html(displayText.LAUNCH);
+					break;
+				default:
+					label.html('ERROR');
+			}
+		}
 		function verif()
 		 {
 			var msg = '';
-			champs = new Array('NAME','DESCRIPTION','OS','PROTOCOLE','PRIORITY','ACTION','ACTION_INPUT','REDISTRIB_USE');
-			champs_OS = new Array('NOTIFY_USER','NEED_DONE_ACTION');
+			champs = ['NAME','DESCRIPTION','OS','PROTOCOLE','PRIORITY','ACTION','ACTION_INPUT','REDISTRIB_USE'];
+			champs_OS = ['NOTIFY_USER','NEED_DONE_ACTION'];
 			champs_ACTION=new Array('teledeploy_file');
 			champs_REDISTRIB_USE=new Array('REDISTRIB_PRIORITY');
-			champs_NOTIFY_USER=new Array('NOTIFY_TEXT','NOTIFY_COUNTDOWN','NOTIFY_CAN_ABORT','NOTIFY_CAN_DELAY');
+			champs_NOTIFY_USER=['NOTIFY_TEXT','NOTIFY_COUNTDOWN','NOTIFY_CAN_ABORT','NOTIFY_CAN_DELAY'];
 			champs_NEED_DONE_ACTION=new Array('NEED_DONE_ACTION_TEXT');
-
-
-
 
 			for (var n = 0; n < champs.length; n++)
 			{
@@ -356,21 +360,20 @@ echo "<script language='javascript'>
 				else
 					var debut=name_file.length-6;
 				if (document.getElementById('ACTION').value != 'EXECUTE' && document.getElementById(champs_ACTION[n]).value == ''){
-					alert('".$l->g(602)."');
+					alert('" . $l->g(602) . "');
 				 	document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 				 	msg='NULL';
 				 }
 				else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'ZIP' && document.getElementById(\"OS\").value == 'WINDOWS'){
-					alert('".$l->g(1231)."');
+					alert('" . $l->g(1231) . "');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
 				}else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'TAR.GZ' && document.getElementById(\"OS\").value != 'WINDOWS'){
-					alert('".$l->g(1232)."');
+					alert('" . $l->g(1232) . "');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
 				}
 				 document.getElementById(champs_ACTION[n]).style.backgroundColor = '';
-
 			}
 
 			for (var n = 0; n < champs_REDISTRIB_USE.length; n++)
@@ -404,131 +407,195 @@ echo "<script language='javascript'>
 			}
 
 			if (msg != ''){
-			alert ('".$l->g(1001)."');
+			alert ('" . $l->g(1001) . "');
 			return false;
 			}else
 			return true;
 		}
 	</script>";
+
 echo "<div ";
 if ($protectedPost['valid'])
-echo " style='display:none;'";
+    echo " style='display:none;'";
 echo ">";
-printEnTete($l->g(434));
-echo "<br>";
 
-$config_input=array('MAXLENGTH'=>255,'SIZE'=>50);
-$title_creat="<tr height='30px'><td colspan='10' align='center'><b>".$l->g(438)."</b></td></tr>";
-$title_user="<tr height='30px' BGCOLOR='#C7D9F5'><td align='center' colspan='10'><b>".$l->g(447)."</b></td></tr>";
-$title_redistrib="<tr height='30px' BGCOLOR='#C7D9F5'><td align='center' colspan='10'><b>".$l->g(628)."</b></td></tr>";
-$list_os['WINDOWS']="WINDOWS";
-$list_os['LINUX']="UNIX/LINUX";
-$list_os['MAC']="MACOS";
-$list_proto['HTTP']="HTTP";
-$i=0;
-while ($i<10){
-	$list_prio["$i"]="$i";
-	$i++;
+$arrayName = array(
+    "os" => $l->g(25),
+    "name" => $l->g(49),
+    "visible" => $l->g(52),
+    "description" => $l->g(53),
+    "package_name" => $l->g(438),
+    "proto" => $l->g(439),
+    "prio" => $l->g(440),
+    "action" => $l->g(443),
+    "title_user_notif" => $l->g(447),
+    "warn_user" => $l->g(448),
+    "notify_text" => $l->g(449),
+    "notify_countdown" => $l->g(450),
+    "user_can_abort" => $l->g(451),
+    "user_can_delay" => $l->g(452),
+    "need_user_action" => $l->g(453),
+    "file" => $l->g(549),
+    "title_redistribution" => $l->g(628),
+    "redistribution" => $l->g(1008),
+    "path_remote_server" => $l->g(1009)
+);
+$config_input = array(
+    'MAXLENGTH' => 255,
+    'SIZE' => 50
+);
+
+$arrayName = [
+	"os" => $l->g(25),
+	"name" => $l->g(49),
+	"visible" => $l->g(52),
+	"description" => $l->g(53),
+	"package_name" => $l->g(438),
+	"proto" => $l->g(439),
+	"prio" => $l->g(440),
+	"action" => $l->g(443),
+	"title_user_notif" => $l->g(447),
+	"warn_user" => $l->g(448),
+	"notify_text" => $l->g(449),
+	"notify_countdown" => $l->g(450),
+	"user_can_abort" => $l->g(451),
+	"user_can_delay" => $l->g(452),
+	"need_user_action" => $l->g(453),
+	"file" => $l->g(549),
+	"title_redistribution" => $l->g(628),
+	"redistribution" => $l->g(1008),
+	"path_remote_server" => $l->g(1009)
+];
+$config_input=[
+	'MAXLENGTH'=>255,
+	'SIZE'=>50
+];
+$list_os = [
+	"WINDOWS" => "WINDOWS",
+	"LINUX" => "UNIX/LINUX",
+	"MAC" => "MACOS"
+];
+$list_proto = [
+    "HTTP" => "HTTP"
+];
+
+$i = 0;
+while ($i < 10) {
+    $list_prio["$i"] = "$i";
+    $i++;
 }
-$list_action['STORE']=$l->g(457);
-$list_action['EXECUTE']=$l->g(456);
-$list_action['LAUNCH']=$l->g(458);
-$yes_no['0']=$l->g(454);
-$yes_no['1']=$l->g(455);
 
-$sous_tab_beg="<table BGCOLOR='#C7D9F5' BORDER='3'><tr><td>";
-$sous_tab_end="</td></tr></table>";
-$nom= $lign_begin.$l->g(49).$td_colspan2.show_modif($protectedPost['NAME'],'NAME',$NAME_TYPE,'',$config_input).$lign_end;
-$descr=$lign_begin.$l->g(53).$td_colspan2.show_modif($protectedPost['DESCRIPTION'],'DESCRIPTION',$DESCRIPTION_TYPE).$lign_end;
-if (!isset($protectedPost['VISIBLE']))
-$protectedPost['VISIBLE']=1;
-$visible=$lign_begin.$l->g(52).$td_colspan2.show_modif($yes_no,'VISIBLE',2,"",$configinput['DEFAULT'] = "NO").$lign_end;
-$os=$lign_begin.$l->g(25).$td_colspan2.champ_select_block($list_os,'OS',array('OS'=>'WINDOWS')).$lign_end;
-$proto=$lign_begin.$l->g(439).$td_colspan2.show_modif($list_proto,'PROTOCOLE',2,'').$lign_end;
-$prio=$lign_begin.$l->g(440).$td_colspan2.show_modif($list_prio,'PRIORITY',2,'').$lign_end;
-$file=$lign_begin.$l->g(549).$td_colspan2."<input id='teledeploy_file' name='teledeploy_file' type='file' accept='archive/zip'>".$lign_end;
+$yes_no = array("0", "1");
 
-$action=$lign_begin.$l->g(443).":</td><td>".champ_select_block($list_action,'ACTION',array('EXECUTE_div','STORE_div','LAUNCH_div'))."</td><td align=center>
-<div id='EXECUTE_div' style='display:none'>".$l->g(444).": </div>
-<div id='STORE_div' style='display:block'>".$l->g(445).": </div>
-<div id='LAUNCH_div' style='display:none'>".$l->g(446).": </div>".show_modif($protectedPost['ACTION_INPUT'],'ACTION_INPUT',0,'',$configinput=array('MAXLENGTH'=>1000,'SIZE'=>30)).$lign_end;
-$notify_user="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(448).":</td><td>".champ_select_block($yes_no,'NOTIFY_USER',array('NOTIFY_USER'=>1)).$lign_end;
-$redistrib="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(1008).":</td><td>".champ_select_block($yes_no,'REDISTRIB_USE',array('REDISTRIB_USE'=>1)).$lign_end;
+$list_action = [
+	"EXECUTE" => $l->g(456),
+	"STORE" => $l->g(457),
+	"LAUNCH" => $l->g(458)
+];
 
+$arrayDisplayValue = [
+	"yes_no" => [
+		"0" => $l->g(454),
+		"1" => $l->g(455)
+	],
+];
 
-echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5' >";
+$arrayDisplayValue = array(
+    "ACTION" => array(
+        "EXECUTE" => $l->g(456),
+        "STORE" => $l->g(457),
+        "LAUNCH" => $l->g(458)
+    ),
+    "yes_no" => array(
+        "0" => $l->g(454),
+        "1" => $l->g(455)
+    ),
+    "OS" => array(
+        "WINDOWS" => "WINDOWS",
+        "LINUX" => "UNIX/LINUX",
+        "MAC" => "MACOS"
+    )
+);
 
-echo $title_creat.$nom.$descr;
-if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'NO') == "NO" )
-echo $visible;
-echo $os.$proto.$prio.$file.$action;
+formGroup('text', 'NAME', $arrayName['name'], $config_input['SIZE'], $config_input['MAXLENGTH'], $protectedPost['NAME']);
+
+formGroup('text', 'DESCRIPTION', $arrayName['description'], $config_input['MAXLENGTH'], $protectedPost['DESCRIPTION']);
+formGroup('select', 'OS', $arrayName['os'], '', $config_input['MAXLENGTH'], $protectedPost['OS'], '', $list_os, $list_os, "onchange='active(\"OS_div\", this.value==\"WINDOWS\");' ");
+formGroup('select', 'PROTOCOLE', $arrayName['proto'], '', $config_input['MAXLENGTH'], $protectedPost['PROTOCOLE'], '', $list_proto, $list_proto);
+formGroup('select', 'PRIORITY', $arrayName['prio'], '', $config_input['MAXLENGTH'], $protectedPost['PRIORITY'], '', $list_prio, $list_prio);
+formGroup('file', 'teledeploy_file', $arrayName['file'], '', $config_input['MAXLENGTH'], $protectedPost['teledeploy_file'], '', '', "accept='archive/zip'");
+formGroup('select', 'ACTION', $arrayName['action'], '', $config_input['MAXLENGTH'], $protectedPost['ACTION'], '', $list_action, $list_action, "onchange='changeLabelAction()' ");
+formGroup('text', 'ACTION_INPUT', $l->g(444), '' ,$config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
+
+echo "<br />";
+echo "<h4>" . $arrayName['title_redistribution'] . "</h4>";
+echo "<br />";
+
 //redistrib
-if ($_SESSION['OCS']["use_redistribution"] == 1){
-	echo $title_redistrib.$redistrib;
+if ($_SESSION['OCS']["use_redistribution"] == 1) {
 
-	$sql="select NAME,TVALUE from config where NAME ='DOWNLOAD_REP_CREAT'
+    $sql = "select NAME,TVALUE from config where NAME ='DOWNLOAD_REP_CREAT'
 		  union select NAME,TVALUE from config where NAME ='DOWNLOAD_SERVER_DOCROOT'";
-	$resdefaultvalues = mysql2_query_secure( $sql, $_SESSION['OCS']["readServer"]);
-	while($item = mysqli_fetch_object($resdefaultvalues))
-			$default[$item ->NAME]=$item ->TVALUE;
-	if (!$default['DOWNLOAD_REP_CREAT'])
-	$default['DOWNLOAD_REP_CREAT'] = $_SERVER["DOCUMENT_ROOT"]."/download/server/";
-
-/*	if (!$protectedPost['REDISTRIB_REP'])
-		$protectedPost['REDISTRIB_REP']=$default['DOWNLOAD_REP_CREAT'];*/
-	if (!$protectedPost['REDISTRIB_PRIORITY'])
-		$protectedPost['REDISTRIB_PRIORITY']=$default['DOWNLOAD_PRIORITY'];
-	if (!$protectedPost['DOWNLOAD_SERVER_DOCROOT'])
-		$protectedPost['DOWNLOAD_SERVER_DOCROOT']=$default['DOWNLOAD_SERVER_DOCROOT'];
-	$redistrib_rep=$lign_begin.$l->g(829).$td_colspan2.$default['DOWNLOAD_REP_CREAT'].$lign_end;
-	$config_input=array('MAXLENGTH'=>255,'SIZE'=>25);
-	$redistrib_rep_distant=$lign_begin.$l->g(1009).$td_colspan2.show_modif($protectedPost['DOWNLOAD_SERVER_DOCROOT'],'DOWNLOAD_SERVER_DOCROOT','0','',$config_input).$lign_end;
-
-	//$redistrib_rep_distant=$lign_begin.$l->g(1009).$td_colspan2.$default['DOWNLOAD_SERVER_DOCROOT'].$lign_end;
-	$redistrib_prio=$lign_begin.$l->g(440).$td_colspan2.show_modif($list_prio,'REDISTRIB_PRIORITY',2,'').$lign_end;
-	echo "<tr><td colspan='3' align=center><div id='REDISTRIB_USE_div' style='display:".($protectedPost["REDISTRIB_USE"] == 1 ? " block" : "none")."'>";
-	echo $sous_tab_beg;
-		echo $redistrib_rep.$redistrib_rep_distant.$redistrib_prio;
-		echo $sous_tab_end;
-	echo "</div>";
-
+    $resdefaultvalues = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+    while ($item = mysqli_fetch_object($resdefaultvalues)) {
+        $default[$item->NAME] = $item->TVALUE;
+    }
+    if (!$default['DOWNLOAD_REP_CREAT']) {
+        $default['DOWNLOAD_REP_CREAT'] = $_SERVER["DOCUMENT_ROOT"] . "/download/server/";
+    }
 }
-//affichage de cette partie que si on est dans un systeme windows
-echo "<tr><td colspan='3'>";
-echo "<div id='OS_div' style='display:block'>";
-echo "<table BGCOLOR='#C7D9F5' BORDER='0' WIDTH = '600px' ALIGN = 'Center' CELLPADDING='0' BORDERCOLOR='#9894B5' >";
-	echo $title_user.$notify_user;
-
-		$notify_txt=$lign_begin.$l->g(449).$td_colspan2.show_modif($_POST['NOTIFY_TEXT'],'NOTIFY_TEXT',1).$lign_end;
-		$notify_count_down=$lign_begin.$l->g(450).$td_colspan2.show_modif($protectedPost['NOTIFY_COUNTDOWN'],'NOTIFY_COUNTDOWN',0,'',array('MAXLENGTH'=>4,'SIZE'=>4,'JAVASCRIPT'=>$chiffres)).$l->g(511).$lign_end;
-		$notify_can_abord=$lign_begin.$l->g(451).$td_colspan2.show_modif($yes_no,'NOTIFY_CAN_ABORT',2).$lign_end;
-		$notify_can_delay=$lign_begin.$l->g(452).$td_colspan2.show_modif($yes_no,'NOTIFY_CAN_DELAY',2).$lign_end;
-		echo "<tr><td colspan='3' align=center><div id='NOTIFY_USER_div' style='display:".($protectedPost["NOTIFY_USER"] == 1 ? " block" : "none")."'>";
-		echo $sous_tab_beg;
-		echo $notify_txt.$notify_count_down.$notify_can_abord.$notify_can_delay;
-		echo $sous_tab_end;
-		echo "</div></td></tr>";
-
-	$need_done_action="<tr height='30px' bgcolor='white'><td colspan='2'>".$l->g(453).":</td><td>".champ_select_block($yes_no,'NEED_DONE_ACTION',array('NEED_DONE_ACTION'=>1)).$lign_end;
-	echo $need_done_action;
-
-		$need_done_action_txt=$lign_begin.$l->g(449).$td_colspan2.show_modif($_POST['NEED_DONE_ACTION_TEXT'],'NEED_DONE_ACTION_TEXT',1).$lign_end;
-		echo "<tr><td colspan='3' align=center><div id='NEED_DONE_ACTION_div' style='display:".($protectedPost["NEED_DONE_ACTION"] == 1 ? " block" : "none")."'>";
-		echo $sous_tab_beg;
-		echo $need_done_action_txt;
-		echo $sous_tab_end;
-	echo "</div></td></tr>";
-echo "</table></td></tr>";
-echo "</div>";
-
-echo "</table>";
-echo "<br><input type='submit' name='valid' id='valid' value='".$l->g(13)."' OnClick='return verif();' >";
-echo "<input type='hidden' id='digest_algo' name='digest_algo' value='MD5'>
-	  <input type='hidden' id='digest_encod' name='digest_encod' value='Hexa'>
-	  <input type='hidden' id='download_rep_creat' name='download_rep_creat' value='".$default['DOWNLOAD_REP_CREAT']."'>";
-//	  <input type='hidden' id='download_server_docroot' name='download_server_docroot' value='".$default['DOWNLOAD_SERVER_DOCROOT']."'>";
-echo close_form();
-echo "</div>";
-
 ?>
+<script type="text/javascript">
+    function redistributeUse() {
+        active("REDISTRIB_USE_div", $('#REDISTRIB_USE').val());
+    }
+    function notifyUser() {
+        active("NOTIFY_USER_div", $('#NOTIFY_USER').val());
+    }
+    function needDoneAction() {
+        active("NEED_DONE_ACTION_div", $('#NEED_DONE_ACTION').val());
+    }
+</script>
+<?php
+formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', [0,1], [0 => 'No', 1 => 'Yes'], "onchange='redistributeUse()' ");
+?>
+<div id="REDISTRIB_USE_div" style="display: none;">
+    <?php
+    formGroup('text', 'DOWNLOAD_SERVER_DOCROOT', $arrayName['path_remote_server'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $default['DOWNLOAD_SERVER_DOCROOT'], '', $list_prio);
+    formGroup('select', 'REDISTRIB_PRIORITY', $arrayName['prio'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_PRIORITY'], '', $list_prio, $list_prio);
+    echo "</div>";
 
+    echo "<br />";
+    echo "<div id='OS_div'>";
+    echo "<h4>" . $arrayName['title_user_notif'] . "</h4>";
+    echo "<br />";
+
+    formGroup('select', 'NOTIFY_USER', $arrayName['warn_user'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['NOTIFY_USER'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'), "onchange='notifyUser()'");
+    ?>
+    <div id="NOTIFY_USER_div" style="display: none;">
+        <?php
+        formGroup('text', 'NOTIFY_TEXT', $arrayName['notify_text'], '', '', $protectedPost['NOTIFY_TEXT']);
+        formGroup('text', 'NOTIFY_COUNTDOWN', $arrayName['notify_countdown'], 4, 4, $protectedPost['NOTIFY_COUNTDOWN'], '', '', '', ' onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"', $l->g(511));
+        formGroup('select', 'NOTIFY_CAN_ABORT', $arrayName['user_can_abort'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
+        formGroup('select', 'NOTIFY_CAN_DELAY', $arrayName['user_can_delay'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
+        ?>
+    </div>
+    <?php
+    formGroup('select', 'NEED_DONE_ACTION', $arrayName['need_user_action'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['NEED_DONE_ACTION'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'), "onchange='needDoneAction()'");
+    ?>
+    <div id="NEED_DONE_ACTION_div" style="display: none;">
+        <?php
+        formGroup('text', 'NEED_DONE_ACTION_TEXT', $arrayName['notify_text'], '', '', $protectedPost['NEED_DONE_ACTION_TEXT']);
+        ?>
+    </div>
+
+</div>
+<input type='submit' name='valid' id='valid' class="btn btn-success" value='<?php echo $l->g(13) ?>' OnClick='return verif();'>
+<input type='hidden' id='digest_algo' name='digest_algo' value='MD5'>
+<input type='hidden' id='digest_encod' name='digest_encod' value='Hexa'>
+<input type='hidden' id='download_rep_creat' name='download_rep_creat' value='<?php echo $default['DOWNLOAD_REP_CREAT'] ?>'>
+
+</div></div>
+<?php
+echo close_form();
+?>

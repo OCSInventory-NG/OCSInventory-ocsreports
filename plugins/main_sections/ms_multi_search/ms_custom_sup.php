@@ -1,33 +1,41 @@
 <?php
-//====================================================================================
-// OCS INVENTORY REPORTS
-// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
-// Web: http://www.ocsinventory-ng.org
-//
-// This code is open source and may be copied and modified as long as the source
-// code is always made freely available.
-// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-//====================================================================================
-
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 require_once('require/function_search.php');
 require_once('require/function_computers.php');
 PrintEnTete($l->g(985));
-$form_name="del_affect";
+$form_name = "del_affect";
 echo open_form($form_name);
 echo "<div align=center>";
-$list_id=multi_lot($form_name,$l->g(601));
-if ($protectedPost['SUP'] != '' and isset($protectedPost['SUP'])){
-		$array_id=explode(',',$list_id);		
-	//$i=0;
-	foreach ($array_id as $key=>$hardware_id){
-		deleteDid($hardware_id);
-		//echo $hardware_id."<br>";
-		
-	}
+$list_id = multi_lot($form_name, $l->g(601));
+if (is_defined($protectedPost['SUP'])) {
+    $array_id = explode(',', $list_id);
+    foreach ($array_id as $key => $hardware_id) {
+        deleteDid($hardware_id);
+    }
 }
-if ($list_id){
-	echo "<br><br><input type='submit' value=\"".$l->g(122)."\" name='SUP'>";
+if ($list_id) {
+    echo "<br><br><input type='submit' value=\"" . $l->g(122) . "\" name='SUP' class='btn'>";
 }
-echo "</div>";//<input type=submit value='Supprimer TOUTES les machines?' name='delete'>
-echo close_form();	
+echo "</div>";
+echo close_form();
 ?>

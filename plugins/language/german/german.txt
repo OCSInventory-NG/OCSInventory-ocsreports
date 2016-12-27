@@ -43,7 +43,7 @@
 43 Hauptmenü
 44 Optionen auswählen
 45 Freier Speicherplatz
-46 Letze Inventarisierung
+46 Letzte Inventarisierung
 47 Letzte Seite
 48 Rechner Details
 49 Name
@@ -330,7 +330,7 @@
 349 Hinzufügen einer Spalte
 350 CPU-Typ
 351 CPU-Anzahl
-352 Letzer
+352 Letzter
 353 Qualität
 354 Genauigkeit
 355 Firma
@@ -1200,7 +1200,7 @@
 1239 MHz
 1240 MB
 1241 Anzahl SNMP-Geräte 
-1242 M/T/J
+1242 Y-m-d
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 Diese Datei darf nicht leer sein.
 1245 OCS-NG-Clients verwalten
@@ -1228,7 +1228,7 @@
 1267 Art der virtuellen Maschine
 1268 UUID
 1269 Maschine gehostet von
-1270 TTMMJJJJ
+1270 DDMMYYYY
 1271 Rechner im Subnetz 
 1272 Rechner löschen
 1273 Sie haben nicht die Berechtigung Rechner zu löschen.
@@ -1316,8 +1316,8 @@
 2034 DB-Konfiguration unvollständig. Automatische Installation gestartet.
 2035 FEHLER: SESSIONS für PHP ist nicht installiert/verfügbar.<br>Versuchen Sie das php-session-Paket zu installieren.
 2036 WARNUNG: XML für PHP ist nicht oder unvollständig installiert. IP-Discover wird nicht verfügbar sein.
-2037 FEHLER: MySQL für PHP ist nicht oder unvollständig installed.<br>Versuchen sie PHP-MySQL zu installieren (Debian: php5-mysql).
-2038 WARNUNG: GD für PHP ist nicht oder unvollständig installiert.<br>Die grafischen Darstellungen werden nicht verfügbar sein.<br>Versuchen Sie extension=php_gd2.dll (Windows) in der php.ini auszukommentieren, oder versuchen Sie GD zu installieren (php5-gd, Linux).
+2037 FEHLER: MySQL für PHP ist nicht oder unvollständig installed.<br>Versuchen sie PHP-MySQL zu installieren (Debian: php-mysql).
+2038 WARNUNG: GD für PHP ist nicht oder unvollständig installiert.<br>Die grafischen Darstellungen werden nicht verfügbar sein.<br>Versuchen Sie extension=php_gd2.dll (Windows) in der php.ini auszukommentieren, oder versuchen Sie GD zu installieren (php-gd, Linux).
 2039 WARNUNG: OpenSSL für PHP ist nicht oder unvollständig installiert.<br>Nicht alle Teile der automatischen Software-Verteilung werden verfügbar sein. Versuchen Sie php-openssl zu installieren (Linux).
 2040 WARNUNG: Sie werden keine Software-Pakete verteilen können die größer sind als
 2041 Sie müssen sowohl <font color="red">post_max_size</font> als auch <font color="red">upload_max_filesize</font> in Ihrer php.ini anpassen um dieses Limit zu erhöhen.

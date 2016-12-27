@@ -1,50 +1,148 @@
 <?php
-//====================================================================================
-// OCS INVENTORY REPORTS
-// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
-// Web: http://www.ocsinventory-ng.org
-//
-// This code is open source and may be copied and modified as long as the source
-// code is always made freely available.
-// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-//====================================================================================
-
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 @session_start();
 define('DOCUMENT_REAL_ROOT', dirname(__FILE__));
 define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
 
-define("GUI_VER", "7009");												// Version of the database
-define("GUI_VER_SHOW","2.2");        								    // Version of the GUI
-define("MAC_FILE", __DIR__ . '/files/oui.txt');									// File containing MAC database
-define("DEFAULT_LANGUAGE","english");    								// Default language
-define("PAG_INDEX","function");         								// define name in url (like multi=32)
-define("DEMO",false);			        								// Define if we use demo version or not (for OCS TEAM, other=> DO NOT USE IT)
-define("DEMO_LOGIN",'demo');											// Define demo login for connexion
-define("DEMO_PASSWD",'demo');											// Define demo password for connexion
-define("DFT_DB_CMPT",'ocs');  											// Define default login to connect to database
-define("DFT_DB_PSWD",'ocs');											// Define default password to connect to database
-define("DFT_GUI_CMPT",'admin');											// Define default login to connect to GUI
-define("DFT_GUI_PSWD",'admin');											// Define default password to connect to GUI
-define('BACKEND',__DIR__ . '/backend/');									   	 	// Define backend Directory
-define('PHPCAS', __DIR__ . '/libraries/phpcas/CAS.php');				// Path to CAS (change to use system provided library)
-define('TC_LIB_BARCODE',  __DIR__ . '/libraries/tclib/Barcode/autoload.php'); // Path to tc-lib-barcode library, change to use system library
-define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php'); // Path to tc-lib-barcode library, change to use system library
+//====================================================================================
+// Default configuration dir (Logs / Data / Document root / Sql config file)
+//====================================================================================
+/**
+ * Ocsreports root folder ( /usr/share/ocsinventory-reports/ocsreports by default)
+ */
+define('ETC_DIR', DOCUMENT_REAL_ROOT);
+/**
+ * Default lib directory
+ */
+define('VARLIB_DIR', "/var/lib/ocsinventory-reports");
+/**
+ * Default log directory
+ */
+define('VARLOG_DIR', "/var/lib/ocsinventory-reports");
+/**
+ * Database configuration infos
+ */
+define('CONF_MYSQL', ETC_DIR . '/dbconfig.inc.php');
+//====================================================================================
+// Librairies / Backend / Mac address file
+//====================================================================================
+/**
+ * Mac address file
+ */
+define('MAC_FILE', __DIR__ . '/files/oui.txt');
+/**
+ * Backend folder (AUTH / CAS / etc )
+ */
+define('BACKEND', __DIR__ . '/backend/');
+/**
+ * Library PHPCAS
+ */
+define('PHPCAS', __DIR__ . '/libraries/phpcas/CAS.php');
+/**
+ * Library TC-LIB-BARCODE
+ */
+define('TC_LIB_BARCODE', __DIR__ . '/libraries/tclib/Barcode/autoload.php');
+/**
+ * Library PASSWORD-COMPAT
+ */
+define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php');
+//====================================================================================
+// GUI Options
+//====================================================================================
+/**
+ * OCS' MySQL database version
+ */
+define('GUI_VER', '7010');
+/**
+ * GUI Version
+ */
+define('GUI_VER_SHOW', '2.3');
+/**
+ * Default GUI language
+ */
+define('DEFAULT_LANGUAGE', 'english');
+define('PAG_INDEX', 'function');
+define('UPDATE_JSON_URI', 'http://check-version.ocsinventory-ng.org');
+
+//====================================================================================
+// Default OCS DIR
+//====================================================================================
+/**
+ * Configuration directory
+ */
+define('CONFIG_DIR', __DIR__ . '/config/');
+/**
+ * Computer detail configuration directory
+ */
+define('CD_CONFIG_DIR', CONFIG_DIR . 'computer/');
+/**
+ * Plugins directory
+ */
+define('PLUGINS_DIR', __DIR__ . '/plugins/');
+define('PLUGINS_GUI_DIR', '/tmp/');
+/**
+ * HEADER for ocsreports
+ */
+define('HEADER_HTML', __DIR__ . '/require/html_header.php');
+/**
+ * FOOTER for ocsreports
+ */
+define('FOOTER_HTML', __DIR__ . '/require/footer.php');
+/**
+ * Main section directory
+ */
+define('MAIN_SECTIONS_DIR', "plugins/main_sections/");
+define('DEV_OPTION', false);
+
+//====================================================================================
+// Plugins Configuration
+//====================================================================================
+/**
+ * Directory where you put plugin sources
+ */
 define('PLUGINS_DL_DIR', __DIR__ . '/download/');
+/**
+ * Don't touch this dir used by plugin engine
+ */
 define('PLUGINS_SRV_SIDE', __DIR__ . '/upload/');
-define('CONFIG_DIR',__DIR__ . '/config/');
-define('CD_CONFIG_DIR', CONFIG_DIR."computer/" );
-define('PLUGINS_DIR',__DIR__ . '/plugins/');										// Define plugins Directory
-define('PLUGINS_GUI_DIR','/tmp/');
-define('HEADER_HTML',__DIR__ . '/require/html_header.php');						// Define html_header file
-define('FOOTER_HTML',__DIR__ . '/require/footer.php');								// Define footer file
-define('MAIN_SECTIONS_DIR',PLUGINS_DIR."main_sections/");				//
-define('DEV_OPTION',false);												// Define DEV Options DO NOT USE
-define('PC4PAGE',20);													// Define result by page MUST in (5,10,15,20,50,100,200,1000000);
-define('CSRF',1000);														// max number of csrf session
-define('ETC_DIR', DOCUMENT_REAL_ROOT);									// Configuration dir
-define('VARLIB_DIR', DOCUMENT_ROOT);									// Data default dir
-define('VARLOG_DIR', DOCUMENT_ROOT);									// Log defaut dir
-define('CONF_MYSQL', ETC_DIR.'/dbconfig.inc.php');						// Define dbconf file
+/**
+ * Plugins engine ws url, don't touch if you don't know what you are doing
+ */
+define('PLUGIN_WS_URL', '/ocsplugins');
+//====================================================================================
+// Misc Options
+//====================================================================================
+define('PC4PAGE', 20);
+define('CSRF', 1000);
 
-
+//====================================================================================
+// Demo mode config and defaults accounts logins
+//====================================================================================
+define('DEMO', false);
+define('DEMO_LOGIN', 'demo');
+define('DEMO_PASSWD', 'demo');
+define('DFT_DB_CMPT', 'ocs');
+define('DFT_DB_PSWD', 'ocs');
+define('DFT_GUI_CMPT', 'admin');
+define('DFT_GUI_PSWD', 'admin');
 ?>

@@ -1,37 +1,45 @@
 <?php
-//====================================================================================
-// OCS INVENTORY REPORTS
-// Copyleft Erwan GOALOU 2010 (erwan(at)ocsinventory-ng(pt)org)
-// Web: http://www.ocsinventory-ng.org
-//
-// This code is open source and may be copied and modified as long as the source
-// code is always made freely available.
-// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-//====================================================================================
-require('require/function_stats.php');
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 
-$form_name="stats";
-$table_name=$form_name;	
-printEnTete($l->g(1251));
-echo open_form($form_name);
-$plugin=false;
-$stats='';
+require('class/msstats.class.php');
+require('class/msstatstop.class.php');
+require('class/msstatsconnexion.class.php');
 
-foreach ($_SESSION['OCS']['url_service']->getUrls() as $name=>$url){
-	if (substr($name,0,9) == 'ms_stats_' and $url['directory'] == 'ms_stats'){
-		$plugin=true;
-		require_once($name.".php");
-	}	
-}
+require('require/charts/StatsChartsRenderer.php');
 
-if ($plugin){
-	//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
-	show_tabs($data_on,$form_name,"onglet",4);
-	echo '<div class="right-content mlt_bordure" >';
-	echo $stats;		
-	echo "</div>";
-}else
-	msg_warning($l->g(1262));
+$stats = new MsStats();
+$pages = $stats->checkForStatsPages();
+$data_on = $stats->createShowTabsArray($pages);
+
+printEnTete($stats->getHeaderName());
+
+echo open_form($stats->getFormName(), '', '', 'form-horizontal');
+show_tabs($data_on,$stats->getFormName(),"onglet",true);
+
+echo '<div class="col col-md-10" >';
+$stats->generateStatsData($protectedPost, $pages[0]);
+echo "</div>";
+
 echo close_form();
 
 ?>

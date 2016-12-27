@@ -1,5 +1,20 @@
 Revision history for ocsreports
-2.2RC
+
+2.3RC
+		* A complete rework using the bootstrap framwork has been done to improve design and responsivity
+		* We improved all the inventory data readability
+		* Tables now save your sorting orders / number of entries
+		* We updated icons and images to the new graphics chart
+		* Japanese language now supported officiel ( thus some translation may be missing, feel free to contribute )
+		* We added a option to force inventory on the machine startup for windows agent ( disabled by default )
+		* We also added a option which display a message if a new ocsinventory version is available.
+		* We improved all the user / profile management system
+		* The new console is now fully compatible with php7
+		* All libraries has been updated
+		* We cut off all the dead code to improve readability and contribution ease for developers
+		* Fix bug
+
+2.2
 		* New plugin system with automatic installation
 		* New plugin API created in order to modify create or modify OCS element easly.
 		* Cosmetic fix on computer menu.

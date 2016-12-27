@@ -183,7 +183,7 @@
 266 Nieprawidłowa data
 267 dd/mm/rrrr
 268 Szybkość
-269 %m/%d/%R
+269 %d/%m/%Y
 270 Modem(y)
 271 Slot(y)
 272 Port(y)
@@ -1136,7 +1136,7 @@
 1239 MHz
 1240 MB
 1241 Liczba urządzeń SNMP
-1242 m/d/y
+1242 Y-m-d
 1243 Wysłać można tylko pliki: ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe i ocspackage.exe
 1244 Ten plik nie może być pusty
 1245 Zarządzaj klientami OCS-NG
@@ -1251,8 +1251,8 @@
 2034 DB configuration not completed. Automatic install launched
 2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
-2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php5-mysql)
-2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
+2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php-mysql)
+2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.

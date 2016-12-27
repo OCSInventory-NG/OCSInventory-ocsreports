@@ -1,23 +1,36 @@
 <?php
-//====================================================================================
-// This code is open source and may be copied and modified as long as the source
-// code is always made freely available.
-// Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-//====================================================================================
-
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 require_once('require/fonction.inc.php');
 
 //http://dcabasson.developpez.com/articles/javascript/ajax/ajax-autocompletion-pas-a-pas/
 header('Content-Type: text/xml;charset=utf-8');
 echo utf8_encode("<?xml version='1.0' encoding='UTF-8' ?><options>");
 
-//connecOCS();
-$sql ="SELECT DISTINCT softwares.NAME FROM softwares_name_cache softwares WHERE softwares.NAME NOT LIKE '%Correctif%' AND softwares.NAME NOT LIKE '%Mise a jour%' ORDER BY softwares.NAME";
-$query= mysqli_query($_SESSION['OCS']["readServer"],$sql);
-while($row=mysqli_fetch_array($query,MYSQL_ASSOC))  // or die ('erreur dans le fetch_array' .mysql_error()))
-	{
-	$liste[]=$row;
-	}
+$sql = "SELECT DISTINCT softwares.NAME FROM softwares_name_cache softwares WHERE softwares.NAME NOT LIKE '%Correctif%' AND softwares.NAME NOT LIKE '%Mise a jour%' ORDER BY softwares.NAME";
+$query = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+    $liste[] = $row;
+}
 if (isset($_GET['debut'])) {
     $debut = utf8_decode($_GET['debut']);
 } else {
@@ -25,17 +38,15 @@ if (isset($_GET['debut'])) {
 }
 $debut = strtolower($debut);  // met la premiere lettre en majuscule
 
-$MAX_RETURN=10;
-$i= 0;
+$MAX_RETURN = 10;
+$i = 0;
 
-foreach($liste as $element)
-	{
-	if($i<$MAX_RETURN && strtolower(substr($element['NAME'], 0, strlen($debut)))==$debut) 
-		{
-		 echo(utf8_encode("<option>".$element['NAME']."</option>"));
-		 $i++;
-		}
-	}
-echo "\n".'</options>';
- die();
+foreach ($liste as $element) {
+    if ($i < $MAX_RETURN && strtolower(substr($element['NAME'], 0, strlen($debut))) == $debut) {
+        echo(utf8_encode("<option>" . $element['NAME'] . "</option>"));
+        $i++;
+    }
+}
+echo "\n" . '</options>';
+die();
 ?>

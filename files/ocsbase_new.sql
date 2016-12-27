@@ -70,6 +70,9 @@ CREATE TABLE `bios` (
   KEY `ASSETTAG` (`ASSETTAG`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
+ALTER TABLE `bios` ADD COLUMN `MMANUFACTURER` varchar(255) default NULL;
+ALTER TABLE `bios` ADD COLUMN `MMODEL` varchar(255) default NULL;
+ALTER TABLE `bios` ADD COLUMN `MSN` varchar(255) default NULL;
 
 
 --
@@ -81,7 +84,7 @@ CREATE TABLE `blacklist_macaddresses` (
   `MACADDRESS` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`MACADDRESS`),
   KEY `ID` (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `blacklist_macaddresses`
@@ -102,7 +105,7 @@ CREATE TABLE `blacklist_serials` (
   `SERIAL` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`SERIAL`),
   KEY `ID` (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `blacklist_serials`
@@ -153,9 +156,13 @@ DELETE FROM config WHERE name='GUI_VERSION';
 
 INSERT INTO `config` VALUES ('FREQUENCY',0,'','Specify the frequency (days) of inventories. (0: inventory at each login. -1: no inventory)'),('PROLOG_FREQ',24,'','Specify the frequency (hours) of prolog, on agents'),('IPDISCOVER',2,'','Max number of computers per gateway retrieving IP on the network'),('INVENTORY_DIFF',1,'','Activate/Deactivate inventory incremental writing'),('IPDISCOVER_LATENCY',100,'','Default latency between two arp requests'),('INVENTORY_TRANSACTION',1,'','Enable/disable db commit at each inventory section'),('REGISTRY',0,'','Activates or not the registry query function'),('IPDISCOVER_MAX_ALIVE',7,'','Max number of days before an Ip Discover computer is replaced'),('DEPLOY',1,'','Activates or not the automatic deployment option'),('UPDATE',0,'','Activates or not the update feature'),('TRACE_DELETED',0,'','Trace deleted/duplicated computers (Activated by GLPI)'),('LOGLEVEL',0,'','ocs engine loglevel'),('AUTO_DUPLICATE_LVL',7,'','Duplicates bitmap'),('DOWNLOAD',0,'','Activate softwares auto deployment feature'),('DOWNLOAD_CYCLE_LATENCY',60,'','Time between two cycles (seconds)'),('DOWNLOAD_PERIOD_LENGTH',10,'','Number of cycles in a period'),('DOWNLOAD_FRAG_LATENCY',10,'','Time between two downloads (seconds)'),('DOWNLOAD_PERIOD_LATENCY',1,'','Time between two periods (seconds)'),('DOWNLOAD_TIMEOUT',30,'','Validity of a package (in days)'),('DOWNLOAD_PACK_DIR',0,'/var/lib/ocsinventory-reports','Directory for download files'),('IPDISCOVER_IPD_DIR',0,'/var/lib/ocsinventory-reports','Directory for Ipdiscover files'),('DOWNLOAD_SERVER_URI',0,'$IP$/local','Server url used for group of server'),('DOWNLOAD_SERVER_DOCROOT',0,'d:\\tele_ocs','Server directory used for group of server'),('LOCK_REUSE_TIME',600,'','Validity of a computer\'s lock'),('INVENTORY_WRITE_DIFF',0,'','Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load'),('INVENTORY_CACHE_ENABLED',1,'','Enable some stuff to improve DB queries, especially for GUI multicriteria searching system'),('DOWNLOAD_GROUPS_TRACE_EVENTS',1,'','Specify if you want to track packages affected to a group on computer\'s level'),('ENABLE_GROUPS',1,'','Enable the computer\'s groups feature'),('GROUPS_CACHE_OFFSET',43200,'','Random number computed in the defined range. Designed to avoid computing many groups in the same process'),('GROUPS_CACHE_REVALIDATE',43200,'','Specify the validity of computer\'s groups (default: compute it once a day - see offset)'),('IPDISCOVER_BETTER_THRESHOLD',1,'','Specify the minimal difference to replace an ipdiscover agent'),('IPDISCOVER_NO_POSTPONE',0,'','Disable the time before a first election (not recommended)'),('IPDISCOVER_USE_GROUPS',1,'','Enable groups for ipdiscover (for example, you might want to prevent some groups'),('GENERATE_OCS_FILES',0,'','Use with ocsinventory-injector, enable the multi entities feature'),('OCS_FILES_FORMAT',0,'OCS','Generate either compressed file or clear XML text'),('OCS_FILES_OVERWRITE',0,'','Specify if you want to keep trace of all inventory between to synchronisation with the higher level server'),('OCS_FILES_PATH',0,'/tmp','Path to ocs files directory (must be writeable)'),('OCS_SERVER_ADDRESS',0,'127.0.0.1','Ocs serveur ip for plugin webservice'),('PROLOG_FILTER_ON',0,'','Enable prolog filter stack'),('INVENTORY_FILTER_ENABLED',0,'','Enable core filter system to modify some things \"on the fly\"'),('INVENTORY_FILTER_FLOOD_IP',0,'','Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period'),('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',300,'','Period definition for INVENTORY_FILTER_FLOOD_IP'),('INVENTORY_FILTER_ON',0,'','Enable inventory filter stack'),('GUI_REPORT_RAM_MAX',512,'','Filter on RAM for console page'),('GUI_REPORT_RAM_MINI',128,'','Filter on RAM for console page'),('GUI_REPORT_NOT_VIEW',3,'','Filter on DAY for console page'),('GUI_REPORT_PROC_MINI',1000,'','Filter on Hard Drive for console page'),('GUI_REPORT_DD_MAX',4000,'','Filter on Hard Drive for console page'),('GUI_REPORT_PROC_MAX',3000,'','Filter on PROCESSOR for console page'),('GUI_REPORT_DD_MINI',500,'','Filter on PROCESSOR for console page'),('GUI_REPORT_AGIN_MACH',30,'','Filter on lastdate for console page'),('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo'),('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo'),('SNMP_INVENTORY_DIFF',1,NULL,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)'),('SNMP_DIR',0,'/var/lib/ocsinventory-reports/snmp','Directory for download files');
 
+INSERT INTO `config` VALUES('WARN_UPDATE',1,'1','Warn user if an update is available');
+
+INSERT INTO `config` VALUES('INVENTORY_ON_STARTUP',1,'1','Launch inventory on agent service statup');
+
 INSERT INTO config VALUES ('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures');
 
-INSERT INTO config VALUES ('GUI_VERSION', 0, '7006', 'Version of the installed GUI and database');
+INSERT INTO config VALUES ('GUI_VERSION', 0, '7010', 'Version of the installed GUI and database');
 UNLOCK TABLES;
 -- BEGIN 2.0RC3 --
 DELETE FROM config WHERE name='LOCAL_SERVER' or name='LOCAL_PORT';
@@ -294,6 +301,7 @@ CREATE TABLE `download_available` (
   `OSNAME` varchar(255) NOT NULL,
   `COMMENT` text,
   `ID_WK` int(11) DEFAULT NULL,
+  `DELETED` int(1) DEFAULT '0',
   PRIMARY KEY (`FILEID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -371,7 +379,7 @@ CREATE TABLE `downloadwk_fields` (
   `RESTRICTED` int(1) DEFAULT NULL,
   `LINK_STATUS` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `downloadwk_fields`
@@ -427,7 +435,7 @@ CREATE TABLE `downloadwk_statut_request` (
   `LBL` varchar(255) DEFAULT NULL,
   `ACTIF` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `downloadwk_statut_request`
@@ -448,7 +456,7 @@ CREATE TABLE `downloadwk_tab_values` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `DEFAULT_FIELD` int(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=UTF8;
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8;
 
 --
 -- Dumping data for table `downloadwk_tab_values`
@@ -788,6 +796,7 @@ CREATE TABLE `networks` (
   `TYPE` varchar(255) DEFAULT NULL,
   `TYPEMIB` varchar(255) DEFAULT NULL,
   `SPEED` varchar(255) DEFAULT NULL,
+  `MTU` VARCHAR(255) default NULL,
   `MACADDR` varchar(255) DEFAULT NULL,
   `STATUS` varchar(255) DEFAULT NULL,
   `IPADDRESS` varchar(255) DEFAULT NULL,
@@ -829,6 +838,9 @@ CREATE TABLE `operators` (
 LOCK TABLES `operators` WRITE;
 INSERT INTO `operators` VALUES ('admin','admin','admin','21232f297a57a5a743894a0e4a801fc3',1,'Default administrator account','sadmin',NULL,NULL);
 UNLOCK TABLES;
+
+ALTER TABLE `operators` MODIFY `PASSWD` VARCHAR(255);
+ALTER TABLE `operators` ADD COLUMN `PASSWORD_VERSION` int(11) default 0;
 
 --
 -- Table structure for table `ports`
@@ -1223,8 +1235,8 @@ CREATE TABLE snmp_blades (
 ) DEFAULT CHARSET=UTF8;
 		
 CREATE TABLE snmp_storages (
-  ID INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  SNMP_ID INTEGER DEFAULT NULL,
+  ID INTEGER NOT NULL AUTO_INCREMENT,
+  SNMP_ID INTEGER NOT NULL,
   DESCRIPTION VARCHAR(255) DEFAULT NULL,
   MANUFACTURER VARCHAR(255) DEFAULT NULL,
   NAME VARCHAR(255) DEFAULT NULL,
@@ -1253,7 +1265,7 @@ CREATE TABLE snmp_drives (
 		
 CREATE TABLE snmp_powersupplies (
   ID INTEGER NOT NULL AUTO_INCREMENT,
-  SNMP_ID INTEGER DEFAULT NULL,
+  SNMP_ID INTEGER NOT NULL,
   MANUFACTURER VARCHAR(255) DEFAULT NULL,
   REFERENCE VARCHAR(255) DEFAULT NULL,
   TYPE VARCHAR(255) DEFAULT NULL,
@@ -1450,6 +1462,7 @@ ALTER TABLE accountinfo_config ADD COLUMN DEFAULT_VALUE varchar(255) DEFAULT NUL
 INSERT INTO config VALUES ('LOG_DIR',0,'/var/lib/ocsinventory-reports','Directory for logs files');
 INSERT INTO config VALUES ('LOG_SCRIPT',0,'/var/lib/ocsinventory-reports','Directory for logs scripts files');
 INSERT INTO config VALUES ('WOL_PORT',0,'7,9','Wol ports');
+INSERT INTO config VALUES ('PASSWORD_VERSION',1,'PASSWORD_BCRYPT','Password encryption version');
 ALTER TABLE temp_files change file file longblob;
 
 CREATE TABLE cpus (
@@ -1502,4 +1515,21 @@ ALTER TABLE printers ADD COLUMN SHARED INTEGER DEFAULT NULL;
 ALTER TABLE printers ADD COLUMN NETWORK INTEGER DEFAULT NULL;
 ALTER TABLE sim ADD COLUMN DEVICEID VARCHAR(255) DEFAULT NULL;
 
-
+CREATE TABLE batteries (
+   `ID` int(11) not null AUTO_INCREMENT,
+   `HARDWARE_ID` int(11)  NOT NULL, 
+   `LOCATION` varchar(255) default null, 
+   `MANUFACTURER` varchar(255) default null, 
+   `MANUFACTUREDATE` varchar(10) default null, 
+   `SERIALNUMBER` varchar(255) default null, 
+   `NAME` varchar(255) default null, 
+   `CHEMISTRY` varchar(20) default null, 
+   `DESIGNCAPACITY` varchar(10) default null, 
+   `DESIGNVOLTAGE` varchar(20) default null, 
+   `SBDSVERSION` varchar(255) default null, 
+   `MAXERROR` int(10) default null, 
+   `OEMSPECIFIC` varchar(255) default null, 
+   PRIMARY KEY (`ID`,`HARDWARE_ID`),
+   key `NAME` (`NAME`),
+   key `MANUFACTURER` (`MANUFACTURER`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

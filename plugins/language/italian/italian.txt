@@ -627,7 +627,7 @@
 737 Numero casuale calcolato nel range definito. Progettato per evitare di calcolare tutti i gruppi allo stesso tempo
 738 Specificare la validità di un gruppo (default: calcolato una volta al giorno - vedi offset)
 740 Durata di un blocco del computer
-741 Configura il motore per aggiornare l'inventario secondo il valore del CHECKSUM dell'agente (diminuisce il carico del DB backend) 
+741 Configura il motore per aggiornare l'inventario secondo il valore del CHECKSUM dell'agente (diminuisce il carico del DB backend)
 742 Istruire il motore perchè consideri un inventario come una transazione (meno accessi concorrenziali, miglior utilizzo del disco)
 743 Configurare il motore per fare aggiornamenti differenziali delle sezioni dell'inventario (righe). Carico inferiore del DB backend, carico superiore per il frontend)
 744 Accetta un inventario solo se richiesto dal server (rifiuta quelli "forzati")
@@ -1126,7 +1126,7 @@
 1239 MHz
 1240 MB
 1241 Numero di periferiche SNMP
-1242 d/m/y
+1242 Y-m-d
 1243 I soli file ammessi sono ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe ed ocspackage.exe
 1244 Questo file non può essere vuoto
 1245 Gestione client OCS-NG
@@ -1217,7 +1217,7 @@
 1338 Elementi per pagina _MENU_
 1339 Caricamento...
 1340 Elaborazione...
-1341 Cerca:
+1341 Cerca&nbsp;:&nbsp;
 1342 Nessun record corrispondente trovato
 1343 Primo
 1344 Ultimo
@@ -1328,8 +1328,8 @@
 2034 configurazione del DB incompleta. Lancio l'installazione automatica
 2035 ERRORE: PHP sessions non installate correttamente.<br>Installa il pacchetto php-session.
 2036 ATTENZIONE: l'estensione XML per PHP non installata correttamente, non sarai in grado di utilizzare ipdiscover-util.
-2037 ERRORE: l'estensione MySQL per PHP non installata correttamente.<br>Installa il pacchetto MySQL per PHP (Debian: php5-mysql)
-2038 ATTENZIONE: l'estensione GD non installata correttamente.<br>Non sarai in grado di visualizzare nessun oggetto grafico<br>Prova ad abilitare la voce extension=php_gd2.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php5-gd (Linux).
+2037 ERRORE: l'estensione MySQL per PHP non installata correttamente.<br>Installa il pacchetto MySQL per PHP (Debian: php-mysql)
+2038 ATTENZIONE: l'estensione GD non installata correttamente.<br>Non sarai in grado di visualizzare nessun oggetto grafico<br>Prova ad abilitare la voce extension=php_gd2.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php-gd (Linux).
 2039 ATTENZIONE: l'estensione OpenSSL per PHP non installata correttamente.<br>Alcune caratteristiche dell'installazione automatica non saranno disponibili.<br>Prova ad abilitare la voce extension=php_openssl.dll (Windows) rimuovendo il punto e virgola nel file php.ini, oppure prova ad installare il pacchetto php-openssl (Linux).
 2040 ATTENZIONE: non sarai in grado di creare nessun pacchetto d'installazione di grandezza superiore a
 2041 Devi incrementare entrambi i parametri <font color="red">post_max_size</font> e <font color="red">upload_max_filesize</font> nel file php.ini per superare questo limite.
@@ -1399,7 +1399,7 @@
 2110 Versione richiesta
 2111 Effettua l'aggiornamento
 2112 Il file non è presente o non è leggibile
-2113 La tua versione di PHP è precedente alla 5.3.7 e non sarà compatibile con le future versioni ( versione:
+2113 La tua versione di PHP è precedente alla 5.4 e non sarà compatibile con le future versioni ( versione&nbsp;:&nbsp;
 2114 Nessun file sql trovato per la versione
 2115 L'utente fornito non sembra essere root
 2116 La directory config/profiles non è scrivibile
@@ -1413,7 +1413,7 @@
 5006 [DEBUG]array count request[DEBUG]
 5007 [DEBUG]Cache use for lines number[DEBUG]
 5008 [DEBUG]array request[DEBUG]
-5009 [DEBUG]RAW DATA[DEBUG]  
+5009 [DEBUG]RAW DATA[DEBUG]
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
 5012 [DEBUG]value to search=[DEBUG]
