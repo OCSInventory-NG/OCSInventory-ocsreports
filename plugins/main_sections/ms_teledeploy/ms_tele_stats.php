@@ -21,6 +21,7 @@
  * MA 02110-1301, USA.
  */
 require('require/function_stats.php');
+require('require/charts/StatsChartsRenderer.php');
 
 if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES" && is_defined($protectedPost["ACTION"])) {
     require('require/function_server.php');
@@ -119,63 +120,10 @@ while ($row = mysqli_fetch_object($resStats)) {
     $color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
     $i++;
 }
-echo '<br><div  class="col-md-12" >';
-echo '<CENTER><div id="chart" style="width: 900px; height: 500px"></div></CENTER>';
-echo '<script type="text/javascript">
-		$(function() {
-		  $("#chart").chart({
-			  template: "pie_stat_teledeploy",
-			  values: {
-			    serie1: [' . implode(',', $count_value) . ']
-			  },
-			  labels: ["' . implode('","', $name_value) . '"],
-			  legend: ["' . implode('","', $legend) . '"],
-			  tooltips: {
-			    serie1: ["' . implode('","', $lbl) . '"]
-			  },
-			  defaultSeries: {
-			    values: [{' . implode("}, {", $color) . '
-			    }]
-			  }
-			});
-		});
 
-		$.elycharts.templates[\'pie_stat_teledeploy\'] = {
-		  type: "pie",
-		  defaultSeries: {
-		    plotProps: {
-		      stroke: "white",
-		      "stroke-width": 2,
-		      opacity: 0.8
-		    },
-		    highlight: {
-		      move: 20
-		    },
-		    tooltip: {
-		     width: 200, height: 25,
-		     frameProps: {opacity: 0.5},
-		     contentStyle : { "font-family": "Arial", "font-size": "9px", "line-height": "8px", color: "black" }
-		    },
-		    startAnimation: {
-		      active: true,
-		      type: "grow"
-		    }
-		  },
-		  features: {
-		    legend: {
-		      horizontal: false,
-		      width: 240,
-		      height: 115,
-		      x: 650,
-		      y: 380,
-		      borderProps: {
-		        "fill-opacity": 0.3
-		      }
-		    }
-		  }
-		};
-		</script>';
-echo "</div><br>";
+$stats = new StatsChartsRenderer;
+$stats->createChartCanvas("teledeploy_stats");
+$stats->createPieChart("teledeploy_stats", "", $legend, $count_value);
 
 if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
     echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";

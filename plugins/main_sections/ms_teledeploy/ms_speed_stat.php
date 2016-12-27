@@ -21,6 +21,7 @@
  * MA 02110-1301, USA.
  */
 require('require/function_stats.php');
+require('require/charts/StatsChartsRenderer.php');
 $year_mouth['Dec'] = 12;
 $year_mouth['Nov'] = 11;
 $year_mouth['Oct'] = 10;
@@ -97,86 +98,15 @@ $i = 0;
 foreach ($nb_4_hour as $key => $value) {
     $ancienne += $value;
     $data[$i] = round((($ancienne * 100) / $total_mach), 2);
-    $legende[$i] = date("d/m/Y H:00", $key) . "<br>" . $data[$i] . "%";
+    $legende[$i] = date("d/m/Y H:00", $key);
     $i++;
 }
 if (isset($data) && count($data) != 1) {
-    echo '<br><div  class="col-md-12" >';
-    echo '<CENTER><div id="chart" style="width: 700px; height: 500px"></div></CENTER>';
-    echo '<script type="text/javascript">
-$(function() {
-  $("#chart").chart({
-  template: "line_speed_stat",
-  tooltips: {
-    serie1: ["' . implode('","', $legende) . '"],
-  },
-  values: {
-    serie1: [' . implode(',', $data) . '],
-  },
-  defaultSeries: {
-    fill: true,
-    stacked: false,
-    highlight: {
-      scale: 2
-    },
-    startAnimation: {
-      active: true,
-      type: "grow",
-      easing: "bounce"
-    }
-  }
-});
+    
+    $stats = new StatsChartsRenderer;
+    $stats->createChartCanvas("teledeploy_speed", false, false);
+    $stats->createPointChart("teledeploy_speed", $legende, $data, $l->g(1125));
 
-});
-
-$.elycharts.templates[\'line_speed_stat\'] = {
-  type: "line",
-  margins: [10, 10, 20, 50],
-  defaultSeries: {
-    plotProps: {
-      "stroke-width": 4
-    },
-    dot: true,
-    dotProps: {
-      stroke: "white",
-      "stroke-width": 2
-    }
-  },
-  series: {
-    serie1: {
-      color: "blue"
-    },
-  },
-  defaultAxis: {
-    labels: true
-  },
-  features: {
-    grid: {
-      draw: [true, false],
-      props: {
-        "stroke-dasharray": "-"
-      }
-    },
-    legend: {
-      horizontal: false,
-      width: 80,
-      height: 50,
-      x: 220,
-      y: 250,
-      dotType: "circle",
-      dotProps: {
-        stroke: "white",
-        "stroke-width": 2
-      },
-      borderProps: {
-        opacity: 0.3,
-        fill: "#c0c0c0",
-        "stroke-width": 0
-      }
-    }
-  }
-};		</script>';
-    echo "</div><br>";
 } else {
     msg_warning($l->g(989));
 }

@@ -73,80 +73,11 @@ class MsStatsConnexion extends MsStats{
 
         fclose($fd);
         if (isset($find_connexion)) {
-            echo '<CENTER><div id="chart" style="width: 700px; height: 500px"></div></CENTER>';
-            echo  '<script type="text/javascript">
-            $(function() {
-              $("#chart").chart({
-              template: "line_speed_stat",
-              tooltips: {
-                serie1: ["' . implode('","', array_keys($find_connexion)) . '"],
-              },
-              values: {
-                serie1: [' . implode(',', $find_connexion) . '],
-              },
-              defaultSeries: {
-                fill: true,
-                stacked: false,
-                highlight: {
-                  scale: 2
-                },
-                startAnimation: {
-                  active: true,
-                  type: "grow",
-                  easing: "bounce"
-                }
-              }
-            });
 
-            });
-
-            $.elycharts.templates[\'line_speed_stat\'] = {
-              type: "line",
-              margins: [10, 10, 20, 50],
-              defaultSeries: {
-                plotProps: {
-                  "stroke-width": 4
-                },
-                dot: true,
-                dotProps: {
-                  stroke: "white",
-                  "stroke-width": 2
-                }
-              },
-              series: {
-                serie1: {
-                  color: "blue"
-                },
-              },
-              defaultAxis: {
-                labels: true
-              },
-              features: {
-                grid: {
-                  draw: [true, false],
-                  props: {
-                    "stroke-dasharray": "-"
-                  }
-                },
-                legend: {
-                  horizontal: false,
-                  width: 80,
-                  height: 50,
-                  x: 220,
-                  y: 250,
-                  dotType: "circle",
-                  dotProps: {
-                    stroke: "white",
-                    "stroke-width": 2
-                  },
-                  borderProps: {
-                    opacity: 0.3,
-                    fill: "#c0c0c0",
-                    "stroke-width": 0
-                  }
-                }
-              }
-            };		</script>';
+            $stats = new StatsChartsRenderer;
+            $stats->createChartCanvas("connexion_stats", false, false);
+            $stats->createPointChart("connexion_stats", array_keys($find_connexion), $find_connexion, $l->g(55));
+            
         } else {
             msg_warning($l->g(766));
         }

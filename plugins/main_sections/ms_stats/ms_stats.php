@@ -25,6 +25,8 @@ require('class/msstats.class.php');
 require('class/msstatstop.class.php');
 require('class/msstatsconnexion.class.php');
 
+require('require/charts/StatsChartsRenderer.php');
+
 $stats = new MsStats();
 $pages = $stats->checkForStatsPages();
 $data_on = $stats->createShowTabsArray($pages);

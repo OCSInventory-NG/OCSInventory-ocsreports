@@ -489,3 +489,10 @@ iframe{
 .spaceX-10-right{
     margin-right: 10px;
 }
+
+.span-charts ul li span{
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    position: relative;
+}

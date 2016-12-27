@@ -119,74 +119,14 @@ class MsStatsTop extends MsStats{
         $i = 0;
         while ($row = mysqli_fetch_object($res)) {
             $count_value[$i] = $row->c;
-            $name_value[$i] = addslashes($row->name) . "<br> (" . $l->g(381) . ":" . $row->c . ")";
-            $legend[$i] = addslashes($row->name);
-            if (isset($arr_FCColors[$i])) {
-                $color[$i] = $arr_FCColors[$i];
-            } else {
-                $color[$i] = $arr_FCColors[$i - 10];
-            }
-            $color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
+            $name_value[$i] = addslashes($row->name);
             $i++;
         }
 
         if (isset($count_value)) {
-            echo '<CENTER><div id="chart" style="width: 900px; height: 500px"></div></CENTER>';
-            echo '<script type="text/javascript">
-                    $(function() {
-                    $("#chart").chart({
-                    template: "pie_stat_teledeploy",
-                    values: {
-                    serie1: [' . implode(',', $count_value) . ']
-            },
-            labels: ["' . implode('","', $name_value) . '"],
-            legend: ["' . implode('","', $legend) . '"],
-            tooltips: {
-            serie1: ["' . implode('","', $name_value) . '"]
-            },
-            defaultSeries: {
-            values: [{' . implode("}, {", $color) . '
-            }]
-            }
-            });
-            });
-
-            $.elycharts.templates[\'pie_stat_teledeploy\'] = {
-            type: "pie",
-            defaultSeries: {
-            plotProps: {
-            stroke: "white",
-            "stroke-width": 2,
-            opacity: 0.8
-            },
-            highlight: {
-            move: 20
-            },
-            tooltip: {
-            width: 200, height: 25,
-            frameProps: {opacity: 0.5},
-            contentStyle : { "font-family": "Arial", "font-size": "9px", "line-height": "8px", color: "black" }
-            },
-            startAnimation: {
-            active: true,
-            type: "grow"
-            }
-            },
-            features: {
-            legend: {
-            horizontal: false,
-            width: 240,
-            height: ' . $height_legend . ',
-            x: 655,
-            y: 180,
-            borderProps: {
-            "fill-opacity": 0.3
-            }
-            }
-            }
-            };
-            </script>';
-            echo "</div><br>";
+            $stats = new StatsChartsRenderer;
+            $stats->createChartCanvas("topstats");
+            $stats->createPieChart("topstats", "", $name_value, $count_value);
         }
     }
 }
