@@ -60,7 +60,7 @@ if (isset($_SESSION['OCS']["ipdiscover"])) {
     ?>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <?php formGroup('select', 'DPT_CHOISE', $l->g(562), '', '', $protectedPost, '', $list_index, $list_index, 'onchange="document.ipdiscover.submit();"'); ?>
+            <?php formGroup('select', 'DPT_CHOISE', $l->g(562), '', '', $protectedPost['DPT_CHOISE'], '', $list_index, $list_index, 'onchange="document.ipdiscover.submit();"'); ?>
         </div>
     </div>
 
