@@ -338,7 +338,6 @@ function html_header($noJavascript = false) {
         <script src="libraries/jquery-fileupload/jquery.fileupload.min.js" type="text/javascript"></script>
         <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-custom.js" type="text/javascript"></script>
-        <script src="libraries/raphael/raphael.min.js" type="text/javascript"></script>
         <script src="libraries/charts.js/Chart.min.js" type="text/javascript"></script>
         <!-- js for Datatables -->
         <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
