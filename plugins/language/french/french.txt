@@ -1123,7 +1123,7 @@
 1237 Version du firmware
 1238 Date d'installation
 1239 MHz
-1240 MB
+1240 Mo
 1241 Nombre de périphériques SNMP remontés
 1242 d/m/y
 1243 Seuls les fichiers ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe et ocspackage.exe peuvent être envoyés
