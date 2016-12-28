@@ -28,6 +28,8 @@ $list_id = multi_lot($form_name, $l->g(601));
 
 /* * *******************************************TRAITEMENT DES DONNEES**************************************** */
 if (isset($protectedPost['VALID_GROUP'])) {
+    
+    echo "<div class='col col-md-12'>";
     //gestion groupe de serveurs
     if ($protectedPost['onglet'] == mb_strtoupper($l->g(651))) {
         require_once('require/function_server.php');
@@ -106,6 +108,7 @@ if (isset($protectedPost['VALID_GROUP'])) {
     if (is_defined($msg_error)) {
         msg_error($msg_error);
     }
+    echo "</div>";
 }
 /* * *******************************************CALCUL DES CHAMPS A AFFICHER************************************ */
 if ($list_id) {
