@@ -48,6 +48,7 @@ echo "\n" . '<script type="text/javascript">
             <label class="control-label col-sm-2" for="logiciel_text>">Text :</label>
             <div class="col-sm-10">
                 <input class="form-control" type="text" name="logiciel_text"  id="logiciel_text" value="<?php echo $protectedPost['logiciel_text'] ?>">
+                <p><?php echo $l->g(358) ?></p>
             </div>
         </div>
     </div>
@@ -69,6 +70,12 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
         $logiciel = $protectedPost['logiciel_select'];
     } else {
         $logiciel = $protectedPost['logiciel_text'];
+        // Check for wildcard
+        if (strpos($logiciel, '*') !== false || strpos($logiciel,'?') !== false) {
+            $wildcard = true;
+            $logiciel = str_replace("*", "%", $logiciel);
+            $logiciel = str_replace("?", "_", $logiciel);
+        }
     }
 
     $table_name = $form_name;
@@ -94,8 +101,13 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
     }
     $queryDetails = substr($queryDetails, 0, -1);
 
-    $queryDetails .= " FROM hardware h ,softwares a
-				   WHERE a.HARDWARE_ID =h.ID and a.NAME='" . $logiciel . "' group by name";
+    if($wildcard){
+        $queryDetails .= " FROM hardware h ,softwares a
+                       WHERE a.HARDWARE_ID =h.ID and a.NAME like '" . $logiciel . "' group by name";
+    }else{
+        $queryDetails .= " FROM hardware h ,softwares a
+                               WHERE a.HARDWARE_ID =h.ID and a.NAME='" . $logiciel . "' group by name";
+    }
 
     $tab_options['LBL']['NAME'] = $l->g(478);
     $tab_options['LBL']['ip'] = $l->g(176);
