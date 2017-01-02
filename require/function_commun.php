@@ -386,13 +386,15 @@ function close_form() {
  */
 
 function get_update_json() {
-    $stream = stream_context_create(array('http' =>
-        array(
-            'timeout' => 1, // Timeout after 1 seconds
-        )
-    ));
 
-    $content = @file_get_contents(UPDATE_JSON_URI, false, $stream);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, UPDATE_JSON_URI);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $content = curl_exec($ch);
+    curl_close($ch);
+
     if (!$content) {
         return false;
     }
@@ -657,6 +659,9 @@ function check_requirements(){
     }
     if (!function_exists('openssl_open')) {
         $msg_lbl['warning'][] = $l->g(2039);
+    }
+    if (!function_exists('curl_version')) {
+        $msg_lbl['warning'][] = $l->g(2125);
     }
     // Check if var lib directory is writable
     if (is_writable(VARLIB_DIR)) {

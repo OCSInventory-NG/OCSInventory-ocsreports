@@ -1413,6 +1413,8 @@
 2122 Edit
 2123 Available packets
 2124 Deleted packets
+2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
+
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
