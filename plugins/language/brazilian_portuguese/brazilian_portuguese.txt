@@ -837,9 +837,9 @@
 871 Rede: Subnetwork IP
 872 Rede: Gateway IP
 873 Rede: DHCP IP
-874 Registry key: Name
-875 Registry key: Value
-876 Simple unaffect REDISTRIBUTION GROUP
+874 Chave de Registro: Nome
+875 Chave de Registro: Valor
+876 Simple unaffect REDISTRIBUIÇÃO DE GRUPO
 877 SOME COMPUTERS HAVEN'T BEEN ADDED TO GROUP BECAUSE:
 878 Reminder: a computer can be a member of one server group only
 879 GROUPE REPLACED
@@ -977,7 +977,7 @@
 1011 DEBUG
 1012 LINGUAGEM
 1013 MAINTENANCE
-1014 Switch to
+1014 Chavear para
 1015 User mode
 1016 Login ROOT
 1017 Password ROOT
@@ -1000,8 +1000,8 @@
 1034 General Information Package
 1035 Technical Information Package
 1036 Validation information
-1037 Package Name
-1038 Requester
+1037 Nome do Pacote
+1038 Requisitor
 1039 Prioridade
 1040 User notified
 1041 User can defer
@@ -1086,7 +1086,7 @@
 1121 Atualização pronta
 1122 Wiki
 1123 IRC
-1124 Forums
+1124 Fóruns
 1125 Percentual
 1126 Data da nota
 1127 Autor da nota
@@ -1105,8 +1105,8 @@
 1140 Administrar subnet
 1141 Subnet adicionada
 1142 Enter a new subnet for blacklist
-1143 Subnet mask
-1144 Invalid MAC address. (must be: XX.XX.XX.XX.XX.XX)
+1143 Máscara de SubRede
+1144 Endereço MAC Inválido. (must be: XX.XX.XX.XX.XX.XX)
 1145 the value must be between
 1146 Administer profiles
 1147 You can't update it.
@@ -1164,8 +1164,8 @@
 1199 Version of SNMP communities
 1200 Valor é atualizado
 1201 Display
-1202 Linux (ALL)
-1203 Windows (ALL)
+1202 Linux (TODOS)
+1203 Windows (TODOS)
 1204 IpDiscover
 1205 Manage SNMP communities
 1206 Directory of SNMP communities file
@@ -1177,15 +1177,15 @@
 1212 Community deleted
 1213 Separator of export file
 1214 Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)
-1215 Blade server
+1215 sERVIDOR Blade
 1216 Firewall
-1217 Load balancer
+1217 Balanceamento de Carga (Load balancer)
 1218 Switch(es)
-1219 Cards
+1219 Cartes
 1220 Cartridges
 1221 Drives
 1222 Fans
-1223 Power supplies
+1223 Fontes de Energia
 1224 Trays
 1225 Capacidade Máxima
 1226 Cor
@@ -1198,12 +1198,12 @@
 1233 Nome da base de dados
 1234 A descrição não pode ser vazia
 1235 referência
-1236 Soft version
+1236 Versão do Software
 1237 Versão do firmware
 1238 Data de instalação
 1239 MHz
 1240 MB
-1241 Number of SNMP devices 
+1241 Número de dispositivos SNMP 
 1242 Y-m-d
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
@@ -1225,10 +1225,10 @@
 1260 For one months
 1261 Limpar cache
 1262 No plugin enabled for your profile
-1263 SECURITY ALERT!
+1263 ALERTA DE SEGURANÇA!
 1264 Próximo
-1265 Enable cache tables
-1266 Virtual Machines
+1265 Habilitar tabela de cache
+1266 Maquinas Virtuais
 1267 Tipos de Máquinas Virtuais
 1268 Uuid
 1269 Machine hosted by
@@ -1238,7 +1238,7 @@
 1273 You do not have the right to remove a machine
 1274 Profil updated
 1275 Profils can't be deleted.
-1276 Profil created
+1276 Perfil criado
 1277 Default profile (blank for none)
 1278 You are not allowed to connect
 1279 WOL
@@ -1251,9 +1251,9 @@
 1295 Installation date
 1296 Trade offer
 1297 SNMP device identification
-1298 QRCode administration
+1298 Administração de QRCode
 1299 QRCode
-1300 Check QRCode
+1300 Verifique QRCode
 1301 on invisible packages
 1302 development
 1304 XML
@@ -1263,7 +1263,7 @@
 1308 Adicionar plugins
 1309 Teledeploy options 
 1310 Shutdown
-1311 Reboot
+1311 Reiniciar
 1312 Data width
 1313 Current address width
 1314 CPUS lógicas
@@ -1339,9 +1339,9 @@
 2056 Arquivo de configuração do MySql escrito com sucesso
 2057 Existe atualização do banco de dados
 2058 verificação engine de banco de dados...
-2059 ERROR: Alter query failed
+2059 ERROR: Query de alteração falhou
 2060 ERROR: Show table status query failed
-2061 ERROR: InnoDB conversion failed, install InnoDB  mysql engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your mysql config file.)<br>Reinstall when corrected.
+2061 ERROR: InnoDB conversão falhou, instale a engine InnoDB no servidor MySql <br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your mysql config file.)<br>Reinstall when corrected.
 2062 ERROR: HEAP conversion failed, install HEAP mysql engine support on your server<br>or you will experience severe performance issues.
 2063 Database engine successfully updated
 2064 tabelas(s) alteradas
@@ -1417,8 +1417,8 @@
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
 6000 Plugins
-6001 Offices Licences
-6002 Distribution of Offices Licences
+6001 Licenças do escritório
+6002 Distribuição de licenças do escritório
 6003 Número da licença
 6004 Total disponível 
 6005 Ligar/Desligar
