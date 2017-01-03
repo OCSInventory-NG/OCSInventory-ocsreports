@@ -24,8 +24,7 @@ require_once('require/function_search.php');
 require_once('require/function_computers.php');
 PrintEnTete($l->g(985));
 $form_name = "del_affect";
-echo open_form($form_name);
-echo "<div align=center>";
+echo open_form($form_name, '', '', 'form-horizontal');
 $list_id = multi_lot($form_name, $l->g(601));
 if (is_defined($protectedPost['SUP'])) {
     $array_id = explode(',', $list_id);
@@ -34,8 +33,9 @@ if (is_defined($protectedPost['SUP'])) {
     }
 }
 if ($list_id) {
-    echo "<br><br><input type='submit' value=\"" . $l->g(122) . "\" name='SUP' class='btn'>";
+    echo "<div class='col col-md-12'>";
+    echo "<input type='submit' class='btn btn-success' value=".$l->g(122)." name='SUP'>";
+    echo "</div>";
 }
-echo "</div>";
 echo close_form();
 ?>
