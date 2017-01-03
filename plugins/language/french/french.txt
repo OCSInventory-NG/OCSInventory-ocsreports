@@ -1413,6 +1413,7 @@
 2122 Modification
 2123 Paquets disponible
 2124 Paquets supprimé
+2125 WARNING: L'extension CURL pour PHP n'est pas installé. Essayez d'installer le paquet php-curl (Linux).
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
