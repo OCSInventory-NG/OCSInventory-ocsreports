@@ -64,7 +64,9 @@ if ($protectedPost['Valid'] == $l->g(103)) {
             }
         }
         $MAJ = $l->g(711);
+        echo "<div class='col col-md-12'>";
         msg_success($MAJ . $add_lbl);
+        echo "</div>";
         if (isset($protectedGet['origine']) && $protectedGet['origine'] == 'machine') {
             $form_to_reload = 'config_mach';
         } elseif (isset($protectedGet['origine']) && $protectedGet['origine'] == 'group') {

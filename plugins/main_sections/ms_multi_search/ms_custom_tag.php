@@ -30,6 +30,8 @@ echo "<div class='col-md-12'>";
 
 $list_id = multi_lot($form_name, $l->g(601));
 if (is_defined($list_id)) {
+    
+    echo "<div class='col col-md-12'>";
     //cas of TAG INFO
     if (is_defined($protectedPost['Valid_modif'])) {
         $info_account_id = admininfo_computer();
@@ -89,6 +91,7 @@ if (is_defined($list_id)) {
         }
         msg_info($msg);
     }
+    echo "</div>";
 
     //tab definition
     if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
