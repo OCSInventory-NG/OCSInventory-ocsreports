@@ -384,9 +384,25 @@ function updateinfo_computer($id, $values, $list = '') {
     $arg_account_data = array();
     $sql_account_data = "UPDATE accountinfo SET ";
     foreach ($values as $field => $val) {
+        // Check account info
+        $accountinfo_id = explode("_", $field);
+        $date_accountinfo = false;
+        if($accountinfo_id != false and $field != "TAG"){
+            $accountinfo_datas = find_info_accountinfo($accountinfo_id[1]);
+
+            if($accountinfo_datas[$accountinfo_id[1]]['type'] === '6'){
+                $date_accountinfo = true;
+            }
+        }
+        
         $sql_account_data .= " %s='%s', ";
         array_push($arg_account_data, $field);
-        array_push($arg_account_data, $val);
+        if($date_accountinfo){ // If date 
+            array_push($arg_account_data, date("Y-m-d", strtotime($val)));
+        }else{ // If not date
+            array_push($arg_account_data, $val);
+        }        
+
     }
     $sql_account_data = substr($sql_account_data, 0, -2);
     if (is_numeric($id) && $list == '') {
@@ -395,7 +411,7 @@ function updateinfo_computer($id, $values, $list = '') {
     if ($list != '') {
         $sql_account_data .= " WHERE hardware_id in (%s)";
     }
-
+    
     array_push($arg_account_data, $id);
     mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
     return $l->g(1121);
