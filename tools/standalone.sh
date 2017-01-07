@@ -18,7 +18,7 @@ fi
 if [ ! -x "`which pp 2>/dev/null`" ]; then
     echo "Can't find the pp command. Please install PAR::Packer:"
     echo " -CPAN: 'cpan PAR::Packer'"
-    echo " -source: sownload the archive from"
+    echo " -source: download the archive from"
     echo "  http://search.cpan.org/dist/PAR-Packer/"
     echo " -Debian/Ubuntu: 'aptitude install libpar-packer-perl' OR 'aptitude install libpar-perl'"
     exit 1
