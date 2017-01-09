@@ -290,4 +290,20 @@ function count_noinv_network_devices($dpt_choise = '') {
     }
 }
 
+// Check if mac address already exist in the inventoried devices
+function check_if_inv_mac_already_exist($mac_address){
+    
+    $arg_count = array($mac_address);
+    $sql_query = "SELECT * FROM `network_devices` WHERE MACADDR = '%s' ";
+    
+    $res_count = mysql2_query_secure($sql_query, $_SESSION['OCS']["readServer"], $arg_count);
+    
+    if (mysqli_num_rows($res_count) > 0){
+        return true;
+    }else{
+        return false;
+    }
+    
+}
+
 ?>

@@ -26,6 +26,9 @@ if (AJAX) {
 
     ob_start();
 }
+
+require_once('require/function_ipdiscover.php');
+
 $form_name = 'info_ipdiscover';
 $tab_options = $protectedPost;
 
@@ -73,11 +76,17 @@ if (isset($protectedPost['Valid_modif'])) {
 					USER = '%s' where MACADDR='%s'";
             $arg = array($protectedPost['COMMENT'], $protectedPost['TYPE'], $protectedPost['mac'], $user, $protectedPost['MODIF_ID']);
         } else {
-            $sql = "insert into network_devices (DESCRIPTION,TYPE,MACADDR,USER)
-			  VALUES('%s','%s','%s','%s')";
-            $arg = array($protectedPost['COMMENT'], $protectedPost['TYPE'], $protectedPost['mac'], $user);
+            if(!check_if_inv_mac_already_exist($protectedPost['mac'])){
+                $sql = "insert into network_devices (DESCRIPTION,TYPE,MACADDR,USER)
+                    VALUES('%s','%s','%s','%s')";
+                $arg = array($protectedPost['COMMENT'], $protectedPost['TYPE'], $protectedPost['mac'], $user);
+            }
+
         }
-        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        if(isset($sql)){
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg); 
+        }
+
         //suppression du cache pour prendre en compte la modif
         unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_' . $protectedGet['prov']]);
     } else {
@@ -167,6 +176,7 @@ if (is_defined($protectedPost['MODIF'])) {
             $tab_options['LBL']['MODIF'] = $l->g(114);
             $default_fields = $list_fields;
         } elseif ($protectedGet['prov'] == "ident") {
+            var_dump($protectedPost);
             $title = $l->g(948);
             $sql = "select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
 				 from network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
@@ -174,7 +184,7 @@ if (is_defined($protectedPost['MODIF'])) {
             $tab_options['ARG_SQL'] = array($protectedGet['value']);
             $list_fields = array($l->g(66) => 'TYPE', $l->g(53) => 'DESCRIPTION',
                 $l->g(34) => 'IP',
-                'MAC' => 'MAC',
+                $l->g(95) => 'MAC',
                 $l->g(208) => 'MASK',
                 $l->g(316) => 'NETID',
                 $l->g(318) => 'NAME',
@@ -185,7 +195,7 @@ if (is_defined($protectedPost['MODIF'])) {
             $list_fields['SUP'] = 'MAC';
             $list_fields['MODIF'] = 'ID';
             $default_fields = array($l->g(34) => $l->g(34), $l->g(66) => $l->g(66), $l->g(53) => $l->g(53),
-                'MAC' => 'MAC', $l->g(232) => $l->g(232), $l->g(369) => $l->g(369), 'SUP' => 'SUP', 'MODIF' => 'MODIF');
+                $l->g(95)  => 'MAC', $l->g(232) => $l->g(232), $l->g(369) => $l->g(369), 'SUP' => 'SUP', 'MODIF' => 'MODIF');
         } elseif ($protectedGet['prov'] == "inv" || $protectedGet['prov'] == "ipdiscover") {
             //BEGIN SHOW ACCOUNTINFO
             require_once('require/function_admininfo.php');
