@@ -176,7 +176,6 @@ if (is_defined($protectedPost['MODIF'])) {
             $tab_options['LBL']['MODIF'] = $l->g(114);
             $default_fields = $list_fields;
         } elseif ($protectedGet['prov'] == "ident") {
-            var_dump($protectedPost);
             $title = $l->g(948);
             $sql = "select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
 				 from network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
