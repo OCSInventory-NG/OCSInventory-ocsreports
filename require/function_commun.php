@@ -641,7 +641,7 @@ function check_requirements(){
     if (!function_exists('mysqli_connect')) {
         $msg_lbl['error'][] = $l->g(2037);
     }
-    if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(ETC_DIR))) {
+    if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL_DIR))) {
         $msg_lbl['error'][] = "<br><center><font color=red><b>" . $l->g(2052) . "</b></font></center>";
     }
     //msg for phpversion
@@ -678,8 +678,8 @@ function check_requirements(){
         $msg_lbl['warning'][] = "Var lib dir should be writable : " . VARLIB_DIR;
     }
     // Check if ocsreports is writable
-    if (!is_writable(ETC_DIR)) {
-        $msg_lbl['warning'][] = "Ocs reports' dir should be writable : " . ETC_DIR;
+    if (!is_writable(CONF_MYSQL_DIR)) {
+        $msg_lbl['warning'][] = "Ocs reports' dir should be writable : " . CONF_MYSQL_DIR;
     }
     //show messages
     foreach ($msg_lbl as $k => $v) {

@@ -42,7 +42,8 @@ define('VARLOG_DIR', "/var/lib/ocsinventory-reports");
 /**
  * Database configuration infos
  */
-define('CONF_MYSQL', ETC_DIR . '/dbconfig.inc.php');
+define('CONF_MYSQL_DIR', ETC_DIR);
+define('CONF_MYSQL', CONF_MYSQL_DIR . '/dbconfig.inc.php');
 //====================================================================================
 // Librairies / Backend / Mac address file
 //====================================================================================
