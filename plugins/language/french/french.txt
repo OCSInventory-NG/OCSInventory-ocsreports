@@ -1290,6 +1290,10 @@
 1412 Modifier profil
 1413 Nouveau label
 1414 Détails de la machine
+1415 ID de l'operateur
+1416 Nom de l'operateur
+1417 IMEI/DEVICEID
+1418 Pays
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
