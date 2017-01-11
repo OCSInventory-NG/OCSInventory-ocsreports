@@ -83,14 +83,16 @@ function delete_plugin($pluginid, $dyn_cal = true) {
 
         rrmdir(MAIN_SECTIONS_DIR . "ms_" . $anwser['name']);
     }
+
     if (file_exists(PLUGINS_DIR . "computer_detail/cd_" . $anwser['name'])) {
         rrmdir(PLUGINS_DIR . "computer_detail/cd_" . $anwser['name']);
     }
 
     if (file_exists(PLUGINS_SRV_SIDE . $anwser['name'] . ".zip")) {
         unlink(PLUGINS_SRV_SIDE . $anwser['name'] . ".zip");
-        exec_plugin_soap_client($anwser['name'], 0);
     }
+
+    exec_plugin_soap_client($anwser['name'], 0);
 
     if (is_int($arg)) {
         $conn->query("DELETE FROM `" . DB_NAME . "`.`plugins` WHERE `plugins`.`id` = " . $arg . " ");
