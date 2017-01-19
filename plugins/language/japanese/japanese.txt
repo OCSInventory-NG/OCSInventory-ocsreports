@@ -196,7 +196,7 @@
 285 Select a parameter to be modified
 286 サービスパック
 287 Local import
-288 Local importation
+288 ローカルインポート
 289 ネットワーク情報
 290 Ip querying
 291 Expert mode
@@ -251,7 +251,7 @@
 340 表示
 341 can't be launched, you must set execution rights
 342 You need to set writing rights on the root directory in order to use
-344 Error
+344 エラー
 345 THIS ANALYZE IS CURRENTLY RUNNING, PLEASE TRY AGAIN IN A FEW MINUTES
 346 BEFORE
 347 AFTER
@@ -299,7 +299,7 @@
 393 検索
 394 Search Category
 395 Search software EVERYWHERE
-396 Reset
+396 リセット
 397 Go to the category
 398 Categories list
 410 EXACTLY
@@ -320,44 +320,44 @@
 425 Max number of computers per gateway retrieving IP on the network
 426 Validity of inventories. (ALWAYS: inventory at each login. NEVER: no inventory)
 427 Defines criteria that must be equal for two computers to be automatically merged
-428 Deploy
+428 配置
 429 頻度
 430 複数操作
-431 Activate
+431 アクティブ化
 432 Non notified
 433 Affect
-434 Package builder
-435 New package building
+434 パッケージビルダー
+435 新パッケージの作成
 436 Can't open file
 437 Your package was successfully created in the directory
 438 New package building
-439 Protocol
-440 Priority
+439 プロトコル
+440 優先度
 441 Digest algorithm
 442 Digest encoding
-443 Action
-444 Command
-445 Path
+443 操作
+444 コマンド
+445 パス
 446 File name
-447 User notifications
-448 Warn user
-449 Text
-450 Countdown
-451 User can abort
-452 User can delay
-453 Installation completion need user action
+447 ユーザー通知
+448 ユーザに警告する
+449 メッセージ
+450 カウントダウン
+451 ユーザーはキャンセル出来る
+452 ユーザーは実行を遅延出来る
+453 インストール完了の為にユーザーの操作が必要
 454 いいえ
 455 はい
 456 実行
 457 保存
 458 Launch
 459 カウントダウンは数字で入力して下さい。
-460 Unique identifier
+460 識別記号
 461 ダイジェスト
 462 合計サイズ
 463 断片化サイズ (1 KB min)
 464 断片化数
-465 Package activation
+465 パッケージのアクティブ化
 466 警告：情報が見つかりません。場所：
 467 警告：断片が見つかりません。場所：
 468 このパッケージを有効化しますか？
@@ -373,7 +373,7 @@
 478 コンピューター
 479 コンピューターが選択されていません。
 480 fragments
-481 Activated packages
+481 アクティブ化されたパッケージ
 482 WAITING NOTIFICATION
 483 Validate SUCCESSES
 484 Custom frequency
@@ -404,10 +404,10 @@
 509 ANY
 510 パッケージがありません
 511 秒
-512 Deployment
+512 配置
 513 ビルド
-514 Activate
-515 Activated
+514 アクティブ化
+515 アクティブ
 516 KB
 517 This option can only be affected to one computer at a time.
 518 Force IpDiscover
@@ -441,7 +441,7 @@
 546 in state
 547 all
 548 All but SUCCESS
-549 File (deployed on client computers)
+549 ファイル（クライアントPCに配置されます）
 550 File (not mandatory, may be used by "execute" commmand)
 551 This package name already exists
 552 <i>You must make a computer search, and then click 'deploy' to affect these activated packages<br>You may also affect a package to a single computer by using the 'customization' tab of any computer details</i>.
@@ -474,7 +474,7 @@
 582 and
 583 グループ
 584 For the request
-585 For selection
+585 選択項目
 586 New group
 587 New static group
 588 Overwrite group
@@ -482,15 +482,15 @@
 590 Reset state
 591 Include statically
 592 Exclude statically
-593 Creation date
+593 作成日
 594 Cache generated on
 595 静的グループ
 596 DYNAMICALLY INCLUDED
 597 STATICALLY EXCLUDED
 598 含む
 600 含まない
-601 Mass affectation
-602 You need to send a file
+601 適用範囲
+602 ファイルを送信する必要があります。
 603 No computer found, please check your file
 604 computer(s) successfully affected(s)
 605 computer(s) failed
@@ -512,7 +512,7 @@
 621 The group was not created. Its name is already in use
 622 Cached
 623 The information you are trying to access does not exist
-624 Do you really want to delete group
+624 本当にグループを削除して良いですか？
 625 Update fields
 626 Cancel edit
 627 At least one of the fields is empty... Not made Update.
@@ -527,7 +527,7 @@
 637 Replace
 638 THE GROUP'S NAME CAN'T BE EMPTY
 639 THIS GROUP'S REDISTRIBUTION NOT EXIST
-640 Do you really want to delete
+640 本当に削除して良いですか？
 641 Management of the redistribution servers
 642 the group
 643 All machine
@@ -544,7 +544,7 @@
 654 Enter a new MACアドレス for blacklist
 655 Insertion made
 656 This datum already exists in the list
-657 Fields in red are in error!!! (Empty fields or size < 2)
+657 赤い入力項目がエラーです！！ (空欄またはサイズ < 2)
 658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
 659 Machines already have this teledeploy package. This package's status for these machines is now
 660 GROUP OF REDISTRIBUTION NOT EXIST
@@ -559,19 +559,19 @@
 669 ATTENTION: there are doubloons of priority <br> A single rule will be retained!
 670 A rule already carries this name
 672 This rule does not exist!!!
-673 Administration of the rules of affectation
-674 NAME OF THE RULE
-675 PRIORITY
-676 MACHINE VALUE
-677 OPERATOR
-678 SERVER VALUE
-679 NAME
+673 配置規則
+674 規則名
+675 優先度
+676 マシーンの値
+677 演算子
+678 サーバの値
+679 名前
 680 DOMAIN
 681 USER
-682 to Add a supplementary condition
+682 条件を追加する
 683 Validate the rule
 684 The following fields must be seized
-685 Add a rule
+685 規則の追加
 686 The condition
 687 You cannot delete it.
 688 Packages are affected on this goupe!
@@ -621,7 +621,7 @@
 732 milisecond(s)
 733 Inactive
 734 Inventory files
-735 Filters
+735 フィルター
 736 Enable the computer's groups feature
 737 Random number computed in the defined range. Designed to avoid computing many groups in the same process
 738 Specify the validity of computer's groups (default: compute it once a day - see offset)
@@ -775,17 +775,17 @@
 887 It's possible that this package is not affected to redistribution servers
 888 Removal
 889 Connected as
-890 Interface is actually locked on a search with various criterias
-891 Remove interface LOCK
+890 条件検索画面はロックされています
+891 ロック解除
 892 connect with another account
 893 NO TAG AFFECTEID TO YOUR PROFILE
 894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
 895 TAG Modification
 898 Add an annotation
 899 Writer
-900 Do you really want to delete selection?
+900 選択項目を削除して良いですか？
 901 Action on the query result
-902 Action on the result of selection
+902 選択した検索結果で設定する
 903 You must fill the explanation field
 904 Package reassignment
 905 Explanation about perfomed actions<br>on computer to be able to <br>affect package
@@ -802,7 +802,7 @@
 916 The value must be higher than
 917 FREQUENCY value
 918 Differential between LASTDATE and LASTCOME
-919 Are you sure to want to delete this message
+919 本当にこのメッセージを削除して良いですか？
 920 ERROR, the requested doesn't exists.
 921 Delete this category
 922 To merge, you have to select 2 computers at least
@@ -811,7 +811,7 @@
 925 FUSER functionality
 926 Fuser login:
 927 CACHE S NOT REGENERATED BY THIS ACTION
-928 Logs visualization
+928 ログの可視化
 929 subnetworks managementn is not performed locally.
 930 You cannot add/modify/remove subnetworks
 931 サブネットの編集
@@ -833,7 +833,7 @@
 947 Non identified peripherals list
 948 Identified peripherals list
 949 Computer Id
-950 FILE NAME
+950 ファイル名
 951 FILE CREATED IN THE
 952 FILE MODIFIED IN THE
 953 SIZE
@@ -859,12 +859,12 @@
 973 COMPUTERS ADDITION TO GROUP
 974 computers inserted into cache
 975 Add to group
-976 INTERFACE LOCK ON REQUEST RESULT
-977 Lock
-978 You are going to lock all the interface on the search with criterias results
-979 To come back to a standard state, you will have to click on the icon e <img src='image/cadena_op.png' > which is at the right top of the interface
-980 Packages on computers
-981 Packages on servers groups
+976 検索結果で画面をロックします
+977 ロックする
+978 検索結果で画面をロックします。
+979 標準状態に戻すには、画面右上の e <img src='image/cadena_op.png' > アイコンをクリックして下さい。
+980 コンピュータ上のパッケージ
+981 サーバ上のグループ別パッケージ
 982 NO AFFECTATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
 983 You have to choose on which type modifications has to perform
 984 Modifications
@@ -873,25 +873,25 @@
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
 989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
-990 Packages created manually
-991 Packages created automatically
+990 手動作成されたパッケージ
+991 自動作成されたパッケージ
 992 Teledeploy time estimate
-993 Red fields are in error
+993 赤い欄がエラーです！
 994 PDA/SMARTPHONE
 995 ユーザーID
 996 姓
 997 ユーザーIDを入力仕手ください
 998 有効なプロファイルを選択してください
 999 ユーザーIDが存在します。
-1000 Notified
-1001 Red fields are in errors!
-1002 Estimated time for deploy
+1000 通知
+1001 赤い欄でエラーです！
+1002 デプロイ時間
 1003 Redistribution servers packages parameters
 1004 It's not possible to create the packages creation directory
 1005 The package creationis not possible so
 1006 don't have wrinting rights
 1007 The directory
-1008 Use on this redistribution package
+1008 再配備に使用する
 1009 Servers storage directory
 1010 NORMAL
 1011 DEBUG
@@ -902,7 +902,7 @@
 1016 Login ROOT
 1017 Password ROOT
 1018 (Don't write anything if you want use anonymous connection)
-1019 Lock result
+1019 検索結果のロック
 1020 Name of the tag information
 1021 Teledeploy admin
 1022 タグ操作
@@ -920,7 +920,7 @@
 1034 General Information Package
 1035 Technical Information Package
 1036 Validation information
-1037 Package Name
+1037 パッケージ名
 1038 Requester
 1039 Priority
 1040 User notified
@@ -931,7 +931,7 @@
 1045 By visual
 1046 Statut
 1047 INFO
-1048 Add file
+1048 追加するファイル
 1049 BAD ACTION
 1050 ソフトウェア検索
 1051 検索
@@ -1069,7 +1069,7 @@
 1183 List of packages to create
 1184 Key added
 1185 Key updated
-1186 Your data is updated
+1186 更新しました
 1187 Configuration is pending
 1188 This group is declared as a TEST perimeter
 1189 This group is declared as a RESTRAINT perimeter
@@ -1114,9 +1114,9 @@
 1228 Device SNMP
 1229 Firmware
 1230 Volumn Name
-1231 The file format must be ZIP
-1232 The file format must be TAR.GZ
-1233 Name of Database
+1231 ファイルフォーマットは ZIP である必要があります。
+1232 ファイルフォーマットは TAR.GZ である必要があります。
+1233 データベース名
 1234 Description can't be empty
 1235 Reference
 1236 Soft version
@@ -1167,7 +1167,7 @@
 1281 On Wake On Lan
 1282 Wake On Lan order sent
 1283 Do you want a Wake On Lan on this computer
-1292 Use the advanced options of teledeploy
+1292 遠隔配置に詳細オプションを使用する
 1293 Teledeploy force
 1294 Installation time
 1295 Installation date
@@ -1285,7 +1285,7 @@
 1407 The profile file is not writable
 1408 The profile was successfully updated
 1409 An error occurred while trying to update the profile, please check the filesystem or contact an administrator
-1410 Users
+1410 ユーザー
 1411 Display name
 1412 Edit profile
 1413 New label
@@ -1326,14 +1326,14 @@
 2031 現在インストール済みのバージョン
 2032 現在のバージョンより以前のバージョンです
 2033 自動インストールを開始しました。
-2034 データベース設定が完了していません。DB configuration not completed. 自動インストールを開始しました。
+2034 データベース設定が完了していません。自動インストールを開始しました。
 2035 エラー：Sessions fo PHP がインストールされていません。.<br>php-session パッケージをインストールして下さい。
 2036 警告： XML for PHP がインストールされていません。ipdiscover-utiを利用出来ません。
 2037 エラー：MySQL for PHP がインストールされていません。<br>php用のMySQLパッケージをインストールして下さい。 (例: php5-mysql（debianの場合）)
 2038 警告： GD for PHPが がインストールされていません。<br>画像表示が利用出来ません。<br>Windowsの場合、php.iniで extension=php_gd2.dll のコメントを解除（行頭のセミコロンを削除）してください。Linuxの場合、 php5-gd package パッケージをインストールして下さい。
 2039 警告： OpenSSL for PHP がインストールされていません。<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
-2040 警告：  You will not be able to build any deployment package with size greater than
-2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
+2040 警告：  現在の設定では、次のサイズ以上のパッケージを配置出来ません。
+2041 この制限を回避するには、php.ini の <font color="red">post_max_size</font> と <font color="red">upload_max_filesize</font> 両方のサイズを増やして下さい。
 2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
 2044 Label added
@@ -1341,13 +1341,13 @@
 2046 ERROR: MySQL authentication problem.
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
 2050 Installation finished you can log in index.php with login=admin and password=admin
-2051 Click here to enter OCS-NG GUI
+2051 クリックして OCS-NG へ
 2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
 2053 Please wait, database update may take up to 30 minutes...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Database successfully generated
 2056 MySQL config file successfully written
-2057 Existing database updated
+2057 既存のデータベースがアップデートされます。
 2058 Database engine checking...
 2059 ERROR: Alter query failed
 2060 ERROR: Show table status query failed
@@ -1396,9 +1396,9 @@
 2106 MySQLの設定で 'max_allowed_packet' は指定以上のみが設定可能です。 ファイルサイズ<
 2107 The version of WEB interface is lower than the version of the database
 2108 The version of the database <b> MUST </b> be less than or equal to the version of the web interface
-2109 Current version
-2110 Expected version
-2111 Perform the update
+2109 現在のバージョン
+2110 アップデート後のバージョン
+2111 アップデートする
 2112 The following file is not present or is not readable
 2113 Your PHP installation is older than version 5.4 and will not be compatible with incoming versions (version&nbsp;:&nbsp;
 2114 No sql file found for version
@@ -1410,8 +1410,8 @@
 2120 Click here to download
 2121 Launch inventory on agent service startup (Windows)
 2122 Edit
-2123 Available packets
-2124 Deleted packets
+2123 存在するパッケージ
+2124 削除済みパッケージ
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
