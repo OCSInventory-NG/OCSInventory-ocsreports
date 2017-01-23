@@ -1,6 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Video;
 use strict;
 
+use Parse::EDID qw(parse_edid);
 
 sub check {
     my $params = shift;
@@ -31,11 +32,11 @@ sub run {
 
    #Getting monitor serial number
    #TODO: get serial for multiples monitors
-   my $ioreg = `ioreg -lw0 | grep "EDID" | sed "/[^<]*</s///" | xxd -p -r | strings -7`;
-   $ioreg =~ /(.*)\n(.*)/;
+   my $ioreg_binary = `ioreg -lw0 | grep "EDID" | sed "/[^<]*</s///" | xxd -p -r`;
+   my $ioreg = parse_edid($ioreg_binary);
 
-   my $ioreg_serial = $1; chomp $ioreg_serial; 
-   my $ioreg_name = $2; chomp $ioreg_name;
+   my $ioreg_serial = $ioreg->{'monitor_name'};
+   my $ioreg_name = $ioreg->{'serial_number2'};
 
     # add the video information
     foreach my $video (@$data){

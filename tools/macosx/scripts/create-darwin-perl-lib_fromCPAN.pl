@@ -108,6 +108,7 @@ Compress::Zlib
 Compress::Raw::Zlib
 IO::Zlib
 Mac::SysProfile
+Parse::EDID
 .
 
 # push all the dep's into a @missing array
