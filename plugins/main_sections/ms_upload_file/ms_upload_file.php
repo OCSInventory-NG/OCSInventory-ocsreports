@@ -138,7 +138,7 @@ if (is_defined($protectedPost['ADD_FILE'])) {
     echo open_form($form_name1, '', "enctype='multipart/form-data' onsubmit=\"return verif_file_format('file_upload');\"", 'form-horizontal');
     echo '<div class="row">';
     echo '<div class="col-md-12">';
-    formGroup('file', 'file_upload', $l->g(1048));
+    formGroup('file', 'file_upload', $l->g(1048), '', '', '', '', '');
     echo "<input name='GO' class='btn btn-success' id='GO' type='submit' value='" . $l->g(13) . "'>";
     echo "</div>";
     echo "</div>";
