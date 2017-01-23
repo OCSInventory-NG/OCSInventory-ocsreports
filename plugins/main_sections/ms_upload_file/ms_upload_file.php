@@ -26,23 +26,6 @@ if (AJAX) {
     ob_start();
 }
 
-function return_bytes($val) {
-    $val = trim($val);
-    $last = strtolower($val{strlen($val) - 1});
-    switch ($last) {
-        // Le modifieur 'G' est disponible depuis PHP 5.1.0
-        case 'g':
-            $val *= 1024;
-            break;
-        /* case 'm':
-          $val *= 1024; */
-        case 'k':
-            $val *= 1024;
-            break;
-        default : $val = substr($val, 0, -1);
-    }
-    return $val;
-}
 ?>
 <script language='javascript'>
 
