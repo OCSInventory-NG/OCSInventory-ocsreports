@@ -887,8 +887,8 @@
 1001 赤い欄でエラーです！
 1002 デプロイ時間
 1003 Redistribution servers packages parameters
-1004 It's not possible to create the packages creation directory
-1005 The package creationis not possible so
+1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/). 
+1005 Package creation is therefore not possible.
 1006 don't have wrinting rights
 1007 The directory
 1008 再配備に使用する

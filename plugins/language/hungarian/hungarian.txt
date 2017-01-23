@@ -983,8 +983,8 @@
 1001 Red fields are in errors!
 1002 Estimated time for deploy
 1003 Redistribution servers packages parameters
-1004 It's not possible to create the packages creation directory
-1005 The package creationis not possible so
+1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/). 
+1005 Package creation is therefore not possible.
 1006 don't have wrinting rights
 1007 The directory
 1008 Use on this redistribution package
