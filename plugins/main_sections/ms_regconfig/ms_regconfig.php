@@ -129,7 +129,7 @@ if ($protectedPost['tab'] == 'VIEW'){
 
          formGroup('text', 'REGKEY', $l->g(254), '', 255, $protectedPost['REGKEY']);
 
-         formGroup('text', 'REGVALUE', $l->g(255), '', 255, $protectedPost['REGKEY']);
+         formGroup('text', 'REGVALUE', $l->g(255), '', 255, $protectedPost['REGVALUE']);
          ?>
         </div>
     </div>
