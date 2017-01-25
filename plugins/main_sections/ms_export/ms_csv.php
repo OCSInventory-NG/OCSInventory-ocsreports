@@ -53,7 +53,7 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
             $col[$lbl] = $name;
             $toBeWritten .= $name . $separator;
         } elseif ($name == 'NAME' || $name == $l->g(23)) {
-            $col['name_of_machine'] = "name_of_machine";
+            $col['name'] = "name";
             $toBeWritten .= $l->g(23) . $separator;
         }
     }
@@ -90,54 +90,43 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
     $inter = interprete_accountinfo($col, array());
     while ($cont = mysqli_fetch_array($result)) {
         unset($cont['MODIF']);
-        foreach ($col as $field => $lbl) {
+        foreach ($inter as $field => $lbl) {
             if ($lbl == "name_of_machine" && !isset($cont[$field])) {
                 $field = 'name';
             }
 
             $found = false;
             // find value case-insensitive
-            foreach ($cont as $key => $val) {
-                if (strtolower($key) == strtolower($field)) {
+            foreach ($col as $key => $val) {
+
+                if (array_key_exists($key, $cont)) {
                     if (($field == 'TAG' || substr($field, 0, 7) == 'fields_') && isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])) {
                         // administrative data
-                        $data[$i][$lbl] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl][$val];
+                        $data[$i][$key] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl][$val];
                     } else {
                         // normal data
-                        $data[$i][$lbl] = $val;
+                        $data[$i][$key] = $cont[$key];
                     }
 
                     $found = true;
-                    break;
-                } elseif (isset($_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$lbl][$cont['ID']]) && isset($cont['ID'])) {
-                    $data[$i][$lbl] = $_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$lbl][$cont['ID']];
+                    
+                } elseif (isset($_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$key][$cont['ID']])) {
+                    
+                    $data[$i][$key] = $_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$key][$cont['ID']];
                     $found = true;
-                    break;
+                    
                 }
-            }
-            if (isset($_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key])) {
-                $data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key][$data[$i][$key]];
-            }
-            if (isset($_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$key])) {
-                $data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$data[$i][$_SESSION['OCS']['csv']['FIELD_REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']]]];
-            }
-            if (!$found) {
-                // find values case-insensitive
-                if (!is_null($data_fixe[$cont['ID']])) {
-                    foreach ($data_fixe[$cont['ID']] as $key => $val) {
-                        if (strtolower($key) == strtolower($field) && isset($data_fixe[$cont['ID']][$key])) {
-                            $data[$i][$lbl] = $data_fixe[$cont['ID']][$key];
-
-                            $found = true;
-                            break;
-                        }
-                    }
+                
+                if (isset($_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key])) {
+                    $data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key][$data[$i][$key]];
+                }
+                
+                if (isset($_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$key])) {
+                    $data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$data[$i][$_SESSION['OCS']['csv']['FIELD_REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']]]];
                 }
 
-                if (!$found) {
-                    $data[$i][$lbl] = "";
-                }
             }
+
         }
         $i++;
     }

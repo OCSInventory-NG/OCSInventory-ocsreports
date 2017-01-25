@@ -400,6 +400,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         } else {
             if (( (in_array($key, $default_fields)) || (in_array($key, $list_col_cant_del)) || array_key_exists($key, $default_fields) || ($key == "ACTIONS" )) && !(in_array($key, $actions))
             ) {
+                // add visibles columns
+                $_SESSION['OCS']['visible_col'][$option['table_name']][$key] = $column;
                 $visible = 'true';
             } else {
                 $visible = 'false';
