@@ -28,6 +28,7 @@ foreach ($_POST as $key => $value) {
     $temp_post[$key] = $value;
 }
 $protectedPost = $temp_post;
+
 if (isset($protectedPost["VALID_END"])) {
     //configure description of this package
     $description_details = $protectedPost['DESCRIPTION'];
@@ -43,7 +44,7 @@ if (isset($protectedPost["VALID_END"])) {
         'nbfrags' => $protectedPost["nbfrags"],
         'name' => $protectedPost['NAME'],
         'os' => $protectedPost['OS'],
-        'description' => $description_details,
+        'description' => $protectedPost['comment'],
         'size' => $protectedPost['SIZE'],
         'id_wk' => $protectedPost['LIST_DDE_CREAT']);
 
@@ -251,7 +252,8 @@ if (isset($protectedPost['valid'])) {
             input_pack_taille("nbfrags_redistrib", "tailleFrag_redistrib", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
             $java_script = "verif_redistributor();";
         }
-
+        
+        formGroup('hidden', 'comment', '', '', '', $protectedPost['DESCRIPTION'], '', '', '', '');
         echo "<input type='button' class='btn btn-success' name='TEST_END' id='TEST_END' OnClick='" . $java_script . "' value='" . $l->g(13) . "'>";
         echo "<input type='hidden' name='digest' value='" . $digest . "'>";
         echo "<input type='hidden' name='VALID_END' id='VALID_END' value=''>";
