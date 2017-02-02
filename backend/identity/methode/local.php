@@ -62,7 +62,22 @@ if (isset($rowOp->accesslvl)) {
         $arg = array($_SESSION['OCS']["loggeduser"]);
         $res = mysql2_query_secure($sql, $link_ocs, $arg);
         while ($row = mysqli_fetch_object($res)) {
-            $list_tag[$row->tag] = $row->tag;
+            // Check for wildcard
+            if (strpos($row->tag, '*') !== false || strpos($row->tag,'?') !== false) {
+                $wildcard = true;
+                $row->tag = str_replace("*", "%", $row->tag);
+                $row->tag = str_replace("?", "_", $row->tag);
+                if($wildcard === true){
+                    $sql_wildcard = "SELECT TAG FROM `accountinfo` WHERE TAG LIKE '$row->tag' GROUP BY TAG";
+                    $res_wildcard = mysql2_query_secure($sql_wildcard, $link_ocs);
+                    while ($row_wildcard = mysqli_fetch_object($res_wildcard)) {
+                        $list_tag[$row_wildcard->TAG] = $row_wildcard->TAG;
+                    }
+                    
+                }      
+            }else{
+                $list_tag[$row->tag] = $row->tag;
+            }
         }
         if (!isset($list_tag)) {
             $ERROR = $l->g(893);
