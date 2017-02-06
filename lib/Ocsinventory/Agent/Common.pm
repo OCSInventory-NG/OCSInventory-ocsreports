@@ -601,6 +601,25 @@ sub addProcess {
     push @{$xmltags->{RUNNING_PROCESSES}}, $content;
 }
 
+=item addCamera()
+
+Add a camera device in the inventory. Only avalaible for MacOSX
+
+=cut
+sub addCamera {
+    my ($self, $args) = @_;
+    my $xmltags = $self->{xmltags};
+    
+    my $content = {};
+    
+    foreach my $key (qw/MODEL UUID/){
+        if (exists $args->{$key}) {
+            $content->{$key}[0] = $args->{$key} if $args->{$key};
+        }
+    }
+    
+    push @{$xmltags->{RUNNING_PROCESSES}}, $content;
+}
 
 =item addIpDiscoverEntry()
 
