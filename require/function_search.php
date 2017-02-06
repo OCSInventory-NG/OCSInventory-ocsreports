@@ -78,13 +78,13 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_
     $lbl_fields_calcul['SOFTWARES'] = array($l->g(846) => 'softwares.PUBLISHER',
         $l->g(847) => 'softwares.NAME_ID',
         $l->g(848) => 'softwares.VERSION_ID',
-        $l->g(849) => 'softwares.FOLDER',
+        addslashes($l->g(849)) => 'softwares.FOLDER',
         $l->g(850) => 'softwares.COMMENTS');
 } else {
     $lbl_fields_calcul['SOFTWARES'] = array($l->g(846) => 'softwares.PUBLISHER',
         $l->g(847) => 'softwares.NAME',
         $l->g(848) => 'softwares.VERSION',
-        $l->g(849) => 'softwares.FOLDER',
+        addslashes($l->g(849)) => 'softwares.FOLDER',
         $l->g(850) => 'softwares.COMMENTS');
 }
 
