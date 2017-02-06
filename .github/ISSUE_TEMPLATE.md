@@ -5,7 +5,7 @@ Operating system :
 
 ### Server informations
 Php version : 
-Myqsl version : 
+Myqsl / Mariadb / Percona version : 
 Apache version : 
 
 ### OCS Inventory informations
