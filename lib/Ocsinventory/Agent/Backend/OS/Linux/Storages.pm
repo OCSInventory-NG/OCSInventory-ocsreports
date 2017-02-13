@@ -159,6 +159,7 @@ sub getFromLshw {
     return unless $common->can_run("lshw");
     my @devs;
     my @inputlines = `lshw -class disk -xml -quiet`;
+    return unless $inputlines[0] =~ /xml/i;
     my $foundcdroms = 0;
     my $input;
     foreach (@inputlines) {
