@@ -38,7 +38,6 @@ sub run {
     my $socket;
     my $sockettype;
     my $status;
-    my @proc_phys_ids;
     $processor = $vendor_id = $modelName = $cacheSize = $mhz = $physical_id = $siblings
     = $core_id = $cpuCores = $arch = $dataWidth = $addressWidth = $voltage = $serial
     = $maxMhz = $socket = $status = $sockettype = "";
@@ -57,10 +56,7 @@ sub run {
             $processors->{$physical_id}->{CPUARCH}                  = $arch;
             $processors->{$physical_id}->{DATA_WIDTH}               = $dataWidth;
             $processors->{$physical_id}->{CURRENT_ADDRESS_WIDTH}    = $addressWidth;
-            
-            push @proc_phys_ids, $physical_id;  # found non-consecutive physical_ids (0, 2, 4, 6,...) 
-            $fake_physid++;
-            
+                      
             $processor = $vendor_id = $modelName = $cacheSize = $mhz
             = $physical_id = $siblings = $core_id = $cpuCores = $arch
             = $dataWidth = $addressWidth = $voltage = $sockettype = "";
@@ -106,11 +102,11 @@ sub run {
         next if $socket < 0;    # if in preface still
         if($line =~ /^\s*$/ ) { # end of processor/socket found
             if ( $status ne "Unpopulated") {
-                if (defined ($physical_id = shift @proc_phys_ids)) {
-                    $processors->{$physical_id}->{VOLTAGE}          = $voltage;
-                    $processors->{$physical_id}->{SPEED}            = $maxMhz;
-                    $processors->{$physical_id}->{SERIALNUMBER}     = $serial;
-                    $processors->{$physical_id}->{SOCKET}           = $sockettype;
+                if ($socket >= 0) {
+                    $processors->{$socket}->{VOLTAGE}          = $voltage;
+                    $processors->{$socket}->{SPEED}            = $maxMhz;
+                    $processors->{$socket}->{SERIALNUMBER}     = $serial;
+                    $processors->{$socket}->{SOCKET}           = $sockettype;
                 }   # dmidecode tells about more CPUs than /proc/cpuinfo
             }
             $voltage = $maxMhz = $status = $serial = $sockettype = "";
