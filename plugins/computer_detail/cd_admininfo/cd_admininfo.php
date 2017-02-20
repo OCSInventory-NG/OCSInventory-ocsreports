@@ -219,7 +219,6 @@ if (!is_array($info_account_id)) {
             } elseif ($val_admin_info['TYPE'] == 8) { //QRCODE
                 array_push($value_field, $info_account_id[$name_accountinfo]);
                 if ($admin_accountinfo) {
-
                     array_push($config['COMMENT_AFTER'], $up_png);
                 } else {
                     array_push($config['COMMENT_AFTER'], "");
@@ -245,10 +244,13 @@ if (!is_array($info_account_id)) {
             if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
                 array_push($type_field, $convert_type[$val_admin_info['TYPE']]);
             } else {
-                array_push($type_field, 3);
+                //TODO : QRCode management
+                array_push($type_field, 13);                
+
             }
 
             $nb_row++;
+            
         }
         
         // If is a select get default data
