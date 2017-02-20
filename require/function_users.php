@@ -209,12 +209,11 @@ function admin_user($id_user = null, $is_my_account = false) {
     $value_field[]=$row->EMAIL;
     $value_field[]=$row->COMMENTS;
 
-    if ($_SESSION['OCS']['cnx_origine'] == "LOCAL"){
-            $name_field[]="PASSWORD";
-            $type_field[]=4;
-            $tab_name[]=$l->g(217)." :";
-            $value_field[]=$protectedPost['PASSWORD'];
-    }
+    $name_field[]="PASSWORD";
+    $type_field[]=4;
+    $tab_name[]=$l->g(217)." :";
+    $value_field[]=$protectedPost['PASSWORD'];
+
     $tab_typ_champ=show_field($name_field,$type_field,$value_field);
     foreach ($tab_typ_champ as $id=>$values){
             $tab_typ_champ[$id]['CONFIG']['SIZE']=40;
