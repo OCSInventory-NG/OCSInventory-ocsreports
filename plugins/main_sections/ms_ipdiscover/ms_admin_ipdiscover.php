@@ -30,7 +30,7 @@ if (AJAX) {
 require_once('require/function_ipdiscover.php');
 require_once('require/function_files.php');
 $form_name = 'admin_ipdiscover';
-$table_name = 'admin_ipdiscover_' . $protectedPost['onglet'];
+$table_name = 'admin_ipdiscover';
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
