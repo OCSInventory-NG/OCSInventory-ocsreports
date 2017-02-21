@@ -175,9 +175,9 @@
 264 No label file now
 265 Anything
 266 Invalid date
-267 yyyy/mm/dd
+267 m/d/Y
 268 速度
-269 %Y/%m/%d
+269 %m/%d/%Y
 270 モデム
 271 スロット
 272 ポート
@@ -1125,7 +1125,7 @@
 1239 MHz
 1240 MB
 1241 SNMP対応デバイス数
-1242 m/d/y
+1242 m/d/Y
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients
