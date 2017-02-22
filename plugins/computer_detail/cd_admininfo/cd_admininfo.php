@@ -110,9 +110,9 @@ if (!is_array($info_account_id)) {
         if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && !$show_all_column) {
             $show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
             if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO'])) {
-                $show_admin_button .= "<img src=image/success.png></a>";
+                $show_admin_button .= "<span class='glyphicon glyphicon-ok'></span></a>";
             } else {
-                $show_admin_button .= "<span class='glyphicon glyphicon-edit'></span></a>";
+                $show_admin_button .= "<span class='glyphicon glyphicon-cog'></span></a>";
             }
         } else {
             $show_admin_button = '';
