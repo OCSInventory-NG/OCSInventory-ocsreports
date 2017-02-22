@@ -1172,7 +1172,7 @@
 1293 Forza Teledeploy
 1294 Ora dell'installazione
 1295 Data dell'installazione
-1296 Offerta commerciale
+1296 OCS Professional
 1297 Identificativo periferica
 1298 Amministrazione QRCode
 1299 QRCode

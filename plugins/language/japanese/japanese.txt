@@ -1171,7 +1171,7 @@
 1293 Teledeploy force
 1294 Installation time
 1295 Installation date
-1296 有償サポート
+1296 OCS Professional
 1297 SNMP device identification
 1298 QRCode administration
 1299 QRCode

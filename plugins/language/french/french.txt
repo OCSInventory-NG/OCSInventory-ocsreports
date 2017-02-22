@@ -1171,7 +1171,7 @@
 1293 Forcer le télédéploiement
 1294 Heure d'installation
 1295 Date d'installation
-1296 Offres commerciales
+1296 OCS Professionnel
 1297 Numéro d'identification
 1298 Gestion des QRCode
 1299 QRCode

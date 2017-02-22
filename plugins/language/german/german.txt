@@ -1245,7 +1245,7 @@
 1293 Verteilung erzwingen
 1294 Installationszeit
 1295 Installationsdatum
-1296 Angebote
+1296 OCS Professional
 1297 SNMP Geräteidentifikation
 1298 QRCode-Administration
 1299 QRCode
