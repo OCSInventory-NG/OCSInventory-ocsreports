@@ -38,9 +38,9 @@ if (is_defined($protectedPost['LOCK'])) {
 }
 
 if ($protectedPost['CHOISE'] != "") {
-    echo "<br><br><b>" . $l->g(978) . "</b>";
-    echo "<br><br>" . $l->g(979);
-    echo "<br><br><input type='submit' value=" . $l->g(977) . " name='LOCK' class='btn'>";
+    echo "<p><b>" . $l->g(978) . "</b></p>";
+    echo "<p>".$l->g(979)."</p>";
+    echo "<input type='submit' value=" . $l->g(977) . " name='LOCK' class='btn'>";
 }
 echo "</div>";
 echo "</div>";

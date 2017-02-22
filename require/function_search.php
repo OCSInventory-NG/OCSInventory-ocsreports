@@ -537,6 +537,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
     function multi_lot($form_name, $lbl_choise) {
         global $protectedPost, $protectedGet, $l;
         
+        echo "<div class='row'>";
         echo "<div class='col col-md-10 col-md-offset-1'>";
         
         $list_id = "";
@@ -571,6 +572,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
             $list_id = $protectedGet['idchecked'];
         }
         
+        echo "</div>";
         echo "</div>";
 
         if ($list_id != "") {
