@@ -8,7 +8,7 @@
   <a href="http://ask.ocsinventory-ng.org">Ask question</a> |
   <a href="#COMMING_SOON_STAY_CONNECTED">Installation</a> |
   <a href="https://www.ocsinventory-ng.org/?utm_source=github-ocs">Website</a> |
-  <a href="https://www.ocsinventory-ng.org/en/#ocs-pro-en">Support</a>
+  <a href="https://www.ocsinventory-ng.org/en/#ocs-pro-en">OCS Professional</a>
 </p>
 
 <p align='justify'>
