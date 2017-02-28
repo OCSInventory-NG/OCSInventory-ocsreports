@@ -300,11 +300,12 @@ if ($protectedPost['detail'] != '') {
         $list_col_cant_del['SUP'] = 'SUP';
     }
     $sql = prepare_sql_tab($list_fields, array('SUP', 'CHECK'));
-    $sql['SQL'] .= " from hardware h left join accountinfo a on h.id=a.hardware_id ";
-    $sql['SQL'] .= ",bios b, ";
-
-	$sql['SQL'] .= " networks n where  h.id=n.hardware_id ";
-	$sql['SQL'] .= " and h.id=b.hardware_id and  h.id in ";
+    $sql['SQL'] .= " from hardware h ";
+    $sql['SQL'] .= " left join accountinfo a on h.id=a.hardware_id ";
+    $sql['SQL'] .= " left join bios b on h.id=b.hardware_id ";
+    $sql['SQL'] .= " left join networks n on h.id=n.hardware_id ";
+    $sql['SQL'] .= "  where h.id in ";
+    
 	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
 	if (($protectedPost['detail'] == "macaddress" or $protectedPost['detail'] == "macaddress_serial")
 			 and count($list_info)>0){
