@@ -40,6 +40,7 @@ $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 
 echo open_form($form_name, '', '', 'form-horizontal');
+
 //delete a list of notes
 if ($protectedPost['del_check'] != '') {
     $arg_sql = array();
@@ -85,27 +86,33 @@ if (is_defined($protectedPost['Valid_modif'])) {
     }
 }
 if ($protectedPost['ADD_NOTE']) {
+    unset($tab_name, $tab_typ_champ);
     $tab_name[1] = $l->g(1126) . ": ";
     $tab_name[2] = $l->g(1127) . ": ";
     $tab_name[3] = $l->g(1128) . ": ";
-    $tab_typ_champ[1]['DEFAULT_VALUE'] = date("d/m/Y");
+    $tab_typ_champ[1]['DEFAULT_VALUE'] = date($l->g(1242));
     $tab_typ_champ[2]['DEFAULT_VALUE'] = $_SESSION['OCS']["loggeduser"];
-    $tab_typ_champ[1]['INPUT_TYPE'] = 3;
-    $tab_typ_champ[2]['INPUT_TYPE'] = 3;
+    $tab_typ_champ[1]['INPUT_TYPE'] = 0;
+    $tab_typ_champ[2]['INPUT_TYPE'] = 13;
     $tab_typ_champ[3]['INPUT_NAME'] = 'NOTE';
     $tab_typ_champ[3]['INPUT_TYPE'] = 1;
-    tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden);
+    modif_values($tab_name, $tab_typ_champ, $tab_hidden);
 }
 
 $queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE (visible is null or visible =1) and hardware_id=$systemid";
-$list_fields = array($l->g(1126) => 'DATE_INSERT',
+$list_fields = array( $l->g(1126) => 'DATE_INSERT',
     $l->g(899) => 'USER_INSERT',
     $l->g(51) => 'COMMENTS',
     $l->g(443) => 'ACTION');
 
 if (!$show_all_column) {
+    // modif management
     $list_fields['MODIF'] = 'ID';
+    
+    // SUP Management
     $list_fields['SUP'] = 'ID';
+    $tab_options['LBL_POPUP']['SUP'] = 'COMMENTS';
+    
     $list_fields['CHECK'] = 'ID';
 }
 $list_col_cant_del = $list_fields;
@@ -118,6 +125,7 @@ if (!$show_all_column) {
 }
 
 if (is_defined($protectedPost['MODIF'])) {
+    unset($tab_name, $tab_typ_champ);
     $queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE id=%s";
     $argDetail = array($protectedPost['MODIF']);
     $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"], $argDetail);
@@ -128,16 +136,17 @@ if (is_defined($protectedPost['MODIF'])) {
     $tab_typ_champ[1]['DEFAULT_VALUE'] = $item['DATE_INSERT'];
     $tab_typ_champ[2]['DEFAULT_VALUE'] = $item['USER_INSERT'];
     $tab_typ_champ[3]['DEFAULT_VALUE'] = $item['COMMENTS'];
-    $tab_typ_champ[1]['INPUT_TYPE'] = 3;
-    $tab_typ_champ[2]['INPUT_TYPE'] = 3;
+    $tab_typ_champ[1]['INPUT_TYPE'] = 0;
+    $tab_typ_champ[2]['INPUT_TYPE'] = 13;
     $tab_typ_champ[3]['INPUT_NAME'] = 'NOTE_MODIF';
     $tab_typ_champ[3]['INPUT_TYPE'] = 1;
     $tab_hidden['USER_INSERT'] = $item['USER_INSERT'];
     $tab_hidden['ID_MODIF'] = $protectedPost['MODIF'];
     $tab_hidden['OLD_COMMENTS'] = $item['COMMENTS'];
-    tab_modif_values($tab_name, $tab_typ_champ, $tab_hidden);
+    modif_values($tab_name, $tab_typ_champ, $tab_hidden);
 }
 echo close_form();
+
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
