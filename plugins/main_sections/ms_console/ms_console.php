@@ -67,8 +67,8 @@ if ($data_tab['DATA'] != array()){
 	if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES'){
 		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
 		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) and $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
-			echo "<img src='image/success.png'>";
-		else
+                        echo "<span class='glyphicon glyphicon-ok'></span>";
+		else if($protectedPost['onglet'] != 'MSG')
 			echo "<span class='glyphicon glyphicon-edit'></span>";
 		echo "</a></td></tr></table>";
 	}
@@ -108,10 +108,11 @@ if ($data_tab['DATA'] != array()){
 				$tab_options=$protectedPost;
 				
 				if (trim($protectedPost['GROUP']) != "" and is_numeric($protectedPost['GROUP']) and trim($protectedPost['MESSAGE'])!=""){
-					$sql="insert into config (NAME,IVALUE,TVALUE) values ('%s',%s,'%s')";
+                                        $sql="insert into config (NAME,IVALUE,TVALUE) values ('%s',%s,'%s')";
 					$arg=array("GUI_REPORT_MSG".$i,$protectedPost['GROUP'],$protectedPost['MESSAGE']);
 					mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg );
 					$tab_options['CACHE']='RESET';
+                                        $protectedPost['MESSAGE'] = "";
 				} else {
 					msg_error($l->g(239));
 				}
@@ -147,7 +148,9 @@ if ($data_tab['DATA'] != array()){
 						$tab_typ_champ[$id]['CONFIG']['SIZE']=20;
 					}
 					if (isset($tab_typ_champ)){
-						tab_modif_values($tab_name,$tab_typ_champ,$tab_hidden);
+                                            echo "<p>";
+						modif_values($tab_name,$tab_typ_champ,$tab_hidden);
+                                            echo "</p>";
 					}	
 						
 			}
