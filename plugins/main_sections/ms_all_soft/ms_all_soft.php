@@ -63,7 +63,22 @@ $sql_list_alpha['SQL'] = "select substr(trim(" . $field_name_soft . "),1,1) alph
 if (is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR'])) {
     $sql_list_alpha['SQL'] .= ",count(*) nb ";
     $sql_fin['SQL'] = " having nb %s %s ";
-    $sql_fin['ARG'] = array($protectedPost['COMPAR'], $protectedPost['NBRE']);
+    
+    switch ($protectedPost['COMPAR']) {
+        case "lt":
+            $compar = "<";
+            break;
+        case "gt":
+            $compar = ">";
+            break;
+        case "eq":
+            $compar = "=";
+            break;
+        default:
+            break;
+    }
+    
+    $sql_fin['ARG'] = array($compar, $protectedPost['NBRE']);
 }
 $sql_list_alpha['SQL'] .= " from ";
 $and_where = "";
@@ -241,13 +256,14 @@ formGroup('text', 'NAME_RESTRICT', $l->g(382), 20, 100, $protectedPost['NAME_RES
     <label class="control-label col-sm-2" for="COMPAR"><?php echo $l->g(381); ?></label>
     <div class="col-sm-1">
         <select name="COMPAR" id="COMPAR" class="form-control">
-            <option value="<">&lt;</option>
-            <option value=">">&gt;</option>
-            <option value="=">=</option>
+            <option value=""></option>
+            <option value="lt"<">&lt;</option>
+            <option value="gt">&gt;</option>
+            <option value="eq">=</option>
         </select>
     </div>
     <div class="col-sm-2">
-        <input type="text" class="form-control" maxlength="100" value="<?php echo $protectedPost['NBRE']; ?>">
+        <input name="NBRE" type="text" class="form-control" maxlength="100" value="<?php echo $protectedPost['NBRE']; ?>">
     </div>
 </div>
 <div class="row">
