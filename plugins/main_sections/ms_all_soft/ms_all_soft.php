@@ -161,7 +161,7 @@ if ($_SESSION['OCS']["usecache"] == 1 && !(isset($_SESSION['OCS']['USE_NEW_SOFT_
         }
     }
     $result_search_soft = mysql2_query_secure($search_soft['SQL'], $_SESSION['OCS']["readServer"], $search_soft['ARG']);
-    $list_soft = "";
+    $list_soft = [];
     while ($item_search_soft = mysqli_fetch_object($result_search_soft)) {
         if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
                 and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
