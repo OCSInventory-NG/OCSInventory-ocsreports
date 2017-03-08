@@ -9,7 +9,10 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Drives;
 
 
 use strict;
-sub check { can_run ("df") }
+sub check { 
+    my $common = $params->{common};
+    $common->can_run ("df"); 
+}
 
 sub run {
     my $params = shift;

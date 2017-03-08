@@ -6,7 +6,7 @@ sub check {
     my $common = $params->{common};
     return unless $common->can_run ("hostname");
     my @domain = `hostname -d`;
-    return 1 if @domain || can_read ("/etc/resolv.conf");
+    return 1 if @domain || $common->can_read ("/etc/resolv.conf");
     0;
 }
 sub run {

@@ -4,7 +4,7 @@ use strict;
 sub check {
     my $params = shift;
     my $common = $params->{common};
-can_run("lsdev")
+    $common->can_run("lsdev");
 }
 
 sub run {

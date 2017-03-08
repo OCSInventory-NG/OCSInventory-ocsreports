@@ -83,7 +83,7 @@ sub snmp_run {
             }
         }
     }
- 
+
     # We look for interfaces
     $result_snmp=$session->get_entries(-columns => [$snmp_iftype]);
     foreach my $result ( keys  %{$result_snmp} ) {
@@ -125,53 +125,53 @@ sub snmp_run {
                     $MACADDR=" ".$MACADDR->{$snmp_physAddr.$ref};
                     if ( $MACADDR =~ /^ 0x(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})$/ ) {
                         $MACADDR="$1:$2:$3:$4:$5:$6";
-                    
-                }
+                    }
  
-                $STATUS=$session->get_request(-varbindlist => [ $snmp_ifadminstatus.$ref ]);
-                if ( $STATUS->{$snmp_ifadminstatus.$ref} == 1 ) {
-                    $STATUS="Up";
-                } else {
-                    $STATUS="Down";
+                    $STATUS=$session->get_request(-varbindlist => [ $snmp_ifadminstatus.$ref ]);
+                    if ( $STATUS->{$snmp_ifadminstatus.$ref} == 1 ) {
+                        $STATUS="Up";
+                    } else {
+                        $STATUS="Down";
+                    }
+     
+                    # If we have the address ip and netmask we can put it
+                    if ( defined ( $address_index ) ) {
+                        $IPADDR=$address_index->{$ref};
+                        $IPMASK=$netmask_index->{$ref};
+                        #if ( defined ($IPADDR ) ) {
+                        #    my $local_info=$session->hostname();
+                        #    print "$IPADDR et $local_info";
+                        #    if ( $IPADDR eq $session->hostname() ) {
+                        #        $common->setSnmpCommons({MACADDR => $MACADDR });
+                        #    }
+                        #}
+                    }
+                    if ( defined ( $network_index ) ) {
+                        $IPGATEWAY=$gateway_index->{$ref};
+                        $IPSUBNET=$network_index->{$ref};
+                    }
+                    $common->addSnmpNetwork( {
+                        TYPE      => $TYPE,
+                        SLOT      => $SLOT,
+                        SPEED     => $SPEED,
+                        MACADDR   => $MACADDR,
+                        STATUS    => $STATUS,
+                        IPADDR    => $IPADDR,
+                        IPMASK    => $IPMASK,
+                        IPGATEWAY => $IPGATEWAY,
+                        IPSUBNET  => $IPSUBNET,
+                    });
+                    $MACADDR=undef;
+                    $SLOT=undef;
+                    $STATUS=undef;
+                    $SPEED=undef;
+                    $IPADDR=undef;
+                    $IPMASK=undef;
+                    $IPGATEWAY=undef;
+                    $IPSUBNET=undef;
                 }
- 
-                # If we have the address ip and netmask we can put it
-                if ( defined ( $address_index ) ) {
-                    $IPADDR=$address_index->{$ref};
-                    $IPMASK=$netmask_index->{$ref};
-                    #if ( defined ($IPADDR ) ) {
-                    #    my $local_info=$session->hostname();
-                    #    print "$IPADDR et $local_info";
-                    #    if ( $IPADDR eq $session->hostname() ) {
-                    #        $common->setSnmpCommons({MACADDR => $MACADDR });
-                    #    }
-                    #}
-                }
-                if ( defined ( $network_index ) ) {
-                    $IPGATEWAY=$gateway_index->{$ref};
-                    $IPSUBNET=$network_index->{$ref};
-                }
-                $common->addSnmpNetwork( {
-                    TYPE      => $TYPE,
-                    SLOT      => $SLOT,
-                    SPEED     => $SPEED,
-                    MACADDR   => $MACADDR,
-                    STATUS    => $STATUS,
-                    IPADDR    => $IPADDR,
-                    IPMASK    => $IPMASK,
-                    IPGATEWAY => $IPGATEWAY,
-                    IPSUBNET  => $IPSUBNET,
-                });
-                $MACADDR=undef;
-                $SLOT=undef;
-                $STATUS=undef;
-                $SPEED=undef;
-                $IPADDR=undef;
-                $IPMASK=undef;
-                $IPGATEWAY=undef;
-                $IPSUBNET=undef;
             }
-        }
+        } 
     } # End foreach result
 }
 

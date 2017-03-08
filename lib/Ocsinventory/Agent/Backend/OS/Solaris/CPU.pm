@@ -35,7 +35,7 @@ sub run {
   $OSLevel=`uname -r`;
       
   
-  if ( $OSLevel =~ /5.8/ || !can_run("zoneadm")){
+  if ( $OSLevel =~ /5.8/ || !$common->can_run("zoneadm")){
     $zone = "global";
   }else{
       foreach (`zoneadm list -p`){

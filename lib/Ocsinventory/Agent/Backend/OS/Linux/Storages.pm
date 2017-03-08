@@ -300,27 +300,20 @@ sub getFromSmartctl {
             chomp($line);
             if($line =~ m/Vendor:\s+(\S+.*)\s*$/i) {
                 $vendor = $1;
-            }
-            elsif($line =~ m/Product:\s+(\S+.*)\s*$/i) {
+            } elsif($line =~ m/Product:\s+(\S+.*)\s*$/i) {
                 $product = $1;
-            }
-            elsif($line =~ m/Revision:\s+(\S+.*)\s*$/i) {
+            } elsif($line =~ m/Revision:\s+(\S+.*)\s*$/i) {
                 $revision = $1;
-            }
-            elsif($line =~ m/Firmware Version:\s+(\S+.*)\s*$/i) {
+            } elsif($line =~ m/Firmware Version:\s+(\S+.*)\s*$/i) {
                 $revision = $1;
-            }
-            elsif($line =~ m/Serial Number:\s+(\S+.*)\s*$/i) {
+            } elsif($line =~ m/Serial Number:\s+(\S+.*)\s*$/i) {
                 $serialnum = $1;
-            }
-            elsif($line =~ m/User Capacity:\s+([\d\.,]+)\s+bytes/i) {
+            } elsif($line =~ m/User Capacity:\s+([\d\.,]+)\s+bytes/i) {
                 $size = $1;
                 $size =~ s/[\.,]//g;
-            }
-            elsif($line =~ m/Device type:\s+(\S+.*)\s*$/i) {
+            } elsif($line =~ m/Device type:\s+(\S+.*)\s*$/i) {
                 $type = $1;
-            }
-            elsif($line =~ m/Rotation Rate:\s+(\S.*)\s*/i) {
+            } elsif($line =~ m/Model Family\s+(\S.*)\s*/i) {
                 $description = $1;
             }
         }
@@ -365,41 +358,32 @@ sub getFromuDev2 {
         my $devName = $devices->{$device}->{NAME};
         if($common->can_run("udevadm")) {
             @input = `udevadm info -q all -n /dev/$devName`;
-        }
-        else {
+        } else {
             @input = `udevinfo -q all -n /dev/$devName`;
         }
         foreach my $line (@input) {
             if($line =~ m/ID_TYPE=(\S+.*)\s*$/){
                 $type = $1;
-            }
-            elsif($line =~ m/ID_MODEL=(\S+.*)\s*$/) {
+            } elsif($line =~ m/ID_MODEL=(\S+.*)\s*$/) {
                 $model = $1;
                 $model =~ s/_/ /g;
-            }
-            elsif($line =~ m/ID_VENDOR=(\S+.*)\s*$/) {
+            } elsif($line =~ m/ID_VENDOR=(\S+.*)\s*$/) {
                 $vendor = $1;
-            }
-            elsif($line =~ m/ID_REVISION=(\S+.*)\s*$/) {
+            } elsif($line =~ m/ID_REVISION=(\S+.*)\s*$/) {
                 $firmware = $1;
-            }
-            elsif($line =~ m/ID_SERIAL_SHORT=(\S+.*)\s*$/) {
+            } elsif($line =~ m/ID_SERIAL_SHORT=(\S+.*)\s*$/) {
                 $serial_short = $1;
-            }
-            elsif($line =~ m/ID_SCSI_SERIAL=(\S+.*)\s*$/) {
+            } elsif($line =~ m/ID_SCSI_SERIAL=(\S+.*)\s*$/) {
                 $serial_scsi = $1;
-            }
-            elsif($line =~ m/ID_SERIAL=(\S+.*)\s*$/) {
+            } elsif($line =~ m/ID_SERIAL=(\S+.*)\s*$/) {
                 $serial = $1;
             }
             if($line =~ m/MD_LEVEL=(\S+.*)\s*$/) {
                 $model = $1;
-            }
-            elsif($line =~ m/MD_METADATA=(\d\.?\d?)/) {
+            } elsif($line =~ m/MD_METADATA=(\d\.?\d?)/) {
                 $firmware = $1;
                 $firmware = "MD METADATA ".$firmware;
-            }
-             elsif($line =~ m/MD_UUID=(\S+.*)\s*$/) {
+            } elsif($line =~ m/MD_UUID=(\S+.*)\s*$/) {
                 $serial_md = $1;
             }
         }
@@ -486,7 +470,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromSmartctl($devices)) {
+    foreach my $device (getFromSmartctl($params,$devices)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL", "DISKSIZE", "FIRMWARE", "SERIALNUMBER", "DESCRIPTION") {
             if ($devices->{$name}->{$f} eq "") {
@@ -496,7 +480,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromuDev2($devices)) {
+    foreach my $device (getFromuDev2($params,$devices)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL", "FIRMWARE", "SERIALNUMBER") {
             if  ($devices->{$name}->{$f} eq "") {
@@ -506,7 +490,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromLshw()) {
+    foreach my $device (getFromLshw($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "MODEL", "DESCRIPTION", "TYPE", "DISKSIZE", "SERIALNUMBER", "FIRMWARE") {
             if ($devices->{$name}->{$f} eq "") {
@@ -516,7 +500,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromLsblk()) {
+    foreach my $device (getFromLsblk($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "DISKSIZE", "TYPE") {
             if ($devices->{$name}->{$f} eq "") {
@@ -536,7 +520,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromLsscsi()) {
+    foreach my $device (getFromLsscsi($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL") {
             if ($devices->{$name}->{$f} eq "") {
@@ -546,111 +530,25 @@ sub run {
         }
     }
     
-    
-
-    # if (can_run("smartctl")){
-        # open PARTINFO,'</proc/partitions' or warn;
-        # foreach(<PARTINFO>){
-            # if (/^\s*(\d*)\s*(\d*)\s*(\d*)\s*([sh]d[a-z]+)$/i){
-                # push(@partitions,$4);
-            # }
-        # }
-
-        # foreach my $dev (@partitions){
-            # $name = "/dev/$dev";
-            # my @sm = `smartctl -i $name`;
-            # for (@sm){
-                # if (/^Model\sFamily:\s*(.*)/i){
-                    # $desc = $1;
-                    # if ($desc =~ /^(IBM|LG|NEC)/){
-                        # $manufacturer = $1;
-                    # } elsif ($desc =~ /^(HP|Hewlett[ -]Packard)/) {
-                        # $manufacturer="Hewlett-Packard";
-                    # } elsif ($desc =~ /(maxtor|western digital|sony|compaq|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i){
-                        # $manufacturer = lc($1);
-                        # $manufacturer =~ s/\b(\w)/\u$1/g;
-                    # } elsif ($desc =~ /^WD/) {
-                        # $manufacturer="Western Digital";
-                    # } elsif ($desc =~ /^ST/) {
-                        # $manufacturer="Seagate";
-                    # } elsif ($desc =~ /^(HD|IC|HU)/) {
-                        # $manufacturer="Hitachi";
-                    # } elsif ($desc =~ /^SandForce/) {
-                        # $manufacturer="Corsair";
-                    # }
-                # }
-
-                # if (/^Device\sModel:\s*(.*)/i){
-                    # $model = $1;
-                    # if (!defined $manufacturer){
-                        # if ($model =~ /^(hitachi|toshiba|samsung)/) {
-                           # $manufacturer = lc($1);
-                           # $manufacturer = s/\b(\w)/\u$1/g;
-                        # } elsif ($model =~ /^ST/) {
-                           # $manufacturer = "Seagate";
-                        # } elsif ($model =~ /^HD/) {
-                           # $manufacturer = "Hitachi";
-                        # }
-                    # }
-                # }
-
-                # if (/^Serial\sNumber:\s*(.*)/i){
-                    # $serial = $1;
-                # }
-
-                # if (/^User\sCapacity:\s*(.*)\sbytes\s\[(.*)\s(.*)\]/i){
-                    # $cap = $1;
-                    # $unit = $3;
-                    # $cap =~ s/,//g;
-                    # if ($unit eq "MB") {
-                        # $cap = int($cap/1024);
-                    # } elsif ($unit eq "GB") {
-                        # $cap = int($cap/1048576);
-                    # } elsif ($unit eq "TB") {
-                        # $cap = int($cap/1073741824);
-                    # } else { 
-                        # $cap = undef; 
-                    # }
-                # }
-                # if (/^Firmware\sVersion:\s*(.*)/i){
-                    # $firmware = $1;
-                # }
-            # }
-            # $devices->{}
-            # $common->addStorages({
-                # DESCRIPTION => $desc,
-                # DISKSIZE => $cap,
-                # FIRMWARE => $firmware,
-                # MANUFACTURER => $manufacturer,
-                # MODEL => $model,
-                # NAME => $name,
-                # SERIALNUMBER => $serial,
-                # TYPE => 'Disk',
-            # });
-        # }
-    # }
-    
     foreach my $device (sort (keys %$devices)) {
-        if($devices->{$device}->{TYPE} =~ /(CD)|(DVD)|(BD)/i) {
-                $devices->{$device}->{DISKSIZE} = "0";
-          }
-        elsif($devices->{$device}->{DISKSIZE}) {
-                        $devices->{$device}->{DISKSIZE} = $devices->{$device}->{DISKSIZE} * 10**-6; # we need MB for the view
+        if ($devices->{$device}->{TYPE} =~ /(CD)|(DVD)|(BD)/i) {
+            $devices->{$device}->{DISKSIZE} = "0";
+        } elsif($devices->{$device}->{DISKSIZE}) {
+            $devices->{$device}->{DISKSIZE} = $devices->{$device}->{DISKSIZE} * 10**-6; # we need MB for the view
         }
-        if(!$devices->{$device}->{DESCRIPTION}) {
-                $devices->{$device}->{DESCRIPTION} = getFromSysProc($device, "description");
+        if (!$devices->{$device}->{DESCRIPTION}) {
+            $devices->{$device}->{DESCRIPTION} = getFromSysProc($device,"description");
         }
-      if (!$devices->{$device}->{MANUFACTURER} or $devices->{$device}->{MANUFACTURER} eq 'ATA'or $devices->{$device}->{MANUFACTURER} eq '') {
-        $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
-      }
-
-      if ( ! $devices->{$device}->{DISKSIZE} ) {
-        $devices->{$device}->{DISKSIZE} = getCapacity($devices->{$device}->{NAME}) * 10**-6;
-      }
-      if ($devices->{$device}->{CAPACITY} =~ /^cdrom$/) {
-        $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME}) * 10**-6;
-      }
-      $common->addStorages($devices->{$device});
+        if (!$devices->{$device}->{MANUFACTURER} or $devices->{$device}->{MANUFACTURER} eq 'ATA'or $devices->{$device}->{MANUFACTURER} eq '') {
+             $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
+        }
+        if (!$devices->{$device}->{DISKSIZE} ) {
+            $devices->{$device}->{DISKSIZE} = getCapacity($devices->{$device}->{NAME})*10**-6;
+        }
+        if ($devices->{$device}->{CAPACITY} =~ /^cdrom$/) {
+            $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME})*10**-6;
+        }
+        $common->addStorages($devices->{$device});
     }
 }
 
