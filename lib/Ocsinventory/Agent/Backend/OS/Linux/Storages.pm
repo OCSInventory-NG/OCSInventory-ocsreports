@@ -2,7 +2,6 @@ package Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 use strict;
 use XML::Simple;
-use Data::Dumper;
 
 sub check {1}
 
@@ -101,6 +100,51 @@ sub getManufacturer {
     } else {
         return $model;
     }
+}
+
+sub getMultipathDisks {
+    my $params = shift;
+    my $common = $params->{common};
+    return unless ($common->can_run("multipath"));
+    my @mpList = `multipath -l`;
+    my @devs;
+	my $volume;
+	my $serial;
+    my $dm;
+	my $manufacturer;
+	my $model;
+    foreach my $line (@mpList) {
+        if($line =~ /^([\w\d]+)\s\((.*)\)\s(dm-\d+)\s(\w+)\s+,([\w\d\s]+)$/i) {
+            $volume = $1;
+			$serial = $2;
+			$dm = $3;
+			$manufacturer = $4;
+			$model = $5;
+        }
+		if($line =~ /size=(\d+)(\w+)\s/) {
+			my $size = $1;
+			my $unit = $2;
+			# conversion to mebibyte
+			my %conversion = (
+				"T" => 1000**4,
+				"G" => 1000**3,
+				"M" => 1000**2,
+				"K" => 1000,
+			);
+			if($conversion{$unit}) {
+				$size = $size / $conversion{$unit} * 2**20;
+			}
+			else {
+				$size = $size." ".$unit;
+			}
+			push (@devs, {NAME=>$dm, DESCRIPTION=>$volume, TYPE=>"Multipath volume", MODEL=>$model, SERIALNUMBER=>$serial, MANUFACTURER=>$manufacturer});
+		}
+        if($line =~ /(sd[a-z]+)/i) {
+            push (@devs, {NAME=>$1, DESCRIPTION=>"Child of $dm", TYPE=>"Multipath child"});
+        }
+    }
+    return @devs;
+
 }
 
 # some hdparm release generated kernel error if they are
@@ -467,8 +511,15 @@ sub run {
             }
         }
     }
+
+    foreach my $device (getMultipathDisks($params)) {
+        my $name = $device->{NAME};
+        foreach my $f ("NAME", "MANUFACTURER", "MODEL", "SERIALNUMBER", "DESCRIPTION", "TYPE") {
+            $devices->{$name}->{$f} = $device->{$f};
+        }
+    }
     
-    foreach my $device (getFromDev()) {
+    foreach my $device (getFromDev($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME") {
             if($devices->{$name}->{$f} eq "") {
@@ -478,7 +529,7 @@ sub run {
         }
     }
     
-    foreach my $device (getMdDevices()) {
+    foreach my $device (getMdDevices($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MODEL") {
             if ($devices->{$name}->{$f} eq "") {
@@ -487,7 +538,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromSmartctl($devices)) {
+    foreach my $device (getFromSmartctl($params,$devices)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL", "DISKSIZE", "FIRMWARE", "SERIALNUMBER", "DESCRIPTION") {
             if ($devices->{$name}->{$f} eq "") {
@@ -497,7 +548,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromuDev2($devices)) {
+    foreach my $device (getFromuDev2($params,$devices)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL", "FIRMWARE", "SERIALNUMBER") {
             if  ($devices->{$name}->{$f} eq "") {
@@ -507,7 +558,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromLshw()) {
+    foreach my $device (getFromLshw($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "MODEL", "DESCRIPTION", "TYPE", "DISKSIZE", "SERIALNUMBER", "FIRMWARE") {
             if ($devices->{$name}->{$f} eq "") {
@@ -517,7 +568,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromLsblk()) {
+    foreach my $device (getFromLsblk($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "DISKSIZE", "TYPE") {
             if ($devices->{$name}->{$f} eq "") {
@@ -527,7 +578,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromUdev()) {
+    foreach my $device (getFromUdev($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "MODEL", "DESCRIPTION", "TYPE", "DISKSIZE", "SERIALNUMBER", "FIRMWARE", "SCSI_COID", "SCSI_CHID", "SCSI_UNID", "SCSI_LUN") {
             if ($devices->{$name}->{$f} eq "") {
@@ -537,7 +588,7 @@ sub run {
         }
     }
     
-    foreach my $device (getFromLsscsi()) {
+    foreach my $device (getFromLsscsi($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL") {
             if ($devices->{$name}->{$f} eq "") {
