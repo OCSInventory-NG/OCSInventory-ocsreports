@@ -158,7 +158,7 @@ if ($protectedPost['onglet'] == 'CAT') {
     );
     $table_name = "CAT_EXIST";
     $default_fields = array('SOFT_NAME' => 'SOFT_NAME', 'SUP' => 'SUP', 'CHECK' => 'CHECK');
-    $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'CHECK' => 'CHECK');
+    $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'SUP' => 'SUP', 'CHECK' => 'CHECK');
     $querydico = 'SELECT ';
     foreach ($list_fields as $key => $value) {
         if ($key != 'SUP' && $key != 'CHECK') {
@@ -246,7 +246,7 @@ if ($protectedPost['onglet'] == 'IGNORED') {
     );
     $table_name = "CAT_IGNORED";
     $default_fields = array('SOFT_NAME' => 'SOFT_NAME', 'SUP' => 'SUP', 'CHECK' => 'CHECK');
-    $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'CHECK' => 'CHECK');
+    $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'CHECK' => 'CHECK', 'SUP' => 'SUP');
     $querydico = 'SELECT ';
     foreach ($list_fields as $key => $value) {
         if ($key != 'SUP' && $key != 'CHECK') {
@@ -268,7 +268,7 @@ if ($protectedPost['onglet'] == 'UNCHANGED') {
     );
     $table_name = "CAT_UNCHANGE";
     $default_fields = array('SOFT_NAME' => 'SOFT_NAME', 'SUP' => 'SUP', 'CHECK' => 'CHECK');
-    $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'CHECK' => 'CHECK');
+    $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'CHECK' => 'CHECK', 'SUP' => 'SUP');
     $querydico = 'SELECT ';
     foreach ($list_fields as $key => $value) {
         if ($key != 'SUP' && $key != 'CHECK') {
