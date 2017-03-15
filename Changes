@@ -1,6 +1,22 @@
 Revision history for ocsreports
 
-2.3RC
+2.3.1
+		* Enhancement ocs reports :
+		* English translation update
+		* German translation update
+		* Japanese translation update
+		* Pt-br translation update
+		* Update dashboard's message page
+		* Update notes form display
+		* Update all software search to be more ergonomic
+		* Remove some old glyphicons
+		* Remove unused libraries
+		* Add custom sort feild on web service soap
+		* Update Ocsinventory.pm to manage non utf8 char
+		* Add hash management to prevent crash on incorrect inventory data
+		* Fix bugs
+
+2.3
 		* A complete rework using the bootstrap framwork has been done to improve design and responsivity
 		* We improved all the inventory data readability
 		* Tables now save your sorting orders / number of entries
