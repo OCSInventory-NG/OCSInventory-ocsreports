@@ -35,7 +35,7 @@ require_once 'XMLProfileSerializer.php';
 function migrate_config_2_2() {
     global $l;
 
-    if (!is_writable(DOCUMENT_REAL_ROOT . '/config')) {
+    if (!is_writable(CONFIG_DIR)) {
         msg_error($l->g(2029));
         exit;
     }
@@ -52,7 +52,7 @@ function migrate_config_2_2() {
 function migrate_urls_2_2($config) {
     $txt_serializer = new TxtUrlsSerializer();
     $xml_serializer = new XMLUrlsSerializer();
-    $filename = DOCUMENT_REAL_ROOT . '/config/urls.xml';
+    $filename = CONFIG_DIR . 'urls.xml';
     $urls = $txt_serializer->unserialize($config);
     $xml = $xml_serializer->serialize($urls);
 
@@ -63,7 +63,7 @@ function migrate_js_2_2($config) {
     $txt_serializer = new TxtJsSerializer();
     $xml_serializer = new XMLJsSerializer();
 
-    $filename = DOCUMENT_REAL_ROOT . '/config/js.xml';
+    $filename = CONFIG_DIR . 'js.xml';
     $js = $txt_serializer->unserialize($config);
     $xml = $xml_serializer->serialize($js);
 
@@ -73,11 +73,11 @@ function migrate_js_2_2($config) {
 function migrate_profiles_2_2() {
     global $l;
 
-    if (!file_exists(DOCUMENT_REAL_ROOT . '/config/profiles')) {
-        mkdir(DOCUMENT_REAL_ROOT . '/config/profiles');
+    if (!file_exists(PROFILES_DIR)) {
+        mkdir(PROFILES_DIR);
     }
 
-    if (!is_writable(DOCUMENT_REAL_ROOT . '/config/profiles')) {
+    if (!is_writable(PROFILES_DIR)) {
         msg_error($l->g(2116));
         exit;
     }
@@ -93,7 +93,7 @@ function migrate_profiles_2_2() {
             $profile = $txt_serializer->unserialize($profile_name, $profile_data);
             $xml = $xml_serializer->serialize($profile);
 
-            file_put_contents(DOCUMENT_REAL_ROOT . '/config/profiles/' . $profile_name . '.xml', $xml);
+            file_put_contents(PROFILES_DIR . $profile_name . '.xml', $xml);
         }
     }
 }

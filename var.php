@@ -93,6 +93,10 @@ define('UPDATE_JSON_URI', 'http://check-version.ocsinventory-ng.org');
  */
 define('CONFIG_DIR', __DIR__ . '/config/');
 /**
+ * Profiles directory
+ */
+define('PROFILES_DIR', CONFIG_DIR.'profiles/');
+/**
  * Computer detail configuration directory
  */
 define('CD_CONFIG_DIR', CONFIG_DIR . 'computer/');
