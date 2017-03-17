@@ -24,7 +24,7 @@
 function show_computer_menu($computer_id) {
     global $protectedGet;
     $menu_serializer = new XMLMenuSerializer();
-    $menu = $menu_serializer->unserialize(file_get_contents('config/computer/menu.xml'));
+    $menu = $menu_serializer->unserialize(file_get_contents(CD_CONFIG_DIR . 'menu.xml'));
 
     $menu_renderer = new ComputerMenuRenderer($computer_id, $_SESSION['OCS']['url_service']);
 
