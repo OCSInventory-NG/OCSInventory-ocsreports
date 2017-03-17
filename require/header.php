@@ -381,7 +381,7 @@ if (!isset($_SESSION['OCS']['TAG_LBL'])) {
 
 /* * *****************************************GESTION OF PLUGINS (MAIN SECTIONS)*************************** */
 if (!isset($_SESSION['OCS']['profile'])) {
-    $profile_config = 'config/profiles/' . $_SESSION['OCS']["lvluser"] . '.xml';
+    $profile_config = PROFILES_DIR . $_SESSION['OCS']["lvluser"] . '.xml';
     $profile_serializer = new XMLProfileSerializer();
     $profile = $profile_serializer->unserialize($_SESSION['OCS']["lvluser"], file_get_contents($profile_config));
     $_SESSION['OCS']['profile'] = $profile;

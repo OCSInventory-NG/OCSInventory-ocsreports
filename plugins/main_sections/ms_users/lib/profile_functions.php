@@ -95,7 +95,7 @@ function create_profile($data) {
     $serializer = new XMLProfileSerializer();
     $xml = $serializer->serialize($newProfile);
 
-    if (file_put_contents(DOCUMENT_REAL_ROOT . '/config/profiles/' . $newProfile->getName() . '.xml', $xml)) {
+    if (file_put_contents(PROFILES_DIR . $newProfile->getName() . '.xml', $xml)) {
         return $newProfile->getName();
     } else {
         return false;
@@ -105,10 +105,10 @@ function create_profile($data) {
 function remove_profile($profile_id) {
     global $l;
 
-    if (!is_writable(DOCUMENT_REAL_ROOT . '/config/profiles')) {
+    if (!is_writable(PROFILES_DIR)) {
         msg_error($l->g(2116));
     } else {
-        unlink(DOCUMENT_REAL_ROOT . '/config/profiles/' . $profile_id . '.xml');
+        unlink(PROFILES_DIR . $profile_id . '.xml');
     }
 }
 
@@ -142,7 +142,7 @@ function update_profile($profile_id, $data) {
     $serializer = new XMLProfileSerializer();
     $xml = $serializer->serialize($updatedProfile);
 
-    if (file_put_contents(DOCUMENT_REAL_ROOT . '/config/profiles/' . $profile->getName() . '.xml', $xml)) {
+    if (file_put_contents(PROFILES_DIR . $profile->getName() . '.xml', $xml)) {
         return $profile->getName();
     } else {
         return false;

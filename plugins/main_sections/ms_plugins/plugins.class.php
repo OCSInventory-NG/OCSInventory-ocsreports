@@ -153,7 +153,7 @@ class plugins {
         }
 
         // add permissions for menu
-        $xmlfile = CONFIG_DIR . "profiles/sadmin.xml";
+        $xmlfile = PROFILES_DIR . "sadmin.xml";
 
         if (file_exists($xmlfile)) {
             $xml = simplexml_load_file($xmlfile);
@@ -235,7 +235,7 @@ class plugins {
         }
 
         // Remove permissions
-        $xmlfile = CONFIG_DIR . "profiles/sadmin.xml";
+        $xmlfile = PROFILES_DIR . "sadmin.xml";
 
         if (file_exists($xmlfile)) {
             $xml = simplexml_load_file($xmlfile);
@@ -286,7 +286,7 @@ class plugins {
             exit;
         }
 
-        $xmlfile = CONFIG_DIR . "profiles/" . $profilename . ".xml";
+        $xmlfile = PROFILES_DIR . $profilename . ".xml";
 
         if (file_exists($xmlfile)) {
             $xml = simplexml_load_file($xmlfile);
@@ -308,7 +308,7 @@ class plugins {
             exit;
         }
 
-        $xmlfile = CONFIG_DIR . "profiles/" . $profilename . ".xml";
+        $xmlfile = PROFILES_DIR . $profilename . ".xml";
 
         $xml = simplexml_load_file($xmlfile);
 
