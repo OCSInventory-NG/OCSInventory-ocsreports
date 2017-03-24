@@ -40,9 +40,9 @@
 66 タイプ
 67 ディスクのサイズ
 69 編集者
-70 Designation
+70 ラベル
 79 プリンタ
-80 見出し
+80 説明
 81 ステータス
 82 ネットワーク
 83 容量
@@ -114,7 +114,7 @@
 203 BETWEEN
 204 OUT OF
 205 Enabled
-206 saved for
+206 保存しました：
 207 ゲートウェイ
 208 ネットマスク
 209 BIOSバージョン
@@ -128,7 +128,7 @@
 217 パスワード
 218 エージェントのバージョン
 219 インベントリ未収集ネットワークインターフェイス数
-220 deleted
+220 削除されました
 221 IP gathering computers
 222 ＊警告＊選択中の全てのコンピュータが一つにマージされます。よろしいですか？
 223 情報
@@ -191,11 +191,11 @@
 280 MIB Type
 281 DHCP IP
 282 Gateways
-283 Purpose
+283 用途
 284 BIOSメーカー
 285 Select a parameter to be modified
 286 サービスパック
-287 Local import
+287 ローカルインポート
 288 ローカルインポート
 289 ネットワーク情報
 290 Ip querying
@@ -259,15 +259,15 @@
 349 列の追加
 350 CPU
 351 CPU数
-352 Last come
+352 最終更新日
 353 Quality
 354 Fidelity
-355 Company
-356 Owner
+355 メーカー
+356 所有者
 357 ユーザーエージェント
 358 Jokers: ? (one character), * (several characters)
 359 Monitor serial
-360 Manufactured on (week/year)
+360 製造日（週/年）
 362 The network
 363 already exists
 364 インベントリ収集済
@@ -321,7 +321,7 @@
 426 Validity of inventories. (ALWAYS: inventory at each login. NEVER: no inventory)
 427 Defines criteria that must be equal for two computers to be automatically merged
 428 配置
-429 頻度
+429 動作クロック
 430 複数操作
 431 アクティブ化
 432 Non notified
@@ -338,7 +338,7 @@
 443 操作
 444 コマンド
 445 パス
-446 File name
+446 ファイル名
 447 ユーザー通知
 448 ユーザに警告する
 449 メッセージ
@@ -380,19 +380,19 @@
 485 Always inventoried
 486 Never inventoried
 487 Custom
-488 Default
+488 デフォルト
 489 IpDiscover behaviour
 490 NEVER IpDiscover
 491 ALWAYS IpDiscover of network
 492 ELECTED IpDiscover of network
 493 Default (can be elected)
-494 Custom inventory frequency
+494 インベントリ収集頻度設定
 495 Inventoried every
 496 日
-497 Default, uses the 'FREQUENCY' parameter.
+497 デフォルト、'FREQUENCY' パラメータを使用します.
 498 パッケージ
 499 サーバー
-500 Customization
+500 カスタマイズ
 501 パッケージの追加
 502 Elected
 503 Force elected
@@ -549,7 +549,7 @@
 659 Machines already have this teledeploy package. This package's status for these machines is now
 660 GROUP OF REDISTRIBUTION NOT EXIST
 661 PACKAGES FOR REDISTRIBUTION
-662 Rules of affectation
+662 配置規則
 663 INTERNES PROBLEM
 664 Action made
 665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
@@ -836,7 +836,7 @@
 950 ファイル名
 951 FILE CREATED IN THE
 952 FILE MODIFIED IN THE
-953 SIZE
+953 サイズ
 954 A SESSION loss happened
 955 NO SYSTEM FOUND IN DATABASE
 956 All the errors
@@ -877,10 +877,10 @@
 991 自動作成されたパッケージ
 992 Teledeploy time estimate
 993 赤い欄がエラーです！
-994 PDA/SMARTPHONE
+994 PDA/スマートフォン
 995 ユーザーID
 996 姓
-997 ユーザーIDを入力仕手ください
+997 ユーザーIDを入力してください
 998 有効なプロファイルを選択してください
 999 ユーザーIDが存在します。
 1000 通知
@@ -893,11 +893,11 @@
 1007 The directory
 1008 再配備に使用する
 1009 Servers storage directory
-1010 NORMAL
-1011 DEBUG
-1012 LANGUAGE
-1013 MAINTENANCE
-1014 Switch to
+1010 通常
+1011 デバッグ
+1012 言語
+1013 メンテナンス
+1014 変更先
 1015 User mode
 1016 Login ROOT
 1017 Password ROOT
@@ -935,7 +935,7 @@
 1049 BAD ACTION
 1050 ソフトウェア検索
 1051 検索
-1052 History
+1052 履歴
 1053 Demande modifiee
 1054 Demande effectuee
 1055 Your e-mail is not valid
@@ -1089,46 +1089,46 @@
 1203 Windows (ALL)
 1204 IP発見
 1205 SNMPコミュニティ管理
-1206 Directory of SNMP communities file
+1206 SNMPコミュニティファイルのパス
 1207 コミュニティの追加
 1208 コミュニティを追加しました。
 1209 コミュニティを更新しました。
 1210 登録情報：
-1211 URL where SNMP community file is
-1212 Community deleted
+1211 SNMPコミュニティファイルのURL
+1212 削除されたコミュニティ
 1213 Separator of export file
 1214 Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)
-1215 Blade server
-1216 Firewall
-1217 Load balancer
-1218 Switch(es)
-1219 Cards
-1220 Cartridges
-1221 Drives
-1222 Fans
-1223 Power supplies
-1224 Trays
-1225 Maximum capacity
-1226 Color
-1227 Contact
-1228 Device SNMP
-1229 Firmware
-1230 Volumn Name
+1215 ブレードサーバ
+1216 ファイアウォール
+1217 ロードバランサ
+1218 スイッチ
+1219 カード
+1220 カートリッジ
+1221 ドライブ
+1222 ファン
+1223 電源
+1224 トレイ
+1225 最大容量
+1226 色
+1227 連絡先
+1228 SNMPデバイス
+1229 ファームウェア
+1230 ボリューム名
 1231 ファイルフォーマットは ZIP である必要があります。
 1232 ファイルフォーマットは TAR.GZ である必要があります。
 1233 データベース名
 1234 Description can't be empty
 1235 Reference
-1236 Soft version
-1237 Firmware version
-1238 Installation date
+1236 ソフトのバージョン
+1237 ファームウェアのバージョン
+1238 インストール日
 1239 MHz
 1240 MB
 1241 SNMP対応デバイス数
-1242 m/d/y
-1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
-1244 This file can't be empty
-1245 Manage your OCS-NG clients
+1242 y/m/d
+1243 ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe, ocspackage.exe のファイルのみ送信出来ます
+1244 このファイルは空に出来ません。
+1245 OCS-NG クライアント亜kんり
 1246 Affect again
 1247 アーキテクチャー
 1248 フォルダー
@@ -1144,64 +1144,64 @@
 1258 手動入力
 1259 週あたり
 1260 月あたり
-1261 Clear cache
+1261 キャッシュのクリア
 1262 このプロファイルで有効なプラグインはありません。
 1263 セキュリティ警告！！
-1264 Next
+1264 次
 1265 Enable cache tables
 1266 仮想マシン
-1267 Type of Virtual Machines
+1267 仮想マシンのタイプ
 1268 Uuid
 1269 Machine hosted by
-1270 MMDDYYYY
-1271 Computers of the subnet
+1270 YYYYMMDD
+1271 サブネット上のコンピュータ
 1272 Delete his computers
 1273 You do not have the right to remove a machine
-1274 Profile updated
-1275 Profiles can't be deleted.
-1276 Profile created
-1277 Default profile (blank for none)
-1278 You are not allowed to connect
+1274 プロファイルを更新しました
+1275 プロファイルが削除出来ません
+1276 プロファイルを取得しました
+1277 デフォルトプロファイル（ブランクまたは無し）
+1278 接続が許可されていません
 1279 WOL
 1280 Wake On Lan
-1281 On Wake On Lan
-1282 Wake On Lan order sent
+1281 Wake On Lan中です
+1282 Wake On Lan 命令を送信しました
 1283 Do you want a Wake On Lan on this computer
 1292 遠隔配置に詳細オプションを使用する
-1293 Teledeploy force
-1294 Installation time
-1295 Installation date
+1293 強制遠隔配置
+1294 導入時間
+1295 導入日
 1296 有償サポート
-1297 SNMP device identification
-1298 QRCode administration
+1297 SNMPデバイス識別
+1298 QRCode 管理
 1299 QRCode
-1300 Check QRCode
+1300 QRCode確認
 1301 on invisible packages
 1302 development
-1303 Export
+1303 エクスポート
 1304 XML
 1305 On the generation of an XML inventory
-1306 Manage plugins
-1307 Active Plugins
-1308 Add plugins
-1309 Teledeploy options
-1310 Shutdown
-1311 Reboot
-1312 Data width
-1313 Current address width
-1314 Logical CPUS
-1315 Current speed
-1316 Socket type
-1317 Cores number
-1318 L2 cache size
-1319 Voltage
+1306 プラグイン管理
+1307 プラグイン有効化
+1308 プラグイン追加
+1309 遠隔配置オプション
+1310 シャットダウン
+1311 再起動
+1312 データ幅
+1313 現在のアドレス帯域
+1314 論理CPU
+1315 現在の速度
+1316 ソケット
+1317 CPUコア数
+1318 L2キャッシュサイズ
+1319 電圧
 1320 Use , between data
-1321 No port defined for WOL
+1321 WOL用のポートが定義されていません
 1322 Unable to open socket for WOL
 1323 Server printer sharing
 1324 Sharing printer on server
 1325 screen horizontal / vertical
-1326 Shared
+1326 共有
 1327 Local / Networks
 1328 管理
 1329 Administration
@@ -1257,15 +1257,15 @@
 1379 RAM installed
 1380 列を初期化
 1381 操作
-1382 Motherboard Serial
-1383 Motherboard Manufacturer
-1384 Motherboard Model
+1382 マザーボードシリアル番号
+1383 マザーボードメーカー
+1384 マザーボードモデル
 1385 Update user
 1386 ユーザー作成
-1387 System
-1388 Network
-1389 Hardware
-1390 Agent
+1387 システム
+1388 ネットワーク
+1389 ハードウェア
+1390 エージェント
 1391 This field is mandatory
 1392 Invalid value
 1393 This package name already exists
@@ -1319,7 +1319,7 @@
 2026 OCS-NGのGUIのアカウント名・パスワードがデフォルトのままです。
 2027 OCS-NGのGUIで 'admin' のパスワードを変更して下さい。
 2028 認証キー
-2029 The config directory is not writable
+2029 設定ディレクトリに書込権限がありません
 
 
 2030 OCS-NG Inventory インストール
@@ -1406,8 +1406,8 @@
 2116 The config/profiles directory is not writable
 2117 Display an update message if a new version is available
 2118 OCSInventory
-2119 is available
-2120 Click here to download
+2119 が有効です
+2120 クリックしてダウンロード
 2121 Launch inventory on agent service startup (Windows)
 2122 Edit
 2123 存在するパッケージ
@@ -1462,7 +1462,7 @@
 7008 プラグインのインストール
 7009 インストールされたプラグイン
 7010 インストール済みです。
-7011 無効なプラグインです。ソースを確認仕手下さい。
+7011 無効なプラグインです。ソースを確認して下さい。
 7012 インストールをキャンセルしました。
 7013 インストールしました
 7014 インストール可能なプラグインはありません。
