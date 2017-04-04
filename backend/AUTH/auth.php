@@ -117,7 +117,7 @@ if ($login_successful == "OK" && isset($login_successful)) {
             <div class="col-md-4 col-md-offset-4">
                 <img class="profile-img" src="image/sphere-ocs.png" />
                 <div class="center-block text-center">
-                    <?php require_once('plugins/language/language.php'); ?>
+                    <?php require_once(LANGUAGE_DIR . 'language.php'); ?>
                 </div>
                 <br />
                 <form method="post" name="CHANGE">
