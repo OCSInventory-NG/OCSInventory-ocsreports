@@ -212,12 +212,12 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])) {
 /* * ***************************************************GESTION DU NOM DES PAGES*************************************** */
 //Config for all user
 if (!isset($_SESSION['OCS']['url_service'])) {
-    if (!file_exists(DOCUMENT_REAL_ROOT . '/config/urls.xml')) {
+    if (!file_exists(CONFIG_DIR.'urls.xml')) {
         migrate_config_2_2();
     }
 
     $url_serializer = new XMLUrlsSerializer();
-    $urls = $url_serializer->unserialize(file_get_contents('config/urls.xml'));
+    $urls = $url_serializer->unserialize(file_get_contents(CONFIG_DIR.'urls.xml'));
     $_SESSION['OCS']['url_service'] = $urls;
 
     // Backwards compatibility
@@ -236,7 +236,7 @@ if (!isset($_SESSION['OCS']['url_service'])) {
 /* * ***************************************************GESTION DES FICHIERS JS*************************************** */
 if (!isset($_SESSION['OCS']['JAVASCRIPT'])) {
     $js_serializer = new XMLJsSerializer();
-    $_SESSION['OCS']['JAVASCRIPT'] = $js_serializer->unserialize(file_get_contents('config/js.xml'));
+    $_SESSION['OCS']['JAVASCRIPT'] = $js_serializer->unserialize(file_get_contents(CONFIG_DIR.'js.xml'));
 }
 
 
