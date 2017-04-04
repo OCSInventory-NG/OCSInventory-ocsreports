@@ -106,6 +106,10 @@ define('CD_CONFIG_DIR', CONFIG_DIR . 'computer/');
 define('PLUGINS_DIR', __DIR__ . '/plugins/');
 define('PLUGINS_GUI_DIR', '/tmp/');
 /**
+ * Language dir
+ */
+define('LANGUAGE_DIR', PLUGINS_DIR . "language/");
+/**
  * HEADER for ocsreports
  */
 define('HEADER_HTML', __DIR__ . '/require/html_header.php');
