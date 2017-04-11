@@ -223,7 +223,7 @@ sub snmp_end_handler {
             );
 
             # For a use in constructor module (Cisco)
-            $self->{username}=$comm->{USER};
+            $self->{username}=$comm->{USERNAME};
             $self->{authpassword}=$comm->{AUTHPASSWD};
             $self->{authprotocol}=$comm->{AUTHPROTO};
             $self->{privpassword}=$comm->{PRIVPASSWD};
