@@ -179,8 +179,6 @@ sub snmp_end_handler {
     my $snmp_ifdescr="1.3.6.1.2.1.2.2.1.2.";
     my $snmp_iftype="1.3.6.1.2.1.2.2.1.3";
 
-    my $full_oid=undef;
-
     # Initalising the XML properties 
     my $snmp_inventory = $self->{inventory};
     $snmp_inventory->{xmlroot}->{QUERY} = ['SNMP'];
@@ -199,7 +197,8 @@ sub snmp_end_handler {
     my $ip=$self->{netdevices};
 
     foreach my $device ( @$ip ) {
-        my $session;
+        my $session=undef;
+        my $full_oid=undef;
         my $devicedata = $common->{xmltags};     #To fill the xml informations for this device
 
         $logger->debug("Scanning $device->{IPADDR} device");    
@@ -369,7 +368,9 @@ sub snmp_end_handler {
         $logger->debug("Failure in scanning Device $device->{IPADDR}: no snmp communication");
     }
         # We have finished with this equipment
-        $session->close;
+        if (defined $session) {
+            $session->close;
+        }
         $self->{snmp_session}=undef;
         # We clear the xml data for this device 
         $common->flushXMLTags(); 
