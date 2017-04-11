@@ -118,8 +118,10 @@ sub snmp_prolog_reader {
                         VERSION=>$_->{VERSION},
                         NAME=>$_->{NAME},
                         USERNAME=>$_->{USERNAME},
-                        AUTHKEY=>$_->{AUTHKEY},
+                        AUTHPROTO=>$_->{AUTHPROTO},
                         AUTHPASSWD=>$_->{AUTHPASSWD},
+                        PRIVPROTO=>$_->{PRIVPROTO},
+                        PRIVPASSWD=>$_->{PRIVPASSWD}
                     };
                 }
                 if ($_->{'TYPE'} eq 'NETWORK'){
