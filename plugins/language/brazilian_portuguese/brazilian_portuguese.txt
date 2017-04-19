@@ -1206,7 +1206,7 @@
 1241 Número de dispositivos SNMP 
 1242 d/m/Y
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
-1244 This file can't be empty
+1244 Esse arquivo não pode ser limpo
 1245 Manage your OCS-NG clients
 1246 Affect again
 1247 Arquitetura
@@ -1216,7 +1216,7 @@
 1251 Estátisticas
 1252 Configuration profiles files directory
 1253 Directory of old conf profiles files
-1254 Directory of scripts logs
+1254 Diretório de log de scripts
 1255 Número de conexões por dia
 1256 Bad connexion number by day
 1257 Use flash on GUI
@@ -1326,7 +1326,7 @@
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
 2042 WARNING: your the default root password is set on your mysql server. Change it asap. (using root password=blank)
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> mysql value to at least 2MB in your server config file.
-2044 Label added
+2044 Rótulo Adicionado
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERRO: Problema de autenticação MySql .
 2047 You must add the 'old-passwords' in your mysql configuration file (my.ini). Then restart mysql, and relaunch install.php
@@ -1383,7 +1383,7 @@
 2103 DEMO mode: you can't update data
 2104 Você está visualizando a versão demo de
 2105 Seu banco de dados está OK. <br> Nenhuma ação tomada.
-2106 in MySQL configuration, the variable 'max_allowed_packet' allows only file size <
+2106 na configuração do MySQL, a variável 'max_allowed_packet' permite apenas aquivos <
 2107 The version of WEB interface is lower than the version of the database
 2108 The version of the database <b> MUST </b> be less than or equal to the version of the web interface
 2109 Versão corrente
