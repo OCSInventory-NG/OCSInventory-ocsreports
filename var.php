@@ -120,7 +120,7 @@ define('FOOTER_HTML', __DIR__ . '/require/footer.php');
 /**
  * Main section directory
  */
-define('MAIN_SECTIONS_DIR', "plugins/main_sections/");
+define('MAIN_SECTIONS_DIR', PLUGINS_DIR . "main_sections/");
 define('DEV_OPTION', false);
 
 //====================================================================================
