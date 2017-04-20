@@ -35,7 +35,7 @@ function migrate_menus_2_2($config) {
     $txt_serializer = new TxtMenuSerializer();
     $xml_serializer = new XMLMenuSerializer();
 
-    $filename = 'config/main_menu.xml';
+    $filename = CONFIG_DIR . 'main_menu.xml';
     $menu = $txt_serializer->unserialize($config);
     $xml = $xml_serializer->serialize($menu);
 
@@ -43,7 +43,7 @@ function migrate_menus_2_2($config) {
 }
 
 function show_menu() {
-    if (!file_exists(DOCUMENT_REAL_ROOT . '/config/main_menu.xml')) {
+    if (!file_exists(CONFIG_DIR . 'main_menu.xml')) {
         migrate_config_2_2();
     }
 
@@ -52,7 +52,7 @@ function show_menu() {
     $urls = $_SESSION['OCS']['url_service'];
 
     $menu_serializer = new XMLMenuSerializer();
-    $menu = $menu_serializer->unserialize(file_get_contents('config/main_menu.xml'));
+    $menu = $menu_serializer->unserialize(file_get_contents(CONFIG_DIR . 'main_menu.xml'));
     $renderer = new MainMenuRenderer($profile, $urls);
     echo $renderer->render($menu);
 }
