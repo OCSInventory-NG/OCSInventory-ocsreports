@@ -11,21 +11,20 @@ sub run {
     my $common = $params->{common};
 
     my $release;
-    foreach (`lsb_release -i`) {
-        $release = $1 if /Distributor\sID:\s+(.+)/;
-    }
+    chomp($release =`lsb_release -is`);
 
     my $OSversion;
-    foreach (`lsb_release -r`){
-        $osversion = $1 if /Release:\s+(.+)/;
-    }
+    chomp($OSversion =`lsb_release -rs`);
  
+    $release .= " ";
+    $release .= $OSversion;
+
     my $OSComment;
     chomp($OSComment =`uname -v`);
 
     $common->setHardware({ 
         OSNAME => $release,
-        OSVERSION => $osversion,
+        OSVERSION => $OSversion,
         OSCOMMENTS => "$OSComment"
     });
 }
