@@ -50,10 +50,13 @@ function plugin_soap_client($name, $action) {
         $method = "DeletePlugins";
     }
 
+    $isHttps = ($_SERVER['REQUEST_SCHEME'] === 'https') ? true : false;
+
     $client = new SoapClient(null, array(
-        'location' => "http://$address/ocsplugins",
-        'uri' => "http://$address/Apache/Ocsinventory/Plugins/Modules",
+        'location' => "http" . ($isHttps ? 's' : '') . "://$address/ocsplugins",
+        'uri' => "http" . ($isHttps ? 's' : '') . "://$address/Apache/Ocsinventory/Plugins/Modules",
     ));
+
 
     $request = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
             <soap:Envelope
