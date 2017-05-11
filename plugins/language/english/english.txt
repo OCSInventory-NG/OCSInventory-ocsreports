@@ -361,7 +361,7 @@
 466 WARNING: Can't find information file at
 467 WARNING: Can't find fragments files at
 468 Are you sure to want to activate this package?
-469 Package activated, it can now be affected
+469 Package activated, it can now be assigned
 470 Https url
 471 Fragments url
 472 ERROR: Can't delete directory
@@ -369,7 +369,7 @@
 474 Timestamp must be 10 digits long
 475 Timestamp
 476 Or activate a package manually
-477 Affect a package
+477 Assign a package
 478 Computer(s)
 479 No computer selected
 480 fragments
@@ -409,16 +409,16 @@
 514 Activate
 515 Activated
 516 KB
-517 This option can only be affected to one computer at a time.
+517 This option can only be assigned to one computer at a time.
 518 Force IpDiscover
 519 Computer already elected for network
 520 Computer already FORCED ipdiscover for network
 521 Computer already FORCED unelectable
 522 Standard computer
 523 Revert back to standard state
-524 NEVER affect again
+524 NEVER assign again
 525 ARE YOU SURE?
-526 NO COMPUTER AFFECTED
+526 NO COMPUTER ASSIGNED
 527 January
 528 February
 529 March
@@ -444,13 +444,13 @@
 549 File (deployed on client computers)
 550 File (not mandatory, may be used by "execute" commmand)
 551 This package name already exists
-552 <i>You must make a computer search, and then click 'deploy' to affect these activated packages<br>You may also affect a package to a single computer by using the 'customization' tab of any computer details</i>.
+552 <i>You must make a computer search, and then click 'deploy' to assign these activated packages<br>You may also assign a package to a single computer by using the 'customization' tab of any computer details</i>.
 553 Windows key
 554 Monitor: serial
 555 Monitor: manufacturer
 556 Monitor: caption
 557 Userdomain
-558 Affected packages
+558 Assigned packages
 559 This file is not .ocs
 560 To server
 561 Unknown (deleted package)
@@ -466,7 +466,7 @@
 572 Success
 573 Errors
 574 Stats
-575 Unaffect not notified
+575 Unassign not notified
 576 Customized ipdiscover
 577 Group name
 580 All computers (replay)
@@ -489,10 +489,10 @@
 597 STATICALLY EXCLUDED
 598 Include
 600 Exclude
-601 Mass affectation
+601 Mass assignment
 602 You need to send a file
 603 No computer found, please check your file
-604 computer(s) successfully affected(s)
+604 computer(s) successfully assigned
 605 computer(s) failed
 606 Computers file
 607 Group
@@ -545,11 +545,11 @@
 655 Insertion made
 656 This datum already exists in the list
 657 Fields in red are in error!!! (Empty fields or size < 2)
-658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
+658 machine don't have redistribution servers. <br>It is thus necessary to assign this package individually.
 659 Machines already have this teledeploy package. This package's status for these machines is now
 660 GROUP OF REDISTRIBUTION NOT EXIST
 661 PACKAGES FOR REDISTRIBUTION
-662 Rules of affectation
+662 Assignment rules
 663 INTERNES PROBLEM
 664 Action made
 665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
@@ -559,7 +559,7 @@
 669 ATTENTION: there are doubloons of priority <br> A single rule will be retained!
 670 A rule already carries this name
 672 This rule does not exist!!!
-673 Administration of the rules of affectation
+673 Administration of assignment rules
 674 NAME OF THE RULE
 675 PRIORITY
 676 MACHINE VALUE
@@ -574,7 +574,7 @@
 685 Add a rule
 686 The condition
 687 You cannot delete it.
-688 Packages are affected on this goupe!
+688 Packages are affected on this group!
 689 Packages are affected on this server!
 690 You cannot delete all the machines.
 691 Generic Values: $IP$ and $NAME$
