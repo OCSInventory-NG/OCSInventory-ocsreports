@@ -104,7 +104,7 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
 					FROM netmap n
 					LEFT JOIN networks ns ON ns.macaddr=n.mac
 					WHERE n.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)
-						and (ns.macaddr IS NULL OR ns.IPSUBNET <> n.netid)
+						and (ns.macaddr IS NULL)
 						and n.netid in  ";
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
     $arg['SQL'] .= " GROUP BY netid)
