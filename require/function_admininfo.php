@@ -397,8 +397,8 @@ function updateinfo_computer($id, $values, $list = '') {
         
         $sql_account_data .= " %s='%s', ";
         array_push($arg_account_data, $field);
-        if($date_accountinfo){ // If date 
-            array_push($arg_account_data, date("Y-m-d", strtotime($val)));
+        if($date_accountinfo){ // If date
+            array_push($arg_account_data, date("Y-m-d", strtotime(changeDateFormat($_SESSION["OCS"]["LANGUAGE"], $val))));
         }else{ // If not date
             array_push($arg_account_data, $val);
         }        
@@ -415,6 +415,17 @@ function updateinfo_computer($id, $values, $list = '') {
     array_push($arg_account_data, $id);
     mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
     return $l->g(1121);
+}
+
+function changeDateFormat($lang, $val){
+    $tab = array("french", "brazilian_portuguese", "italian", "polish", "portuguese", "russian", "slovenian", "spanish", "turkish");
+    if(in_array($lang, $tab)){
+        $tab2 = explode("/", $val);
+        $ret = $tab2[1]."/".$tab2[0]."/".$tab2[2];
+        return $ret;
+    }else{
+        return $val;
+    }
 }
 
 function updown($field, $type) {
