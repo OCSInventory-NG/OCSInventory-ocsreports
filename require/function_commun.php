@@ -529,7 +529,9 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     }
                                     echo "</select>";
                                 } else if($inputType == 'checkbox'){
-                                    foreach ($field['DEFAULT_VALUE'] as $k=>$v){
+                                    if($field["CONFIG"]["SELECTED_VALUE"] == "on"){
+                                        echo "$label <input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked>";
+                                    }else{
                                         echo "$label <input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
                                     }
                                 } else if( $inputType == 'button' || $inputType == 'link'){
