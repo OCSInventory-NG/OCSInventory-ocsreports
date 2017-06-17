@@ -346,7 +346,7 @@ function html_header($noJavascript = false) {
 
         if (isset($_SESSION['OCS']['JAVASCRIPT'])) {
             foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file) {
-                echo "<script src='" . MAIN_SECTIONS_DIR . $file . "' type='text/javascript'></script>";
+                echo "<script src='" . MAIN_SECTIONS_DIR_VISU . $file . "' type='text/javascript'></script>";
             }
         }
     }
