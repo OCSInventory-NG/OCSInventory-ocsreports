@@ -1393,7 +1393,7 @@
 2045 Label NICHT hinzugefügt (es wird beim Start auf dem Client nicht nach einem TAG gefragt.)
 2046 FEHLER: MySQL Login-Problem.
 2047 Sie müssen 'old-passwords' zu Ihrer MySQL-Konfiguration hinzufügen und MySQL neu starten. Rufen Sie dann install.php erneut auf.
-2050 Instalation abgeschlossen. Sie können sich jetzt mit dem Nutzer 'admin' und dem Passwort 'admin' anmelden (und das Passwort dann SOFORT ändern).
+2050 Installation abgeschlossen. Sie können sich jetzt mit dem Nutzer 'admin' und dem Passwort 'admin' anmelden (und das Passwort dann SOFORT ändern).
 2051 Klicken Sie hier um zur OCS-NG-GUI zu gelangen.
 2052 FEHLER: kann dbconfig.inc.php nicht in das Verzeichnis schreiben, bitte setzen Sie die benötigten Schreibrechte. Vergessen Sie nicht, die Rechte nach der Installation wieder zurück zu nehmen.
 2053 Bitte warten, das Aktualisieren der Datenbank kann bis zu 30 Minuten dauern (abhängig von der Größe der Datenbank und der Serverhardware) ...
