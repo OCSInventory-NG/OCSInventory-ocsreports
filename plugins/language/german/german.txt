@@ -43,7 +43,7 @@
 43 Hauptmenü
 44 Optionen auswählen
 45 Freier Speicherplatz
-46 Letze Inventarisierung
+46 Letzte Inventarisierung
 47 Letzte Seite
 48 Rechner Details
 49 Name
@@ -632,7 +632,7 @@
 669 ACHTUNG: es gibt Dubletten bei der Priorität <br> es wird nur eine Regel angewendet!
 670 Es gibt schon eine Regel mit diesem Namen!
 672 Diese Regel existiert nicht.
-673 Verwaltung der Verteilungs-Regeln.
+673 Verwaltung der Verteilungs-Regeln
 674 NAME DER REGEL
 675 PRIORITÄT
 676 RECHNER-WERT
@@ -1291,7 +1291,7 @@
 1360 Server-Informationen
 1361 Mein Konto
 1362 Über
-1363 OK
+1363 Gruppe anlegen
 1364 Abbrechen
 1365 Mein Konto
 1366 Vorname
@@ -1454,6 +1454,9 @@
 2111 Update durchführen
 2112 Die folgende Datei fehlt oder kann nicht gelesen werden 
 
+2123 Verfügbare Pakete
+2124 Gelöschte Pakete
+
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
@@ -1487,3 +1490,13 @@
 6005 Ein-/Ausschalten
 
 7000 Plugin-Verwaltung
+7001 Plugin-Manager
+7002 Pluginname
+7003 Version
+7004 Lizenz
+7005 Autor
+7006 Zuletzt aktualisiert
+
+7008 Plugin Installation
+7009 Installierte Plugins
+7014 Es wurden keine Plugins gefunden
