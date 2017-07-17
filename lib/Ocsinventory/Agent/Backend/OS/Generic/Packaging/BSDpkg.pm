@@ -3,6 +3,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::BSDpkg;
 sub check {
     my $params = shift;
     my $common = $params->{common};
+    return if ( `uname -rs` =~ /SunOS 5.11/ );
     $common->can_run("pkg") || $common->can_run("pkg_info")
 }
 

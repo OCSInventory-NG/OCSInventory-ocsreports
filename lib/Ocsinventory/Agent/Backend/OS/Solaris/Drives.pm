@@ -9,10 +9,10 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Drives;
 
 
 use strict;
-sub check { 
-    my $params = shift;
-    my $common = $params->{common};
-    $common->can_run ("df"); 
+sub check {
+  my $params = shift;
+  my $common = $params->{common};
+  $common->can_run ("df")
 }
 
 sub run {
@@ -28,23 +28,25 @@ sub run {
 #Looking for mount points and disk space 
     for (`df -k`){
         if (/^Filesystem\s*/){next};
-        # on Solaris 10 /devices is an extra mount which we like to exclude
+        # on Solaris 10 and up, /devices is an extra mount which we like to exclude
         if (/^\/devices/){next};
-        # on Solaris 10 /platform/.../libc_psr_hwcap1.so.1 is an extra mount which we like to exclude
+        # on Solaris 10 and up, /platform/.../libc_psr_hwcap1.so.1 is an extra mount which we like to exclude
         if (/^\/platform/){next};
         # exclude cdrom mount point
         if (/^\/.*\/cdrom/){next};
-        if (!(/^\/.*/) && !(/^swap.*/)){next};
-        if (/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){    
-            $filesystem = $1;
-            $total = sprintf("%i",($2/1024));    
+        if (/^swap.*/){next};
+        # exclude special entries such as ctfs, proc, mnttab, etc...
+        if (/^.*\s+0\s+0\s+0.*/){next};
+        # skip nfs (dirty hack)
+        if (/^\S+:\/.*/){next};
+        # everything else is a local filesystem
+        if (/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
+            $filesystem = $6;
+            $total = sprintf("%i",($2/1024));
             $free = sprintf("%i",($4/1024));
-            $volumn = $6;
-            if ($filesystem =~ /^\/dev\/\S*/){     
-                chomp($type=`fstyp $filesystem`);
-                $type = '' if $type =~ /cannot stat/;
-            } else {$type="";}     
-            #print "FILESYS ".$filesystem." FILETYP ".$type." TOTAL ".$total." FREE ".$free." VOLUMN ".$volumn."\n";
+            $volumn = $1;
+            chomp($type = `mount -v | grep  " $filesystem "`);
+            $type =~ s/\S+\s+on\s+\S+\s+type\s+(\S+)\s+.*/$1/;
             $common->addDrive({
                 FREE => $free,
                 FILESYSTEM => $filesystem,

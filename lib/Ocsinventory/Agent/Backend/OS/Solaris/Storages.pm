@@ -40,11 +40,6 @@ sub run {
     foreach(`iostat -En`){
         #print;
         if ($flag_first_line){          
-            if (/^.*<(\S+)\s*bytes/){              
-                $capacity = $1;
-                $capacity = $capacity/(1024*1024);
-                #print $capacity."\n";
-            }
             ## To be removed when FIRMWARE will be supported
             if ($rev) {
                 $description .= ' ' if $description;
@@ -57,6 +52,8 @@ sub run {
                 $type="FC";
             } elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
                 $type="SCSI";
+            } elsif( $rdisk_path =~ /.*->.*virtual-devices.*/ ) {
+                $type="Virtual";
             }
             $common->addStorages({
                 NAME => $name,
@@ -82,6 +79,11 @@ sub run {
         }
         if (/^.*Product:\s*(\S+)/){
             $model = $1;
+        }
+        if (/^.*<(\S+)\s*bytes/){              
+            $capacity = $1;
+            $capacity = $capacity/(1024*1024);
+            #print $capacity."\n";
         }
         if (/^.*Serial No:\s*(\S+)/){
            $sn = $1;

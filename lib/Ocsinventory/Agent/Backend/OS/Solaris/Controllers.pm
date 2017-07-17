@@ -13,10 +13,11 @@ sub run {
 
     my $name;
     my $type;
-    my $manufacturer;
+    my $description;
 
     foreach(`cfgadm -s cols=ap_id:type:info`){
-        next if (/^Ap_Id/);     
+        $name = $type = $description = "";
+	next if (/^Ap_Id/);     
         if (/^(\S+)\s+/){
             $name = $1;
         }
@@ -24,13 +25,13 @@ sub run {
             $type = $1;
         }
         #No manufacturer, but informations about controller
-        if (/^\S+\s+\S+\s+(\S+)/){
-            $manufacturer = $1;
-        }               
+        if(/^\S+\s+\S+\s+(.*)/){
+            $description = $1;
+        }
         $common->addController({
             'NAME'          => $name,
-            'MANUFACTURER'  => $manufacturer,
             'TYPE'          => $type,
+            'DESCRIPTION'   => $description,
         });
     }
 }

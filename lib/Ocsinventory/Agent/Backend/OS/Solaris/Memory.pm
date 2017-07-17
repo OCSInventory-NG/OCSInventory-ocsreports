@@ -26,6 +26,7 @@ sub run {
     my $sun_class=0;
     my $OSLevel;
     my $zone;
+    my $aarch;
     # for debug only
     my $j=0;
 
@@ -34,28 +35,26 @@ sub run {
     # from server model to server model
     # we try to classified our box in one of the known classes
 
-    $OSLevel=`uname -r`;      
+    chomp($OSLevel = `uname -r`);
+    chomp($aarch = `uname -p`);
     
-    if ( $OSLevel =~ /5.8/ || !$common->can_run("zoneadm") ){
+    if ( !$common->can_run("zonename") || `zonename` =~ /global/ ) {
+    # Either pre Sol10 or in Sol10/Sol11 global zone 
     $zone = "global";
     }else{
-      foreach (`zoneadm list -p`){
-        $zone=$1 if /^0:([a-z]+):.*$/;
-      } 
+    # Sol10/Sol11 local zone
+    $zone = "";
     }
       
     #print "Nom :".$zone."*************************\n";
     
     if ($zone)
     {  
-    # first, we need determinate on which model of Sun Server we run,
-    # because prtdiags output (and with that memconfs output) is differend
-    # from server model to server model
-    # we try to classified our box in one of the known classes
-    $model=`uname -i`;
-    # debug print model  
-    # cut the CR from string model
-    $model = substr($model, 0, length($model)-1);
+      if ( $aarch =~ /sparc/ && $common->can_run("virtinfo") && `virtinfo -t` =~ /.*LDoms guest.*/ ) {
+	$model = "Solaris Ldom";
+      }else{
+	chomp($model = `uname -i`);
+      }
     }else{
     $model="Solaris Containers";
     }
@@ -91,11 +90,14 @@ sub run {
     if ($model  =~ /SUNW,SPARCstation/) { $sun_class = 3; }
     if ($model  =~ /SUNW,Ultra-/) { $sun_class = 3; }
     if ($model  =~ /SUNW,Sun-Blade-100/) { $sun_class = 8; }
+    if ($model  =~ /SUNW,Sun-Blade-1500/) { $sun_class = 8; }
     if ($model  =~ /SUNW,T\d/) { $sun_class = 3; }
     if ($model  =~ /Solaris Containers/){ $sun_class = 7; } 
-   
-    
-    if ($model eq "i86pc") { $sun_class = 6; }
+    if ($model  =~ /Solaris Ldom/) { $sun_class = 7; }
+    if ($model  =~ /i86pc/) { $sun_class = 6; }
+    if ($model  =~ /sun4v/) { $sun_class = 3; }
+ 
+  
     # debug print model
     #print "Sunclass: $sun_class\n";
     # now we can look at memory information, depending from our class
@@ -218,6 +220,7 @@ sub run {
    
     if($sun_class == 3)
     {
+      # socket MB/MEM3/CMP3/BR1/CH1/D2 has a Micron Technology 36HTF51272F80EE1D4 4GB FB-DIMM
       foreach(`memconf 2>&1`) 
       {
         # debug
@@ -248,13 +251,14 @@ sub run {
             })
           }
         }
-        if(/^socket\s+(\S+) has a (\d+)MB\s+(\(\S+\)\s+)?(\S+)/)
+        # socket MB/MEM3/CMP3/BR1/CH1/D2 has a Micron Technology 36HTF51272F80EE1D4 4GB FB-DIMM
+        if(/^socket\s+(\S+) has a (.+) (\d+)GB (\S+)/) 
         {
     $caption = $1;
-          $description = $4;
+          $description = $2;
           $type = $4;
           $numslots = 0;
-          $capacity = $2;
+          $capacity = $3 * 1024;
           # debug
           #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
           $module_count++;
@@ -267,6 +271,24 @@ sub run {
             NUMSLOTS => $numslots
           })
         }
+	# socket P1C1/B31/C1/D0 (LUN 0 ID 124): Samsung 32768MB DDR4 SDRAM DIMM, M393A4K40BB1-CRC
+	if(/^socket\s+(\S+) \(LUN \d+ ID \d+\): (.+) (\d+)MB (\S+) (\S+) DIMM, (\S+)/)
+	{
+	  $caption = $1;
+	  $description = "$2 $6";
+	  $type = "$4 $5";
+	  $numslots = 0;
+	  $capacity = $3;
+	  $module_count++;
+          $common->addMemory({
+            CAPACITY => $capacity,
+            DESCRIPTION => $description,
+            CAPTION => $caption,
+            SPEED => $speed,
+            TYPE => $type,
+            NUMSLOTS => $numslots
+          })
+	}
       }
       # debug: show number of modules found and number of empty slots
       #print "# of RAM Modules: " . $module_count . "\n";
@@ -345,10 +367,10 @@ sub run {
           #print "line: " .$j++ . " " . $flag_mt . "/" . $flag ." : " . "$_";
           # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
           # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
-          if(/^total memory:\s*(\S+)/) { $flag = 0;}
+          if(/^total memory.*(\S+)/) { $flag = 0;}
 
           #print "flag : $flag\n";
-          if($flag_mt && /^\s+\S+\s+\S+\s+\S+\s+(\S+)/) {$flag_mt=0;  $description = $1;}
+          if($flag_mt && /^\s+\S+\s+\S+\s+\S+\s+(\S+)/) {$flag_mt=0;  $type = $1;}
           #print "description : $description\n";
 
           if ($flag && /^\s(\S+)\s+(\S+)/) { $numslots = "LSB " . $1 . " Group " . $2; }
@@ -378,6 +400,13 @@ sub run {
     }
     if($sun_class == 6)
     {
+      #CPU1_D2 BANK2: 4096MB DDR3 DIMM, Samsung M393B5170EH1-CH9	(SUN FIRE X4270)
+      #DIMM 1A: 4096MB Synchronous DDR2 FBDIMM	(ProLiant DL380 G5)
+      #Board 1, DIMM 1A: 8192MB Synchronous DDR3			(ProLiant DL580 G7)
+      #PROC  1 DIMM 12: 16384MB Synchronous DDR3 DIMM, HP		(ProLiant DL380p Gen8)
+      #PROC 1 DIMM 12: 32768MB Synchronous DIMM, HP 752372-081	(ProLiant DL380 Gen9)
+      #XMM1: 2048MB Synchronous DDR2 DIMM, Elpida EBE21UE8AEFA-8G-E	(HP Desktop PC)
+      #DIMM_1: 1024MB Synchronous DDR2 DIMM, Kingston KCM633-ELC	(Dell Desktop PC)
       foreach(`memconf 2>&1`)
       {
         # debug
@@ -386,7 +415,8 @@ sub run {
         {
           # cut of first 22 char containing the string empty sockets:
           substr ($_,0,22) = "";
-          $capacity = "0";
+          chomp();
+	  $capacity = "0";
           $numslots = 0;
           foreach $caption (split(/, /,$_))
           {
@@ -399,6 +429,7 @@ sub run {
             # debug
             #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
             $empty_slots++;
+            if ($caption =~ /.* (\d+)$/) { $numslots = $1; }
             $common->addMemory({
               CAPACITY => $capacity,
               DESCRIPTION => "empty",
@@ -409,13 +440,79 @@ sub run {
             })
           }
         }
-        if(/^socket DIMM(\d+):\s+(\d+)MB\s(\S+)/)
+        # These are the non-emtpy sockets in various formats
+        #DIMM 1A: 4096MB Synchronous DDR2 FBDIMM				(ProLiant DL380 G5)
+        #Board 1, DIMM 1A: 8192MB Synchronous DDR3			(ProLiant DL580 G7)
+        #PROC  1 DIMM 12: 16384MB Synchronous DDR3 DIMM, HP		(ProLiant DL380p Gen8)
+        if(/^(.*DIMM) (\S+):\s+(\d+)MB\s(\S+ DDR\d+)\s*(\w*)?(,?.*)/)
         {
-          $caption = "DIMM$1";
-          $description = "DIMM$1";
+          $caption = "$1 $2";
+          $description = "$4 $5$6";
+          $numslots = $2;
+          $capacity = $3;
+	  $type = $5;
+	  unless ($type) { $type = "DIMM" };  # Default if nothing else found
+          # debug
+          #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+          $module_count++;
+          $common->addMemory({
+            CAPACITY => $capacity,
+            DESCRIPTION => $description,
+            CAPTION => $caption,
+            SPEED => $speed,
+            TYPE => $type,
+            NUMSLOTS => $numslots
+          })
+        }
+        #CPU1_D2 BANK2: 4096MB DDR3 DIMM, Samsung M393B5170EH1-CH9	(SUN FIRE X4270)
+        if(/^(.*BANK)(\S+):\s+(\d+)MB\s(\S*DDR\d+)\s*(\w+)?(,?.*)/)
+        {
+          $caption = "$1 $2";
+          $description = "$4 $5$6";
+          $numslots = $2;
+          $capacity = $3;
+	  $type = $5;
+          # debug
+          #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+          $module_count++;
+          $common->addMemory({
+            CAPACITY => $capacity,
+            DESCRIPTION => $description,
+            CAPTION => $caption,
+            SPEED => $speed,
+            TYPE => $type,
+            NUMSLOTS => $numslots
+          })
+        }
+        #PROC 1 DIMM 12: 32768MB Synchronous DIMM, HP 752372-081		(ProLiant DL380 Gen9)
+        if(/^(.*DIMM) (\S+):\s+(\d+)MB\s(\S+)\s+(DIMM\w*)(,?.*)/)
+	{
+          $caption = "$1 $2";
+          $description = "$4 $5$6";
+          $numslots = $2;
+          $capacity = $3;
+	  $type = $5;
+          # debug
+          #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+          $module_count++;
+          $common->addMemory({
+            CAPACITY => $capacity,
+            DESCRIPTION => $description,
+            CAPTION => $caption,
+            SPEED => $speed,
+            TYPE => $type,
+            NUMSLOTS => $numslots
+          })
+        }
+        #XMM1: 2048MB Synchronous DDR2 DIMM, Elpida EBE21UE8AEFA-8G-E	(HP Desktop PC)
+        #DIMM_1: 1024MB Synchronous DDR2 DIMM, Kingston KCM633-ELC	(Dell Desktop PC)
+        if(/^(\S+):\s+(\d+)MB\s(.+)\s+(DIMM\w*)(,?.*)/)
+        {
+          $caption = "$1";
+          $description = "$3 $4$5";
           $numslots = $1;
           $capacity = $2;
-    $type = $3;
+    $type = $4;
           # debug
           #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
           $module_count++;
@@ -501,11 +598,12 @@ sub run {
             })
           }
          }
-        if (/^0x(\d+)\s+(\d+)MB\s+(\S+)\s+(.+)/) {
-          $caption = "$4";
+        if (/^0x(\d+)\s+(\d+)(\S)B\s+(\S+)\s+(.+)/) {
+          $caption = "$5";
           $description = "";
           $numslots = 0;
-          $capacity = $2;
+          $capacity = $2 if ( $3 eq "M" );
+          $capacity = $2 * 1024 if ( $3 eq "G" );
           $type = "";
           # debug
 #        print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
