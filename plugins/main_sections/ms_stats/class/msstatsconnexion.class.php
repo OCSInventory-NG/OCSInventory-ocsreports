@@ -59,7 +59,7 @@ class MsStatsConnexion extends MsStats{
         while (!feof($fd)) {
             $line = trim(fgets($fd, 256));
             $trait = explode(';', $line);
-            if ($trait[3] == $protectedPost['onglet']) {
+            if ($trait[3] == "CONNEXION") {
                 $h = explode(' ', $trait[1]);
                 $time = explode('/', $h[0]);
                 if (mktime(0, 0, 0, $time[1], $time[0], $time[2]) >= $lastWeek) {
@@ -72,14 +72,16 @@ class MsStatsConnexion extends MsStats{
         }
 
         fclose($fd);
-        if (isset($find_connexion)) {
-
+        
+        if (!isset($find_connexion)) {
             $stats = new StatsChartsRenderer;
             $stats->createChartCanvas("connexion_stats", false, false);
             $stats->createPointChart("connexion_stats", array_keys($find_connexion), $find_connexion, $l->g(55));
             
         } else {
-            msg_warning($l->g(766));
+            echo "<div class='col-md-12'>";
+            msg_info($l->g(766));
+            echo "</div>";
         }
     }
     

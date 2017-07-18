@@ -179,7 +179,7 @@ function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME) {
 
 function addLog($type, $value = "", $lbl_sql = '') {
     if ($_SESSION['OCS']['LOG_GUI'] == 1) {
-        if (is_writable(LOG_FILE)) {
+        //if (is_writable(LOG_FILE)) {
             $logHandler = fopen(LOG_FILE, "a");
             $dte = getDate();
             $date = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $dte["mday"], $dte["mon"], $dte["year"], $dte["hours"], $dte["minutes"], $dte["seconds"]);
@@ -189,7 +189,7 @@ function addLog($type, $value = "", $lbl_sql = '') {
             $towite = $_SESSION['OCS']["loggeduser"] . ";" . $date . ";" . DB_NAME . ";" . $type . ";" . $value . ";" . $_SERVER['REMOTE_ADDR'] . ";\n";
             fwrite($logHandler, $towite);
             fclose($logHandler);
-        }
+        //}
     }
 }
 
