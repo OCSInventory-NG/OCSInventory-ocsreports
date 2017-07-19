@@ -77,30 +77,33 @@ sub run {
             }
         } else {
             foreach(`lspci`){
-                if(/graphics|vga|video/i && /^(\d\d:\d\d.\d)\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
+                if(/graphics|vga|video/i && /^([0-9a-f][0-9a-f]:[0-9a-f][0-9a-f].[0-9a-f])\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
                     my $slot = $1;
                     $chipset = $2;
                     $name = $3;
                     if (defined $slot) {
                         my @detail = `lspci -v -s $slot`;
+                        $memory = 0;
                         foreach my $m (@detail) {
                             if ($m =~ /.*Memory.*\s+\(.*-bit,\sprefetchable\)\s\[size=(\d*)M\]/) {
-                                $memory = $1;
+                                $memory += $1;
                             }
                         }
+                        # Don't record zero memory
+                        $memory = undef if $memory == 0;
                     }
                     my @resol= `xrandr --verbose | grep *current`; 
                     foreach my $r (@resol){
                         if ($r =~ /((\d{3,4})x(\d{3,4}))/){
                             $resolution = $1;
                         }
-                        $common->addVideo({
-                            'CHIPSET'    => $chipset,
-                            'NAME'       => $name,
-                            'MEMORY'     => $memory,
-                            'RESOLUTION' => $resolution,
-                        });
-                    }    
+                    }
+                    $common->addVideo({
+                        'CHIPSET'    => $chipset,
+                        'NAME'       => $name,
+                        'MEMORY'     => $memory,
+                        'RESOLUTION' => $resolution,
+                    });
                 }
             }
         }
