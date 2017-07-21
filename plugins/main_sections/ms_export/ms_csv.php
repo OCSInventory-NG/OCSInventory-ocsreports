@@ -97,7 +97,13 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
 
             $found = false;
             // find value case-insensitive
+            
             foreach ($col as $key => $val) {
+                
+                if (strpos($key, ".") !== false) {
+                    $exploded_key = explode(".", $key);
+                    $key = $exploded_key[1];
+                }
 
                 if (array_key_exists($key, $cont)) {
                     if (($field == 'TAG' || substr($field, 0, 7) == 'fields_') && isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])) {
