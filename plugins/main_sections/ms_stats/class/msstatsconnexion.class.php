@@ -56,12 +56,14 @@ class MsStatsConnexion extends MsStats{
         if (isset($protectedPost['REST']) && $protectedPost['REST'] != 'ALL') {
             $lastWeek = time() - ($protectedPost['REST'] * 24 * 60 * 60);
         }
+        
         while (!feof($fd)) {
             $line = trim(fgets($fd, 256));
             $trait = explode(';', $line);
             if ($trait[3] == "CONNEXION") {
                 $h = explode(' ', $trait[1]);
                 $time = explode('/', $h[0]);
+                
                 if (mktime(0, 0, 0, $time[1], $time[0], $time[2]) >= $lastWeek) {
                     $find_connexion[$h[0]] = $find_connexion[$h[0]] + 1;
                     if ($find_connexion[$h[0]] > $max) {
@@ -70,10 +72,10 @@ class MsStatsConnexion extends MsStats{
                 }
             }
         }
-
+        
         fclose($fd);
         
-        if (!isset($find_connexion)) {
+        if (isset($find_connexion)) {
             $stats = new StatsChartsRenderer;
             $stats->createChartCanvas("connexion_stats", false, false);
             $stats->createPointChart("connexion_stats", array_keys($find_connexion), $find_connexion, $l->g(55));
