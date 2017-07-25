@@ -43,7 +43,7 @@ $list_fields = array($l->g(49) => 'MODEL',
 if ($show_all_column) {
     $list_col_cant_del = $list_fields;
 } else {
-    $list_col_cant_del = array($l->g(65) => $l->g(49));
+    $list_col_cant_del = array($l->g(65) => $l->g(65));
 }
 
 $default_fields = $list_fields;
