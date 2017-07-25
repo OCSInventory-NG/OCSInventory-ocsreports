@@ -32,9 +32,9 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
-$list_fields = array($l->g(65) => 'NAME',
+$list_fields = array($l->g(49) => 'MODEL',
     $l->g(64) => 'MANUFACTURER',
-    $l->g(49) => 'MODEL',
+    $l->g(65) => 'NAME',
     $l->g(53) => 'DESCRIPTION',
     $l->g(66) => 'TYPE',
     $l->g(67) . " (MB)" => 'DISKSIZE',
@@ -43,7 +43,7 @@ $list_fields = array($l->g(65) => 'NAME',
 if ($show_all_column) {
     $list_col_cant_del = $list_fields;
 } else {
-    $list_col_cant_del = array($l->g(65) => $l->g(65));
+    $list_col_cant_del = array($l->g(65) => $l->g(49));
 }
 
 $default_fields = $list_fields;
