@@ -6,29 +6,37 @@ sub check {
     my $params = shift;
     my $common = $params->{common};
     return unless $common->can_run('zoneadm'); 
+    return unless $common->can_run('zonecfg'); 
     return unless check_solaris_valid_release();
 }
 sub check_solaris_valid_release{
     #check if Solaris 10 release is higher than 08/07
+    #no problem if Solaris 11
+    my $OSlevel;
     my @rlines;
     my $release_file;
     my $release;
     my $year;
+    my $month;
     
-    $release_file = "/etc/release";
-    if (!open(SOLVERSION, $release_file)) {
-        return;
-    }
-    @rlines = <SOLVERSION>;
-    @rlines = grep(/Solaris/,@rlines);
-    $release = @rlines[0];
-    $release =~ m/(\d)\/(\d+)/;
-    $release = $1;
-    $year = $2;
-    $release =~ s/^0*//g;
-    $year =~ s/^0*//g;
-    if ($year <= 7 and $release < 8 ){
-        return 0;
+    $OSlevel=`uname -r`;
+
+    if ( $OSlevel =~ /5.10/ ) {
+        $release_file = "/etc/release";
+        if (!open(SOLVERSION, $release_file)) {
+            return;
+        }
+        @rlines = <SOLVERSION>;
+        @rlines = grep(/Solaris/,@rlines);
+        $release = @rlines[0];
+        $release =~ m/(\d)\/(\d+)/;
+        $month = $1;
+        $year = $2;
+        $month =~ s/^0*//g;
+        $year =~ s/^0*//g;
+        if ($year <= 7 and $month < 8 ){
+            return 0;
+        }
     }
     1 
 }
@@ -43,6 +51,7 @@ sub run {
     my $zonefile;
     my $pathroot;
     my $uuid;
+    my $zonetype;
     my $memory;
     my $memcap;
     my $vcpu;
@@ -54,27 +63,22 @@ sub run {
     @zones = grep (!/global/,@zones);
 
     foreach $zone (@zones) {    
-        ($zoneid,$zonename,$zonestatus,$pathroot,$uuid)=split(/:/,$zone);
-        # 
-        # Memory considerations depends on rcapd or project definitions
-        # Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
-        $zonefile = "/etc/zones/$zonename.xml";
-        if (!open(ZONE, $zonefile)) {
-            $logger->debug("Failed to open $zonefile");
-            next;
+        ($zoneid,$zonename,$zonestatus,$pathroot,$uuid,$zonetype)=split(/:/,$zone);
+
+        $memory="";
+        foreach (`/usr/sbin/zonecfg -z $zonename info capped-memory`) {
+          if (/\s+physical:\s+(\S+)(\S)/) {
+            # recalculate to GB
+            $memory = $1        if ( $2 eq "G" ) ;
+            $memory = $1 / 1024 if ( $2 eq "M" ) ;
+          }
         }
-        @lines = <ZONE>;
-        @lines = grep(/mcap/,@lines);
-        $memcap = @lines[0];
-        $memcap=~ s/[^\d]+//g;
-        $memory=$memcap/1024/1024;
-        if (!$memcap){
-            $memory="";
-        }
-        $vcpu = `/usr/sbin/psrinfo -p`; 
-        chomp $vcpu;
-        if (!$vcpu){
-            $vcpu="";
+
+        $vcpu="";
+        foreach (`/usr/sbin/zonecfg -z $zonename info dedicated-cpu`) {
+          if (/\s+ncpus:\s+\S*(\d+)/) {
+            $vcpu = $1;
+          }
         }
 
         my $machine = {
@@ -82,7 +86,7 @@ sub run {
             NAME => $zonename,
             UUID => $uuid,
             STATUS => $zonestatus,
-            SUBSYSTEM => "Solaris Zones",
+            SUBSYSTEM => $zonetype,
             VMTYPE => "Solaris Zones",
             VMID => $zoneid,
             VCPU => $vcpu,

@@ -59,34 +59,22 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Bios;
 
 use strict;
 
-sub check { 
-  my $params = shift;
-  my $common = $params->{common};
-  $common->can_run ("showrev") 
-}
-
 sub run {
   my $params = shift;
   my $common = $params->{common};
   my $zone;
-  my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer, $MotherBoardSerial, $MotherBoardModel, $MotherBoardManufacturer, $BiosManufacturer, $BiosVersion, $BiosDate, $aarch);
+  my( $SystemSerial , $SystemModel, $SystemManufacturer, $ChassisType, $MotherBoardSerial, $MotherBoardModel, $MotherBoardManufacturer, $BiosManufacturer, $BiosVersion, $BiosDate, $aarch);
   
-  my $OSLevel=`uname -r`;      
-  
-  if ( $OSLevel =~ /5.8/ ){
+  if ( !$common->can_run("zonename") || `zonename` =~ /global/ ) {
+    # Ether pre Sol10 or in Sol10/Sol11 global zone
     $zone = "global";
-  }else{
-      foreach (`zoneadm list -p`){
-        $zone=$1 if /^0:([a-z]+):.*$/;
-      } 
+  } else {
+    $zone = "";
   }
     
   if ($zone){   
-          foreach(`showrev`){
-            if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
-            if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
-            if(/^Application architecture:\s+(\S+)/){$aarch = $1};
-          }
+          chomp($SystemModel = `uname -m`);
+          chomp($aarch = `uname -p`);
           if( $aarch eq "i386" ){
             #
             # For a Intel/AMD arch, we're using smbios
@@ -106,24 +94,36 @@ sub run {
               if(/^\s*Serial Number:\s*(.+)$/){$MotherBoardSerial = $1};
               if(/^\s*Manufacturer:\s*(.+)$/){$MotherBoardManufacturer = $1};
             }
+            foreach(`/usr/sbin/smbios -t SMB_TYPE_CHASSIS`) {
+              if(/^\s*Chassis Type:.*\((.+)\)$/) {$ChassisType = $1};
+            }
           } elsif( $aarch eq "sparc" ) {
             #
             # For a Sparc arch, we're using prtconf
             #
             my $name;
             my $OBPstring;
+            my $found=0;
             
+            if ( $common->can_run("virtinfo") && `virtinfo -t` =~ /.*LDoms guest.*/ ) {
+              foreach(`virtinfo -a`) {
+                if(/^Domain role:\s*(.+)$/)      {$ChassisType = $1};
+                if(/^Chassis serial.:\s*(.+)$/)  {$SystemSerial = $1};
+              }
+            }
+
             foreach(`/usr/sbin/prtconf -pv`) {
               # prtconf is an awful thing to parse
+              if(/^System Configuration:\s*(.+)\s+\S+$/) {$SystemManufacturer = $1; $BiosManufacturer = $1; }
               if(/^\s*banner-name:\s*'(.+)'$/){$SystemModel = $1;}
               unless ($name)
                 { if(/^\s*name:\s*'(.+)'$/){$name = $1;} }
               unless ($OBPstring) {
             if(/^\s*version:\s*'(.+)'$/){
                   $OBPstring = $1;
-              # looks like : "OBP 4.16.4 2004/12/18 05:18"
+              # looks like : "OBP 4.33.6.f 2014/07/10 10:24"
                   #    with further informations sometimes
-                  if( $OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ ){
+                  if( $OBPstring =~ m@OBP\s+(\S+)\s+(\d+)/(\d+)/(\d+)@ ){
                     $BiosVersion = "OBP $1";
                     $BiosDate = "$2/$3/$4";
                   } else { $BiosVersion = $OBPstring }
@@ -131,17 +131,33 @@ sub run {
               } 
             }
             $SystemModel .= " ($name)" if( $name );
-            
-            if( -x "/opt/SUNWsneep/bin/sneep" ) {
-              chomp($SystemSerial = `/opt/SUNWsneep/bin/sneep`);
-            }else {                
-                foreach(`/bin/find /opt -name sneep`) {    
-                    chomp($SystemSerial = `$1`) if /^(\S+)/;                         
+           
+            if ( $common->can_run("ipmitool") ) {
+              foreach(`/usr/sbin/ipmitool fru print`) {
+                if (/^\s*Chassis Type\s+:\s+(.+)/) {
+                  $ChassisType = $1;
+                  $found = 1;
                 }
-                if (!$SystemSerial){
-                    $SystemSerial = "Please install package SUNWsneep";
-                }  
+                elsif ( $found && /^\s*Product Serial\s+:\s+(.+)/) {
+                  $SystemSerial = $1;
+                  last;
+                }
+              }
             }
+
+            if ( !$SystemSerial ) {
+              # No serial found via ipmitool, so use sneep
+              if( -x "/opt/SUNWsneep/bin/sneep" ) {
+                chomp($SystemSerial = `/opt/SUNWsneep/bin/sneep`);
+              }else {                
+                  foreach(`/bin/find /opt -name sneep`) {    
+                      chomp($SystemSerial = `$1`) if /^(\S+)/;                         
+                  }
+                  if (!$SystemSerial){
+                      $SystemSerial = "Please install package SUNWsneep";
+                  }  
+              }
+           }
           } 
     }else{
         foreach(`showrev`){            
@@ -156,11 +172,13 @@ sub run {
   $common->setBios ({
       BVERSION => $BiosVersion,
       BDATE => $BiosDate,
+      BMANUFACTURER => $BiosManufacturer,
       SMANUFACTURER => $SystemManufacturer,
       SMODEL => $SystemModel,
       SSN => $SystemSerial,
       MMANUFACTURER => $MotherBoardManufacturer,
       MSN => $MotherBoardSerial,
+      TYPE => $ChassisType,
       MMODEL => $MotherBoardModel     
     });
 }

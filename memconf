@@ -6,7 +6,7 @@
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
 # @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 08-Sep-2016 V3.11
+# @(#) Micron Technology, Inc. - Tom Schmidt 28-Feb-2017 V3.13
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
@@ -79,7 +79,7 @@
 #   - sun4v Sun SPARC Enterprise T2000, T1000 Server
 #   - sun4v Sun SPARC Enterprise T5120, T5140, T5220, T5240 Server, Netra T5220
 #   - sun4v Sun SPARC Enterprise T5440 Server, Netra T5440
-#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4, T5-2, T5-4
+#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4, T5-2, T5-4, S7-2
 #   - sun4v Fujitsu SPARC M10-1, M10-4
 #   - sun4m Tatung COMPstation 5, 10, 20AL, 20S and 20SL clones
 #   - sun4m transtec SPARCstation 20I clone
@@ -109,8 +109,9 @@
 # - sun4u Sun Netra ct400, ct410, ct810
 # - sun4u Sun SPARCengine CP2040, CP2060, CP2080, CP2160
 # - sun4v Sun Netra CP3260
-# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B, T5-8, T5-1B
-# - sun4v Oracle SPARC M5-32, M6-32
+# - sun4v Oracle SPARC S7-2L
+# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B, T5-8, T5-1B, T7-1, T7-2, T7-4
+# - sun4v Oracle SPARC M5-32, M6-32, M7-8, M7-16
 # - sun4v Oracle Netra SPARC T3 systems
 # - sun4v Fujitsu SPARC M10-4S
 # - May not work properly on Sun clones
@@ -131,8 +132,8 @@
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 $starttime=(times)[0];
 
-$version="V3.11";
-$version_date="08-Sep-2016";
+$version="V3.13";
+$version_date="28-Feb-2017";
 $URL="http://sourceforge.net/projects/memconf/";
 
 $newpath="/usr/sbin:/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
@@ -252,14 +253,14 @@ if (-d '/usr/platform') {
 		$prtdiag_cmd="/usr/platform/$platform/sbin/prtdiag";
 	} elsif (-x "/usr/platform/$machine/sbin/prtdiag") {
 		$prtdiag_cmd="/usr/platform/$machine/sbin/prtdiag";
-	} elsif (-x "/usr/sbin/prtdiag") {
+	} elsif (-x '/usr/sbin/prtdiag') {
 		$prtdiag_cmd="/usr/sbin/prtdiag";
 	}
 } elsif (-x '/usr/kvm/prtdiag') {
 	$platform=$machine;
 	$prtdiag_cmd='/usr/kvm/prtdiag';
-} elsif (-x "/usr/sbin/prtdiag") {
-	$platform=$machine;
+} elsif (-x '/usr/sbin/prtdiag') {
+	$platform=&mychomp(`$uname -i`);
 	$prtdiag_cmd="/usr/sbin/prtdiag";
 }
 if ($prtdiag_cmd) {
@@ -441,9 +442,13 @@ $picl_foundmemory=0;
 @picl_mem_pn=();
 @picl_mem_bank=();
 @picl_mem_dimm=();
-$uid=&mychomp(`id`);
-$uid=~s/uid=//;
-$uid=~s/\(.*//;
+if (-x '/usr/bin/id') {
+	$uid=&mychomp(`/usr/bin/id`);
+	$uid=~s/uid=//;
+	$uid=~s/\(.*//;
+} else {
+	$uid=0; # assume super-user
+}
 $empty_memory_printed=0;
 @filelist=();
 
@@ -642,6 +647,19 @@ if (! $filename) {
 		}
 	} elsif ($os =~ /Linux|FreeBSD/) {
 		&linux_distro if (! $release);
+		if ($machine =~ /arm/i) {
+			if (-f '/etc/Alt-F' && -f '/tmp/board') {
+				# NAS model
+				open(FILE, "</tmp/board");
+				$model=&mychomp(<FILE>);
+				close(FILE);
+			} elsif (-f '/etc/model') {
+				# DLink NAS model
+				open(FILE, "</etc/model");
+				$model=&mychomp(<FILE>);
+				close(FILE);
+			}
+		}
 		# Use dmidecode for Linux x86, not for Linux SPARC
 		&check_dmidecode if ($config_cmd =~ /dmidecode/ && -x "$config_cmd" && ($machine =~ /.86/ || ! -x '/usr/sbin/prtconf'));
 		if ($machine =~ /.86/ || ! -e '/dev/openprom') {
@@ -1135,10 +1153,19 @@ sub show_header {
 				print ", ${kernbit}-bit kernel, " if ($kernbit);
 			}
 			if ($os =~ /Linux|FreeBSD/ && $release) {
-				if (-x "/bin/busybox") {
-					$bbversion=`/bin/busybox 2>/dev/null | awk '/^BusyBox / {print \$2}'`;
-					$bbversion=&mychomp($bbversion);
-					print "BusyBox $bbversion, ";
+				if (-x '/bin/busybox') {
+					@busybox=`/bin/busybox cat --help 2>&1`;
+					$busyboxver="";
+					for (@busybox) {
+						next if (! /^BusyBox/);
+						$busyboxver=&mychomp($_);
+						$busyboxver=~s/\).*$/\)/;
+					}
+					if ($busyboxver) {
+						print "$busyboxver, ";
+					} else {
+						print "BusyBox, ";
+					}
 				}
 				print "$release\n";
 			} else {
@@ -1292,10 +1319,10 @@ sub show_header {
 		if ($format_cpu == 1) {
 			print "CPU Units: Frequency Cache-Size Version\n" if ($model =~ /-Enterprise/ || $ultra eq "e");
 		} else {
-			print "CPU Units:\n" if (! $ldm_memory);
+			print "CPU Units:\n";
 		}
 		if ($model ne "SPARCserver-1000" && $model ne "SPARCcenter-2000") {
-			print @boards_cpu if (! $ldm_memory);
+			print @boards_cpu;
 			print "Memory Units:\n" if (! &is_virtualmachine);
 		}
 	}
@@ -1567,6 +1594,14 @@ sub check_model {
 	$ultra="M10-1" if ($model =~ /SPARC-M10-1\b/ || $modelbanner =~ /SPARC M10-1\b/);
 	$ultra="M10-4" if ($model =~ /SPARC-M10-4\b/ || $modelbanner =~ /SPARC M10-4\b/);
 	$ultra="M10-4S" if ($model =~ /SPARC-M10-4S\b/ || $modelbanner =~ /SPARC M10-4S\b/);
+	# SPARC S7 and M7 systems
+	$ultra="S7-2" if ($model =~ /SPARC-S7-2\b/ || $modelbanner =~ /SPARC S7-2\b/);
+	$ultra="S7-2L" if ($model =~ /SPARC-S7-2L\b/ || $modelbanner =~ /SPARC S7-2L\b/);
+	$ultra="T7-1" if ($model =~ /SPARC-T7-1\b/ || $modelbanner =~ /SPARC T7-1\b/);
+	$ultra="T7-2" if ($model =~ /SPARC-T7-2\b/ || $modelbanner =~ /SPARC T7-2\b/);
+	$ultra="T7-4" if ($model =~ /SPARC-T7-4\b/ || $modelbanner =~ /SPARC T7-4\b/);
+	$ultra="M7-8" if ($model =~ /SPARC-M7-8\b/ || $modelbanner =~ /SPARC M7-8\b/);
+	$ultra="M7-16" if ($model =~ /SPARC-M7-16\b/ || $modelbanner =~ /SPARC M7-16\b/);
 
 	# Older SPARCstations
 	$modelmore="SPARCstation SLC" if ($model eq "Sun 4/20");
@@ -1840,8 +1875,11 @@ sub add_to_sockets_used {
 	$_=shift;
 	# strip leading slash for matching
 	$_=~s/^\///;
-	$sockets_used .= "," if ($sockets_used && /\s/);
-	$sockets_used .= " $_" if ($sockets_used !~ /$_/);
+	if ($sockets_used !~ /$_/) {
+		$sockets_used .= "," if ($sockets_used && /\s/);
+		$sockets_used .= " $_";
+#		&pdebug("in add_to_sockets_used, added $_");
+	}
 }
 
 sub add_to_sockets_empty {
@@ -2082,6 +2120,10 @@ sub check_prtdiag {
 			}
 			if ($linearr[$#linearr] =~ /BB\d+\/CMU[LU]\/CMP[01]\/MEM[01][0-7][AB]/) {
 				# Fujitsu SPARC M10-4, M10-4S (guess)
+				$sockets_used .= " $linearr[$#linearr]";
+			}
+			if ($linearr[$#linearr] =~ /SYS\/MB\/CMP\d+\/MCU\d+\/CH\d+\/D\d+/) {
+				# SPARC S7-2, S7-2L
 				$sockets_used .= " $linearr[$#linearr]";
 			}
 		}
@@ -2585,6 +2627,7 @@ sub check_prtpicl {
 		}
 		if ($line =~ /\s+:name\s+memory-module/) {
 			$flag_mem_mod=0;	# End of memory module section
+			&add_to_sockets_used($mem_dimm);
 		}
 		if (($line =~ /^\s+\w.*/ && $line !~ /^\s+memory-/ && $has_picl_mem_mod) || ($line =~ /\s+:name\s/ && ! $has_picl_mem_mod)) {
 			$flag_mem_seg=0;
@@ -2604,9 +2647,9 @@ sub check_prtpicl {
 				}
 				$flag_mem_mod=0;	# End of memory module section
 				&add_to_sockets_used($socket);
-				if (defined($mem_model)) {
+				if (defined($mem_model) && defined($mem_mfg)) {
 					$picl_mem_pn{"$socket"}="$mem_mfg $mem_model";
-				} else {
+				} elsif (defined($mem_mfg)) {
 					$picl_mem_pn{"$socket"}="$mem_mfg";
 				}
 				if ($max_picl_dimm_per_bank) {
@@ -2942,8 +2985,10 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 4 / $ncpu . "-Core Quad-Thread $cputype";
-		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		if ($threadcnt) {
+			$cputype=$threadcnt / 4 / $ncpu . "-Core Quad-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
 	} elsif ($cputype =~ /UltraSPARC-T2\+/) {
 		$cputype="UltraSPARC-T2+";
 		# Count 8-Thread (4, 6, or 8 Core) Victoria Falls CPUs as 1 CPU
@@ -2969,8 +3014,10 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
-		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
 	} elsif ($cputype =~ /UltraSPARC-T2$/) {
 		$cputype="UltraSPARC-T2";
 		# Count 8-Thread (4 or 8 Core) Niagara-II CPUs as 1 CPU
@@ -2984,8 +3031,10 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
-		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
 	} elsif ($cputype =~ /SPARC-T3$/) {
 		$cputype="SPARC-T3";
 		# Count 8-Thread (8 or 16 Core) Rainbow Falls CPUs as 1 CPU
@@ -2999,8 +3048,10 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
-		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
 	} elsif ($cputype =~ /SPARC-T4$/) {
 		$cputype="SPARC-T4";
 		# Count 8-Thread 8-Core SPARC-T4 CPUs as 1 CPU
@@ -3014,8 +3065,10 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
-		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
 	} elsif ($cputype =~ /SPARC-T5$/) {
 		$cputype="SPARC-T5";
 		# Count 8-Thread 16-Core SPARC-T5 CPUs as 1 CPU
@@ -3029,8 +3082,10 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
-		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
 	} elsif ($cputype =~ /SPARC.M5$/) {
 		$cputype="SPARC-M5";
 		# Count 8-Thread 6-Core SPARC-M5 CPUs as 1 CPU
@@ -3044,8 +3099,10 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
-		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
 	} elsif ($cputype =~ /SPARC.M6$/) {
 		$cputype="SPARC-M6";
 		# Count 8-Thread 12-Core SPARC-M6 CPUs as 1 CPU
@@ -3059,8 +3116,44 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
-		$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
+	} elsif ($cputype =~ /SPARC.S7$/) {
+		$cputype="SPARC-S7";
+		# Count 8-Thread 8-Core SPARC-S7 CPUs as 1 CPU
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
+			$ncpu=$npcpu;
+		} else {
+			# Each CPU has 8 Cores max (64 threads)
+			$ncpu=int(($threadcnt - 1) / 64) + 1;
+		}
+		if (defined($arg)) {
+			$cnt=$ncpu;
+			return;
+		}
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
+	} elsif ($cputype =~ /SPARC.M7$/) {
+		$cputype="SPARC-M7";
+		# Count 8-Thread 32-Core SPARC-M7 CPUs as 1 CPU
+		if ($npcpu && $ldm_cmd && ! $have_ldm_data) {
+			$ncpu=$npcpu;
+		} else {
+			# Each CPU has 32 Cores max (256 threads)
+			$ncpu=int(($threadcnt - 1) / 256) + 1;
+		}
+		if (defined($arg)) {
+			$cnt=$ncpu;
+			return;
+		}
+		if ($threadcnt) {
+			$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
+			$cpucnt{"$cputype $cpufreq"}=$ncpu;
+		}
 	} elsif ($cputype =~ /SPARC64-VI$/) {
 		# Count Dual-Core Dual-Thread Olympus-C SPARC64-VI CPUs as 1 CPU
 		$ncpu=$threadcnt / 4;
@@ -3245,11 +3338,11 @@ sub get_mfg {
 	&pdebug("in get_mfg, JEDEC_ID=$_");
 	return "" if (/(^$|^\r$|^FFFFFFFFFFFF|^000000000000|^Undefined|Manufacturer\d)/i);
 	s/^(00|80)// if (! /^007F/);
-	# Based on JEDEC JEP106AB
+	# Based on JEDEC JEP106AT
 	return "Micron Technology" if (/(^2C|Micron\b)/i);
 	return "Micron CMS" if (/(^7F45|Micron CMS)/i);
 	return "Crucial Technology" if (/(^1315$|^859B|^9B|^7F7F7F7F7F9B|Crucial\b)/i);
-	# Inotera is a Joint Venture between Micron and Nanya
+	# Inotera was a Joint Venture between Micron and Nanya
 	# Micron fully acquired Inotera in 2016
 	return "Inotera Memories" if (/Inotera/i);
 	# Micron acquired Elpida in August 2013
@@ -3294,11 +3387,12 @@ sub get_mfg {
 	return "Kingston" if (/(^7F98|^0198|Kingston)/i);
 	return "SpecTek Incorporated" if (/(^7F7FB5|SpecTek)/i);
 	return "Nanya Technology" if (/(^7F7F7F0B|^830B|Nanya)/i);
+	return "Kingmax Semiconductor" if (/(^7F7F7F25|KINGMAX)/i);
 	return "Ramaxel Technology" if (/(^7F7F7F7F43|Ramaxel)/i);
-	return "ADATA Technology" if (/(^7F7F7F7FCB|ADATA|A-DATA)/i);
+	return "A-DATA Technology" if (/(^7F7F7F7FCB|ADATA|A-DATA)/i);
+	return "Team Group Inc." if (/^(7F7F7F7FEF|Team\b)/i);
 	return "AMD" if (/^01/);
 	return "AMI" if (/^02/);
-	return "KINGMAX" if (/(^7F7F7F25|KINGMAX)/i);
 	if ($has_JEDEC_ID || /^7F|^80|^FF/i) {
 		$unknown_JEDEC_ID=1;
 		&pdebug("in get_mfg, found unknown JEDEC ID $_");
@@ -3313,6 +3407,7 @@ sub check_ipmitool {
 	$cputype2="";
 	$mem_mfg="";
 	$mem_model="";
+	$mem_pn="";
 	$flag_cpu=0;
 	$flag_mem=0;
 	$flag_mfg=0;
@@ -3338,7 +3433,7 @@ sub check_ipmitool {
 				}
 			}
 			if ($flag_mem && $socket) {
-				$ipmi_mem{"$socket"}=("$mem_mfg$mem_model") ? "$mem_mfg $mem_model" : "";
+				$ipmi_mem{"$socket"}=("$mem_mfg$mem_model$mem_pn") ? "$mem_mfg $mem_model$mem_pn" : "";
 			}
 			$flag_cpu=0;	# End of CPU section
 			$flag_mem=0;	# End of memory section
@@ -3346,13 +3441,14 @@ sub check_ipmitool {
 			$cputype2="";
 			$mem_mfg="";
 			$mem_model="";
+			$mem_pn="";
 		}
 		if ($line =~ / (cpu\d+\.vpd|p\d+\.fru )/) {
 			$flag_cpu=1;	# Start of CPU section
 			$socket=$line;
 			$socket=~s/^.*: +(.*\S)\.[vf][pr][du].*$/$1/;
 		}
-		if ($flag_cpu && ($line =~ / Product Name /)) {
+		if ($flag_cpu && $line =~ / Product Name /) {
 			$cputype2=$line;
 			$cputype2=~s/^.*: +(.*\S) *$/$1/;
 			&x86multicorecnt($cputype2);
@@ -3361,22 +3457,37 @@ sub check_ipmitool {
 			$flag_mem=1;	# Start of memory module section
 			$socket=$line;
 			$socket=~s/^.*: +(.*\S)\.[vf][pr][du].*$/$1/;
+		} elsif ($line =~ / P\d+C\d+\/B\d+\/C\d+\/D\d+ / && $ultra =~ /^T7-/) {
+			# Need what M7-8 and M7-16 format looks like
+			$flag_mem=1;	# Start of memory module section
+			$socket=$line;
+			$socket=~s/^.*: +(.*\S)\s*.*$/$1/;
 		}
-		if ($flag_mem && ($line =~ / Product Manufacturer /)) {
+		if ($flag_mem && $line =~ / Device not present /) {
+			# Ignore missing Processor Modules
+			$flag_mem=0 if ($ultra eq "T7-4" && $corecnt == 2 && $socket =~ /P1C\d+\/B\d+\/C\d+\/D\d+/);
+			# Need what M7-8 and M7-16 format looks like
+		}
+		if ($flag_mem && $line =~ / Product Manufacturer /) {
 			$mem_mfg=$line;
 			$mem_mfg=~s/^.*: +(.*\S) *$/$1/;
 			$mem_mfg=&get_mfg($mem_mfg);
 		}
-		if ($flag_mem && ($line =~ / Product Name /)) {
+		if ($flag_mem && $line =~ / Product Name /) {
 			$mem_model=$line;
 			$mem_model=~s/^.*: +(.*\S) *$/$1/;
 			$mem_model=~s/ ADDRESS\/COMMAND//;
 			$mem_model=~s/PARITY/Parity/;
 		}
+		if ($flag_mem && $line =~ / Product Part Number /) {
+			$mem_pn=$line;
+			$mem_pn=~s/^.*: +(.*\S) *$/, $1/;
+			$mem_pn=~s/^, .*,(.*\S)$/, $1/;
+		}
 		if ($line =~ /FRU Device Description *: *\/*SYS /) {
 			$flag_mfg=1;	# Start of mfg section
 		}
-		if ($flag_mfg && ($line =~ / Product Manufacturer /)) {
+		if ($flag_mfg && $line =~ / Product Manufacturer /) {
 			$manufacturer="Sun Microsystems, Inc." if ($line =~ /Sun /i);
 			$manufacturer="Oracle Corporation" if ($line =~ /Oracle/i);
 		}
@@ -3513,6 +3624,18 @@ sub found_guest_LDOM {
 	} elsif ($cputype =~ /SPARC-T5$/) {
 		delete $cpucnt{"$cputype $cpufreq"};
 		$cputype="SPARC-T5";
+		$cpucnt{"$cputype $cpufreq"}=1;
+	} elsif ($cputype =~ /SPARC-M5$/) {
+		delete $cpucnt{"$cputype $cpufreq"};
+		$cputype="SPARC-M5";
+		$cpucnt{"$cputype $cpufreq"}=1;
+	} elsif ($cputype =~ /SPARC-M6$/) {
+		delete $cpucnt{"$cputype $cpufreq"};
+		$cputype="SPARC-M6";
+		$cpucnt{"$cputype $cpufreq"}=1;
+	} elsif ($cputype =~ /SPARC-S7$/) {
+		delete $cpucnt{"$cputype $cpufreq"};
+		$cputype="SPARC-S7";
 		$cpucnt{"$cputype $cpufreq"}=1;
 	}
 	&show_header;
@@ -4083,7 +4206,7 @@ foreach $line (@config) {
 	if (($line =~ /SUNW,(Ultra-|SPARC|S240|JavaEngine1|Ultra.*[Ee]ngine)/ ||
 	    $line =~ /SUNW,(Ultra.*Netra*|Premier-24|UltraAX-|Netra|Grover)/ ||
 	    $line =~ /SUNW,(Enchilada|Serverblade1|Enterprise|A[0-9]|T[0-9])/ ||
-	    $line =~ /ORCL,SPARC-T|Sun.4|SUNW,Axil-|^i86pc|^i86xpv|^i86xen/ ||
+	    $line =~ /ORCL,SPARC-|Sun.4|SUNW,Axil-|^i86pc|^i86xpv|^i86xen/ ||
 	    $line =~ /model:\s+'(SPARC CPU|SPARC CPCI)-/ ||
 	    $line =~ /\s+name:.*(SUNW,Sun-|'i86pc'|COMPstation|Tadpole)/ ||
 	    $line =~ /\s+name:.*(Auspex|S-4|FJSV,GP|CompuAdd|RDI,)/) &&
@@ -4247,7 +4370,7 @@ foreach $line (@config) {
 			$installed_memory=0;
 		}
 		# Round up some odd-number total memory values
-		$installed_memory++ if (sprintf("%3d", ($installed_memory + 1) / 2 ) * 2 != $installed_memory && $installed_memory >= 1023);
+		$installed_memory++ if (sprintf("%3d", ($installed_memory + 1) / 2) * 2 != $installed_memory && $installed_memory >= 1023);
 		$BSD=0;	# prtconf and prtdiag only have this output
 		$config_cmd="/usr/sbin/prtconf -vp" if ($config_cmd !~ /prtconf/);
 		$config_command="prtconf";
@@ -4427,13 +4550,13 @@ foreach $line (@config) {
 &check_cpuinfo;
 &check_xm_info;
 if (! $osrel) {
-	if ($os =~ /Linux|FreeBSD/) {
-		$osrel="2.X";
-	} elsif ($BSD) {
+	if ($BSD) {
 		$osrel="4.X";
 		$config_cmd="/usr/etc/devinfo -pv";
 		$config_command="devinfo";
 		$cpucntfrom="devinfo";
+#	} elsif ($os =~ /Linux|FreeBSD/) {
+#		$osrel="2.X";	# Could also be 3.X Linux kernel, so leave empty
 	} else {
 		$osrel="5.X";
 		$solaris="2.X";
@@ -6855,6 +6978,154 @@ if ($ultra eq "M10-4" || $ultra eq "M10-4S") {
 	}
 	&check_for_LDOM;
 }
+if ($ultra eq "S7-2" || $ultra eq "S7-2L") {
+	# SPARC S7-2 has 1 or 2 SPARC S7 processors at 4.267GHz
+	# SPARC S7-2L has 2 SPARC S7 processors at 4.267GHz
+	# Each SPARC S7 processor supports:
+	#  8 cores, 8 threads.
+	#  16 DIMM slots for up to 1TB memory (16 x 64GB).
+	#  supports 16GB, 32GB & 64GB DDR4 DIMMs.
+	#  Do not mix DIMMs sizes.
+	#  Can be half populated (D0 white sockets), 4 DIMMs per CPU, or
+	#   fully populated (D0 white & D1 black sockets), 8 DIMMs per CPU.
+	$memtype="DDR4 DIMM";
+	$showrange=0;
+	@simmsizes=(16384,32768,65536);
+	$untested=1;
+	$untested=0 if ($ultra eq "S7-2");
+	# /SYS/MB/CMP0/MCU0/CH0/D0 - /SYS/MB/CMP1/MCU1/CH1/D1
+	for $s_d (0,1) {
+		for $s_cmp (0..$corecnt-1) {
+			for $s_mcu (0,1) {
+				for $s_ch (0,1) {
+					push(@socketstr, "/SYS/MB/CMP$s_cmp/MCU$s_mcu/CH$s_ch/D$s_d");
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "T7-1") {
+	# SPARC T7-1 has 1 SPARC M7 processors at 4.13GHz
+	# SPARC M7 processor supports:
+	#  32 cores, 8 threads
+	#  16 DIMM slots for up to 1TB memory (16 x 64GB)
+	# SPARC T7-1 supports:
+	#  16GB, 32GB & 64GB DDR4 DIMMs
+	#  Left Memory Riser:  /SYS/MB/CM/CMP/MR1/BOB[01]0/CH[01]
+	#  Left Motherboard:   /SYS/MB/CM/CMP/BOB[13]1/CH[01]
+	#  Right Motherboard:  /SYS/MB/CM/CMP/BOB[02]1/CH[01]
+	#  Right Memory Riser: /SYS/MB/CM/CMP/MR0/BOB[23]0/CH[01]
+	#  CH0 Black sockets, CH1 White sockets
+	#  In base configuration, all DIMM slots on motherboard must be
+	#   fully occupied (8 DIMMs).
+	#  In upgrade configuration (16 DIMMs), both memory risers are
+	#   added and must be fully occupied.
+	$memtype="DDR4 DIMM";
+	$showrange=0;
+	@simmsizes=(16384,32768,65536);
+	$untested=1;
+	for $s_bob (0..3) {	# Motherboard
+		for $s_ch (0,1) {
+			push(@socketstr, "/SYS/MB/CM/CMP/BOB${s_bob}1/CH$s_ch");
+		}
+	}
+	for $s_bob (0,1) {	# MR1
+		for $s_ch (0,1) {
+			push(@socketstr, "/SYS/MB/CM/CMP/MR1/BOB${s_bob}0/CH$s_ch");
+		}
+	}
+	for $s_bob (2,3) {	# MR0
+		for $s_ch (0,1) {
+			push(@socketstr, "/SYS/MB/CM/CMP/MR0/BOB${s_bob}0/CH$s_ch");
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "T7-2") {
+	# SPARC T7-2 has 2 SPARC M7 processors at 4.13GHz
+	# SPARC M7 processor supports:
+	#  32 cores, 8 threads
+	#  16 DIMM slots for up to 1TB memory (16 x 64GB)
+	# SPARC T7-2 supports:
+	#  16GB, 32GB & 64GB DDR4 DIMMs
+	#  /SYS/MB/CM[01]/CMP/MR[0-3]/BOB[01]/CH[01]/DIMM
+	#    CH0 Black sockets, CH1 White sockets
+	#    All 8 memory risers must be installed in all configurations
+	#    Half-populated configurations populate CH0 Black sockets (16 DIMMs)
+	#    Full-populated configurations fill CH0 and CH1 sockets (32 DIMMs)
+	$memtype="DDR4 DIMM";
+	$showrange=0;
+	@simmsizes=(16384,32768,65536);
+	$untested=1;
+	for $s_ch (0,1) {
+		for $s_cm (0,1) {
+			for $s_mr (0..3) {
+				for $s_bob (0,1) {
+					push(@socketstr, "/SYS/MB/CM$s_cm/CMP/MR$s_mr/BOB$s_bob/CH$s_ch/DIMM");
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "T7-4") {
+	# SPARC T7-4 has 2 or 4 SPARC M7 processors at 4.13GHz
+	# SPARC M7 processor supports:
+	#  32 cores, 8 threads
+	#  16 DIMM slots for up to 1TB memory (16 x 64GB)
+	# SPARC T7-4 supports:
+	#  16GB, 32GB & 64GB DDR4 DIMMs
+	#  /SYS/PM[0-3]/CM[01]/CMP/BOB[0-3][01]/CH[01]/DIMM
+	#    CH0 Black sockets, CH1 White sockets
+	#    Half-populated configurations populate CH0 Black sockets (16 DIMMs)
+	#    Full-populated configurations fill CH0 and CH1 sockets (32 DIMMs)
+	$memtype="DDR4 DIMM";
+	$showrange=0;
+	@simmsizes=(16384,32768,65536);
+	$untested=1;
+	$untested=0 if ($corecnt == 2);	# 2 SPARC M7 processors tested
+	for $s_pm (0..$npcpu-1) {
+		for $s_ch (0,1) {
+			for $s_cm (0,1) {
+				for $s_boba (0..3) {
+					for $s_bobb (0,1) {
+						push(@socketstr, "/SYS/PM$s_pm/CM$s_cm/CMP/BOB$s_boba$s_bobb/CH$s_ch/DIMM");
+					}
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
+if ($ultra eq "M7-8" || $ultra eq "M7-16") {
+	# SPARC M7-8 has 2 to 8 SPARC M7 processors at 4.13GHz
+	# SPARC M7-16 has 4 to 16 SPARC M7 processors at 4.13GHz
+	# Each SPARC M7 processor has 32 cores, 8 threads
+	# SPARC M7-8 & M7-16 supports:
+	#  16 DIMM slots for up to 512GB memory (16 x 32GB)
+	#  supports 16GB & 32GB DDR4 DIMMs
+	#  SPARC M7-8, has CMIOU_0 to CMIOU_7
+	#  SPARC M7-16, has CMIOU_0 to CMIOU_15
+	#  /SYS/CMIOU[0-15]/CM/CMP/BOB[0-3][01]/CH[01]/DIMM
+	#    CH0 Black sockets, CH1 White sockets
+	#    Half-populated configurations populate CH0 Black sockets (8 DIMMs)
+	#    Full-populated configurations fill CH0 and CH1 sockets (16 DIMMs)
+	$memtype="DDR4 DIMM";
+	$showrange=0;
+	@simmsizes=(16384,32768);
+	$untested=1;
+	for $s_cmiou (0..$npcpu-1) {
+		for $s_ch (0,1) {
+			for $s_boba (0..3) {
+				for $s_bobb (0,1) {
+					push(@socketstr, "/SYS/CM$s_cmiou/CM/CMP/BOB$s_boba$s_bobb/CH$s_ch/DIMM");
+				}
+			}
+		}
+	}
+	&check_for_LDOM;
+}
 if ($model eq "SPARC-Enterprise" || $ultra =~ /SPARC Enterprise M[34589]000 Server/) {
 	# CPUs:  Dual-Core Dual-Thread SPARC64-VI or
 	#        Quad-Core Dual-Thread SPARC64-VII, VII+, VII++
@@ -8435,7 +8706,7 @@ sub hpux_finish {
 			}
 			&show_total_memory;
 			# Check if on a virtual machine (HPVM guest)
-			if (-x "/opt/hpvm/bin/hpvminfo") {
+			if (-x '/opt/hpvm/bin/hpvminfo') {
 				&pdebug("Checking hpvminfo");
 				$tmp=`/opt/hpvm/bin/hpvminfo 2>&1`;
 				if ($tmp =~ /HPVM guest/i) {
@@ -8795,10 +9066,10 @@ sub x86_devname {
 		$familypn="X6270";
 		$untested=0;
 	}
-	if ($m =~ /Sun .*X6275 M2\b/i ) {
+	if ($m =~ /Sun .*X6275 M2\b/i) {
 		# X6275 M2 has 2 Quad-Core or Six-Core hyper-threaded CPUs
 		$familypn="X6275M2";
-	} elsif ($m =~ /Sun .*X6275\b/i ) {
+	} elsif ($m =~ /Sun .*X6275\b/i) {
 		# X6275 has 2 or 4 Quad-Core hyper-threaded CPUs
 		$familypn="X6275";
 	}
@@ -9009,14 +9280,26 @@ sub roundup_memory {
 	for ($val=4096; $val <= 14336; $val += 1024) {
 		$newval=$val if ($newval >= $val-512 && $newval < $val);
 	}
-	for ($val=14336; $val <= 65536; $val += 2048) {
+	for ($val=14336; $val <= 32768; $val += 2048) {
 		$newval=$val if ($newval >= $val-1024 && $newval < $val);
 	}
-	for ($val=65536; $val <= 262144; $val += 4096) {
+	for ($val=32768; $val <= 262144; $val += 4096) {
 		$newval=$val if ($newval >= $val-2048 && $newval < $val);
 	}
-	for ($val=262144; $val <= 16777216; $val += 8192) {
+	for ($val=262144; $val <= 1048576; $val += 8192) {
 		$newval=$val if ($newval >= $val-4096 && $newval < $val);
+	}
+	for ($val=1048576; $val <= 4194304; $val += 16384) {
+		$newval=$val if ($newval >= $val-8192 && $newval < $val);
+	}
+	for ($val=4194304; $val <= 16777216; $val += 32768) {
+		$newval=$val if ($newval >= $val-16384 && $newval < $val);
+	}
+	for ($val=16777216; $val <= 67108864; $val += 65536) {
+		$newval=$val if ($newval >= $val-32768 && $newval < $val);
+	}
+	for ($val=67108864; $val <= 268435456; $val += 131072) {
+		$newval=$val if ($newval >= $val-65536 && $newval < $val);
 	}
 	return($newval);
 }
@@ -9302,7 +9585,7 @@ sub check_dmidecode {
 		($permission_error)=(/(.*)/) if (/Permission denied/i);
 		($dmidecode_error)=(/# *(.*)/) if (/No SMBIOS nor DMI entry point found/i && ! &is_xen_vm);
 		# Detect end of DMI type 17 blocks
-#		&pdebug("TLS In DMI type 17, $_") if ($DMItype == 17);
+#		&pdebug("In DMI type 17, $_") if ($DMItype == 17);
 		if (/(^Handle|^\s*$)/i && $DMItype == 17 && $memarr >= 0 && ! $DMI17end) {
 			$DMI17end=1;
 			$DMItype=0;
@@ -10118,7 +10401,8 @@ sub show_control_LDOM_message {
 	# Post notice if on control LDOM
 	#
 	print "NOTICE: Control Logical Domain (LDOM) detected.  ";
-	if ($picl_foundmemory) {
+	$picl_bank_cnt=scalar(keys %picl_mem_bank);
+	if ($picl_foundmemory || $picl_bank_cnt) {
 		print "The cpus and memory modules\n";
 		print "    reported are for the system, not necessarily the control LDOM.\n";
 	} else {
@@ -10225,7 +10509,7 @@ sub check_cpuinfo {
 			if (/^model name\s*: /) {
 				($cpuinfo_cputype)=(/: (.*)$/);
 				$cpuinfo_cputype=&cleanup_cputype($cpuinfo_cputype);
-				if (/.*(ARM|Feroceon)/) {
+				if (/.*(ARM|Feroceon|Marvell)/) {
 					if ($filename) {
 						# Special case for regression testing
 						$machine="arm";
@@ -10266,7 +10550,7 @@ sub check_cpuinfo {
 			if (($machine !~ /.86|ia64|amd64|sparc/ && ! $filename) || $filename) {
 				if (/^Processor\s+: /) {
 					($cpuinfo_cputype)=(/: (.*)$/);
-					if ($filename && /^Processor\s+: .*(ARM|Feroceon)/) {
+					if ($filename && /^Processor\s+: .*(ARM|Feroceon|Marvell)/) {
 						# Special case for regression testing
 						$machine="arm";
 						$platform=$machine;
@@ -10321,7 +10605,8 @@ sub check_cpuinfo {
 sub finish {
 	&show_header;
 	#print "newslots=@newslots\n" if ($#newslots > 0 && $verbose > 1);
-	if ($isX86) {
+	# Large memory system like SPARC T7-4 can mismatch memory in prtconf and ipmitool
+	if ($isX86 || $ultra =~ /^T7-/) {
 		# smbios and ipmitool memory data is more accurate than prtconf
 		if ($smbios_memory && $smbios_memory > $installed_memory) {
 			$installed_memory=$smbios_memory;
@@ -10333,7 +10618,8 @@ sub finish {
 	}
 	# Cannot accurately determine installed memory unless information is
 	# is in prtpicl output, or if system is fully stuffed
-	if ($ldm_memory && ! $picl_foundmemory) {
+	$picl_bank_cnt=scalar(keys %picl_mem_bank);
+	if ($ldm_memory && ! ($picl_foundmemory || $picl_bank_cnt)) {
 		$totmem=&roundup_memory($installed_memory);
 		&show_total_memory;
 		&show_control_LDOM_message;
@@ -10878,12 +11164,12 @@ sub finish {
 	&show_unrecognized if ($recognized == 0);
 	if (! &is_virtualmachine) {
 		if ($smbios_memory && &roundup_memory($smbios_memory) != $installed_memory) {
-			print "ERROR: Memory found by smbios (${smbios_memory}MB) does not match memory found in $config_command.\n";
+			print "ERROR: Memory found by smbios (${smbios_memory}MB) does not match memory found in $config_command (${installed_memory}MB).\n";
 			print "       This may be corrected by installing a Sun BIOS patch on this system.\n";
 			$exitstatus=1;
 		}
 		if ($ipmi_memory && $ipmi_memory != $installed_memory) {
-			print "ERROR: Memory found by ipmitool (${ipmi_memory}MB) does not match memory found in $config_command.\n";
+			print "ERROR: Memory found by ipmitool (${ipmi_memory}MB) does not match memory found in $config_command (${installed_memory}MB).\n";
 			print "       This may be corrected by installing a Sun BIOS patch on this system.\n";
 			$exitstatus=1;
 		}
@@ -10907,6 +11193,11 @@ sub finish {
 	}
 	# SPARC-M5, SPARC-M6 or other SPARC-M*
 	if ($cputype =~ /SPARC.M\d\+/) {
+		$untested=1;
+		$untested_type="CPU" if (! $untested_type);
+	}
+	# SPARC-S* excluding SPARC-S7
+	if ($cputype =~ /SPARC.S\d\+/ && $cputype !~ /SPARC.S7\b/) {
 		$untested=1;
 		$untested_type="CPU" if (! $untested_type);
 	}
@@ -10991,9 +11282,9 @@ sub b64encodefile {
 sub mailmaintainer {
 	# E-mail information of system to maintainer. Use system call to
 	# sendmail instead of Mail::Send module so that this works for perl4
-	if (-x "/usr/sbin/sendmail") {
+	if (-x '/usr/sbin/sendmail') {
 		$sendmail='/usr/sbin/sendmail';
-	} elsif (-x "/usr/lib/sendmail") {
+	} elsif (-x '/usr/lib/sendmail') {
 		$sendmail='/usr/lib/sendmail';
 	} else {
 		$sendmail="";
