@@ -98,7 +98,7 @@
 187 Ce fichier n'est pas une archive zip valide
 188 Retour
 189 Vous devez sélectionner au moins deux machines
-190 Accountinfo:
+190 Info machine :
 191 supprimées
 192 Résumé redondance
 193 Nom d'hôte + Numéro de série
@@ -171,7 +171,7 @@
 260 Fichier label modifié
 261 Fichier label détruit
 262 Saisissez le texte d'un message affiché lors du 1er inventaire
-263 Modifier message de 1er inventaire
+263 Message de 1er inventaire
 264 Actuellement aucun fichier label
 265 Peu importe
 266 Date invalide
@@ -299,7 +299,7 @@
 393 Chercher
 394 Chercher catégorie
 395 Chercher logiciel PARTOUT
-396 Reset
+396 Annuler
 397 Aller à la catégorie
 398 Liste des catégories
 410 EXACTEMENT
@@ -586,10 +586,10 @@
 697 une machine
 698 un groupe de redistribution
 699 Etes-vous sûr de vouloir affecter ce paquet à ces machines?
-700 Choix Blacklist
-701 Blacklist de numéro de série
+700 Choix liste noire
+701 Liste noire de numéro de série
 702 Entrez un nouveau numéro de série à blacklister
-703 Blacklist
+703 Liste noire
 704 Etes-vous sûr de vouloir blacklister
 705 Etes-vous sûr de vouloir déblacklister
 706 Déblacklister
@@ -624,8 +624,8 @@
 735 Filtres
 736 Active la fonctionnalité de groupes de machines
 737 Nombre aléatoire compris entre 0 et la valeur définie (évite le calcul simultané de tous les groupes)
-738 Spécifie la validité d'un groupe (par défaut : calculé une fois par jour - voir la valeur précédente)739 Amélioration futur de la sécurité
-740 Validité du lock d'un ordinateur
+738 Spécifie la validité d'un groupe (par défaut : calculé une fois par jour - voir la valeur précédente)739 Amélioration future de la sécurité
+740 Validité du verrou d'un ordinateur
 741 Configuration du moteur pour mettre à jour les sections d'inventaire en fonction du CHECKSUM (pour baisser la charge de DB backend )
 742 Faire que le moteur considère un inventaire comme une transaction (accès concurrentiel plus bas, meilleure utilisation du disque)
 743 Configuration du moteur pour une mise à jour différentielle des sections d'inventaire (au niveau des rangées). Diminue la charge du backend DB, augmente la charge du frontend
@@ -1093,7 +1093,7 @@
 1207 Ajouter une communauté
 1208 Communauté ajoutée
 1209 Communauté modifiée
-1210 Label :
+1210 Info machine :
 1211 URL du fichier des communautés SNMP
 1212 Communauté supprimée
 1213 Séparateur des fichiers d'export
@@ -1138,7 +1138,7 @@
 1252 Répertoire des fichiers de conf profils
 1253 Répertoire des sauvegardes des fichiers de conf profils
 1254 Répertoire des logs des scripts
-1255 Nombre de Connexion par jour
+1255 Nombre de connexions par jour
 1256 Nombre d'erreurs de connexion par jour
 1257 Utilisation du flash dans la GUI
 1258 Entrée Manuelle
@@ -1251,7 +1251,7 @@
 1373 Distribution
 1374 Accéder au site
 1375 Anciens Forums
-1376 Q&amp;R
+1376 Q &amp; R
 1377 Questions et réponses
 1378 RAM disponible
 1379 RAM totale
@@ -1392,7 +1392,7 @@
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
 2099 ERROR: ce compte MySQL n'a pas les droits de création de database
-2100 Màj anciennes infos système
+2100 Màj anciennes infos machines
 2101 Ajouté par script
 2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur (file z-ocsinventory-server.conf)
 2103 Mode DEMO: vous ne pouvez mettre à jour les données
@@ -1465,12 +1465,10 @@
 7006 Dernière mise à jour
 7007 Etes-vous sûr de vouloir supprimer ce plugin
 7008 Installer un plugin
-7009 Plugins installé
+7009 Plugin installé
 7010 Ce plugin a déjà été installé
 7011 est un plugin non valide, vérifiez vos sources.
 7012 Installation annulée !
 7013 installé
 7014 Il n'y a aucun plugin disponible
 7015 Sélectionnez au minimum un ordinateur !
-
-14000 Gestion des clés Office
