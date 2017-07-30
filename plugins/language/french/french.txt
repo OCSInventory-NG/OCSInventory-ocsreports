@@ -88,7 +88,7 @@
 175 Doublons
 176 IPs
 177 Fusionner les lignes redondantes
-178 Machines par tag
+178 Machines par label
 180 Utilisateur ou mot de passe incorrect
 182 Machines ayant une étiquette donné
 183 Télécharger
@@ -170,8 +170,8 @@
 259 Erreur, la donnée n'a pas pu être créée (merci de ne pas utiliser de caractères spéciaux)
 260 Fichier label modifié
 261 Fichier label détruit
-262 Entrez un label
-263 Modifier le label
+262 Saisissez le texte d'un message affiché lors du 1er inventaire
+263 Modifier message de 1er inventaire
 264 Actuellement aucun fichier label
 265 Peu importe
 266 Date invalide
@@ -459,8 +459,8 @@
 564 Fréquence de lancement de l'agent par le service
 565 Adresse utilisée pour les imports locaux
 567 Latence de l'ipdiscover
-568 RAM(MB)
-569 CPU(MHz)
+568 RAM (Mo)
+569 CPU (MHz)
 570 Aide
 571 Tout valider
 572 Succès
@@ -508,7 +508,7 @@
 617 Nouveau
 618 Périmètre
 619 Utilisateur restreint
-620 <br>Vous n'avez aucune machine affectée, merci de faire une demande d'affectation de droits<br><br> en spécifiant sur quels tags vous devez avoir la visibilité.</center>
+620 <br>Vous n'avez aucune machine affectée, merci de faire une demande d'affectation de droits<br><br> en spécifiant sur quels labels vous devez avoir la visibilité.</center>
 621 Ce groupe n'a pas été créé. Ce nom existe déjà.
 622 En cache
 623 L'information que vous essayez de voir n'existe pas.
@@ -664,7 +664,7 @@
 776 Répertoire de mise en cache des analyses d'ipdiscover
 777 Durée de validité d'une session
 778 Nombre de WORKGROUP différents
-779 TAG différents
+779 LABELS différents
 780 Sous-réseaux différents
 781 Machines ayant un paquet en cours de télédéploiement
 782 Machines ayant un paquet en erreur
@@ -778,9 +778,9 @@
 890 L'interface est actuellement verrouillée sur une recherche multicritère
 891 DEVERROUILLER l'interface
 892 se connecter avec un autre compte
-893 PAS DE TAG AFFECTE A VOTRE PROFIL
+893 PAS DE LABEL AFFECTE A VOTRE PROFIL
 894 PAS DE NIVEAU DE DROITS DEFINI POUR VOTRE PROFIL
-895 Modification d'un TAG
+895 Modification d'un LABEL
 898 Ajouter une annotation
 899 Rédacteur
 900 Etes-vous sûr de vouloir supprimer la sélection?
@@ -859,8 +859,8 @@
 973 AJOUT DES MACHINES AU GROUPE
 974 machines insérées dans le cache
 975 Ajouter au groupe
-976 LOCK de L'INTERFACE SUR LE RESULTAT DE LA REQUETE
-977 LOCK
+976 VERROUILLAGE de L'INTERFACE SUR LE RESULTAT DE LA REQUETE
+977 VERROUILLAGE
 978 Vous aller verrouiller toute l'interface sur les résultats de cette recherche multicritère
 979 Pour revenir à un état normal, vous cliquerez sur l'icône <img src='image/cadena_op.png' > se trouvant en haut à droite de l'interface
 980 Paquets sur les machines
@@ -902,10 +902,10 @@
 1016 Identifiant ROOT
 1017 Mot de passe ROOT
 1018 (Laisser à vide pour une connexion anonyme)
-1019 Lock du résultat
-1020 Libellé du TAG
+1019 Verrou du résultat
+1020 Libellé du LABEL
 1021 Gestion des télédéploiements
-1022 Gestion des TAG
+1022 Gestion des LABELS
 1023 paquets affectés dans l'état
 1024 vont être supprimés
 1025 Désaffecter
@@ -969,9 +969,9 @@
 1083 Identification des périmètres
 1084 Nom du groupe de test
 1085 Nom du groupe du périmètre restreint
-1086 Libellé du TAG de définition du paramètre
-1087 Valeur du tag de test
-1088 Valeur du tag du périmètre restreint
+1086 Libellé du LABEL de définition du paramètre
+1087 Valeur du label de test
+1088 Valeur du label du périmètre restreint
 1089 Aucun statut n'est actif. Commencez par en activer un.
 1090 a modifié la demande n°
 1091 Une nouvelle demande vient d'être postée
@@ -1093,7 +1093,7 @@
 1207 Ajouter une communauté
 1208 Communauté ajoutée
 1209 Communauté modifiée
-1210 Account info:
+1210 Label :
 1211 URL du fichier des communautés SNMP
 1212 Communauté supprimée
 1213 Séparateur des fichiers d'export
@@ -1342,7 +1342,7 @@
 2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur MySQL. Changez-le dès que possible. (Mot de passe root => vide)
 2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <font color="red">max_allowed_packet</font> de MySQL à au moins 2 Mo sur votre serveur le fichier de configuration.
 2044 Label ajouté
-2045 Label pas encore ajouté (Au lancement du client, aucune demande de TAG ne sera faite)
+2045 Label pas encore ajouté (Au lancement du client, aucune demande de LABEL ne sera faite)
 2046 ERREUR: problème d'authentification MySQL.
 2047 Vous devez ajouter les "old-passwords" dans votre fichier de configuration MySQL (my.ini). Puis redémarrer MySQL, et relancez install.php
 2050 Installation terminée, vous pouvez vous connecter avec le login = admin et pass = admin
@@ -1392,7 +1392,7 @@
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
 2099 ERROR: ce compte MySQL n'a pas les droits de création de database
-2100 Update anciens accountinfos
+2100 Màj anciennes infos système
 2101 Ajouté par script
 2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur (file z-ocsinventory-server.conf)
 2103 Mode DEMO: vous ne pouvez mettre à jour les données
@@ -1472,3 +1472,5 @@
 7013 installé
 7014 Il n'y a aucun plugin disponible
 7015 Sélectionnez au minimum un ordinateur !
+
+14000 Gestion des clés Office
