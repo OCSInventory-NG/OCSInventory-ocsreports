@@ -325,7 +325,7 @@
 430 Mass processing
 431 Activate
 432 Non notified
-433 Affect
+433 Assign
 434 Package builder
 435 Build new packages
 436 Can't open file
@@ -555,7 +555,7 @@
 665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
 666 Group of redistribution made
 667 FOR THE PACKAGE
-668 to Affect with which rule?
+668 to Assign with which rule?
 669 ATTENTION: there are doubloons of priority <br> A single rule will be retained!
 670 A rule already carries this name
 672 This rule does not exist!!!
@@ -574,18 +574,18 @@
 685 Add a rule
 686 The condition
 687 You cannot delete it.
-688 Packages are affected on this group!
-689 Packages are affected on this server!
+688 Packages are assigned on this group!
+689 Packages are assigned on this server!
 690 You cannot delete all the machines.
 691 Generic Values: $IP$ and $NAME$
 692 You modify ALL the values of the servers
 693 You modify the values of the following server:
 694 to find the default values, validate the vacuous fields
 695 You modify the group of redistribution
-696 to Show packages activated to affect on
+696 to Show packages activated to assign on
 697 a machine
 698 a group of redistribution
-699 Are you sure to want to affect this package in these machines?
+699 Are you sure to want to assign this package in these machines?
 700 Blacklist choices
 701 Blacklist of serial number
 702 Enter a new serial number to blacklist
@@ -643,7 +643,7 @@
 755 Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period
 756 Period definition for INVENTORY_FILTER_FLOOD_IP
 757 Enable inventory filter stack
-758 Specify if you want to track packages affected to a group on computer's level
+758 Specify if you want to track packages assigned to a group on computer's level
 759 Must be greater than or equal to
 760 Webservice
 761 Enable/Disable the soap service
@@ -761,7 +761,7 @@
 873 Network: DHCP IP
 874 Registry key: Name
 875 Registry key: Value
-876 Simple unaffect REDISTRIBUTION GROUP
+876 Simple unassign REDISTRIBUTION GROUP
 877 SOME COMPUTERS HAVEN'T BEEN ADDED TO GROUP BECAUSE:
 878 Reminder: a computer can be a member of one redistribution group only
 879 GROUPE REPLACED
@@ -772,13 +772,13 @@
 884 WARNING: Results Filtered
 885 unknown
 886 Simple desaffection
-887 It's possible that this package is not affected to redistribution servers
+887 It's possible that this package is not assigned to redistribution servers
 888 Removal
 889 Connected as
 890 Interface is actually locked on a search with various criteria
 891 Remove interface LOCK
 892 connect with another account
-893 NO TAG AFFECTEID TO YOUR PROFILE
+893 NO TAG ASSIGNED TO YOUR PROFILE
 894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
 895 TAG Modification
 898 Add an annotation
@@ -788,7 +788,7 @@
 902 Action on the result of selection
 903 You must fill the explanation field
 904 Package reassignment
-905 Explanation about perfomed actions<br>on computer to be able to <br>affect package
+905 Explanation about perfomed actions<br>on computer to be able to <br>assign package
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal information
@@ -865,7 +865,7 @@
 979 To come back to a standard state, you will have to click on the icon e <img src='image/cadena_op.png' > which is at the right top of the interface
 980 Packages on computers
 981 Packages on servers groups
-982 NO AFFECTATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
+982 NO ASSIGNATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
 983 You have to choose on which type modifications has to perform
 984 Modifications
 985 COMPUTERS REMOVAL
@@ -906,7 +906,7 @@
 1020 Name of the tag information
 1021 Teledeploy admin
 1022 TAG admin
-1023 Packages affect with status
+1023 Packages assign with status
 1024 will be deleted
 1025 Unaffect
 1026 Packages deleted on computers
@@ -1078,7 +1078,7 @@
 1192 Group may receive TEST packets
 1193 Group may receive RESTRAINT packets
 1194 Only packets at a higher level
-1195 may be affected
+1195 may be assigned
 1196 Profile
 1197 SNMP functionality
 1198 Networks scans
@@ -1129,7 +1129,7 @@
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients
-1246 Affect again
+1246 Assign again
 1247 Architecture
 1248 Folder
 1249 Activation of cache tables (allows less solicit the MySQL database)
