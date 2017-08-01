@@ -90,7 +90,7 @@
 177 Fusionner les lignes redondantes
 178 Machines par label
 180 Utilisateur ou mot de passe incorrect
-182 Machines ayant une étiquette donné
+182 Machines ayant une étiquette donnée
 183 Télécharger
 184 Ce fichier ne contient pas "use constant version"
 185 La version doit être supérieure ou égale à 1
@@ -1294,6 +1294,7 @@
 1416 Nom de l'operateur
 1417 IMEI/DEVICEID
 1418 Pays
+1419 Période
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
