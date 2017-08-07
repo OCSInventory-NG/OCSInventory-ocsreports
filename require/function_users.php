@@ -24,7 +24,7 @@
 function get_profiles() {
     $profiles = array();
     $serializer = new XMLProfileSerializer();
-    $profilesRoot = DOCUMENT_REAL_ROOT . '/config/profiles';
+    $profilesRoot = PROFILES_DIR;
 
     // Scan and parse each profile file
     foreach (scandir($profilesRoot) as $file) {
