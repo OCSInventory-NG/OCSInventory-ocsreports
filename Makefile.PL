@@ -16,11 +16,11 @@ install :: all pure_install doc_install
 	return $re;
 }
 
-require 'lib/Ocsinventory/Agent/Config.pm';
+require './lib/Ocsinventory/Agent/Config.pm';
 
 use Config;
 
-my $version = $Ocsinventory::Agent::Config::VERSION; 
+my $version = $Ocsinventory::Agent::Config::VERSION;
 if (-d '.bzr') {
 	chomp( my $bzrRev = `bzr revno`);
 	$version .= "~bzr".$bzrRev;
@@ -49,7 +49,7 @@ install_script  'ocsinventory-agent';
 
 
 # We want a release bundled with the needed dependency to be able to
-# prepare a standalone binary with PAR::Packer 
+# prepare a standalone binary with PAR::Packer
 if ($ENV{OCS_BUNDLE_RELEASE}) {
   foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
 	bundle $module;
@@ -140,4 +140,3 @@ if ($^O =~ /^solaris$/i) {
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
 #auto_install;
 WriteAll;
-
