@@ -27,7 +27,7 @@
 class Wol {
     public $wol_send;
 
-    public function wake($mac) {
+    public function wake($mac,$ip) {
         global $l;
         //looking for values of wol config
         $wol_info = look_config_default_values('WOL_PORT');
@@ -43,7 +43,7 @@ class Wol {
                     $this->wol_send = $l->g(1322);
                 } else {
                     socket_set_option($s, SOL_SOCKET, SO_BROADCAST, true);
-                    socket_sendto($s, $this->pacquet($mac), strlen($this->pacquet($mac)), 0, "255.255.255.255", $v);
+                    socket_sendto($s, $this->pacquet($mac), strlen($this->pacquet($mac)), 0, $ip, $v);
                     socket_close($s);
                     $this->wol_send = $l->g(1282);
                 }
