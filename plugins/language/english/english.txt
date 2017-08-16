@@ -6,7 +6,7 @@
 19 Software version
 20 Software
 23 Computer
-24 User
+24 Connected user
 25 Operating system
 26 Memory
 27 Memory Speed (MHz)

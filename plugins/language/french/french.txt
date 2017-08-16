@@ -6,7 +6,7 @@
 19 Version du logiciel
 20 Logiciel
 23 Machine
-24 Utilisateur
+24 Utilisateur connecté
 25 Système
 26 Mémoire
 27 Vitesse mémoire (MHz)
