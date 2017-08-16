@@ -51,7 +51,7 @@ class MsStatsConnexion extends MsStats{
         if (!isset($protectedPost['REST'])) {
             $protectedPost['REST'] = 7;
         }
-        echo $l->g(1251) . ": " . show_modif($array_profil, "REST", 2, parent::getFormName()) . "<br>";
+        echo $l->g(1419) . " : " . show_modif($array_profil, "REST", 2, parent::getFormName()) . "<br>";
 
         if (isset($protectedPost['REST']) && $protectedPost['REST'] != 'ALL') {
             $lastWeek = time() - ($protectedPost['REST'] * 24 * 60 * 60);
