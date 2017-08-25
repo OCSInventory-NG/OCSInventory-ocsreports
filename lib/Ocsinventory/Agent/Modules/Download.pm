@@ -594,7 +594,7 @@ sub download {
         unlink(">$id/task.temp");
     } else {
         $error++;
-        if ($error > $settings->{maw_error_count}){
+        if ($error > $settings->{max_error_count}){
             $logger->error("Error : Max errors count reached");
             finish($logger,$context);
         }
