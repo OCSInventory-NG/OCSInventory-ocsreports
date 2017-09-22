@@ -89,6 +89,7 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
     require_once('require/function_admininfo.php');
     $inter = interprete_accountinfo($col, array());
     while ($cont = mysqli_fetch_array($result)) {
+
         unset($cont['MODIF']);
         foreach ($inter as $field => $lbl) {
             if ($lbl == "name_of_machine" && !isset($cont[$field])) {
@@ -97,9 +98,9 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
 
             $found = false;
             // find value case-insensitive
-            
+
             foreach ($col as $key => $val) {
-                
+
                 if (strpos($key, ".") !== false) {
                     $exploded_key = explode(".", $key);
                     $key = $exploded_key[1];
@@ -115,18 +116,23 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
                     }
 
                     $found = true;
-                    
+
                 } elseif (isset($_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$key][$cont['ID']])) {
-                    
+
                     $data[$i][$key] = $_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$key][$cont['ID']];
                     $found = true;
-                    
+
+                } elseif (array_key_exists(strtoupper($key),$cont)){ // in the case key is in lower case and array cont is in upper case
+                    $data[$i][strtoupper($key)] = $cont[strtoupper($key)];
+                } elseif (strpos($key, ' AS ') !== false || strpos($key, ' as ') !== false) {
+                    $key_explode  = explode(" ", $key);
+                    $data[$i][$key_explode[2]] = $cont[$key_explode[2]];
                 }
-                
+
                 if (isset($_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key])) {
                     $data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key][$data[$i][$key]];
                 }
-                
+
                 if (isset($_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$key])) {
                     $data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$data[$i][$_SESSION['OCS']['csv']['FIELD_REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']]]];
                 }
