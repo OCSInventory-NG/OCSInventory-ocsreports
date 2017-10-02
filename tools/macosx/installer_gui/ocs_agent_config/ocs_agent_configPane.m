@@ -39,14 +39,12 @@
 	
 	//Checking if temp directory exists
 	if ([filemgr fileExistsAtPath:tmpPath]) {
-		[filemgr removeFileAtPath:tmpCfgFilePath handler:nil];
-		[filemgr removeFileAtPath:tmpModulesFilePath handler:nil];
-		[filemgr removeFileAtPath:tmpServerdirFilePath handler:nil];
-		[filemgr removeFileAtPath:tmpCacertFilePath handler:nil];
-		
+        [filemgr removeItemAtPath:tmpCfgFilePath error:nil];
+        [filemgr removeItemAtPath:tmpModulesFilePath error:nil];
+        [filemgr removeItemAtPath:tmpServerdirFilePath error:nil];
+        [filemgr removeItemAtPath:tmpCacertFilePath error:nil];
 	} else {
-		[filemgr createDirectoryAtPath:tmpPath attributes:nil];
-		
+        [filemgr createDirectoryAtPath:tmpPath withIntermediateDirectories:true attributes:nil error:nil];
 	}	
 	
 	
@@ -97,11 +95,11 @@
     [panel setAllowedFileTypes:fileTypes];
 	
 	//Running brozse panel
-	int result = [panel runModalForTypes:fileTypes];
+	int result = [panel runModal];
 
 	//Getting cacert file path
-	if (result == NSOKButton) {
-		[cacertfile setStringValue:[panel filename]];
+	if (result == NSFileHandlingPanelOKButton) {
+		[cacertfile setStringValue:[panel representedFilename]];
 	}
 }
 
@@ -226,7 +224,7 @@
 				serverDir = [NSString stringWithFormat:@"/var/lib/ocsinventory-agent/%@__%@_ocsinventory", protocolName, [server objectValue]];
 				[serverDir writeToFile:tmpServerdirFilePath atomically: YES encoding:NSUTF8StringEncoding error:NULL];
 								 
-				[filemgr copyPath:[cacertfile objectValue] toPath:tmpCacertFilePath handler:nil];
+                [filemgr copyItemAtPath:[cacertfile objectValue] toPath:tmpCacertFilePath error:nil];
 			}
 			
 			if ( [download state] == 1 && [ssl state] == 1 && [[cacertfile stringValue] length] == 0 ) {
