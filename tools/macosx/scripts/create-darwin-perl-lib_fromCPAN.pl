@@ -65,10 +65,8 @@ use Getopt::Long;
 use CPAN;
 use LWP::Simple qw/getstore/;
 
-my $libwww_tarball = "G/GA/GAAS/libwww-perl-5.837.tar.gz";
-my $xmlentities_tarball = "S/SI/SIXTEASE/XML-Entities-1.0000.tar.gz";
-my $cryptssleay_tarball = "N/NA/NANIS/Crypt-SSLeay-0.58.tar.gz";
-my $netssleay_tarball = "F/FL/FLORA/Net-SSLeay-1.36.tar.gz";
+my $libwww_tarball = "G/GA/GAAS/libwww-perl-6.05.tar.gz";
+my $xmlentities_tarball = "S/SI/SIXTEASE/XML-Entities-1.0002.tar.gz";
 
 
 my %args;
@@ -76,7 +74,6 @@ my %deps;
 GetOptions(
     \%args,
     'install',                            
-	'ssl',
 );
 
 unless (keys %args) {
@@ -86,7 +83,6 @@ unless (keys %args) {
 
 # Set up defaults
 my %default = (
-    'ssl'		=> 0,
 	'CORE'		=> 1,	
 );
 $args{$_} = $default{$_} foreach grep !exists $args{$_}, keys %default;
@@ -108,6 +104,7 @@ Compress::Zlib
 Compress::Raw::Zlib
 IO::Zlib
 Mac::SysProfile
+Mac::PropertyList
 Parse::EDID
 .
 
@@ -127,13 +124,6 @@ if ( $args{'install'} ) {
 	}
 	#We install XML::Etities manually because of writing rights in /usr/local/bin directory
 	&install_tarball("http://search.cpan.org/CPAN/authors/id",$xmlentities_tarball,"XML-Entities"); 
-}
-
-# for ssl, include the Crypt::SSLeay library's
-# NOTE: YOU NEED OPENSSL pre-compiled on the system for this to work... You've been warned.
-if ( $args{'ssl'} ) {
-	&install_tarball("http://search.cpan.org/CPAN/authors/id",$cryptssleay_tarball); 
-	&install_tarball("http://search.cpan.org/CPAN/authors/id",$netssleay_tarball); 
 }
 
 # convert the dep text list to a hash
@@ -180,9 +170,6 @@ installed all the perl modules OCSNG.app needs to run.
 
 	--install		Install missing modules
 	
-The following switches will tell the tool to check for specific dependencies
-
-	--ssl		Incorporate SSL for package deployment (requires OPENSSL lib's to be installed)
 .
 }
 sub install_tarball {
