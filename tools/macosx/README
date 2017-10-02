@@ -5,22 +5,19 @@ This README will help you roll your own native OSX, OCSNG.app client for enterpr
 
 PREREQUISITES
 
-- XCode 3.0
+- XCode 6.4
 - Darwin Perl dependencies [A tarball with all the PerlDep's you'll need for this to run in darwin-land, see create....cpan.pl script]
 - OCSNG.pmproj [Apple PackageMaker binrary settings file]
 - Iceberg [http://s.sudre.free.fr/Software/Iceberg.html]
 
 BUILDING/INSTALLING
 
-- Check out BZR if needed
-- copy the inc/ directory (might need to get it out of one of the previous releases) to unified_unix_agent
-- cd ./unified_unix_agent/tools/macosx
-- run the create-darwin-perl-lib_fromCPAN.pl script which will create the ~/darwin-perl-lib directory. This directory will stash a built version of all the perl libraries needed to run this client (ie: no running CPAN on the hosts you're deploying this on)
+- Run the tools/macosx/scripts/create-darwin-perl-lib_fromCPAN.pl script which will create the ~/darwin-perl-lib directory. This directory will stash a built version of all the perl libraries needed to run this client (ie: no running CPAN on the hosts you're deploying this on)
 	- READ THE SCRIPT BEFORE RUNNING, some CPAN configurations are needed prior to running
 	- You'll need CPAN, Perl (the development libraries for perl), so Xcode Tools (just about a full install).
-
-- sh ./BUILDME.sh
-- open installer_gui/iceberg/icebergi_project.packproj file using Iceberg and build it to create the final graphic installer 
+- Open the tools/macosx/ocsng_app-xcode/OCSNG.xcodeproj project using Xcode 6.4 and build it (Choose menu "Product\Archive")
+- Export the created archive to folder tools/macosx/installer_gui/iceberg/
+- OPen tools/macosx/installer_gui/iceberg/iceberg_project.packproj file using Iceberg and build it to create the final graphic installer 
 
 COPYRIGHT
 
@@ -38,6 +35,4 @@ NOTES
 
 - To uninstall the .app, use the uninstaller.sh script in /Application/OCSNG/Contents/Resources directory. This will kill the service, remove all the files (no restart required).
 
-- This package works on MacOSX 10.4 to 10.6 on i386, ppc and x86_64 architectures. Support for MacOSX 10.7 needs to be tested. 
-
-- For more informations about installing and using OCS MacOSX agent, read the official documentation here: http://wiki.ocsinventory-ng.org/index.php/Documentation:MacAgent
+- This package works on MacOSX 10.9+ on i386, ppc and x86_64 architectures.
