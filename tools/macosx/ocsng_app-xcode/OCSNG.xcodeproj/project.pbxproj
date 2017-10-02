@@ -316,7 +316,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ocscontact;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.11.sdk";
 				SKIP_INSTALL = YES;
 				SYMROOT = build;
 				ZERO_LINK = NO;
