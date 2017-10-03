@@ -1,0 +1,13 @@
+# Mac OS Specific dir
+.DS_Store
+build/
+*.old
+
+# Iceberg specific dir
+tools/macosx/installer_gui/iceberg/OCSNG.app/
+tools/macosx/installer_gui/iceberg/ocscontact
+tools/macosx/installer_gui/iceberg/plugins/
+
+# Xcworkspace and user data
+project.xcworkspace/
+xcuserdata/
