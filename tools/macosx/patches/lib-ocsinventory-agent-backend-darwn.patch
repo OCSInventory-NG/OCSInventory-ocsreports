@@ -1,0 +1,16 @@
+--- a/lib/Ocsinventory/Agent/Backend.pm
++++ b/lib/Ocsinventory/Agent/Backend.pm 
+@@ -85,8 +87,11 @@ sub initModList {
+     }
+ 
+     if ($config->{devlib}) {
+-        # devlib enable, I only search for backend module in ./lib
+-        push (@dirToScan, './lib');
++        eval "use Cwd qw(abs_path);";
++        eval "use File::Basename;";
++        my $path = dirname( abs_path($0) );
++        $logger->debug("devlib mode: Only looking in $path for backend modules.");
++        push (@dirToScan, $path . "/lib");
+     } else {
+         #  my ($inst) = ExtUtils::Installed->new();
+         #  eval {@installed_files =
