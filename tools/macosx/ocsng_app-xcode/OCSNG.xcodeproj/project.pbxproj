@@ -16,6 +16,12 @@
 		06C39BCE1394B5600047198A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C39BCD1394B5600047198A /* Security.framework */; };
 		06C39BCF1394B5600047198A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C39BCD1394B5600047198A /* Security.framework */; };
 		06D657B4134FDBFF00981FE3 /* ocscontact.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D657B3134FDBFF00981FE3 /* ocscontact.m */; };
+		0B6A94131F83D4E600D02E57 /* THANKS in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A940E1F83D4E500D02E57 /* THANKS */; };
+		0B6A94141F83D4E600D02E57 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A940F1F83D4E600D02E57 /* LICENSE */; };
+		0B6A94151F83D4E600D02E57 /* Changes in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A94101F83D4E600D02E57 /* Changes */; };
+		0B6A94161F83D4E600D02E57 /* ocsinventory-agent in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A94111F83D4E600D02E57 /* ocsinventory-agent */; };
+		0B6A94171F83D4E600D02E57 /* AUTHORS in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A94121F83D4E600D02E57 /* AUTHORS */; };
+		0B6A943E1F83DB3F00D02E57 /* uninstaller.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A943D1F83DB3F00D02E57 /* uninstaller.sh */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -34,6 +40,12 @@
 		06D657B2134FDBFF00981FE3 /* ocscontact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocscontact.h; sourceTree = "<group>"; };
 		06D657B3134FDBFF00981FE3 /* ocscontact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ocscontact.m; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0B6A940E1F83D4E500D02E57 /* THANKS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = THANKS; path = ../../../THANKS; sourceTree = "<group>"; };
+		0B6A940F1F83D4E600D02E57 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../../../LICENSE; sourceTree = "<group>"; };
+		0B6A94101F83D4E600D02E57 /* Changes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Changes; path = ../../../Changes; sourceTree = "<group>"; };
+		0B6A94111F83D4E600D02E57 /* ocsinventory-agent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = "ocsinventory-agent"; path = "../../../ocsinventory-agent"; sourceTree = "<group>"; };
+		0B6A94121F83D4E600D02E57 /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS; path = ../../../AUTHORS; sourceTree = "<group>"; };
+		0B6A943D1F83DB3F00D02E57 /* uninstaller.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = uninstaller.sh; path = ../scripts/uninstaller.sh; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -133,6 +145,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0B6A943D1F83DB3F00D02E57 /* uninstaller.sh */,
+				0B6A94121F83D4E600D02E57 /* AUTHORS */,
+				0B6A94101F83D4E600D02E57 /* Changes */,
+				0B6A940F1F83D4E600D02E57 /* LICENSE */,
+				0B6A94111F83D4E600D02E57 /* ocsinventory-agent */,
+				0B6A940E1F83D4E500D02E57 /* THANKS */,
 				0625C76E13CAC89000D6EB7C /* ocs_logo.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -220,9 +238,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6A94151F83D4E600D02E57 /* Changes in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				0625C76F13CAC89000D6EB7C /* ocs_logo.icns in Resources */,
+				0B6A94161F83D4E600D02E57 /* ocsinventory-agent in Resources */,
 				0649FB3414D9E198001EC640 /* Localizable.strings in Resources */,
+				0B6A94171F83D4E600D02E57 /* AUTHORS in Resources */,
+				0B6A943E1F83DB3F00D02E57 /* uninstaller.sh in Resources */,
+				0B6A94131F83D4E600D02E57 /* THANKS in Resources */,
+				0B6A94141F83D4E600D02E57 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
