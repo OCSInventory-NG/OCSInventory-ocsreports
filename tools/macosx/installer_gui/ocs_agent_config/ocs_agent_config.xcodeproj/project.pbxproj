@@ -290,6 +290,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.11.sdk";
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
@@ -305,6 +306,7 @@
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.11;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.11.sdk";
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
