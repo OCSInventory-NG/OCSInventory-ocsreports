@@ -99,6 +99,7 @@ function input_pack_taille($name, $other_field, $size, $input_size, $input_value
 
 function desactive_option($name, $list_id, $packid) {
     global $l;
+    $systemid = $_GET['systemid'];
     $sql_desactive = "delete from devices where name='%s' and ivalue=%s";
     $arg_desactive = array($name, $packid);
     if ($list_id != '') {
@@ -106,6 +107,7 @@ function desactive_option($name, $list_id, $packid) {
         $sql = mysql2_prepare($sql_desactive, $arg_desactive, $list_id);
         $res_desactive = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
     } else {
+	$sql_desactive .= " and hardware_id=" .$systemid. " ";
         $res_desactive = mysql2_query_secure($sql_desactive, $_SESSION['OCS']["writeServer"], $arg_desactive, $l->g(512));
     }
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) );
