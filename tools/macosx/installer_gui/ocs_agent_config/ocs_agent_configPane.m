@@ -94,13 +94,17 @@
 	[panel setAllowsMultipleSelection:NO];
     [panel setAllowedFileTypes:fileTypes];
 	
-	//Running brozse panel
-	int result = [panel runModal];
-
-	//Getting cacert file path
-	if (result == NSFileHandlingPanelOKButton) {
-		[cacertfile setStringValue:[panel representedFilename]];
-	}
+    // Get panel return value
+    NSInteger clicked = [panel runModal];
+    
+    // If OK clicked only
+    if (clicked == NSFileHandlingPanelOKButton) {
+        for (NSURL *url in [panel URLs]) {
+            // do something with the url here.
+            NSString *path = url.path;
+            [cacertfile setStringValue:path];
+        }
+    }
 }
 
 - (IBAction) chooseProtocol:(id)sender {
