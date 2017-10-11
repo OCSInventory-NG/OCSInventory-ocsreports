@@ -128,7 +128,14 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
     while ($data[$i]) {
         $toBeWritten .= "\r\n";
         foreach ($data[$i] as $field_name => $donnee) {
-            $toBeWritten .= $donnee . $separator;
+          if (substr($donnee, 0 , 1) != "\"") {
+            $toBeWritten .= "\"";
+          }
+          $toBeWritten .= $donnee;
+          if ($donnee[strlen($donnee)-1] != "\"") {
+            $toBeWritten .= "\"";
+          }
+          $toBeWritten .= $separator;
         }
         $i++;
     }
