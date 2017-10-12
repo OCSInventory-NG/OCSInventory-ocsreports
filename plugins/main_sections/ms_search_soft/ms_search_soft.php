@@ -103,10 +103,10 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
 
     if($wildcard){
         $queryDetails .= " FROM hardware h ,softwares a
-                       WHERE a.HARDWARE_ID =h.ID and a.NAME like '" . $logiciel . "' group by name";
+                       WHERE a.HARDWARE_ID =h.ID and a.NAME like '" . $logiciel . "' ";
     }else{
         $queryDetails .= " FROM hardware h ,softwares a
-                               WHERE a.HARDWARE_ID =h.ID and a.NAME='" . $logiciel . "' group by name";
+                               WHERE a.HARDWARE_ID =h.ID and a.NAME='" . $logiciel . "' ";
     }
 
     $tab_options['LBL']['NAME'] = $l->g(478);
