@@ -95,7 +95,7 @@ sub run {
     foreach (@ifconfig){
         # skip loopback, pseudo-devices and point-to-point interfaces
         #next if /^(lo|fwe|vmnet|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+/;
-        next unless(/^en(0|5)/); # darwin has a lot of interfaces, for this purpose we only want to deal with eth0 and eth1
+        next unless(/^en([0-9])/); # darwin has a lot of interfaces, for this purpose we only want to deal with eth0 and eth1
         if (/^(\S+):/) { push @list , $1; } # new interface name
     }
 
