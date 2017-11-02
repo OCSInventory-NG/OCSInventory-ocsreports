@@ -4,7 +4,8 @@ use strict;
 sub check {
     my $params = shift;
     my $common = $params->{common};
-    my $common->can_run("df")
+    return unless $common->can_run("df");
+    1;
 }
 
 sub run {
