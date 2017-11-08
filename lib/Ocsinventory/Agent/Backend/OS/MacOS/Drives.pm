@@ -19,7 +19,7 @@ sub run {
     my $volumn;
 
 
-    for my $t ("ffs","ufs", "hfs") {
+    for my $t ("apfs", "ffs","ufs", "hfs") {
   # OpenBSD has no -m option so use -k to obtain results in kilobytes
       for(`df -P -k -t $t`){ # darwin needs the -t to be last
         if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
