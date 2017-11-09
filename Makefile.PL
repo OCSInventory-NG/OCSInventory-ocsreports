@@ -125,11 +125,12 @@ if ($^O =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd6
 	}
 }
 
-if ($^O =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
+if ($^O =~ /^darwin$/ && !can_use('Mac::SysProfile') && !can_use('Parse::EDID')) {
 	print "\n";
-	print "[WARNING] Mac::SysProfile is needed on MacOS to detect most of the device information.\n";
+	print "[WARNING] Mac::SysProfile and Parse::EDID are needed on MacOS to detect most of the device information.\n";
 	print "\n";
 	requires 'Mac::SysProfile' => undef;
+	requires 'Parse::EDID' => undef;
 }
 
 # memconf is needed by Solaris backend module
