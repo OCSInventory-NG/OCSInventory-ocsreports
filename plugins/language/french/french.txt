@@ -1315,8 +1315,8 @@
 2017 à l'aide
 2018 a été importé
 2019 étaient déjà importés
-2020 Le fichier install.php est présent dans votre répertoire d'interface.
-2021 Le répertoire de LOGS n'est pas ouvert en écriture
+2020 Le fichier install.php est présent dans votre répertoire d'interface. (par défaut: /usr/share/ocsinventory-reports/ocsreports)
+2021 Le répertoire de LOGS n'est pas ouvert en écriture (par défaut: /var/lib/ocsinventory-reports/logs)
 2022 Vous ne pouvez envoyer un fichier d'une taille supérieur à
 2023 Supprimez le.
 2024 Le compte/mot de passe par défaut est actif sur votre base de donnée:

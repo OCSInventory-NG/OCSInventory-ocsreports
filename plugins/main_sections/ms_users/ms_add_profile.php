@@ -32,7 +32,7 @@ if (!AJAX) {
 	
 	echo '<div class="col col-md-10">';
 
-    if (!is_writable(DOCUMENT_REAL_ROOT . '/config/profiles')) {
+    if (!is_writable(PROFILES_DIR)) {
         msg_error($l->g(2116));
     } else {
         show_profile_create_form();
@@ -42,7 +42,7 @@ if (!AJAX) {
 } else {
     require_once 'lib/profile_functions.php';
 
-    if (!is_writable(DOCUMENT_REAL_ROOT . '/config/profiles')) {
+    if (!is_writable(PROFILES_DIR)) {
         $response = array(
             'status' => 'error',
             'message' => $l->g(2116)

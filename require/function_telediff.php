@@ -420,13 +420,16 @@ function create_pack($sql_details, $info_details) {
         $info .= "COMMAND=\"" . $info_details['COMMAND'] . "\" ";
     }
 
+    $notifyText = addslashes($info_details['NOTIFY_TEXT']);
+    $actionText = addslashes($info_details['NEED_DONE_ACTION_TEXT']);
+
     $info .= "NOTIFY_USER=\"" . $info_details['NOTIFY_USER'] . "\" " .
-            "NOTIFY_TEXT=\"" . $info_details['NOTIFY_TEXT'] . "\" " .
+            "NOTIFY_TEXT=\"" . $notifyText . "\" " .
             "NOTIFY_COUNTDOWN=\"" . $info_details['NOTIFY_COUNTDOWN'] . "\" " .
             "NOTIFY_CAN_ABORT=\"" . $info_details['NOTIFY_CAN_ABORT'] . "\" " .
             "NOTIFY_CAN_DELAY=\"" . $info_details['NOTIFY_CAN_DELAY'] . "\" " .
             "NEED_DONE_ACTION=\"" . $info_details['NEED_DONE_ACTION'] . "\" " .
-            "NEED_DONE_ACTION_TEXT=\"" . $info_details['NEED_DONE_ACTION_TEXT'] . "\" " .
+            "NEED_DONE_ACTION_TEXT=\"" . $actionText . "\" " .
             "GARDEFOU=\"" . $info_details['GARDEFOU'] . "\" />\n";
 
     $handinfo = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/info", "w+");

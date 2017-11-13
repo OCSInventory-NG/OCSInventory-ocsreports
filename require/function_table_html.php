@@ -1355,6 +1355,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$searchable = false;
 							}
 							if ($searchable){
+                
 								if($name != 'c'){
 									if ($rang == 0){
 										$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";

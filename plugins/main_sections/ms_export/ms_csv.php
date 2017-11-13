@@ -28,12 +28,10 @@ if (is_defined($values['tvalue']['EXPORT_SEP'])) {
 }
 $link = $_SESSION['OCS']["readServer"];
 $toBeWritten = "";
-
 //log directory
 if (isset($protectedGet['log']) && !preg_match("/([^A-Za-z0-9.])/", $protectedGet['log'])) {
     $Directory = $_SESSION['OCS']['LOG_DIR'] . "/";
 }
-
 if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
     $tab = file($Directory . $protectedGet['log']);
     while (list($cle, $val) = each($tab)) {
@@ -60,7 +58,6 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
     //data fixe
     if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']])) {
         $i = 0;
-
         while ($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]) {
             $result = mysqli_query($link, $_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]) or die(mysqli_error($link));
             while ($cont = mysqli_fetch_array($result)) {
@@ -73,13 +70,11 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
             $i++;
         }
     }
-
     if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']]) {
         $arg = $_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
     } else {
         $arg = '';
     }
-
     if (isset($protectedGet['nolimit'])) {
         $result = mysql2_query_secure($_SESSION['OCS']['csv']['SQLNOLIMIT'][$protectedGet['tablename']], $link, $arg);
     } else {
@@ -89,56 +84,43 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
     require_once('require/function_admininfo.php');
     $inter = interprete_accountinfo($col, array());
     while ($cont = mysqli_fetch_array($result)) {
-
         unset($cont['MODIF']);
         foreach ($inter as $field => $lbl) {
             if ($lbl == "name_of_machine" && !isset($cont[$field])) {
                 $field = 'name';
             }
-
             $found = false;
             // find value case-insensitive
-
             foreach ($col as $key => $val) {
-
                 if (strpos($key, ".") !== false) {
                     $exploded_key = explode(".", $key);
                     $key = $exploded_key[1];
                 }
-
                 if (array_key_exists($key, $cont)) {
-                    if (($field == 'TAG' || substr($field, 0, 7) == 'fields_') && isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl])) {
+                    if (($field == 'TAG' || substr($key, 0, 7) == 'fields_') && isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$val])) {
                         // administrative data
-                        $data[$i][$key] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$lbl][$val];
+                        $data[$i][$key] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]];
                     } else {
                         // normal data
                         $data[$i][$key] = $cont[$key];
                     }
-
                     $found = true;
-
                 } elseif (isset($_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$key][$cont['ID']])) {
-
                     $data[$i][$key] = $_SESSION['OCS']['VALUE_FIXED'][$protectedGet['tablename']][$key][$cont['ID']];
                     $found = true;
-
                 } elseif (array_key_exists(strtoupper($key),$cont)){ // in the case key is in lower case and array cont is in upper case
                     $data[$i][strtoupper($key)] = $cont[strtoupper($key)];
                 } elseif (strpos($key, ' AS ') !== false || strpos($key, ' as ') !== false) {
                     $key_explode  = explode(" ", $key);
                     $data[$i][$key_explode[2]] = $cont[$key_explode[2]];
                 }
-
                 if (isset($_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key])) {
                     $data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE'][$protectedGet['tablename']][$key][$data[$i][$key]];
                 }
-
                 if (isset($_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$key])) {
                     $data[$i][$key] = $_SESSION['OCS']['csv']['REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']][$data[$i][$_SESSION['OCS']['csv']['FIELD_REPLACE_VALUE_ALL_TIME'][$protectedGet['tablename']]]];
                 }
-
             }
-
         }
         $i++;
     }
@@ -146,11 +128,17 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
     while ($data[$i]) {
         $toBeWritten .= "\r\n";
         foreach ($data[$i] as $field_name => $donnee) {
-            $toBeWritten .= $donnee . $separator;
+          if (substr($donnee, 0 , 1) != "\"") {
+            $toBeWritten .= "\"";
+          }
+          $toBeWritten .= $donnee;
+          if ($donnee[strlen($donnee)-1] != "\"") {
+            $toBeWritten .= "\"";
+          }
+          $toBeWritten .= $separator;
         }
         $i++;
     }
-
     $filename = "export.csv";
 }
 if ($toBeWritten != "") {
@@ -158,7 +146,6 @@ if ($toBeWritten != "") {
     if (ini_get("zlib.output-compression")) {
         ini_set("zlib.output-compression", "Off");
     }
-
     header("Pragma: public");
     header("Expires: 0");
     header("Cache-control: must-revalidate, post-check=0, pre-check=0");

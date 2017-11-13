@@ -887,7 +887,7 @@
 1001 Red fields are in errors!
 1002 Estimated time for deploy
 1003 Redistribution servers packages parameters
-1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/). 
+1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/).
 1005 Package creation is therefore not possible.
 1006 don't have wrinting rights
 1007 The directory
@@ -1315,8 +1315,8 @@
 2017 using
 2018 was imported
 2019 were already imported
-2020 Your install.php exists in your installation directory.
-2021 Your logs directory is not writable
+2020 Your install.php exists in your installation directory (by default : /usr/share/ocsinventory-reports/ocsreports).
+2021 Your logs directory (by default : /var/lib/ocsinventory-reports/logs) is not writable
 2022 You can't send a file larger than
 2023 Delete it
 2024 The default SQL login/password is set on your database:

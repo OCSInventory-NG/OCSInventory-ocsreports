@@ -161,17 +161,22 @@ function admin_user($id_user = null, $is_my_account = false) {
     }
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES') {
-        //search all profil type
-        $list_profil = get_profile_labels();
-        $list_groups_result = look_config_default_values("USER_GROUP_%", 'LIKE');
-        if (is_array($list_groups_result['name'])) {
-            foreach ($list_groups_result['name'] as $key => $value) {
-                $list_groups[$list_groups_result['ivalue'][$key]] = $list_groups_result['tvalue'][$key];
-            }
-        }
+      //search all profil type
+      $list_profil = get_profile_labels();
+      $list_groups_result = look_config_default_values("USER_GROUP_%", 'LIKE');
+      if (is_array($list_groups_result['name'])) {
+          foreach ($list_groups_result['name'] as $key => $value) {
+              $list_groups[$list_groups_result['ivalue'][$key]] = $list_groups_result['tvalue'][$key];
+          }
+      }
         $name_field = array("ID", "ACCESSLVL", "USER_GROUP");
         $tab_name = array($l->g(995) . " :", $l->g(66) . " :", $l->g(607) . " :");
         $type_field = array($update, 2, 2);
+    }else{
+        $name_field = array("ID", "ACCESSLVL");
+        $tab_name[]=" ";
+        $tab_name[]=" ";
+        $type_field = array(3, 3);
     }
 
     $name_field[] = "FIRSTNAME";
@@ -180,19 +185,17 @@ function admin_user($id_user = null, $is_my_account = false) {
     $name_field[] = "COMMENTS";
     //$name_field[]="USER_GROUP";
 
-
     $tab_name[]=$l->g(1366)." :";
     $tab_name[]=$l->g(996)." :";
     $tab_name[]=$l->g(1117)." :";
     $tab_name[]=$l->g(51)." :";
     //$tab_name[]="Groupe de l'utilisateur: ";
 
-
-    $type_field[]= 0; 
-    $type_field[]= 0; 
-    $type_field[]= 0; 
-    $type_field[]= 0; 
-    //$type_field[]= 2; 
+    $type_field[]= 0;
+    $type_field[]= 0;
+    $type_field[]= 0;
+    $type_field[]= 0;
+    //$type_field[]= 2;
 
     $tab_hidden['MODIF']=$id_user;
     $sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
@@ -203,7 +206,11 @@ function admin_user($id_user = null, $is_my_account = false) {
             $protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
             $protectedPost['USER_GROUP']=$row->USER_GROUP;
             $value_field=array($row->ID,$list_profil,$list_groups);
+    }else{
+        $protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
+        $value_field= array($row->ID, $protectedPost['ACCESSLVL']);
     }
+
     $value_field[]=$row->FIRSTNAME;
     $value_field[]=$row->LASTNAME;
     $value_field[]=$row->EMAIL;
@@ -231,7 +238,6 @@ function admin_user($id_user = null, $is_my_account = false) {
             $indexType = $tab_typ_champ[$index]['INPUT_TYPE'];
 
             $selectValues = '';
-
 
             $inputName = $tab_typ_champ[$index]['INPUT_NAME'];
             $inputValue = $protectedPost[$inputName];
@@ -264,24 +270,24 @@ function admin_user($id_user = null, $is_my_account = false) {
                     $inputType = 'hidden';
             }
 
-            if($inputName == "ID" && $id_user != null){
-                formGroup('hidden', 'MODIF', '', '', '', $id_user, '', '', '', '', '');
-                formGroup('text', $inputName, $fields, '', '', $id_user, '', $selectValues, $selectValues, 'readonly', '');
-            }else{
-                if($tab_typ_champ[$index]['COMMENT_AFTER'] === null){
-                    $tab_typ_champ[$index]['COMMENT_AFTER'] = "";
-                }
-                
-                if($inputType != 'select'){
-                    formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
-                }else{
-                    formGroup($inputType, $inputName, $fields, '', '', $protectedPost[$inputName], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
-                }
+            if($id_user != null){
+            formGroup('hidden', 'MODIF', '', '', '', $id_user, '', '', '', '', '');
             }
 
+            if($inputName == "ID" && $id_user != null && ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES')){
+                formGroup('text', $inputName, $fields, '', '', $id_user, '', $selectValues, $selectValues, 'readonly', '');
+              }else{
+                if($tab_typ_champ[$index]['COMMENT_AFTER'] === null){
+                    $tab_typ_champ[$index]['COMMENT_AFTER'] = "";
+                  }
+                  if($inputType != 'select'){
+                    formGroup($inputType, $inputName, $fields, '', '', $tab_typ_champ[$index]['DEFAULT_VALUE'], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
+                  }else{
+                    formGroup($inputType, $inputName, $fields, '', '', $protectedPost[$inputName], '', $selectValues, $selectValues, '' , $tab_typ_champ[$index]['COMMENT_AFTER']);
+                  }
+              }
         }
-
-    }	
+    }
 }
 
 function updatePassword($id_user, $password) {
