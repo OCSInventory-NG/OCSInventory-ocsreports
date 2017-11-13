@@ -3,6 +3,11 @@
 ### General informations
 Operating system : 
 
+### Server installation method ( Only one choice )
+- [ ] RPM Package
+- [ ] Install SH
+- [ ] Manual installation
+
 ### Server informations
 Php version : 
 Mysql / Mariadb / Percona version : 
