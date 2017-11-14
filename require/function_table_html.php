@@ -218,6 +218,13 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         <div class="<?php echo $option['table_name']; ?>_top_settings" style="display:none;">
         </div>
         <?php
+
+				if (!isset ($protectedPost['COL_SEARCH'])){
+						 $selected_col='ALL';
+				} else {
+						 $selected_col = $protectedPost['COL_SEARCH'];
+				}
+
         //Display the Column selector
         if (!empty($list_col_can_del)) {
             // Sort columns show / hide select by default
@@ -253,6 +260,35 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                     </div>
                 </div>
             </div>
+
+						<!-- Display search in column bar-->
+						<div class="row">
+							 <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
+									<div class="form-group">
+										<label class="control-label col-sm-4" for="select_col<?php echo $option['table_name']; ?>"> <?php echo $l->g(1419); ?> : </label>
+											<div class="col-sm-8">
+												<select class="form-control" id="select_search_col<?php echo $option['table_name']; ?>" name="COL_SEARCH">
+														<option value="default"><?php echo $l->g(6012); ?></option>
+																<?php
+																	foreach ($list_col_can_del as $key => $col) {
+																			$name = explode('.', $col);
+																			$name = explode(' as ', end($name));
+																			$value = end($name);
+																			if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
+																					$value = $option['REPLACE_COLUMN_KEY'][$key];
+																			}
+																			if (array_key_exists($key, $lbl_column)) {
+																					echo "<option value='$value'>$lbl_column[$key]</option>";
+																			} else {
+																				  echo "<option value='$value'>$key</option>";
+																			}
+																	}
+															 ?>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
             <?php
         }
         ?>
@@ -382,7 +418,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 //Column definition
                 "columns": [
     <?php
-    $index = 0;
+
+		$index = 0;
 
     // Unset visible columns session var
     unset($_SESSION['OCS']['visible_col'][$option['table_name']]);
@@ -530,7 +567,6 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             echo "<th><font >" . $k . "</font></th>";
         }
     }
-
     echo "</tr>
     </thead>";
 
@@ -591,6 +627,7 @@ function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array()
         echo "<div class='tableContainer' id='data' style=\"width:" . $width . "%;\"><table cellspacing='0' class='ta'><tr>";
         //titre du tableau
         $i = 1;
+
         foreach ($entete_colonne as $k => $v) {
             if (in_array($v, $lien)) {
                 echo "<th class='ta' >" . $v . "</th>";
@@ -1355,22 +1392,23 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$searchable = false;
 							}
 							if ($searchable){
-                
-								if($name != 'c'){
-									if ($rang == 0){
-										$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";
-									}
-									else{
-										$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
-									}
+								// if search in column selected
+								if ($tab_options['COL_SEARCH'] != 'default' && $rang == 0) {
+										$name_col = $tab_options['COL_SEARCH'];
+										$filtertxt =  " WHERE (( ".$name_col." LIKE '%%".$search."%%' ) ";
+								} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+										if ($rang == 0){
+											$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";
+										} else {
+											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+										}
 								}
 								$rang++;
 							}
 						}
 						if ($word == "WHERE"){
 							$queryDetails .= $filtertxt.") AND ".$row;
-						}
-						else{
+						} else {
 							$queryDetails .= $filtertxt.")  ".$row;
 						}
 					}
