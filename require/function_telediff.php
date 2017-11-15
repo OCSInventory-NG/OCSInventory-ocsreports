@@ -219,9 +219,10 @@ function activ_pack($fileid, $https_server, $file_serv) {
         mysql2_query_secure($req1, $_SESSION['OCS']["writeServer"], $arg1);
     }
 
-    $req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH ) VALUES
-		( '%s', '%s', '%s', 'INSTALL_PATH/cacert.pem','INSTALL_PATH')";
-    $arg = array($fileid, $https_server, $file_serv);
+		$req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH )
+		SELECT '%s', '%s', '%s', 'INSTALL_PATH/cacert.pem','INSTALL_PATH'
+		FROM download_enable WHERE NOT EXISTS (SELECT 0 FROM download_enable WHERE INFO_LOC = '%s' AND PACK_LOC = '%s')";
+    $arg = array($fileid, $https_server, $file_serv, $https_server, $file_serv);
     mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg, $l->g(512));
 }
 
