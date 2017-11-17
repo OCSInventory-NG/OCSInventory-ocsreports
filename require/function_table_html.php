@@ -521,7 +521,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         printEnTete_tab($titre);
     }
     echo "<div class='tableContainer'>";
-    echo "<table id='" . $option['table_name'] . "' width='100%' class='table table-striped table-condensed table-hover'><thead><tr>";
+    echo "<table id='" . $option['table_name'] . "' width='100%' class='table table-striped table-condensed table-hover cell-border'><thead><tr>";
     //titre du tableau
     foreach ($columns as $k => $v) {
         if (array_key_exists($k, $lbl_column)) {
