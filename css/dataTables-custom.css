@@ -40,6 +40,14 @@ table.dataTable.table-striped thead tr th {
     background-color: #f0f0f0;
 }
 
+table.dataTable.cell-border tbody th,
+table.dataTable.cell-border tbody td,
+table.dataTable.cell-border thead th,
+table.dataTable.cell-border thead td {
+  border-right: 1px solid #dddddd;
+  border-left: 1px solid #dddddd;
+}
+
 table.dataTable a {
     color: rgb(116, 116, 116)!important;
     font-weight: bold;
