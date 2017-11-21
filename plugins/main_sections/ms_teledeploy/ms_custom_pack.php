@@ -42,44 +42,15 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
     $tab_hidden['onglet'] = $protectedPost['onglet'];
     $tab_hidden['rule_choise'] = $protectedPost['rule_choise'];
     $action = array('NONE' => '',  'REBOOT' => $l->g(1311), 'SHUTDOWN' => $l->g(1310));
-    $min = array('00' => '00', '15' => '15', '30' => '30', '45' => '45');
-    $hour = array('00' => '00',
-        '01' => '01',
-        '02' => '02',
-        '03' => '03',
-        '04' => '04',
-        '05' => '05',
-        '06' => '06',
-        '07' => '07',
-        '08' => '08',
-        '09' => '09',
-        '10' => '10',
-        '11' => '11',
-        '12' => '12');
-    $i = 0;
-    while ($i <= 1) {
-        if ($i == 0) {
-            $am_pm = '';
-        } else {
-            $am_pm = 'pm';
-        }
-        foreach ($hour as $k => $v) {
-            foreach ($min as $km) {
-                if ($am_pm == '' || ($am_pm == 'pm' && $k != '00' && $k != '12')) {
-                    $hour_min[$k . ":" . $km . $am_pm] = $am_pm . " " . $k . ":" . $km;
-                }
-            }
-        }
-        $i++;
-    }
+
     $config['COMMENT_AFTER'][0] = datePick("INSTALL_DATE");
     $config['JAVASCRIPT'][0] = "READONLY " . dateOnClick("INSTALL_DATE");
     $config['SELECT_DEFAULT'][0] = '';
     $config['SIZE'][0] = '8';
-    $tab_name = array($l->g(1295), $l->g(1294), $l->g(443));
-    $name_field = array("INSTALL_DATE", "INSTALL_HEURE", "DOWNLOAD_POSTCMD");
-    $type_field = array(0, 2, 2);
-    $value_field = array($protectedPost['INSTALL_DATE'], $hour_min, $action);
+    $tab_name = array($l->g(1295), $l->g(443));
+    $name_field = array("INSTALL_DATE", "DOWNLOAD_POSTCMD");
+    $type_field = array(0, 2);
+    $value_field = array($protectedPost['INSTALL_DATE'], $action);
     if ($protectedGet['origine'] != 'group') {
         array_push($tab_name, $l->g(1293));
         array_push($name_field, "TELE_FORCE");
@@ -101,16 +72,16 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
             active_option('DOWNLOAD_FORCE', $list_id, $protectedPost['SELECT'], '1');
         }
         if (is_defined($protectedPost['INSTALL_DATE'])) {
-            $date = explode('/', $protectedPost['INSTALL_DATE']);
-            // Agent date format : 2016/06/30 02:15pm
-            if ($l->g(269) == "%m/%d/%Y") {
-                $install_date = $date[2] . "/" . $date[0] . "/" . $date[1] . " " . $protectedPost['INSTALL_HEURE'];
+            $date = multiexplode(array('/', ' ', ':'), $protectedPost['INSTALL_DATE']);
+            // Agent date format : 2016/06/30 02:15
+            if ($l->g(269) == "%m/%d/%Y %H:%i") {
+                $install_date = $date[2] . "/" . $date[0] . "/" . $date[1] . " " . $date[3] . ":" . $date[4];
             } else {
-                if ($l->g(269) == "%Y/%m/%d") {
-                    $install_date = $date[0] . "/" . $date[1] . "/" . $date[2] . " " . $protectedPost['INSTALL_HEURE'];
+                if ($l->g(269) == "%Y/%m/%d %H:%i") {
+                    $install_date = $date[0] . "/" . $date[1] . "/" . $date[2] . " " . $date[3] . ":" . $date[4];
                 } else {
-                    // default : %d/%m/%Y
-                    $install_date = $date[2] . "/" . $date[1] . "/" . $date[0] . " " . $protectedPost['INSTALL_HEURE'];
+                    // default : %d/%m/%Y %H:%i
+                    $install_date = $date[2] . "/" . $date[1] . "/" . $date[0] . " " . $date[3] . ":" . $date[4];
                 }
             }
             active_option('DOWNLOAD_SCHEDULE', $list_id, $protectedPost['SELECT'], $install_date);
