@@ -59,7 +59,7 @@ function incPicker() {
 
     echo "];
 	</script>
-	<script type='text/javascript' src='js/datetimepicker.js'></script>";
+	<script type='text/javascript' src='js/bootstrap-datetimepicker.js'></script>";
 }
 
 function dateOnClick($input, $checkOnClick = false) {
@@ -78,8 +78,15 @@ function datePick($input, $checkOnClick = false) {
     if ($checkOnClick) {
         $cOn = ",'$checkOnClick'";
     }
-    $ret = "<a href=\"javascript:NewCal('$input','$dateForm',false,24{$cOn});\">";
-    $ret .= "<img src=\"image/cal.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"Pick a date\"></a>";
+    $ret = "<span class=\"glyphicon glyphicon-calendar\"></span>";
+    $ret .= "<script type=\"text/javascript\">
+	      $(\".form_datetime\").datetimepicker({
+	          format: \"".$dateForm." hh:ii\",
+	          autoclose: true,
+	          todayBtn: true,
+	          pickerPosition: \"bottom-left\"
+	      });
+	    </script>";
     return $ret;
 }
 
@@ -1355,7 +1362,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$searchable = false;
 							}
 							if ($searchable){
-                
+
 								if($name != 'c'){
 									if ($rang == 0){
 										$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";

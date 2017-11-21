@@ -364,11 +364,11 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	echo "<label for='InputValue-".$nameField."' class='col-sm-2 control-label'>".$optArray[$value]."</label>";
 	echo "<div class='col-sm-10'>";
 
-	echo "<div class='input-group'>";
+	echo "<div class='input-group date form_datetime'>";
 
     //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
     if( array_key_exists($value,$optSelectField)) {
-        echo $select . "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value=\"" . stripslashes($protectedPost["InputValue-" . $nameField]) . "\">";
+        echo $select . "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value=\"\">";
         if ($optSelectField[$value . "-LBL"] == "calendar") {
             echo "<span class='input-group-addon'>";
             echo calendars("InputValue-" . $nameField, $l->g(1270));
@@ -401,7 +401,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
                     if (!is_numeric($name_of_field) and $name_of_field != 'ID'){
                         if (!isset($val['ID'])){
                             $val['ID']=$value_of_request;
-                        } 
+                        }
                         //	echo $val['ID']."=>".$value_of_request."<br>";
                         $select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
                     }
@@ -448,7 +448,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
             $display="none";
 
         echo $select."<input name='InputValue-".$nameField."' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">
-				 <div style='display:".$display."' id='FieldInput2-".$nameField."'> -- 
+				 <div style='display:".$display."' id='FieldInput2-".$nameField."'> --
 				 <input name='InputValue2-".$nameField."' value=\"".stripslashes($protectedPost["InputValue2-".$nameField])."\">
 				 </div>".$optSelect2Field[$value."-LBL"];
     }
@@ -536,10 +536,10 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 
     function multi_lot($form_name, $lbl_choise) {
         global $protectedPost, $protectedGet, $l;
-        
+
         echo "<div class='row'>";
         echo "<div class='col col-md-10 col-md-offset-1'>";
-        
+
         $list_id = "";
         if (!isset($protectedGet['origine'])) {
             if (is_defined($protectedGet['idchecked'])) {
@@ -571,7 +571,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
         } else {
             $list_id = $protectedGet['idchecked'];
         }
-        
+
         echo "</div>";
         echo "</div>";
 

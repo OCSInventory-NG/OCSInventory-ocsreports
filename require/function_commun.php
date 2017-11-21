@@ -323,6 +323,7 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="css/dataTables-custom.css">
 				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.css">
 				<link rel="stylesheet" href="css/ocsreports.css">
+        <link rel="stylesheet" href="css/bootstrap-datetimepicker.css">
 				<link rel="stylesheet" href="css/header.css">
 				<link rel="stylesheet" href="css/computer_details.css">
 				<link rel="stylesheet" href="css/forms.css">';
@@ -338,6 +339,7 @@ function html_header($noJavascript = false) {
         <script src="libraries/jquery-fileupload/jquery.fileupload.min.js" type="text/javascript"></script>
         <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-custom.js" type="text/javascript"></script>
+        <script src="js/bootstrap-datetimepicker.js" type="text/javascript"></script>
         <script src="libraries/charts.js/Chart.min.js" type="text/javascript"></script>
         <!-- js for Datatables -->
         <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -420,7 +422,7 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 		}
 		echo "</select>";
                 if($groupAddon != ""){
-                    echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";     
+                    echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
                 }
                 echo "</div>";
 	}
@@ -439,7 +441,16 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 //fonction qui permet d'utiliser un calendrier dans un champ
 function calendars($NameInputField,$DateFormat)
 {
-	return "<a href=\"javascript:NewCal('".$NameInputField."','".$DateFormat."',false,24,null);\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+  $calendar = "<i class=\"glyphicon glyphicon-calendar\"></i>";
+  $calendar .= "<script type=\"text/javascript\">
+      $(\".form_datetime\").datetimepicker({
+          format: \"".$DateFormat." hh:ii\",
+          autoclose: true,
+          todayBtn: true,
+          pickerPosition: \"bottom-left\"
+      });
+    </script>";
+	return $calendar;
 }
 
 
@@ -456,11 +467,11 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 		'top_action' => null,
 		'show_frame' => true
 	), $options);
-        
+
 	if ($options['form_name'] != 'NO_FORM') {
 		echo open_form($options['form_name'], '', '', 'form-horizontal');
 	}
-        
+
 	if (is_array($field_labels)) {
 		foreach ($field_labels as $key => $label) {
 
@@ -512,7 +523,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                     echo "<div class='form-group'>";
                         echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
                         echo "<div class='col-sm-10'>";
-                            echo "<div class='input-group'>";
+                            echo "<div class='input-group date form_datetime'>";
 
                                 if($inputType == 'text'){
                                     echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
@@ -552,7 +563,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 
 		}
 	}
-        
+
 	if ($options['show_button'] === 'BUTTON') {
 		echo '<div class="form-buttons">';
 		echo '<input type="submit" name="Valid_'.$options['button_name'].'" value="'.$l->g(13).'"/>';
@@ -606,9 +617,9 @@ function is_defined(&$var) {
  * Called on install and update
  */
 function check_requirements(){
-    
+
     global $l;
-    
+
     //messages lbl
     $msg_lbl = array();
     $msg_lbl['info'] = array();
@@ -694,12 +705,12 @@ function check_requirements(){
             }
         }
     }
-    
+
 }
 
 /**
  * From a byte value return an int
- * 
+ *
  * @param type $val
  * @return int
  */
