@@ -177,7 +177,7 @@
 266 Invalid date
 267 dd/mm/yyyy
 268 Speed
-269 %m/%d/%Y
+269 %m/%d/%Y %H:%i
 270 Modem(s)
 271 Slot(s)
 272 Port(s)
@@ -1153,7 +1153,7 @@
 1267 Type of Virtual Machines
 1268 Uuid
 1269 Machine hosted by
-1270 MMDDYYYY
+1270 mm/dd/yyyy
 1271 Computers of the subnet
 1272 Delete his computers
 1273 You do not have the right to remove a machine
@@ -1170,7 +1170,7 @@
 1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Installation time
-1295 Installation date
+1295 Installation date/time
 1296 OCS Professional
 1297 SNMP device identification
 1298 QRCode administration
