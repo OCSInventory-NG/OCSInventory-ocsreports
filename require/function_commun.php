@@ -444,7 +444,7 @@ function calendars($NameInputField,$DateFormat)
   $calendar = "<i class=\"glyphicon glyphicon-calendar\"></i>";
   $calendar .= "<script type=\"text/javascript\">
       $(\".form_datetime\").datetimepicker({
-          format: \"".$DateFormat." hh:ii\",
+          format: \"".$DateFormat."\",
           autoclose: true,
           todayBtn: true,
           pickerPosition: \"bottom-left\"

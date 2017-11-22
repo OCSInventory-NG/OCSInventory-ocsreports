@@ -62,15 +62,6 @@ function incPicker() {
 	<script type='text/javascript' src='js/bootstrap-datetimepicker.js'></script>";
 }
 
-function dateOnClick($input, $checkOnClick = false) {
-    global $l;
-    $dateForm = $l->g(1270);
-    if ($checkOnClick) {
-        $cOn = ",'$checkOnClick'";
-    }
-    $ret = "OnClick=\"javascript:NewCal('$input','$dateForm',false,24{$cOn});\"";
-    return $ret;
-}
 
 function datePick($input, $checkOnClick = false) {
     global $l;
@@ -81,7 +72,7 @@ function datePick($input, $checkOnClick = false) {
     $ret = "<span class=\"glyphicon glyphicon-calendar\"></span>";
     $ret .= "<script type=\"text/javascript\">
 	      $(\".form_datetime\").datetimepicker({
-	          format: \"".$dateForm." hh:ii\",
+	          format: \"".$dateForm."\",
 	          autoclose: true,
 	          todayBtn: true,
 	          pickerPosition: \"bottom-left\"
