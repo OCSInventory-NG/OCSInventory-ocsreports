@@ -1153,7 +1153,7 @@
 1267 Type de Machine Virtuelle
 1268 Uuid
 1269 Machine hébergée par
-1270 dd/mm/yyyy
+1270 dd/mm/yyyy hh:ii
 1271 Liste des machines du sous-réseau
 1272 Supprimer ses machines
 1273 Vous n'avez pas le droit de supprimer une machine
