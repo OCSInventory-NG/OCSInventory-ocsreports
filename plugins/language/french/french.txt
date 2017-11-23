@@ -1294,6 +1294,7 @@
 1416 Nom de l'operateur
 1417 IMEI/DEVICEID
 1418 Pays
+1419 Rechercher par colonne
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1455,6 +1456,7 @@
 6009 Vous ne pouvez pas installer de plugins, référez vous aux erreurs ci-dessus.
 6010 Le serveur de communication a rencontré l'erreur suivante lors de l'installation&nbsp;:&nbsp;
 6011 Cliquez ici pour obtenir de l'aide
+6012 Tout afficher
 
 7000 Plugins
 7001 Gestionnaire de plugins
