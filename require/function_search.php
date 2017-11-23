@@ -368,7 +368,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 
     //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
     if( array_key_exists($value,$optSelectField)) {
-        echo $select . "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value=\"\">";
+        echo $select . "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value='".$protectedPost['InputValue-' . $nameField ]."'>";
         if ($optSelectField[$value . "-LBL"] == "calendar") {
             echo "<span class='input-group-addon'>";
             echo calendars("InputValue-" . $nameField, $l->g(1270));
@@ -412,7 +412,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         $select2 .= "</select>";
         echo $select2;
         if (array_key_exists($value,$opt2SelectField)){
-            echo $select."<input name='InputValue-".$nameField."' class='form-control' id='InputValue-".$nameField."' value=\"".stripslashes($protectedPost["InputValue-".$nameField])."\">";
+            echo $select."<input name='InputValue-".$nameField."' class='form-control' id='InputValue-".$nameField."' value='".$protectedPost['InputValue-' . $nameField ]."'>";
             if ($opt2SelectField[$value."-LBL"] == "calendar") {
                 echo "<span class='input-group-addon'>";
                 echo calendars("InputValue-" . $nameField, $l->g(1270));
