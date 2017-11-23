@@ -177,7 +177,7 @@
 266 Date invalide
 267 jj/mm/aaaa
 268 Vitesse
-269 %d/%m/%Y
+269 %d/%m/%Y %H:%i
 270 Modem(s)
 271 Slot(s)
 272 Port(s)
@@ -1153,7 +1153,7 @@
 1267 Type de Machine Virtuelle
 1268 Uuid
 1269 Machine hébergée par
-1270 DDMMYYYY
+1270 dd/mm/yyyy hh:ii
 1271 Liste des machines du sous-réseau
 1272 Supprimer ses machines
 1273 Vous n'avez pas le droit de supprimer une machine
@@ -1170,7 +1170,7 @@
 1292 Utiliser les options avancées de téléploiement
 1293 Forcer le télédéploiement
 1294 Heure d'installation
-1295 Date d'installation
+1295 Date/heure d'installation
 1296 OCS Professionnel
 1297 Numéro d'identification
 1298 Gestion des QRCode

@@ -394,14 +394,14 @@ function updateinfo_computer($id, $values, $list = '') {
                 $date_accountinfo = true;
             }
         }
-        
+
         $sql_account_data .= " %s='%s', ";
         array_push($arg_account_data, $field);
         if($date_accountinfo){ // If date
             array_push($arg_account_data, date("Y-m-d", strtotime(changeDateFormat($_SESSION["OCS"]["LANGUAGE"], $val))));
         }else{ // If not date
             array_push($arg_account_data, $val);
-        }        
+        }
 
     }
     $sql_account_data = substr($sql_account_data, 0, -2);
@@ -411,7 +411,7 @@ function updateinfo_computer($id, $values, $list = '') {
     if ($list != '') {
         $sql_account_data .= " WHERE hardware_id in (%s)";
     }
-    
+
     array_push($arg_account_data, $id);
     mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
     return $l->g(1121);
@@ -458,7 +458,7 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
                     switch ($value) {
                         case '6':
                             $comment_behing[$i] = datePick('fields_' . $v['id']);
-                            $config[$i]['CONFIG']['JAVASCRIPT'] = "READONLY " . dateOnClick('fields_' . $v['id']);
+                            $config[$i]['CONFIG']['JAVASCRIPT'] = "READONLY";
                             $config[$i]['CONFIG']['SIZE'] = 7;
                             break;
                         case '4':

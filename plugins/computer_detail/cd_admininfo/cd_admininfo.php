@@ -202,7 +202,7 @@ if (!is_array($info_account_id)) {
                     } else {
                         array_push($config['COMMENT_AFTER'], datePick($name_accountinfo));
                     }
-                    array_push($config['JAVASCRIPT'], "READONLY " . dateOnClick($name_accountinfo));
+                    array_push($config['JAVASCRIPT'], "READONLY");
                     array_push($config['SELECT_DEFAULT'], '');
                     array_push($config['SIZE'], '8');
                 }
@@ -245,14 +245,14 @@ if (!is_array($info_account_id)) {
                 array_push($type_field, $convert_type[$val_admin_info['TYPE']]);
             } else {
                 //TODO : QRCode management
-                array_push($type_field, 13);                
+                array_push($type_field, 13);
 
             }
 
             $nb_row++;
-            
+
         }
-        
+
         // If is a select get default data
         foreach($name_field as $key => $value){
             if($config['SELECT_DEFAULT'][$key] == 'YES'){
@@ -284,7 +284,7 @@ if (!is_array($info_account_id)) {
                 echo $show_admin_button;
             echo "</ul>";
         }
-        
+
         echo "<div class='col col-md-6 col-md-offset-3'>";
         modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
             'show_button' => $showbutton,

@@ -531,4 +531,10 @@ function found_info_pack($id) {
     return $val;
 }
 
+function multiexplode ($delimiters, $date)
+{
+		$ready = str_replace($delimiters, $delimiters[0], $date);
+		$launch = explode($delimiters[0], $ready);
+		return $launch;
+}
 ?>

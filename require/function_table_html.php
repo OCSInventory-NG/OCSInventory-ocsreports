@@ -59,18 +59,9 @@ function incPicker() {
 
     echo "];
 	</script>
-	<script type='text/javascript' src='js/datetimepicker.js'></script>";
+	<script type='text/javascript' src='js/bootstrap-datetimepicker.js'></script>";
 }
 
-function dateOnClick($input, $checkOnClick = false) {
-    global $l;
-    $dateForm = $l->g(1270);
-    if ($checkOnClick) {
-        $cOn = ",'$checkOnClick'";
-    }
-    $ret = "OnClick=\"javascript:NewCal('$input','$dateForm',false,24{$cOn});\"";
-    return $ret;
-}
 
 function datePick($input, $checkOnClick = false) {
     global $l;
@@ -78,8 +69,15 @@ function datePick($input, $checkOnClick = false) {
     if ($checkOnClick) {
         $cOn = ",'$checkOnClick'";
     }
-    $ret = "<a href=\"javascript:NewCal('$input','$dateForm',false,24{$cOn});\">";
-    $ret .= "<img src=\"image/cal.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"Pick a date\"></a>";
+    $ret = "<span class=\"glyphicon glyphicon-calendar\"></span>";
+    $ret .= "<script type=\"text/javascript\">
+	      $(\".form_datetime\").datetimepicker({
+	          format: \"".$dateForm."\",
+	          autoclose: true,
+	          todayBtn: true,
+	          pickerPosition: \"bottom-left\"
+	      });
+	    </script>";
     return $ret;
 }
 
@@ -1403,7 +1401,6 @@ function ajaxfiltre($queryDetails,$tab_options){
 										} else {
 											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
 										}
-
 								}
 								$rang++;
 							}
