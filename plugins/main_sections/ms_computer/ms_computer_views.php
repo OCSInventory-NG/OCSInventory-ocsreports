@@ -30,7 +30,7 @@ function show_computer_menu($computer_id) {
 
 
     echo "<div class='left-menu col col-md-2'>";
-    echo "<ul class='nav nav-pills nav-stacked navbar-left'>";
+    echo "<ul class='nav nav-pills nav-stacked navbar-left' data-spy='affix'>";
 
 
     foreach ($menu->getChildren() as $menu_elem) {
