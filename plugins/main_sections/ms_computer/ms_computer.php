@@ -86,7 +86,7 @@ if (AJAX) {
 $plugins_serializer = new XMLPluginsSerializer();
 $plugins = $plugins_serializer->unserialize(file_get_contents( CD_CONFIG_DIR .'plugins.xml'));
 
-if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('software', 'hardware', 'devices', 'admin', 'config', 'teledeploy', 'other'))) {
+if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('software', 'hardware', 'network', 'devices', 'admin', 'config', 'teledeploy', 'other'))) {
     // If category
     foreach ($plugins as $plugin) {
         if ($plugin->getCategory() == $protectedGet['cat']) {
