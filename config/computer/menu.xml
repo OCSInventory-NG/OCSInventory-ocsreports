@@ -12,6 +12,10 @@
     <label>g(20)</label>
     <url>cat=software</url>
   </menu-elem>
+  <menu-elem id="network">
+    <label>g(1367)</label>
+    <url>cat=network</url>
+  </menu-elem>
   <menu-elem id="devices">
     <label>g(1331)</label>
     <url>cat=devices</url>
