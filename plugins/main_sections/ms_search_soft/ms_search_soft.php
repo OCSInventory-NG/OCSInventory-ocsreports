@@ -60,6 +60,8 @@ echo "\n" . '<script type="text/javascript">
         <input type="submit" class="btn btn-success" id="bouton-submit" value="<?php echo $l->g(13); ?>" name="bouton-submit">
     </div>
 </div>
+<br />
+<br />
 
 <?php
 echo '<div id="fr">';
@@ -88,7 +90,10 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
         'snom' => 'a.NAME as softname',
         'sversion' => 'a.VERSION',
         'sfold' => 'a.FOLDER');
-    $list_col_cant_del = $list_fields;
+    $list_col_cant_del = array(
+        'ip' => 'h.IPADDR',
+        'snom' => 'a.NAME as softname',
+    );
     $default_fields = $list_fields;
     $tab_options['AS']['a.NAME'] = 'SNAME';
     $queryDetails = "SELECT h.ID,";
