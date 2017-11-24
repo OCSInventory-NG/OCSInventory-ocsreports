@@ -36,12 +36,6 @@
   	<category>hardware</category>
   	<available>sounds</available>
   </plugin>
-  <plugin id="cd_networks">
-  	<label>g(82)</label>
-  	<system>1</system>
-  	<category>hardware</category>
-  	<available>networks</available>
-  </plugin>
   <plugin id="cd_controllers">
   	<label>g(93)</label>
   	<system>1</system>
@@ -66,7 +60,7 @@
   	<category>hardware</category>
   	<available>bios</available>
   </plugin>
-  
+
   <!-- SOFTWARE -->
   <plugin id="cd_softwares">
   	<label>g(20)</label>
@@ -74,7 +68,15 @@
   	<category>software</category>
   	<available>softwares</available>
   </plugin>
-  
+
+  <!-- NETWORK -->
+  <plugin id="cd_networks">
+    <label>g(82)</label>
+    <system>1</system>
+    <category>network</category>
+    <available>networks</available>
+  </plugin>
+
   <!-- DEVICES -->
   <plugin id="cd_pda">
   	<label>g(994)</label>
@@ -106,7 +108,7 @@
   	<category>devices</category>
   	<available>modems</available>
   </plugin>
-  
+
   <!-- ADMIN -->
   <plugin id="cd_admininfo">
   	<label>g(56)</label>
@@ -126,7 +128,7 @@
   	<category>admin</category>
   	<available>registry</available>
   </plugin>
-  
+
   <!-- CONFIG -->
   <plugin id="cd_configuration">
   	<label>g(500)</label>
@@ -134,7 +136,7 @@
   	<category>config</category>
   	<hide_frame>1</hide_frame>
   </plugin>
-  
+
   <!-- TELEDEPLOY -->
    <plugin id="cd_teledeploy">
   	<label>g(558)</label>
@@ -142,7 +144,7 @@
   	<category>teledeploy</category>
   	<available>teledeploy</available>
   </plugin>
-  
+
   <!-- OTHER -->
   <plugin id="cd_vm">
   	<label>g(1266)</label>
