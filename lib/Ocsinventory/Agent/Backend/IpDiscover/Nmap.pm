@@ -51,7 +51,7 @@ sub run {
     #Let's go scanning the network and parsing the results
     $logger->debug("Scanning the $network network");
     my $nmaparser = new Nmap::Parser;
-    $nmaparser->parsescan("nmap","-sP","-PR","$network/24");
+    $nmaparser->parsescan("nmap","-sn","-PR","$network/24");
   
     for my $host ($nmaparser->all_hosts("up")){
         my $ip = $host->addr;
