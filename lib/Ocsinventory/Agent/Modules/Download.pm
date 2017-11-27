@@ -1,5 +1,5 @@
 ###############################################################################
-## OCSINVENTORY-NG 
+## OCSINVENTORY-NG
 ## Copyleft Pascal DANEK 2005
 ## Web : http://ocsinventory.sourceforge.net
 ##
@@ -39,8 +39,8 @@ sub new {
     my $name="download";   #Set the name of your module here
 
     my (undef,$context) = @_;
-    my $self = {};  
-   
+    my $self = {};
+
     # Create a special logger for the module
     $self->{logger} = new Ocsinventory::Logger ({
         config => $context->{config},
@@ -53,11 +53,11 @@ sub new {
     $self->{logger}->{header}="[$name]";
     $self->{structure} = {
         name => $name,
-        start_handler => $name."_start_handler", 
-        prolog_writer => undef, 
-        prolog_reader => $name."_prolog_reader", 
-        inventory_handler => $name."_inventory_handler", 
-        end_handler => $name."_end_handler" 
+        start_handler => $name."_start_handler",
+        prolog_writer => undef,
+        prolog_reader => $name."_prolog_reader",
+        inventory_handler => $name."_inventory_handler",
+        end_handler => $name."_end_handler"
     };
 
     $self->{settings} = {
@@ -105,7 +105,7 @@ sub download_start_handler {
         $logger->info("Agent is running in local mode...disabling module");
     }
 
-    # If we cannot load prerequisite, we disable the module 
+    # If we cannot load prerequisite, we disable the module
     if ($common->can_load('LWP')) {
         my $lwp_version = $LWP::VERSION;
         $lwp_version=$self->{common}->convertVersion($lwp_version,3);
@@ -141,30 +141,30 @@ sub download_prolog_reader{      #Read prolog response
     my $messages = $self->{messages};
     my $packages = $self->{packages};
 
-    $logger->debug("Calling download_prolog_reader");   
+    $logger->debug("Calling download_prolog_reader");
     $logger->debug($prolog);
     $prolog = XML::Simple::XMLin( $prolog, ForceArray => ['OPTION', 'PARAM']);
     my $option;
     # Create working directory
     my $opt_dir = $context->{installpath}.'/download';
     mkdir($opt_dir) unless -d $opt_dir;
-    
+
     # We create a file to tell to download process that we are running
     open SUSPEND, ">$opt_dir/suspend";
     close(SUSPEND);
-    
+
     # Create history file if needed
     unless(-e "$opt_dir/history"){
         open HISTORY, ">$opt_dir/history" or die("Cannot create history file: $!");
         close(HISTORY);
     }
-    
+
     # Create lock file if needed
     unless(-e "$opt_dir/lock"){
         open LOCK, ">$opt_dir/lock" or die("Cannot create lock file: $!");
         close(LOCK);
     }
-    
+
     # Retrieve our options
     for $option (@{$prolog->{OPTION}}){
         if ($option->{NAME} =~/download/i){
@@ -183,7 +183,7 @@ sub download_prolog_reader{      #Read prolog response
                         close(CONFIG);
                         return 0;
                     }
-                    
+
                     # Apply config
                     # ON ?
                     if ($_->{'ON'} == '0'){
@@ -228,7 +228,7 @@ sub download_prolog_reader{      #Read prolog response
         $logger->info("Cannot find network settings to make this module works properly...disabling module");
         $self->{disabled} = 1;
     }
-    
+
     # Check history file
     unless(open HISTORY, "$opt_dir/history") {
         flock(HISTORY, LOCK_EX);
@@ -236,7 +236,7 @@ sub download_prolog_reader{      #Read prolog response
         $logger->error("Cannot read history file: $!");
         return 1;
     }
-    
+
     chomp(my @done = <HISTORY>);
     close(HISTORY);
 
@@ -254,7 +254,7 @@ sub download_prolog_reader{      #Read prolog response
                 next;
             }
         }
-        
+
         # Looking for packages status
         unless(-d $dir){
             $logger->debug("Making working directory for $fileid.");
@@ -263,7 +263,7 @@ sub download_prolog_reader{      #Read prolog response
             print FH time();
             close(FH);
         }
-        
+
         # Retrieve and writing info file if needed
         unless(-f "$dir/$infofile"){
             # Special value INSTALL_PATH
@@ -274,7 +274,7 @@ sub download_prolog_reader{      #Read prolog response
             if ($network->getFile("https","$location/$fileid","info","$dir/info")){
                 download_message($fileid, $self->{messages}->{err_download_info},$logger,$context);
                 $logger->error("Error download info file !!! Wrong URL or SSL certificate ?");
-                next;    
+                next;
             }
         }
     }
@@ -287,7 +287,7 @@ sub download_prolog_reader{      #Read prolog response
 
 sub ssl_verify_callback {
     my ($ok, $x509_store_ctx) = @_;
-    return $ok; 
+    return $ok;
 }
 
 sub download_inventory_handler{          # Adding the ocs package ids to softwares
@@ -316,7 +316,7 @@ sub download_inventory_handler{          # Adding the ocs package ids to softwar
 }
 
 sub download_end_handler{        # Get global structure
-   
+
     my $self = shift;
     my $context = $self->{context};
     my $logger = $self->{logger};
@@ -329,9 +329,9 @@ sub download_end_handler{        # Get global structure
 
     my $dir = $context->{installpath}."/download";
     my $pidfile = $dir."/lock";
-    
+
     return 0 unless -d $dir;
-    
+
     # We have jobs, we do it alone
     my $fork = fork();
     if ($fork>0){
@@ -339,31 +339,31 @@ sub download_end_handler{        # Get global structure
     } elsif ($fork<0){
         return 1;
     } else {
-        $SIG{'USR1'} = sub { 
+        $SIG{'USR1'} = sub {
             print "Exiting on signal...\n";
             &finish($logger, $context);
         };
         # Go into working directory
         chdir($dir) or die("Cannot chdir to working directory...Abort\n");
     }
-    
+
     # Maybe an other process is running
     exit(0) if begin($pidfile,$logger);
     # Retrieve the packages to download
     opendir DIR, $dir or die("Cannot read working directory: $!");
-    
+
     my $end;
-    
+
     while(1){
-        # If agent is running, we wait 
+        # If agent is running, we wait
         if (-e "suspend") {
             $logger->debug('Found a suspend file... Will wait 10 seconds before retry');
             sleep(10);
             next;
         }
-        
+
         $end = 1;
-        
+
         #TODO Uncomment this line #undef $packages;
 
         # Reading configuration
@@ -381,12 +381,12 @@ sub download_end_handler{        # Get global structure
             close(FH);
             finish($logger, $context);
         }
-        
+
         # Retrieving packages to download and their priority
         while (my $entry = readdir(DIR)){
             next if $entry !~ /^\d+$/;
             next unless(-d $entry);
-            
+
             # Clean package if info file does not still exist
             unless(-e "$entry/info"){
                 $logger->debug("No info file found for $entry!!");
@@ -394,15 +394,15 @@ sub download_end_handler{        # Get global structure
                 next;
             }
             my $info = XML::Simple::XMLin( "$entry/info" ) or next;
-            
+
             # Check that fileid == directory name
-            if ($info->{'ID'} ne $entry){    
+            if ($info->{'ID'} ne $entry){
                 $logger->debug("ID in info file does not correspond!!");
                 clean( $entry, $logger, $context, $messages, $packages );
                 download_message($entry, $messages->{err_bad_id},$logger,$context);
                 next;
             }
-            
+
             # Manage package timeout
             # Clean package if since timestamp is not present
             unless(-e "$entry/since"){
@@ -438,11 +438,11 @@ sub download_end_handler{        # Get global structure
                     next;
                 }
             }
-            
+
             # Building task file if needed
             unless( -f "$entry/task" and -f "$entry/task_done" ){
                 open FH, ">$entry/task" or die("Cannot create task file for $entry: $!");
-                
+
                 my $i;
                 my $frags = $info->{'FRAGS'};
                 # There are no frags if there is only a command
@@ -468,7 +468,7 @@ sub download_end_handler{        # Get global structure
         if ($end){
             last;
         } else {
-            period($packages,$logger,$context,$self->{messages},$settings);    
+            period($packages,$logger,$context,$self->{messages},$settings);
         }
     }
     $logger->info("No more package to download.");
@@ -517,7 +517,7 @@ sub period{
         }
 
         # Normal priority
-      
+
         for (keys %$packages){
             # If done file found, clean package
             if(-e "$_/done"){
@@ -527,18 +527,18 @@ sub period{
             }
             next if $i % $packages->{$_}->{'PRI'} != 0;
             download($_,$logger,$context,$messages,$settings,$packages);
-            
+
             $logger->debug("Now pausing for a fragment latency => ".
             (defined( $download_config->{'FRAG_LATENCY'} )?$download_config->{'FRAG_LATENCY'}:$frag_latency_default)
             ." seconds");
-            
+
             sleep(defined($download_config->{'FRAG_LATENCY'})?$download_config->{'FRAG_LATENCY'}:$frag_latency_default);
         }
-        
+
         $logger->debug("Now pausing for a cycle latency => ".(
         defined($download_config->{'CYCLE_LATENCY'})?$download_config->{'CYCLE_LATENCY'}:$cycle_latency_default)
         ." seconds");
-        
+
         sleep(defined($download_config->{'CYCLE_LATENCY'})?$download_config->{'CYCLE_LATENCY'}:$cycle_latency_default);
     }
     sleep($download_config->{'PERIOD_LATENCY'}?$download_config->{'PERIOD_LATENCY'}:$period_latency_default);
@@ -558,14 +558,14 @@ sub download {
         unlink("$id/task.temp");
         rename("$id/task.temp","$id/task") or return 1;
     }
-    
+
     # Retrieve fragments already downloaded
     unless(open TASK, "$id/task"){
         $logger->error("Cannot open $id/task.");
         return 1;
     }
     my @task = <TASK>;
-    
+
     # Done
     if (!@task){
         $logger->debug("Download of $id... Finished.");
@@ -573,19 +573,19 @@ sub download {
         execute($id,$logger,$context,$messages,$settings,$packages);
         return 0;
     }
-    
+
     my $fragment = shift(@task);
-    
+
     $logger->debug("Downloading $fragment...");
-    
+
     # Using proxy if possible
     my $res = $network->getFile(lc($proto),"$location/$id",$fragment,"$id/$fragment");
-    
+
     # Checking if connected
     unless($res) {
         #Success
         $error = 0;
-        
+
         # Updating task file
         rename(">$id/task", ">$id/task.temp");
         open TASK, ">$id/task" or return 1;
@@ -611,9 +611,9 @@ sub execute{
 
     my $tmp = $id."/tmp";
     my $exit_code;
-    
+
     $logger->debug("Execute orders for package $id.");
-    
+
     if (build_package($id,$logger,$context,$messages,$packages)){
         clean($id,$logger, $context,$messages,$packages);
         return 1;
@@ -625,7 +625,7 @@ sub execute{
             clean($id,$logger, $context,$messages,$packages);
             return 1;
         }
-        
+
         # Executing preorders (notify user, auto launch, etc....
         # $id->{NOTIFY_USER}
         # $id->{NOTIFY_TEXT}
@@ -642,24 +642,24 @@ sub execute{
                 if (-e $packages->{$id}->{'NAME'}){
                     $logger->debug("Launching $packages->{$id}->{'NAME'}...");
                     chmod(0755, $packages->{$id}->{'NAME'}) or die("Cannot chmod: $!");
-                    $exit_code = system( "./".$exe_line );
+                    $exit_code = system( "./".$exe_line ) >> 8;
                 } else {
                     die();
                 }
-                
+
             } elsif ($packages->{$id}->{'ACT'} eq 'EXECUTE'){
                 # Exec specified command EXECUTE => COMMAND
                 $logger->debug("Execute $packages->{$id}->{'COMMAND'}...");
                 system( $packages->{$id}->{'COMMAND'} ) and die();
-                
+
             } elsif ($packages->{$id}->{'ACT'} eq 'STORE'){
                 # Store files in specified path STORE => PATH
                 $packages->{$id}->{'PATH'} =~ s/INSTALL_PATH/$context->{installpath}/;
-                
+
                 # Build it if needed
                 my @dir = split('/', $packages->{$id}->{'PATH'});
                 my $dir;
-                
+
                 for (@dir){
                     $dir .= "$_/";
                     unless(-e $dir){
@@ -667,7 +667,7 @@ sub execute{
                         $logger->debug("Create $dir...");
                     }
                 }
-                
+
                 $logger->debug("Storing package to $packages->{$id}->{'PATH'}...");
                 # Stefano Brandimarte => Stevenson! <stevens@stevens.it>
                 system($common->get_path('cp')." -pr * ".$packages->{$id}->{'PATH'}) and die();
@@ -684,7 +684,7 @@ sub execute{
             done($id,$logger,$context,$messages,$settings,$packages,(defined($exit_code)?$exit_code:'_NONE_'));
             return 0;
         }
-    }    
+    }
 }
 
 # Check package integrity
@@ -696,16 +696,16 @@ sub build_package{
     my $count = $packages->{$id}->{'FRAGS'};
     my $i;
     my $tmp = "./$id/tmp";
-    
+
     unless(-d $tmp){
         mkdir("$tmp");
     }
     # No job if no files
     return 0 unless $count;
-    
+
     # Assemble package
     $logger->info("Building package for $id.");
-    
+
     for ($i=1;$i<=$count;$i++){
         if (-f "./$id/$id-$i"){
             # We make a tmp working directory
@@ -724,12 +724,12 @@ sub build_package{
         }
     }
     close(PACKAGE);
-    # 
+    #
     if (check_signature($packages->{$id}->{'DIGEST'}, "$tmp/build.tar.gz", $packages->{$id}->{'DIGEST_ALGO'}, $packages->{$id}->{'DIGEST_ENCODE'},$logger)){
         download_message($id, $messages->{err_bad_digest},$logger,$context);
         return 1;
     }
-    
+
     if ( system( $common->get_path("tar")." -xvzf $tmp/build.tar.gz -C $tmp") ){
         $logger->error("Cannot extract $id with tar, trying with unzip.");
         if ( system( $common->get_path("unzip")." $tmp/build.tar.gz -d $tmp") ){
@@ -745,7 +745,7 @@ sub build_package{
 
 sub check_signature{
     my ($checksum, $file, $digest, $encode,$logger) = @_;
-        
+
     $logger->info("Checking signature for $file.");
 
     my $base64;
@@ -755,7 +755,7 @@ sub check_signature{
         $logger->error("cannot open $file: $!");
         return 1;
     }
-    
+
     binmode(FILE);
     # Retrieving encoding form
     if ($encode =~ /base64/i){
@@ -767,13 +767,13 @@ sub check_signature{
         $logger->debug('Digest format: Not supported');
         return 1;
     }
-    
+
     eval{
         # Check it
         if ($digest eq 'MD5'){
             $logger->debug('Digest algo: MD5');
             if ($base64){
-                die unless Digest::MD5->new->addfile(*FILE)->b64digest eq $checksum; 
+                die unless Digest::MD5->new->addfile(*FILE)->b64digest eq $checksum;
             } else {
                 die unless Digest::MD5->new->addfile(*FILE)->hexdigest eq $checksum;
             }
@@ -803,33 +803,33 @@ sub check_signature{
 # Launch a download error to ocs server
 sub download_message{
     my ($id, $code,$logger,$context) = @_;
-    
+
     $logger->debug("Sending message for $id, code=$code.");
-    
+
     my $xml = {
         'DEVICEID' => $context->{deviceid},
         'QUERY' => 'DOWNLOAD',
         'ID' => $id,
         'ERR' => $code
     };
-    
+
     # Generate xml
     $xml = XMLout($xml, RootName => 'REQUEST');
-    
+
     # Compress data
     $xml = Compress::Zlib::compress( $xml );
-    
+
     my $URI = $context->{servername};
-    
+
     # Send request
     my $request = HTTP::Request->new(POST => $URI);
     $request->header('Pragma' => 'no-cache', 'Content-type', 'application/x-compress');
     $request->content($xml);
     my $res = $ua->request($request);
-    
+
     # Checking result
     if ($res->is_success) {
-        return 0;    
+        return 0;
     }else{
         return 1;
     }
@@ -839,7 +839,7 @@ sub download_message{
 sub begin{
     my ($pidfile,$logger) = @_;
 
-    open LOCK_R, "$pidfile" or die("Cannot open pid file: $!"); 
+    open LOCK_R, "$pidfile" or die("Cannot open pid file: $!");
     if (flock(LOCK_R,LOCK_EX|LOCK_NB)){
         open LOCK_W, ">$pidfile" or die("Cannot open pid file: $!");
         select(LOCK_W) and $|=1;
@@ -854,7 +854,7 @@ sub begin{
     }
 }
 
-sub done{    
+sub done{
     my ($id,$logger,$context,$messages,$settings,$packages,$suffix) = @_;
 
     my $common = $context->{common};
@@ -882,7 +882,7 @@ sub done{
         print HISTORY $id,"\n";
     }
     close(HISTORY);
-    
+
     # Notify success to ocs server
     my $code;
     if ($suffix ne '_NONE_'){
@@ -904,7 +904,7 @@ sub clean{
     $logger->info("Cleaning $id package.");
 
     delete $packages->{$id};
-    
+
     #If the package is priority 0
     if ((my $index) = grep { $prior_pkgs[$_] eq $id } 0..$#prior_pkgs){
         delete $prior_pkgs[$index];
@@ -921,7 +921,7 @@ sub clean{
 # At the end
 sub finish{
     my ($logger,$context) = @_;
- 
+
     open LOCK, '>'.$context->{installpath}.'/download/lock';
     $logger->debug("End of work...\n");
     exit(0);
