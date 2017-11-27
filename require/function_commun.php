@@ -326,6 +326,7 @@ function html_header($noJavascript = false) {
         <link rel="stylesheet" href="css/bootstrap-datetimepicker.css">
 				<link rel="stylesheet" href="css/header.css">
 				<link rel="stylesheet" href="css/computer_details.css">
+        <link rel="stylesheet" href="css/bootstrap-formhelpers.css">
 				<link rel="stylesheet" href="css/forms.css">';
     if (!$noJavascript) {
         incPicker();
@@ -340,6 +341,7 @@ function html_header($noJavascript = false) {
         <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-custom.js" type="text/javascript"></script>
         <script src="js/bootstrap-datetimepicker.js" type="text/javascript"></script>
+        <script src="js/bootstrap-formhelpers.js" type="text/javascript"></script>
         <script src="libraries/charts.js/Chart.min.js" type="text/javascript"></script>
         <!-- js for Datatables -->
         <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
