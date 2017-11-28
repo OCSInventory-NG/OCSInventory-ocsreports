@@ -213,17 +213,26 @@ function activ_pack($fileid, $https_server, $file_serv) {
         if ($infoTab == '') {
             $infoTab = array("PRI" => '10', "FRAGS" => '0');
         }
-        $req1 = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, OSNAME ) VALUES
-			( '%s', 'Manual_%s',%s,%s, 'N/A' )";
+        $req1 = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, OSNAME) VALUES
+			  ('%s', 'Manual_%s', %s, %s, 'N/A')";
         $arg1 = array($fileid, $fileid, $infoTab["PRI"], $infoTab["FRAGS"]);
         mysql2_query_secure($req1, $_SESSION['OCS']["writeServer"], $arg1);
     }
 
-		$req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH )
-		SELECT '%s', '%s', '%s', 'INSTALL_PATH/cacert.pem','INSTALL_PATH'
-		FROM download_enable WHERE NOT EXISTS (SELECT 0 FROM download_enable WHERE INFO_LOC = '%s' AND PACK_LOC = '%s')";
-    $arg = array($fileid, $https_server, $file_serv, $https_server, $file_serv);
-    mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg, $l->g(512));
+		$reqEnable = "SELECT * FROM download_enable WHERE fileid=%s";
+		$argEnable = array($fileid);
+		$result = mysql2_query_secure($reqEnable, $_SESSION['OCS']["readServer"], $argEnable);
+		while($recVerif = mysqli_fetch_array($result)){
+				$listInfoLoc[] = $recVerif['INFO_LOC'];
+				$listPackLoc[] = $recVerif['PACK_LOC'];
+		}
+
+		if($listInfoLoc[0] != $https_server && $listPackLoc[0] != $file_serv){
+				$req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH) VALUES
+				('%s', '%s', '%s', 'INSTALL_PATH/cacert.pem','INSTALL_PATH')";
+    		$arg = array($fileid, $https_server, $file_serv);
+    		mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg, $l->g(512));
+		}
 }
 
 function activ_pack_server($fileid, $https_server, $id_server_group) {
