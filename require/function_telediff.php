@@ -227,7 +227,7 @@ function activ_pack($fileid, $https_server, $file_serv) {
 				$listPackLoc[] = $recVerif['PACK_LOC'];
 		}
 
-		if($listInfoLoc[0] != $https_server && $listPackLoc[0] != $file_serv){
+		if(!in_array( $https_server, $listInfoLoc) && !in_array($file_serv, $listPackLoc)){
 				$req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH) VALUES
 				('%s', '%s', '%s', 'INSTALL_PATH/cacert.pem','INSTALL_PATH')";
     		$arg = array($fileid, $https_server, $file_serv);
