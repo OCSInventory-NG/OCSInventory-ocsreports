@@ -64,7 +64,7 @@ class language {
         global $tab_dont_see;
         //If word doesn't exist for language, return default english word
         if ($this->tableauMots[$i] == null) {
-            $defword = new language('english');
+            $defword = new language('en_GB');
             $word = $defword->tableauMots[$i];
         } else {
             $word = $this->tableauMots[$i];
@@ -81,7 +81,7 @@ class language {
 
     function g_plug($i) {
         if ($this->plug_language[$i] == null) {
-            $defword = new language('english', 'plugin');
+            $defword = new language('en_GB', 'plugin');
             $word = $defword->plug_language[$i];
         } else {
             $word = $this->plug_language[$i];

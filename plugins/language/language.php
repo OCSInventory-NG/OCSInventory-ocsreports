@@ -34,13 +34,37 @@ if (file_exists($ms_cfg_file)) {
 $i = 0;
 
 while (isset($list_plugins[$i])) {
-    if (file_exists($Directory . $list_plugins[$i] . "/" . $list_plugins[$i] . ".png")) {
-        $show_lang .= "<img src='plugins/language/" . $list_plugins[$i] . "/" . $list_plugins[$i] . ".png' width=\"20\" height=\"15\" OnClick='pag(\"" . $list_plugins[$i] . "\",\"LANG\",\"ACTION_CLIC\");'>&nbsp;";
-    } else {
-        $show_lang .= "<a href=# OnClick='pag(\"" . $list_plugins[$i] . "\",\"LANG\",\"ACTION_CLIC\");'>" . $list_lbl[$list_plugins[$i]] . "</a>&nbsp;";
-    }
-    $i++;
+
+  if($i == 12){
+    $select_lang .= $list_plugins[$i];
+  } else {
+    $select_lang .= $list_plugins[$i] .',';
+  }
+
+  $show_lang = "<label for='LANGUAGE'>".$l->g(1012)."</label>
+                <div class='bfh-selectbox bfh-languages'  data-language='".$protectedPost['LANG']."' data-available='" . $select_lang . "' data-flags='true' data-blank='false'>
+                    <input type='hidden' value='".$protectedPost['LANG']."'>
+                    <a class='bfh-selectbox-toggle' role='button' data-toggle='bfh-selectbox' href='#'>
+                        <span class='bfh-selectbox-option input-medium' data-option=''></span>
+                        <b class='caret'></b>
+                    </a>
+                    <div class='bfh-selectbox-options'>
+                        <div role='listbox'>
+                            <ul role='option'>
+                            </ul>
+                        </div>
+                    </div>
+                </div>";
+
+      $i++;
 }
 
 echo $show_lang;
 ?>
+
+<script>
+$('.bfh-selectbox').on('change.bfhselectbox', function() {
+  var language = $(this).val();
+  pag(language,'LANG','ACTION_CLIC');
+});
+</script>
