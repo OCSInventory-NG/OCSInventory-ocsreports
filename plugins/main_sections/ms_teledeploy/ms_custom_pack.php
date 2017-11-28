@@ -44,7 +44,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
     $action = array('NONE' => '',  'REBOOT' => $l->g(1311), 'SHUTDOWN' => $l->g(1310));
 
     $config['COMMENT_AFTER'][0] = datePick("INSTALL_DATE");
-    $config['JAVASCRIPT'][0] = "READONLY ";
+    $config['JAVASCRIPT'][0] = "READONLY";
     $config['SELECT_DEFAULT'][0] = '';
     $config['SIZE'][0] = '8';
     $tab_name = array($l->g(1295), $l->g(443));

@@ -525,13 +525,19 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                     echo "<div class='form-group'>";
                         echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
                         echo "<div class='col-sm-10'>";
-                            echo "<div class='input-group date form_datetime'>";
 
                                 if($inputType == 'text'){
+                                    if($field['CONFIG']['JAVASCRIPT'] != "READONLY"){
+                                        echo "<div class='input-group'>";
+                                    }else{
+                                        echo "<div class='input-group date form_datetime'>";
+                                    }
                                     echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
                                 }else if($inputType == 'disabled'){
+                                    echo "<div class='input-group'>";
                                     echo "<input type='text' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." readonly>";
                                 }else if($inputType == 'select'){
+                                    echo "<div class='input-group'>";
                                     echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
                                     foreach ($field['DEFAULT_VALUE'] as $key => $value){
                                             if($key == $field['CONFIG']['SELECTED_VALUE']){
