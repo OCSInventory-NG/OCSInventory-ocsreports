@@ -49,7 +49,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
     $config['SIZE'][0] = '8';
     $tab_name = array($l->g(1295), $l->g(443));
     $name_field = array("INSTALL_DATE", "DOWNLOAD_POSTCMD");
-    $type_field = array(0, 2);
+    $type_field = array(14, 2);
     $value_field = array($protectedPost['INSTALL_DATE'], $action);
     if ($protectedGet['origine'] != 'group') {
         array_push($tab_name, $l->g(1293));

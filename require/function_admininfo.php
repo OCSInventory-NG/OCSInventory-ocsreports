@@ -30,7 +30,7 @@ $sql_type_accountinfo = array('VARCHAR(255)', 'LONGTEXT', 'VARCHAR(255)',
     'VARCHAR(255)', 'VARCHAR(255)');
 
 
-$convert_type = array('0', '1', '2', '3', '5', '8', '0', '11', '12');
+$convert_type = array('0', '1', '2', '3', '5', '8', '14', '11', '12');
 
 $array_qr_values = array('URL' => $l->g(646),
     'NAME' => $l->g(35),
@@ -418,7 +418,7 @@ function updateinfo_computer($id, $values, $list = '') {
 }
 
 function changeDateFormat($lang, $val){
-    $tab = array("french", "brazilian_portuguese", "italian", "polish", "portuguese", "russian", "slovenian", "spanish", "turkish");
+    $tab = array("fr_FR", "br_BR", "it_IT", "pl_PL", "pt_PT", "ru_RU", "si_SI", "es_ES", "tr_TR");
     if(in_array($lang, $tab)){
         $tab2 = explode("/", $val);
         $ret = $tab2[1]."/".$tab2[0]."/".$tab2[2];

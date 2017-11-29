@@ -494,11 +494,13 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                      * 11 = Radio
                      * 12 = QRCode
                      * 13 = Disabled
+                     * 14 = Date
                      **/
                     if($field['INPUT_TYPE'] == 0 ||
                             $field['INPUT_TYPE'] == 1 ||
                             $field['INPUT_TYPE'] == 6 ||
-                            $field['INPUT_TYPE'] == 10
+                            $field['INPUT_TYPE'] == 10||
+                            $field['INPUT_TYPE'] == 14
                     ){
                             $inputType = 'text';
                     } else if($field['INPUT_TYPE'] == 2 ||
@@ -527,10 +529,10 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                         echo "<div class='col-sm-10'>";
 
                                 if($inputType == 'text'){
-                                    if($field['CONFIG']['JAVASCRIPT'] != "READONLY"){
-                                        echo "<div class='input-group'>";
+                                    if($field['INPUT_TYPE'] == 14){
+                                        echo "<div class='input-group date form_datetime'>";                                
                                     }else{
-                                        echo "<div class='input-group date form_datetime'>";
+                                        echo "<div class='input-group'>";
                                     }
                                     echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
                                 }else if($inputType == 'disabled'){
