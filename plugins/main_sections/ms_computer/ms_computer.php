@@ -98,6 +98,7 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
                 } else {
                     echo '<div class="plugin-name-' . $plugin->getId() . ' ">';
                     require $plugin_file;
+                    echo '</div>';
                 }
             }
         }
