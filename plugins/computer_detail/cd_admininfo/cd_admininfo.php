@@ -194,7 +194,7 @@ if (!is_array($info_account_id)) {
                     }
                 }
             } elseif ($val_admin_info['TYPE'] == 6) {
-                $info_account_id[$name_accountinfo] = date($l->g(1242));
+                $info_account_id[$name_accountinfo] = date($l->g(1242), strtotime($info_account_id[$name_accountinfo]));
                 array_push($value_field, $info_account_id[$name_accountinfo]);
                 if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
                     if ($admin_accountinfo) {
