@@ -33,6 +33,7 @@ if (file_exists($ms_cfg_file)) {
 
 $i = 0;
 
+$protectedPost['LANG'] = $_SESSION["OCS"]["LANGUAGE"];
 while (isset($list_plugins[$i])) {
 
   if($i == 12){
@@ -43,7 +44,7 @@ while (isset($list_plugins[$i])) {
 
   $show_lang = "<label for='LANGUAGE'>".$l->g(1012)."</label>
                 <div class='bfh-selectbox bfh-languages'  data-language='".$protectedPost['LANG']."' data-available='" . $select_lang . "' data-flags='true' data-blank='false'>
-                    <input type='hidden' value='".$protectedPost['LANG']."'>
+                    <input type='hidden' value=''>
                     <a class='bfh-selectbox-toggle' role='button' data-toggle='bfh-selectbox' href='#'>
                         <span class='bfh-selectbox-option input-medium' data-option=''></span>
                         <b class='caret'></b>
