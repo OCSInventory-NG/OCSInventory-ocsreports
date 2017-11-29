@@ -30,7 +30,7 @@ echo "<div class='col-md-12'>";
 
 $list_id = multi_lot($form_name, $l->g(601));
 if (is_defined($list_id)) {
-    
+
     echo "<div class='col col-md-12'>";
     //cas of TAG INFO
     if (is_defined($protectedPost['Valid_modif'])) {
@@ -112,7 +112,7 @@ if (is_defined($list_id)) {
     echo "<p>";
     onglet($def_onglets, $form_name, "onglet", 7);
     echo "</p>";
-    
+
     if (is_defined($protectedPost['CHOISE'])) {
         if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == "TAG") {
             require_once('require/function_admininfo.php');
@@ -132,7 +132,7 @@ if (is_defined($list_id)) {
                     if ($field_of_accountinfo['LIST_TYPE'][$id] == 6) {
                         $tab_typ_champ[$i]['CONFIG']['MAXLENGTH'] = 10;
                         $tab_typ_champ[$i]['CONFIG']['SIZE'] = 10;
-                        $tab_typ_champ[$i]['COMMENT_AFTER'] = calendars($truename, "DDMMYYYY") . "</a></td><td><input type='checkbox' name='check" . $truename . "' id='check" . $truename . "' " . (isset($protectedPost['check' . $truename]) ? " checked " : "") . ">";
+                        $tab_typ_champ[$i]['COMMENT_AFTER'] = calendars($truename, $l->g(1270)) . "</td></span><span class='input-group-addon' id='" . $truename . "-addon'><td><input type='checkbox' name='check" . $truename . "' id='check" . $truename . "' " . (isset($protectedPost['check' . $truename]) ? " checked " : "") . ">";
                     } elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id], array(2, 4, 7))) {
                         $sql = "select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_%s' order by 2";
                         $arg = $field_of_accountinfo['LIST_NAME'][$id] . "%";
@@ -170,7 +170,7 @@ if (is_defined($list_id)) {
             echo "<div class='col-md-10 col-md-offset-1'>";
             echo $select;
             echo "<div class='col-md-12'>";
-           
+
             if ($protectedPost['pack_list'] != "") {
                 $sql = "select count(*) c, tvalue from download_enable d_e,devices d
 							where d.name='DOWNLOAD' and d.IVALUE=d_e.ID and d_e.fileid='%s'

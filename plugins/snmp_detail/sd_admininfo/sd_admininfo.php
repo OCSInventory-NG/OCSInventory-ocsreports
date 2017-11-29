@@ -159,7 +159,7 @@ if ($list_tab != '') {
             } else {
                 array_push($config['COMMENT_AFTER'], datePick($name_accountinfo));
             }
-            array_push($config['JAVASCRIPT'], "READONLY " . dateOnClick($name_accountinfo));
+            array_push($config['JAVASCRIPT'], "READONLY");
             array_push($config['SELECT_DEFAULT'], '');
             array_push($config['SIZE'], '8');
         } elseif ($val_admin_info['TYPE'] == 5) {
