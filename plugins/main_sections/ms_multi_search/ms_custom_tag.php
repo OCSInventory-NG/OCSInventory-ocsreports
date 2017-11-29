@@ -132,7 +132,7 @@ if (is_defined($list_id)) {
                     if ($field_of_accountinfo['LIST_TYPE'][$id] == 6) {
                         $tab_typ_champ[$i]['CONFIG']['MAXLENGTH'] = 10;
                         $tab_typ_champ[$i]['CONFIG']['SIZE'] = 10;
-                        $tab_typ_champ[$i]['COMMENT_AFTER'] = calendars($truename, "dd/mm/yyyy") . "</a></td><td><input type='checkbox' name='check" . $truename . "' id='check" . $truename . "' " . (isset($protectedPost['check' . $truename]) ? " checked " : "") . ">";
+                        $tab_typ_champ[$i]['COMMENT_AFTER'] = calendars($truename, $l->g(1270)) . "</td></span><span class='input-group-addon' id='" . $truename . "-addon'><td><input type='checkbox' name='check" . $truename . "' id='check" . $truename . "' " . (isset($protectedPost['check' . $truename]) ? " checked " : "") . ">";
                     } elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id], array(2, 4, 7))) {
                         $sql = "select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_%s' order by 2";
                         $arg = $field_of_accountinfo['LIST_NAME'][$id] . "%";
