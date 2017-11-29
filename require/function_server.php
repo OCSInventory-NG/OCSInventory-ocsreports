@@ -161,10 +161,26 @@ function admin_serveur($action, $name_server, $descr, $mach) {
 
 //function for insert machine with rules
 function insert_with_rules($list_id, $rule_detail, $fileid) {
+
     if (is_array($list_id)) {
         $list_id_hardware = implode(',', $list_id);
     } else {
         $list_id_hardware = $list_id;
+        // only one id selected ? is that a group ?
+        $sql_is_group = "select HARDWARE_ID from %s where HARDWARE_ID = %s";
+        $arg_is_group = array("groups", $list_id_hardware);
+        $res_is_group = mysql2_query_secure($sql_is_group, $_SESSION['OCS']["readServer"], $arg_is_group);
+        if(mysqli_num_rows($res_is_group) == 1){
+          // then it's a group so get all machines in group
+          $sql_group_mach = "select HARDWARE_ID, GROUP_ID from %s where GROUP_ID = %s";
+          $arg_group_mach = array("groups_cache",$list_id_hardware);
+          $res_group_mach = mysql2_query_secure($sql_group_mach, $_SESSION['OCS']["readServer"], $arg_group_mach);
+          $list_id_array = array();
+          while ($val_group_mach = mysqli_fetch_array($res_group_mach)){
+            $list_id_array[] = $val_group_mach['HARDWARE_ID'];
+          }
+          $list_id_hardware = implode(',', $list_id_array);
+        }
     }
 
     if ($list_id_hardware == "") {
