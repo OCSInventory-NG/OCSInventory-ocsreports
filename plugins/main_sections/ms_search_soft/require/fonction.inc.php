@@ -28,6 +28,7 @@ function remplirListe($input_name, $label = '') {
 
     $query = mysqli_query($_SESSION['OCS']["readServer"], $sql) or die("erreur" . mysqli_error($_SESSION['OCS']["readServer"]));
     //remplit la liste deroulante
+    $name[""] = "";
     while ($row = mysqli_fetch_array($query)) {
         $name[$row['NAME']] = $row['NAME'];
     }
