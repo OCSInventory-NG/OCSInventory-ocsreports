@@ -541,7 +541,9 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                 }else if($inputType == 'disabled'){
                                     echo "<div class='input-group'>";
                                     echo "<input type='text' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." readonly>";
-                                    echo "</div>";
+                                    if($field['COMMENT_AFTER'] == ""){
+                                      echo "</div>";
+                                    }
                                 }else if($inputType == 'select'){
                                     echo "<div class='input-group'>";
                                     echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
@@ -553,7 +555,9 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                             }
                                     }
                                     echo "</select>";
-                                    echo "</div>";
+                                    if($field['COMMENT_AFTER'] == ""){
+                                      echo "</div>";
+                                    }
                                 } else if($inputType == 'checkbox'){
                                     if($field["CONFIG"]["SELECTED_VALUE"] == "on"){
                                         echo "$label <input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked>";
