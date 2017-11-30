@@ -504,7 +504,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                     ){
                             $inputType = 'text';
                     } else if($field['INPUT_TYPE'] == 2 ||
-                  $field['INPUT_TYPE'] == 11){
+                            $field['INPUT_TYPE'] == 11){
                             $inputType = 'select';
                     } else if($field['INPUT_TYPE'] == 3){
                             $inputType = 'hidden';
@@ -535,7 +535,9 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                         echo "<div class='input-group'>";
                                     }
                                     echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
-                                    echo "</div>";
+                                    if($field['COMMENT_AFTER'] == ""){
+                                      echo "</div>";
+                                    }
                                 }else if($inputType == 'disabled'){
                                     echo "<div class='input-group'>";
                                     echo "<input type='text' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." readonly>";
@@ -568,6 +570,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 
                                 if($field['COMMENT_AFTER'] != ""){
                                     echo "<span class='input-group-addon' id='".$field['INPUT_NAME']."-addon'>".$field['COMMENT_AFTER']."</span>";
+                                    echo "</div>";
                                 }
 
                         echo "</div>";
