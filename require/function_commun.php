@@ -530,14 +530,16 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 
                                 if($inputType == 'text'){
                                     if($field['INPUT_TYPE'] == 14){
-                                        echo "<div class='input-group date form_datetime'>";                                
+                                        echo "<div class='input-group date form_datetime'>";
                                     }else{
                                         echo "<div class='input-group'>";
                                     }
                                     echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                    echo "</div>";
                                 }else if($inputType == 'disabled'){
                                     echo "<div class='input-group'>";
                                     echo "<input type='text' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." readonly>";
+                                    echo "</div>";
                                 }else if($inputType == 'select'){
                                     echo "<div class='input-group'>";
                                     echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
@@ -549,6 +551,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                             }
                                     }
                                     echo "</select>";
+                                    echo "</div>";
                                 } else if($inputType == 'checkbox'){
                                     if($field["CONFIG"]["SELECTED_VALUE"] == "on"){
                                         echo "$label <input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked>";
@@ -567,7 +570,6 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     echo "<span class='input-group-addon' id='".$field['INPUT_NAME']."-addon'>".$field['COMMENT_AFTER']."</span>";
                                 }
 
-                            echo "</div>";
                         echo "</div>";
                     echo "</div>";
 
