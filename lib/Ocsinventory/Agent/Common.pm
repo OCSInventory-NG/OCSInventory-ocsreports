@@ -37,7 +37,7 @@ Add a controller in the inventory.
 
 =cut
 sub addController {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -57,7 +57,7 @@ Add external usb devices in the inventory.
 
 =cut
 sub addUsb {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -77,7 +77,7 @@ Add internal inputs as keyboard, mouse in the inventory.
 
 =cut
 sub addInput {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -97,7 +97,7 @@ Add a modem in the inventory.
 
 =cut
 sub addModem {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -127,7 +127,7 @@ Add a partition in the inventory.
 
 =cut
 sub addDrive {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -157,7 +157,7 @@ Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
 
 =cut
 sub addStorages {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -187,7 +187,7 @@ Add a memory module in the inventory.
 
 =cut
 sub addMemory {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -216,7 +216,7 @@ Add a port module in the inventory.
 
 =cut
 sub addPorts{
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -241,11 +241,11 @@ sub addPort {
 
 =item addSlot()
 
-Add a slot in the inventory. 
+Add a slot in the inventory.
 
 =cut
 sub addSlot {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -274,7 +274,7 @@ Register a software in the inventory.
 
 =cut
 sub addSoftware {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -303,7 +303,7 @@ Add a monitor (screen) in the inventory.
 
 =cut
 sub addMonitor {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -332,7 +332,7 @@ Add a video card in the inventory.
 
 =cut
 sub addVideo {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -361,7 +361,7 @@ Add a sound card in the inventory.
 
 =cut
 sub addSound {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -391,12 +391,12 @@ Register a network in the inventory.
 =cut
 sub addNetwork {
     # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
 
-    foreach my $key (qw/BSSID DESCRIPTION DRIVER DUPLEX IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR MODE MTU PCISLOT SPEED SSID STATUS TYPE VERSION VIRTUALDEV /) {
+    foreach my $key (qw/BASE BSSID DESCRIPTION DRIVER DUPLEX IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR MODE MTU PCISLOT SLAVE SPEED SSID STATUS TYPE VERSION VIRTUALDEV /) {
         if (exists $args->{$key}) {
             $content->{$key}[0] = $args->{$key} if $args->{$key};
         }
@@ -424,7 +424,7 @@ deprecated, please, use addUser() and addCPU() instead.
 
 =cut
 sub setHardware {
-    my ($self, $args, $nonDeprecated) = @_; 
+    my ($self, $args, $nonDeprecated) = @_;
     my $xmltags = $self->{xmltags};
 
     my $logger = $self->{logger};
@@ -454,7 +454,7 @@ Set BIOS information.
 
 =cut
 sub setBios {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG TYPE/) {
@@ -471,7 +471,7 @@ Add a CPU in the inventory.
 
 =cut
 sub addCPU {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -503,7 +503,7 @@ Add an user in the list of logged user.
 
 =cut
 sub addUser {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $login = $args->{LOGIN};
@@ -536,7 +536,7 @@ Add a printer in the inventory.
 
 =cut
 sub addPrinter {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -566,7 +566,7 @@ Add a Virtual Machine in the inventory.
 
 =cut
 sub addVirtualMachine {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -587,7 +587,7 @@ Record a running process in the inventory.
 
 =cut
 sub addProcess {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -609,15 +609,15 @@ Add a camera device in the inventory. Only avalaible for MacOSX
 sub addCamera {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
-    
+
     my $content = {};
-    
+
     foreach my $key (qw/MODEL UUID/){
         if (exists $args->{$key}) {
             $content->{$key}[0] = $args->{$key} if $args->{$key};
         }
     }
-    
+
     push @{$xmltags->{RUNNING_PROCESSES}}, $content;
 }
 
@@ -630,7 +630,7 @@ This function adds a network interface in the inventory.
 
 =cut
 sub addIpDiscoverEntry {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $ipaddress = $args->{IPADDRESS};
@@ -704,9 +704,9 @@ sub getSnmpTable {
 }
 
 sub setSnmpCommons {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
-  
+
     foreach my $key (qw/IPADDR MACADDR SNMPDEVICEID NAME DESCRIPTION CONTACT LOCATION UPTIME DOMAIN TYPE / ) {
         if (exists $args->{$key}) {
             $xmltags->{COMMON}[0]{$key}[0] = $args->{$key};
@@ -738,7 +738,7 @@ sub setSnmpSwitchInfos {
 }
 
 sub setSnmpFirewalls {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
 
     foreach my $key (qw/SERIALNUMBER SYSTEM/) {
@@ -750,7 +750,7 @@ sub setSnmpFirewalls {
 
 
 sub setSnmpLoadBalancer {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags=$self->{xmltags};
 
     foreach my $key (qw/SERIALNUMBER SYSTEM MANUFACTURER TYPE/ ) {
@@ -761,7 +761,7 @@ sub setSnmpLoadBalancer {
 }
 
 sub setSnmpBlade {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
 
     foreach my $key (qw/SERIALNUMBER SYSTEM/) {
@@ -772,7 +772,7 @@ sub setSnmpBlade {
 }
 
 sub setSnmpComputer {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
 
     foreach my $key (qw/SYSTEM/) {
@@ -826,7 +826,7 @@ sub addSnmpNetwork {
 }
 
 sub addSnmpCard {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -841,7 +841,7 @@ sub addSnmpCard {
 }
 
 sub addSnmpFan {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -855,7 +855,7 @@ sub addSnmpFan {
 }
 
 sub addSnmpPowerSupply {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -869,7 +869,7 @@ sub addSnmpPowerSupply {
 }
 
 sub addSnmpSwitch {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -883,7 +883,7 @@ sub addSnmpSwitch {
 }
 
 sub addSnmpLocalPrinter {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -898,7 +898,7 @@ sub addSnmpLocalPrinter {
 }
 
 sub addSnmpInput {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -914,7 +914,7 @@ sub addSnmpInput {
 
 
 sub addSnmpCPU {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -936,7 +936,7 @@ Add a memory module in the inventory.
 
 =cut
 sub addBatteries {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -1011,7 +1011,7 @@ sub readXml {
         } else {  #Not a forced array in XML parsing
            if (ref ($content->{$key}) =~ /^HASH$/ && !keys %{$content->{$key}}) {  # If empty hash from XMLin()
                $content->{$key} = '';
-           } else { utf8::encode($content->{$key}) }; 
+           } else { utf8::encode($content->{$key}) };
         }
     }
     return $content;
@@ -1024,10 +1024,10 @@ sub parseXmlArray {
     foreach my $hash (@{$array}) {
         foreach my $key (keys %$hash) {
             if ( grep (/^$key$/,@$forcearray)) {  #Forced array in XML parsing
-                $self->parseXmlArray($hash->{$key},$forcearray);    
+                $self->parseXmlArray($hash->{$key},$forcearray);
             } else {  #Not a forced array in XML parsing
                 if (ref ($hash->{$key}) =~ /^HASH$/ && !keys %{$hash->{$key}}) {  # If empty hash from XMLin()
-                    $hash->{$key} = ''; 
+                    $hash->{$key} = '';
                 } else { utf8::encode($hash->{$key}) };
             }
         }
@@ -1071,7 +1071,7 @@ sub get_sysprofile_devices_names {
            $name =~ s/:.*$//;
            push(@$names,$name);
         }
-    } 
+    }
 
     return $names;
 }
