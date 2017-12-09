@@ -556,7 +556,7 @@
 666 Group of redistribution made
 667 FOR THE PACKAGE
 668 to Assign with which rule?
-669 WARNING: there are doubloons of priority <br> A single rule will be retained!
+669 WARNING: There are duplicates of priority <br> A single rule will be retained!
 670 A rule already carries this name
 672 This rule does not exist!!!
 673 Administration of assignment rules
