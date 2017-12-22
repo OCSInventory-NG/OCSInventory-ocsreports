@@ -22,7 +22,8 @@
  */
 
 /**
- * This function extract the archive content, put it in the ocs reports for initialization
+ * This function extracts the archive content and
+ * puts it in the ocs reports for initialization.
  */
 function install($archiveName) {
     if (file_exists(PLUGINS_DL_DIR . $archiveName)) {
@@ -41,7 +42,7 @@ function install($archiveName) {
 }
 
 /**
- * This function check if the plugin is already in the DATABASE and installed.
+ * This function checks if the plugin is already in the DATABASE and installed.
  * If not an entry is created in the table "plugins" with the plugins infos.
  */
 function check($plugarray) {
@@ -103,7 +104,7 @@ function scan_downloaded_plugins() {
 }
 
 /**
- * This function check and return all plugins installed in the Ocs Reports...
+ * This function checks and returns all plugins installed in the OCS Reports...
  *
  * @return ArrayObject
  */
@@ -121,7 +122,7 @@ function scan_for_plugins() {
 }
 
 /**
- * This function check if a cd_pluginame dir exist.
+ * This function checks if a cd_pluginame dir exists.
  * In that case the cd_pluginame dir is moved into computer_detail directory
  */
 function mv_computer_detail($name) {
@@ -132,7 +133,7 @@ function mv_computer_detail($name) {
 }
 
 /**
- * This function create a plugin archive for the server side part of a plugin which contain the map.pm
+ * This function creates a plugin archive for the server side part of a plugin which contains the map.pm
  * This part will be downloaded and installed by the communication server.
  */
 function mv_server_side($name) {
@@ -159,7 +160,7 @@ function mv_server_side($name) {
 }
 
 /**
- * This function check for required php dependencies
+ * This function checks for required php dependencies.
  * Can't install plugin if not installed
  */
 function checkDependencies() {
@@ -189,7 +190,7 @@ function checkDependencies() {
 }
 
 /**
- * This function check if directories are writable.
+ * This function checks if directories are writable.
  * Can't install plugin if not writable
  */
 function checkWritable() {

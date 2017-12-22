@@ -46,7 +46,7 @@ class plugins {
     }
 
     /**
-     * This function add a computer detail entry into the plugins.xml
+     * This function adds a computer detail entry into the plugins.xml.
      *
      * @param string $name : Name of the plugin
      * @param string $category : Category in cd details
@@ -97,8 +97,8 @@ class plugins {
     }
 
     /**
-     * This function create a menu or a submenu in OCS inventory.
-     * As default, only super administrator profile can see the created menu.
+     * This function creates a menu or a submenu in OCS inventory.
+     * By default, only super administrator profile can see the created menu.
      *
      * @param string $name : The name of the menu you want to crate
      * @param integer $label : You need to give a label to your menu, it's like a reference for OCS.
@@ -170,8 +170,8 @@ class plugins {
     }
 
     /**
-     * This function delete a menu or a submenu in OCS inventory.
-     * As default, only super administrator profile can see the created menu.
+     * This function deletes a menu or a submenu in OCS inventory.
+     * By default, only super administrator profile can see the created menu.
      *
      * @param string $name : The name of the menu you want to delete
      * @param integer $label : You need to give the label of the deleted menu.
@@ -324,7 +324,7 @@ class plugins {
     }
 
     /**
-     * This function try to execute your query and throw an error message if this is a problems in the query.
+     * This function tries to execute your query and throws an error message if there is a problem in the query.
      * Die if sql error happened
      *
      * @param string $query : Your database query here !

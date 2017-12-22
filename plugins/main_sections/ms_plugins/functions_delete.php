@@ -21,7 +21,7 @@
  * MA 02110-1301, USA.
  */
 
-/** This function delete a directory recusively with all his files and sub-dirs
+/** This function deletes a directory recusively with all its files and sub-dirs.
  *
  * @param string $dir : Directory path
  */
@@ -42,7 +42,7 @@ function rrmdir($dir) {
 }
 
 /**
- * This functions remove a plugin from the OCS webconsole and database.
+ * This function removes a plugin from the OCS webconsole and database.
  * Delete all created menu entries and all plugin related code
  *
  * @param integer $pluginid : Plugin id in DB
