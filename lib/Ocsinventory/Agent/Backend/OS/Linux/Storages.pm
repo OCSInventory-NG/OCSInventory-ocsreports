@@ -310,7 +310,7 @@ sub getFromLsblk {
 
 # get data from smartctl
 sub getFromSmartctl {
-    my ($devices) = @_;
+    my ($params, $devices) = @_;
     my @devs;
     foreach my $device (keys %$devices)     {
         my $vendor         = "";
