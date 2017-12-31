@@ -14,3 +14,17 @@ tools/macosx/scripts/darwin-perl-lib/
 # Xcworkspace and user data
 project.xcworkspace/
 xcuserdata/
+
+# perl Makefile.PL
+/MYMETA.json
+/MYMETA.yml
+/Makefile
+/ipdiscover
+/run-postinst
+
+# make
+/blib/
+/pm_to_blib
+
+# make dist
+/*.tar.gz
