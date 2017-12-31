@@ -8,7 +8,7 @@ sub check {
      my $common = $params->{common};
       # Do not run an package inventory if there is the --nosoftware parameter
       return if ($params->{config}->{nosoftware});
-      $common->can_run("pkginfo");
+      $common->can_run("pkginfo") || $common->can_run("pkg");
 }
 
 sub run {
@@ -21,6 +21,36 @@ sub run {
      my $version;
      my $comments;
      my $publisher;
+
+     if ( `uname -r` =~ /5.11/ ) {
+     # Solaris 11
+
+     foreach (`pkg info`) {
+         if (/^\s*$/) {
+             $common->addSoftware({
+                 'NAME'          => $name,
+                 'VERSION'       => $version,
+                 'COMMENTS'      => $comments,
+                 'PUBLISHER'     => $publisher,
+             });
+             $name = '';
+             $version = '';
+             $comments = '';
+             $publisher = '';
+         } elsif (/Name:\s+(.+)/) {
+             $name = $1;
+         } elsif (/Version:\s+(.+)/) {
+             $version = $1;
+         } elsif (/Publisher:\s+(.+)/) {
+             $publisher = $1;
+         } elsif (/Summary:\s+(.+)/) {
+             $comments = $1;
+         }
+     }
+
+     } else {
+     # Solaris 10 and lower
+
      foreach (`pkginfo -l`) {
          if (/^\s*$/) {
              $common->addSoftware({
@@ -62,6 +92,8 @@ sub run {
          }
      }
      closedir(DIR);
+
+     }
 }
 
 1;

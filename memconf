@@ -6,7 +6,7 @@
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
 # @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 28-Feb-2017 V3.13
+# @(#) Micron Technology, Inc. - Tom Schmidt 16-Nov-2017 V3.14
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
@@ -79,7 +79,8 @@
 #   - sun4v Sun SPARC Enterprise T2000, T1000 Server
 #   - sun4v Sun SPARC Enterprise T5120, T5140, T5220, T5240 Server, Netra T5220
 #   - sun4v Sun SPARC Enterprise T5440 Server, Netra T5440
-#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4, T5-2, T5-4, S7-2
+#   - sun4v Oracle SPARC T3-1, T3-1B, T3-2, T4-1, T4-2, T4-4, T5-2, T5-4, T7-4
+#   - sun4v Oracle SPARC S7-2, S7-2L
 #   - sun4v Fujitsu SPARC M10-1, M10-4
 #   - sun4m Tatung COMPstation 5, 10, 20AL, 20S and 20SL clones
 #   - sun4m transtec SPARCstation 20I clone
@@ -109,8 +110,7 @@
 # - sun4u Sun Netra ct400, ct410, ct810
 # - sun4u Sun SPARCengine CP2040, CP2060, CP2080, CP2160
 # - sun4v Sun Netra CP3260
-# - sun4v Oracle SPARC S7-2L
-# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B, T5-8, T5-1B, T7-1, T7-2, T7-4
+# - sun4v Oracle SPARC T3-1BA, T3-4, T4-1B, T4-2B, T5-8, T5-1B, T7-1, T7-2
 # - sun4v Oracle SPARC M5-32, M6-32, M7-8, M7-16
 # - sun4v Oracle Netra SPARC T3 systems
 # - sun4v Fujitsu SPARC M10-4S
@@ -132,8 +132,8 @@
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 $starttime=(times)[0];
 
-$version="V3.13";
-$version_date="28-Feb-2017";
+$version="V3.14";
+$version_date="16-Nov-2017";
 $URL="http://sourceforge.net/projects/memconf/";
 
 $newpath="/usr/sbin:/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
@@ -376,6 +376,7 @@ $cpuinfo_cpucnt=0;
 $have_cpuinfo_data=0;
 $cpuinfo_coreidcnt=0;
 $cpuinfo_cpucores=0;
+@cpuinfo_physicalid=();
 $cpuinfo_physicalidcnt=0;
 $cpuinfo_siblings=0;
 $cpuinfo_checked=0;
@@ -1250,14 +1251,14 @@ sub show_header {
 				if ($ctype) {
 					print "$cnt $ctype";
 					if ($cfreq) {
-						print " ${cfreq}MHz" if ($cfreq > 0 && $ctype !~ /Hz$/);
+						print " ${cfreq}MHz" if ($cfreq && $ctype !~ /Hz$/);
 					}
 					print " cpu";
 					print "s" if ($cnt > 1);
 					print ", " if ($x < scalar(@cputypecnt));
 				}
 			}
-			print (($sysfreq) ? ", " : "\n") if ($x > 0 && $ctype);
+			print (($sysfreq) ? ", " : "\n") if ($x && $ctype);
 		}
 		print "system freq: ${sysfreq}MHz\n" if ($sysfreq);
 	} else {
@@ -1276,7 +1277,13 @@ sub show_header {
 		} elsif ($model) {
 			$modelbuf .= "$model";
 		}
-		$modelbuf .= " ($cpubanner)" if ($cpubanner);
+		if ($cpubanner) {
+			if ($modelbuf) {
+				$modelbuf .= " ($cpubanner)";
+			} else {
+				$modelbuf = "$cpubanner";
+			}
+		}
 		$modelbuf .= " $realmodel" if ($realmodel);
 		print "$modelbuf\n" if ($modelbuf);
 	}
@@ -1312,10 +1319,10 @@ sub show_header {
 		print "cpu board info: $gotcpuboards\n" if ($gotcpuboards);
 		print "module name info: $gotmodulenames\n" if ($gotmodulenames);
 
-		print "simmsizes = @simmsizes\n" if ($simmsizes[0] > 0);
+		print "simmsizes = @simmsizes\n" if ($simmsizes[0]);
 		print "simmsizesfound = @simmsizesfound\n" if ($simmsizesfound[0]);
 	}
-	if ($verbose >= 1 && $boardfound_cpu) {
+	if ($verbose && $boardfound_cpu) {
 		if ($format_cpu == 1) {
 			print "CPU Units: Frequency Cache-Size Version\n" if ($model =~ /-Enterprise/ || $ultra eq "e");
 		} else {
@@ -1913,7 +1920,7 @@ sub check_prtdiag {
 		}
 		$line="Memory $line" if ($line =~ /^Segment Table:/);
 		# Ignore FLASH (System ROM)
-		if ($flag_mem >= 1 && $line !~ /^(\s*\n$|FLASH\b)/i) {
+		if ($flag_mem && $line !~ /^(\s*\n$|FLASH\b)/i) {
 			$boardfound_mem=1;
 			$boardfound_mem=0 if ($line =~ /Cannot find/);
 			$memfrom="prtdiag" if ($boardfound_mem);
@@ -2145,7 +2152,7 @@ sub check_prtdiag {
 			$flag_cpu=1;	# Start of CPU section
 			$flag_mem=1;	# Start of memory section
 		}
-		if ($flag_cpu >= 1 && $line !~ /^\s*\n$/) {
+		if ($flag_cpu && $line !~ /^\s*\n$/) {
 			if ($model eq "Ultra-5_10" || $ultra eq "5_10" || $ultra eq 5 || $ultra eq 10) {
 				$newline=$line;
 				$newline=~s/^       //g if ($line !~ /Run   Ecache   CPU    CPU/);
@@ -2600,6 +2607,7 @@ sub check_prtpicl {
 	$processorbrd="";
 	$cpumembrd="";
 	$mem_riser="";
+	$mem_cu="";
 	$picl_dimm_per_bank=0;
 	$max_picl_dimm_per_bank=0;
 	$has_picl_mem_mod=0;
@@ -2633,7 +2641,10 @@ sub check_prtpicl {
 			$flag_mem_seg=0;
 			$max_picl_dimm_per_bank=$picl_dimm_per_bank if ($picl_dimm_per_bank);
 			if ($flag_mem_mod && $mem_dimm !~ /\//) {
-				if ($ultra =~ /T5-(2|1B)/) {
+				if ($ultra eq "S7-2" || $ultra eq "S7-2L") {
+					# SPARC S7-2, S7-2L (guess)
+					$socket="/SYS/MB/$cpumembrd$cmp/$mem_cu/$mem_channel/$mem_dimm";
+				} elsif ($ultra =~ /T5-(2|1B)/) {
 					# SPARC T5-2, T5-1B (guess)
 					$socket="/SYS/MB/$cpumembrd/CMP/$mem_branch/$mem_channel/$mem_dimm";
 				} elsif ($ultra =~ /T5-(4|8)/) {
@@ -2728,6 +2739,10 @@ sub check_prtpicl {
 		if ($line =~ /^\s+MR\d\s/) {
 			$mem_riser=$line;
 			$mem_riser=~s/^.*(MR\d).*/$1/;
+		}
+		if ($line =~ /^\s+MCU\d\s/) {
+			$mem_cu=$line;
+			$mem_cu=~s/^.*(MCU\d).*/$1/;
 		}
 		if ($line =~ /^\s+(BR|BOB)\d\s/) {
 			$flag_mem_chan=0;
@@ -3817,7 +3832,7 @@ sub check_smbios {
 	}
 	$tmp=scalar(keys %smbios_mem);
 	if (defined($tmp)) {
-		if ($tmp > 0) {
+		if ($tmp) {
 			&pdebug("Memory found with smbios");
 			&show_header;
 			if (! &is_virtualmachine) {
@@ -3877,7 +3892,7 @@ sub check_kstat {
 		}
 		$foundGenuineIntel=1 if (/\svendor_id\s+GenuineIntel/);
 	}
-	if ($foundGenuineIntel && $instance > 0) {
+	if ($foundGenuineIntel && $instance) {
 		# Assume all CPUs are same
 		for ($val=0; $val <= $instance; $val++) {
 			last if (! defined($kstat_core_id{$val}) || ! defined($kstat_ncore_per_chip{$val}) || ! defined($kstat_ncpu_per_chip{$val}));
@@ -3931,7 +3946,7 @@ sub check_kstat {
 		}
 		$i=0;
 		foreach (@kstat_cpubanners) {
-			$kstat_cpubanner .= ", " if ($i > 0);
+			$kstat_cpubanner .= ", " if ($i);
 			$kstat_cpubanner .= $_;
 			$i++;
 		}
@@ -4106,7 +4121,7 @@ sub read_prtdiag_bank_table {
 		$simmsize *= 4;
 		$intcnt=1;
 		push(@simmsizesfound, "$simmsize");
-	} elsif ($intcnt > 0) {
+	} elsif ($intcnt) {
 		# Interleave Way = 16
 		$intcnt++;
 		$simmsize *= 4;
@@ -4375,7 +4390,7 @@ foreach $line (@config) {
 		$config_cmd="/usr/sbin/prtconf -vp" if ($config_cmd !~ /prtconf/);
 		$config_command="prtconf";
 	}
-	if ($sysfreq == 0 && $freq > 0) {
+	if ($sysfreq == 0 && $freq) {
 		$sysfreq=$freq;
 		$freq=0;
 	}
@@ -4391,7 +4406,7 @@ foreach $line (@config) {
 			if ($cpuline =~ /clock-frequency:/) {
 				@freq_line=split(' ', $cpuline);
 				$cpufreq=&convert_freq($freq_line[1]);
-				$sysfreq=$freq if ($sysfreq == 0 && $freq > 0);
+				$sysfreq=$freq if ($sysfreq == 0 && $freq);
 			} elsif ($cpuline =~ /\s(name:|compatible:)\s/ && $cpuline !~ /Sun 4/ && $cpuline !~ /SPARCstation/ && $cpuline !~ /CompuAdd/ && $cpuline !~ /'cpu/ && $cpuline !~ /'core'/) {
 				$cputype=&mychomp($cpuline);
 				$cputype=~s/\s+name:\s+//;
@@ -4570,8 +4585,8 @@ if (! $osrel) {
 	}
 }
 $memfrom=$config_command;
-#$sysfreq=$freq if ($sysfreq == 0 && $freq > 0);
-#$cpufreq=$sysfreq if ($sysfreq > $cpufreq && $ncpu > 0);
+#$sysfreq=$freq if ($sysfreq == 0 && $freq);
+#$cpufreq=$sysfreq if ($sysfreq > $cpufreq && $ncpu);
 
 @romverarr=split(/\./, $romvernum) if ($romver);
 $romvermajor=($romverarr[0]) ? $romverarr[0] : 2;
@@ -6993,9 +7008,11 @@ if ($ultra eq "S7-2" || $ultra eq "S7-2L") {
 	@simmsizes=(16384,32768,65536);
 	$untested=1;
 	$untested=0 if ($ultra eq "S7-2");
+	$cmp_range=0;
+	$cmp_range=1 if ($ncpu eq 2 || $corecnt eq 2);
 	# /SYS/MB/CMP0/MCU0/CH0/D0 - /SYS/MB/CMP1/MCU1/CH1/D1
 	for $s_d (0,1) {
-		for $s_cmp (0..$corecnt-1) {
+		for ($s_cmp=0; $s_cmp <= $cmp_range; $s_cmp++) {
 			for $s_mcu (0,1) {
 				for $s_ch (0,1) {
 					push(@socketstr, "/SYS/MB/CMP$s_cmp/MCU$s_mcu/CH$s_ch/D$s_d");
@@ -7083,8 +7100,7 @@ if ($ultra eq "T7-4") {
 	$memtype="DDR4 DIMM";
 	$showrange=0;
 	@simmsizes=(16384,32768,65536);
-	$untested=1;
-	$untested=0 if ($corecnt == 2);	# 2 SPARC M7 processors tested
+	$untested=0;
 	for $s_pm (0..$npcpu-1) {
 		for $s_ch (0,1) {
 			for $s_cm (0,1) {
@@ -7235,7 +7251,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 			$flag_cpu=0;	# End of CPU section
 			$flag_mem=0;	# End of memory section
 		}
-		if ($flag_cpu >= 1 && $line !~ /^\s*\n$/) {
+		if ($flag_cpu && $line !~ /^\s*\n$/) {
 			push(@boards_cpu, "$line");
 			$boardfound_cpu=1;
 			$boardslot_cpu=($line =~ /Board/) ? substr($line,6,2) : substr($line,0,2);
@@ -7268,7 +7284,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				$mem0=substr($line,12,4);
 				$mem0=0 if ($mem0 !~ /\d+/);
 				$dimm0=$mem0 / 8;
-				if ($dimm0 > 0) {
+				if ($dimm0) {
 					$dimms0=sprintf("8x%3d", $dimm0);
 					push(@simmsizesfound, "$dimm0");
 				} else {
@@ -7278,7 +7294,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				$mem1=substr($line,20,4);
 				$mem1=0 if ($mem1 !~ /\d+/);
 				$dimm1=$mem1 / 8;
-				if ($dimm1 > 0) {
+				if ($dimm1) {
 					$dimms1=sprintf("8x%3d", $dimm1);
 					push(@simmsizesfound, "$dimm1");
 				} else {
@@ -7288,7 +7304,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				$mem2=substr($line,28,4);
 				$mem2=0 if ($mem2 !~ /\d+/);
 				$dimm2=$mem2 / 8;
-				if ($dimm2 > 0) {
+				if ($dimm2) {
 					$dimms2=sprintf("8x%3d", $dimm2);
 					push(@simmsizesfound, "$dimm2");
 				} else {
@@ -7298,7 +7314,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				$mem3=substr($line,36,4);
 				$mem3=0 if ($mem3 !~ /\d+/);
 				$dimm3=$mem3 / 8;
-				if ($dimm3 > 0) {
+				if ($dimm3) {
 					$dimms3=sprintf("8x%3d", $dimm3);
 					push(@simmsizesfound, "$dimm3");
 				} else {
@@ -7322,7 +7338,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				$mem=substr($line,12,4);
 				$mem=0 if ($mem !~ /\d+/);
 				$dimm=$mem / 8;
-				if ($dimm > 0) {
+				if ($dimm) {
 					$dimms=sprintf("8x3d", $dimm);
 					push(@simmsizesfound, "$dimm");
 					$newline=substr($line,0,18) . $dimms;
@@ -7351,7 +7367,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				$mem0=substr($line,10,4);
 				$mem0=0 if ($mem0 !~ /\d+/);
 				$dimm0=$mem0 / 8;
-				if ($dimm0 > 0) {
+				if ($dimm0) {
 					$dimms0=sprintf("8x%3d", $dimm0);
 					push(@simmsizesfound, "$dimm0");
 				} else {
@@ -7362,7 +7378,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				$mem1=($memlength > 34) ? substr($line,34,4) : 0;
 				$mem1=0 if ($mem1 !~ /\d+/);
 				$dimm1=$mem1 / 8;
-				if ($dimm1 > 0) {
+				if ($dimm1) {
 					$dimms1=sprintf("8x%3d", $dimm1);
 					push(@simmsizesfound, "$dimm1");
 				} else {
@@ -7371,7 +7387,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				}
 				$newline=substr($line,0,16) . $dimms0;
 				$newline .= substr($line,16,24);
-				if ($dimm1 > 0) {
+				if ($dimm1) {
 					$newline .= $dimms1;
 					$newline .= substr($line,39,16);
 				}
@@ -7384,7 +7400,7 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 				$mem=substr($line,12,4);
 				$mem=0 if ($mem !~ /\d+/);
 				$dimm=$mem / 8;
-				if ($dimm > 0) {
+				if ($dimm) {
 					$dimms=sprintf("8x%3d", $dimm);
 					push(@simmsizesfound, "$dimm");
 					$newline=substr($line,0,18) . $dimms;
@@ -7500,7 +7516,7 @@ if ($gotmodule || $gotmodulenames) {
 		$simmsize=hex("0x$simmsz") / $meg;
 		$perlhexbug=1 if ($simmsize <= 0 && $simmsz ne "00000000");
 		$totmem += $simmsize;
-		if ($simmsize > 0) {
+		if ($simmsize) {
 			push(@simmsizesfound, "$simmsize");
 			if (! $boardfound_mem) {
 				push(@memorylines, "$socket has a ${simmsize}MB");
@@ -7530,7 +7546,7 @@ if ($have_ipmitool_data) {
 	&check_ipmitool;
 	$tmp=scalar(keys %ipmi_mem);
 	if (defined($tmp)) {
-		if ($tmp > 0) {
+		if ($tmp) {
 			&pdebug("Memory found with ipmitool");
 			&show_header;
 			for (sort alphanumerically keys %ipmi_mem) {
@@ -7922,7 +7938,7 @@ for ($val=0; $val < scalar(@newslots); $val += 2) {
 		$buffer .= " contains ${simmsize}MB";
 		$buffer .= " (address 0x${start1x}-0x$stop1x)" if ($verbose);
 		$buffer .= "\n";
-	} elsif ($simmbanks > 0) {
+	} elsif ($simmbanks) {
 		$start1=hex("0x$simmaddr") * $meg;
 		$perlhexbug=1 if ($start1 < 0);
 		if ($simmrangex ne "0") {
@@ -8081,7 +8097,7 @@ for ($val=0; $val < scalar(@newslots); $val += 2) {
 		# Check for Voyager memory cards. A 32MB memory card is seen
 		# as 4 8MB memory blocks with holes in the address range.
 		#
-		if ($model eq "S240" && $start1 > 0 && $simmsize == 16 && $val < $#newslots - 4) {
+		if ($model eq "S240" && $start1 && $simmsize == 16 && $val < $#newslots - 4) {
 			$start=hex("0x$newslots[$val + 4]") - hex("0x$newslots[$val]");
 			$perlhexbug=1 if ($start < 0);
 			$startx=sprintf("%08lx", $start);
@@ -8780,6 +8796,7 @@ sub x86_devname {
 	$m=(defined($manufacturer)) ? "$manufacturer $model" : $model;
 	$m=~s/-/ /g;
 	&pdebug("in x86_devname, model=$m");
+	$untested=1 if ($m =~ /(Blade|Server) X\d/i);
 	$untested=2 if ($m =~ /Sun |Netra /i);
 	if ($m =~ /Sun .*W1100z.*2100z\b/i || $m =~ /Sun .*W[12]100z\b/i) {
 		&cpubanner;
@@ -9103,15 +9120,16 @@ sub x86_devname {
 	if ($m =~ /Sun .*X8600\b/i) {
 		$devname="Antares";
 	}
-	$untested=1 if ($m =~ /Netra Server X3 2\b/i);			# X3-2
-	$untested=0 if ($m =~ /Sun Server X4 2\b/i && $os eq "SunOS");	# X4-2
-	$untested=0 if ($m =~ /Sun Server X4 2L\b/i && $os eq "SunOS");	# X4-2L
-	$untested=1 if ($m =~ /Sun Server X4 4\b/i);			# X4-4
-	$untested=1 if ($m =~ /Sun Server X4 8\b/i);			# X4-8
-	$untested=1 if ($m =~ /Netra Blade X3 2B\b/i);			# X3-2B
-	$untested=1 if ($m =~ /Sun Blade X4 2B\b/i);			# X4-2B
-	$untested=0 if ($m =~ /Oracle Server X5 2\b/i && $os eq "SunOS");	# X5-2
-	$untested=0 if ($m =~ /Oracle Server X5 2L\b/i && $os eq "SunOS");	# X5-2L
+	$untested=1 if ($m =~ /Netra Server X3.2\b/i);				# X3-2
+	$untested=0 if ($m =~ /Sun Server X4.2\b/i && $os eq "SunOS");		# X4-2
+	$untested=0 if ($m =~ /Sun Server X4.2L\b/i && $os eq "SunOS");		# X4-2L
+	$untested=1 if ($m =~ /Sun Server X4.4\b/i);				# X4-4
+	$untested=1 if ($m =~ /Sun Server X4.8\b/i);				# X4-8
+	$untested=1 if ($m =~ /Netra Blade X3.2B\b/i);				# X3-2B
+	$untested=1 if ($m =~ /Sun Blade X4.2B\b/i);				# X4-2B
+	$untested=0 if ($m =~ /Oracle Server X5.2\b/i && $os eq "SunOS");	# X5-2
+	$untested=0 if ($m =~ /Oracle Server X5.2L\b/i && $os eq "SunOS");	# X5-2L
+	$untested=0 if ($m =~ /Oracle Server X6.2L\b/i && $os eq "SunOS");	# X6-2L
 	$have_x86_devname=1 if ($devname);
 }
 
@@ -9839,7 +9857,7 @@ sub check_dmidecode {
 	# hash CPUs
 	$range=$ncpu;
 	# Only display allocated CPUs on Virtual Machines
-	$range=$cpuinfo_cpucnt if ($cpuinfo_cpucnt > 0 && &is_virtualmachine);
+	$range=$cpuinfo_cpucnt if ($cpuinfo_cpucnt && &is_virtualmachine);
 	for ($val=0; $val < $range; $val++) {
 		$cputype="";
 		$cpufreq="";
@@ -9870,9 +9888,16 @@ sub check_dmidecode {
 		$cputype=~s/^\s+//;
 		$cputype=~s/\s+$//;
 		$cputype=~s/ +/ /g;
-		if ($ncpu < $cpuinfo_cpucnt && $cpuinfo_cpucnt > 0 && $foundGenuineIntel) {
+		if ($ncpu < $cpuinfo_cpucnt && $cpuinfo_cpucnt && $foundGenuineIntel) {
 			# Distinguish Multi-Core from hyper-threading
-			if ($cpuinfo_cpucores > 0 && $cpuinfo_coreidcnt > 1) {
+			if ($cpuinfo_cpucores && $cpuinfo_physicalidcnt && $cpuinfo_cpucnt) {
+				if ($cpuinfo_cpucnt / ($cpuinfo_cpucores * $cpuinfo_physicalidcnt) == 2) {
+					$hyperthread=1;
+					$ncpu=$cpuinfo_physicalidcnt;
+					$range=$ncpu;	# Adjust the range of this "for" loop
+					&pdebug("hyperthread=1: from cpuinfo physical id, ncpu=$ncpu, cpuinfo_cpucnt=$cpuinfo_cpucnt, cpuinfo_physicalidcnt=$cpuinfo_physicalidcnt, cpuinfo_cpucores=$cpuinfo_cpucores, cputype=$cputype");
+				}
+			} elsif ($cpuinfo_cpucores && $cpuinfo_coreidcnt > 1) {
 				if ($cpuinfo_coreidcnt != $ncpu * $cpuinfo_cpucores) {
 					if ($cpuinfo_cpucnt == $cpuinfo_coreidcnt && $cpuinfo_cpucores == 1 && $cpuinfo_cpucnt / $ncpu > 2) {
 						$cpuinfo_cpucores=$cpuinfo_cpucnt / $ncpu;
@@ -9880,16 +9905,23 @@ sub check_dmidecode {
 						$hyperthread=1;
 						&pdebug("hyperthread=1: from cpuinfo, cputype=$cputype");
 					}
-				} elsif ($cpuinfo_siblings > 0) {
+				} elsif ($cpuinfo_siblings) {
 					if ($cpuinfo_coreidcnt / ($ncpu * $cpuinfo_siblings) == 2) {
 						$hyperthread=1;
 						&pdebug("hyperthread=1: from cpuinfo siblings, ncpu=$ncpu, cpuinfo_cpucnt=$cpuinfo_cpucnt, cpuinfo_coreidcnt=$cpuinfo_coreidcnt, cpuinfo_siblings=$cpuinfo_siblings, cputype=$cputype");
 					}
 				}
-			} elsif ($cpuinfo_siblings > 0 && ! ($cpuinfo_cpucores == 0 && $cputype =~ /Pentium.* 4\b/)) {
-				if ($cpuinfo_cpucores == 0 && $cpuinfo_physicalidcnt / $cpuinfo_siblings == 2) {
+			} elsif ($cpuinfo_siblings && ! ($cpuinfo_cpucores == 0 && $cputype =~ /Pentium.* 4\b/)) {
+				if ($cpuinfo_cpucores == 0 && $cpuinfo_cpucnt / $cpuinfo_siblings == 2) {
 					$hyperthread=1;
-					&pdebug("hyperthread=1: from cpuinfo siblings, ncpu=$ncpu, cpuinfo_cpucnt=$cpuinfo_cpucnt, cpuinfo_physicalidcnt=$cpuinfo_physicalidcnt, cpuinfo_siblings=$cpuinfo_siblings, cputype=$cputype");
+					if ($cpuinfo_physicalidcnt) {
+						$ncpu=$cpuinfo_physicalidcnt;
+						$cpuinfo_cpucores=$cpuinfo_cpucnt / $cpuinfo_physicalidcnt / 2;
+						$range=$ncpu;	# Adjust the range of this "for" loop
+						&pdebug("hyperthread=1: from cpuinfo physical id, ncpu=$ncpu, cpuinfo_cpucnt=$cpuinfo_cpucnt, cpuinfo_physicalidcnt=$cpuinfo_physicalidcnt, cpuinfo_siblings=$cpuinfo_siblings, cputype=$cputype");
+					} else {
+						&pdebug("hyperthread=1: from cpuinfo siblings, ncpu=$ncpu, cpuinfo_cpucnt=$cpuinfo_cpucnt, cpuinfo_physicalidcnt=$cpuinfo_physicalidcnt, cpuinfo_siblings=$cpuinfo_siblings, cputype=$cputype");
+					}
 				}
 			} elsif ($cpuinfo_cpucores == 0 && $cputype =~ /Pentium.* 4\b/) {
 				# Can't tell RHEL3 Hyper-Threaded Pentium 4
@@ -9897,12 +9929,12 @@ sub check_dmidecode {
 				$hyperthread=1;
 				&pdebug("hyperthread=1: hack in cpuinfo, cputype=$cputype");
 			}
-			if ($xen_cores_per_socket > 0) {
+			if ($xen_cores_per_socket) {
 				$cputype=&multicore_cputype($cputype,$xen_cores_per_socket);
-			} elsif ($cpuinfo_cpucores > 0) {
+			} elsif ($cpuinfo_cpucores) {
 				$cputype=&multicore_cputype($cputype,$cpuinfo_cpucores);
-			} elsif ($hyperthread && $cpuinfo_siblings > 0) {
-				$cputype=&multicore_cputype($cputype,$cpuinfo_physicalidcnt / ($ncpu * $cpuinfo_siblings));
+			} elsif ($hyperthread && $cpuinfo_siblings) {
+				$cputype=&multicore_cputype($cputype,$cpuinfo_physicalidcnt);
 			} else {
 				$cputype=&multicore_cputype($cputype,$cpuinfo_cpucnt / $ncpu);
 			}
@@ -10219,7 +10251,7 @@ sub check_dmidecode {
 		print "Maximum Memory: ";
 		if (! $MAXMEM || $max < $totmem || $max == 0) {
 			$MAXMEM="Unknown";
-			$MAXMEM .= " (DMI incorrectly reports ${max}MB)" if ($max < $totmem && $max > 0);
+			$MAXMEM .= " (DMI incorrectly reports ${max}MB)" if ($max < $totmem && $max);
 			print "$MAXMEM\n";
 		} else {
 			&show_memory($max);
@@ -10235,7 +10267,7 @@ sub check_dmidecode {
 	$sockettype="banks" if ($sockets_empty =~ /BANK *\d/i && $sockets_empty !~ /DIMM/);
 	if ($memarr < 0 || $totmem == 0) {
 		if (&is_virtualmachine) {
-			if ($totmem > 0) {
+			if ($totmem) {
 				print "total memory = ";
 				&show_memory($totmem);
 			} else {
@@ -10268,7 +10300,7 @@ sub check_dmidecode {
 	}
 	print "WARNING: Mixed speeds of memory modules found.\n" if ($mixedspeeds);
 	print "ERROR: $dmidecode_error\n" if ($dmidecode_error);
-	if ($freephys > $totmem && $totmem > 0 && ! &is_virtualmachine) {
+	if ($freephys > $totmem && $totmem && ! &is_virtualmachine) {
 		print "ERROR: Total physical memory (${freephys}MB) is ";
 		print "greater than the total memory found.\n    The total ";
 		print "physical memory reported by 'free -m' does not match ";
@@ -10276,7 +10308,7 @@ sub check_dmidecode {
 		&print_bios_error;
 	}
 	# See if half of the memory is unused due to missing a second CPU
-	if ($totmem > 0 && $totmem == &roundup_memory($freephys) * 2 && $ncpu == 1 && $necpu == 1) {
+	if ($totmem && $totmem == &roundup_memory($freephys) * 2 && $ncpu == 1 && $necpu == 1) {
 		print "WARNING: Half of the installed memory is not being ";
 		print "used due to only having a\n         single CPU ";
 		print "installed in this dual-CPU capable system.\n";
@@ -10307,7 +10339,7 @@ sub check_dmidecode {
 				}
 			}
 		}
-		if ($tmp >= 1) {
+		if ($tmp) {
 			print "WARNING: Total memory available to the OS is ";
 			print "less than the total memory found.\n";
 			$recognized=0;
@@ -10500,7 +10532,10 @@ sub check_cpuinfo {
 			$_=$line;
 			$cpuinfo_cpucnt++ if (/^processor\s*: \d+/);
 			$cpuinfo_coreidcnt++ if (/^core id\s*: \d+/);
-			$cpuinfo_physicalidcnt++ if (/^physical id\s*: \d+/);
+			if (/^physical id\s*: \d+/) {
+				($physicalid)=(/: (\d*) */);
+				$cpuinfo_physicalid{$physicalid}++;
+			}
 			($cpuinfo_cpucores)=(/: (\d*) */) if (/^cpu cores\s*: \d+/);
 			($cpuinfo_siblings)=(/: (\d*) */) if (/^siblings\s*: \d+/);
 			# Only GenuineIntel x86 has hyper-threading capability
@@ -10544,7 +10579,7 @@ sub check_cpuinfo {
 			if (/^Cpu\dClkTck\s*: \d+/ && $cpufreq == 0) {
 				($freq)=(/: (.*)$/);
 				$cpufreq=&convert_freq($freq);
-				$cpuinfo_cputype.= " ${cpufreq}MHz" if ($cpuinfo_cputype !~ /MHz/ && $cpufreq > 0);
+				$cpuinfo_cputype.= " ${cpufreq}MHz" if ($cpuinfo_cputype !~ /MHz/ && $cpufreq);
 			}
 			# Linux on unsupported CPU models (arm, mips, etc.)
 			if (($machine !~ /.86|ia64|amd64|sparc/ && ! $filename) || $filename) {
@@ -10583,6 +10618,8 @@ sub check_cpuinfo {
 				}
 			}
 		}
+		$cpuinfo_physicalidcnt=keys %cpuinfo_physicalid;
+		$cpuinfo_physicalidcnt=0 if (! defined($cpuinfo_physicalidcnt));
 		if ($cpuinfo_cpucnt > $ncpu && (! $foundGenuineIntel || $foundGenuineIntel && ! $ncpu)) {
 			# Prefer cpuinfo over dmidecode for CPU info
 			$cpucntfrom=$config_command if (! $cpucntfrom);
@@ -10604,7 +10641,7 @@ sub check_cpuinfo {
 
 sub finish {
 	&show_header;
-	#print "newslots=@newslots\n" if ($#newslots > 0 && $verbose > 1);
+	#print "newslots=@newslots\n" if ($#newslots && $verbose > 1);
 	# Large memory system like SPARC T7-4 can mismatch memory in prtconf and ipmitool
 	if ($isX86 || $ultra =~ /^T7-/) {
 		# smbios and ipmitool memory data is more accurate than prtconf
@@ -10703,7 +10740,7 @@ sub finish {
 	#
 	# Check for empty banks or sockets
 	#
-	if ($#banksstr > 0) {
+	if ($#banksstr) {
 		foreach $banks (@banksstr) {
 			if ($banks ne "?") {
 				if ($banks_used !~ /\b$banks\b/ &&
@@ -10713,7 +10750,7 @@ sub finish {
 			}
 		}
 		&print_empty_memory($bankname);
-	} elsif ($#socketstr > 0) {
+	} elsif ($#socketstr) {
 		foreach $socket (@socketstr) {
 			if ($socket ne "?") {
 				# strip leading slash for matching
@@ -10958,7 +10995,7 @@ sub finish {
 		foreach $j (@simmsizes) {
 			$simmsizelegal=1 if ($i == $j);
 		}
-		if (! $simmsizelegal && $simmsizes[0] > 0) {
+		if (! $simmsizelegal && $simmsizes[0]) {
 			print "ERROR: Unsupported ${i}MB $memtype found (supported ";
 			if ($#simmsizes == 0) {
 				print "size is @{simmsizes}MB)\n";
@@ -11207,12 +11244,12 @@ sub finish {
 		$untested_type="CPU" if (! $untested_type);
 	}
 	# Dual-Core, Triple-Core, Quad-Core, Six-Core, Eight-Core, Ten-Core,
-	# Twelve-Core and Sixteen-Core x86 CPUs have been tested, so flag
-	# other multicore x86 CPUs as untested
-	if ($isX86 && $corecnt !~ /^(1|2|3|4|6|8|10|12|16)$/) {
-		$untested=1;
-		$untested_type="CPU" if (! $untested_type);
-	}
+	# Twelve-Core, Fourteen-Core, Sixteen-Core, Eighteen-Core x86 CPUs
+	# have been tested. Don't flag as untested CPU as of V3.14.
+#	if ($isX86 && $corecnt !~ /^(1|2|3|4|6|8|10|12|14|16|18)$/) {
+#		$untested=1;
+#		$untested_type="CPU" if (! $untested_type);
+#	}
 	&show_untested if ($untested);
 	&mailmaintainer if ($verbose == 3);
 	&pdebug("exit $exitstatus");
@@ -11230,7 +11267,7 @@ sub createfile {
 		$tmp++;
 	}
 	close(OUTFILE);
-	print STDERR time . " created $tmp lines in $s\n" if ($debug >= 1);
+	print STDERR time . " created $tmp lines in $s\n" if ($debug);
 }
 
 sub b64encodefile {
