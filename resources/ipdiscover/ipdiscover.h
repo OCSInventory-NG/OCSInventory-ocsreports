@@ -41,7 +41,7 @@
 
 #define VERSION 5
 #define NAME_RES_LATENCY 1000000
-#define REQUEST_LATENCY_DEFAULT 100000
+#define REQUEST_LATENCY_DEFAULT 100 /* ms */
 
 /* Trame ARP */
 struct arphdr{
