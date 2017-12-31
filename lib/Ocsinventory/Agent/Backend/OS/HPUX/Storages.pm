@@ -35,7 +35,7 @@ sub run {
                     #print "1 $1 2 $2 \n";
                     $devdsk=$1;
                     $devrdsk=$2;
-                    # We look if whe are on an alternate link
+                    # We look if we are on an alternate link
                     for ( `pvdisplay $devdsk 2> /dev/null` ) {
                          if ( /$devdsk\.+lternate/ ) {
                              $alternate=1;

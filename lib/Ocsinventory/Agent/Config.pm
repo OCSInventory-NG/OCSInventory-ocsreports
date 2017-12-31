@@ -21,7 +21,7 @@ my $default = {
     'password'  =>  '',
     'proxy'     =>  '',
     'realm'     =>  '',
-    'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
+    'remotedir' =>  '/ocsinventory', # deprecated, give a complete URL to
                                      # --server instead
     'server'    =>  'http://ocsinventory-ng/ocsinventory',
     'stdout'    =>  0,
