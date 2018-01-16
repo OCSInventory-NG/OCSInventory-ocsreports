@@ -73,8 +73,8 @@ $queryDetails = $sql['SQL'] . ",ID from snmp s
 $tab_options['LBL_POPUP']['SUP'] = 'NAME';
 $tab_options['LBL']['SUP'] = $l->g(122);
 
-$tab_options['LIEN_LBL']['NAME_SNMP'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_snmp_detail'] . '&head=1&id=';
-$tab_options['LIEN_CHAMP']['NAME_SNMP'] = 'ID';
+$tab_options['LIEN_LBL'][$l->g(95)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_snmp_detail'] . '&head=1&id=';
+$tab_options['LIEN_CHAMP'][$l->g(95)] = 'ID';
 $tab_options['LBL']['NAME_SNMP'] = $l->g(49);
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 $img['image/delete.png'] = $l->g(162);
