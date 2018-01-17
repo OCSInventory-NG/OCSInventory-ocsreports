@@ -112,7 +112,7 @@ sub addModem {
 
 }
 
-# For compatibiliy
+# For compatibility
 sub addModems {
     my $self = shift;
     my $logger = $self->{logger};
@@ -142,7 +142,7 @@ sub addDrive {
 
 }
 
-# For compatibiliy
+# For compatibility
 sub addDrives {
     my $self = shift;
     my $logger = $self->{logger};
@@ -171,7 +171,7 @@ sub addStorages {
     push @{$xmltags->{STORAGES}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addStorage {
     my $self = shift;
     my $logger = $self->{logger};
@@ -201,7 +201,7 @@ sub addMemory {
     push @{$xmltags->{MEMORIES}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addMemories {
     my $self = shift;
     my $logger = $self->{logger};
@@ -230,7 +230,7 @@ sub addPorts{
   push @{$xmltags->{PORTS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addPort {
     my $self = shift;
     my $logger = $self->{logger};
@@ -259,7 +259,7 @@ sub addSlot {
     push @{$xmltags->{SLOTS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addSlots {
     my $self = shift;
     my $logger = $self->{logger};
@@ -288,7 +288,7 @@ sub addSoftware {
     push @{$xmltags->{SOFTWARES}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addSoftwares {
     my $self = shift;
     my $logger = $self->{logger};
@@ -317,7 +317,7 @@ sub addMonitor {
     push @{$xmltags->{MONITORS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addMonitors {
     my $self = shift;
     my $logger = $self->{logger};
@@ -346,7 +346,7 @@ sub addVideo {
     push @{$xmltags->{VIDEOS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addVideos {
     my $self = shift;
     my $logger = $self->{logger};
@@ -375,7 +375,7 @@ sub addSound {
   push @{$xmltags->{SOUNDS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addSounds {
     my $self = shift;
     my $logger = $self->{logger};
@@ -390,7 +390,6 @@ Register a network in the inventory.
 
 =cut
 sub addNetwork {
-    # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
@@ -405,13 +404,42 @@ sub addNetwork {
     push @{$xmltags->{NETWORKS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addNetworks {
     my $self = shift;
     my $logger = $self->{logger};
 
     $logger->debug("please rename addNetworks to addNetwork()");
     $self->addNetwork(@_);
+}
+
+=item addRepo()
+
+Register a repository in the inventory.
+
+=cut
+sub addRepo {
+    my ($self, $args) = @_;
+    my $xmltags = $self->{xmltags};
+
+    my $content = {};
+
+    foreach my $key (qw/BASEURL ENABLED FINGERPRINTS FILENAME MIRROR NAME PACKAGES PRIORITY REVISION SIGNATURE SIZE TAG UPDATED/) {
+        if (exists $args->{$key}) {
+            $content->{$key}[0] = $args->{$key} if $args->{$key};
+        }
+    }
+
+    push @{$xmltags->{REPOSITORY}}, $content;
+}
+
+# For compatibility
+sub addRepos {
+    my $self = shift;
+    my $logger = $self->{logger};
+
+    $logger->debug("please rename addRepos to addRepo()");
+    $self->addRepo(@_);
 }
 
 
@@ -551,7 +579,7 @@ sub addPrinter {
 
 }
 
-# For compatibiliy
+# For compatibility
 sub addPrinters {
     my $self = shift;
     my $logger = $self->{logger};
