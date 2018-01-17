@@ -177,7 +177,7 @@
 266 Invalid date
 267 m/d/Y
 268 速度
-269 %m/%d/%Y
+269 %m/%d/%Y %H:%i
 270 モデム
 271 スロット
 272 ポート
@@ -887,7 +887,7 @@
 1001 赤い欄でエラーです！
 1002 デプロイ時間
 1003 Redistribution servers packages parameters
-1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/). 
+1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/).
 1005 Package creation is therefore not possible.
 1006 don't have wrinting rights
 1007 The directory
@@ -1153,7 +1153,7 @@
 1267 Type of Virtual Machines
 1268 Uuid
 1269 Machine hosted by
-1270 MMDDYYYY
+1270 mm/dd/yyyy hh:ii
 1271 Computers of the subnet
 1272 Delete his computers
 1273 You do not have the right to remove a machine

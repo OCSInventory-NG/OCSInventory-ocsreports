@@ -178,7 +178,7 @@
 266 Data non valida
 267 gg/mm/aaaa
 268 Velocità
-269 %d/%m/%Y
+269 %d/%m/%Y %H:%i
 270 Modem
 271 Slot
 272 Porte
@@ -1154,7 +1154,7 @@
 1267 Tipo Virtual Machine
 1268 Uuid
 1269 Virtual Machine ospitata su
-1270 DDMMYYYY
+1270 dd/mm/yyyy hh:ii
 1271 Computer della sottorete
 1272 Elimina il suo computer
 1273 Non hai i privilegi per rimuovere una macchina

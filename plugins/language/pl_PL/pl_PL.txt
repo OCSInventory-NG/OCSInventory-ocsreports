@@ -166,9 +166,9 @@
 249 Nie można połączyć się z MySql. Proszę podać prawidłowy(e) login/hasło.
 250 Nazwa hosta MySQL
 251 Wyloguj
-252 Nazwa (wybierz)        	
+252 Nazwa (wybierz)
 253 Klucz rejestru
-254 Ścieżka klucza (np: SOFTWAREMozilla)  	
+254 Ścieżka klucza (np: SOFTWAREMozilla)
 255 Nazwa klucza do odczytania (* dla wszystkich)
 256 Wybierz
 257 Klucz rejestru
@@ -183,7 +183,7 @@
 266 Nieprawidłowa data
 267 dd/mm/rrrr
 268 Szybkość
-269 %d/%m/%Y
+269 %d/%m/%Y %H:%i
 270 Modem(y)
 271 Slot(y)
 272 Port(y)
@@ -194,7 +194,7 @@
 277 Wersja
 278 Sterownik
 279 Port
-280 MIB Type 
+280 MIB Type
 281 DHCP IP
 282 Bramy
 283 Cel
@@ -214,7 +214,7 @@
 297 Nie można zapisywać w katalogu
 298 Wszystkie pola muszą być wypełnione
 299 Nieprawidłowy adres IP (musi być: x.x.x.x)
-300 Nieprawidłowa maska: musi być: x.x.x.x 
+300 Nieprawidłowa maska: musi być: x.x.x.x
 301 Sieć dodana
 302 Sieć usunięta
 303 Dodaj podsieć
@@ -957,7 +957,7 @@
 1060 Nowe dane
 1061 Etykieta
 1062 Pole
-1063 Formułowanie 
+1063 Formułowanie
 1064 Obowiązkowy
 1065 Ograniczenie pola
 1066 Linked to a status
@@ -979,10 +979,10 @@
 1082 Workflow admin group
 1083 Perimeter identification
 1084 Group name for test
-1085 Group name for restraint perimeter 
+1085 Group name for restraint perimeter
 1086 TAG value for test
 1087 Value of the test tag
-1088 TAG value for restraint perimeter 
+1088 TAG value for restraint perimeter
 1089 Nie ma żadnego aktywnego statusu.Rozpocznij by aktywować jeden
 1090 has modify request n°
 1091 Nowe żądanie zostało wysłane
@@ -1164,7 +1164,7 @@
 1267 Typ Virtualych Maszyn
 1268 Uuid
 1269 Machine hosted by
-1270 DDMMYYYY
+1270 dd/mm/yyyy hh:ii
 1271 Computery w podsieci
 1272 Usuń ten komputer
 1273 Nie masz uprawnień do usunięcia tego komputera
@@ -1193,7 +1193,7 @@
 1306 Manage plugins
 1307 Active Plugins
 1308 Add plugins
-1309 Teledeploy options 
+1309 Teledeploy options
 1310 Shutdown
 1311 Reboot
 1312 Data width
@@ -1311,7 +1311,7 @@
 2099 ERROR: this MySQL login doesn't have the rights to create the database
 2100 Update old account infos
 2101 Add by script
-2102 OSTRZEŻENIE: Jeśli zmienisz nazwę domyślnej bazy danch (ocsweb), nie zapomnij zaktualizować plików konfiguracyjnych OCS 
+2102 OSTRZEŻENIE: Jeśli zmienisz nazwę domyślnej bazy danch (ocsweb), nie zapomnij zaktualizować plików konfiguracyjnych OCS
 2103 Tryb DEMO: nie możesz aktualizować danych
 2104 YOU ARE WATCHING THE DEMO VERSION OF
 2105 Twoja baza danych jest poprawna.<br>Nie podjeto żadnej akcji

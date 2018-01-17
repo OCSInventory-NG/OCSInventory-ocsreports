@@ -72,7 +72,7 @@
 115 Güncelle
 116 Ekle
 117 Kayýt
-119 Silmek istediðinizden eminmisiniz ID n° 
+119 Silmek istediðinizden eminmisiniz ID n°
 122 sil
 129 Eþitler
 130 Baþka
@@ -116,8 +116,8 @@
 204 Dýþarda
 205 Kullanýlabilir
 206 Kaydet
-207 Að Geçidi 
-208 Maske 
+207 Að Geçidi
+208 Maske
 209 BIOS Versiyon
 210 BIOS Tarihi
 211 Sistem kütüðü
@@ -138,8 +138,8 @@
 227 sütünü silmek istediðinizden eminmisiniz?
 228 Yeni bir yönetel bilgi giriþi
 229 Yazý(255)
-230 Tamsayý 
-231 Gerçek 
+230 Tamsayý
+231 Gerçek
 232 Tarih
 233 Güncel bilgi
 234 Baþarýyla eklendi
@@ -150,7 +150,7 @@
 239 Her bir alan doldu
 240 Þifreniz farklý
 241 Þifreniz baþarýyla deðiþtirildi
-242 Yönetici 
+242 Yönetici
 243 Kullanýcý
 244 Yeni Bir kullanýcý
 245 Baþarýyla silindi
@@ -160,9 +160,9 @@
 249 MySql baðlantýsý kurulmadý. Lütfen geçerli oturumu giriþini yapýnýz/Devam.
 250 MySql Sunucu Adý
 251 Oturum Kapat
-252 Adý (seçiminiz)        	
-253 Sistem kütüðü 	
-254 Anahtar yolu (Ex: yazýlým\Mozilla)  	
+252 Adý (seçiminiz)
+253 Sistem kütüðü
+254 Anahtar yolu (Ex: yazýlým\Mozilla)
 255 Anahtar adý okunacak (* tamamý)
 256 seçim
 257 Sistem kütüðü anahtarý
@@ -177,7 +177,7 @@
 266 Geçersiz tarih
 267 dd/mm/yyyy
 268 Hýz
-269 %d/%m/%Y
+269 %d/%m/%Y %H:%i
 270 Modem(s)
 271 Yarýk(s)
 272 Baðlama noktasý(s)
@@ -292,7 +292,7 @@
 385 Yeni kategori
 386 Veya
 387 Kategori bulundu
-388 Kategori 
+388 Kategori
 389 Hiç
 390 sölzük kategorisi
 391 Kategori adý
@@ -388,7 +388,7 @@
 492 ELECTED IpDiscover of network
 493 Default (can be elected)
 494 Custom inventory frequency
-495 Inventoried every 
+495 Inventoried every
 496 Gün(s)
 497 Varsayýlan, Kullanýcý parametre frekansý.
 498 Paket
@@ -510,7 +510,7 @@
 621 The group was not created. Its name is already in use
 622 Cached
 623 The information you are trying to access does not exist
-624 Do you really want to delete group 
+624 Do you really want to delete group
 625 Enable this alteration
 626 Disable this alteration
 627 At least one of the fields is empty... Not made Update.
@@ -541,16 +541,16 @@
 653 Blacklist MAC address
 654 Enter a new MAC address for blacklist
 655 Insertion made
-656 This datum already exists in the list 
-657 Fields in red are in error!!! (Empty fields or size < 2) 
+656 This datum already exists in the list
+657 Fields in red are in error!!! (Empty fields or size < 2)
 658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
-659 Machines already have this teledeploy package. This package's statut for these machines is now 
+659 Machines already have this teledeploy package. This package's statut for these machines is now
 660 GROUP OF SERVEUR NOT EXIST
 661 PACKAGES FOR SERVER OF REDISTRIBUTION
 662 Rules of affectation
 663 INTERNES PROBLEM
 664 Action made
-665 NO SELECTED MACHINE. GROUP OF SERVER NOT CREATED 
+665 NO SELECTED MACHINE. GROUP OF SERVER NOT CREATED
 666 Group of server made
 667 FOR THE PACKAGE
 668 to Affect with which rule?
@@ -588,12 +588,12 @@
 701 Blacklist of serial number
 702 Enter a new serial number to blacklister
 703 Blacklist
-704 Are you sure to want to blacklister 
+704 Are you sure to want to blacklister
 705 Are you sure to want to unblacklister
 706 Unblacklister
 707 this serial number
 708 this mac address
-709 Customized PROLOG_FREQ 
+709 Customized PROLOG_FREQ
 710 Customized download
 711 Taken into account modifications
 712 Language file
@@ -655,7 +655,7 @@
 767 BE CAREFUL: RESULT WITH FILTER
 768 Number of recording
 769 Tranfer Made
-770 UPDATE OF 
+770 UPDATE OF
 771 This category already exists
 772 The category's name can't be null
 773 You must select category's name
@@ -694,21 +694,21 @@
 806 Minimum RAM amount
 807 Maximum RAM amount
 808 Repartition
-809 STATICS GROUPS 
-810 DYNAMICS GROUPS 
+809 STATICS GROUPS
+810 DYNAMICS GROUPS
 811 Are you sure to want to modify the visibility of the group
 812 The software in 0 is present in CACHE but are not any more settled on machines.<br>They cannot be put in a category of dictionary
 813 hard disk number with remaining size >
 814 hard disk number with remaining size <
 815 hard disk number with remaining size between
-816 hard disk maximum remaining size 
+816 hard disk maximum remaining size
 817 hard disk minimum remaining size
 818 Get out of group
 819 computer(s) added to group
 820 Last contact
 821 SERVER CONFIGURATION MODIFICATION
-822 Customize 
-823 By default 
+822 Customize
+823 By default
 824 Interface logs activation
 825 Logs directory
 826 Address to find teledeploy packages fragments to activate
@@ -723,7 +723,7 @@
 835 Add RSX
 836 Manage TYPES
 837 You don't have access to this datas
-838 Disk: Drive letter 
+838 Disk: Drive letter
 839 Disk: Type
 840 Disk: Format
 841 Disk: Capacity
@@ -772,7 +772,7 @@
 884 WARNING: WITH FILTER visualisation
 885 unknown
 886 Simple desaffection
-887 It's possible that this package is not affected to redistribution servers 
+887 It's possible that this package is not affected to redistribution servers
 888 Removal
 889 Connected as
 890 Interface is actually locked on a search with various criterias
@@ -792,9 +792,9 @@
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal informations
-909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE 
+909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
 910 Validate
-911 Switch profile of 
+911 Switch profile of
 912 Export list of computers that have this softwares
 913 Number of non inventoried network interfaces
 914 Number of agents that didn't send inventory since at least
@@ -822,7 +822,7 @@
 936 The type field cannot be blank
 937 This type already exists
 938 New type
-939 Computers members of the group 
+939 Computers members of the group
 940 All computers having this package
 941 DISPLAYING STATISTICS ON
 942 You have enter a commentary for this peripheral
@@ -836,7 +836,7 @@
 950 FILE NAME
 951 FILE CREATED IN THE
 952 FILE MODIFIED IN THE
-953 SIZE 
+953 SIZE
 954 A SESSION loss happened
 955 NO SYSTEM FOUND IN DATABASE
 956 All the errors
@@ -872,7 +872,7 @@
 986 REMOVE COMPUTERS FOR
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
-989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE 
+989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
 990 Packages created manually
 991 Packages created automatically
 992 Teledeploy time estimate
@@ -887,7 +887,7 @@
 1001 Red fields are in errors!
 1002 Estimated time for deploy
 1003 Redistribution servers packages parameters
-1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/). 
+1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/).
 1005 Package creation is therefore not possible.
 1006 don't have wrinting rights
 1007 The directory
@@ -946,7 +946,7 @@
 1060 New data
 1061 Tab
 1062 Field
-1063 Wording 
+1063 Wording
 1064 Mandatory
 1065 Field restraint
 1066 Linked to a status
@@ -968,10 +968,10 @@
 1082 Workflow admin group
 1083 Perimeter identification
 1084 Group name for test
-1085 Group name for restraint perimeter 
+1085 Group name for restraint perimeter
 1086 TAG value for test
 1087 Value of the test tag
-1088 TAG value for restraint perimeter 
+1088 TAG value for restraint perimeter
 1089 No status is active. Start by activating one
 1090 has modify request n°
 1091 A new request has been posted
@@ -1124,7 +1124,7 @@
 1238 Installation date
 1239 MHz
 1240 MB
-1241 Number of SNMP devices 
+1241 Number of SNMP devices
 1242 d/m/Y
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
@@ -1153,7 +1153,7 @@
 1267 Type of Virtual Machines
 1268 Uuid
 1269 Machine hosted by
-1270 DDMMYYYY
+1270 dd/mm/yyyy hh:ii
 1271 Computers of the subnet
 1272 Delete his computers
 1273 You do not have the right to remove a machine
@@ -1182,7 +1182,7 @@
 1306 Manage plugins
 1307 Active Plugins
 1308 Add plugins
-1309 Teledeploy options 
+1309 Teledeploy options
 1310 Shutdown
 1311 Reboot
 1312 Data width
@@ -1301,7 +1301,7 @@
 2099 ERROR: this MySQL login doesn't have the rights to create the database
 2100 Update old account infos
 2101 Add by script
-2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files 
+2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files
 2103 DEMO mode: you can't update data
 2104 YOU ARE WATCHING THE DEMO VERSION OF
 2105 Your database is OK.<br>No action taken.
