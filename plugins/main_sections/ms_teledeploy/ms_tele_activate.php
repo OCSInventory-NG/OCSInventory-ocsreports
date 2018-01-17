@@ -159,7 +159,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     }
 
     $list_fields = array($l->g(475) => 'FILEID',
-        $l->g(593) => 'from_unixtime(FILEID)',
+        $l->g(593) => 'CAST(from_unixtime(FILEID) AS DATETIME(0))',
         'SHOWACTIVE' => 'NAME',
         $l->g(440) => 'PRIORITY',
         $l->g(464) => 'FRAGMENTS',
