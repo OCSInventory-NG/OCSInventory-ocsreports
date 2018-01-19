@@ -21,9 +21,9 @@ require './lib/Ocsinventory/Agent/Config.pm';
 use Config;
 
 my $version = $Ocsinventory::Agent::Config::VERSION;
-if (-d '.bzr') {
-	chomp( my $bzrRev = `bzr revno`);
-	$version .= "~bzr".$bzrRev;
+if (-d '.git') {
+	chomp( my $gitRev = `git rev-parse --short HEAD`);
+	$version .= "~git".$gitRev;
 }
 
 name 'Ocsinventory-Unix-Agent';
