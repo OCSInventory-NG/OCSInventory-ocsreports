@@ -112,10 +112,11 @@ if ($login_successful == "OK" && isset($login_successful)) {
         if (DEMO) {
             msg_info($l->g(24) . ": " . DEMO_LOGIN . "<br/>" . $l->g(217) . ": " . DEMO_PASSWD);
         }
+        $value_logo = look_config_default_values('CUSTOM_THEME');
         ?>
         <div class="container">
             <div class="col-md-4 col-md-offset-4">
-                <img class="profile-img" src="image/sphere-ocs.png" />
+                <?php echo '<img class="profile-img" src="themes/'.$value_logo['tvalue']['CUSTOM_THEME'].'/logo.png" />'; ?>
                 <div class="center-block text-center">
                     <?php require_once(LANGUAGE_DIR . 'language.php'); ?>
                 </div>

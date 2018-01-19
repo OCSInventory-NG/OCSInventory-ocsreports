@@ -35,13 +35,17 @@ if (!isset($protectedGet["popup"])) {
         unset($_SESSION['OCS']["TRUE_mesmachines"]);
     }
 }
+
+$value_banniere = look_config_default_values('CUSTOM_THEME');
 ?>
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand header-logo" href="index.php?first">
-                <img alt="OCS Inventory" src="image/banniere-ocs.png">
+              <?php
+                echo '<img alt="OCS Inventory" src="themes/'.$value_banniere['tvalue']['CUSTOM_THEME'].'/banniere.png">';
+              ?>
             </a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ocs-navbar" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
@@ -58,8 +62,6 @@ if (!isset($protectedGet["popup"])) {
                     show_menu();
                 }
             }
-            ?>
-            <?php
             if (isset($_SESSION['OCS']["loggeduser"]) && !isset($protectedGet["popup"])) {
                 echo '<ul class="nav nav navbar-nav navbar-right">';
                 if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
@@ -136,17 +138,17 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
             $link_write = mysqli_connect(SERVER_WRITE, DFT_DB_CMPT, DFT_DB_PSWD);
             mysqli_select_db($link_read, DB_NAME);
             mysqli_select_db($link_write, DB_NAME);
-            
+
             // Can connect trigger sessions error
             $_SESSION['OCS']['defaultsql_error'] = true;
         } catch (Exception $e) {
 
         }
     }
-    
+
     if($_SESSION['OCS']['defaultsql_error'] != null){
         $msg_header_error[] = $l->g(2024) . ' ' . DB_NAME;
-        $msg_header_error_sol[] = $l->g(2025); 
+        $msg_header_error_sol[] = $l->g(2025);
     }
 
     //admin user already exist on data base with defaut password?

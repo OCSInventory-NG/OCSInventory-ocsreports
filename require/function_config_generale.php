@@ -246,7 +246,8 @@ function verif_champ() {
         'LOG_DIR' => array('FIELD_READ' => 'LOG_DIR_edit', 'END' => "/logs/", 'FILE' => "", 'TYPE' => 'r'),
         'LOG_SCRIPT' => array('FIELD_READ' => 'LOG_SCRIPT_edit', 'END' => "/scripts/", 'FILE' => "", 'TYPE' => 'r'),
         'OLD_CONF_DIR' => array('FIELD_READ' => 'OLD_CONF_DIR_edit', 'END' => "/old_conf/", 'FILE' => "", 'TYPE' => 'r'),
-        'DOWNLOAD_REP_CREAT' => array('FIELD_READ' => 'DOWNLOAD_REP_CREAT_edit', 'END' => "", 'FILE' => "", 'TYPE' => 'r'));
+        'DOWNLOAD_REP_CREAT' => array('FIELD_READ' => 'DOWNLOAD_REP_CREAT_edit', 'END' => "", 'FILE' => "", 'TYPE' => 'r'),
+        'CUSTOM_THEME' => array('FIELD_READ' => 'CUSTOME_THEME_edit', 'END' => "", 'FILE' => "", 'TYPE' =>'r'));
 
     foreach ($file_exist as $key => $value) {
         if ($protectedPost[$key] == 'CUSTOM') {
@@ -301,14 +302,20 @@ function fin_tab($disable = '') {
 
 function insert_update($name, $value, $default_value, $field) {
     global $l;
+
     if ($default_value != $value) {
         $arg = array($field, $value, $name);
+
         if ($default_value != '') {
             $sql = "update config set %s = '%s' where NAME ='%s'";
         } else {
             $sql = "insert into config (%s, NAME) value ('%s','%s')";
         }
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg, $l->g(821));
+
+        if($name == 'CUSTOM_THEME'){
+            ?> <script> reload(); </script> <?php
+        }
     }
 }
 
@@ -341,7 +348,8 @@ function update_default_value($POST) {
         'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
         'CONEX_LDAP_CHECK_FIELD2_ROLE',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
-        'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT', 'OCS_SERVER_ADDRESS');
+        'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT', 'OCS_SERVER_ADDRESS',
+        'CUSTOM_THEME');
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
@@ -354,14 +362,14 @@ function update_default_value($POST) {
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP');
-    //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue
+    //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
         'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG_edit',
         'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO_edit',
         'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR_edit',
         'OLD_CONF_DIR' => 'OLD_CONF_DIR_edit', 'LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER_edit', 'WOL_BIOS_PASSWD' => 'WOL_BIOS_PASSWD_edit');
-    //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
+    //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue
     $array_interprete_ivalue = array('FREQUENCY' => 'FREQUENCY_edit', 'IPDISCOVER' => 'IPDISCOVER_edit', 'INVENTORY_VALIDITY' => 'INVENTORY_VALIDITY_edit');
 
     //recherche des valeurs par défaut
@@ -499,6 +507,7 @@ function pageGUI() {
         'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR',
         'OLD_CONF_DIR' => 'OLD_CONF_DIR',
         'WARN_UPDATE' => 'WARN_UPDATE',
+        'CUSTOM_THEME' => 'CUSTOM_THEME',
     );
     $values = look_config_default_values($champs);
     $select_local_uri = trait_post('LOCAL_URI_SERVER');
@@ -508,6 +517,11 @@ function pageGUI() {
     $select_scripts = trait_post('LOG_SCRIPT');
     $select_profils = trait_post('CONF_PROFILS_DIR');
     $select_old_profils = trait_post('OLD_CONF_DIR');
+    $select_custom_theme = trait_post('CUSTOM_THEME');
+
+
+    $themes = get_available_themes();
+    ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
 
     ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
     $def = VARLIB_DIR . '/download';
@@ -864,5 +878,18 @@ function pagesdev() {
     $champs = array('USE_NEW_SOFT_TABLES' => 'USE_NEW_SOFT_TABLES');
     $values = look_config_default_values($champs);
     ligne('USE_NEW_SOFT_TABLES', 'Utilisation tables de soft OCS v2.1', 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['USE_NEW_SOFT_TABLES']));
+}
+
+function get_available_themes() {
+    $scan = scandir(THEMES_DIR);
+    unset($scan[0]);
+    unset($scan[1]);
+
+    foreach ($scan as $theme) {
+      if(file_exists(THEMES_DIR . $theme . '/style.css')){
+        $result[$theme] = $theme;
+      }
+    }
+    return $result;
 }
 ?>
