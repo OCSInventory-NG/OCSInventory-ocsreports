@@ -328,9 +328,8 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="css/computer_details.css">
         <link rel="stylesheet" href="css/bootstrap-formhelpers.css">
 				<link rel="stylesheet" href="css/forms.css">';
+        
     if (!$noJavascript) {
-        incPicker();
-
         //js for graph
         echo '
         <script src="libraries/jquery/jquery.js" type="text/javascript"></script>
@@ -530,7 +529,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 
                                 if($inputType == 'text'){
                                     if($field['INPUT_TYPE'] == 14){
-                                        echo "<div class='input-group date form_datetime'>";                                
+                                        echo "<div class='input-group date form_datetime'>";
                                     }else{
                                         echo "<div class='input-group'>";
                                     }
