@@ -411,17 +411,16 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
                         $select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
                     }
                 }
-
             }
         }
         $select2 .= "</select>";
         echo $select2;
         if (array_key_exists($value,$opt2SelectField)){
-            if ($opt2SelectField[$value . "-LBL"] == "calendar") {
+            if ($optSelect2Field[$value . "-LBL"] == "calendar") {
               echo "<div class='input-group date form_datetime'>";
             }
             echo $select."<input name='InputValue-".$nameField."' class='form-control' id='InputValue-".$nameField."' value='".$protectedPost['InputValue-' . $nameField ]."'>";
-            if ($opt2SelectField[$value."-LBL"] == "calendar") {
+            if ($optSelect2Field[$value."-LBL"] == "calendar") {
                 echo "<span class='input-group-addon'>";
                 echo calendars("InputValue-" . $nameField, $l->g(1270));
                 echo "</span>";
