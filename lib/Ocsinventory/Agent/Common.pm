@@ -37,7 +37,7 @@ Add a controller in the inventory.
 
 =cut
 sub addController {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -57,7 +57,7 @@ Add external usb devices in the inventory.
 
 =cut
 sub addUsb {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -77,7 +77,7 @@ Add internal inputs as keyboard, mouse in the inventory.
 
 =cut
 sub addInput {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -97,7 +97,7 @@ Add a modem in the inventory.
 
 =cut
 sub addModem {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -112,7 +112,7 @@ sub addModem {
 
 }
 
-# For compatibiliy
+# For compatibility
 sub addModems {
     my $self = shift;
     my $logger = $self->{logger};
@@ -127,7 +127,7 @@ Add a partition in the inventory.
 
 =cut
 sub addDrive {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -142,7 +142,7 @@ sub addDrive {
 
 }
 
-# For compatibiliy
+# For compatibility
 sub addDrives {
     my $self = shift;
     my $logger = $self->{logger};
@@ -157,7 +157,7 @@ Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
 
 =cut
 sub addStorages {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -171,7 +171,7 @@ sub addStorages {
     push @{$xmltags->{STORAGES}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addStorage {
     my $self = shift;
     my $logger = $self->{logger};
@@ -187,7 +187,7 @@ Add a memory module in the inventory.
 
 =cut
 sub addMemory {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -201,7 +201,7 @@ sub addMemory {
     push @{$xmltags->{MEMORIES}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addMemories {
     my $self = shift;
     my $logger = $self->{logger};
@@ -216,7 +216,7 @@ Add a port module in the inventory.
 
 =cut
 sub addPorts{
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -230,7 +230,7 @@ sub addPorts{
   push @{$xmltags->{PORTS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addPort {
     my $self = shift;
     my $logger = $self->{logger};
@@ -241,11 +241,11 @@ sub addPort {
 
 =item addSlot()
 
-Add a slot in the inventory. 
+Add a slot in the inventory.
 
 =cut
 sub addSlot {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -259,7 +259,7 @@ sub addSlot {
     push @{$xmltags->{SLOTS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addSlots {
     my $self = shift;
     my $logger = $self->{logger};
@@ -274,7 +274,7 @@ Register a software in the inventory.
 
 =cut
 sub addSoftware {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -288,7 +288,7 @@ sub addSoftware {
     push @{$xmltags->{SOFTWARES}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addSoftwares {
     my $self = shift;
     my $logger = $self->{logger};
@@ -303,7 +303,7 @@ Add a monitor (screen) in the inventory.
 
 =cut
 sub addMonitor {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -317,7 +317,7 @@ sub addMonitor {
     push @{$xmltags->{MONITORS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addMonitors {
     my $self = shift;
     my $logger = $self->{logger};
@@ -332,7 +332,7 @@ Add a video card in the inventory.
 
 =cut
 sub addVideo {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -346,7 +346,7 @@ sub addVideo {
     push @{$xmltags->{VIDEOS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addVideos {
     my $self = shift;
     my $logger = $self->{logger};
@@ -361,7 +361,7 @@ Add a sound card in the inventory.
 
 =cut
 sub addSound {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -375,7 +375,7 @@ sub addSound {
   push @{$xmltags->{SOUNDS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addSounds {
     my $self = shift;
     my $logger = $self->{logger};
@@ -390,13 +390,12 @@ Register a network in the inventory.
 
 =cut
 sub addNetwork {
-    # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
 
-    foreach my $key (qw/BSSID DESCRIPTION DRIVER DUPLEX IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR MODE MTU PCISLOT SPEED SSID STATUS TYPE VERSION VIRTUALDEV /) {
+    foreach my $key (qw/BASE BSSID DESCRIPTION DRIVER DUPLEX IPADDRESS IPDHCP IPGATEWAY IPMASK IPSUBNET MACADDR MODE MTU PCISLOT SLAVE SPEED SSID STATUS TYPE VERSION VIRTUALDEV /) {
         if (exists $args->{$key}) {
             $content->{$key}[0] = $args->{$key} if $args->{$key};
         }
@@ -405,13 +404,42 @@ sub addNetwork {
     push @{$xmltags->{NETWORKS}}, $content;
 }
 
-# For compatibiliy
+# For compatibility
 sub addNetworks {
     my $self = shift;
     my $logger = $self->{logger};
 
     $logger->debug("please rename addNetworks to addNetwork()");
     $self->addNetwork(@_);
+}
+
+=item addRepo()
+
+Register a repository in the inventory.
+
+=cut
+sub addRepo {
+    my ($self, $args) = @_;
+    my $xmltags = $self->{xmltags};
+
+    my $content = {};
+
+    foreach my $key (qw/BASEURL ENABLED FINGERPRINTS FILENAME MIRROR NAME PACKAGES PRIORITY REVISION SIGNATURE SIZE TAG UPDATED/) {
+        if (exists $args->{$key}) {
+            $content->{$key}[0] = $args->{$key} if $args->{$key};
+        }
+    }
+
+    push @{$xmltags->{REPOSITORY}}, $content;
+}
+
+# For compatibility
+sub addRepos {
+    my $self = shift;
+    my $logger = $self->{logger};
+
+    $logger->debug("please rename addRepos to addRepo()");
+    $self->addRepo(@_);
 }
 
 
@@ -424,7 +452,7 @@ deprecated, please, use addUser() and addCPU() instead.
 
 =cut
 sub setHardware {
-    my ($self, $args, $nonDeprecated) = @_; 
+    my ($self, $args, $nonDeprecated) = @_;
     my $xmltags = $self->{xmltags};
 
     my $logger = $self->{logger};
@@ -454,7 +482,7 @@ Set BIOS information.
 
 =cut
 sub setBios {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG TYPE/) {
@@ -471,7 +499,7 @@ Add a CPU in the inventory.
 
 =cut
 sub addCPU {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -503,7 +531,7 @@ Add an user in the list of logged user.
 
 =cut
 sub addUser {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $login = $args->{LOGIN};
@@ -536,7 +564,7 @@ Add a printer in the inventory.
 
 =cut
 sub addPrinter {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -551,7 +579,7 @@ sub addPrinter {
 
 }
 
-# For compatibiliy
+# For compatibility
 sub addPrinters {
     my $self = shift;
     my $logger = $self->{logger};
@@ -566,7 +594,7 @@ Add a Virtual Machine in the inventory.
 
 =cut
 sub addVirtualMachine {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -587,7 +615,7 @@ Record a running process in the inventory.
 
 =cut
 sub addProcess {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -609,15 +637,15 @@ Add a camera device in the inventory. Only avalaible for MacOSX
 sub addCamera {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
-    
+
     my $content = {};
-    
+
     foreach my $key (qw/MODEL UUID/){
         if (exists $args->{$key}) {
             $content->{$key}[0] = $args->{$key} if $args->{$key};
         }
     }
-    
+
     push @{$xmltags->{RUNNING_PROCESSES}}, $content;
 }
 
@@ -630,7 +658,7 @@ This function adds a network interface in the inventory.
 
 =cut
 sub addIpDiscoverEntry {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $ipaddress = $args->{IPADDRESS};
@@ -704,9 +732,9 @@ sub getSnmpTable {
 }
 
 sub setSnmpCommons {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
-  
+
     foreach my $key (qw/IPADDR MACADDR SNMPDEVICEID NAME DESCRIPTION CONTACT LOCATION UPTIME DOMAIN TYPE / ) {
         if (exists $args->{$key}) {
             $xmltags->{COMMON}[0]{$key}[0] = $args->{$key};
@@ -738,7 +766,7 @@ sub setSnmpSwitchInfos {
 }
 
 sub setSnmpFirewalls {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
 
     foreach my $key (qw/SERIALNUMBER SYSTEM/) {
@@ -750,7 +778,7 @@ sub setSnmpFirewalls {
 
 
 sub setSnmpLoadBalancer {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags=$self->{xmltags};
 
     foreach my $key (qw/SERIALNUMBER SYSTEM MANUFACTURER TYPE/ ) {
@@ -761,7 +789,7 @@ sub setSnmpLoadBalancer {
 }
 
 sub setSnmpBlade {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
 
     foreach my $key (qw/SERIALNUMBER SYSTEM/) {
@@ -772,7 +800,7 @@ sub setSnmpBlade {
 }
 
 sub setSnmpComputer {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
 
     foreach my $key (qw/SYSTEM/) {
@@ -826,7 +854,7 @@ sub addSnmpNetwork {
 }
 
 sub addSnmpCard {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -841,7 +869,7 @@ sub addSnmpCard {
 }
 
 sub addSnmpFan {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -855,7 +883,7 @@ sub addSnmpFan {
 }
 
 sub addSnmpPowerSupply {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -869,7 +897,7 @@ sub addSnmpPowerSupply {
 }
 
 sub addSnmpSwitch {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -883,7 +911,7 @@ sub addSnmpSwitch {
 }
 
 sub addSnmpLocalPrinter {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -898,7 +926,7 @@ sub addSnmpLocalPrinter {
 }
 
 sub addSnmpInput {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -914,7 +942,7 @@ sub addSnmpInput {
 
 
 sub addSnmpCPU {
-    my ($self,$args) = @_; 
+    my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
     my $content = {};
 
@@ -936,7 +964,7 @@ Add a memory module in the inventory.
 
 =cut
 sub addBatteries {
-    my ($self, $args) = @_; 
+    my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
@@ -1011,7 +1039,7 @@ sub readXml {
         } else {  #Not a forced array in XML parsing
            if (ref ($content->{$key}) =~ /^HASH$/ && !keys %{$content->{$key}}) {  # If empty hash from XMLin()
                $content->{$key} = '';
-           } else { utf8::encode($content->{$key}) }; 
+           } else { utf8::encode($content->{$key}) };
         }
     }
     return $content;
@@ -1024,10 +1052,10 @@ sub parseXmlArray {
     foreach my $hash (@{$array}) {
         foreach my $key (keys %$hash) {
             if ( grep (/^$key$/,@$forcearray)) {  #Forced array in XML parsing
-                $self->parseXmlArray($hash->{$key},$forcearray);    
+                $self->parseXmlArray($hash->{$key},$forcearray);
             } else {  #Not a forced array in XML parsing
                 if (ref ($hash->{$key}) =~ /^HASH$/ && !keys %{$hash->{$key}}) {  # If empty hash from XMLin()
-                    $hash->{$key} = ''; 
+                    $hash->{$key} = '';
                 } else { utf8::encode($hash->{$key}) };
             }
         }
@@ -1071,7 +1099,7 @@ sub get_sysprofile_devices_names {
            $name =~ s/:.*$//;
            push(@$names,$name);
         }
-    } 
+    }
 
     return $names;
 }

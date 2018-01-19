@@ -125,7 +125,7 @@ sub makemaker_args {
         }
         else {
             if (defined $args->{$key}) {
-                warn qq{MakeMaker attribute "$key" is overriden; use "makemaker_append" to append values\n};
+                warn qq{MakeMaker attribute "$key" is overridden; use "makemaker_append" to append values\n};
             }
             $args->{$key} = $new_args{$key};
         }
@@ -335,7 +335,7 @@ EOT
     }
 
     if ($self->installdirs) {
-        warn qq{old INSTALLDIRS (probably set by makemaker_args) is overriden by installdirs\n} if $args->{INSTALLDIRS};
+        warn qq{old INSTALLDIRS (probably set by makemaker_args) is overridden by installdirs\n} if $args->{INSTALLDIRS};
         $args->{INSTALLDIRS} = $self->installdirs;
     }
 

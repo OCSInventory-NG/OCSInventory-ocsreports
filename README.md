@@ -6,7 +6,7 @@
 <p align="center">
   <b>Some Links:</b><br>
   <a href="http://ask.ocsinventory-ng.org">Ask question</a> |
-  <a href="#COMMING_SOON_STAY_CONNECTED">Installation</a> |
+  <a href="#COMING_SOON_STAY_CONNECTED">Installation</a> |
   <a href="https://www.ocsinventory-ng.org/?utm_source=github-ocs">Website</a> |
   <a href="https://www.ocsinventory-ng.org/en/#ocs-pro-en">OCS Professional</a>
 </p>
@@ -21,7 +21,8 @@
 
 <h2 align="center">Prerequisites</h2>
 - Perl 5.8 minimum
-  ####The following modules are needed:
+
+  #### The following modules are needed:
     - Digest::MD5
     - XML::Simple
     - Net::IP optional, it is only needed to compute the network information
@@ -38,7 +39,7 @@
     - Data::UUID is used to create a unique id for every machine
     - Parse::EDID is used to inventory monitor and will replace monitor-edid from Mandriva.
       
-  ####The following commands are needed:
+  #### The following commands are needed:
     - dmidecode on Linux and *BSD (i386, amd64, ia64) => dmidecode is required to read the BIOS stats.
     - lspci on Linux and *BSD (pciutils package) => lspci is required to list PCI devices.
     - sneep on Solaris/sparc, you must install sneep and record the Serial Number with it (download it from http://www.sun.com/download/products.xml?id=4304155a)
@@ -48,13 +49,13 @@
     - ipmitool if you want to collect information about IPMI
     - Nmap (v3.90 or superior) to scan network devices for Ipdiscover
     
-  ####The following PERL modules are optional:
+  #### The following PERL modules are optional:
     - Proc::Daemon Daemon mode
     - Proc::PID::File brings the pid file support if Proc::Daemon is installed
     - nvidia::ml brings you some informations on Nvidia Graphic Cards such as memory size, cpu speed, bios version and driver version.
     - Compress::Zlib
 
-  ####The following module is needed if you plan to prepare a tarball or install directly from the Bazaar devel branch. (See SOURCES below.):
+  #### The following module is needed if you plan to prepare a tarball or install directly from the Bazaar devel branch. (See SOURCES below.):
     - Module::Install
 
 <h2 align="center">Build / Install</h2>
