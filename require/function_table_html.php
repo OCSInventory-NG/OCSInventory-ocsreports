@@ -1392,10 +1392,16 @@ function ajaxfiltre($queryDetails,$tab_options){
 							if ($searchable){
 
 								// if search in column selected
-								if ($tab_options['COL_SEARCH'] != 'default' && $rang == 0) {
+								if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $rang == 0) {
 										$name_col = $tab_options['COL_SEARCH'];
 										$filtertxt =  " WHERE (( ".$name_col." LIKE '%%".$search."%%' ) ";
 								} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+										if ($rang == 0){
+											$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";
+										} else {
+											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+										}
+								} else if (empty($tab_options["COL_SEARCH"])) {
 										if ($rang == 0){
 											$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";
 										} else {
