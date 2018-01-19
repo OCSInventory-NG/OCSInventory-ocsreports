@@ -417,7 +417,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         $select2 .= "</select>";
         echo $select2;
         if (array_key_exists($value,$opt2SelectField)){
-            if ($optSelectField[$value . "-LBL"] == "calendar") {
+            if ($opt2SelectField[$value . "-LBL"] == "calendar") {
               echo "<div class='input-group date form_datetime'>";
             }
             echo $select."<input name='InputValue-".$nameField."' class='form-control' id='InputValue-".$nameField."' value='".$protectedPost['InputValue-' . $nameField ]."'>";
