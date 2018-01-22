@@ -168,7 +168,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 $l->g(1039) => 'a.PRIORITY',
                 $l->g(51) => 'a.COMMENT',
                 $l->g(274) => 'a.OSNAME',
-                $l->g(953) . " (KB)" => 'a.SIZE'
+                $l->g(953) . " (KB)" => 'round(a.SIZE/1024,0) as SIZE'
             );
 
             if (!isset($nb_rule) || $nb_rule > 0) {
