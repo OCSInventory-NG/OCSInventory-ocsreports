@@ -685,7 +685,7 @@
 797 Machines not seen in more than
 798 ACTIVITY
 799 HARDWARE
-800 OTHER
+800 Other
 801 Don't show this field
 802 Show this field
 803 Counts in the daytime since the machine don't contact server
