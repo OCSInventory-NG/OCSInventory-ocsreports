@@ -685,7 +685,7 @@
 797 Machines absentes depuis plus de
 798 ACTIVITE
 799 MATERIEL
-800 DIVERS
+800 Divers
 801 Ne plus afficher cette donnée
 802 Afficher cette donnée
 803 Nombre de jours depuis que la machine n'a pas pris contact
@@ -1138,7 +1138,7 @@
 1252 Répertoire des fichiers de conf profils
 1253 Répertoire des sauvegardes des fichiers de conf profils
 1254 Répertoire des logs des scripts
-1255 Nombre de Connexion par jour
+1255 Nombre de connexions par jour
 1256 Nombre d'erreurs de connexion par jour
 1257 Utilisation du flash dans la GUI
 1258 Entrée Manuelle
