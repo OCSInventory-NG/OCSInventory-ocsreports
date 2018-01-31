@@ -1269,6 +1269,18 @@ if (isset($_SESSION['OCS']['multiSearch']) and $_SESSION['OCS']['multiSearch'] !
 		$c++;
 	}
 }
+?>
+<script>
+$(function(){
+  $('.container-fluid').keypress(function(e){
+    if(e.which == 13) {
+      // Click on the good enter
+      $('input[name=Valid-search]').click();
+    }
+  })
+})
+</script>
+<?php 
 echo "<div class='row rowMarginTop30'>";
 echo "<div class='col-md-12'>";
 echo "<input type='submit' class='btn btn-success' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'>";
