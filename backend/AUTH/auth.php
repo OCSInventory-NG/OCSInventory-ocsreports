@@ -132,7 +132,7 @@ if ($login_successful == "OK" && isset($login_successful)) {
                         <input type="password" class="form-control" name="PASSWD" id="PASSWD" value="<?php echo $protectedPost['PASSWD']; ?>" placeholder="<?php echo $l->g(217); ?>">
                     </div>
 
-                    <input type="submit" class="btn btn-lg btn-block btn-success" style="background-color: #961b7e" name="Valid_CNX" value="<?php echo $l->g(13); ?>" />
+                    <input type="submit" class="btn btn-lg btn-block btn-success" id="btn-logon" name="Valid_CNX" value="<?php echo $l->g(13); ?>" />
                 </form>
             </div>
         </div><!-- /container -->
