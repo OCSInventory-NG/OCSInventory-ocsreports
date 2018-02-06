@@ -305,6 +305,9 @@ function msg_error($txt, $close = false) {
 function html_header($noJavascript = false) {
 
     $value_theme = look_config_default_values('CUSTOM_THEME');
+    if(is_null($value_theme)){
+      $value_theme['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
+    }
 
     header("Pragma: no-cache");
     header("Expires: -1");
@@ -331,7 +334,7 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="css/computer_details.css">
         <link rel="stylesheet" href="css/bootstrap-formhelpers.css">
 				<link rel="stylesheet" href="css/forms.css">';
-        
+
     if (!$noJavascript) {
         //js for graph
         echo '
