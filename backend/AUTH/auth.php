@@ -112,10 +112,11 @@ if ($login_successful == "OK" && isset($login_successful)) {
         if (DEMO) {
             msg_info($l->g(24) . ": " . DEMO_LOGIN . "<br/>" . $l->g(217) . ": " . DEMO_PASSWD);
         }
+        $value_logo = look_config_default_values('CUSTOM_THEME');
         ?>
         <div class="container">
             <div class="col-md-4 col-md-offset-4">
-                <img class="profile-img" src="image/sphere-ocs.png" />
+                <?php echo '<img class="profile-img" src="themes/'.$value_logo['tvalue']['CUSTOM_THEME'].'/logo.png" />'; ?>
                 <div class="center-block text-center">
                     <?php require_once(LANGUAGE_DIR . 'language.php'); ?>
                 </div>
@@ -131,7 +132,7 @@ if ($login_successful == "OK" && isset($login_successful)) {
                         <input type="password" class="form-control" name="PASSWD" id="PASSWD" value="<?php echo $protectedPost['PASSWD']; ?>" placeholder="<?php echo $l->g(217); ?>">
                     </div>
 
-                    <input type="submit" class="btn btn-lg btn-block btn-success" style="background-color: #961b7e" name="Valid_CNX" value="<?php echo $l->g(13); ?>" />
+                    <input type="submit" class="btn btn-lg btn-block btn-success" id="btn-logon" name="Valid_CNX" value="<?php echo $l->g(13); ?>" />
                 </form>
             </div>
         </div><!-- /container -->

@@ -147,3 +147,7 @@ function delete_cookie(name) {
     var table = $('table#'+name).DataTable();
     table.state.clear();
 }
+
+function reload(){
+    location.reload();
+}

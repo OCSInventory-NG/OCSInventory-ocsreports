@@ -1295,6 +1295,7 @@
 1417 IMEI/DEVICEID
 1418 Country
 1419 Search in column
+1420 Theme customization
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

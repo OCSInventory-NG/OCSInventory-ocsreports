@@ -123,6 +123,11 @@ define('FOOTER_HTML', __DIR__ . '/require/footer.php');
 define('MAIN_SECTIONS_DIR', PLUGINS_DIR . "main_sections/");
 define('MAIN_SECTIONS_DIR_VISU', "plugins/main_sections/");
 
+/**
+ * Theme directory
+ */
+define('THEMES_DIR', __DIR__ . '/themes/');
+
 define('DEV_OPTION', false);
 
 //====================================================================================

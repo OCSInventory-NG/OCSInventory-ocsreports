@@ -303,6 +303,9 @@ function msg_error($txt, $close = false) {
 }
 
 function html_header($noJavascript = false) {
+
+    $value_theme = look_config_default_values('CUSTOM_THEME');
+
     header("Pragma: no-cache");
     header("Expires: -1");
     header("Cache-control: must-revalidate, post-check=0, pre-check=0");
@@ -319,7 +322,7 @@ function html_header($noJavascript = false) {
 				<link rel="shortcut icon" href="favicon.ico">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css">
-				<link rel="stylesheet" href="css/bootstrap-custom.css">
+				<link rel="stylesheet" href="themes/'.$value_theme['tvalue']['CUSTOM_THEME'].'/style.css">
 				<link rel="stylesheet" href="css/dataTables-custom.css">
 				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.css">
 				<link rel="stylesheet" href="css/ocsreports.css">

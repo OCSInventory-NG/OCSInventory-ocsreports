@@ -85,6 +85,11 @@
     border: none !important;
     background-image: none !important;
 }
+
+#btn-logon{
+    background-color: #961b7e;
+}
+
 .input-group{
     width: 100% !important;
 }
@@ -98,6 +103,18 @@
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
 	background-color: #961b7e;
+}
+
+.navbar-left li a{
+    color: #777;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #777;
+}
+
+font {
+    font-size: small;
 }
 
 /*
@@ -131,4 +148,11 @@ Open menus on mouse hover
 
 input[type=checkbox], input[type=radio] {
     margin: 4px 4px 0;
+}
+
+.profile-img {
+    width: auto;
+    height: 256px;
+    margin: 0 auto 10px;
+    display: block;
 }

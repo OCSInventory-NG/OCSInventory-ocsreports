@@ -429,10 +429,10 @@ iframe{
 .navbar-left li{
     text-align: left;
 }
-.navbar-left li a{
+/*.navbar-left li a{
     color: #777;
 }
-
+*/
 /*** CONTENT ***/
 .right-content {
     margin-left: 190px;
@@ -447,12 +447,12 @@ iframe{
     text-align: left;
 }
 
-.profile-img {
+/*.profile-img {
     width: auto;
     height: 256px;
     margin: 0 auto 10px;
     display: block;
-}
+}*/
 .config-row > .col-md-6{
     text-align: left;
 }
