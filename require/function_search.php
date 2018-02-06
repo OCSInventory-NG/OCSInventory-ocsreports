@@ -364,15 +364,20 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 	echo "<label for='InputValue-".$nameField."' class='col-sm-2 control-label'>".$optArray[$value]."</label>";
 	echo "<div class='col-sm-10'>";
 
-	echo "<div class='input-group date form_datetime'>";
+	//echo "<div class='input-group date form_datetime'>";
 
     //TITRE,CHAMP (EGAL,LIKE,NOTLIKE),valeur
     if( array_key_exists($value,$optSelectField)) {
-        echo $select . "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value='".$protectedPost['InputValue-' . $nameField ]."'>";
+        echo $select;
+        if ($optSelectField[$value . "-LBL"] == "calendar") {
+          echo "<div class='input-group date form_datetime'>";
+        }
+        echo "<input type='text' name='InputValue-" . $nameField . "' class='form-control' id='InputValue-" . $nameField . "' value='".$protectedPost['InputValue-' . $nameField ]."'>";
         if ($optSelectField[$value . "-LBL"] == "calendar") {
             echo "<span class='input-group-addon'>";
             echo calendars("InputValue-" . $nameField, $l->g(1270));
             echo "</span>";
+            echo "</div>";
         }
     }
     //TITRE,CHAMPSELECT,(pour $optSelect)
@@ -406,17 +411,20 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
                         $select2 .= "<option value='".$val['ID']."' ".($protectedPost[$name_select.'-'.$nameField] == $val['ID'] ? " selected":"").">".$value_of_request."</option>";
                     }
                 }
-
             }
         }
         $select2 .= "</select>";
         echo $select2;
         if (array_key_exists($value,$opt2SelectField)){
+            if ($optSelect2Field[$value . "-LBL"] == "calendar") {
+              echo "<div class='input-group date form_datetime'>";
+            }
             echo $select."<input name='InputValue-".$nameField."' class='form-control' id='InputValue-".$nameField."' value='".$protectedPost['InputValue-' . $nameField ]."'>";
-            if ($opt2SelectField[$value."-LBL"] == "calendar") {
+            if ($optSelect2Field[$value."-LBL"] == "calendar") {
                 echo "<span class='input-group-addon'>";
                 echo calendars("InputValue-" . $nameField, $l->g(1270));
                 echo "</span>";
+                echo "</div>";
             }
         }
     }
@@ -478,7 +486,7 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
         echo $selectValue2;
     }
 
-    echo "</div>"; // input group
+    //echo "</div>"; // input group
     echo "<button class='btn btn-danger btn-block' alt='".$l->g(41)."' onclick='pag(\"".$id_field."\",\"delfield\",\"".$form_name."\");'><span class='glyphicon glyphicon-remove delete-span delete-span-xs' style='color:white'></span></button>";
     echo "</div>"; // col
     echo "</div>"; // form group

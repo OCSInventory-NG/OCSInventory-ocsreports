@@ -331,9 +331,8 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="css/computer_details.css">
         <link rel="stylesheet" href="css/bootstrap-formhelpers.css">
 				<link rel="stylesheet" href="css/forms.css">';
+        
     if (!$noJavascript) {
-        incPicker();
-
         //js for graph
         echo '
         <script src="libraries/jquery/jquery.js" type="text/javascript"></script>

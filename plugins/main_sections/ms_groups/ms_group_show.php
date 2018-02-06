@@ -144,7 +144,7 @@ if ($item->CREATE_TIME == "") {
 } else {
     $server_group = false;
 }
-incPicker();
+
 
 $tdpopup = "onclick=\"javascript: OuvrirPopup('group_chang_value.php', '', 'resizable=no, location=no, width=400, height=200, menubar=no, status=no, scrollbars=no, menubar=no')";
 
@@ -230,12 +230,12 @@ show_resume($dataValue, $labelValue);
 echo close_form();
 
 if ($server_group) {
-    
+
     require(MAIN_SECTIONS_DIR . "/" . $_SESSION['OCS']['url_service']->getDirectory('ms_server_redistrib') . "/ms_server_redistrib.php");
 
 }
 else {
-        
+
     if (!isset($protectedGet["option"])) {
         $opt = $l->g(500);
     } else {
@@ -316,7 +316,7 @@ function form_action_group($systemid) {
     formGroup('select', 'actshowgroup', $l->g(585), '', '', '', '', $arrayData, $arrayData, '');
     echo "<input type='submit' name='modify' class='btn btn-success' value=".$l->g(13).">";
     echo "</div>";
-    
+
 }
 
 function update_computer_group($hardware_id, $group_id, $static) {
