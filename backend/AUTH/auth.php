@@ -113,6 +113,9 @@ if ($login_successful == "OK" && isset($login_successful)) {
             msg_info($l->g(24) . ": " . DEMO_LOGIN . "<br/>" . $l->g(217) . ": " . DEMO_PASSWD);
         }
         $value_logo = look_config_default_values('CUSTOM_THEME');
+        if(is_null($value_logo)){
+          $value_logo['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
+        }
         ?>
         <div class="container">
             <div class="col-md-4 col-md-offset-4">

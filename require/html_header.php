@@ -37,6 +37,9 @@ if (!isset($protectedGet["popup"])) {
 }
 
 $value_banniere = look_config_default_values('CUSTOM_THEME');
+if(is_null($value_banniere)){
+  $value_banniere['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
+}
 ?>
 
 <nav class="navbar navbar-default">
