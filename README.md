@@ -88,7 +88,7 @@ It's also possible to run directly from the tarball directory:
 Solaris:
   - Sun Studio seems to be needed to build the dependency.
   - The generated Makefile needs gmake to be exectuted
-  - The default installation will install the binary in /usr/perl5/5.XXXXX/bin, set you $PATH variable according to that.
+  - The default installation will install the binary in /usr/perl5/5.XXXXX/bin, set your $PATH variable according to that.
 
 Crontab:
   - If you use crontab to launch the agent you'll probably have to redefine the PATH. For example, just add something like: `PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin` At the beginning of the cron file.
@@ -110,7 +110,7 @@ OCS Inventory is GPLv2 licensed
 
 The memconf script is maintained by Tom Schmidt
 http://www.4schmidts.com/memconf.html
-Copyright © 1996-2016 Tom Schmidt
+Copyright © 1996-2017 Tom Schmidt
 
 memconf is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
 as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
