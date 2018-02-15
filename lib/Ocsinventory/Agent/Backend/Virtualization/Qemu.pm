@@ -14,27 +14,34 @@ sub run {
     my $common = $params->{common};
 
     foreach ( `ps -ef` ) {
-        if (m/^.*((qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|drive|cdrom).*)$/) {
+        if (m/^\S+\s+(\d+).*((qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|drive|cdrom).*)$/) {
             # match only if an qemu instance
             
             my $name = "N/A";
             my $mem = 0;
             my $uuid;
-            my $vmtype = $2;
+            my $vmtype = $3;
+            my $vcpu = 1;
+            my $pid = $1;
                         
-            my @process = split (/ \-/, $1);     #separate options
-            
-            foreach my $option ( @process ) {
-                if ($name eq "N/A" and $option =~ m/^([fh]d[a-d]|cdrom) (\S+)/) {
-                    $name = $2;
-                } elsif ($option =~ m/^name (\S+)/) {
-                    $name = $1;
-                } elsif ($option =~ m/^m (\S+)/) {
-                    $mem = $1;
-                } elsif ($option =~ m/^uuid (\S+)/) {
-                    $uuid = $1;
+            if  (open F, "/proc/$pid/cmdline") {
+                my @a=split "\000-", <F>;
+                close F;
+                foreach my $option ( @a ) {
+                    if ($option =~ m/^name\000(\S+)/) {
+                        $name = $1;
+                    } elsif ($option =~ m/^m\000(\S+)/) {
+                        $mem = $1;
+                    } elsif ($option =~ m/^uuid\000(\S+)/) {
+                        $uuid = $1;
+                    } elsif ($option =~ m/.*uuid=(\S+)/) {
+                        $uuid = $1;
+                    } elsif ($option =~ m/^smp\000(\d+)/) {
+                        $vcpu = $1;
+                    }
                 }
             }
+
             
             if ($mem == 0 ) {
                 # Default value
@@ -44,7 +51,7 @@ sub run {
             $common->addVirtualMachine ({
                 NAME      => $name,
                 UUID      => $uuid,
-                VCPU      => 1,
+                VCPU      => $vcpu,
                 MEMORY    => $mem,
                 STATUS    => "running",
                 SUBSYSTEM => $vmtype,
