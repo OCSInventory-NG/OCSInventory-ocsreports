@@ -209,7 +209,6 @@ sub run {
                 }
                 # Check if this is a vlan
                 if (-f "/proc/net/vlan/$description"){
-                    $slave=getslaves($description);
                     $type="vlan";
                     $virtualdev=1;
                 }
