@@ -6,7 +6,7 @@
 19 Software version
 20 Software
 23 Computer
-24 Connected user
+24 User
 25 Operating system
 26 Memory
 27 Memory Speed (MHz)
@@ -271,7 +271,7 @@
 362 The network
 363 already exists
 364 Inventoried
-365 Non- inventoried
+365 Non-inventoried
 366 Identified
 367 Devices of network
 368 of network
@@ -535,7 +535,7 @@
 645 GROUP DETAIL
 646 URL
 647 PORT NUMBER
-648 REPERTOIRE STORE
+648 DIRECTORY STORE
 649 AUTOMATIC
 650 MANUAL
 651 Redistribution group
@@ -550,13 +550,13 @@
 660 GROUP OF REDISTRIBUTION NOT EXIST
 661 PACKAGES FOR REDISTRIBUTION
 662 Assignment rules
-663 INTERNES PROBLEM
+663 INTERNAL PROBLEM
 664 Action made
 665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
 666 Group of redistribution made
 667 FOR THE PACKAGE
 668 to Assign with which rule?
-669 ATTENTION: there are doubloons of priority <br> A single rule will be retained!
+669 WARNING: There are duplicates of priority <br> A single rule will be retained!
 670 A rule already carries this name
 672 This rule does not exist!!!
 673 Administration of assignment rules
@@ -613,7 +613,7 @@
 724 Time between 2 contacting between the agent and the server
 725 (in the hour)
 726 URI of the servers of redistribution ($IP and NAME$ are the generic values)
-727 Directory of destination of packages.
+727 Directory of packages destination.
 728 Inventory
 729 computers
 730 hours
@@ -788,11 +788,11 @@
 902 Action on the result of selection
 903 You must fill the explanation field
 904 Package reassignment
-905 Explanation about perfomed actions<br>on computer to be able to <br>assign package
+905 Explanation about performed actions<br>on computer to be able to <br>assign package
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal information
-909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
+909 MODIFICATION NOT PERFORMED: WRONG NEW PROFILE
 910 Validate
 911 Switch profile of
 912 Export list of computers that have this software
@@ -936,8 +936,8 @@
 1050 Software search
 1051 Search
 1052 History
-1053 Demande modifiee
-1054 Demande effectuee
+1053 Modified request
+1054 Request done
 1055 Your e-mail is not valid
 1056 Contact your OCS-NG administrator
 1057 Failed to connect to mailserver
@@ -1341,7 +1341,7 @@
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your vhost configuration to increase this limit.
-2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
+2042 WARNING: The default root password is set on your MySQL server. Change it asap. (using root password=blank)
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
