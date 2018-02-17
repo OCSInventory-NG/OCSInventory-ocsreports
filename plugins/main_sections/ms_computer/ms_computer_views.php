@@ -71,6 +71,7 @@ function show_computer_summary($computer) {
             'USERID' => $l->g(24),
             'OSNAME' => $l->g(274),
             'OSVERSION' => $l->g(275),
+            'ARCH' => $l->g(1247),
             'OSCOMMENTS' => $l->g(286),
             'DESCRIPTION' => $l->g(53),
             'WINCOMPANY' => $l->g(51),
@@ -89,7 +90,7 @@ function show_computer_summary($computer) {
             'SWAP' => $l->g(50),
             'MEMORY' => $l->g(26),
             'UUID' => $l->g(1268),
-            'ARCH' => $l->g(1247)
+
         ),
         'AGENT' => array(
             'USERAGENT' => $l->g(357),
