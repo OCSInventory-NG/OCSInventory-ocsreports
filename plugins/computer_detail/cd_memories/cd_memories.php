@@ -25,7 +25,7 @@ if (AJAX) {
     $protectedPost += $params;
     ob_start();
 }
-print_item_header($l->g(26));
+print_item_header($l->g(29));
 if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
 }
@@ -41,7 +41,7 @@ $list_fields = array($l->g(80) => 'CAPTION',
     $l->g(283) => 'PURPOSE',
     $l->g(66) => 'TYPE',
     $l->g(268) => 'SPEED',
-    $l->g(94) => 'NUMSLOTS',
+    $l->g(98) => 'NUMSLOTS',
     $l->g(36) => 'SERIALNUMBER');
 
 if ($show_all_column) {
