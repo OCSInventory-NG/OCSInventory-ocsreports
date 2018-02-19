@@ -15,7 +15,7 @@ sub run {
     my $common = $params->{common};
 
     foreach (`virsh list --all`) {
-        if (/^(\d+|\s+\-)\s+(\S+)\s+(\S.+)/){
+        if (/^\s*(\d+|\s+\-)\s+(\S+)\s+(\S.+)/){
             my $memory;
             my $vcpu;
             my $name = $2;
