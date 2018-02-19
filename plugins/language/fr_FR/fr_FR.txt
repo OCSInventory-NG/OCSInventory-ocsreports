@@ -108,7 +108,7 @@
 197 Numéro de série uniquement
 198 Adresse MAC uniquement
 199 Redondances
-200 Relai correspondant diminué
+200 Relais correspondant diminué
 201 PLUS PETIT
 202 PLUS GRAND
 203 ENTRE
@@ -234,7 +234,7 @@
 323 datent du
 324 HOTES EVALUES
 325 vide
-326 pas de masque entré
+326 pas de masque saisi
 327 Détails de la machine
 328 Découverte
 329 Inventoriée
@@ -299,7 +299,7 @@
 393 Chercher
 394 Chercher catégorie
 395 Chercher logiciel PARTOUT
-396 Reset
+396 Annuler
 397 Aller à la catégorie
 398 Liste des catégories
 410 EXACTEMENT
@@ -459,8 +459,8 @@
 564 Fréquence de lancement de l'agent par le service
 565 Adresse utilisée pour les imports locaux
 567 Latence de l'ipdiscover
-568 RAM(MB)
-569 CPU(MHz)
+568 RAM (Mo)
+569 CPU (MHz)
 570 Aide
 571 Tout valider
 572 Succès
@@ -518,7 +518,7 @@
 627 Au moins un des champs est vide... Mise à jour non effectuée.
 628 Serveurs de redistribution
 629 Nouveau groupe de redistribution
-630 Un groupe de redistribution existants
+630 Un groupe de redistribution existant
 631 Ajouter à
 632 Ecraser
 633 Gestion des groupes de redistribution
@@ -624,9 +624,10 @@
 735 Filtres
 736 Active la fonctionnalité de groupes de machines
 737 Nombre aléatoire compris entre 0 et la valeur définie (évite le calcul simultané de tous les groupes)
-738 Spécifie la validité d'un groupe (par défaut : calculé une fois par jour - voir la valeur précédente)739 Amélioration futur de la sécurité
+738 Spécifie la validité d'un groupe (par défaut : calculé une fois par jour - voir la valeur précédente)
+739 Amélioration future de la sécurité
 740 Validité du lock d'un ordinateur
-741 Configuration du moteur pour mettre à jour les sections d'inventaire en fonction du CHECKSUM (pour baisser la charge de DB backend )
+741 Configuration du moteur pour mettre à jour les sections d'inventaire en fonction du CHECKSUM (pour baisser la charge de DB backend)
 742 Faire que le moteur considère un inventaire comme une transaction (accès concurrentiel plus bas, meilleure utilisation du disque)
 743 Configuration du moteur pour une mise à jour différentielle des sections d'inventaire (au niveau des rangées). Diminue la charge du backend DB, augmente la charge du frontend
 744 N'accepter un inventaire que si une session est active (refus du /FORCE)
@@ -634,7 +635,7 @@
 746 Spécifie la différence minimale pour remplacer un agent ipdiscover
 747 Désactive la durée avant une première élection (non recommandé)
 748 Active les groupes pour ipdiscover (par exemple, vous souhaitez empêcher certains groupes d'être des agents ipdiscover)
-749 Utiliser avec ocsinventory-injector, active la fonctionnalité multi entités
+749 Utiliser avec ocsinventory-injector, active la fonctionnalité multi-entités
 750 Génère ou bien un fichier compressé, ou bien un fichier texte XML en clair
 751 Spécifie si vous souhaitez garder une trace de tous les inventaires entre une synchronisation avec un serveur de plus haut niveau
 752 Chemin vers le répertoire des fichiers ocs (les droits d'écriture doivent être activés)
@@ -653,7 +654,7 @@
 765 Tous les logiciels
 766 AUCUN RESULTAT
 767 ATTENTION: RESULTATS AVEC FILTRE
-768 Nombre d'enregistrement
+768 Nombre d'enregistrement(s)
 769 Transfert effectué
 770 MISE A JOUR DE
 771 Cette catégorie existe déjà
@@ -959,7 +960,7 @@
 1073 Faire une demande
 1074 La fonctionnalité 'Workflow' n'est pas activée.
 1075 Veuillez activer la fonctionnalité pour l'utiliser
-1076 ERROR: STATUS RECHERCHE NON DEFINI
+1076 ERREUR: STATUT RECHERCHE NON DEFINI
 1077 Niveau de création de paquet
 1078 Niveau de test
 1079 Niveau du périmètre restreint
@@ -1189,7 +1190,7 @@
 1311 Redémarrage
 1312 Taille transfert du bus
 1313 Taille adressage des données
-1314 Nombre de coeurs logiques
+1314 Nombre de proc. logiques
 1315 Fréquence de fonctionnement
 1316 Type de socket
 1317 Nombre de coeurs
@@ -1202,7 +1203,7 @@
 1324 Partage imprimante sur serveur
 1325 Résolution format horizontal/vertical
 1326 Partagée
-1327 Local/Réseaux
+1327 Locale/Réseau
 1328 Gestion
 1329 Administration
 1330 Matériel
@@ -1230,8 +1231,8 @@
 1352 Contenu de la requête invalide
 1353 Accès non autorisé
 1354 Les droits ne sont pas suffisants pour accéder à la ressource demandée
-1355 Page non-trouvée
-1356 L'URL demandé est trop long, essayez de supprimer les cookies d'OCS ( vous serez déconnecté )
+1355 Page non trouvée
+1356 L'URL demandé est trop long, essayez de supprimer les cookies d'OCS (vous serez déconnecté)
 1357 Erreur interne du serveur
 1358 Le service n'est pas disponible
 1359 Utilisateur déconnecté
@@ -1251,7 +1252,7 @@
 1373 Distribution
 1374 Accéder au site
 1375 Anciens Forums
-1376 Q&amp;R
+1376 Q &amp; R
 1377 Questions et réponses
 1378 RAM disponible
 1379 RAM totale
@@ -1327,8 +1328,6 @@
 2027 Changer le mot de passe du compte 'admin' dans l'interface web
 2028 Clé d'authentification
 2029 Le répertoire config n'est pas disponible en écriture
-
-
 2030 Installation d'OCS-NG Inventory
 2031 version actuellement installée
 2032 est inférieur à cette version
@@ -1341,10 +1340,10 @@
 2039 AVERTISSEMENT: OpenSSL pour PHP n'est pas installé correctement. <br> Certaines fonctionnalités de déploiement automatique ne sera pas disponible <br> Essayez en décommentant extension = php_openssl.dll (Windows) en supprimant le point-virgule dans le fichier php.ini, ou essayez d'installer le paquet php-openssl (Linux).
 2040 AVERTISSEMENT: Vous ne serez pas en mesure de construire un paquet de déploiement d'une taille plus grande que
 2041 Vous devez modifier <font color="red">post_max_size</font> et <font color="red">upload_max_filesize</font> dans la configuration du vhost, pour augmenter cette limite.
-2042 AVERTISSEMENT: votre mot de passe root par défaut est défini sur votre serveur MySQL. Changez-le dès que possible. (Mot de passe root => vide)
+2042 AVERTISSEMENT: Le mot de passe root par défaut est défini sur votre serveur MySQL. Changez-le dès que possible. (Mot de passe root => vide)
 2043 AVERTISSEMENT: L'utilisateur que vous avez tapé ne semble pas être root <br> Si vous rencontrez un problème avec l'insertion des fichiers, essayez de définir la valeur de <font color="red">max_allowed_packet</font> de MySQL à au moins 2 Mo sur votre serveur le fichier de configuration.
 2044 Label ajouté
-2045 Label pas encore ajouté (Au lancement du client, aucune demande de TAG ne sera faite)
+2045 Label pas encore ajouté (au lancement du client, aucune demande de TAG ne sera faite)
 2046 ERREUR: problème d'authentification MySQL.
 2047 Vous devez ajouter les "old-passwords" dans votre fichier de configuration MySQL (my.ini). Puis redémarrer MySQL, et relancez install.php
 2050 Installation terminée, vous pouvez vous connecter avec le login = admin et pass = admin
@@ -1363,7 +1362,7 @@
 2063 Moteur de base mis à jour
 2064 table(s) modifiée(s)
 2065 ERREUR: Le programme d'installation terminée en erreur, relancez install.php une fois que les problèmes sont corrigés
-2066 AVERTISSEMENT: le répertoire "files" est manquants, il est impossible d'importer
+2066 AVERTISSEMENT: le répertoire "files" est manquant, il est impossible d'importer
 2067 dès qu'il
 2068 n'a pas été inséré. Vous devez définir la valeur de max_allowed_packet MySQL pour au moins 2 Mo
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
@@ -1393,10 +1392,10 @@
 2096 Entrer le label pour les clients windows (fenêtre de saisie lors du lancement du client):
 2097 Laissez vide si vous ne voulez pas qu'une popup s'affiche au premier lancement de l'agent
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try uncommenting extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try installing the libphp-pclzip package (Linux).
-2099 ERROR: ce compte MySQL n'a pas les droits de création de database
+2099 ERREUR: Ce compte MySQL n'a pas les droits de création de database
 2100 Update anciens accountinfos
 2101 Ajouté par script
-2102 ATTENTION: Si vous changer le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur (file z-ocsinventory-server.conf)
+2102 ATTENTION: Si vous changez le nom de la base (ocsweb), pensez à modifier vos fichiers de conf moteur (file z-ocsinventory-server.conf)
 2103 Mode DEMO: vous ne pouvez mettre à jour les données
 2104 VOUS ETES SUR LA VERSION DE DEMO DE
 2105 Votre base de données est à jour.<br>Aucune action a effectuer.
@@ -1409,7 +1408,7 @@
 2112 Le fichier suivant n'est pas présent ou n'est pas accessible en lecture
 2113 La version actuelle de php est inférieure à la version 5.4 et ne sera plus compatible dans le futur (version&nbsp;:&nbsp;
 2114 Aucun fichier sql pour la version
-2115 L'utilisateur que vous avez tapé ne semble pas être root
+2115 L'utilisateur que vous avez saisi ne semble pas être root
 2116 Le répertoire config/profiles n'est pas disponible en écriture
 2117 Affiche un message si une mise a jour est disponible
 2118 OCSInventory
@@ -1417,16 +1416,16 @@
 2120 Cliquez ici pour la télécharger
 2121 Lance un inventaire au démarrage du service de l'agent (Windows)
 2122 Modification
-2123 Paquets disponible
-2124 Paquets supprimé
-2125 WARNING: L'extension CURL pour PHP n'est pas installé. Essayez d'installer le paquet php-curl (Linux).
+2123 Paquets disponibles
+2124 Paquets supprimés
+2125 ATTENTION: L'extension CURL pour PHP n'est pas installée. Essayez d'installer le paquet php-curl (Linux).
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
 5002 [DEBUG] => poids: [DEBUG]
 5003 [DEBUG]Régénération du cache[DEBUG]
 5004 [DEBUG]forçage de la limite de cache ancienne valeur[DEBUG]
-5005 [DEBUG]Utilisation total du cache[DEBUG]
+5005 [DEBUG]Utilisation totale du cache[DEBUG]
 5006 [DEBUG]requête count tableau[DEBUG]
 5007 [DEBUG]Utilisation du cache pour le nombre de lignes[DEBUG]
 5008 [DEBUG]requête du tableau[DEBUG]
@@ -1436,7 +1435,7 @@
 5012 [DEBUG]valeur à chercher=[DEBUG]
 5013 [DEBUG]Champ complémentaire=[DEBUG]
 5014 [DEBUG]Champ AND OR=[DEBUG]
-5015 [DEBUG]OUBLIE DU CHAMP COMPLEMENTAIRE SUR LA TABLE[DEBUG]
+5015 [DEBUG]OUBLI DU CHAMP COMPLEMENTAIRE SUR LA TABLE[DEBUG]
 5016 [DEBUG]table =>[DEBUG]
 5017 [DEBUG]champ =>[DEBUG]
 5018 [DEBUG]comparaison =>[DEBUG]
@@ -1468,7 +1467,7 @@
 7006 Dernière mise à jour
 7007 Etes-vous sûr de vouloir supprimer ce plugin
 7008 Installer un plugin
-7009 Plugins installé
+7009 Plugins installés
 7010 Ce plugin a déjà été installé
 7011 est un plugin non valide, vérifiez vos sources.
 7012 Installation annulée !
