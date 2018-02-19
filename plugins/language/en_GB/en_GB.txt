@@ -11,6 +11,7 @@
 26 Memory
 27 Memory Speed (MHz)
 28 Computer count
+29 Random Access Memory
 30 Search
 31 Choose a parameter
 32 Choose
@@ -59,6 +60,7 @@
 95 MAC address
 96 Sound
 97 Monitor(s)
+98 Slot location
 103 Update
 107 Config
 108 Registry requests
