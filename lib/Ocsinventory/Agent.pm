@@ -380,7 +380,14 @@ sub run {
          # Using end_handler_hook 
          $hooks->run({name => 'end_handler'});
 
-         waitpid(-1, 0);
+         # Avoid zombie process
+         if ($^O ne 'darwin'){
+             do {
+                 $child = waitpid(-1, WNOHANG);
+             } while $child > 0;
+         } else {
+             waitpid(-1, 0);
+         }
 
          exit (0) unless $config->{config}{daemon};
 

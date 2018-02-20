@@ -21,7 +21,7 @@ sub check {
     my $params = shift;
     my $common = $params->{common};
 
-    return unless $common->can_run("ipmitool") && $common->can_load("Net::IP qw:(PROC)");
+    return unless $common->can_run("ipmitool") && $common->can_load("Net::IP qw(:PROC)");
     my @ipmitool = `ipmitool lan print 2> /dev/null`;
     return unless @ipmitool;
 }

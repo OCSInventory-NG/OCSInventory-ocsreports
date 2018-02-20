@@ -19,14 +19,19 @@ sub run {
     
     chomp($SystemModel);
     $SystemModel =~ s/^(#.*\n)+//g;
+    $SystemModel =~ s/Invalid.*$//g;
     chomp($SystemManufacturer);
     $SystemManufacturer =~ s/^(#.*\n)+//g;
+    $SystemManufacturer =~ s/Invalid.*$//g;
     chomp($SystemSerial);
     $SystemSerial =~ s/^(#.*\n)+//g;
+    $SystemSerial =~ s/Invalid.*$//g;
     chomp($AssetTag);
     $AssetTag =~ s/^(#.*\n)+//g;
+    $AssetTag =~ s/Invalid.*$//g;
     chomp($Type);
     $Type =~ s/^(#.*\n)+//g;
+    $Type =~ s/Invalid.*$//g;
     
     #Motherboard DMI
     $MotherboardManufacturer = `dmidecode -s baseboard-manufacturer`;
@@ -35,10 +40,13 @@ sub run {
     
     chomp($MotherboardModel);
     $MotherboardModel =~ s/^(#.*\n)+//g;
+    $MotherboardModel =~ s/Invalid.*$//g;
     chomp($MotherboardManufacturer);
     $MotherboardManufacturer =~ s/^(#.*\n)+//g;
+    $MotherboardManufacturer =~ s/Invalid.*$//g;
     chomp($MotherboardSerial);
     $MotherboardSerial =~ s/^(#.*\n)+//g;
+    $MotherboardSerial =~ s/Invalid.*$//g;
     
     #BIOS DMI
     $BiosManufacturer = `dmidecode -s bios-vendor`;
@@ -47,10 +55,13 @@ sub run {
     
     chomp($BiosManufacturer);
     $BiosManufacturer =~ s/^(#.*\n)+//g;
+    $BiosManufacturer =~ s/Invalid.*$//g;
     chomp($BiosVersion);
     $BiosVersion =~ s/^(#.*\n)+//g;
+    $BiosVersion =~ s/Invalid.*$//g;
     chomp($BiosDate);
     $BiosDate =~ s/^(#.*\n)+//g;
+    $BiosDate =~ s/Invalid.*$//g;
   
   # Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
     my @cpu;

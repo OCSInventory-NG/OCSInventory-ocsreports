@@ -17,6 +17,7 @@ sub run {
     $uuid = `dmidecode -s system-uuid`;
     chomp($uuid);
     $uuid =~ s/^#+\s+$//g;
+    $uuid =~ s/Invalid.*$//g;
 
     $common->setHardware({
         UUID => $uuid,
