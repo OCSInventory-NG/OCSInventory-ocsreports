@@ -3,7 +3,8 @@ package Ocsinventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
-our $VERSION = '2.4.0.1';
+my $VERSION = '2.4.0';
+
 my $basedir = '';
 my $default = {
     'daemon'    =>  0,
@@ -21,7 +22,7 @@ my $default = {
     'password'  =>  '',
     'proxy'     =>  '',
     'realm'     =>  '',
-    'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
+    'remotedir' =>  '/ocsinventory', # deprecated, give a complete URL to
                                      # --server instead
     'server'    =>  'http://ocsinventory-ng/ocsinventory',
     'stdout'    =>  0,
@@ -127,7 +128,7 @@ sub loadUserParams {
 		"s|server=s"      =>   \$self->{config}{server},
 		"stdout"          =>   \$self->{config}{stdout},
 		"t|tag=s"         =>   \$self->{config}{tag},
-		"u|user=s"        =>   \$self->{config}{user},
+		"u|user=s"        =>   \$self->{config}{user},nixAgent/pulls
 		"version"         =>   \$self->{config}{version},
 		"w|wait=s"        =>   \$self->{config}{wait},
 #       "x|xml"          =>   \$self->{config}{xml},

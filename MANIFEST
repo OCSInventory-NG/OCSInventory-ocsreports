@@ -115,6 +115,8 @@ lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/MIPS/CPU.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/PowerPC.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/PowerPC/CPU.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/PowerPC/Various.pm
+lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/s390x.pm
+lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/s390x/CPU.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/SPARC.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/SPARC/CPU.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/LSB.pm
@@ -136,6 +138,7 @@ lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/NonLSB/Ubuntu.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/NonLSB/VmWare.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Domains.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Drives.pm
+lib/Ocsinventory/Agent/Backend/OS/Linux/Inputs.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/LVM.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Mem.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Network/IP.pm
@@ -147,6 +150,7 @@ lib/Ocsinventory/Agent/Backend/OS/Linux/Storages/Adaptec.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Storages/FusionIO.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Storages/HP.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Storages/Lsilogic.pm
+lib/Ocsinventory/Agent/Backend/OS/Linux/Storages/Megacli.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Storages/ServeRaid.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Sys.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Uptime.pm
@@ -179,14 +183,17 @@ lib/Ocsinventory/Agent/Backend/OS/Solaris/Mem.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Memory.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Networks.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Packages.pm
+lib/Ocsinventory/Agent/Backend/OS/Solaris/Ports.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Slots.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Storages.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Users.pm
+lib/Ocsinventory/Agent/Backend/Virtualization/Docker.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Jails.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Libvirt.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Lxc.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Parallels.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Qemu.pm
+lib/Ocsinventory/Agent/Backend/Virtualization/SolarisLdoms.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/SolarisZones.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/VirtualBox.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Vmsystem.pm
@@ -194,6 +201,7 @@ lib/Ocsinventory/Agent/Backend/Virtualization/VmWareDesktop.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/VmWareESX.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/VmWareWorkstation.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Xen.pm
+lib/Ocsinventory/Agent/Backend/Virtualization/Xen/XL.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/Xen/XM.pm
 lib/Ocsinventory/Agent/Backend/Virtualization/XenCitrixServer.pm
 lib/Ocsinventory/Agent/Common.pm
@@ -270,7 +278,6 @@ snmp/mibs/local/6876.xml
 snmp/mibs/local/7244.xml
 THANKS
 tools/build-perl-tree.sh
-tools/macosx/BUILDME.sh
 tools/macosx/installer_gui/iceberg/iceberg_project.packproj
 tools/macosx/installer_gui/iceberg/license/gpl-2.0.txt
 tools/macosx/installer_gui/iceberg/logos/OCS_logo.jpg
@@ -322,6 +329,7 @@ tools/macosx/ocsng_app-xcode/OCSNG.xcodeproj/ocs.mode1v3
 tools/macosx/ocsng_app-xcode/OCSNG.xcodeproj/ocs.pbxuser
 tools/macosx/ocsng_app-xcode/OCSNG.xcodeproj/project.pbxproj
 tools/macosx/ocsng_app-xcode/OCSNG_Prefix.pch
+tools/macosx/patches/lib-ocsinventory-agent-backend-darwn.patch
 tools/macosx/patches/ocsinventory-agent-darwin.patch
 tools/macosx/README
 tools/macosx/scripts/create-darwin-perl-lib_fromCPAN.pl

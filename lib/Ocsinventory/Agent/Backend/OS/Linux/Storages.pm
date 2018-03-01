@@ -3,7 +3,11 @@ package Ocsinventory::Agent::Backend::OS::Linux::Storages;
 use strict;
 use XML::Simple;
 
-sub check {1}
+sub check {
+  my $params = shift;
+  my $common = $params->{common};
+  return unless ($common->can_run("lshw") || $common->can_run("lsscsi") || $common->can_run("lsblk") || $common->can_run("smartctl") || $common->can_run("multipath") || $common->can_run("udevinfo") || $common->can_run("udevadm") || $common->can_run("hdparm"));
+}
 
 ######## TODO
 # Do not remove, used by other modules
@@ -23,8 +27,8 @@ sub getFromUdev {
                     $scsi_unid = $3;
                     $scsi_lun = $4;
                 }
-                $vendor = $1 if /^E:ID_VENDOR=(.*)/; 
-                $model = $1 if /^E:ID_MODEL=(.*)/; 
+                $vendor = $1 if /^E:ID_VENDOR=(.*)/;
+                $model = $1 if /^E:ID_MODEL=(.*)/;
                 $revision = $1 if /^E:ID_REVISION=(.*)/;
                 $serial = $1 if /^E:ID_SERIAL=(.*)/;
                 $serial_short = $1 if /^E:ID_SERIAL_SHORT=(.*)/;
@@ -97,69 +101,62 @@ sub getManufacturer {
         return "Hitachi";
     } elsif ($model =~ /^NECVMWar/) {
         return "VMware";
+    } elsif ($model =~ /^VBOX/){
+        return "Virtual Box";
     } else {
         return $model;
     }
 }
 
 sub getMultipathDisks {
-    my $params = shift;
-    my $common = $params->{common};
-    return unless ($common->can_run("multipath"));
     my @mpList = `multipath -l`;
     my @devs;
-	my $volume;
-	my $serial;
+	  my $volume;
+	  my $serial;
     my $dm;
-	my $manufacturer;
-	my $model;
+	  my $manufacturer;
+	  my $model;
     foreach my $line (@mpList) {
-        if($line =~ /^([\w\d]+)\s\((.*)\)\s(dm-\d+)\s(\w+)\s+,([\w\d\s]+)$/i) {
+        if ($line =~ /^([\w\d]+)\s\((.*)\)\s(dm-\d+)\s(\w+)\s+,([\w\d\s]+)$/i) {
             $volume = $1;
-			$serial = $2;
-			$dm = $3;
-			$manufacturer = $4;
-			$model = $5;
+			      $serial = $2;
+			      $dm = $3;
+			      $manufacturer = $4;
+			      $model = $5;
         }
-		if($line =~ /size=(\d+)(\w+)\s/) {
-			my $size = $1;
-			my $unit = $2;
-			# conversion to mebibyte
-			my %conversion = (
-				"T" => 1000**4,
-				"G" => 1000**3,
-				"M" => 1000**2,
-				"K" => 1000,
-			);
-			if($conversion{$unit}) {
-				$size = $size / $conversion{$unit} * 2**20;
-			}
-			else {
-				$size = $size." ".$unit;
-			}
-			push (@devs, {NAME=>$dm, DESCRIPTION=>$volume, TYPE=>"Multipath volume", MODEL=>$model, SERIALNUMBER=>$serial, MANUFACTURER=>$manufacturer});
-		}
-        if($line =~ /(sd[a-z]+)/i) {
+		    if ($line =~ /size=(\d+)(\w+)\s/) {
+			      my $size = $1;
+			      my $unit = $2;
+			      # conversion to mebibyte
+			      my %conversion = (
+				        "T" => 1000**4,
+				        "G" => 1000**3,
+				        "M" => 1000**2,
+				        "K" => 1000,
+			      );
+			      if ($conversion{$unit}) {
+				        $size = $size / $conversion{$unit} * 2**20;
+			      } else {
+				        $size = $size." ".$unit;
+			      }
+			      push (@devs, {NAME=>$dm, DESCRIPTION=>$volume, TYPE=>"Multipath volume", MODEL=>$model, SERIALNUMBER=>$serial, MANUFACTURER=>$manufacturer});
+		    }
+        if ($line =~ /(sd[a-z]+)/i) {
             push (@devs, {NAME=>$1, DESCRIPTION=>"Child of $dm", TYPE=>"Multipath child"});
         }
     }
     return @devs;
-
 }
 
 # some hdparm release generated kernel error if they are
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
 sub correctHdparmAvailable {
-    my $params = shift;
-    my $common = $params->{common};
-    return unless $common->can_run("hdparm");
-
     my $hdparmVersion = `hdparm -V`;
     if ($hdparmVersion =~ /^hdparm v(\d+)\.(\d+)(\.|$)/) {
         return 1 if $1>9;
         return 1 if $1==9 && $2>=15;
-    }    
+    }
     return;
 }
 
@@ -191,16 +188,13 @@ sub getFromDev {
     opendir (my $dh, $dir) or die $!;
     @disks = grep{/^sd[a-z][a-z]?$|^vd[a-z][a-z]?$|^sr\d+$/} readdir($dh);
     foreach (@disks) {
-        push(@devs, {NAME => $_});
+        push (@devs, {NAME => $_});
     }
     return @devs;
 }
 
 # get data from lshw
 sub getFromLshw {
-    my $params = shift;
-    my $common = $params->{common};
-    return unless $common->can_run("lshw");
     my @devs;
     my @inputlines = `lshw -class disk -xml -quiet`;
     return unless $inputlines[0] =~ /xml/i;
@@ -231,22 +225,22 @@ sub getFromLshw {
         my $model = "";
         my $serial = "";
         my $revision = "";
-        
-        if($nodes->{$device}->{description}) {
+
+        if ($nodes->{$device}->{description}) {
             $description = $nodes->{$device}->{description};
         }
-        if($nodes->{$device}->{size}) {
+        if ($nodes->{$device}->{size}) {
             my %units = ('bytes', 1, 'kilobytes', 10**3, 'megabytes', 10**6, 'gigabytes', 10**9, 'terabytes', 10**12);
             $sizeUnits = $nodes->{$device}->{size}->{units};
             $size = $nodes->{$device}->{size}->{content};
             $size = $size * $units{$sizeUnits};
             $size = sprintf "%i", $size;
         }
-        if($nodes->{$device}->{logicalname}) {
+        if ($nodes->{$device}->{logicalname}) {
             $name = $nodes->{$device}->{logicalname};
-            if(ref($name) eq 'ARRAY') {
+            if (ref($name) eq 'ARRAY') {
                 foreach (@{$name}) {
-                    if(!readlink $_) {
+                    if (!readlink $_) {
                         $name = $_;
                         last;
                     }
@@ -254,35 +248,34 @@ sub getFromLshw {
             }
             $name =~ s/\/dev\///;
         }
-        if($nodes->{$device}->{type}) {
+        if ($nodes->{$device}->{type}) {
             $type = $nodes->{$device}->{type};
         }
-        if($nodes->{$device}->{vendor}) {
+        if ($nodes->{$device}->{vendor}) {
             $vendor = $nodes->{$device}->{vendor};
         }
-        if($nodes->{$device}->{model}) {
+        if ($nodes->{$device}->{model}) {
             $model = $nodes->{$device}->{model};
         }
-        if($nodes->{$device}->{serial}) {
+        if ($nodes->{$device}->{serial}) {
             $serial = $nodes->{$device}->{serial};
         }
-        push (@devs, {NAME => $name,
-                        MANUFACTURER => getManufacturer($vendor),
-                        MODEL => $model,
-                        DESCRIPTION => $description,
-                        TYPE => $type,
-                        DISKSIZE => $size,
-                        SERIALNUMBER => $serial,
-                        FIRMWARE => $revision});
+        push (@devs, {
+            NAME => $name,
+            MANUFACTURER => getManufacturer($vendor),
+            MODEL => $model,
+            DESCRIPTION => $description,
+            TYPE => $type,
+            DISKSIZE => $size,
+            SERIALNUMBER => $serial,
+            FIRMWARE => $revision
+        });
     }
     return @devs;
 }
 
 # get data from lsscsi
 sub getFromLsscsi {
-    my $params = shift;
-    my $common = $params->{common};
-    return unless ($common->can_run("lsscsi"));
     my @devs;
     my ($id, $type, $vendor, $model, $rev, $device);
     foreach my $line (`lsscsi`)     {
@@ -303,9 +296,6 @@ sub getFromLsscsi {
 
 # get data from lsblk
 sub getFromLsblk {
-    my $params = shift;
-    my $common = $params->{common};
-    return unless ($common->can_run("lsblk"));
     my @devs;
     foreach my $line (`lsblk -ldbn`) {
         my @columns     = split /\s+/, $line;
@@ -320,56 +310,52 @@ sub getFromLsblk {
 
 # get data from smartctl
 sub getFromSmartctl {
-    my $params = shift;
-    my $common = $params->{common};
-    return unless ($common->can_run("smartctl"));
-    my ($devices) = @_;
+    my ($params, $devices) = @_;
     my @devs;
-    my $vendor;
-    my $product;
-    my $revision;
-    my $size;
-    my $type;
-    my $serialnum;
-    my $description;
     foreach my $device (keys %$devices)     {
-        $vendor         = "";
-        $product        = "";
-        $revision       = "";
-        $size           = "";
-        $type           = "";
-        $serialnum      = "";
-        $description    = "";
+        my $vendor         = "";
+        my $product        = "";
+        my $revision       = "";
+        my $size           = "";
+        my $type           = "";
+        my $serialnum      = "";
+        my $description    = "";
         my $devName = $devices->{$device}->{NAME};
         foreach my $line (`smartctl -i /dev/$devName`) {
             chomp($line);
-            if($line =~ m/Vendor:\s+(\S+.*)\s*$/i) {
+            if ($line =~ m/Model Family:\s+(\S+.*)\s*$/i){
                 $vendor = $1;
-            } elsif($line =~ m/Product:\s+(\S+.*)\s*$/i) {
+            } elsif ($line =~ m/Vendor:\s+(\S+.*)\s*$/i) {
+                $vendor = $1;
+            } elsif ($line =~ m/Device Model:\s+(\S+.*)\s*$/i){
                 $product = $1;
-            } elsif($line =~ m/Revision:\s+(\S+.*)\s*$/i) {
+            } elsif ($line =~ m/Product:\s+(\S+.*)\s*$/i) {
+                $product = $1;
+            } elsif ($line =~ m/Revision:\s+(\S+.*)\s*$/i) {
                 $revision = $1;
-            } elsif($line =~ m/Firmware Version:\s+(\S+.*)\s*$/i) {
+            } elsif ($line =~ m/Firmware Version:\s+(\S+.*)\s*$/i) {
                 $revision = $1;
-            } elsif($line =~ m/Serial Number:\s+(\S+.*)\s*$/i) {
+            } elsif ($line =~ m/Serial Number:\s+(\S+.*)\s*$/i) {
                 $serialnum = $1;
-            } elsif($line =~ m/User Capacity:\s+([\d\.,]+)\s+bytes/i) {
+            } elsif ($line =~ m/User Capacity:\s+([\d\.,]+)\s+bytes/i) {
                 $size = $1;
                 $size =~ s/[\.,]//g;
-            } elsif($line =~ m/Device type:\s+(\S+.*)\s*$/i) {
+            } elsif ($line =~ m/Device type:\s+(\S+.*)\s*$/i) {
                 $type = $1;
-            } elsif($line =~ m/Model Family\s+(\S.*)\s*/i) {
+            } elsif ($line =~ m/Model Family\s+(\S.*)\s*/i) {
                 $description = $1;
             }
         }
-        push (@devs, {NAME => $devName,
-                    MANUFACTURER => getManufacturer($vendor),
-                    MODEL => $product,
-                    FIRMWARE => $revision,
-                    TYPE => $type,
-                    DISKSIZE => $size,
-                    SERIALNUMBER => $serialnum,
-                    DESCRIPTION => $description});
+        push (@devs, {
+            NAME => $devName,
+            MANUFACTURER => getManufacturer($vendor),
+            MODEL => $product,
+            FIRMWARE => $revision,
+            TYPE => $type,
+            DISKSIZE => $size,
+            SERIALNUMBER => $serialnum,
+            DESCRIPTION => $description
+        });
     }
     return @devs;
 }
@@ -378,57 +364,48 @@ sub getFromSmartctl {
 sub getFromuDev2 {
     my $params = shift;
     my $common = $params->{common};
-    return unless ($common->can_run("udevinfo") or $common->can_run("udevadm"));
     my ($devices) = @_;
     my @input;
     my @devs;
-    my $type = "";
-    my $model = "";
-    my $vendor = "";
-    my $firmware = "";
-    my $serial = "";
-    my $serial_short = "";
-    my $serial_scsi = "";
-    my $serial_md = "";
 
     foreach my $device (keys %$devices)     {
-        $type = "";
-        $model = "";
-        $vendor = "";
-        $firmware = "";
-        $serial = "";
-        $serial_short = "";
-        $serial_scsi = "";
-        $serial_md = "";
+        my $type = "";
+        my $model = "";
+        my $vendor = "";
+        my $firmware = "";
+        my $serial = "";
+        my $serial_short = "";
+        my $serial_scsi = "";
+        my $serial_md = "";
         my $devName = $devices->{$device}->{NAME};
-        if($common->can_run("udevadm")) {
+        if ($common->can_run("udevadm")) {
             @input = `udevadm info -q all -n /dev/$devName`;
         } else {
             @input = `udevinfo -q all -n /dev/$devName`;
         }
         foreach my $line (@input) {
-            if($line =~ m/ID_TYPE=(\S+.*)\s*$/){
+            if ($line =~ m/ID_TYPE=(\S+.*)\s*$/){
                 $type = $1;
-            } elsif($line =~ m/ID_MODEL=(\S+.*)\s*$/) {
+            } elsif ($line =~ m/ID_MODEL=(\S+.*)\s*$/) {
                 $model = $1;
                 $model =~ s/_/ /g;
-            } elsif($line =~ m/ID_VENDOR=(\S+.*)\s*$/) {
+            } elsif ($line =~ m/ID_VENDOR=(\S+.*)\s*$/) {
                 $vendor = $1;
-            } elsif($line =~ m/ID_REVISION=(\S+.*)\s*$/) {
+            } elsif ($line =~ m/ID_REVISION=(\S+.*)\s*$/) {
                 $firmware = $1;
-            } elsif($line =~ m/ID_SERIAL_SHORT=(\S+.*)\s*$/) {
+            } elsif ($line =~ m/ID_SERIAL_SHORT=(\S+.*)\s*$/) {
                 $serial_short = $1;
-            } elsif($line =~ m/ID_SCSI_SERIAL=(\S+.*)\s*$/) {
+            } elsif ($line =~ m/ID_SCSI_SERIAL=(\S+.*)\s*$/) {
                 $serial_scsi = $1;
-            } elsif($line =~ m/ID_SERIAL=(\S+.*)\s*$/) {
+            } elsif ($line =~ m/ID_SERIAL=(\S+.*)\s*$/) {
                 $serial = $1;
             }
-            if($line =~ m/MD_LEVEL=(\S+.*)\s*$/) {
+            if ($line =~ m/MD_LEVEL=(\S+.*)\s*$/) {
                 $model = $1;
-            } elsif($line =~ m/MD_METADATA=(\d\.?\d?)/) {
+            } elsif ($line =~ m/MD_METADATA=(\d\.?\d?)/) {
                 $firmware = $1;
                 $firmware = "MD METADATA ".$firmware;
-            } elsif($line =~ m/MD_UUID=(\S+.*)\s*$/) {
+            } elsif ($line =~ m/MD_UUID=(\S+.*)\s*$/) {
                 $serial_md = $1;
             }
         }
@@ -436,16 +413,18 @@ sub getFromuDev2 {
         $serial = $serial_scsi unless $serial_scsi eq "";
         $serial = $serial_md unless $serial_md eq "";
 
-        if($devName =~ /md\d+/) { # if device is a multiple disk softraid
+        if ($devName =~ /md\d+/) { # if device is a multiple disk softraid
             $type = "MD";
             $vendor = "Linux";
         }
-        push (@devs, {NAME => $devName,
-                    TYPE => $type,
-                    MODEL => $model,
-                    MANUFACTURER => getManufacturer($vendor),
-                    FIRMWARE => $firmware,
-                    SERIALNUMBER => $serial});
+        push (@devs, {
+            NAME => $devName,
+            TYPE => $type,
+            MODEL => $model,
+            MANUFACTURER => getManufacturer($vendor),
+            FIRMWARE => $firmware,
+            SERIALNUMBER => $serial
+        });
     }
     return @devs;
 }
@@ -502,7 +481,7 @@ sub run {
             $devices->{$name}->{$f} = $device->{$f};
         }
     }
-    
+
     foreach my $device (getFromDev($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME") {
@@ -512,7 +491,7 @@ sub run {
             }
         }
     }
-    
+
     foreach my $device (getMdDevices($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MODEL") {
@@ -521,7 +500,7 @@ sub run {
             }
         }
     }
-    
+
     foreach my $device (getFromSmartctl($params,$devices)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL", "DISKSIZE", "FIRMWARE", "SERIALNUMBER", "DESCRIPTION") {
@@ -531,7 +510,7 @@ sub run {
             }
         }
     }
-    
+
     foreach my $device (getFromuDev2($params,$devices)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL", "FIRMWARE", "SERIALNUMBER") {
@@ -541,7 +520,7 @@ sub run {
             }
         }
     }
-    
+
     foreach my $device (getFromLshw($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "MODEL", "DESCRIPTION", "TYPE", "DISKSIZE", "SERIALNUMBER", "FIRMWARE") {
@@ -551,7 +530,7 @@ sub run {
             }
         }
     }
-    
+
     foreach my $device (getFromLsblk($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "DISKSIZE", "TYPE") {
@@ -561,7 +540,7 @@ sub run {
             }
         }
     }
-    
+
     foreach my $device (getFromUdev($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "MODEL", "DESCRIPTION", "TYPE", "DISKSIZE", "SERIALNUMBER", "FIRMWARE", "SCSI_COID", "SCSI_CHID", "SCSI_UNID", "SCSI_LUN") {
@@ -571,7 +550,7 @@ sub run {
             }
         }
     }
-    
+
     foreach my $device (getFromLsscsi($params)) {
         my $name = $device->{NAME};
         foreach my $f ("NAME", "MANUFACTURER", "TYPE", "MODEL") {
@@ -581,11 +560,11 @@ sub run {
             }
         }
     }
-    
+
     foreach my $device (sort (keys %$devices)) {
-        if ($devices->{$device}->{TYPE} =~ /(CD)|(DVD)|(BD)/i) {
-            $devices->{$device}->{DISKSIZE} = "0";
-        } elsif($devices->{$device}->{DISKSIZE}) {
+        if ($devices->{$device}->{TYPE} =~ /(CD)|(CD\/DVD)|(DVD)|(BD)/i) {
+            $devices->{$device}->{DISKSIZE} = "0000";
+        } elsif ($devices->{$device}->{DISKSIZE}) {
             $devices->{$device}->{DISKSIZE} = $devices->{$device}->{DISKSIZE} * 10**-6; # we need MB for the view
         }
         if (!$devices->{$device}->{DESCRIPTION}) {
@@ -594,12 +573,12 @@ sub run {
         if (!$devices->{$device}->{MANUFACTURER} or $devices->{$device}->{MANUFACTURER} eq 'ATA'or $devices->{$device}->{MANUFACTURER} eq '') {
              $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
         }
-        if (!$devices->{$device}->{DISKSIZE} ) {
+        if (!$devices->{$device}->{DISKSIZE} && $devices->{$device}->{TYPE} =~ /disk/) {
             $devices->{$device}->{DISKSIZE} = getCapacity($devices->{$device}->{NAME})*10**-6;
         }
-        if ($devices->{$device}->{CAPACITY} =~ /^cdrom$/) {
-            $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME})*10**-6;
-        }
+        #if ($devices->{$device}->{CAPACITY} =~ /^cdrom$/) {
+        #    $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME})*10**-6;
+        #}
         $common->addStorages($devices->{$device});
     }
 }

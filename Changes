@@ -1,7 +1,29 @@
 Revision history for Ocsinventory::Agent
 
+2.4    
+       * Add test to switch 'waitpid command' according to OS
+       * change bazar revision number to git revision number
+       * ipdiscover: fix default latency
+       * Ignore files which are created during installation
+       * Fix and improve comments in module.conf
+       * Fix some typos
+       * Update MANIFEST
+       * Fix code which disables SSL certificate verification
+       * Fix storage parameters from smartctl
+       * Fix markdown syntax and typo in README.md
+       * Use pkg command on Solaris 11 to create the Software Inventory
+       * Upgraded memconf to v3.14 (support for SPARC T7-4 and S7-2)
+       * New feature: repositories inventory
+       * Fix problem line 280
+       * Issues corrections
+       * Retrieve info for apfs formatted drive
+       * correct df check for AIX
+       * Fix regexp for listing network interfaces on macOS
+       * Update Mem.pm
+       * Update Agent.pm
 2.3
        * Suppress functions can_run, can_load, can_read from Backend. Those from Common.pm are now used
+       * Update libraries snapshot for release
 
 2.2
        * Suppress reference message to support "No support detected. Registration key: N/A"
@@ -229,7 +251,7 @@ Revision history for Ocsinventory::Agent
 
 2.0rc1
        * Add download_start_handler to check if Net::SSLeay can be load and disable Download.pm if not
-       * Add Net::SNMP optionnal dependency in README file.
+       * Add Net::SNMP optional dependency in README file.
        * Delete Win32 from backend
        * Various patches for 9.pm and If_Mib.pm to enhance ethernet ports speed display (Françs Mermet)
        * New SNMP modules for Juniper, Futjitsu and F5 vendors (Françs Mermet)

@@ -228,6 +228,8 @@ sub run {
         {
           # cut of first 15 char containing the string empty sockets:
           substr ($_,0,15) = "";
+          $description = "";
+          $type = "";
           $capacity = "empty";
           $numslots = 0;
           foreach $caption (split)

@@ -21,9 +21,9 @@ require './lib/Ocsinventory/Agent/Config.pm';
 use Config;
 
 my $version = $Ocsinventory::Agent::Config::VERSION;
-if (-d '.bzr') {
-	chomp( my $bzrRev = `bzr revno`);
-	$version .= "~bzr".$bzrRev;
+if (-d '.git') {
+	chomp( my $gitRev = `git rev-parse --short HEAD`);
+	$version .= "~git".$gitRev;
 }
 
 name 'Ocsinventory-Unix-Agent';
@@ -102,7 +102,7 @@ if (!can_use('Net::IP')) {
 
 if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
 	print "Please install Proc::Daemon and Proc::PID::File if you ".
-	"want to use the daemon monde.\n";
+	"want to use the daemon mode.\n";
 }
 
 if (!can_use('Nvidia::ml')){
