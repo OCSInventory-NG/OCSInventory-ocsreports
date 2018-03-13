@@ -13,51 +13,88 @@ sub run {
     my $params = shift;
     my $common = $params->{common};
 
-    # create sysprofile obj. Return undef unless we get a return value
-    my $profile = Mac::SysProfile->new();
-    my $data = $profile->gettype('SPHardwareDataType');
-    return(undef) unless(ref($data) eq 'ARRAY');
+    my $processors;
+    my $fake_procs=1;
+    my $model;
+    my $mhz;
+    my $cpuCores;
+    my $serialnumber;
+    my $cachesize;
+    my $procs;
+    my $threads;
+    my $logical_cores;
+    my $vendor_id;
+    my $arch;
+    my $datawidth;
 
-    my $h = $data->[0];
-
-    ######### CPU
-    my $processort  = $h->{'processor_name'} | $h->{'cpu_type'}; # 10.5 || 10.4
-    my $processorn  = $h->{'number_processors'} || $h->{'number_cpus'};
-    my $processors  = $h->{'current_processor_speed'} || $h->{'cpu_speed'};
-
-    my $uuid = $h->{'platform_UUID'}; # 10.5, 10.6, 10.7, 10.8
-    chomp($uuid);
-    $uuid =~ s/\s+$//g;
-
-    # lamp spits out an sql error if there is something other than an int (MHZ) here....
-    if ($processors =~ /GHz$/){
-        $processors =~ s/ GHz//;
-        # French Mac returns 2,60 Ghz instead of
-        # 2.60 Ghz :D
-        $processors =~ s/,/./;
-        $processors = ($processors * 1000);
+    # informations from system_profiler
+    my @cpuinfo=`system_profiler SPHardwareDataType`;
+    foreach my $line (@cpuinfo){
+        chomp $line;
+            if ($line =~ /^\s*$/){
+            $procs=$fake_procs if ($procs eq "");
+            $processors->{$procs}->{MANUFACTURER}=$vendor_id;
+            $processors->{$procs}->{TYPE}=$model;
+            $processors->{$procs}->{SPEED}=$mhz;
+            $processors->{$procs}->{L2CACHESIZE}=$cachesize;
+            $processors->{$procs}->{CORES}=$cpuCores ? $cpuCores : 1;
+            $processors->{$procs}->{SERIALNUMBER}=$serialnumber;
+            $vendor_id=$model=$mhz=$cpuCores=$serialnumber=$procs="";
+        }
+        $procs=$1 if ($line =~ /Number of Processors:\s(\S.*)/);
+        $model=$1 if ($line =~ /Processor Name:\s(.*)/);
+        $vendor_id= $model =~ /Intel/i ? "Intel" : undef;
+        $mhz=$1 if ($line =~ /Processor Speed:\s(.*)/);
+        $cpuCores=$1 if ($line =~ /Total Number of Cores:\s(.*)/);
+        $serialnumber=$1 if ($line =~ /Serial Number \(system\):\s(.*)/);
+        $cachesize=$1 if ($line =~ /L2 Cache \(per Core\):\s(.*)/);
+        if ($cachesize =~ /KB/){
+            $cachesize =~ s/ KB//;
+            $cachesize = $cachesize*$cpuCores;
+        }
+        # lamp spits out an sql error if there is something other than an int (MHZ) here....
+        if ($mhz =~ /GHz$/){
+            $mhz =~ s/ GHz//;
+            # French Mac returns 2,60 Ghz instead of
+            # 2.60 Ghz :D
+            $mhz =~ s/,/./;
+            $mhz = ($mhz * 1000);
+        }
+        if ($mhz =~ /MHz$/){
+            $mhz =~ s/ MHz//;
+        }
     }
-    if ($processors =~ /MHz$/){
-        $processors =~ s/ MHz//;
+
+    # more informations from sysctl 
+    my @sysctlinfo=`sysctl -a machdep.cpu`;
+    
+    foreach my $line (@sysctlinfo){
+        chomp $line;
+        if ($line =~ /^\s*$/){
+            $processors->{$procs}->{LOGICAL_CPUS}=$logical_cores;
+            $processors->{$procs}->{THREADS}=$threads;
+            $threads=$logical_cores="";
+        }
+        $threads=$1 if ($line =~ /machdep.cpu.thread_count:\s(\d)/);
+        $logical_cores=$1 if ($line =~ /machdep.cpu.logical_per_package:\s(\d+)/);
     }
 
-    ### mem convert it to meg's if it comes back in gig's
-    my $mem = $h->{'physical_memory'};
-    if ($mem =~ /GB$/){
-        $mem =~ s/\sGB$//;
-        $mem = ($mem * 1024);
+    # 32 or 64 bits arch?
+    my $sysctl_arch=`sysctl hw.cpu64bit_capable`;
+    if ($sysctl_arch == 1){
+       $arch="x86_64";
+       $datawidth=64;
+    } else {
+       $arch="x86";
+       $datawidth=32;
     }
-    if ($mem =~ /MB$/){
-        $mem =~ s/\sMB$//;
+    $processors->{$procs}->{CPUARCH}=$arch;
+    $processors->{$procs}->{DATA_WIDTH}=$datawidth;
+    
+    # Add new cpu infos to inventory
+    foreach (keys %{$processors}){
+	    $common->addCPU($processors->{$_});
     }
-
-    $common->setHardware({
-        PROCESSORT  => $processort,
-        PROCESSORN  => $processorn,
-        PROCESSORS  => $processors,
-        MEMORY      => $mem,
-        UUID        => $uuid,
-    });
 }
 
 1;
