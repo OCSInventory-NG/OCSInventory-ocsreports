@@ -207,6 +207,12 @@ sub run {
                         SLAVE => $slave
                     });
                 }
+                # Check if this is a vlan
+                if (-f "/proc/net/vlan/$description"){
+                    $type="vlan";
+                    $virtualdev=1;
+                }
+
 
                 if ($description && $ipaddress) {
                     if ($type eq "Wifi") {
@@ -268,7 +274,7 @@ sub run {
                 }
                 $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = $mtu = undef;
             }
-            $description = $1 if ($line =~ /^\S+\s+(\S+(?<!:))/); # Interface name
+            $description = $1 if ($line =~ /^\d+:\s+([^:@]+)/); # Interface name
             if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i){
                 $ipaddress=$1;
                 $ipmask=getIPNetmask($2);
