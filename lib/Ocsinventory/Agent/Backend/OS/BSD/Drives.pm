@@ -13,7 +13,7 @@ sub run {
     my $volumn;
   
   
-    for my $t ("ffs","ufs") {
+    for my $t ("ffs","ufs","zfs") {
     # OpenBSD has no -m option so use -k to obtain results in kilobytes
         for (`df -P -t $t -k`){
             if (/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
