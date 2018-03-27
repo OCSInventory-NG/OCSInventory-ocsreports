@@ -21,7 +21,7 @@ sub run {
     my $params = shift;
     my $common = $params->{common};
 
-    if ($^O == "freebsd") {
+    if ($^O eq 'freebsd') {
         foreach my $line (`LANG=C pkg -vv 2>/dev/null`){
             next if ($line =~ /^Repositories:/i);
             if ($line =~ /^(\w):\s\{/i){
