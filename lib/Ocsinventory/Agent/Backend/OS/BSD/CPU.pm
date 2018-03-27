@@ -28,7 +28,7 @@ sub run {
     }
     $processorn = `sysctl -n hw.ncpu`;
     $processort = `sysctl -n hw.model`;
-    
+
     $family = `sysctl -n hw.machine`;
     $serial = `sysctl -n hw.serialno`;
 
