@@ -41,7 +41,7 @@ sub run {
     }
 
     $common->addCPU({
-        FAMILY => $family,
+        CPUARCH => $family,
         MANUFACTURER => $manufacturer,
         CORES => $processorn,
         TYPE => $processort,
