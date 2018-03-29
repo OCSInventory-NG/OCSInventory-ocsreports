@@ -181,7 +181,7 @@ function post_ocs_file_to_server($datastream, $url, $port) {
 
     $contentlength = strlen($reqbody);
     $reqheader = "POST $uri HTTP/1.1\r\n" .
-            "Host: $host\n" . "User-Agent: OCS_local_" . GUI_VER . "\r\n" .
+            "Host: $host\r\n" . "User-Agent: OCS_local_" . GUI_VER . "\r\n" .
             "Content-type: application/x-compress\r\n" .
             "Content-Length: $contentlength\r\n\r\n" .
             "$reqbody\r\n";
