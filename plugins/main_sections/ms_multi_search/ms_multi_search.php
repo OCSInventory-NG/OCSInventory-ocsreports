@@ -79,6 +79,7 @@ if (isset($protectedGet['fields']) and (!isset($protectedPost['GET']) or $protec
 //need to delete this part...
 if (isset($protectedGet['prov']) and (!isset($protectedPost['GET']) or $protectedPost['GET'] == '')){
 	unset($protectedPost);
+
 	foreach ($_SESSION['OCS'] as $key=>$value){
 		$valeur=explode("-", $key);
 		if ($valeur[0] == "InputValue" or $valeur[0] == "SelFieldValue" or $valeur[0] == "SelFieldValue3"	or $valeur[0] == "SelAndOr" or $valeur[0] == "SelComp" )
@@ -396,11 +397,11 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 		//gestion de tous les linux et de tous les windows
  		if (substr($field_value[$i],0,4) == "ALL_" and $field[$i] == "OSNAME"){
 	 		if ($field_value[$i] == "ALL_LINUX"){
-	 		$sql_temp="select distinct osname from hardware where osname like '%Linux%'";
+	 		$sql_temp = "select distinct osname from hardware where osname like '%Linux%'";
 	 		}
 	 		elseif($field_value[$i] == "ALL_WIN")
 	 		$sql_temp="select distinct osname from hardware where osname like '%win%'";
-	 		$result_temp = mysqli_query($_SESSION['OCS']["readServer"], $sql_temp);
+      $result_temp = mysql2_query_secure($sql_temp, $_SESSION['OCS']["readServer"]);
 			while( $val_temp = mysqli_fetch_array($result_temp) ) {
 				$list[]=addslashes($val_temp['osname']);
 			}
@@ -484,7 +485,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 		 			$sql_frequency="select hardware_id from devices where name=".$field_value[$i];
 		 			if( isset($type_default[1]) and $type_default[1] != "'")
 					$sql_frequency.=" and IVALUE = ".$type_default[1]{0};
-		 			$result_frequency = mysqli_query($_SESSION['OCS']["readServer"], $sql_frequency );
+          $result_frequency = mysql2_query_secure($sql_frequency, $_SESSION['OCS']["readServer"]);
 		 			$list_frequency="";
 					while( $val_frequency = mysqli_fetch_array($result_frequency) ) {
 						$list_frequency .=  $val_frequency['hardware_id'].',';
@@ -546,9 +547,13 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
 					$sql_temp="select ".$field_temp." as name ";
 					if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
 							and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1)
+
 					$sql_temp.= ",id ";
-					$sql_temp.= " from ".strtolower($table_cache[$table[$i]])." where ".$field_temp.$field_compar[$i].$field_value[$i];
-					$result_temp = mysqli_query($_SESSION['OCS']["readServer"], $sql_temp);
+					$sql_temp.= " from ".strtolower($table_cache[$table[$i]])." where ".$field_temp.$field_compar[$i]." '%s'";
+
+          $search = str_replace("'","",$field_value[$i]);
+
+          $result_temp = mysql2_query_secure($sql_temp, $_SESSION['OCS']["readServer"], array($search));
 					$count_result=0;
 					while( $val_temp = mysqli_fetch_array($result_temp) ) {
 						if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
@@ -751,7 +756,7 @@ $list_id="";
 		 }elseif ($list_id_restraint != ""){
 		 	$sql.=" AND ID IN (".$list_id_restraint.")";
 		 }
-		 $result = mysqli_query($_SESSION['OCS']["readServer"],$sql) or mysqli_error($_SESSION['OCS']["readServer"]);
+     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 		while($item = mysqli_fetch_object($result))
 		$list_id[]=$item->ID;
 	 }else
@@ -1280,7 +1285,7 @@ $(function(){
   })
 })
 </script>
-<?php 
+<?php
 echo "<div class='row rowMarginTop30'>";
 echo "<div class='col-md-12'>";
 echo "<input type='submit' class='btn btn-success' name='Valid-search' value='".$l->g(30)."' onclick='garde_valeur(\"VALID\",\"Valid\");'>";

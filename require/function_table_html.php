@@ -1379,7 +1379,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 						$rang =0;
 						foreach($tab_options['visible_col'] as $index=>$column){
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-							$name = $tab_options['columns'][$column]['name'];
+							$name = preg_replace("/[^A-Za-z0-9\.]/", "", $tab_options['columns'][$column]['name']);
 							if (!empty($tab_options["replace_query_arg"][$name])){
 								$name= $tab_options["replace_query_arg"][$name];
 							}
@@ -1836,6 +1836,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$tab_options)
 {
 	global $protectedPost,$l,$pages_refs;
+
 	if($queryDetails === false){
 		$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> 0,  "recordsFiltered"=> 0 , "data"=>0 );
 		echo json_encode($res);
@@ -1914,7 +1915,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				$sql.=" and hardware_id in (".implode(',',$_SESSION['OCS']['ID_REQ']).") group by hardware_id ";
 				//ajout du group by pour régler le problème des résultats multiples sur une requete
 				//on affiche juste le premier critère qui match
-				$result = mysqli_query($_SESSION['OCS']["readServer"],$sql);
+				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 			}else{
 				//add sort on column if need it
 				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
@@ -1979,6 +1980,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
 	else
 		$resultDetails = mysql2_query_secure($queryDetails, $link);
+
 
 	$rows = ajaxgestionresults($resultDetails,$list_fields,$tab_options);
 
