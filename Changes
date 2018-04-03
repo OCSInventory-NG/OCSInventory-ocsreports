@@ -1,5 +1,17 @@
 Revision history for Ocsinventory::Agent
 
+2.4.1  
+       * Add the date of installation for debian/ubuntu packages
+       * Add support for zfs
+       * Rewrite cpu bsd
+       * Fix some bugs on Repository/Deb.pm file
+       * Ipmi.pm : fix fatal typo
+       * Bios.pm : fix "invalid" message
+       * UUID.pm : fix "invalid" message
+       * Virtualization : fix for Proxmox
+       * Fix for vlans 
+       * Fix virsh out
+
 2.4    
        * Add test to switch 'waitpid command' according to OS
        * change bazar revision number to git revision number
