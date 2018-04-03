@@ -16,9 +16,6 @@ sub run {
     my $OSversion;
     chomp($OSversion =`lsb_release -rs`);
  
-    $release .= " ";
-    $release .= $OSversion;
-
     my $OSComment;
     chomp($OSComment =`uname -v`);
 
