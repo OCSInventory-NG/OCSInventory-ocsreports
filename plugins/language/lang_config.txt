@@ -1,7 +1,6 @@
 <ORDER>
 fr_FR
 en_GB
-cs_CZ
 de_DE
 es_ES
 it_IT
@@ -12,12 +11,12 @@ pt_PT
 ru_RU
 si_SI
 tr_TR
+uk_UA
 ja_JP
 </ORDER>
 
 <LBL>
 br_BR:brazilian
-cs_CZ:czech
 en_GB:english
 fr_FR:french
 de_DE:german
@@ -30,4 +29,5 @@ si_SI:slovenian
 es_ES:spanish
 tr_TR:turkish
 ja_JP:japanese
+uk_UA:ukrainian
 </LBL>
