@@ -36,7 +36,7 @@ $i = 0;
 $protectedPost['LANG'] = $_SESSION["OCS"]["LANGUAGE"];
 while (isset($list_plugins[$i])) {
 
-  if($i == 12){
+  if($i == 14){
     $select_lang .= $list_plugins[$i];
   } else {
     $select_lang .= $list_plugins[$i] .',';
