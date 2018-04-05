@@ -128,7 +128,7 @@ sub loadUserParams {
 		"s|server=s"      =>   \$self->{config}{server},
 		"stdout"          =>   \$self->{config}{stdout},
 		"t|tag=s"         =>   \$self->{config}{tag},
-		"u|user=s"        =>   \$self->{config}{user},nixAgent/pulls
+		"u|user=s"        =>   \$self->{config}{user},
 		"version"         =>   \$self->{config}{version},
 		"w|wait=s"        =>   \$self->{config}{wait},
 #       "x|xml"          =>   \$self->{config}{xml},
