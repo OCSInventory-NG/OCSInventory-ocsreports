@@ -120,6 +120,10 @@
         <label>g(380)</label>
         <url>ms_dict</url>
       </menu-elem>
+      <menu-elem id="ms_soft_cat">
+        <label>g(1421)</label>
+        <url>ms_soft_cat</url>
+      </menu-elem>
       <menu-elem id="ms_local">
         <label>g(287)</label>
         <url>ms_local</url>
