@@ -1206,7 +1206,7 @@
 1327 Local / Networks
 1328 Керувати
 1329 Administration
-1330 Програмне забезпечення
+1330 Апаратне забезпечення
 1331 Пристрої
 1332 Різне
 1333 Конфігурація
@@ -1413,8 +1413,8 @@
 2116 The config/profiles directory is not writable
 2117 Display an update message if a new version is available
 2118 OCSInventory
-2119 is available
-2120 Click here to download
+2119 доступний
+2120 Натисніть тут, щоб завантажити
 2121 Запуск інвентаризації при запуску служби агента (Windows)
 2122 Редагувати
 2123 Доступні пакети
