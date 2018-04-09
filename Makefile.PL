@@ -1,3 +1,8 @@
+BEGIN {
+    # Avoid installation issue introduced by perl 5.24.1 removing '.' path from
+    # @INC to avoid possible module injection in normal running perl scripts
+    push @INC, '.' if ( $^V && $^V gt 'v5.24' );
+}
 
 use inc::Module::Install;
 
@@ -16,7 +21,7 @@ install :: all pure_install doc_install
 	return $re;
 }
 
-require './lib/Ocsinventory/Agent/Config.pm';
+require 'lib/Ocsinventory/Agent/Config.pm';
 
 use Config;
 
