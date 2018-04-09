@@ -346,6 +346,7 @@ function html_header($noJavascript = false) {
         <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-custom.js" type="text/javascript"></script>
         <script src="js/bootstrap-datetimepicker.js" type="text/javascript"></script>
+        <script src="js/bootstrap-datetimepicker-locale.js" type="text/javascript"></script>
         <script src="js/bootstrap-formhelpers.js" type="text/javascript"></script>
         <script src="libraries/charts.js/Chart.min.js" type="text/javascript"></script>
         <!-- js for Datatables -->
@@ -448,12 +449,14 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 //fonction qui permet d'utiliser un calendrier dans un champ
 function calendars($NameInputField,$DateFormat)
 {
+  $lang = $_SESSION['OCS']['LANGUAGE'];
   $calendar = "<i class=\"glyphicon glyphicon-calendar\"></i>";
   $calendar .= "<script type=\"text/javascript\">
       $(\".form_datetime\").datetimepicker({
           format: \"".$DateFormat."\",
           autoclose: true,
           todayBtn: true,
+          language:\"".$lang."\",
           pickerPosition: \"bottom-left\"
       });
     </script>";
