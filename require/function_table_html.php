@@ -1379,7 +1379,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 						$rang =0;
 						foreach($tab_options['visible_col'] as $index=>$column){
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-							$name = preg_replace("/[^A-Za-z0-9\.]/", "", $tab_options['columns'][$column]['name']);
+							$name = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['columns'][$column]['name']);
 							if (!empty($tab_options["replace_query_arg"][$name])){
 								$name= $tab_options["replace_query_arg"][$name];
 							}
@@ -1393,7 +1393,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 								// if search in column selected
 								if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $rang == 0) {
-										$name_col = $tab_options['COL_SEARCH'];
+										$name_col = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['COL_SEARCH']);
 										$filtertxt =  " WHERE (( ".$name_col." LIKE '%%".$search."%%' ) ";
 								} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 										if ($rang == 0){
