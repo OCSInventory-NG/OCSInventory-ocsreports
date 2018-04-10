@@ -12,6 +12,7 @@ pt_PT
 ru_RU
 si_SI
 tr_TR
+uk_UA
 ja_JP
 </ORDER>
 
@@ -29,5 +30,6 @@ ru_RU:russian
 si_SI:slovenian
 es_ES:spanish
 tr_TR:turkish
+uk_UA:ukrainian
 ja_JP:japanese
 </LBL>
