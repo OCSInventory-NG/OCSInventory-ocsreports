@@ -20,15 +20,18 @@ sub run{
 
   for (my $i=0;$i<$#repository;$i++){
       my $line=$repository[$i];
-      if ($line =~ /^$/ && $repo_name && $repo_baseurl){
+
+      $repo_name=$1 if ($line =~ /\/\/(\w*.*)/);
+      $repo_baseurl=$& if ($line =~ /^https?:\/\//);
+
+      if ($line =~ /(^.*$)/ && $repo_name && $repo_baseurl){
           $common->addRepo({
               NAME => $repo_name,
               BASEURL => $repo_baseurl,
           });
           $repo_name = $repo_baseurl = undef;
       }
-      $repo_name=$1 if ($line =~ /.*\s(\w-?\/\w)/);
-      $repo_baseurl=$1 if ($line =~ /^https?:\/\//);
+      #$repo_name=$1 if ($line =~ /.*\s(\w-?\/\w)/);
   }
 }
 
