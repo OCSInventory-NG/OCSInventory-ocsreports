@@ -194,7 +194,6 @@ $lbl_field = array("OCS_REPORT_WORKGROUP" => $l->g(778),
     "OCS_REPORT_NB_HARD_DISK_M" => $l->g(814) . " <b>" . show_modif($data_limit['GUI_REPORT_DD_MINI'], "GUI_REPORT_DD_MINI", $edit, '', array('JAVASCRIPT' => valid_modif("GUI_REPORT_DD_MINI"))) . "</b> " . $l->g(1240),
     "OCS_REPORT_NB_HARD_DISK_B" => $l->g(815) . " <b>" . $data_limit['GUI_REPORT_DD_MINI'] . "</b> " . $l->g(1240) . " " . $l->g(582) . " <b>" . $data_limit['GUI_REPORT_DD_MAX'] . "</b> " . $l->g(1240),
     "OCS_REPORT_NB_IPDISCOVER" => $l->g(913),
-    "OCS_REPORT_NB_LAST_INV" => $l->g(914) . " <b>" . show_modif($data_limit['GUI_REPORT_LAST_DIFF'], "GUI_REPORT_LAST_DIFF", $edit, '', array('JAVASCRIPT' => valid_modif("GUI_REPORT_LAST_DIFF"))) . "</b> " . $l->g(496),
     "OCS_REPORT_NB_SNMP" => $l->g(1241));
 
 
@@ -230,7 +229,6 @@ $sql_field = array("OCS_REPORT_WORKGROUP" => array('ARG' => array('count(distinc
         'ARG' => array('count(distinct(hardware_id)) c', $table["OCS_REPORT_NB_HARD_DISK_B"], "Hard Drive", $data_limit['GUI_REPORT_DD_MAX'], $data_limit['GUI_REPORT_DD_MINI'])),
     "OCS_REPORT_NB_IPDISCOVER" => array('SQL' => "select %s c from netmap ",
         'ARG' => array(count_noinv_network_devices())),
-    "OCS_REPORT_NB_LAST_INV" => array('ARG' => array('count(id) c', $table["OCS_REPORT_NB_LAST_INV"], " where floor((unix_timestamp(lastcome) - unix_timestamp(lastdate) )/86400) >= " . $data_limit['GUI_REPORT_LAST_DIFF'] . " ")),
     "OCS_REPORT_NB_SNMP" => array('ARG' => array('count(id) c', $table["OCS_REPORT_NB_SNMP"], '')));
 
 function define_tab($data_on = array()) {
@@ -375,8 +373,6 @@ function show_console_field($fields, $form_name) {
             }
 
             echo $value . "</font></td><td>&nbsp;</td><td align=center><font size=2><B>" . $link_me_begin . $id_count . $link_me_end . "</B></font></td>" . $icon . "</tr><tr><td align =center><font size=2>";
-        } elseif ($_SESSION['OCS']['DEBUG'] == 'ON') {
-            echo "<font color=red><b>ERROR=>" . $value . "</b></font></font></td><td>&nbsp;</td><td align=center></font></td>" . $icon . "</tr><tr><td align =center><font size=2>";
         }
     }
     echo "</table>";
