@@ -421,26 +421,24 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 	echo "<div class='form-group'>";
 	echo "<label class='control-label col-sm-2' for='".$inputName."'>".$name."</label>";
 	echo "<div class='col-sm-10'>";
+  if($groupAddon != ""){
+    echo "<div class='input-group'>";
+  }
+
 	if($inputType == "select"){
-                echo "<div class='input-group'>";
 		echo "<select name='".$inputName."' id='".$inputName."' class='form-control ".$class."' ".$attrBalise.">";
 		foreach ($optionsSelect as $option => $value){
 			echo "<option value='".$option."' ".($inputValue == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
 		}
 		echo "</select>";
-                if($groupAddon != ""){
-                    echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
-                }
-                echo "</div>";
 	}
 	else{
-		echo "<div class='input-group'>";
 		echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='form-control ".$class."' ".$attrBalise.">";
-		if($groupAddon != ""){
-			echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
-		}
-		echo "</div>";
-	}
+  }
+  if($groupAddon != ""){
+  	echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
+    echo "</div>";
+  }
 	echo "</div>";
 	echo "</div>";
 }
