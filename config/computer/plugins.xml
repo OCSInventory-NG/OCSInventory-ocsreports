@@ -146,10 +146,16 @@
   </plugin>
 
   <!-- OTHER -->
-  <plugin id="cd_vm">
-  	<label>g(1266)</label>
-  	<system>1</system>
-  	<category>other</category>
-  	<available>virtualmachines</available>
-  </plugin>
+	<plugin id="cd_vm">
+		<label>g(1266)</label>
+		<system>1</system>
+		<category>other</category>
+		<available>virtualmachines</available>
+	</plugin>
+	<plugin id="cd_repository">
+		<label>g(1421)</label>
+		<system>1</system>
+		<category>other</category>
+		<available>repository</available>
+	</plugin>
 </plugins>
