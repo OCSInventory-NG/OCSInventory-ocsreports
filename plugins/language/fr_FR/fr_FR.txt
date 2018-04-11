@@ -11,6 +11,7 @@
 26 Mémoire
 27 Vitesse mémoire (MHz)
 28 Nombre de machines
+29 Mémoire vive
 30 Recherche
 31 Choisissez un paramètre
 32 Choisissez
@@ -59,6 +60,7 @@
 95 Adresse MAC
 96 Son
 97 Moniteur(s)
+98 Numéro de slot
 103 Mettre à jour
 107 Configuration
 108 Requêtes de registre
