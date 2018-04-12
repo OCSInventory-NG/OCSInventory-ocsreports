@@ -352,7 +352,8 @@ function html_header($noJavascript = false) {
         <!-- js for Datatables -->
         <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="libraries/datatable/media/js/dataTables.bootstrap.js" type="text/javascript"></script>
-        <script src="js/function.js" type="text/javascript"></script>';
+        <script src="js/function.js" type="text/javascript"></script>
+        <script src="js/dataTables.conditionalPaging.js" type="text/javascript"></script>';
 
         if (isset($_SESSION['OCS']['JAVASCRIPT'])) {
             foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file) {

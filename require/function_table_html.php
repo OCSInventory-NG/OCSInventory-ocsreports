@@ -411,7 +411,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                     data.search.search = "";
                     data.start = 0;
                 },
-
+								"conditionalPaging": true,
 								"lengthMenu": [ 10, 25, 50, 100, 250, 500, 1000],
                 //Column definition
                 "columns": [
