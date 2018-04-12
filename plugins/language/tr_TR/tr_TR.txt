@@ -862,7 +862,7 @@
 976 INTERFACE LOCK ON REQUEST RESULT
 977 Lock
 978 You are going to lock all the interface on the search with criterias results
-979 To come back to a standard state, you will have to click on the icon e <img src='image/cadena_op.png' > which is at the right top of the interface
+979 To come back to a standard state, you will have to click on the icon <span class='glyphicon glyphicon-lock'></span> which is at the right top of the interface
 980 Packages on computers
 981 Packages on servers groups
 982 NO AFFECTATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
