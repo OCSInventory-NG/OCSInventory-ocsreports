@@ -62,7 +62,7 @@
 103 Update
 107 Config
 108 Registry requests
-111 Windows licence
+111 Windows license
 113 Cancel
 114 Register
 115 Update

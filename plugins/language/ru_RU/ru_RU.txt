@@ -1,12 +1,8 @@
-0 UTF-8
 2 Все компьютеры
-3 Computers with sotfware...
-5 Unity codes under my responsibility
 9 Поиск по критериям
-12 Значение тэга
 13 Принять
 17 Агент
-18 Revision
+18 Ревизия
 19 Версия программного обеспечения
 20 Программное обеспечение
 23 Компьютер
@@ -31,6 +27,7 @@
 49 Имя
 50 Файл покачки
 51 Комментарии
+52 Видимый
 53 Описание
 54 Процессор(ы)
 55 Число
@@ -62,8 +59,6 @@
 95 MAC-адрес
 96 Звук
 97 Монитор(ы)
-98 Будьте внимательны, Вы можете выбрать только 8 опций !
-99 Детали компьютера
 103 Обновить
 107 Конфигурация
 108 Операции с реестром
@@ -72,15 +67,18 @@
 114 Регистрировать
 115 Обновить
 116 Добавить
-117 Реестр
 119 Вы действительно хотите удалить компьютер?
 122 Удалить
 129 СОДЕРЖИТ
 130 НЕ СОДЕРЖИТ
 134 Добавить новый файл в базу данных
 135 Будьте внимательны! Выдействительно хотите удалить файл?
-136 Сохранить
 137 Файл
+140 Super administrators
+141 Administrators
+142 Local administrators
+143 teledeploy requesters
+162 Remove Selected
 168 Неверный формат файла (должен быть zip, ocsagent.exe, ocspackage.exe, pl или двоичный файл unix)
 170 Такой файл уже существует !
 171 Файл удален
@@ -93,7 +91,7 @@
 178 Группировка по Tag
 180 Пользователь не зарегистрирован
 182 Компьютеры с установленным тэгом
-183 Сохранить
+183 Скачать
 184 Этот файл не содержит "use constant version"
 185 Номер версии должен быть более 1
 186 Этот файл не содержит "версию файла"
@@ -298,7 +296,6 @@
 389 отменить все
 390 Категории Словаря
 391 Имя категории
-392 Удалить
 393 Поиск
 394 Найти Категорию
 395 Искать ПО Везде
@@ -462,8 +459,8 @@
 564 Периодичность сеансов связи агента к серверу
 565 Хост сервера инвентаризации (имя или IP)
 567 Время ожидания ответа и переход к следующему IP
-568 RAM(MB)
-569 CPU(MHz)
+568 RAM (MB)
+569 CPU (MHz)
 570 Помощь
 571 Проверить все
 572 Успешно
@@ -491,7 +488,6 @@
 596 ДИНАМИЧЕСКОЕ ЧЛЕНСТВО
 597 РУЧНОЕ ИСКЛЮЧЕНИЕ
 598 Включить
-599 Сбросить
 600 Исключить
 601 Массовое распространение
 602 You need to send a file
@@ -528,7 +524,6 @@
 633 Management groups servers
 634 Желаемое действие
 635 Новое имя
-636 Описание
 637 Заменить
 638 ИМЯ ГРУППЫ НЕ МОЖЕТ БЫТЬ ПУСТЫМ
 639 THIS GROUP'S SERVER NOT EXIST
@@ -604,7 +599,6 @@
 710 Выборочная загрузка
 711 Taken into account modifications
 712 Перевод
-712 Перевод
 713 Вы уверены, что хотите заменить этот перевод
 714 Исходный перевод
 715 Выберите перевод для исправления
@@ -631,7 +625,6 @@
 736 Разрешить группировку компьютеров
 737 Random number computed in the defined range. Designed to avoid computing many groups in the same process
 738 Specify the validity of computer's groups (default: compute it once a day - see offset)
-739 Futur security improvements
 740 Validity of a computer's lock
 741 Передаются только изменения, а не все данные (снижает нагрузку БД)
 742 Передавать данные транзакцией и сохранять по корректной обработке всех данных (снижает параллелизм, лучше использование диска)
@@ -1173,6 +1166,7 @@
 1280 Wake On Lan
 1281 On Wake On Lan
 1282 Wake On Lan order send
+1283 Do you want a Wake On Lan on this computer
 1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Installation time
@@ -1184,6 +1178,7 @@
 1300 Check QRCode
 1301 on invisible packages
 1302 development
+1303 Export
 1304 XML
 1305 On the generation of an XML inventory
 1306 Manage plugins
@@ -1208,6 +1203,106 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+1328 Manage
+1329 Administration
+1330 Hardware
+1331 Devices
+1332 Miscellaneous
+1333 Configuration
+1334 No data available in table
+1335 Showing _START_ to _END_ of _TOTAL_ entries
+1336 Showing 0 to 0 of 0 entries
+1337 (filtered from _MAX_ total entries)
+1338 Show _MENU_ entries
+1339 Loading...
+1340 Processing...
+1341 Search&nbsp;:&nbsp;
+1342 No matching records found
+1343 First
+1344 Last
+1345 Next
+1346 Previous
+1347 activate to sort column ascending
+1348 activate to sort column descending
+1349 Show / Hide
+1350 ,
+1351 .
+1352 Server understood the request but request content was invalid
+1353 Unauthorised access
+1354 Forbidden ressource can't be accessed
+1355 Page not found
+1356 Request-URI Too Long, try to clean Cookies
+1357 Internal Server Error
+1358 Service Unavailable
+1359 User Logged Out
+1360 Server information
+1361 My account
+1362 About
+1363 OK
+1364 Cancel
+1365 My account
+1366 First name
+1367 Network
+1368 CPU
+1369 PHP Version
+1370 Web Server
+1371 Database Server
+1372 Kernel
+1373 Distribution
+1374 Access the website
+1375 Old Forums
+1376 Q&amp;A
+1377 Question and answers
+1378 Free RAM
+1379 RAM installed
+1380 Reset table columns
+1381 Actions
+1382 Motherboard Serial
+1383 Motherboard Manufacturer
+1384 Motherboard Model
+1385 Update user
+1386 Create user
+1387 System
+1388 Network
+1389 Hardware
+1390 Agent
+1391 This field is mandatory
+1392 Invalid value
+1393 This package name already exists
+1394 This field should only contain numbers and alphanumeric characters
+1395 A profile with this name already exists. Please pick a new one
+1396 Identifier (ex: admin)
+1397 Display name (ex: Administrators)
+1398 Copy profile data
+1399 Create profile
+1400 Users
+1401 Profiles
+1402 Identifier
+1403 Create user
+1404 Some errors were found while validating the profile
+1405 The profile was successfully created
+1406 An error occurred while trying to create the profile, please check the filesystem or contact an administrator
+1407 The profile file is not writable
+1408 The profile was successfully updated
+1409 An error occurred while trying to update the profile, please check the filesystem or contact an administrator
+1410 Users
+1411 Display name
+1412 Edit profile
+1413 New label
+1414 Machine's Details
+1415 OperatorID
+1416 OperatorName
+1417 IMEI/DEVICEID
+1418 Country
+1419 Search in column
+1420 Theme customization
+1421 Repository
+1422 Expire
+1423 File name
+1424 Mirrors
+1425 tag
+1426 updated
+1427 Base URL
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
@@ -1238,6 +1333,7 @@
 2026 The default login/password is activate on OCS GUI
 2027 Change admin password on OCS GUI
 2028 Authentication key
+2029 The config directory is not writable
 
 
 2030 OCS-NG Inventory Installation
