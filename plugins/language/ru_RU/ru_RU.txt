@@ -1414,6 +1414,20 @@
 2110 Expected version
 2111 Perform the update
 2112 The following file is not present or is not readable
+2113 Your PHP installation is older than version 5.4 and will not be compatible with incoming versions (version&nbsp;:&nbsp;
+2114 No sql file found for version
+2115 The user you typed does not seem to be root
+2116 The config/profiles directory is not writable
+2117 Display an update message if a new version is available
+2118 OCSInventory
+2119 is available
+2120 Click here to download
+2121 Launch inventory on agent service startup (Windows)
+2122 Edit
+2123 Available packages
+2124 Deleted packages
+2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
+
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1442,7 +1456,31 @@
 
 6000 Plugins
 6001 Offices Licences
-6002 Distribution of Offices Licences
 6003 Number of licence
 6004 Total available
 6005 Power on/off
+6006 WARNING : Please install php-soap, the plugin engine can't work without it
+6007 Please install the following modules in order to get this feature working&nbsp;:&nbsp;
+6008 Can't write in the following directory&nbsp;:&nbsp;
+6009 You can't install plugins, check error messages above.
+6010 The communication server encountered the following error on install&nbsp;:&nbsp;
+6011 Click here to solve your problem
+6012 Select All
+
+7000 Plugins
+7001 Plugins manager
+7002 Plugin's name
+7003 Version
+7004 Licence
+7005 Author
+7006 Last updated
+7007 Are you sure you want to delete this plugin
+7008 Plugin Install
+7009 Installed Plugins
+7010 This plugin has been already installed
+7011 is an invalid plugin, check your sources.
+7012 Installation aborted !
+7013 installed
+7014 There is currently no plugin available for installation
+7015 Select at least one computer !
+7016 MTU
