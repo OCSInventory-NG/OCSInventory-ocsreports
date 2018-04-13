@@ -46,6 +46,12 @@ class DatabaseSearch
     const SNMP_COL_REF = 'SNMP_ID';
 
     /**
+     * Default table
+     */
+    const COMPUTER_DEF_TABLE = "hardware";
+    const SNMP_DEF_TABLE = "snmp";
+
+    /**
      * Excluded tables
      */
     private $excludedTables = [
@@ -137,7 +143,9 @@ class DatabaseSearch
             }
             // Remove tables that doesn't reference a computer or an snmp device
             if (!array_key_exists(self::COMPUTER_COL_RED, $this->columnsList[$tableName]) 
-                && !array_key_exists(self::SNMP_COL_REF, $this->columnsList[$tableName]) 
+                && !array_key_exists(self::SNMP_COL_REF, $this->columnsList[$tableName])
+                && $tableName !== self::COMPUTER_DEF_TABLE
+                && $tableName !== self::SNMP_DEF_TABLE
             ) {
                 unset($this->columnsList[$tableName]);
                 $this->removeValueFromTableList($tableName);
