@@ -39,8 +39,6 @@ $translationSearch = new TranslationSearch();
 // Get search object to perform action and show result
 //$legacySearch = new LegacySearch();
 
-//var_dump($databaseSearch->getColumnsList('cpus'));
-
 $search = new Search($translationSearch, $databaseSearch, $accountinfoSearch);
 
 if (isset($protectedPost['table_select'])) {
@@ -48,8 +46,6 @@ if (isset($protectedPost['table_select'])) {
 } else {
 	$defaultTable = null;
 }
-
-var_dump($protectedPost);
 
 ?>
 <div class="panel panel-default">
@@ -71,7 +67,7 @@ var_dump($protectedPost);
 						</select>
 					</div> 
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<div class="form-group">
 						<select class="form-control" name="columns_select">
 							<?php 
@@ -82,9 +78,10 @@ var_dump($protectedPost);
 						</select>
 					</div> 
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<input type="submit" class="btn btn-info" value="<?php echo $l->g(116) ?>">
 				</div>
+				<div class="col-sm-2"></div>
 			</div> 
 
 			<input name="old_table" type="hidden" value="<?php echo $defaultTable ?>">
@@ -111,18 +108,22 @@ if (isset($protectedPost['old_table']) && isset($protectedPost['table_select']))
 echo open_form('multiSearchCrits', '', '', '');
 
 if (!empty($_SESSION['OCS']['multi_search'])) {
+	if(isset($protectedPost['search_ok'])){
+		$search->updateSessionsInfos($protectedPost);
+	}
+
 	foreach ($_SESSION['OCS']['multi_search'] as $table => $infos) {
 		foreach ($infos as $uniqid => $values) {
 			?>
 			<div class="row" name="<?php echo $uniqid ?>">
 				<div class="col-sm-3">
-					<span class="label label-info"><?php 
+					<div class="btn btn-info disabled" style="cursor:default;"><?php 
 						echo $search->getTranslationFor($table)." : ".$search->getTranslationFor($values['fields']);
-					?></span>
+					?></div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid); ?>">
+						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>">
 							<?php echo $search->getSelectOptionForOperators($values['operator'])  ?>
 						</select>
 					</div> 
@@ -148,6 +149,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 ?>
 
 <div class="col-sm-12">
+	<input id="search_ok" name="search_ok" type="hidden" value="OK">
 	<input type="submit" class="btn btn-success" value="<?php echo $l->g(13) ?>">
 </div>
 
@@ -157,3 +159,7 @@ echo close_form();
 
 ?>
 </div>
+
+<?php 
+
+$search->generateSearchQuery($_SESSION['OCS']['multi_search']);
