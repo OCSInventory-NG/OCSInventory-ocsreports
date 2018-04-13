@@ -26,8 +26,8 @@
   * It also permit de get columns with their type
   * Used in new search
   */
- class DatabaseSearch
- {
+class DatabaseSearch
+{
 
     /**
      * Constants
@@ -73,7 +73,8 @@
     /**
      * Construct
      */
-    function __construct() {
+    function __construct()
+    {
         $this->dbObject = $_SESSION['OCS']["readServer"];
         $this->dbName = DB_NAME;
         $this->retrieveTablesList();
@@ -82,23 +83,26 @@
     /**
      * Get columnsList property
      */
-    public function getColumnsList($tableName){
+    public function getColumnsList($tableName)
+    {
         return $this->columnsList[$tableName];
     }
 
     /**
      * Get tableList property
      */
-    public function getTablesList(){
+    public function getTablesList()
+    {
         return $this->tableList;
     }
 
     /**
      * Retrieve tables list from database
      */  
-    private function retrieveTablesList(){
+    private function retrieveTablesList()
+    {
 
-        if(empty($this->dbObject) || empty($this->dbName)){
+        if (empty($this->dbObject) || empty($this->dbName)) {
             return;
         }
 
@@ -114,9 +118,10 @@
     /**
      * Retrieve columns list from table $tableName
      */
-    private function retireveColumnsList($tableName){
+    private function retireveColumnsList($tableName)
+    {
 
-        if(!in_array($tableName, $this->excludedTables)){
+        if (!in_array($tableName, $this->excludedTables)) {
             $columnsList = mysql2_query_secure($this->columnsQuery, $this->dbObject, $tableName);
 
             while ($columnsInfos = mysqli_fetch_array($columnsList)) {
@@ -131,12 +136,13 @@
                 ];
             }
             // Remove tables that doesn't reference a computer or an snmp device
-            if(!array_key_exists(self::COMPUTER_COL_RED, $this->columnsList[$tableName]) 
-            && !array_key_exists(self::SNMP_COL_REF, $this->columnsList[$tableName])){
+            if (!array_key_exists(self::COMPUTER_COL_RED, $this->columnsList[$tableName]) 
+                && !array_key_exists(self::SNMP_COL_REF, $this->columnsList[$tableName]) 
+            ) {
                 unset($this->columnsList[$tableName]);
                 $this->removeValueFromTableList($tableName);
             }
-        }else{
+        } else {
             $this->removeValueFromTableList($tableName);
         }
 
@@ -146,16 +152,21 @@
      * Get field type simplified without the length 
      * ( ie : varchar(255) => varchar )
      */
-    private function normalizeFieldType($type){
+    private function normalizeFieldType($type)
+    {
         $splittedType = preg_replace('/\(.*?\)|\s*/', '', $type);
         return $splittedType;
     }
 
-    private function removeValueFromTableList($tableName){
+    /**
+     * 
+     */
+    private function removeValueFromTableList($tableName)
+    {
         if (($key = array_search($tableName, $this->tableList)) !== false) {
             unset($this->tableList[$key]);
         }
     }
      
- }
+}
  

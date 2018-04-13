@@ -31,6 +31,9 @@
  class Search
  {
      
+    const SESS_FIELDS = "fields";
+    const SESS_VALUES = "value";
+
     private $translationSearch;
     private $databaseSearch;
     private $accountinfoSearch;
@@ -47,20 +50,22 @@
     /**
      * Construct
      */
-    function __construct($translationSearch, $databaseSearch, $accountinfoSearch) {
+    function __construct($translationSearch, $databaseSearch, $accountinfoSearch) 
+    {
         $this->translationSearch = $translationSearch;
         $this->databaseSearch = $databaseSearch;
         $this->accountinfoSearch = $accountinfoSearch;
     }
 
-    public function getSelectOptionForTables($defautValue = null){
+    public function getSelectOptionForTables($defautValue = null)
+    {
         $html = "<option>----------</option>";
-        foreach($this->databaseSearch->getTablesList() as $tableName){
+        foreach ($this->databaseSearch->getTablesList() as $tableName) {
             
             // TODO: Add translation
-            if($defautValue == $tableName){
+            if ($defautValue == $tableName) {
                 $html .= "<option selected value=".$tableName." >".$tableName."</option>";
-            }else{
+            } else {
                 $html .= "<option value=".$tableName." >".$tableName."</option>";
             }
             
@@ -68,9 +73,10 @@
         return $html;
     }
 
-    public function getSelectOptionForColumns($tableName = null){
+    public function getSelectOptionForColumns($tableName = null)
+    {
         $html = "";
-        foreach($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos){
+        foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
             if(!in_array($fieldsInfos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                 // TODO: Add translation
                 $html .= "<option value=".$fieldsInfos[DatabaseSearch::FIELD]." >".
@@ -81,15 +87,34 @@
         return $html;
     }
 
-    public function addSessionsInfos($postData){
+    public function addSessionsInfos($postData)
+    {
         $_SESSION['OCS']['multi_search'][$postData['table_select']][uniqid()] = [
-            'fields' => $postData['columns_select'],
-            'value' => null,
+            self::SESS_FIELDS => $postData['columns_select'],
+            self::SESS_VALUES => null,
         ];
     }
 
-    public function updateSessionsInfos($postData){
+    public function updateSessionsInfos($postData)
+    {
         
+    }
+
+    public function processSearchFields($tablename, $searchinfos)
+    {
+        foreach ($searchinfos as $uniqid => $fieldsInfos) {
+            $fieldType = $this->getSearchedFieldType(
+                $tablename, 
+                $fieldsInfos[self::SESS_FIELDS]
+            );
+            //$this->generateHtmlFieldsFor
+        }
+    }
+
+    private function getSearchedFieldType($tablename, $fieldsname)
+    {
+        $tableFields = $this->databaseSearch->getColumnsList($tablename);
+        return $tableFields[$fieldsname][DatabaseSearch::TYPE];
     }
 
  }

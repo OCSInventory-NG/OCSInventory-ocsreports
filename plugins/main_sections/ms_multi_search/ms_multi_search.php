@@ -41,9 +41,9 @@ $translationSearch = new TranslationSearch();
 
 $search = new Search($translationSearch, $databaseSearch, $accountinfoSearch);
 
-if(isset($protectedPost['table_select'])){
+if (isset($protectedPost['table_select'])) {
 	$defaultTable = $protectedPost['table_select'];
-}else{
+} else {
 	$defaultTable = null;
 }
 
@@ -94,17 +94,26 @@ printEnTete($l->g(393));
 
 <?php 
 
-echo open_form('multiSearchCrits', '', '', '');
-
-if(isset($protectedPost['old_table']) && isset($protectedPost['table_select'])){
-	if($protectedPost['old_table'] === $protectedPost['table_select']){
+// Add var to session datamap
+if (isset($protectedPost['old_table']) && isset($protectedPost['table_select'])) {
+	if ($protectedPost['old_table'] === $protectedPost['table_select']) {
 		$search->addSessionsInfos($protectedPost);
 	}
+}
 
-	var_dump($_SESSION['OCS']['multi_search']);
+?>
+<div name="multiSearchCritsDiv">
+<?php
+
+echo open_form('multiSearchCrits', '', '', '');
+
+if (!empty($_SESSION['OCS']['multi_search'])) {
 	foreach($_SESSION['OCS']['multi_search'] as $table => $infos){
-		
+		$search->processSearchFields($table, $infos);	
 	}
 }
 
 echo close_form();
+
+?>
+</div>
