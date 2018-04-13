@@ -863,7 +863,7 @@
 976 LOCK de L'INTERFACE SUR LE RESULTAT DE LA REQUETE
 977 LOCK
 978 Vous aller verrouiller toute l'interface sur les résultats de cette recherche multicritère
-979 Pour revenir à un état normal, vous cliquerez sur l'icône <img src='image/cadena_op.png' > se trouvant en haut à droite de l'interface
+979 Pour revenir à un état normal, vous cliquerez sur l'icône <span class='glyphicon glyphicon-lock'></span> se trouvant en haut à droite de l'interface
 980 Paquets sur les machines
 981 Paquets sur les groupes de redistribution
 982 AUCUNE REGLE D'AFFECTATION N'EXISTE. PAS DE REDISTRIBUTION POSSIBLE.

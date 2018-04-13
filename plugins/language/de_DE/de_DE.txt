@@ -937,7 +937,7 @@
 976 OBERFLÄCHE GESPERRT FÜR ANFRAGE-ERGEBNIS
 977 Sperren
 978 Sie werden die das Suchinterface für die Suche mit verschiedenen Kriterien sperren.
-979 Um den Normalzustand wiederherzustellen, müssen Sie auf das Icon <img src='image/cadena_op.png' > klicken, welches sich rechts oben in der Oberfläche befindet.
+979 Um den Normalzustand wiederherzustellen, müssen Sie auf das Icon <span class='glyphicon glyphicon-lock'></span> klicken, welches sich rechts oben in der Oberfläche befindet.
 980 Pakete auf Rechnern
 981 Pakete auf Server-Gruppen
 982 KEINE VERTEILULNGSREGELN VORHANDEN. WEITERVERTEILUNG NICHT MÖGLICH.

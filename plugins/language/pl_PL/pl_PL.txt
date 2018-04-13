@@ -873,7 +873,7 @@
 976 REZULTAT ZABLOKOWANIA INTERFEJSU NA ŻYCZENIE
 977 LOCK
 978 Zamierzasz zablokować wszystkie interfejsy według wyników wyszuukiwania
-979 Aby wrócić do standardowych ustawień , będziesz musiał klinąć na ikonę <img src='image/cadena_op.png'>, która jest w prawym górnym rogu interfejsu
+979 Aby wrócić do standardowych ustawień , będziesz musiał klinąć na ikonę <span class='glyphicon glyphicon-lock'></span>, która jest w prawym górnym rogu interfejsu
 980 pakietów na komputerach
 981 pakietów na serwerach grup
 982 Nie istnieje żadna regułą wdrażania. Redystrybucja nie możlwa.
