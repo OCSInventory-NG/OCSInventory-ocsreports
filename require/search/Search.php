@@ -63,6 +63,11 @@
         "DIFFERENT",
     ];
 
+    /**
+     * Final query and args used for multicrits
+     */
+    private $finalQuery;
+    private $finalArgs;
 
     /**
      * Construct
@@ -85,7 +90,16 @@
 
     public function updateSessionsInfos($postData)
     {
-        
+        foreach ($postData as $key => $value) {
+            $keyExploded = explode("_", $key);
+            if(count($keyExploded) > 1 && !is_null($_SESSION['OCS']['multi_search'][$keyExploded[1]])){
+                if ($keyExploded[2] == self::SESS_OPERATOR) {
+                    $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] = $value;
+                } else {
+                    $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_VALUES] = $value;
+                }
+            }
+        }
     }
 
     public function getSearchedFieldType($tablename, $fieldsname)
@@ -100,14 +114,18 @@
         return $name;
     }
 
-    public function getOperatorUniqId($uniqid)
+    public function getOperatorUniqId($uniqid, $tableName)
     {
-        return $uniqid."_".self::SESS_OPERATOR;
+        return $uniqid."_".$tableName."_".self::SESS_OPERATOR;
     }
 
-    public function getFieldUniqId($uniqid)
+    public function getFieldUniqId($uniqid, $tableName)
     {
-        return $uniqid."_".self::SESS_FIELDS;
+        return $uniqid."_".$tableName."_".self::SESS_FIELDS;
+    }
+
+    public function generateSearchQuery($sessData){
+        var_dump($sessData);
     }
 
     /**
@@ -122,7 +140,7 @@
 
         // TODO: Add translation
         foreach ($this->operatorList as $value) {
-            if ($defautValue == $value) {
+            if ($defaultValue == $value) {
                 $html .= "<option selected value=".$value." >".$value."</option>";
             } else {
                 $html .= "<option value=".$value." >".$value."</option>";
@@ -167,7 +185,7 @@
 
         global $l;
 
-        $fieldId = $this->getFieldUniqId($uniqid);
+        $fieldId = $this->getFieldUniqId($uniqid, $tableName);
         $type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
         $html = "";
 
@@ -187,8 +205,8 @@
             case self::DB_DATETIME:
                 $html = '<input class="form-control" class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
                 $html = '
-                <div class="input-group date form_datetime" id="'.$fieldId.'">
-                    <input type="text" class="form-control" value="'.$fieldsInfos[self::SESS_VALUES].'" />
+                <div class="input-group date form_datetime">
+                    <input type="text" class="form-control" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" />
                     <span class="input-group-addon">
                         '.calendars($fieldId, $l->g(1270)).'
                     </span>
