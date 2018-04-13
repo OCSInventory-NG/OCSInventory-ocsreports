@@ -33,6 +33,12 @@
      
     const SESS_FIELDS = "fields";
     const SESS_VALUES = "value";
+    const SESS_OPERATOR = "operator";
+
+    const DB_TEXT = "text";
+    const DB_INT = "int";
+    const DB_VARCHAR = "varchar";
+    const DB_DATETIME = "datetime";
 
     private $translationSearch;
     private $databaseSearch;
@@ -45,6 +51,17 @@
         "ID",
         "HARDWARE_ID"
     ];
+    
+    /**
+     * Operator list
+     */
+    private $operatorList = [
+        "EQUAL",
+        "MORE",
+        "LESS",
+        "LIKE",
+        "DIFFERENT",
+    ];
 
 
     /**
@@ -55,6 +72,64 @@
         $this->translationSearch = $translationSearch;
         $this->databaseSearch = $databaseSearch;
         $this->accountinfoSearch = $accountinfoSearch;
+    }
+
+    public function addSessionsInfos($postData)
+    {
+        $_SESSION['OCS']['multi_search'][$postData['table_select']][uniqid()] = [
+            self::SESS_FIELDS => $postData['columns_select'],
+            self::SESS_VALUES => null,
+            self::SESS_OPERATOR => null,
+        ];
+    }
+
+    public function updateSessionsInfos($postData)
+    {
+        
+    }
+
+    public function getSearchedFieldType($tablename, $fieldsname)
+    {
+        $tableFields = $this->databaseSearch->getColumnsList($tablename);
+        return $tableFields[$fieldsname][DatabaseSearch::TYPE];
+    }
+
+    public function getTranslationFor($name)
+    {
+        //TODO: Translation
+        return $name;
+    }
+
+    public function getOperatorUniqId($uniqid)
+    {
+        return $uniqid."_".self::SESS_OPERATOR;
+    }
+
+    public function getFieldUniqId($uniqid)
+    {
+        return $uniqid."_".self::SESS_FIELDS;
+    }
+
+    /**
+     * Below all show method
+     * Bad method but no choice since there isn't any templating render system
+     */
+
+    public function getSelectOptionForOperators($defaultValue)
+    {
+
+        $html = "";
+
+        // TODO: Add translation
+        foreach ($this->operatorList as $value) {
+            if ($defautValue == $value) {
+                $html .= "<option selected value=".$value." >".$value."</option>";
+            } else {
+                $html .= "<option value=".$value." >".$value."</option>";
+            }
+        }
+
+        return $html;
     }
 
     public function getSelectOptionForTables($defautValue = null)
@@ -77,7 +152,7 @@
     {
         $html = "";
         foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
-            if(!in_array($fieldsInfos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+            if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                 // TODO: Add translation
                 $html .= "<option value=".$fieldsInfos[DatabaseSearch::FIELD]." >".
                 $fieldsInfos[DatabaseSearch::FIELD].
@@ -87,34 +162,45 @@
         return $html;
     }
 
-    public function addSessionsInfos($postData)
+    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName)
     {
-        $_SESSION['OCS']['multi_search'][$postData['table_select']][uniqid()] = [
-            self::SESS_FIELDS => $postData['columns_select'],
-            self::SESS_VALUES => null,
-        ];
-    }
 
-    public function updateSessionsInfos($postData)
-    {
-        
-    }
+        global $l;
 
-    public function processSearchFields($tablename, $searchinfos)
-    {
-        foreach ($searchinfos as $uniqid => $fieldsInfos) {
-            $fieldType = $this->getSearchedFieldType(
-                $tablename, 
-                $fieldsInfos[self::SESS_FIELDS]
-            );
-            //$this->generateHtmlFieldsFor
+        $fieldId = $this->getFieldUniqId($uniqid);
+        $type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        $html = "";
+
+        switch ($type) {
+            case self::DB_VARCHAR:
+                $html = '<input class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                break;
+
+            case self::DB_TEXT:
+                $html = '<input class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                break;
+
+            case self::DB_INT:
+                $html = '<input class="form-control" type="number" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                break;
+
+            case self::DB_DATETIME:
+                $html = '<input class="form-control" class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                $html = '
+                <div class="input-group date form_datetime" id="'.$fieldId.'">
+                    <input type="text" class="form-control" value="'.$fieldsInfos[self::SESS_VALUES].'" />
+                    <span class="input-group-addon">
+                        '.calendars($fieldId, $l->g(1270)).'
+                    </span>
+                </div>';
+                break;
+            
+            default:
+                $html = '<input class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                break;
         }
-    }
 
-    private function getSearchedFieldType($tablename, $fieldsname)
-    {
-        $tableFields = $this->databaseSearch->getColumnsList($tablename);
-        return $tableFields[$fieldsname][DatabaseSearch::TYPE];
+        return $html;
     }
 
  }
