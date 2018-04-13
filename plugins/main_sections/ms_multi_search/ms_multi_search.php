@@ -39,6 +39,8 @@ $translationSearch = new TranslationSearch();
 // Get search object to perform action and show result
 //$legacySearch = new LegacySearch();
 
+//var_dump($databaseSearch->getColumnsList('cpus'));
+
 $search = new Search($translationSearch, $databaseSearch, $accountinfoSearch);
 
 if (isset($protectedPost['table_select'])) {
@@ -47,48 +49,49 @@ if (isset($protectedPost['table_select'])) {
 	$defaultTable = null;
 }
 
-printEnTete($l->g(393));
+var_dump($protectedPost);
 
 ?>
+<div class="panel panel-default">
 
-<div class="row">
-  	<div class="col-md-12">
-		<div class="row">
-			<div class="col-sm-4"><?php echo $l->g(1061) ?></div>
-			<div class="col-sm-4"><?php echo $l->g(1062) ?></div>
-			<div class="col-sm-4"><?php echo $l->g(116) ?></div>
-		</div> 
+	<?php printEnTete($l->g(9)); ?>
 
-		<?php echo open_form('addSearchCrit', '', '', '') ?>
+	<div class="row">
+		<div class="col-md-12">
 
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="form-group">
-					<select class="form-control" name="table_select" onchange="this.form.submit()">
-						<?php echo $search->getSelectOptionForTables($defaultTable)  ?>
-					</select>
-				</div> 
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<select class="form-control" name="columns_select">
-						<?php 
-							if(!is_null($defaultTable)){
-								echo $search->getSelectOptionForColumns($defaultTable);
-							}
-						?>
-					</select>
-				</div> 
-			</div>
-			<div class="col-sm-4">
-				<input type="submit" class="btn btn-info" value="<?php echo $l->g(116) ?>">
-			</div>
-		</div> 
 
-		<input name="old_table" type="hidden" value="<?php echo $defaultTable ?>">
+			<?php echo open_form('addSearchCrit', '', '', '') ?>
 
-		<?php echo close_form(); ?>
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<select class="form-control" name="table_select" onchange="this.form.submit()">
+							<?php echo $search->getSelectOptionForTables($defaultTable)  ?>
+						</select>
+					</div> 
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<select class="form-control" name="columns_select">
+							<?php 
+								if (!is_null($defaultTable)) {
+									echo $search->getSelectOptionForColumns($defaultTable);
+								}
+							?>
+						</select>
+					</div> 
+				</div>
+				<div class="col-sm-3">
+					<input type="submit" class="btn btn-info" value="<?php echo $l->g(116) ?>">
+				</div>
+			</div> 
 
+			<input name="old_table" type="hidden" value="<?php echo $defaultTable ?>">
+
+			<?php echo close_form(); ?>
+
+		</div>
 	</div>
 </div>
 
@@ -108,10 +111,47 @@ if (isset($protectedPost['old_table']) && isset($protectedPost['table_select']))
 echo open_form('multiSearchCrits', '', '', '');
 
 if (!empty($_SESSION['OCS']['multi_search'])) {
-	foreach($_SESSION['OCS']['multi_search'] as $table => $infos){
-		$search->processSearchFields($table, $infos);	
+	foreach ($_SESSION['OCS']['multi_search'] as $table => $infos) {
+		foreach ($infos as $uniqid => $values) {
+			?>
+			<div class="row" name="<?php echo $uniqid ?>">
+				<div class="col-sm-3">
+					<span class="label label-info"><?php 
+						echo $search->getTranslationFor($table)." : ".$search->getTranslationFor($values['fields']);
+					?></span>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid); ?>">
+							<?php echo $search->getSelectOptionForOperators($values['operator'])  ?>
+						</select>
+					</div> 
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<?php echo $search->returnFieldHtml($uniqid, $values, $table) ?>
+					</div> 
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<button type="button" class="btn btn-danger" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div> 
+				</div>
+			</div>
+			<?php	
+		}
 	}
 }
+
+?>
+
+<div class="col-sm-12">
+	<input type="submit" class="btn btn-success" value="<?php echo $l->g(13) ?>">
+</div>
+
+<?php
 
 echo close_form();
 
