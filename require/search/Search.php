@@ -40,6 +40,20 @@
     const DB_VARCHAR = "varchar";
     const DB_DATETIME = "datetime";
 
+    public $fieldsList = [];
+    public $defaultFields = [
+        "hardware.DEVICEID" => "hardware.DEVICEID",
+        "hardware.NAME" => "hardware.NAME",
+        "hardware.WORKGROUP" => "hardware.WORKGROUP",
+        "hardware.OSNAME" => "hardware.OSNAME",
+    ];
+
+    public $baseQuery = "SELECT";
+    public $searchQuery = "FROM hardware ";
+    public $queryArgs = [];
+    public $columnsQueryConditions = "";
+
+
     private $translationSearch;
     private $databaseSearch;
     private $accountinfoSearch;
@@ -125,7 +139,72 @@
     }
 
     public function generateSearchQuery($sessData){
-        var_dump($sessData);
+        $this->pushBaseQueryForTable("hardware", null);
+        foreach ($sessData as $tableName => $searchInfos) {
+            if($tableName != "hardware"){
+                $this->pushBaseQueryForTable($tableName, $sessData);
+            }
+        }
+        foreach ($sessData as $tableName => $searchInfos) {
+            if($tableName != "hardware"){
+                // Generate union
+                $this->searchQuery .= "INNER JOIN $tableName on hardware.id = $tableName.hardware_id ";
+                foreach ($searchInfos as $index => $value) {
+                    // Generate condition
+                    $this->getOperatorSign($value);
+                    $this->columnsQueryConditions .= " %s.%s %s '%s' AND";
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                }
+            }
+        }
+        $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
+        $this->columnsQueryConditions = substr($this->columnsQueryConditions, 0, -3);
+        $this->baseQuery = substr($this->baseQuery, 0, -1);
+    }
+
+    private function pushBaseQueryForTable($tableName, $sessData = null){
+        foreach($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos){
+            $generatedId= $tableName.".".$fieldsInfos['Field'];
+            $this->baseQuery .= " %s.%s ,"; //AS '".$generatedId."' ,";
+            $this->queryArgs[] = $tableName;
+            $this->queryArgs[] = $fieldsInfos['Field'];
+            // TODO : Translations
+            $this->fieldsList[$generatedId] = $generatedId;
+            if($sessData != null){
+                if($sessData[$tableName][key($sessData[$tableName])][self::SESS_FIELDS] == $fieldsInfos['Field']){
+                    $this->defaultFields[$generatedId] = $generatedId;
+                }
+            }
+
+        }
+    }
+
+    public function getOperatorSign(&$valueArray){
+        switch ($valueArray[self::SESS_OPERATOR]) {
+            case 'EQUAL':
+                $valueArray[self::SESS_OPERATOR] = "=";
+                break;
+            case 'MORE':
+                $valueArray[self::SESS_OPERATOR] = ">";
+                break;
+            case 'LESS':
+                $valueArray[self::SESS_OPERATOR] = "<";
+                break;
+            case 'LIKE':
+                $valueArray[self::SESS_OPERATOR] = "LIKE";
+                $valueArray[self::SESS_VALUES] = "%".$valueArray[self::SESS_VALUES]."%";
+                break;
+            case 'DIFFERENT':
+                $valueArray[self::SESS_OPERATOR] = "NOT LIKE";
+                $valueArray[self::SESS_VALUES] = "%".$valueArray[self::SESS_VALUES]."%";
+                break;             
+            default:
+                $valueArray[self::SESS_OPERATOR] = "=";
+                break;
+        }
     }
 
     /**
