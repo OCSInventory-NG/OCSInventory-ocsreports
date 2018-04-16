@@ -21,6 +21,12 @@
  * MA 02110-1301, USA.
  */
 
+if (AJAX) {
+    parse_str($protectedPost['ocs']['0'], $params);
+    $protectedPost += $params;
+    ob_start();
+}
+
 require("require/search/DatabaseSearch.php");
 require("require/search/AccountinfoSearch.php");
 require("require/search/TranslationSearch.php");
@@ -159,7 +165,41 @@ echo close_form();
 
 ?>
 </div>
-
+<br/>
+<br/>
+<div class="row">
+	<div class="col-sm-12">
 <?php 
 
+/**
+ * Generate Search fields
+ */
+
 $search->generateSearchQuery($_SESSION['OCS']['multi_search']);
+$sql = $search->baseQuery.$search->searchQuery.$search->columnsQueryConditions;
+
+$form_name = "affich_multi_crit";
+$table_name = $form_name;
+$tab_options = $protectedPost;
+$tab_options['form_name'] = $form_name;
+$tab_options['table_name'] = $table_name;
+
+echo open_form($form_name, '', '', 'form-horizontal');
+
+$list_fields = $search->fieldsList;
+$list_col_cant_del = [];
+$default_fields = $search->defaultFields;
+$tab_options['ARG_SQL'] = $search->queryArgs;
+ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+echo close_form();
+
+?>
+	</div>
+</div>
+<?php
+
+if (AJAX) {
+    ob_end_clean();
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
+}
