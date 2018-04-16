@@ -101,7 +101,7 @@ if (isset($protectedPost['table_select'])) {
 <?php 
 
 // Add var to session datamap
-if (isset($protectedPost['old_table']) && isset($protectedPost['table_select'])) {
+if (isset($protectedPost['old_table']) && isset($protectedPost['table_select']) && !isset($protectedPost['search_ok'])) {
 	if ($protectedPost['old_table'] === $protectedPost['table_select']) {
 		$search->addSessionsInfos($protectedPost);
 	}
@@ -152,6 +152,10 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 	}
 }
 
+if(empty($_SESSION['OCS']['multi_search'])){
+
+}
+
 ?>
 
 <div class="col-sm-12">
@@ -187,7 +191,7 @@ $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 
 $list_fields = $search->fieldsList;
-$list_col_cant_del = [];
+$list_col_cant_del = $search->defaultFields;
 $default_fields = $search->defaultFields;
 $tab_options['ARG_SQL'] = $search->queryArgs;
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
