@@ -34,7 +34,7 @@
 55 Номер
 56 Адміністративні дані
 61 Відеокарта
-62 Resolution
+62 Роздільна здатність
 63 Сховище
 64 Виробник
 65 Модель
@@ -195,7 +195,7 @@
 283 Призначення
 284 Виробник BIOS
 285 Виберіть параметр, який потрібно змінити
-286 Service pack
+286 Сервіс пак
 287 Local import
 288 Local importation
 289 Network information
@@ -240,7 +240,7 @@
 328 Discovered
 329 Інвентаризовано
 330 Ім'я NetBIOS
-331 Network number
+331 Адреса мережі
 332 Please wait...
 333 Add a new network device
 334 Network devices list
@@ -513,7 +513,7 @@
 621 The group was not created. Its name is already in use
 622 Cached
 623 The information you are trying to access does not exist
-624 Do you really want to delete group
+624 Ви дійсно хочете видалити групу
 625 Update fields
 626 Cancel edit
 627 At least one of the fields is empty... Not made Update.
@@ -528,7 +528,7 @@
 637 Replace
 638 THE GROUP'S NAME CAN'T BE EMPTY
 639 THIS GROUP'S REDISTRIBUTION NOT EXIST
-640 Do you really want to delete
+640 Ви дійсно хочете видалити
 641 Management of the redistribution servers
 642 the group
 643 All machine
@@ -616,7 +616,7 @@
 726 URI of the servers of redistribution ($IP and NAME$ are the generic values)
 727 Directory of destination of packages.
 728 Інвентаризація
-729 комп'ютери
+729 Комп'ютери
 730 годин(и)
 731 Feature of appointed on the base to every section of inventory.
 732 milisecond(s)
@@ -784,7 +784,7 @@
 895 TAG Modification
 898 Додати анотацію
 899 Автор
-900 Do you really want to delete selection?
+900 Ви дійсно хочете видалити вибране?
 901 Action on the query result
 902 Action on the result of selection
 903 You must fill the explanation field
