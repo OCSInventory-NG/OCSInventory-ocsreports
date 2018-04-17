@@ -925,7 +925,5 @@ function pagesnotif(){
     ligne('NOTIF_PORT_SMTP', $l->g(279), 'input', array('VALUE' => $values['ivalue']['NOTIF_PORT_SMTP'], '', 'SIZE' => "30%", 'MAXLENGTH' => 11), '', "");
     ligne('NOTIF_USER_SMTP', $l->g(1435), 'input', array('VALUE' => $values['tvalue']['NOTIF_USER_SMTP'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
     ligne('NOTIF_PASSWD_SMTP', $l->g(1436), 'password', array('VALUE' => $values['tvalue']['NOTIF_PASSWD_SMTP'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
-
-
 }
 ?>
