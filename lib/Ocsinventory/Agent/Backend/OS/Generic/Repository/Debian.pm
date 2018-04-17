@@ -21,8 +21,8 @@ sub run{
   for (my $i=0;$i<$#repository;$i++){
       my $line=$repository[$i];
 
-      $repo_name=$1 if ($line =~ /\/\/(\w*.*)/);
-      $repo_baseurl=$& if ($line =~ /^https?:\/\//);
+      $repo_name=$1 if ($line =~ /\/([^\/]*)$/);
+      $repo_baseurl=$1 if ($line =~ /(.*)(stretch|stable)/);
 
       if ($line =~ /(^.*$)/ && $repo_name && $repo_baseurl){
           $common->addRepo({
