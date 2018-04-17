@@ -1304,6 +1304,17 @@
 1425 tag
 1426 maj
 1427 Base URL
+1428 Notifications
+1429 Activer le suivi par courriel
+1430 Courriel de l'administrateur
+1431 Nom de l'administrateur
+1432 Courriel de réponse
+1433 Nom de réponse
+1434 Hôte SMTP
+1435 Identifiant SMTP
+1436 Mot de passe SMTP
+1437 Mode d'envoi des courriels
+1438 (Facultatif)
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

@@ -1303,6 +1303,18 @@
 1425 tag
 1426 updated
 1427 Base URL
+1428 Notifications
+1429 Enable notification tracking
+1430 Administrator's email address
+1431 Administrator's name
+1432 Reply email address
+1433 Reply name
+1434 Host SMTP
+1435 SMTP identifier
+1436 SMTP password
+1437 Email send mode
+1438 (Optional)
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
