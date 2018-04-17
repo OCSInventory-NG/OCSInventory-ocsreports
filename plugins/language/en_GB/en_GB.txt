@@ -1296,11 +1296,12 @@
 1418 Country
 1419 Search in column
 1420 Theme customization
-1421 Software category
-1422 New category
-1423 List of categories
-1424 Add software
-1425 Regular expression or Software name
+
+1500 Software category
+1501 New category
+1502 List of categories
+1503 Add software
+1504 Regular expression or Software name
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

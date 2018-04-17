@@ -42,9 +42,9 @@ $form_name = 'soft_cat';
 //form open
 echo open_form($form_name, '', '', 'form-horizontal');
 //definition of onglet
-$def_onglets['CAT_LIST'] = $l->g(1423); //Category list.
-$def_onglets['NEW_CAT'] = $l->g(1422); //New category
-$def_onglets['ADD_SOFT'] = $l->g(1424); //add soft to category
+$def_onglets['CAT_LIST'] = $l->g(1502); //Category list.
+$def_onglets['NEW_CAT'] = $l->g(1501); //New category
+$def_onglets['ADD_SOFT'] = $l->g(1503); //add soft to category
 
 //default => first onglet
 if ($protectedPost['onglet'] == "") {
@@ -89,7 +89,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 
     $reg = $softCat->display_reg($protectedPost['onglet_soft']);
 
-    echo "<h4>".$l->g(1425)."</h4><br>";
+    echo "<h4>".$l->g(1504)."</h4><br>";
     echo "<div class='tableContainer'>
             <div id='affich_regex_wrapper' class='dataTables_wrapper form-inline no-footer'>
               <div>
@@ -110,7 +110,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
                       <thead>
                         <tr role='row' style='height: 0px;'>
                           <th class='SOFTWARE_EXP sorting_asc' aria-controls='affich_regex' rowspan='1' colspan='1' style='width: 100%; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;' aria-sort='ascending' aria-label='Regular expression or Software name: activate to sort column ascending'>
-                            <div class='dataTables_sizing' style='height:0;overflow:hidden;'><font>".$l->g(1425)."</font>
+                            <div class='dataTables_sizing' style='height:0;overflow:hidden;'><font>".$l->g(1504)."</font>
                             </div>
                           </th>
                         </tr>
