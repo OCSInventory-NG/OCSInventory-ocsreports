@@ -217,6 +217,9 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
         echo "</select>";
     } elseif ($type == 'long_text') {
         echo "<textarea name='" . $name . "' id='" . $name . "' cols='" . $data['COLS'] . "' rows='" . $data['ROWS'] . "'  class='down' " . $data['JAVASCRIPT'] . ">" . $data['VALUE'] . "</textarea>" . $data['END'];
+    }elseif($type == 'password'){
+        echo "<input class='form-control input-sm' type='password' name='" . $name . "' id='" . $name . "' value='" . $data['VALUE'] . "' maxlength=" . $data['MAXLENGTH'] . " " . $data['JAVASCRIPT'] . ">";
+        echo "<p class='help-block'>" . $helpInput . "</p>";
     } else {
         echo $data['LINKS'];
     }
@@ -349,7 +352,8 @@ function update_default_value($POST) {
         'CONEX_LDAP_CHECK_FIELD2_ROLE',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT', 'OCS_SERVER_ADDRESS',
-        'CUSTOM_THEME');
+        'CUSTOM_THEME',
+        'NOTIF_MAIL_ADMIN', 'NOTIF_NAME_ADMIN', 'NOTIF_MAIL_REPLY', 'NOTIF_NAME_REPLY', 'NOTIF_SEND_MODE', 'NOTIF_SMTP_HOST', 'NOTIF_USER_SMTP', 'NOTIF_PASSWD_SMTP');
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
@@ -361,7 +365,8 @@ function update_default_value($POST) {
         'LOG_GUI', 'DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_FRAG_LATENCY', 'DOWNLOAD_GROUPS_TRACE_EVENTS',
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
-        'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP');
+        'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP',
+        'NOTIF_FOLLOW', 'NOTIF_PORT_SMTP');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -891,5 +896,36 @@ function get_available_themes() {
       }
     }
     return $result;
+}
+
+function pagesnotif(){
+    global $l, $values;
+    //what ligne we need?
+    $champs = array('NOTIF_FOLLOW' => 'NOTIF_FOLLOW',
+        'NOTIF_MAIL_ADMIN' => 'NOTIF_MAIL_ADMIN',
+        'NOTIF_NAME_ADMIN' => 'NOTIF_NAME_ADMIN',
+        'NOTIF_MAIL_REPLY' => 'NOTIF_MAIL_REPLY',
+        'NOTIF_NAME_REPLY' => 'NOTIF_NAME_REPLY',
+        'NOTIF_SEND_MODE' => 'NOTIF_SEND_MODE',
+        'NOTIF_SMTP_HOST' => 'NOTIF_SMTP_HOST',
+        'NOTIF_PORT_SMTP' => 'NOTIF_PORT_SMTP',
+        'NOTIF_USER_SMTP' => 'NOTIF_USER_SMTP',
+        'NOTIF_PASSWD_SMTP' => 'NOTIF_PASSWD_SMTP',
+    );
+    $values = look_config_default_values($champs);
+    $send_mode = array('SMTP' => 'SMTP', 'PHP' => 'PHP', 'SMTP+SSL' => 'SMTP+SSL', 'SMTP+TLS'=>'SMTP+TLS');
+
+    ligne('NOTIF_FOLLOW', $l->g(1429), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['NOTIF_FOLLOW']), '', "");
+    ligne('NOTIF_MAIL_ADMIN', $l->g(1430), 'input', array('VALUE' => $values['tvalue']['NOTIF_MAIL_ADMIN'], '', 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
+    ligne('NOTIF_NAME_ADMIN', $l->g(1431), 'input', array('VALUE' => $values['tvalue']['NOTIF_NAME_ADMIN'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
+    ligne('NOTIF_MAIL_REPLY', $l->g(1432), 'input', array('VALUE' => $values['tvalue']['NOTIF_MAIL_REPLY'], '', 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
+    ligne('NOTIF_NAME_REPLY', $l->g(1433), 'input', array('VALUE' => $values['tvalue']['NOTIF_NAME_REPLY'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
+    ligne('NOTIF_SEND_MODE', $l->g(1437), 'select', array('VALUE' => $values['tvalue']['NOTIF_SEND_MODE'], 'SELECT_VALUE' => $send_mode));
+    ligne('NOTIF_SMTP_HOST', $l->g(1434), 'input', array('VALUE' => $values['tvalue']['NOTIF_SMTP_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
+    ligne('NOTIF_PORT_SMTP', $l->g(279), 'input', array('VALUE' => $values['ivalue']['NOTIF_PORT_SMTP'], '', 'SIZE' => "30%", 'MAXLENGTH' => 11), '', "");
+    ligne('NOTIF_USER_SMTP', $l->g(1435), 'input', array('VALUE' => $values['tvalue']['NOTIF_USER_SMTP'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
+    ligne('NOTIF_PASSWD_SMTP', $l->g(1436), 'password', array('VALUE' => $values['tvalue']['NOTIF_PASSWD_SMTP'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
+
+
 }
 ?>
