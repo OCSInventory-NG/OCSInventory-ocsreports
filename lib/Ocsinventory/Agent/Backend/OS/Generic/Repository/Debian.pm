@@ -15,14 +15,14 @@ sub run{
 
   my ($repo_name, $repo_baseurl);
 
-  my @repository=`apt-cache policy | grep -i http | awk {'print \$2 \$3'} | sort -u`;
+  my @repository=`apt-cache policy | grep -i http | awk {'print \$2 " " \$3'} | sort -u`;
   push @repository, "\n";
 
   for (my $i=0;$i<$#repository;$i++){
       my $line=$repository[$i];
 
-      $repo_name=$1 if ($line =~ /\/([^\/]*)$/);
-      $repo_baseurl=$1 if ($line =~ /(.*)(stretch|stable)/);
+      $repo_name=$1 if ($line =~ /\/([^\/]*)\n$/);
+      $repo_baseurl=$1 if ($line =~ /^(\S*)\h/);
 
       if ($line =~ /(^.*$)/ && $repo_name && $repo_baseurl){
           $common->addRepo({
