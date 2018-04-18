@@ -913,7 +913,7 @@ function pagesnotif(){
         'NOTIF_PASSWD_SMTP' => 'NOTIF_PASSWD_SMTP',
     );
     $values = look_config_default_values($champs);
-    $send_mode = array('SMTP' => 'SMTP', 'PHP' => 'PHP', 'SMTP+SSL' => 'SMTP+SSL', 'SMTP+TLS'=>'SMTP+TLS');
+    $send_mode = array('nonsecure' => 'SMTP'/*, 'PHP' => 'PHP'*/, 'ssl' => 'SMTP+SSL', 'tls'=>'SMTP+TLS');
 
     ligne('NOTIF_FOLLOW', $l->g(1429), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['NOTIF_FOLLOW']), '', "");
     ligne('NOTIF_MAIL_ADMIN', $l->g(1430), 'input', array('VALUE' => $values['tvalue']['NOTIF_MAIL_ADMIN'], '', 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
