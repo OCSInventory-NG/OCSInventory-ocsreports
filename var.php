@@ -67,13 +67,17 @@ define('TC_LIB_BARCODE', __DIR__ . '/libraries/tclib/Barcode/autoload.php');
  * Library PASSWORD-COMPAT
  */
 define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php');
+/**
+ * Library PHPMAILER
+ */
+define('PHPMAILER', __DIR__ . '/libraries/PHPMailer-6.0.5/src');
 //====================================================================================
 // GUI Options
 //====================================================================================
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7012');
+define('GUI_VER', '7013');
 /**
  * GUI Version
  */
