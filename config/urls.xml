@@ -320,4 +320,8 @@
         <value>ask</value>
         <directory>ms_help</directory>
     </url>
+    <url key="ms_soft_cat">
+        <value>soft_cat</value>
+        <directory>ms_soft_cat</directory>
+    </url>
 </urls>

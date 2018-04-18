@@ -107,5 +107,6 @@
     <page>ms_offers</page>
     <page>ms_ask</page>
     <page>ms_pluginsmanager</page>
+    <page>ms_soft_cat</page>
   </pages>
 </profile>
