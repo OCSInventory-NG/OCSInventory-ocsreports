@@ -103,7 +103,9 @@ if (isset($protectedPost['table_select'])) {
 // Add var to session datamap
 if (isset($protectedPost['old_table']) && isset($protectedPost['table_select']) && !isset($protectedPost['search_ok'])) {
 	if ($protectedPost['old_table'] === $protectedPost['table_select']) {
-		$search->addSessionsInfos($protectedPost);
+		if(!AJAX){
+			$search->addSessionsInfos($protectedPost);
+		}	
 	}
 }
 
@@ -124,7 +126,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 			<div class="row" name="<?php echo $uniqid ?>">
 				<div class="col-sm-3">
 					<div class="btn btn-info disabled" style="cursor:default;"><?php 
-						echo $search->getTranslationFor($table)." : ".$search->getTranslationFor($values['fields']);
+						echo $translationSearch->getTranslationFor($table)." : ".$translationSearch->getTranslationFor($values['fields']);
 					?></div>
 				</div>
 				<div class="col-sm-3">
@@ -151,11 +153,6 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 		}
 	}
 }
-
-if(empty($_SESSION['OCS']['multi_search'])){
-
-}
-
 ?>
 
 <div class="col-sm-12">
@@ -167,6 +164,7 @@ if(empty($_SESSION['OCS']['multi_search'])){
 
 echo close_form();
 
+if(!empty($_SESSION['OCS']['multi_search'])){
 ?>
 </div>
 <br/>
@@ -202,6 +200,7 @@ echo close_form();
 	</div>
 </div>
 <?php
+}
 
 if (AJAX) {
     ob_end_clean();
