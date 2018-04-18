@@ -84,7 +84,11 @@
     private $finalArgs;
 
     /**
-     * Construct
+     * Undocumented function
+     *
+     * @param [type] $translationSearch
+     * @param [type] $databaseSearch
+     * @param [type] $accountinfoSearch
      */
     function __construct($translationSearch, $databaseSearch, $accountinfoSearch) 
     {
@@ -93,6 +97,12 @@
         $this->accountinfoSearch = $accountinfoSearch;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $postData
+     * @return void
+     */
     public function addSessionsInfos($postData)
     {
         $_SESSION['OCS']['multi_search'][$postData['table_select']][uniqid()] = [
@@ -102,6 +112,12 @@
         ];
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $postData
+     * @return void
+     */
     public function updateSessionsInfos($postData)
     {
         foreach ($postData as $key => $value) {
@@ -116,28 +132,49 @@
         }
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $tablename
+     * @param [type] $fieldsname
+     * @return void
+     */
     public function getSearchedFieldType($tablename, $fieldsname)
     {
         $tableFields = $this->databaseSearch->getColumnsList($tablename);
         return $tableFields[$fieldsname][DatabaseSearch::TYPE];
     }
 
-    public function getTranslationFor($name)
-    {
-        //TODO: Translation
-        return $name;
-    }
-
+    /**
+     * Undocumented function
+     *
+     * @param [type] $uniqid
+     * @param [type] $tableName
+     * @return void
+     */
     public function getOperatorUniqId($uniqid, $tableName)
     {
         return $uniqid."_".$tableName."_".self::SESS_OPERATOR;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $uniqid
+     * @param [type] $tableName
+     * @return void
+     */
     public function getFieldUniqId($uniqid, $tableName)
     {
         return $uniqid."_".$tableName."_".self::SESS_FIELDS;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $sessData
+     * @return void
+     */
     public function generateSearchQuery($sessData){
         $this->pushBaseQueryForTable("hardware", null);
         foreach ($sessData as $tableName => $searchInfos) {
@@ -146,25 +183,35 @@
             }
         }
         foreach ($sessData as $tableName => $searchInfos) {
+
             if($tableName != "hardware"){
                 // Generate union
                 $this->searchQuery .= "INNER JOIN $tableName on hardware.id = $tableName.hardware_id ";
-                foreach ($searchInfos as $index => $value) {
-                    // Generate condition
-                    $this->getOperatorSign($value);
-                    $this->columnsQueryConditions .= " %s.%s %s '%s' AND";
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $value[self::SESS_FIELDS];
-                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                    $this->queryArgs[] = $value[self::SESS_VALUES];
-                }
             }
+
+            foreach ($searchInfos as $index => $value) {
+                // Generate condition
+                $this->getOperatorSign($value);
+                $this->columnsQueryConditions .= " %s.%s %s '%s' AND";
+                $this->queryArgs[] = $tableName;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+            }
+            
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
         $this->columnsQueryConditions = substr($this->columnsQueryConditions, 0, -3);
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $tableName
+     * @param [type] $sessData
+     * @return void
+     */
     private function pushBaseQueryForTable($tableName, $sessData = null){
         foreach($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos){
             $generatedId= $tableName.".".$fieldsInfos['Field'];
@@ -172,7 +219,7 @@
             $this->queryArgs[] = $tableName;
             $this->queryArgs[] = $fieldsInfos['Field'];
             // TODO : Translations
-            $this->fieldsList[$generatedId] = $generatedId;
+            $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $generatedId;
             if($sessData != null){
                 if($sessData[$tableName][key($sessData[$tableName])][self::SESS_FIELDS] == $fieldsInfos['Field']){
                     $this->defaultFields[$generatedId] = $generatedId;
@@ -182,6 +229,12 @@
         }
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $valueArray
+     * @return void
+     */
     public function getOperatorSign(&$valueArray){
         switch ($valueArray[self::SESS_OPERATOR]) {
             case 'EQUAL':
@@ -208,57 +261,78 @@
     }
 
     /**
-     * Below all show method
-     * Bad method but no choice since there isn't any templating render system
+     * Undocumented function
+     *
+     * @param [type] $defaultValue
+     * @return void
      */
-
     public function getSelectOptionForOperators($defaultValue)
     {
 
         $html = "";
 
-        // TODO: Add translation
         foreach ($this->operatorList as $value) {
+            $trValue = $this->translationSearch->getTranslationForOperator($value);
             if ($defaultValue == $value) {
-                $html .= "<option selected value=".$value." >".$value."</option>";
+                $html .= "<option selected value=".$value." >".$trValue."</option>";
             } else {
-                $html .= "<option value=".$value." >".$value."</option>";
+                $html .= "<option value=".$value." >".$trValue."</option>";
             }
         }
 
         return $html;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $defautValue
+     * @return void
+     */
     public function getSelectOptionForTables($defautValue = null)
     {
         $html = "<option>----------</option>";
         foreach ($this->databaseSearch->getTablesList() as $tableName) {
-            
-            // TODO: Add translation
+
+            $translation = $this->translationSearch->getTranslationFor($tableName);
             if ($defautValue == $tableName) {
-                $html .= "<option selected value=".$tableName." >".$tableName."</option>";
+                $html .= "<option selected value=".$tableName." >".$translation."</option>";
             } else {
-                $html .= "<option value=".$tableName." >".$tableName."</option>";
+                $html .= "<option value=".$tableName." >".$translation."</option>";
             }
             
         }
         return $html;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $tableName
+     * @return void
+     */
     public function getSelectOptionForColumns($tableName = null)
     {
         $html = "";
         foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
             if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
-                // TODO: Add translation
+                $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
                 $html .= "<option value=".$fieldsInfos[DatabaseSearch::FIELD]." >".
-                $fieldsInfos[DatabaseSearch::FIELD].
+                $trField.
                 "</option>";
             }
         }
         return $html;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $uniqid
+     * @param [type] $fieldsInfos
+     * @param [type] $tableName
+     * @return void
+     */
     public function returnFieldHtml($uniqid, $fieldsInfos, $tableName)
     {
 

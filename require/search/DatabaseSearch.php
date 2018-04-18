@@ -56,6 +56,11 @@ class DatabaseSearch
      */
     private $excludedTables = [
         "accountinfo",
+        "download_servers",
+        "groups_cache",
+        "itmgmt_comments",
+        "javainfo",
+        "journallog"
     ];
 
     /**
@@ -77,7 +82,7 @@ class DatabaseSearch
     private $dbName = null;
 
     /**
-     * Construct
+     * Undocumented function
      */
     function __construct()
     {
@@ -87,7 +92,10 @@ class DatabaseSearch
     }
 
     /**
-     * Get columnsList property
+     * Undocumented function
+     *
+     * @param [type] $tableName
+     * @return void
      */
     public function getColumnsList($tableName)
     {
@@ -95,16 +103,20 @@ class DatabaseSearch
     }
 
     /**
-     * Get tableList property
-     */
+    * Undocumented function
+    *
+    * @return void
+    */
     public function getTablesList()
     {
         return $this->tableList;
     }
 
     /**
-     * Retrieve tables list from database
-     */  
+     * Undocumented function
+     *
+     * @return void
+     */
     private function retrieveTablesList()
     {
 
@@ -122,7 +134,10 @@ class DatabaseSearch
     }
 
     /**
-     * Retrieve columns list from table $tableName
+     * Undocumented function
+     *
+     * @param [type] $tableName
+     * @return void
      */
     private function retireveColumnsList($tableName)
     {
@@ -155,8 +170,10 @@ class DatabaseSearch
     }
 
     /**
-     * Get field type simplified without the length 
-     * ( ie : varchar(255) => varchar )
+     * Undocumented function
+     *
+     * @param [type] $type
+     * @return void
      */
     private function normalizeFieldType($type)
     {
@@ -165,7 +182,10 @@ class DatabaseSearch
     }
 
     /**
-     * 
+     * Undocumented function
+     *
+     * @param [type] $tableName
+     * @return void
      */
     private function removeValueFromTableList($tableName)
     {
