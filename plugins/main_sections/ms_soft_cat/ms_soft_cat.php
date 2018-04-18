@@ -99,7 +99,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
                       <table width='100%' class='table table-striped table-condensed table-hover cell-border dataTable no-footer' role='grid' style='margin-left: 0px; width: 998px;'>
                         <thead>
                           <tr role='row'>
-                            <th class='SOFTWARE_EXP' tabindex='0' aria-controls='affich_regex' rowspan='1' colspan='1' style='width: 100%;' aria-label='Regular expression or Software name: activate to sort column ascending'><font>".$l->g(1425)."</font></th>
+                            <th class='SOFTWARE_EXP' tabindex='0' aria-controls='affich_regex' rowspan='1' colspan='1' style='width: 100%;' aria-label='Regular expression or Software name: activate to sort column ascending'><font>".$l->g(1504)."</font></th>
                           </tr>
                         </thead>
                       </table>
