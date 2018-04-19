@@ -235,7 +235,12 @@
         }else{
             $table = $values[0];
         }
+
         $name = strtolower($values[1]);
+
+        if(!empty($l->g($this->translationArray[$name]))){
+            $name = $l->g($this->translationArray[$name]);
+        }
 
         return $table." : ".$name;
         
