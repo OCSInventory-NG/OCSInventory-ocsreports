@@ -27,6 +27,8 @@ if (AJAX) {
     ob_start();
 }
 
+require('require/function_search.php');
+require('require/function_computers.php');
 require("require/search/DatabaseSearch.php");
 require("require/search/AccountinfoSearch.php");
 require("require/search/TranslationSearch.php");
@@ -109,6 +111,26 @@ if (isset($protectedPost['old_table']) && isset($protectedPost['table_select']) 
 	}
 }
 
+if(isset($protectedGet['delete_row'])){
+	if(!AJAX){
+		$search->removeSessionsInfos($protectedGet['delete_row']);
+	}
+}
+
+if ( isset($protectedPost['del_check']) ){
+	if(!AJAX){
+		if(strlen($protectedPost['del_check'] == 1)){
+			deleteDid($protectedPost['del_check']);
+		}else{
+			$delIdArray = explode(",", $protectedPost['del_check']);
+			foreach ($delIdArray as $index) {
+				deleteDid($index);
+			}
+		}
+
+	}
+}
+
 ?>
 <div name="multiSearchCritsDiv">
 <?php
@@ -143,9 +165,11 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<button type="button" class="btn btn-danger" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+						<a href="?function=visu_search&delete_row=<?php echo $uniqid."_".$table ?>">
+							<button type="button" class="btn btn-danger" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</a>
 					</div> 
 				</div>
 			</div>
@@ -191,8 +215,42 @@ echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = $search->fieldsList;
 $list_col_cant_del = $search->defaultFields;
 $default_fields = $search->defaultFields;
+
 $tab_options['ARG_SQL'] = $search->queryArgs;
+$tab_options['CACHE'] = 'RESET';
+
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
+	$list_fonct["image/delete.png"]=$l->g(122);
+	$list_pag["image/delete.png"]=$pages_refs["ms_custom_sup"];
+		$tab_options['LBL_POPUP']['SUP']='name';
+}
+$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
+$list_fonct["image/mass_affect.png"]=$l->g(430);
+if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
+	$list_fonct["image/config_search.png"]=$l->g(107);
+	$list_pag["image/config_search.png"]=$pages_refs['ms_custom_param'];
+}
+if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES"){
+	$list_fonct["image/tele_search.png"]=$l->g(428);
+	$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
+}
+$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
+
+$list_fonct["image/groups_search.png"]=$l->g(583);
+$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
+
+$list_pag["image/cadena_ferme.png"]=$pages_refs["ms_custom_lock"];
+$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
+
+$list_id = $databaseSearch->getIdList($search);
+
+?>
+<div class='row' style='margin: 0'>
+	<?php add_trait_select($list_fonct,$list_id,$form_name,$list_pag); ?>
+</div>
+<?php
 
 echo close_form();
 
@@ -200,6 +258,7 @@ echo close_form();
 	</div>
 </div>
 <?php
+
 }
 
 if (AJAX) {
