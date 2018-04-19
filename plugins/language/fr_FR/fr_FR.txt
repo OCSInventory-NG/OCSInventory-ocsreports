@@ -1304,6 +1304,11 @@
 1425 tag
 1426 maj
 1427 Base URL
+1428 Batteries
+1429 Sim
+1430 Egale
+1431 Plus que
+1432 Moins que
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
