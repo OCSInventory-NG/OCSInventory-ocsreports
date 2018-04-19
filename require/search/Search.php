@@ -42,13 +42,15 @@
 
     public $fieldsList = [];
     public $defaultFields = [
-        "hardware.DEVICEID" => "hardware.DEVICEID",
-        "hardware.NAME" => "hardware.NAME",
-        "hardware.WORKGROUP" => "hardware.WORKGROUP",
-        "hardware.OSNAME" => "hardware.OSNAME",
+        "hardware.ID",
+        "hardware.DEVICEID",
+        "hardware.NAME",
+        "hardware.WORKGROUP",
+        "hardware.OSNAME",
     ];
 
     public $baseQuery = "SELECT";
+    public $baseLsitIdQuery = "SELECT hardware.ID";
     public $searchQuery = "FROM hardware ";
     public $queryArgs = [];
     public $columnsQueryConditions = "";
@@ -92,9 +94,22 @@
      */
     function __construct($translationSearch, $databaseSearch, $accountinfoSearch) 
     {
+
         $this->translationSearch = $translationSearch;
         $this->databaseSearch = $databaseSearch;
         $this->accountinfoSearch = $accountinfoSearch;
+
+        if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
+            $this->fieldsList['CHECK'] = 'ID';
+        }
+
+        // Translation for default fields
+        $defaultFieldsArray = ['CHECK' => 'CHECK'];
+        foreach ($this->defaultFields as $value) {
+            $translation = $this->translationSearch->getTranslationForListField($value);
+            $defaultFieldsArray[$translation] = $value;
+        }
+        $this->defaultFields = $defaultFieldsArray;
     }
 
     /**
@@ -130,6 +145,21 @@
                 }
             }
         }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $rowReference
+     * @return void
+     */
+    public function removeSessionsInfos($rowReference){
+        $explodedRef = explode("_", $rowReference);
+        unset($_SESSION['OCS']['multi_search'][$explodedRef[1]][$explodedRef[0]]);
+        if(empty($_SESSION['OCS']['multi_search'][$explodedRef[1]])){
+            unset($_SESSION['OCS']['multi_search'][$explodedRef[1]]);
+        }
+
     }
 
     /**
@@ -222,7 +252,7 @@
             $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $generatedId;
             if($sessData != null){
                 if($sessData[$tableName][key($sessData[$tableName])][self::SESS_FIELDS] == $fieldsInfos['Field']){
-                    $this->defaultFields[$generatedId] = $generatedId;
+                    $this->defaultFields[$this->translationSearch->getTranslationForListField($generatedId)] = $generatedId;
                 }
             }
 
