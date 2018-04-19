@@ -107,6 +107,9 @@
         $defaultFieldsArray = ['CHECK' => 'CHECK'];
         foreach ($this->defaultFields as $value) {
             $translation = $this->translationSearch->getTranslationForListField($value);
+            if($value = "hardware.NAME"){
+                $defaultFieldsArray["NAME"] = $value;
+            }
             $defaultFieldsArray[$translation] = $value;
         }
         $this->defaultFields = $defaultFieldsArray;
@@ -244,18 +247,39 @@
      */
     private function pushBaseQueryForTable($tableName, $sessData = null){
         foreach($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos){
-            $generatedId= $tableName.".".$fieldsInfos['Field'];
-            $this->baseQuery .= " %s.%s ,"; //AS '".$generatedId."' ,";
+            $generatedId = $tableName.".".$fieldsInfos['Field'];
+            $selectAs = $tableName.$fieldsInfos['Field'];
+            $this->baseQuery .= " %s.%s AS ".$selectAs." ,";
             $this->queryArgs[] = $tableName;
             $this->queryArgs[] = $fieldsInfos['Field'];
-            // TODO : Translations
-            $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $generatedId;
+            
+            if($generatedId == 'hardware.NAME'){
+                $this->fieldsList["NAME"] = $selectAs;
+            }else{
+                $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $selectAs;
+            }
+            
             if($sessData != null){
                 if($sessData[$tableName][key($sessData[$tableName])][self::SESS_FIELDS] == $fieldsInfos['Field']){
                     $this->defaultFields[$this->translationSearch->getTranslationForListField($generatedId)] = $generatedId;
                 }
             }
 
+        }
+    }
+
+    
+    /**
+     * Undocumented function
+     *
+     * @param [type] $sessDataTable
+     * @param [type] $fieldName
+     * @return boolean
+     */
+    private function isSearchCriteraOnlyOnce($sessDataTable, $fieldName){
+        $cptPresent = 0;
+        foreach ($sessDataTable as $uniqid => $values) {
+            # code...
         }
     }
 
