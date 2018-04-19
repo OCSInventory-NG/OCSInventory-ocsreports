@@ -85,6 +85,11 @@ lib/Ocsinventory/Agent/Backend/OS/Generic/Packaging/Gentoo.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Packaging/Pacman.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Packaging/RPM.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Printers/Cups.pm
+lib/Ocsinventory/Agent/Backend/OS/Generic/Repository.pm
+lib/Ocsinventory/Agent/Backend/OS/Generic/Repository/BSD.pm
+lib/Ocsinventory/Agent/Backend/OS/Generic/Repository/CentOS.pm
+lib/Ocsinventory/Agent/Backend/OS/Generic/Repository/Debian.pm
+lib/Ocsinventory/Agent/Backend/OS/Generic/Repository/Rhel.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Screen.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Users.pm
 lib/Ocsinventory/Agent/Backend/OS/HPUX.pm
