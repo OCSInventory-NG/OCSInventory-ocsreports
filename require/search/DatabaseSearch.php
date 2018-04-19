@@ -172,6 +172,22 @@ class DatabaseSearch
     /**
      * Undocumented function
      *
+     * @param Search $searchObj
+     * @return void
+     */
+    public function getIdList(Search $searchObj){
+        $query = $searchObj->baseQuery.$searchObj->searchQuery.$searchObj->columnsQueryConditions;
+        $idList = mysql2_query_secure($query, $this->dbObject, $searchObj->queryArgs);
+        $idArray = [];
+        foreach ($idList as $index => $fields) {
+            $idArray[] = $fields['ID'];
+        }
+        return $idArray;
+    }
+
+    /**
+     * Undocumented function
+     *
      * @param [type] $type
      * @return void
      */
