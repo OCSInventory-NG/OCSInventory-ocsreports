@@ -9,7 +9,7 @@ Ocsinventory::Agent::XML::Inventory - the XML abstraction layer
 
 =head1 DESCRIPTION
 
-OCS Inventory uses XML for the data transmition. The module is the
+OCS Inventory uses XML for the data transmission. The module is the
 abstraction layer. It's mostly used in the backend module where it
 called $inventory in general.
 
@@ -60,7 +60,7 @@ sub new {
 
 =item initialise()
 
-Runs the backend modules to initilise the data.
+Runs the backend modules to initialise the data.
 
 =cut
 sub initialise {
