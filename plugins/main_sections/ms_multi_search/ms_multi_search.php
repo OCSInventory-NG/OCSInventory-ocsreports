@@ -204,6 +204,9 @@ if(!empty($_SESSION['OCS']['multi_search'])){
 $search->generateSearchQuery($_SESSION['OCS']['multi_search']);
 $sql = $search->baseQuery.$search->searchQuery.$search->columnsQueryConditions;
 
+$_SESSION['OCS']['multi_search_query'] = $sql;
+$_SESSION['OCS']['multi_search_args'] = $search->queryArgs;
+
 $form_name = "affich_multi_crit";
 $table_name = $form_name;
 $tab_options = $protectedPost;
@@ -243,6 +246,9 @@ $list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
 
 $list_pag["image/cadena_ferme.png"]=$pages_refs["ms_custom_lock"];
 $list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
+
+$list_fonct["asset_cat"]=$l->g(2126);
+$list_pag["asset_cat"]=$pages_refs["ms_asset_cat"];
 
 $list_id = $databaseSearch->getIdList($search);
 
