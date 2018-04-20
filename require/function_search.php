@@ -517,7 +517,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 
 			if(computer){
 				if(cptr == 0){
-					alert('" . $l->g(7015) . "');
+					alert('" . addslashes($l->g(7015)) . "');
 					return;
 				}
 			}
