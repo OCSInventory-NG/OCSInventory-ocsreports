@@ -1471,7 +1471,7 @@
 7001 Plugins manager
 7002 Plugin's name
 7003 Version
-7004 Licence
+7004 License
 7005 Author
 7006 Last updated
 7007 Are you sure you want to delete this plugin
