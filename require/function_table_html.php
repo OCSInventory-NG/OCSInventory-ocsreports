@@ -1372,9 +1372,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 		$sqlword['HAVING']= preg_split("/having/i", $queryDetails);
 		$sqlword['ORDERBY']= preg_split("/order by/i", $queryDetails);
 		foreach ($sqlword as $word=>$filter){
-			if (!empty($filter['1'])){
+			if (!empty($filter['3'])){
 				foreach ($filter as  $key => $row){
-					if ($key == 1){
+					if ($key == 3){
 
 						$rang =0;
 						foreach($tab_options['visible_col'] as $index=>$column){
@@ -1384,7 +1384,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$name= $tab_options["replace_query_arg"][$name];
 							}
 							if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$name])){
-								$searchable =false;
+								$searchable =true;
 							}
 							if (!empty($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
 								$searchable = false;
@@ -1394,16 +1394,16 @@ function ajaxfiltre($queryDetails,$tab_options){
 								// if search in column selected
 								if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $rang == 0) {
 										$name_col = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['COL_SEARCH']);
-										$filtertxt =  " WHERE (( ".$name_col." LIKE '%%".$search."%%' ) ";
+										$filtertxt =  " HAVING (( ".$name_col." LIKE '%%".$search."%%' ) ";
 								} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 										if ($rang == 0){
-											$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";
+											$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
 										} else {
 											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
 										}
 								} else if (empty($tab_options["COL_SEARCH"])) {
 										if ($rang == 0){
-											$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";
+											$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
 										} else {
 											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
 										}
@@ -1411,7 +1411,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$rang++;
 							}
 						}
-						if ($word == "WHERE"){
+						if ($word == "HAVING"){
 							$queryDetails .= $filtertxt.") AND ".$row;
 						} else {
 							$queryDetails .= $filtertxt.")  ".$row;
@@ -1430,24 +1430,31 @@ function ajaxfiltre($queryDetails,$tab_options){
 			}
 		}
 		//REQUET SELECT FROM
-		$queryDetails .= " WHERE ";
+		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
-				$searchable =false;
+				$searchable =true;
 			}
 
 			if ($searchable){
 				$name = $tab_options['columns'][$column]['name'];
-				if (!empty($tab_options["replace_query_arg"][$name])){
-					$name= $tab_options["replace_query_arg"][$name];
-				}
-				if ($index == 0){
-					$filter =  "(( ".$name." LIKE '%%".$search."%%' ) ";
-				}
-				else{
-					$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+				if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $index == 0) {
+						$name_col = $tab_options['COL_SEARCH'];
+						$filter =  " (( ".$name_col." LIKE '%%".$search."%%' ) ";
+				} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+						if ($index == 0){
+							$filter =  " (( ".$name." LIKE '%%".$search."%%' ) ";
+						} else {
+							$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+						}
+				} else if (empty($tab_options["COL_SEARCH"])) {
+						if ($index == 0){
+							$filter =  " (( ".$name." LIKE '%%".$search."%%' ) ";
+						} else {
+							$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+						}
 				}
 				$index++;
 			}
@@ -1456,108 +1463,6 @@ function ajaxfiltre($queryDetails,$tab_options){
 	}
 	return $queryDetails;
 }
-/*
- *  NOT USED YET
- *
- * 	SUPPOSED TO ADD HAVING CLAUSE WHEN FILTERING TABLES RESULTS
- */
-
-// function ajaxfiltrehaving($queryDetails,$tab_options){
-
-// 	if ($tab_options["search"] && $tab_options["search"]['value']!="" && is_numeric($tab_options["search"]['value']) ){
-// 		if ( !empty($tab_options['HAVING'])){
-// 			$search = mysqli_real_escape_string($_SESSION['OCS']["readServer"],$tab_options["search"]['value']);
-// 			$sqlword['HAVING']= preg_split("/having/i", $queryDetails);
-// 			$sqlword['ORDERBY']= preg_split("/order by/i", $queryDetails);
-// 			foreach ($sqlword as $word=>$filter){
-// 				if (!empty($filter['1'])){
-// 					foreach ($filter as  $key => $row){
-// 						if ($key == 1){
-// 							foreach($tab_options['visible'] as $index=>$column){
-// 								$name = $tab_options['columns'][$column]['name'];
-// 								if (!empty($tab_options["replace_query_arg"][$name])){
-// 									$name= $tab_options["replace_query_arg"][$name];
-// 								}
-// 								$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-
-// 								if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$name])){
-// 									$searchable =true;
-// 								}else{
-// 									$searchable=false;
-// 								}
-// 								if (!empty($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
-// 									$searchable = false;
-// 								}
-// 								if ($searchable){
-// 									$name = $tab_options['HAVING'][$name]['name'];
-// 									if ($rang == 0){
-// 										$filtertxt =  " HAVING (( ".$name." == '".$search."' ) ";
-// 									}
-// 									else{
-// 										$filtertxt .= " OR  ( ".$name." == '".$search."' ) ";
-// 									}
-// 									$rang++;
-// 								}
-// 							}
-// 							if ($word == "HAVING"){
-// 								$queryDetails .= $filtertxt.") AND ".$row;
-// 							}
-// 							else{
-// 								$queryDetails .= $filtertxt.")  ".$row;
-// 							}
-// 						}
-// 						else {
-// 							if($key>1){
-// 								$queryDetails.=" ".$word." ".$row;
-// 							}else{
-// 								$queryDetails = $row;
-// 							}
-
-// 						}
-// 					}
-// 				return $queryDetails;
-// 				}
-// 			}
-// 			$queryDetails .= " HAVING ";
-// 			$index =0;
-// 			foreach($tab_options['visible'] as $column){
-// 				$name = $tab_options['columns'][$column]['name'];
-// 				if (!empty($tab_options["replace_query_arg"][$name])){
-// 					$name= $tab_options["replace_query_arg"][$name];
-// 				}
-// 				$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-
-// 				if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$name])){
-// 					$searchable =true;
-// 				}else{
-// 					$searchable=false;
-// 				}
-// 				if (!empty($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
-// 					$searchable = false;
-// 				}
-// 				if ($searchable){
-// 					$name = $tab_options['HAVING'][$name]['name'];
-// 					if ($index == 0){
-// 						$filtertxt =  " HAVING (( ".$name." == '".$search."' ) ";
-// 					}
-// 					else{
-// 						$filtertxt .= " OR  ( ".$name." == '".$search."' ) ";
-// 					}
-// 					$index++;
-// 				}
-// 			}
-// 			$queryDetails .= $filter.") ";
-// 		}
-// 	}
-// 	return $queryDetails;
-// }
-
-
-
-
-
-
-
 
 
 //fonction qui retourne un string contenant le bloc généré ORDER BY de la requete
@@ -1963,8 +1868,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 
 	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
-	// NOT USED YET
-	//$queryDetails = ajaxfiltrehaving($queryDetails,$tab_options);
 
 	$queryDetails .= ajaxsort($tab_options);
 	$_SESSION['OCS']['csv']['SQLNOLIMIT'][$tab_options['table_name']]=$queryDetails;
