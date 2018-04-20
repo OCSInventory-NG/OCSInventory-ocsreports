@@ -863,7 +863,7 @@
 976 LOCK de L'INTERFACE SUR LE RESULTAT DE LA REQUETE
 977 LOCK
 978 Vous aller verrouiller toute l'interface sur les résultats de cette recherche multicritère
-979 Pour revenir à un état normal, vous cliquerez sur l'icône <img src='image/cadena_op.png' > se trouvant en haut à droite de l'interface
+979 Pour revenir à un état normal, vous cliquerez sur l'icône <span class='glyphicon glyphicon-lock'></span> se trouvant en haut à droite de l'interface
 980 Paquets sur les machines
 981 Paquets sur les groupes de redistribution
 982 AUCUNE REGLE D'AFFECTATION N'EXISTE. PAS DE REDISTRIBUTION POSSIBLE.
@@ -1309,6 +1309,13 @@
 1430 Egale
 1431 Plus que
 1432 Moins que
+
+1500 Catégorie de logiciels
+1501 Nouvelle catégorie
+1502 Liste des catégories
+1503 Ajouter des logiciels
+1504 Expression régulière ou nom du logiciel
+1505 Sélectionner une catégorie par défaut
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

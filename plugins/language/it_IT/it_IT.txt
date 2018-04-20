@@ -863,7 +863,7 @@
 976 INTERFACCIA BLOCCATA SUI RISULTATI OTTENUTI
 977 Blocca
 978 Stai per bloccare tutte le interfacce sui risultati di ricerca con criteri multipli
-979 Per ritornare allo stato predefinito, devi cliccare sull'icona <img src='image/cadena_op.png'> che si trova in alto a destra dell'interfaccia
+979 Per ritornare allo stato predefinito, devi cliccare sull'icona <span class='glyphicon glyphicon-lock'></span> che si trova in alto a destra dell'interfaccia
 980 Pacchetti nei computer
 981 Pacchetti nei gruppi di server
 982 NON SONO DISPONIBILI REGOLE VALIDE. NON E' POSSIBILE PROSEGUIRE LA RIDISTRIBUZIONE.

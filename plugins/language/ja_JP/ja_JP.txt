@@ -862,7 +862,7 @@
 976 検索結果で画面をロックします
 977 ロックする
 978 検索結果で画面をロックします。
-979 標準状態に戻すには、画面右上の e <img src='image/cadena_op.png' > アイコンをクリックして下さい。
+979 標準状態に戻すには、画面右上の <span class='glyphicon glyphicon-lock'></span> アイコンをクリックして下さい。
 980 コンピュータ上のパッケージ
 981 サーバ上のグループ別パッケージ
 982 NO AFFECTATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.

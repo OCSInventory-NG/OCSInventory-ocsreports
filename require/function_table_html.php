@@ -1727,13 +1727,13 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 						break;
 					case "ZIP":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png title='".$l->g(2120)."'></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><span class='glyphicon glyphicon-download-alt' title='".$l->g(2120)."'></span></a>";
 						break;
 					case "STAT":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png' title='".$l->g(1251)."'></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><span class='glyphicon glyphicon-stats' title='".$l->g(1251)."'></span></a>";
 						break;
 					case "ACTIVE":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' title='".$l->g(431)."'></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><span class='glyphicon glyphicon-share' title='".$l->g(431)."'></span></a>";
 						break;
 					case "SHOWACTIVE":
 						if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
@@ -2253,14 +2253,14 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 						$lien = 'KO';
 					}elseif ($key == "ZIP"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><span class='glyphicon glyphicon-download-alt' title='".$l->g(2120)."'></span></a>";
 						$lien = 'KO';
 					}
 					elseif ($key == "STAT"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png'></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><span class='glyphicon glyphicon-stats'></span></a>";
 						$lien = 'KO';
 					}elseif ($key == "ACTIVE"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' ></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><span class='glyphicon glyphicon-share' title='".$l->g(431)."'></span></a>";
 						$lien = 'KO';
 					}elseif ($key == "SHOWACTIVE"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";

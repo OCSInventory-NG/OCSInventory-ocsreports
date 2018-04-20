@@ -68,7 +68,7 @@ if(is_null($value_banniere)){
             if (isset($_SESSION['OCS']["loggeduser"]) && !isset($protectedGet["popup"])) {
                 echo '<ul class="nav nav navbar-nav navbar-right">';
                 if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
-                    echo "<li class='dropdown'><a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'><img src='image/cadena_op.png' alt='settings'>" . $l->g(891) . "</a></li>";
+                    echo "<li class='dropdown'><a onclick='return pag(\"RESET\",\"LOCK\",\"log_out\")'><span class='glyphicon glyphicon-lock'></span>" . $l->g(891) . "</a></li>";
                 }
 
                 echo '<li class="dropdown"><a href="#" data-toggle="dropdown" >
