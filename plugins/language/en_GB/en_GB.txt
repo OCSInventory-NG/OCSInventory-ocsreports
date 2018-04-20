@@ -1449,7 +1449,11 @@
 2123 Available packages
 2124 Deleted packages
 2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
-
+2126 Assets categorization
+2127 The current multi search query will be used as an asset categorization crtieria.
+2128 Are you sure ?
+2129 Back to multi search
+2130 Assets categories
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
