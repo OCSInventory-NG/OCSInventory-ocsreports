@@ -40,6 +40,8 @@
     const DB_VARCHAR = "varchar";
     const DB_DATETIME = "datetime";
 
+    const MULTIPLE_DONE = "DONE";
+
     public $fieldsList = [];
     public $defaultFields = [
         "hardware.ID",
@@ -78,6 +80,11 @@
         "LIKE",
         "DIFFERENT",
     ];
+
+    /**
+     * Multiples fields search
+     */
+    private $multipleFieldsSearch = [];
 
     /**
      * Final query and args used for multicrits
@@ -223,9 +230,22 @@
             }
 
             foreach ($searchInfos as $index => $value) {
+                if(!array_key_exists($tableName.$value[self::SESS_FIELDS], $this->multipleFieldsSearch)){
+                    $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] = 1;
+                }else{
+                    $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] += 1;
+                }
+            }
+
+            foreach ($searchInfos as $index => $value) {
+                if( $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] > 1 ){
+                    $operator = "OR";
+                }else{
+                    $operator = "AND";
+                }
                 // Generate condition
                 $this->getOperatorSign($value);
-                $this->columnsQueryConditions .= " %s.%s %s '%s' AND";
+                $this->columnsQueryConditions .= " %s.%s %s '%s' $operator";
                 $this->queryArgs[] = $tableName;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
                 $this->queryArgs[] = $value[self::SESS_OPERATOR];
@@ -235,6 +255,7 @@
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
         $this->columnsQueryConditions = substr($this->columnsQueryConditions, 0, -3);
+        //$this->columnsQueryConditions .= "GROUP BY hardware.id";
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
 
