@@ -67,7 +67,7 @@
 114 Регистрировать
 115 Обновить
 116 Добавить
-119 Вы действительно хотите удалить компьютер?
+119 Вы уверены, что хотите удалить компьютер
 122 Удалить
 129 СОДЕРЖИТ
 130 НЕ СОДЕРЖИТ
@@ -154,7 +154,7 @@
 243 Пользователь
 244 Добавить нового пользователя
 245 удаление прошло успешно
-246 Вы действительно хотите удалить пользователя?
+246 Вы уверены, что хотите удалить пользователя
 247 Имя пользователя MySQL
 248 Пароль MySQL
 249 Невозможно соединиться с сервером MySql. Пожалуйста, введите правильное имя пользователя и пароль.
@@ -706,7 +706,7 @@
 818 Удалить из группы
 819 компьютер(ов) добавлено в группу
 820 Последний контакт
-821 SERVER CONFIGURATION MODIFICATION
+821 ИЗМЕНЕНИЕ КОНФИГУРАЦИИ СЕРВЕРА
 822 Настроить
 823 По умолчанию
 824 Interface logs activation
@@ -717,10 +717,10 @@
 829 Директория для создания пакетов развертывания
 830 Адрес сервера LDAP
 831 Порт сервера LDAP
-832 Ldap base name + dc
+832 Базовое имя LDAP  + DC
 833 Field name to define login
 834 Version LDAP_OPT_PROTOCOL_VERSION
-835 Add RSX
+835 Добавить RSX
 836 Управление ТИПАМИ
 837 У Вас нет доступа к этим данным
 838 Диск: Буква диска
@@ -779,30 +779,30 @@
 891 Remove interface LOCK
 892 connect with another account
 893 NO TAG ASSIGNED TO YOUR PROFILE
-894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
+894 К ВАШЕМУ ПРОФИЛЮ НЕ ОПРЕДЕЛЕНЫ УРОВНИ ПРАВ
 895 TAG Modification
-898 Add an annotation
-899 Writer
-900 Do you really want to delete selection?
+898 Добавить аннотацию
+899 Автор
+900 Вы уверены, что хотите удалить раздел?
 901 Action on the query result
 902 Action on the result of selection
-903 You must fill the explanation field
-904 Package reassignment
+903 Вы должны заполнить поле объяснения
+904 Переназначение пакетов
 905 Explanation about perfomed actions<br>on computer to be able to <br>assign package
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
 908 Mobile terminal information
 909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
 910 Проверить
-911 Switch profile of
+911 Переключить профиль
 912 Export list of computers that have this software
 913 Количество неинвентаризованных сетевых интерфейсов
 914 Number of agents that didn't send inventory since at least
 915 сообщения
 916 The value must be higher than
-917 FREQUENCY value
+917 Значение FREQUENCY
 918 Differential between LASTDATE and LASTCOME
-919 Are you sure to want to delete this message
+919 Вы уверены, что хотите удалить это сообщение
 920 ERROR, the requested doesn't exists.
 921 Удалить эту категорию
 922 To merge, you have to select at least 2 computers
@@ -977,7 +977,7 @@
 1091 Новый запрос был отправлен
 1092 послать новый запрос
 1093 Неполная база данных
-1094 Please replay the complete installation of the database
+1094 Почалуйста совершите полную переустановку базы данных 
 1095 Status Admin
 1096 Fields list
 1097 Tabs list
@@ -1324,7 +1324,7 @@
 2017 используя
 2018 импортирован
 2019 были уже импортированы
-2020 Your install.php exists in your installation directory (by default : /usr/share/ocsinventory-reports/ocsreports).
+2020 Файл install.php присутствует в установочном каталоге (по умолчанию: /usr/share/ocsinventory-reports/ocsreports).
 2021 Your logs directory (by default : /var/lib/ocsinventory-reports/logs) is not writable
 2022 You can't send a file larger than
 2023 Удалить
@@ -1336,15 +1336,15 @@
 2029 The config directory is not writable
 
 
-2030 OCS-NG Inventory Installation
-2031 Current installed version
+2030 Установка OCS-NG Inventory
+2031 Текущая установленная версия
 2032 is lower than this version
-2033 Automatic install launched.
-2034 DB configuration not completed. Automatic install launched
+2033 Автоматическая установка запущена.
+2034 Конфигурация базы не выполнена. Автоматическая установка запущена
 2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
-2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php5-mysql)
-2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
+2037 ОШИБКА: MySQL для PHP не установлен.<br>Попробуйте установить пакет MySQL для php (Debian: php5-mysql)
+2038 ВНИМАНИЕ: GD для PHP не установлен.<br>Вы не сможете увидеть графический интерфейс<br>Попробуйте раскомментировать extension=php_gd2.dll (Windows), удалив точку с запятой в файле php.ini, или установите пакет php5-gd (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your vhost configuration to increase this limit.
@@ -1354,7 +1354,7 @@
 2045 Label NOT added (not tag will be asked on client launch)
 2046 ERROR: MySQL authentication problem.
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
-2050 Installation finished you can log in index.php with login=admin and password=admin
+2050 Установка завершена, Вы можете войти на index.php используя логин=admin и пароль=admin
 2051 Click here to enter OCS-NG GUI
 2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successful)
 2053 Please wait, database update may take up to 30 minutes...
@@ -1414,7 +1414,7 @@
 2110 Ожидаемая версия
 2111 Произвести обновление
 2112 The following file is not present or is not readable
-2113 Your PHP installation is older than version 5.4 and will not be compatible with incoming versions (version&nbsp;:&nbsp;
+2113 Версия установленного PHP ниже версии 5.4 и будет несовместима со следующими версиями (версия&nbsp;:&nbsp;
 2114 No sql file found for version
 2115 The user you typed does not seem to be root
 2116 The config/profiles directory is not writable
@@ -1426,7 +1426,7 @@
 2122 Изменить
 2123 Доступные пакеты
 2124 Удаленные пакеты
-2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
+2125 ВНИМАНИЕ: CURL для PHP не установлен. Попробуйте установить пакет php-curl (Linux).
 
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
@@ -1459,11 +1459,11 @@
 6003 Плагин
 6004 Всего доступно
 6005 Power on/off
-6006 WARNING : Please install php-soap, the plugin engine can't work without it
+6006 ВНИМАНИЕ : Пожалуйста установите php-soap, система плагинов не работает без него
 6007 Пожалуйста установите следующие модули, чтобы эта функция заработала&nbsp;:&nbsp;
 6008 Can't write in the following directory&nbsp;:&nbsp;
 6009 Вы не можете устанавливать плагины, исправьте ошибки выше.
-6010 The communication server encountered the following error on install&nbsp;:&nbsp;
+6010 Коммуникационный сервер столкнулся со следующей ошибкой при установке&nbsp;:&nbsp;
 6011 Щелкните здесь, чтобы решить Вашу проблему
 6012 Выбрать все
 
@@ -1480,7 +1480,7 @@
 7010 Этот плагин уже был установлен
 7011 is an invalid plugin, check your sources.
 7012 Установка прервана !
-7013 installed
-7014 There is currently no plugin available for installation
+7013 установлено
+7014 Нет плагинов доступных для установки
 7015 Выберите по крайней мере один компьютер !
 7016 MTU
