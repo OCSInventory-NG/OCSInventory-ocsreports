@@ -180,7 +180,7 @@ class DatabaseSearch
         $idList = mysql2_query_secure($query, $this->dbObject, $searchObj->queryArgs);
         $idArray = [];
         foreach ($idList as $index => $fields) {
-            $idArray[] = $fields['ID'];
+            $idArray[] = $fields['hardwareID'];
         }
         return $idArray;
     }
