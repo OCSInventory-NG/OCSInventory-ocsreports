@@ -197,66 +197,70 @@ if(!empty($_SESSION['OCS']['multi_search'])){
 	<div class="col-sm-12">
 <?php 
 
-/**
- * Generate Search fields
- */
+if($protectedPost['search_ok']){
 
-$search->generateSearchQuery($_SESSION['OCS']['multi_search']);
-$sql = $search->baseQuery.$search->searchQuery.$search->columnsQueryConditions;
+	/**
+	 * Generate Search fields
+	 */
 
-$_SESSION['OCS']['multi_search_query'] = $sql;
-$_SESSION['OCS']['multi_search_args'] = $search->queryArgs;
+	$search->generateSearchQuery($_SESSION['OCS']['multi_search']);
+	$sql = $search->baseQuery.$search->searchQuery.$search->columnsQueryConditions;
 
-$form_name = "affich_multi_crit";
-$table_name = $form_name;
-$tab_options = $protectedPost;
-$tab_options['form_name'] = $form_name;
-$tab_options['table_name'] = $table_name;
+	$_SESSION['OCS']['multi_search_query'] = $sql;
+	$_SESSION['OCS']['multi_search_args'] = $search->queryArgs;
 
-echo open_form($form_name, '', '', 'form-horizontal');
+	$form_name = "affich_multi_crit";
+	$table_name = $form_name;
+	$tab_options = $protectedPost;
+	$tab_options['form_name'] = $form_name;
+	$tab_options['table_name'] = $table_name;
 
-$list_fields = $search->fieldsList;
-$list_col_cant_del = $search->defaultFields;
-$default_fields = $search->defaultFields;
+	echo open_form($form_name, '', '', 'form-horizontal');
 
-$tab_options['ARG_SQL'] = $search->queryArgs;
-$tab_options['CACHE'] = 'RESET';
+	$list_fields = $search->fieldsList;
+	$list_col_cant_del = $search->defaultFields;
+	$default_fields = $search->defaultFields;
 
-ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+	$tab_options['ARG_SQL'] = $search->queryArgs;
+	$tab_options['CACHE'] = 'RESET';
 
-if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
-	$list_fonct["image/delete.png"]=$l->g(122);
-	$list_pag["image/delete.png"]=$pages_refs["ms_custom_sup"];
-		$tab_options['LBL_POPUP']['SUP']='name';
+	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
+		$list_fonct["image/delete.png"]=$l->g(122);
+		$list_pag["image/delete.png"]=$pages_refs["ms_custom_sup"];
+			$tab_options['LBL_POPUP']['SUP']='name';
+	}
+	$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
+	$list_fonct["image/mass_affect.png"]=$l->g(430);
+	if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
+		$list_fonct["image/config_search.png"]=$l->g(107);
+		$list_pag["image/config_search.png"]=$pages_refs['ms_custom_param'];
+	}
+	if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES"){
+		$list_fonct["image/tele_search.png"]=$l->g(428);
+		$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
+	}
+	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
+
+	$list_fonct["image/groups_search.png"]=$l->g(583);
+	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
+
+	$list_pag["image/cadena_ferme.png"]=$pages_refs["ms_custom_lock"];
+	$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
+
+	$list_fonct["asset_cat"]=$l->g(2126);
+	$list_pag["asset_cat"]=$pages_refs["ms_asset_cat"];
+
+	$list_id = $databaseSearch->getIdList($search);
+
+	?>
+	<div class='row' style='margin: 0'>
+		<?php add_trait_select($list_fonct,$list_id,$form_name,$list_pag); ?>
+	</div>
+	<?php
+
 }
-$list_fonct["image/cadena_ferme.png"]=$l->g(1019);
-$list_fonct["image/mass_affect.png"]=$l->g(430);
-if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES"){
-	$list_fonct["image/config_search.png"]=$l->g(107);
-	$list_pag["image/config_search.png"]=$pages_refs['ms_custom_param'];
-}
-if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES"){
-	$list_fonct["image/tele_search.png"]=$l->g(428);
-	$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
-}
-$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
-
-$list_fonct["image/groups_search.png"]=$l->g(583);
-$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
-
-$list_pag["image/cadena_ferme.png"]=$pages_refs["ms_custom_lock"];
-$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag"];
-
-$list_fonct["asset_cat"]=$l->g(2126);
-$list_pag["asset_cat"]=$pages_refs["ms_asset_cat"];
-
-$list_id = $databaseSearch->getIdList($search);
-
-?>
-<div class='row' style='margin: 0'>
-	<?php add_trait_select($list_fonct,$list_id,$form_name,$list_pag); ?>
-</div>
-<?php
 
 echo close_form();
 
