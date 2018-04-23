@@ -63,7 +63,7 @@ $sql_list_alpha['SQL'] = "select substr(trim(" . $field_name_soft . "),1,1) alph
 if (is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR'])) {
     $sql_list_alpha['SQL'] .= ",count(*) nb ";
     $sql_fin['SQL'] = " having nb %s %s ";
-    
+
     switch ($protectedPost['COMPAR']) {
         case "lt":
             $compar = "<";
@@ -77,7 +77,7 @@ if (is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR'])) 
         default:
             break;
     }
-    
+
     $sql_fin['ARG'] = array($compar, $protectedPost['NBRE']);
 }
 $sql_list_alpha['SQL'] .= " from ";
@@ -109,10 +109,10 @@ if ($_SESSION['OCS']['REQ_ONGLET_SOFT'] != $sql_list_alpha || !isset($protectedP
     $result_list_alpha = mysql2_query_secure($sql_list_alpha['SQL'], $_SESSION['OCS']["readServer"], $sql_list_alpha['ARG']);
     while ($item_list_alpha = mysqli_fetch_object($result_list_alpha)) {
 
-        if (mb_strtoupper($item_list_alpha->alpha) == '"') {
+        if (mb_strtoupper($item_list_alpha->alpha, 'UTF-8') == '"') {
             $car = "'";
         } else {
-            $car = mb_strtoupper($item_list_alpha->alpha);
+            $car = mb_strtoupper($item_list_alpha->alpha, 'UTF-8');
         }
 
         if ($car != "") {
