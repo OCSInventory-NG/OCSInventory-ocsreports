@@ -159,7 +159,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     }
 
     $list_fields = array($l->g(475) => 'FILEID',
-        $l->g(593) => 'CAST(from_unixtime(FILEID) AS DATETIME(0))',
+        $l->g(593) => 'CAST(from_unixtime(FILEID) AS DATETIME)',
         'SHOWACTIVE' => 'NAME',
         $l->g(440) => 'PRIORITY',
         $l->g(464) => 'FRAGMENTS',
@@ -324,7 +324,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     //only for profils who can activate packet
 
 }elseif ( $protectedPost['onglet'] == "DELETED_PACKET") {
-    
+
     if (isset($protectedPost['SUP_PROF']) and $protectedPost['SUP_PROF'] != ''){
         remove_packet($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';
