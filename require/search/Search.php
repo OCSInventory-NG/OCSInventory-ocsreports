@@ -255,7 +255,7 @@
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
         $this->columnsQueryConditions = substr($this->columnsQueryConditions, 0, -3);
-        //$this->columnsQueryConditions .= "GROUP BY hardware.id";
+        $this->columnsQueryConditions .= "GROUP BY hardware.id";
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
 
