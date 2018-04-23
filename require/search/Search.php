@@ -276,7 +276,7 @@
             
             if($generatedId == 'hardware.NAME'){
                 $this->fieldsList["NAME"] = $selectAs;
-            }else{
+            } else {
                 $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $selectAs;
             }
             
