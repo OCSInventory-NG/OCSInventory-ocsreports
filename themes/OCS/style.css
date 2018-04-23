@@ -156,3 +156,28 @@ input[type=checkbox], input[type=radio] {
     margin: 0 auto 10px;
     display: block;
 }
+
+table.dataTable .glyphicon-stats {
+    color: #337ab7  !important;
+    font-weight: bold;
+}
+
+table.dataTable .glyphicon-remove {
+    color:#C12E2A  !important;
+    font-weight: bold;
+}
+
+table.dataTable .glyphicon-share {
+    color:#5cb85c  !important;
+    font-weight: bold;
+}
+
+table.dataTable .glyphicon-download-alt {
+    color:#6c757d  !important;
+    font-weight: bold;
+}
+
+table.dataTable a {
+    color: #961b7e  !important;
+    font-weight: bold;
+}
