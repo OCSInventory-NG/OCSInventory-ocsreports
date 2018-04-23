@@ -181,3 +181,23 @@ table.dataTable a {
     color: #961b7e  !important;
     font-weight: bold;
 }
+
+.pagination > li > span {
+    color: #961b7e;
+}
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+        background-color: #961b7e;
+        border-color: #961b7e;
+}
+
+.pagination>li>a:focus,
+.pagination>li>a:hover,
+.pagination>li>span:focus,
+.pagination>li>span:hover {
+    color:  #71145F;
+}
