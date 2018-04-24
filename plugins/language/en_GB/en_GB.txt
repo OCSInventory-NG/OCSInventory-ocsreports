@@ -852,7 +852,7 @@
 966 Agent
 967 BELONG TO
 968 DON'T BELONG TO
-969 Packages historic
+969 Packages history
 970 Packages
 971 GROUP COMPUTERS REMOVAL
 972 Computers have been removed from group well
@@ -1313,12 +1313,15 @@
 1435 Location
 1436 Process
 1437 Chemistry
-1438 SDBS Version
+1438 SBDS Version
 1439 Max error
 1440 OEM Specific
 1441 Revalidate time
 1442 XML Definition
 1443 Default Gateway
+1444 USB Devices
+1445 Group info
+1446 Model name
 
 1500 Software category
 1501 New category
