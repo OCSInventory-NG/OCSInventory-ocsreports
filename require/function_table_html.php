@@ -1610,6 +1610,9 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
 							if ($row['ID'])
 								$link_computer.="&systemid=".$row['ID'];
+							elseif($row['hardwareID'])
+								$link_computer.="&systemid=".$row['hardwareID'];
+
 							if ($row['MD5_DEVICEID'])
 								$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
 							$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
