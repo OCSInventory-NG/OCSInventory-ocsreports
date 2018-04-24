@@ -73,24 +73,24 @@ if (isset($protectedPost['table_select'])) {
 						<select class="form-control" name="table_select" onchange="this.form.submit()">
 							<?php echo $search->getSelectOptionForTables($defaultTable)  ?>
 						</select>
-					</div> 
+					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
 						<select class="form-control" name="columns_select">
-							<?php 
+							<?php
 								if (!is_null($defaultTable)) {
 									echo $search->getSelectOptionForColumns($defaultTable);
 								}
 							?>
 						</select>
-					</div> 
+					</div>
 				</div>
 				<div class="col-sm-2">
 					<input type="submit" class="btn btn-info" value="<?php echo $l->g(116) ?>">
 				</div>
 				<div class="col-sm-2"></div>
-			</div> 
+			</div>
 
 			<input name="old_table" type="hidden" value="<?php echo $defaultTable ?>">
 
@@ -100,14 +100,14 @@ if (isset($protectedPost['table_select'])) {
 	</div>
 </div>
 
-<?php 
+<?php
 
 // Add var to session datamap
 if (isset($protectedPost['old_table']) && isset($protectedPost['table_select']) && !isset($protectedPost['search_ok'])) {
-	if ($protectedPost['old_table'] == $protectedPost['table_select'] && $protectedPost['table_select'] != '----------') {
+	if ($protectedPost['old_table'] === $protectedPost['table_select']) {
 		if(!AJAX){
 			$search->addSessionsInfos($protectedPost);
-		}	
+		}
 	}
 }
 
@@ -147,7 +147,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 			?>
 			<div class="row" name="<?php echo $uniqid ?>">
 				<div class="col-sm-3">
-					<div class="btn btn-info disabled" style="cursor:default;"><?php 
+					<div class="btn btn-info disabled" style="cursor:default;"><?php
 						echo $translationSearch->getTranslationFor($table)." : ".$translationSearch->getTranslationFor($values['fields']);
 					?></div>
 				</div>
@@ -156,12 +156,12 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>">
 							<?php echo $search->getSelectOptionForOperators($values['operator'])  ?>
 						</select>
-					</div> 
+					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
 						<?php echo $search->returnFieldHtml($uniqid, $values, $table) ?>
-					</div> 
+					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
@@ -170,10 +170,10 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</a>
-					</div> 
+					</div>
 				</div>
 			</div>
-			<?php	
+			<?php
 		}
 	}
 }
@@ -193,9 +193,10 @@ if(!empty($_SESSION['OCS']['multi_search'])){
 </div>
 <br/>
 <br/>
+<hr/>
 <div class="row">
 	<div class="col-sm-12">
-<?php 
+<?php
 
 if($protectedPost['search_ok']){
 
