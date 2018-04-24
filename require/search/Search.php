@@ -23,14 +23,14 @@
 
  /**
   * This class implement the base behavior for search :
-  * - Query generation 
+  * - Query generation
   * - Data management
   * - Return structure
   * Used in new search
   */
  class Search
  {
-     
+
     const SESS_FIELDS = "fields";
     const SESS_VALUES = "value";
     const SESS_OPERATOR = "operator";
@@ -69,7 +69,7 @@
         "ID",
         "HARDWARE_ID"
     ];
-    
+
     /**
      * Operator list
      */
@@ -99,7 +99,7 @@
      * @param [type] $databaseSearch
      * @param [type] $accountinfoSearch
      */
-    function __construct($translationSearch, $databaseSearch, $accountinfoSearch) 
+    function __construct($translationSearch, $databaseSearch, $accountinfoSearch)
     {
 
         $this->translationSearch = $translationSearch;
@@ -251,7 +251,7 @@
                 $this->queryArgs[] = $value[self::SESS_OPERATOR];
                 $this->queryArgs[] = $value[self::SESS_VALUES];
             }
-            
+
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
         $this->columnsQueryConditions = substr($this->columnsQueryConditions, 0, -3);
@@ -273,13 +273,13 @@
             $this->baseQuery .= " %s.%s AS ".$selectAs." ,";
             $this->queryArgs[] = $tableName;
             $this->queryArgs[] = $fieldsInfos['Field'];
-            
+
             if($generatedId == 'hardware.NAME'){
                 $this->fieldsList["NAME"] = $selectAs;
             } else {
                 $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $selectAs;
             }
-            
+
             if($sessData != null){
                 if($sessData[$tableName][key($sessData[$tableName])][self::SESS_FIELDS] == $fieldsInfos['Field']){
                     $this->defaultFields[$this->translationSearch->getTranslationForListField($generatedId)] = $generatedId;
@@ -289,7 +289,7 @@
         }
     }
 
-    
+
     /**
      * Undocumented function
      *
@@ -328,7 +328,7 @@
             case 'DIFFERENT':
                 $valueArray[self::SESS_OPERATOR] = "NOT LIKE";
                 $valueArray[self::SESS_VALUES] = "%".$valueArray[self::SESS_VALUES]."%";
-                break;             
+                break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
                 break;
@@ -368,14 +368,17 @@
     {
         $html = "<option>----------</option>";
         foreach ($this->databaseSearch->getTablesList() as $tableName) {
-
             $translation = $this->translationSearch->getTranslationFor($tableName);
-            if ($defautValue == $tableName) {
-                $html .= "<option selected value=".$tableName." >".$translation."</option>";
+            $sortTable[$tableName] .= $translation;
+        }
+        asort($sortTable);
+        foreach ($sortTable as $key => $value){
+            if ($defautValue == $key) {
+                $html .= "<option selected value=".$key." >".$value."</option>";
             } else {
-                $html .= "<option value=".$tableName." >".$translation."</option>";
+                $html .= "<option value=".$key." >".$value."</option>";
             }
-            
+
         }
         return $html;
     }
@@ -392,9 +395,13 @@
         foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
             if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                 $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
-                $html .= "<option value=".$fieldsInfos[DatabaseSearch::FIELD]." >".
-                $trField.
-                "</option>";
+                $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
+            }
+        }
+        asort($sortColumn);
+        foreach ($sortColumn as $key => $value){
+            if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+                $html .= "<option value=".$key." >".$value."</option>";
             }
         }
         return $html;
@@ -440,7 +447,7 @@
                     </span>
                 </div>';
                 break;
-            
+
             default:
                 $html = '<input class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
                 break;
@@ -450,4 +457,3 @@
     }
 
  }
- 
