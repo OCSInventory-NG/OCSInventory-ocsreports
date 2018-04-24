@@ -325,7 +325,7 @@ function html_header($noJavascript = false) {
 				<link rel="shortcut icon" href="favicon.ico">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css">
-				<link rel="stylesheet" href="librairies/select2/css/select2.min.css" />
+				<link rel="stylesheet" href="libraries/select2/css/select2.min.css" />
 				<link rel="stylesheet" href="themes/'.$value_theme['tvalue']['CUSTOM_THEME'].'/style.css">
 				<link rel="stylesheet" href="css/dataTables-custom.css">
 				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.css">
