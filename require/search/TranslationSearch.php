@@ -37,7 +37,7 @@
         "download_history" => 969,
         //"download_servers" => "A ajouter",
         "drives" => 92,
-        "groups" => 577,
+        "groups" => 1445,
         //"groups_cache" => 995,
         "hardware" => 23,
         "inputs" => 91,
@@ -58,7 +58,7 @@
         "softwares" => 765,
         "sounds" => 96,
         "storages" => 63,
-        "usbdevices" => 1331,
+        "usbdevices" => 1444,
         "videos" => 61,
         "virtualmachines" => 1266,
         "id" => 1402,
@@ -74,7 +74,7 @@
         "chemistry" => 1437,
         "designcapacity" => 83,
         "designvoltage" => 1319,
-        "sdbsversion" => 1438,
+        "sbdsversion" => 1438,
         "maxerror" => 1439,
         "oemspecific" => 1440,
         "smanufacturer" => 64,
@@ -145,11 +145,11 @@
         //"uuid" => "",
         "arch" => 1247,
         "interface" => 1247,
-        "pointtype" => 1247,
+        //"pointtype" => 1247,
         "arch" => 1247,
         "purpose" => 283,
         "numslots" => 94,
-        "model" => 49,
+        "model" => 1446,
         "serial" => 36,
         "typemib" => 280,
         "mtu" => 7016,
@@ -227,7 +227,7 @@
 
     public function getTranslationForListField($string){
         global $l;
-        
+
         $values = explode(".", $string);
 
         if(!empty($l->g($this->translationArray[$values[0]]))){
@@ -243,7 +243,7 @@
         }
 
         return $table." : ".$name;
-        
+
     }
-    
+
  }
