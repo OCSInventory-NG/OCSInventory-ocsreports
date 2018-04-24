@@ -177,6 +177,8 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 		}
 	}
 }
+
+if(!empty($_SESSION['OCS']['multi_search'])){
 ?>
 
 <div class="col-sm-12">
@@ -188,7 +190,6 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 
 echo close_form();
 
-if(!empty($_SESSION['OCS']['multi_search'])){
 ?>
 </div>
 <br/>
