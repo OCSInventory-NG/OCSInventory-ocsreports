@@ -104,7 +104,6 @@ if (isset($protectedPost['table_select'])) {
 
 // Add var to session datamap
 if (isset($protectedPost['old_table']) && isset($protectedPost['table_select']) && !isset($protectedPost['search_ok'])) {
-	var_dump($protectedPost);
 	if ($protectedPost['old_table'] == $protectedPost['table_select'] && $protectedPost['table_select'] != '----------') {
 		if(!AJAX){
 			$search->addSessionsInfos($protectedPost);
