@@ -93,11 +93,11 @@
     private $finalArgs;
 
     /**
-     * Undocumented function
+     * Constructor
      *
-     * @param [type] $translationSearch
-     * @param [type] $databaseSearch
-     * @param [type] $accountinfoSearch
+     * @param TranslationSearch $translationSearch
+     * @param DatabaseSearch $databaseSearch
+     * @param AccountinfoSearch $accountinfoSearch
      */
     function __construct($translationSearch, $databaseSearch, $accountinfoSearch)
     {
@@ -123,9 +123,9 @@
     }
 
     /**
-     * Undocumented function
+     * Add sessions infos when search criteria is added
      *
-     * @param [type] $postData
+     * @param Array $postData
      * @return void
      */
     public function addSessionsInfos($postData)
@@ -138,9 +138,9 @@
     }
 
     /**
-     * Undocumented function
+     * Update sessions infos when changing search criteria
      *
-     * @param [type] $postData
+     * @param Array $postData
      * @return void
      */
     public function updateSessionsInfos($postData)
@@ -158,9 +158,9 @@
     }
 
     /**
-     * Undocumented function
+     * Remove sessions data when removing search field
      *
-     * @param [type] $rowReference
+     * @param String $rowReference
      * @return void
      */
     public function removeSessionsInfos($rowReference){
@@ -173,10 +173,10 @@
     }
 
     /**
-     * Undocumented function
+     * Get the type of the searched field
      *
-     * @param [type] $tablename
-     * @param [type] $fieldsname
+     * @param String $tablename
+     * @param String $fieldsname
      * @return void
      */
     public function getSearchedFieldType($tablename, $fieldsname)
@@ -186,10 +186,10 @@
     }
 
     /**
-     * Undocumented function
+     * Generate operator uniq id for displaying
      *
-     * @param [type] $uniqid
-     * @param [type] $tableName
+     * @param String $uniqid
+     * @param String $tableName
      * @return void
      */
     public function getOperatorUniqId($uniqid, $tableName)
@@ -198,10 +198,10 @@
     }
 
     /**
-     * Undocumented function
+     * Generate feilds uniq id for displaying
      *
-     * @param [type] $uniqid
-     * @param [type] $tableName
+     * @param String $uniqid
+     * @param String $tableName
      * @return void
      */
     public function getFieldUniqId($uniqid, $tableName)
@@ -210,9 +210,9 @@
     }
 
     /**
-     * Undocumented function
+     * Generate search query (operator and values)
      *
-     * @param [type] $sessData
+     * @param Array $sessData
      * @return void
      */
     public function generateSearchQuery($sessData){
@@ -260,10 +260,10 @@
     }
 
     /**
-     * Undocumented function
+     * Generate select query for table using session variables generated from the search
      *
-     * @param [type] $tableName
-     * @param [type] $sessData
+     * @param String $tableName
+     * @param Array $sessData
      * @return void
      */
     private function pushBaseQueryForTable($tableName, $sessData = null){
@@ -289,25 +289,11 @@
         }
     }
 
-
     /**
-     * Undocumented function
+     * Depending on selected operator
+     * Return compliant operator for database query
      *
-     * @param [type] $sessDataTable
-     * @param [type] $fieldName
-     * @return boolean
-     */
-    private function isSearchCriteraOnlyOnce($sessDataTable, $fieldName){
-        $cptPresent = 0;
-        foreach ($sessDataTable as $uniqid => $values) {
-            # code...
-        }
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param [type] $valueArray
+     * @param Array $valueArray
      * @return void
      */
     public function getOperatorSign(&$valueArray){
@@ -336,9 +322,9 @@
     }
 
     /**
-     * Undocumented function
+     * Generate HTML select options for operators
      *
-     * @param [type] $defaultValue
+     * @param String $defaultValue
      * @return void
      */
     public function getSelectOptionForOperators($defaultValue)
@@ -359,9 +345,9 @@
     }
 
     /**
-     * Undocumented function
+     * Generate HTML select options for tables select
      *
-     * @param [type] $defautValue
+     * @param String $defautValue
      * @return void
      */
     public function getSelectOptionForTables($defautValue = null)
@@ -384,9 +370,9 @@
     }
 
     /**
-     * Undocumented function
+     * Generate HTML select options for columns select
      *
-     * @param [type] $tableName
+     * @param String $tableName
      * @return void
      */
     public function getSelectOptionForColumns($tableName = null)
@@ -408,12 +394,12 @@
     }
 
     /**
-     * Undocumented function
+     * Generate HTML fields depending on database field type
      *
-     * @param [type] $uniqid
-     * @param [type] $fieldsInfos
-     * @param [type] $tableName
-     * @return void
+     * @param String $uniqid
+     * @param Array $fieldsInfos
+     * @param String $tableName
+     * @return String HTML
      */
     public function returnFieldHtml($uniqid, $fieldsInfos, $tableName)
     {

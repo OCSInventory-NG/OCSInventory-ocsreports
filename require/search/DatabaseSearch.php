@@ -82,7 +82,7 @@ class DatabaseSearch
     private $dbName = null;
 
     /**
-     * Undocumented function
+     * Constructor
      */
     function __construct()
     {
@@ -92,10 +92,10 @@ class DatabaseSearch
     }
 
     /**
-     * Undocumented function
+     * Get the database columns of $tableName
      *
-     * @param [type] $tableName
-     * @return void
+     * @param String $tableName
+     * @return Array columnsList
      */
     public function getColumnsList($tableName)
     {
@@ -103,9 +103,9 @@ class DatabaseSearch
     }
 
     /**
-    * Undocumented function
+    * Get tables list of the current database
     *
-    * @return void
+    * @return Array tablesList
     */
     public function getTablesList()
     {
@@ -113,7 +113,7 @@ class DatabaseSearch
     }
 
     /**
-     * Undocumented function
+     * Retrieve tables list from the current database
      *
      * @return void
      */
@@ -134,9 +134,12 @@ class DatabaseSearch
     }
 
     /**
-     * Undocumented function
+     * Retrieve columns list from the current database
      *
-     * @param [type] $tableName
+     * Will use excludedTales property and COMPUTER_COL_RED const
+     * to see if columns need to be retrieved
+     *
+     * @param String $tableName
      * @return void
      */
     private function retireveColumnsList($tableName)
@@ -170,10 +173,10 @@ class DatabaseSearch
     }
 
     /**
-     * Undocumented function
+     * Get an list of id of the current multi search (needed for buttons at the bottom of the page)
      *
      * @param Search $searchObj
-     * @return void
+     * @return Array list of computers ID
      */
     public function getIdList(Search $searchObj){
         $query = $searchObj->baseQuery.$searchObj->searchQuery.$searchObj->columnsQueryConditions;
@@ -186,10 +189,12 @@ class DatabaseSearch
     }
 
     /**
-     * Undocumented function
+     * Normalize the field type
+     * Exemple : from varchar(255) to varchar
+     * This will be used to determine generated html
      *
-     * @param [type] $type
-     * @return void
+     * @param String $type
+     * @return String Normalized field type
      */
     private function normalizeFieldType($type)
     {
@@ -198,9 +203,9 @@ class DatabaseSearch
     }
 
     /**
-     * Undocumented function
+     * Remove value from table list property
      *
-     * @param [type] $tableName
+     * @param String $tableName
      * @return void
      */
     private function removeValueFromTableList($tableName)
