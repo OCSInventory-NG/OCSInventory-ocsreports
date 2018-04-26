@@ -12,4 +12,5 @@ CREATE TABLE IF NOT EXISTS `software_category_exp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 --Add CATEGORY column to software table
+UNLOCK TABLES;
 ALTER TABLE `softwares` ADD `CATEGORY` varchar(255) default NULL;

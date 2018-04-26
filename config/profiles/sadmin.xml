@@ -108,5 +108,7 @@
     <page>ms_ask</page>
     <page>ms_pluginsmanager</page>
     <page>ms_soft_cat</page>
+    <page>ms_asset_cat</page>
+    <page>ms_asset_cat_list</page>
   </pages>
 </profile>

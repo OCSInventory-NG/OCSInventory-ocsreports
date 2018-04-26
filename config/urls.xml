@@ -324,4 +324,12 @@
         <value>soft_cat</value>
         <directory>ms_soft_cat</directory>
     </url>
+    <url key="ms_asset_cat">
+        <value>asset_cat</value>
+        <directory>ms_asset_cat</directory>
+    </url>
+    <url key="ms_asset_cat_list">
+        <value>asset_cat_list</value>
+        <directory>ms_asset_cat</directory>
+    </url>
 </urls>
