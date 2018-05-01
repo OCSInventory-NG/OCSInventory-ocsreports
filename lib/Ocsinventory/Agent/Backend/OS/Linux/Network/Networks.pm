@@ -9,8 +9,11 @@ use Time::Local;
 sub check {
     my $params = shift;
     my $common = $params->{common};
-    return unless (($common->can_run("ip") || $common->can_run("ifconfig")) && $common->can_run("route") && $common->can_load("Net::IP qw(:PROC)"));
-    1;
+    if ($common->can_run("ip") && $common->can_load("Net::IP qw(:PROC)") || ($common->can_run("ifconfig") && $common->can_run("route")) && $common->can_load("Net::IP qw(:PROC)")){
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 sub getLeaseFile {
@@ -289,6 +292,7 @@ sub run {
                 $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $ipaddress6 = $ipgateway6 = $ipmask6 = $ipsubnet6 = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = $mtu = undef;
             }
             $description = $1 if ($line =~ /^\d+:\s+([^:@]+)/); # Interface name
+            if ($description && $description eq "lo" ) { next; } # loopback interface is not inventoried
             if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i){
                 $ipaddress=$1;
                 $ipmask=getIPNetmask($2);
@@ -464,10 +468,8 @@ sub run {
             } else { # In a section
                 if ($line =~ /^(\S+):/) {
                     $description = $1; # Interface name
+                    if ($description && $description eq "lo" ) { next; } # loopback interface is not inventoried
                 }
-
-                # Retrieve mtu from /sys/class/net/$description/mtu
-                $mtu=getMTU($description);
 
                 if ($line =~ /inet add?r:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/i || $line =~ /inet (\S+)\s+netmask/i){
                     $ipaddress=$1;
@@ -488,6 +490,9 @@ sub run {
                 if ($type eq "ether" || $type eq "Ethernet") {
                     $type="ethernet";
                 }
+
+                # Retrieve mtu from /sys/class/net/$description/mtu
+                $mtu=getMTU($description);
             }
         }
     }
