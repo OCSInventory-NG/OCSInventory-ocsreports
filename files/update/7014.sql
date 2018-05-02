@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS `assets_categories` (
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
---Add CATEGORY column to hardware table
+-- Add CATEGORY column to hardware table
 UNLOCK TABLES;
 ALTER TABLE `hardware` ADD `CATEGORY_ID` int(11) default NULL AFTER `ARCH`;
