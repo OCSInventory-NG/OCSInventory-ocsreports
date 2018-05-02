@@ -62,7 +62,7 @@
 103 Update
 107 Config
 108 Registry requests
-111 Windows licence
+111 Windows license
 113 Cancel
 114 Register
 115 Update
@@ -1500,7 +1500,7 @@
 7001 Plugins manager
 7002 Plugin's name
 7003 Version
-7004 Licence
+7004 License
 7005 Author
 7006 Last updated
 7007 Are you sure you want to delete this plugin
