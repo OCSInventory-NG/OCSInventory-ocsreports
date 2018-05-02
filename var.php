@@ -73,7 +73,7 @@ define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7013');
+define('GUI_VER', '7014');
 /**
  * GUI Version
  */

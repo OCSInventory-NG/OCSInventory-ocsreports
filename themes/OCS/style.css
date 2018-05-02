@@ -200,4 +200,27 @@ table.dataTable a {
 .pagination>li>span:focus,
 .pagination>li>span:hover {
     color:  #71145F;
+
+.btn-info.disabled,
+.btn-info.disabled.active,
+.btn-info.disabled.focus,
+.btn-info.disabled:active,
+.btn-info.disabled:focus,
+.btn-info.disabled:hover,
+.btn-info,
+.btn-info.active,
+.btn-info.focus,
+.btn-info:active,
+.btn-info:focus,
+.btn-info:hover {
+    background: #961b7e;
+    background-color: #961b7e;
+    background-image: none;
+    border-color: #961b7e;
+}
+
+.panel {
+    background: transparent;
+    background-color:#efefef;
+
 }
