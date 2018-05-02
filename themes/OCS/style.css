@@ -200,6 +200,7 @@ table.dataTable a {
 .pagination>li>span:focus,
 .pagination>li>span:hover {
     color:  #71145F;
+}
 
 .btn-info.disabled,
 .btn-info.disabled.active,
@@ -222,5 +223,4 @@ table.dataTable a {
 .panel {
     background: transparent;
     background-color:#efefef;
-
 }
