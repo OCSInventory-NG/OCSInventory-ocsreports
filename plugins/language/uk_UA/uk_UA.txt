@@ -86,7 +86,7 @@
 172 An error is appeared, the file
 173 don't be added to the base
 174 Безпека
-175 Дублікатине тре
+175 Дублікати
 176 IP
 177 Merge redundant computers
 178 Комп'ютери по tag
