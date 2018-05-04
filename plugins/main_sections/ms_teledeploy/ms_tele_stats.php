@@ -147,7 +147,7 @@ while ($j < $i) {
     echo "&nbsp;</td><td>" . $name_value[$j] . "</td><td>
 			<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_multi_search'] . "&prov=stat&id_pack=" . $protectedGet["stat"] . "&stat=" . urlencode($link[$j]) . "'>" . $count_value[$j] . "</a>";
     if (substr_count($link[$j], 'SUC')) {
-        echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_speed_stat'] . "&head=1&ta=" . urlencode($link[$j]) . "&stat=" . $protectedGet["stat"] . "\">&nbsp<img src='image/stat.png'></a>";
+        echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_speed_stat'] . "&head=1&ta=" . urlencode($link[$j]) . "&stat=" . $protectedGet["stat"] . "\">&nbsp<span class='glyphicon glyphicon-stats'></span></a>";
     }
     echo "	</td></tr>";
     $j++;

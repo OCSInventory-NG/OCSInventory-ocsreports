@@ -431,9 +431,9 @@ function changeDateFormat($lang, $val){
 function updown($field, $type) {
     global $form_name;
     if ($type == 'UP') {
-        return "<a href=# OnClick='pag(\"" . $field . "\",\"UP\",\"" . $form_name . "\");'><img src='image/up.png'></a>";
+        return "<a href=# OnClick='pag(\"" . $field . "\",\"UP\",\"" . $form_name . "\");'><image src='image/up.png'></a>";
     } elseif ($type == 'DOWN') {
-        return "<a href=# OnClick='pag(\"" . $field . "\",\"DOWN\",\"" . $form_name . "\");'><img src='image/down.png'></a>";
+        return "<a href=# OnClick='pag(\"" . $field . "\",\"DOWN\",\"" . $form_name . "\");'><image src='image/down.png'></a>";
     }
 }
 

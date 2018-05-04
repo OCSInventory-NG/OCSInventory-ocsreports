@@ -411,7 +411,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                     data.search.search = "";
                     data.start = 0;
                 },
-
+								"conditionalPaging": true,
 								"lengthMenu": [ 10, 25, 50, 100, 250, 500, 1000],
                 //Column definition
                 "columns": [
@@ -1372,19 +1372,19 @@ function ajaxfiltre($queryDetails,$tab_options){
 		$sqlword['HAVING']= preg_split("/having/i", $queryDetails);
 		$sqlword['ORDERBY']= preg_split("/order by/i", $queryDetails);
 		foreach ($sqlword as $word=>$filter){
-			if (!empty($filter['1'])){
+			if (!empty($filter['3'])){
 				foreach ($filter as  $key => $row){
-					if ($key == 1){
+					if ($key == 3){
 
 						$rang =0;
 						foreach($tab_options['visible_col'] as $index=>$column){
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-							$name = preg_replace("/[^A-Za-z0-9\.]/", "", $tab_options['columns'][$column]['name']);
+							$name = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['columns'][$column]['name']);
 							if (!empty($tab_options["replace_query_arg"][$name])){
 								$name= $tab_options["replace_query_arg"][$name];
 							}
 							if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$name])){
-								$searchable =false;
+								$searchable =true;
 							}
 							if (!empty($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
 								$searchable = false;
@@ -1393,17 +1393,17 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 								// if search in column selected
 								if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $rang == 0) {
-										$name_col = $tab_options['COL_SEARCH'];
-										$filtertxt =  " WHERE (( ".$name_col." LIKE '%%".$search."%%' ) ";
+										$name_col = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['COL_SEARCH']);
+										$filtertxt =  " HAVING (( ".$name_col." LIKE '%%".$search."%%' ) ";
 								} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 										if ($rang == 0){
-											$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";
+											$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
 										} else {
 											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
 										}
 								} else if (empty($tab_options["COL_SEARCH"])) {
 										if ($rang == 0){
-											$filtertxt =  " WHERE (( ".$name." LIKE '%%".$search."%%' ) ";
+											$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
 										} else {
 											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
 										}
@@ -1411,7 +1411,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$rang++;
 							}
 						}
-						if ($word == "WHERE"){
+						if ($word == "HAVING"){
 							$queryDetails .= $filtertxt.") AND ".$row;
 						} else {
 							$queryDetails .= $filtertxt.")  ".$row;
@@ -1430,24 +1430,31 @@ function ajaxfiltre($queryDetails,$tab_options){
 			}
 		}
 		//REQUET SELECT FROM
-		$queryDetails .= " WHERE ";
+		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
-				$searchable =false;
+				$searchable =true;
 			}
 
 			if ($searchable){
 				$name = $tab_options['columns'][$column]['name'];
-				if (!empty($tab_options["replace_query_arg"][$name])){
-					$name= $tab_options["replace_query_arg"][$name];
-				}
-				if ($index == 0){
-					$filter =  "(( ".$name." LIKE '%%".$search."%%' ) ";
-				}
-				else{
-					$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+				if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $index == 0) {
+						$name_col = $tab_options['COL_SEARCH'];
+						$filter =  " (( ".$name_col." LIKE '%%".$search."%%' ) ";
+				} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+						if ($index == 0){
+							$filter =  " (( ".$name." LIKE '%%".$search."%%' ) ";
+						} else {
+							$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+						}
+				} else if (empty($tab_options["COL_SEARCH"])) {
+						if ($index == 0){
+							$filter =  " (( ".$name." LIKE '%%".$search."%%' ) ";
+						} else {
+							$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+						}
 				}
 				$index++;
 			}
@@ -1456,108 +1463,6 @@ function ajaxfiltre($queryDetails,$tab_options){
 	}
 	return $queryDetails;
 }
-/*
- *  NOT USED YET
- *
- * 	SUPPOSED TO ADD HAVING CLAUSE WHEN FILTERING TABLES RESULTS
- */
-
-// function ajaxfiltrehaving($queryDetails,$tab_options){
-
-// 	if ($tab_options["search"] && $tab_options["search"]['value']!="" && is_numeric($tab_options["search"]['value']) ){
-// 		if ( !empty($tab_options['HAVING'])){
-// 			$search = mysqli_real_escape_string($_SESSION['OCS']["readServer"],$tab_options["search"]['value']);
-// 			$sqlword['HAVING']= preg_split("/having/i", $queryDetails);
-// 			$sqlword['ORDERBY']= preg_split("/order by/i", $queryDetails);
-// 			foreach ($sqlword as $word=>$filter){
-// 				if (!empty($filter['1'])){
-// 					foreach ($filter as  $key => $row){
-// 						if ($key == 1){
-// 							foreach($tab_options['visible'] as $index=>$column){
-// 								$name = $tab_options['columns'][$column]['name'];
-// 								if (!empty($tab_options["replace_query_arg"][$name])){
-// 									$name= $tab_options["replace_query_arg"][$name];
-// 								}
-// 								$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-
-// 								if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$name])){
-// 									$searchable =true;
-// 								}else{
-// 									$searchable=false;
-// 								}
-// 								if (!empty($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
-// 									$searchable = false;
-// 								}
-// 								if ($searchable){
-// 									$name = $tab_options['HAVING'][$name]['name'];
-// 									if ($rang == 0){
-// 										$filtertxt =  " HAVING (( ".$name." == '".$search."' ) ";
-// 									}
-// 									else{
-// 										$filtertxt .= " OR  ( ".$name." == '".$search."' ) ";
-// 									}
-// 									$rang++;
-// 								}
-// 							}
-// 							if ($word == "HAVING"){
-// 								$queryDetails .= $filtertxt.") AND ".$row;
-// 							}
-// 							else{
-// 								$queryDetails .= $filtertxt.")  ".$row;
-// 							}
-// 						}
-// 						else {
-// 							if($key>1){
-// 								$queryDetails.=" ".$word." ".$row;
-// 							}else{
-// 								$queryDetails = $row;
-// 							}
-
-// 						}
-// 					}
-// 				return $queryDetails;
-// 				}
-// 			}
-// 			$queryDetails .= " HAVING ";
-// 			$index =0;
-// 			foreach($tab_options['visible'] as $column){
-// 				$name = $tab_options['columns'][$column]['name'];
-// 				if (!empty($tab_options["replace_query_arg"][$name])){
-// 					$name= $tab_options["replace_query_arg"][$name];
-// 				}
-// 				$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-
-// 				if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$name])){
-// 					$searchable =true;
-// 				}else{
-// 					$searchable=false;
-// 				}
-// 				if (!empty($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
-// 					$searchable = false;
-// 				}
-// 				if ($searchable){
-// 					$name = $tab_options['HAVING'][$name]['name'];
-// 					if ($index == 0){
-// 						$filtertxt =  " HAVING (( ".$name." == '".$search."' ) ";
-// 					}
-// 					else{
-// 						$filtertxt .= " OR  ( ".$name." == '".$search."' ) ";
-// 					}
-// 					$index++;
-// 				}
-// 			}
-// 			$queryDetails .= $filter.") ";
-// 		}
-// 	}
-// 	return $queryDetails;
-// }
-
-
-
-
-
-
-
 
 
 //fonction qui retourne un string contenant le bloc généré ORDER BY de la requete
@@ -1705,6 +1610,9 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
 							if ($row['ID'])
 								$link_computer.="&systemid=".$row['ID'];
+							elseif($row['hardwareID'])
+								$link_computer.="&systemid=".$row['hardwareID'];
+
 							if ($row['MD5_DEVICEID'])
 								$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
 							$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
@@ -1727,13 +1635,13 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 						break;
 					case "ZIP":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png title='".$l->g(2120)."'></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><span class='glyphicon glyphicon-download-alt' title='".$l->g(2120)."'></span></a>";
 						break;
 					case "STAT":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png' title='".$l->g(1251)."'></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><span class='glyphicon glyphicon-stats' title='".$l->g(1251)."'></span></a>";
 						break;
 					case "ACTIVE":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' title='".$l->g(431)."'></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><span class='glyphicon glyphicon-share' title='".$l->g(431)."'></span></a>";
 						break;
 					case "SHOWACTIVE":
 						if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
@@ -1963,8 +1871,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 
 	$queryDetails = ajaxfiltre($queryDetails,$tab_options);
-	// NOT USED YET
-	//$queryDetails = ajaxfiltrehaving($queryDetails,$tab_options);
 
 	$queryDetails .= ajaxsort($tab_options);
 	$_SESSION['OCS']['csv']['SQLNOLIMIT'][$tab_options['table_name']]=$queryDetails;
@@ -2253,14 +2159,14 @@ function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default
 						$data[$i][$num_col]="<a href=#  OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"OTHER\",\"".$form_name."\");'><img src=image/red.png></a>";
 						$lien = 'KO';
 					}elseif ($key == "ZIP"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><img src=image/archives.png></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_compress']."&no_header=1&timestamp=".$value_of_field."&type=".$tab_options['TYPE']['ZIP']."\"><span class='glyphicon glyphicon-download-alt' title='".$l->g(2120)."'></span></a>";
 						$lien = 'KO';
 					}
 					elseif ($key == "STAT"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><img src='image/stat.png'></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><span class='glyphicon glyphicon-stats'></span></a>";
 						$lien = 'KO';
 					}elseif ($key == "ACTIVE"){
-						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><img src='image/activer.png' ></a>";
+						$data[$i][$num_col]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><span class='glyphicon glyphicon-share' title='".$l->g(431)."'></span></a>";
 						$lien = 'KO';
 					}elseif ($key == "SHOWACTIVE"){
 						$data[$i][$num_col]="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_tele_actives']."&head=1&timestamp=".$donnees['FILEID']."' target=_blank>".$value_of_field."</a>";

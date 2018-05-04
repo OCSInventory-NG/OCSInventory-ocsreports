@@ -257,7 +257,7 @@
 347 AFTER
 348 Windows ユーザー
 349 列の追加
-350 CPU
+350 CPU type
 351 CPU数
 352 Last come
 353 Quality
@@ -265,7 +265,7 @@
 355 Company
 356 Owner
 357 ユーザーエージェント
-358 Jokers: ? (one character), * (several characters)
+358 ワイルドカード： ? (1文字), * (複数文字)
 359 Monitor serial
 360 Manufactured on (week/year)
 362 The network
@@ -297,8 +297,8 @@
 390 Dictionary categories
 391 Category name
 393 検索
-394 Search Category
-395 Search software EVERYWHERE
+394 検索カテゴリ
+395 すべてからソフトウェアを検索
 396 リセット
 397 Go to the category
 398 Categories list
@@ -315,7 +315,7 @@
 420 Automatic software distribution: see documentation.
 421 Automatic software distribution: see documentation.
 422 Automatic software distribution: see documentation.
-423 Automatic software distribution: see documentation. (Packages with a higher or equal priority won't be ダウンロードed anymore).
+423 Automatic software distribution: see documentation. (Packages with a higher or equal priority won't be downloaded anymore).
 424 Validity of a package as from its consideration by the agent
 425 Max number of computers per gateway retrieving IP on the network
 426 Validity of inventories. (ALWAYS: inventory at each login. NEVER: no inventory)
@@ -361,7 +361,7 @@
 466 警告：情報が見つかりません。場所：
 467 警告：断片が見つかりません。場所：
 468 このパッケージを有効化しますか？
-469 Package activated, it can now be affected
+469 Package activated, it can now be assigned
 470 Https url
 471 Fragments url
 472 エラー：ディレクトリを削除できません。
@@ -385,14 +385,14 @@
 490 NEVER IpDiscover
 491 ALWAYS IpDiscover of network
 492 ELECTED IpDiscover of network
-493 Default (can be elected)
+493 Can be elected
 494 Custom inventory frequency
 495 Inventoried every
 496 日
 497 Default, uses the 'FREQUENCY' parameter.
 498 パッケージ
 499 サーバー
-500 Customization
+500 カスタマイズ
 501 パッケージの追加
 502 Elected
 503 Force elected
@@ -409,16 +409,16 @@
 514 アクティブ化
 515 アクティブ
 516 KB
-517 This option can only be affected to one computer at a time.
+517 This option can only be assigned to one computer at a time.
 518 Force IpDiscover
 519 Computer already elected for network
 520 Computer already FORCED ipdiscover for network
 521 Computer already FORCED unelectable
 522 Standard computer
 523 Revert back to standard state
-524 NEVER affect again
+524 NEVER assign again
 525 よろしいですか？
-526 NO COMPUTER AFFECTED
+526 NO COMPUTER ASSIGNED
 527 1月
 528 2月
 529 3月
@@ -444,7 +444,7 @@
 549 ファイル（クライアントPCに配置されます）
 550 File (not mandatory, may be used by "execute" commmand)
 551 This package name already exists
-552 <i>You must make a computer search, and then click 'deploy' to affect these activated packages<br>You may also affect a package to a single computer by using the 'customization' tab of any computer details</i>.
+552 <i>You must make a computer search, and then click 'deploy' to assign these activated packages<br>You may also assign a package to a single computer by using the 'customization' tab of any computer details</i>.
 553 Windows キー
 554 モニター： シリアル番号
 555 モニター： 製造メーカー
@@ -540,8 +540,8 @@
 650 MANUAL
 651 再配布グループ
 652 Machine(s)
-653 Blacklist MACアドレス
-654 Enter a new MACアドレス for blacklist
+653 Blacklist MAC address
+654 Enter a new MAC address for blacklist
 655 Insertion made
 656 This datum already exists in the list
 657 赤い入力項目がエラーです！！ (空欄またはサイズ < 2)
@@ -549,13 +549,13 @@
 659 Machines already have this teledeploy package. This package's status for these machines is now
 660 GROUP OF REDISTRIBUTION NOT EXIST
 661 PACKAGES FOR REDISTRIBUTION
-662 Rules of affectation
+662 Assignment rules
 663 INTERNES PROBLEM
 664 Action made
 665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
 666 Group of redistribution made
 667 FOR THE PACKAGE
-668 to Affect with which rule?
+668 to Assign with which rule?
 669 ATTENTION: there are doubloons of priority <br> A single rule will be retained!
 670 A rule already carries this name
 672 This rule does not exist!!!
@@ -574,29 +574,29 @@
 685 規則の追加
 686 The condition
 687 You cannot delete it.
-688 Packages are affected on this goupe!
-689 Packages are affected on this server!
+688 Packages are assigned on this group!
+689 Packages are assigned on this server!
 690 You cannot delete all the machines.
 691 Generic Values: $IP$ and $NAME$
 692 You modify ALL the values of the servers
 693 You modify the values of the following server:
 694 to find the default values, validate the vacuous fields
 695 You modify the group of redistribution
-696 to Show packages activated to affect on
+696 to Show packages activated to assign on
 697 a machine
 698 a group of redistribution
-699 Are you sure to want to affect this package in these machines?
+699 Are you sure to want to assign this package in these machines?
 700 Blacklist choices
-701 Blacklist of シリアル番号
-702 Enter a new シリアル番号 to blacklister
-703 ブラックリスト
-704 Are you sure to want to blacklister
-705 Are you sure to want to unblacklister
-706 Unblacklister
-707 this シリアル番号
-708 this MACアドレス
+701 Blacklist of serial number
+702 Enter a new serial number to blacklist
+703 Blacklist
+704 Are you sure to want to blacklist
+705 Are you sure to want to unblacklist
+706 Unblacklist
+707 この シリアル番号
+708 この MACアドレス
 709 Customized PROLOG_FREQ
-710 Customized ダウンロード
+710 Customized download
 711 Taken into account modifications
 712 言語ファイル
 713 Are you sure to replace this language file
@@ -607,9 +607,9 @@
 718 無視
 719 (秒あたり)
 720 Waiting time between 2 cycles of deployment
-721 Waiting time between 2 ダウンロードed fragments
+721 Waiting time between 2 downloaded fragments
 722 Waiting times between 2 periods of deployment
-723 maximum priority of the ダウンロードed packages <br> (The packages of a superior priority are ignored)
+723 maximum priority of the downloaded packages <br> (The packages of a superior priority are ignored)
 724 Time between 2 contacting between the agent and the server
 725 (in the hour)
 726 URI of the servers of redistribution ($IP and NAME$ are the generic values)
@@ -643,7 +643,7 @@
 755 Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period
 756 Period definition for INVENTORY_FILTER_FLOOD_IP
 757 Enable inventory filter stack
-758 Specify if you want to track packages affected to a group on computer's level
+758 Specify if you want to track packages assigned to a group on computer's level
 759 Must be greater than or equal to
 760 Webservice
 761 Enable/Disable the soap service
@@ -651,10 +651,10 @@
 763 Include file of your own modules
 764 Options below are not settable by GUI.<br>(see ocsinventory-server.conf)
 765 全てのソフトウェア
-766 結果：なし
+766 結果なし
 767 BE CAREFUL: RESULT WITH FILTER
 768 Number of recording
-769 Tranfer Made
+769 Transfer Made
 770 UPDATE OF
 771 This category already exists
 772 The category's name can't be null
@@ -687,7 +687,7 @@
 799 ハードウェア
 800 その他
 801 Don't show this field
-802 Show this fied
+802 Show this field
 803 Counts in the daytime since the machine don't contact server
 804 Minimum speed processor
 805 Maximum speed processor
@@ -722,7 +722,7 @@
 834 Version LDAP_OPT_PROTOCOL_VERSION
 835 Add RSX
 836 Manage TYPES
-837 You don't have access to this datas
+837 You don't have access to this data
 838 ディスク： ドライブレタ
 839 ディスク： タイプ
 840 ディスク： フォーマット
@@ -736,13 +736,13 @@
 848 ソフトウェア： バージョン
 849 ソフトウェア： インストール先ディレクトリ
 850 ソフトウェア： コメント
-851 Bios: Computer manufacturer
-852 Bios: Model
+851 Bios: コンピュータの製造者
+852 Bios: モデル
 853 Bios: シリアル番号
-854 Bios: Computer type
-855 Bios: Manufacturer
-856 Bios: Version
-857 Bios: Date
+854 Bios: コンピュータタイプ
+855 Bios: 製造者
+856 Bios: バージョン
+857 Bios: 日付
 858 モニター： メーカー
 859 モニター： 名称
 860 モニター： 区分
@@ -761,7 +761,7 @@
 873 ネットワーク： DHCP IP
 874 Registry key: Name
 875 Registry key: Value
-876 Simple unaffect REDISTRIBUTION GROUP
+876 Simple unassign REDISTRIBUTION GROUP
 877 SOME COMPUTERS HAVEN'T BEEN ADDED TO GROUP BECAUSE:
 878 Reminder: a computer can be a member of one redistribution group only
 879 GROUPE REPLACED
@@ -772,13 +772,13 @@
 884 警告：検索結果はフィルタされています
 885 unknown
 886 Simple desaffection
-887 It's possible that this package is not affected to redistribution servers
+887 It's possible that this package is not assigned to redistribution servers
 888 Removal
 889 Connected as
 890 条件検索画面はロックされています
 891 ロック解除
 892 connect with another account
-893 NO TAG AFFECTEID TO YOUR PROFILE
+893 NO TAG ASSIGNED TO YOUR PROFILE
 894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
 895 TAG Modification
 898 Add an annotation
@@ -788,14 +788,14 @@
 902 選択した検索結果で設定する
 903 You must fill the explanation field
 904 Package reassignment
-905 Explanation about perfomed actions<br>on computer to be able to <br>affect package
+905 Explanation about perfomed actions<br>on computer to be able to <br>assign package
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
-908 Mobile terminal informations
+908 Mobile terminal information
 909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
 910 Validate
 911 Switch profile of
-912 Export list of computers that have this softwares
+912 Export list of computers that have this software
 913 インベントリ登録されていないネットワークの数
 914 Number of agents that didn't send inventory since at least
 915 メッセージ
@@ -805,13 +805,13 @@
 919 本当にこのメッセージを削除して良いですか？
 920 ERROR, the requested doesn't exists.
 921 Delete this category
-922 To merge, you have to select 2 computers at least
+922 To merge, you have to select at least 2 computers
 923 You have no computer in count
 924 EXTRACTION REQUEST NOT CONVENTIONAL!
 925 FUSER functionality
 926 Fuser login:
-927 CACHE S NOT REGENERATED BY THIS ACTION
-928 ログの可視化
+927 CACHE ISN'T REGENERATED BY THIS ACTION
+928 Log visualization
 929 subnetworks managementn is not performed locally.
 930 You cannot add/modify/remove subnetworks
 931 サブネットの編集
@@ -852,7 +852,7 @@
 966 Agent
 967 BELONG TO
 968 DON'T BELONG TO
-969 Packages historic
+969 Packages history
 970 Packages
 971 GROUP COMPUTERS REMOVAL
 972 Computers have been removed from group well
@@ -862,17 +862,17 @@
 976 検索結果で画面をロックします
 977 ロックする
 978 検索結果で画面をロックします。
-979 標準状態に戻すには、画面右上の e <img src='image/cadena_op.png' > アイコンをクリックして下さい。
+979 標準状態に戻すには、画面右上の <span class='glyphicon glyphicon-lock'></span> アイコンをクリックして下さい。
 980 コンピュータ上のパッケージ
 981 サーバ上のグループ別パッケージ
-982 NO AFFECTATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
+982 NO ASSIGNATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
 983 You have to choose on which type modifications has to perform
 984 Modifications
 985 COMPUTERS REMOVAL
 986 REMOVE COMPUTERS FOR
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
-989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
+989 THE DATA DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
 990 手動作成されたパッケージ
 991 自動作成されたパッケージ
 992 Teledeploy time estimate
@@ -880,7 +880,7 @@
 994 PDA/SMARTPHONE
 995 ユーザーID
 996 姓
-997 ユーザーIDを入力仕手ください
+997 ユーザーIDを入力してください
 998 有効なプロファイルを選択してください
 999 ユーザーIDが存在します。
 1000 通知
@@ -892,7 +892,7 @@
 1006 don't have wrinting rights
 1007 The directory
 1008 再配備に使用する
-1009 Servers storage directory
+1009 Path on remote server
 1010 NORMAL
 1011 DEBUG
 1012 LANGUAGE
@@ -906,7 +906,7 @@
 1020 Name of the tag information
 1021 Teledeploy admin
 1022 タグ操作
-1023 Packages affect with status
+1023 Packages assign with status
 1024 will be deleted
 1025 Unaffect
 1026 Packages deleted on computers
@@ -942,7 +942,7 @@
 1056 Contact your OCS-NG administrator
 1057 Failed to connect to mailserver
 1058 no e-mail is valid
-1059 一覧
+1059 Data available
 1060 データ追加
 1061 タブ
 1062 Field
@@ -957,8 +957,8 @@
 1071 データ型
 1072 Pending resquests
 1073 Make a request
-1074 'Workflow' function is not activate.
-1075 Activate this functionnality to use it
+1074 'Workflow' function is not activated.
+1075 Activate this functionality to use it
 1076 ERROR: SEARCH STATUS IS NOT DEFINED
 1077 Status for creating package
 1078 Test status
@@ -1019,7 +1019,7 @@
 1133 New word
 1134 No ipdiscover data
 1135 computer(s) already exist in redistribution group
-1136 Snmp
+1136 SNMP
 1137 Enable/Disable the snmp service
 1138 Show all subnets
 1139 管理
@@ -1041,7 +1041,7 @@
 1155 On teledeploy's workflow
 1156 Manage teledeploy's workflow
 1157 On the fields of teledeploy's workflow
-1158 On the packets activation
+1158 On package activation
 1159 MACアドレスで
 1160 シリアル番号で
 1161 On the ipdiscover's subnet
@@ -1065,7 +1065,7 @@
 1179 is a variable. It can not contain special characters
 1180 can't be empty
 1181 Redistribution server functionality
-1182 You can't manage redistribution rules, this functionality is disable
+1182 You can't manage redistribution rules, this functionality is disabled
 1183 List of packages to create
 1184 Key added
 1185 Key updated
@@ -1078,7 +1078,7 @@
 1192 Group may receive TEST packets
 1193 Group may receive RESTRAINT packets
 1194 Only packets at a higher level
-1195 may be affected
+1195 may be assigned
 1196 Profile
 1197 SNMP functionality
 1198 Networks scans
@@ -1087,7 +1087,7 @@
 1201 Display
 1202 Linux (ALL)
 1203 Windows (ALL)
-1204 IP発見
+1204 IP検出
 1205 SNMPコミュニティ管理
 1206 Directory of SNMP communities file
 1207 コミュニティの追加
@@ -1125,11 +1125,11 @@
 1239 MHz
 1240 MB
 1241 SNMP対応デバイス数
-1242 m/d/Y
+1242 Y/m/d h:i
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients
-1246 Affect again
+1246 Assign again
 1247 アーキテクチャー
 1248 フォルダー
 1249 Activation of cache tables (allows less solicit the MySQL database)
@@ -1170,7 +1170,7 @@
 1292 遠隔配置に詳細オプションを使用する
 1293 Teledeploy force
 1294 Installation time
-1295 Installation date
+1295 Installation date/time
 1296 OCS Professional
 1297 SNMP device identification
 1298 QRCode administration
@@ -1289,6 +1289,46 @@
 1411 Display name
 1412 Edit profile
 1413 New label
+1414 Machine's Details
+1415 OperatorID
+1416 OperatorName
+1417 IMEI/DEVICEID
+1418 Country
+1419 Search in column
+1420 Theme customization
+1421 Repository
+1422 Expire
+1423 File name
+1424 Mirrors
+1425 tag
+1426 updated
+1427 Base URL
+1428 Battery
+1429 Sim card
+1430 Equal
+1431 More than
+1432 Less than
+1433 Hardware Link Id
+1434 User Id
+1435 Location
+1436 Process
+1437 Chemistry
+1438 SBDS Version
+1439 Max error
+1440 OEM Specific
+1441 Revalidate time
+1442 XML Definition
+1443 Default Gateway
+1444 USB Devices
+1445 Group info
+1446 Model name
+
+1500 Software category
+1501 New category
+1502 List of categories
+1503 Add software
+1504 Regular expression or Software name
+1505 Select default category for softwares
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 エラー：
@@ -1319,8 +1359,7 @@
 2026 OCS-NGのGUIのアカウント名・パスワードがデフォルトのままです。
 2027 OCS-NGのGUIで 'admin' のパスワードを変更して下さい。
 2028 認証キー
-2029 The config directory is not writable
-
+2029 設定フォルダに書き込み出来ません。
 
 2030 OCS-NG Inventory インストール
 2031 現在インストール済みのバージョン
@@ -1338,17 +1377,17 @@
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
-2046 ERROR: MySQL authentication problem.
+2046 エラー: MySQL 認証エラー
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
-2050 Installation finished you can log in index.php with login=admin and password=admin
+2050 インストールが完了しました。ユーザー名=admin パスワード=admin で index.php にログインできます。
 2051 クリックして OCS-NG へ
-2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
-2053 Please wait, database update may take up to 30 minutes...
+2052 エラー:　ディレクトリに書き込みができません。 (dbconfig.inc.php), ocsinventoryのインストールに必要な権限を設定してください。 (インストールが成功したら書き込み権限を解除してください。)
+2053 しばらくお待ちください。データベースのアップデートは最大30分程度かかる場合があります。
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
-2055 Database successfully generated
-2056 MySQL config file successfully written
+2055 データベース作成が成功しました
+2056 MySQLの設定ファイルに書き込みができました。
 2057 既存のデータベースがアップデートされます。
-2058 Database engine checking...
+2058 データベースエンジンをチェックしています...
 2059 ERROR: Alter query failed
 2060 ERROR: Show table status query failed
 2061 ERROR: InnoDB conversion failed, install InnoDB MySQL engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your MySQL config file.)<br>Reinstall when corrected.
@@ -1412,6 +1451,12 @@
 2122 Edit
 2123 存在するパッケージ
 2124 削除済みパッケージ
+2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
+2126 Assets categorization
+2127 The current multi search query will be used as an asset categorization crtieria.
+2128 Are you sure ?
+2129 Back to multi search
+2130 Assets categories
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1422,7 +1467,7 @@
 5006 [DEBUG]array count request[DEBUG]
 5007 [DEBUG]Cache use for lines number[DEBUG]
 5008 [DEBUG]array request[DEBUG]
-5009 [DEBUG]RAW DATAS[DEBUG]
+5009 [DEBUG]RAW DATA[DEBUG]
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
 5012 [DEBUG]value to search=[DEBUG]
@@ -1440,16 +1485,16 @@
 
 6000 プラグイン
 6001 Officeライセンス数
-
-6003 ライセンス数
+6003 プラグイン
 6004 Total available
 6005 電源オン/オフ
 6006 警告：php-soapをインストールしてください。このプラグインの動作に必要です。
 6007 Please install the following modules in order to get this feature working :
-6008 Can't write in the following directory :
+6008 Can't write in the following directory&nbsp;:&nbsp;
 6009 You can't install plugins, check error messages above.
-6010 The communication server encountered the following error on install :
+6010 The communication server encountered the following error on install&nbsp;:&nbsp;
 6011 Click here to solve your problem
+6012 すべてを選択
 
 7000 プラグイン
 7001 プラグイン管理

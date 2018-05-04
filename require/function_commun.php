@@ -325,6 +325,7 @@ function html_header($noJavascript = false) {
 				<link rel="shortcut icon" href="favicon.ico">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css">
+				<link rel="stylesheet" href="libraries/select2/css/select2.min.css" />
 				<link rel="stylesheet" href="themes/'.$value_theme['tvalue']['CUSTOM_THEME'].'/style.css">
 				<link rel="stylesheet" href="css/dataTables-custom.css">
 				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.css">
@@ -344,14 +345,17 @@ function html_header($noJavascript = false) {
         <script src="libraries/jquery-fileupload/jquery.iframe-transport.min.js" type="text/javascript"></script>
         <script src="libraries/jquery-fileupload/jquery.fileupload.min.js" type="text/javascript"></script>
         <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="libraries/select2/js/select2.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-custom.js" type="text/javascript"></script>
         <script src="js/bootstrap-datetimepicker.js" type="text/javascript"></script>
+        <script src="js/bootstrap-datetimepicker-locale.js" type="text/javascript"></script>
         <script src="js/bootstrap-formhelpers.js" type="text/javascript"></script>
         <script src="libraries/charts.js/Chart.min.js" type="text/javascript"></script>
         <!-- js for Datatables -->
         <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="libraries/datatable/media/js/dataTables.bootstrap.js" type="text/javascript"></script>
-        <script src="js/function.js" type="text/javascript"></script>';
+        <script src="js/function.js" type="text/javascript"></script>
+        <script src="js/dataTables.conditionalPaging.js" type="text/javascript"></script>';
 
         if (isset($_SESSION['OCS']['JAVASCRIPT'])) {
             foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file) {
@@ -421,26 +425,24 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 	echo "<div class='form-group'>";
 	echo "<label class='control-label col-sm-2' for='".$inputName."'>".$name."</label>";
 	echo "<div class='col-sm-10'>";
+  if($groupAddon != ""){
+    echo "<div class='input-group'>";
+  }
+
 	if($inputType == "select"){
-                echo "<div class='input-group'>";
 		echo "<select name='".$inputName."' id='".$inputName."' class='form-control ".$class."' ".$attrBalise.">";
 		foreach ($optionsSelect as $option => $value){
 			echo "<option value='".$option."' ".($inputValue == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
 		}
 		echo "</select>";
-                if($groupAddon != ""){
-                    echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
-                }
-                echo "</div>";
 	}
 	else{
-		echo "<div class='input-group'>";
 		echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='form-control ".$class."' ".$attrBalise.">";
-		if($groupAddon != ""){
-			echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
-		}
-		echo "</div>";
-	}
+  }
+  if($groupAddon != ""){
+  	echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
+    echo "</div>";
+  }
 	echo "</div>";
 	echo "</div>";
 }
@@ -448,12 +450,14 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 //fonction qui permet d'utiliser un calendrier dans un champ
 function calendars($NameInputField,$DateFormat)
 {
+  $lang = $_SESSION['OCS']['LANGUAGE'];
   $calendar = "<i class=\"glyphicon glyphicon-calendar\"></i>";
   $calendar .= "<script type=\"text/javascript\">
       $(\".form_datetime\").datetimepicker({
           format: \"".$DateFormat."\",
           autoclose: true,
           todayBtn: true,
+          language:\"".$lang."\",
           pickerPosition: \"bottom-left\"
       });
     </script>";

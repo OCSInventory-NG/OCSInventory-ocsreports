@@ -640,7 +640,7 @@ function img($a, $avail) {
 function show_stat($fileId) {
     global $protectedGet, $pages_refs;
 
-    echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $fileId . "&group=" . $protectedGet['systemid'] . "\" target=_blank><img src='image/stat.png'></a>";
+    echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $fileId . "&group=" . $protectedGet['systemid'] . "\" target=_blank><span class='glyphicon glyphicon-stats'></span></a>";
 }
 
 

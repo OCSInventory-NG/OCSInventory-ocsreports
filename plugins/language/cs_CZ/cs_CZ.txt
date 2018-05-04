@@ -68,7 +68,7 @@
 115 Aktualizovat
 116 Přidat
 119 Opravdu chcete počítač smazat
-122 Smazat 
+122 Smazat
 129 JAKO
 130 ODLIŠNÉ
 134 Přidat nový soubor do databáze
@@ -314,7 +314,7 @@
 419 Po kolika dnech nejdéle je ipdiscover počítač nahrazen
 420 Automatická distribuce software: viz dokumentace.
 421 Automatická distribuce software: viz dokumentace.
-422 Automatická distribuce software: viz dokumentace. 
+422 Automatická distribuce software: viz dokumentace.
 423 Automatická distribuce software: viz dokumentace (balíčky s vyšší nebo stejnou prioritou už nebudou stahovány).
 424 Platnost balíčku jak z jeho zvažování agentem
 425 Maximální počet počítačů na bránu získávající IP adresu na síti
@@ -346,7 +346,7 @@
 451 Uživatel může zrušit
 452 Uživatel může odložit
 453 Dokončení instalace vyžaduje aby uživatel něco udělal
-454 NO 
+454 NO
 455 ANO
 456 Vykonat
 457 Uložit
@@ -732,7 +732,7 @@
 844 Skupina: identifikátor
 845 Skupina: Statická?
 846 Software: Společnost
-847 Software: Název 
+847 Software: Název
 848 Software: Verze
 849 Software: Instalační složka
 850 Software: Komentáře
@@ -808,7 +808,7 @@
 922 Pro sloučení je třeba vybrat alespoň dva počítače
 923 V počtu nemáte žádný počítač
 924 NEKONVENČNÍ POŽADAVEK NA EXTRAKCI!
-925 funkce FUSER 
+925 funkce FUSER
 926 Fuser přihlášení:
 927 MEZIPAMĚŤ NENÍ TOUTO AKCÍ ZNOVU VYTVOŘENA
 928 Vizualizace záznamu událostí (log)
@@ -816,10 +816,10 @@
 930 Není možné přidávat/upravovat/odebírat podsítě
 931 Upravit podsíť
 932 Kolonku IP adresa je třeba vyplnit
-933 Kolonku název sítě je třeba vyplnit 
-934 Kolonku identifikátor sítě je třeba vyplnit 
-935 Kolonku maska sítě je třeba vyplnit 
-936 Kolonku typ je třeba vyplnit 
+933 Kolonku název sítě je třeba vyplnit
+934 Kolonku identifikátor sítě je třeba vyplnit
+935 Kolonku maska sítě je třeba vyplnit
+936 Kolonku typ je třeba vyplnit
 937 Tento typ už existuje
 938 Nový typ
 939 Počítače spadající do skupiny
@@ -862,7 +862,7 @@
 976 VÝSLEDEK POŽADAVKU NA UZAMČENÍ ROZHRANÍ
 977 Zamknout
 978 Chystáte se zamknout všechna rozhraní na hledání s výsledky kritérií
-979 Pro návrat do standardního stavu je třeba kliknout na ikonu e <img src='image/cadena_op.png' > která se nachází vpravo nahoře v rozhraní
+979 Pro návrat do standardního stavu je třeba kliknout na ikonu <span class='glyphicon glyphicon-lock'></span> která se nachází vpravo nahoře v rozhraní
 980 Balíčky na počítačích
 981 Balíčky na skupinách serverů
 982 NENÍ K DISPOZICI ŽÁDNÉ PRAVIDLO PŘIŘAZENÍ. NÁSLEDNÁ DISTRIBUCE NENÍ MOŽNÁ.
@@ -1140,7 +1140,7 @@
 1254 Složka se záznamy událostí (log) ze skriptů
 1255 Počet spojení za den
 1256 Počet chybných spojení za den
-1257 Používat ve webovém rozhraní flash 
+1257 Používat ve webovém rozhraní flash
 1258 Ruční zadání
 1259 Pro jeden týden
 1260 Pro jeden měsíc
@@ -1324,7 +1324,7 @@
 2024 Na databázi je nastaveno výchozí SQL přihlašovací jméno / heslo:
 2025 Změňte heslo pro uživatele „ocs“ v MySQL
 2026 Výchozí uživatelské jméno / heslo je aktivováno ve webovém rozhraní OCS-NG
-2027 Změňte heslo k účtu „admin“ ve webovém rozhraní OCS-NG 
+2027 Změňte heslo k účtu „admin“ ve webovém rozhraní OCS-NG
 2028 Ověřovací klíč
 2029 Složka s nastaveními není přístupná pro zápis
 
