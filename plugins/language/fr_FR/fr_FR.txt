@@ -1304,17 +1304,6 @@
 1425 tag
 1426 maj
 1427 Base URL
-1428 Notifications
-1429 Activer le suivi par courriel
-1430 Courriel de l'administrateur
-1431 Nom de l'administrateur
-1432 Courriel de réponse
-1433 Nom de réponse
-1434 Hôte SMTP
-1435 Identifiant SMTP
-1436 Mot de passe SMTP
-1437 Mode d'envoi des courriels
-1438 (Facultatif)
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1492,3 +1481,15 @@
 7013 installé
 7014 Il n'y a aucun plugin disponible
 7015 Sélectionnez au minimum un ordinateur !
+
+8000 Notifications
+8001 Activer le suivi par courriel
+8002 Courriel de l'administrateur
+8003 Nom de l'administrateur
+8004 Courriel de réponse
+8005 Nom de réponse
+8006 Hôte SMTP
+8007 Identifiant SMTP
+8008 Mot de passe SMTP
+8009 Mode d'envoi des courriels
+8010 (Facultatif)

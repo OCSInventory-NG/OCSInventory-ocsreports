@@ -915,15 +915,15 @@ function pagesnotif(){
     $values = look_config_default_values($champs);
     $send_mode = array('nonsecure' => 'SMTP'/*, 'PHP' => 'PHP'*/, 'ssl' => 'SMTP+SSL', 'tls'=>'SMTP+TLS');
 
-    ligne('NOTIF_FOLLOW', $l->g(1429), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['NOTIF_FOLLOW']), '', "");
-    ligne('NOTIF_MAIL_ADMIN', $l->g(1430), 'input', array('VALUE' => $values['tvalue']['NOTIF_MAIL_ADMIN'], '', 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
-    ligne('NOTIF_NAME_ADMIN', $l->g(1431), 'input', array('VALUE' => $values['tvalue']['NOTIF_NAME_ADMIN'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
-    ligne('NOTIF_MAIL_REPLY', $l->g(1432), 'input', array('VALUE' => $values['tvalue']['NOTIF_MAIL_REPLY'], '', 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
-    ligne('NOTIF_NAME_REPLY', $l->g(1433), 'input', array('VALUE' => $values['tvalue']['NOTIF_NAME_REPLY'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
-    ligne('NOTIF_SEND_MODE', $l->g(1437), 'select', array('VALUE' => $values['tvalue']['NOTIF_SEND_MODE'], 'SELECT_VALUE' => $send_mode));
-    ligne('NOTIF_SMTP_HOST', $l->g(1434), 'input', array('VALUE' => $values['tvalue']['NOTIF_SMTP_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
+    ligne('NOTIF_FOLLOW', $l->g(8001), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['NOTIF_FOLLOW']), '', "");
+    ligne('NOTIF_MAIL_ADMIN', $l->g(8002), 'input', array('VALUE' => $values['tvalue']['NOTIF_MAIL_ADMIN'], '', 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
+    ligne('NOTIF_NAME_ADMIN', $l->g(8003), 'input', array('VALUE' => $values['tvalue']['NOTIF_NAME_ADMIN'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
+    ligne('NOTIF_MAIL_REPLY', $l->g(8004), 'input', array('VALUE' => $values['tvalue']['NOTIF_MAIL_REPLY'], '', 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(8010));
+    ligne('NOTIF_NAME_REPLY', $l->g(8005), 'input', array('VALUE' => $values['tvalue']['NOTIF_NAME_REPLY'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(8010));
+    ligne('NOTIF_SEND_MODE', $l->g(8009), 'select', array('VALUE' => $values['tvalue']['NOTIF_SEND_MODE'], 'SELECT_VALUE' => $send_mode));
+    ligne('NOTIF_SMTP_HOST', $l->g(8006), 'input', array('VALUE' => $values['tvalue']['NOTIF_SMTP_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "");
     ligne('NOTIF_PORT_SMTP', $l->g(279), 'input', array('VALUE' => $values['ivalue']['NOTIF_PORT_SMTP'], '', 'SIZE' => "30%", 'MAXLENGTH' => 11), '', "");
-    ligne('NOTIF_USER_SMTP', $l->g(1435), 'input', array('VALUE' => $values['tvalue']['NOTIF_USER_SMTP'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
-    ligne('NOTIF_PASSWD_SMTP', $l->g(1436), 'password', array('VALUE' => $values['tvalue']['NOTIF_PASSWD_SMTP'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(1438));
+    ligne('NOTIF_USER_SMTP', $l->g(8007), 'input', array('VALUE' => $values['tvalue']['NOTIF_USER_SMTP'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(8010));
+    ligne('NOTIF_PASSWD_SMTP', $l->g(8008), 'password', array('VALUE' => $values['tvalue']['NOTIF_PASSWD_SMTP'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "", $l->g(8010));
 }
 ?>
