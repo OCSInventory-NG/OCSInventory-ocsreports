@@ -166,8 +166,8 @@
 254 Path of the key (Ex: SOFTWARE\Mozilla)
 255 Name of the key that will be read (* for all)
 256 Choose
-257 Registry key
-258 Registry key value
+257 Ключ реєстру
+258 Значення ключа реєстру
 259 Error, the data could not be inserted (special characters are not allowed)
 260 Label file modification ok
 261 Label file deleted
@@ -293,10 +293,10 @@
 385 to a new category
 386 OR
 387 to an existing category
-388 Category
+388 Категорія
 389 Nothing
 390 Dictionary categories
-391 Category name
+391 Назва категорії
 393 Пошук
 394 Search Category
 395 Search software EVERYWHERE
@@ -394,7 +394,7 @@
 498 Пакет
 499 Сервер
 500 Customization
-501 Add package
+501 Додати пакет
 502 Elected
 503 Force elected
 504 Not elected
@@ -415,7 +415,7 @@
 519 Computer already elected for network
 520 Computer already FORCED ipdiscover for network
 521 Computer already FORCED unelectable
-522 Standard computer
+522 Стандартний комп'ютер
 523 Revert back to standard state
 524 NEVER assign again
 525 ARE YOU SURE?
@@ -475,7 +475,7 @@
 582 та
 583 Групи
 584 For the request
-585 For selection
+585 Для виділеного
 586 Нова група
 587 Нова статична група
 588 Overwrite group
@@ -490,7 +490,7 @@
 597 STATICALLY EXCLUDED
 598 Include
 600 Exclude
-601 Mass assignment
+601 Масове призначення
 602 You need to send a file
 603 No computer found, please check your file
 604 computer(s) successfully assigned
@@ -785,8 +785,8 @@
 898 Додати анотацію
 899 Автор
 900 Ви дійсно хочете видалити вибране?
-901 Action on the query result
-902 Action on the result of selection
+901 Дія для результату запиту
+902 Дія для результату вибірки
 903 You must fill the explanation field
 904 Package reassignment
 905 Explanation about perfomed actions<br>on computer to be able to <br>assign package
@@ -853,23 +853,23 @@
 966 Agent
 967 BELONG TO
 968 DON'T BELONG TO
-969 Packages historic
+969 Packages history
 970 Пакети
 971 GROUP COMPUTERS REMOVAL
 972 Computers have been removed from group well
 973 COMPUTERS ADDITION TO GROUP
 974 computers inserted into cache
 975 Add to group
-976 INTERFACE LOCK ON REQUEST RESULT
-977 Lock
-978 You are going to lock all the interface on the search with criteria results
-979 To come back to a standard state, you will have to click on the icon <span class='glyphicon glyphicon-lock'></span> which is at the right top of the interface
+976 ІНТЕРФЕЙС БЛОКУВАННЯ ДЛЯ РЕЗУЛЬТАТУ ЗАПИТУ
+977 Блокування
+978 Ви збираєтеся заблокувати все в інтерфейсі пошуку за цими критеріями
+979 Щоб повернутися до стандартного вигляду, вам доведеться натиснути піктограму <span class='glyphicon glyphicon-lock'></span> розташовану у верхній частині інтерфейсу
 980 Packages on computers
 981 Packages on servers groups
 982 NO ASSIGNATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
 983 You have to choose on which type modifications has to perform
 984 Modifications
-985 COMPUTERS REMOVAL
+985 ВИДАЛЕННЯ КОМП'ЮТЕРІВ
 986 REMOVE COMPUTERS FOR
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
@@ -900,9 +900,9 @@
 1013 MAINTENANCE
 1014 Switch to
 1015 User mode
-1016 Login ROOT
-1017 Password ROOT
-1018 (Don't write anything if you want use anonymous connection)
+1016 ROOT логін
+1017 ROOT пароль
+1018 (Не пишіть нічого, якщо хочете використовувати анонімне з'єднання)
 1019 Блокувати результат
 1020 Name of the tag information
 1021 Teledeploy admin
@@ -997,10 +997,10 @@
 1110 The assignment of a package depends on the status of the request
 1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
 1112 Value of the first  attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1113 If the first attribute is found and the value matches, set this user role automatically
+1113 Якщо знайдено перший атрибут і значення співпадає, встановити користувачу цю роль автоматично
 1114 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
 1115 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1116 If the second attribute is found and the value matches, set this user role automatically
+1116 Якщо знайдено другий атрибут і значення співпадає, встановити користувачу цю роль автоматично
 1117 E-mail
 1118 Редагувати
 1119 Вибрати
@@ -1082,14 +1082,14 @@
 1195 may be assigned
 1196 Профіль
 1197 Функціональність SNMP
-1198 Networks scans
+1198 Сканування мережі
 1199 Version of SNMP communities
 1200 Value is updated
 1201 Display
 1202 Linux (ALL)
 1203 Windows (ALL)
 1204 IpDiscover
-1205 Manage SNMP communities
+1205 Управління SNMP комунікаціями
 1206 Directory of SNMP communities file
 1207 Add community
 1208 Community added
@@ -1161,7 +1161,7 @@
 1274 Profile updated
 1275 Profiles can't be deleted.
 1276 Profile created
-1277 Default profile (blank for none)
+1277 Профіль за замовчуванням (залишіть порожнім, якщо не потрібно)
 1278 You are not allowed to connect
 1279 WOL
 1280 Wake On Lan
@@ -1203,7 +1203,7 @@
 1324 Sharing printer on server
 1325 screen horizontal / vertical
 1326 Спільний
-1327 Local / Networks
+1327 Локальні / Мережі
 1328 Керувати
 1329 Адміністрування
 1330 Апаратне забезпечення
@@ -1296,6 +1296,40 @@
 1417 IMEI/DEVICEID
 1418 Країна
 1419 Пошук у стовпці
+1420 Налаштування теми
+1421 Сховище / Репозиторії
+1422 Expire
+1423 File name
+1424 Mirrors
+1425 tag
+1426 updated
+1427 Base URL
+1428 Батарея
+1429 Sim card
+1430 Рівне точно
+1431 Більш ніж
+1432 Менш ніж
+1433 Hardware Link Id
+1434 User Id
+1435 Location
+1436 Процес
+1437 Chemistry
+1438 SBDS Version
+1439 Max error
+1440 OEM Specific
+1441 Revalidate time
+1442 XML Definition
+1443 Шлюз за замовчуванням
+1444 USB Devices
+1445 Group info
+1446 Model name
+
+1500 Категорії ПЗ
+1501 Нова категорія
+1502 Список категорій
+1503 Додати ПЗ
+1504 Регулярний вираз або ім'я ПЗ
+1505 Виберіть категорію за замовчуванням для ПЗ
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ПОМИЛКА:
@@ -1420,7 +1454,11 @@
 2123 Доступні пакети
 2124 Видалені пакети
 2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
-
+2126 Assets categorization
+2127 The current multi search query will be used as an asset categorization crtieria.
+2128 Are you sure ?
+2129 Back to multi search
+2130 Assets categories
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1452,12 +1490,12 @@
 6003 Плагін
 6004 Всього доступно
 6005 Power on/off
-6006 WARNING : Please install php-soap, the plugin engine can't work without it
-6007 Please install the following modules in order to get this feature working&nbsp;:&nbsp;
-6008 Can't write in the following directory&nbsp;:&nbsp;
-6009 You can't install plugins, check error messages above.
-6010 The communication server encountered the following error on install&nbsp;:&nbsp;
-6011 Click here to solve your problem
+6006 ПОПЕРЕДЖЕННЯ: Встановіть php-soap, рушій плагінів не може працювати без нього
+6007 Будь ласка, встановіть наступні модулі, щоб ця функція працювала&nbsp;:&nbsp;
+6008 Не вдається записати в наступному каталозі&nbsp;:&nbsp;
+6009 Ви не можете встановити плагіни, перевірте повідомлення про помилки вище.
+6010 Сервер зв'язку виявив таку помилку під час встановлення&nbsp;:&nbsp;
+6011 Натисніть тут, щоб вирішити проблему
 6012 Вибрати Все
 
 7000 Плагіни
