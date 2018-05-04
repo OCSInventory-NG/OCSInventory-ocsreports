@@ -111,36 +111,36 @@ sub getManufacturer {
 sub getMultipathDisks {
     my @mpList = `multipath -l`;
     my @devs;
-	  my $volume;
-	  my $serial;
+          my $volume;
+          my $serial;
     my $dm;
-	  my $manufacturer;
-	  my $model;
+          my $manufacturer;
+          my $model;
     foreach my $line (@mpList) {
         if ($line =~ /^([\w\d]+)\s\((.*)\)\s(dm-\d+)\s(\w+)\s+,([\w\d\s]+)$/i) {
             $volume = $1;
-			      $serial = $2;
-			      $dm = $3;
-			      $manufacturer = $4;
-			      $model = $5;
+                              $serial = $2;
+                              $dm = $3;
+                              $manufacturer = $4;
+                              $model = $5;
         }
-		    if ($line =~ /size=(\d+)(\w+)\s/) {
-			      my $size = $1;
-			      my $unit = $2;
-			      # conversion to mebibyte
-			      my %conversion = (
-				        "T" => 1000**4,
-				        "G" => 1000**3,
-				        "M" => 1000**2,
-				        "K" => 1000,
-			      );
-			      if ($conversion{$unit}) {
-				        $size = $size / $conversion{$unit} * 2**20;
-			      } else {
-				        $size = $size." ".$unit;
-			      }
-			      push (@devs, {NAME=>$dm, DESCRIPTION=>$volume, TYPE=>"Multipath volume", MODEL=>$model, SERIALNUMBER=>$serial, MANUFACTURER=>$manufacturer});
-		    }
+                    if ($line =~ /size=(\d+)(\w+)\s/) {
+                              my $size = $1;
+                              my $unit = $2;
+                              # conversion to mebibyte
+                              my %conversion = (
+                                        "T" => 1000**4,
+                                        "G" => 1000**3,
+                                        "M" => 1000**2,
+                                        "K" => 1000,
+                              );
+                              if ($conversion{$unit}) {
+                                        $size = $size / $conversion{$unit} * 2**20;
+                              } else {
+                                        $size = $size." ".$unit;
+                              }
+                              push (@devs, {NAME=>$dm, DESCRIPTION=>$volume, TYPE=>"Multipath volume", MODEL=>$model, SERIALNUMBER=>$serial, MANUFACTURER=>$manufacturer});
+                    }
         if ($line =~ /(sd[a-z]+)/i) {
             push (@devs, {NAME=>$1, DESCRIPTION=>"Child of $dm", TYPE=>"Multipath child"});
         }
@@ -561,6 +561,20 @@ sub run {
         }
     }
 
+    my $logical_drive = undef;
+    if ($common->can_run ('arcconf') ) {
+        my ($cur_cont,$info,$key,$dev,$controller);
+        $controller = Ocsinventory::Agent::Backend::OS::Linux::Storages::Adaptec::parse_config();
+        foreach $cur_cont (keys %{$controller}){    #travers Controller
+            $info =  $controller->{$cur_cont};
+            foreach $key (keys %{$info}){           #travers Infos of Controller
+                 if ($key=~m/logical drive/) {
+                      $logical_drive= $info->{$key};
+                }
+            }
+        }
+    }
+
     foreach my $device (sort (keys %$devices)) {
         if ($devices->{$device}->{TYPE} =~ /(CD)|(CD\/DVD)|(DVD)|(BD)/i) {
             $devices->{$device}->{DISKSIZE} = "0000";
@@ -579,6 +593,14 @@ sub run {
         #if ($devices->{$device}->{CAPACITY} =~ /^cdrom$/) {
         #    $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME})*10**-6;
         #}
+        if ($devices->{$device}->{MANUFACTURER}=~m/Adaptec/) {#check if found devices are Logical Devices
+            foreach my $devkey (keys %{$logical_drive}) {
+                if($devices->{$device}->{MODEL} =~m/$logical_drive->{$devkey}->{'Logical device name'}/) { #Correct infos
+                    $devices->{$device}->{TYPE}="Logical Drive";
+                    $devices->{$device}->{DISKSIZE} = $logical_drive->{$devkey}->{'Size'};
+                }
+            }
+        }
         $common->addStorages($devices->{$device});
     }
 }

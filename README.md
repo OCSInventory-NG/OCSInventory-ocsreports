@@ -124,3 +124,12 @@ Copyright Holder:
   2008 (C) IBH IT-Service GmbH [http://www.ibh.de/]
 
 License: This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+Ocsinventory::Agent::Backend::OS::Linux::Storages::Adaptec uses code from Parse-Arcconf:
+
+https://github.com/kumy/Parse-Arcconf
+
+License and Copyright:
+Copyright (C) 2012 Mathieu Alorent
+
+This program is free software; you can redistribute it and/or modify it under the terms of either: the GNU General Public License as published by the Free Software Foundation; or the Artistic License. See http://dev.perl.org/licenses/ for more information.
