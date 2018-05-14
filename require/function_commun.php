@@ -215,6 +215,14 @@ function reloadform_closeme($form = '', $close = false) {
     echo "</script>";
 }
 
+function change_window($url){
+    echo "<script>";
+    if ($url != '') {
+        echo "window.location.href = '".$url."';";
+    }
+    echo "</script>";
+}
+
 function read_profil_file($name, $writable = '') {
     global $l;
     //Select config file depending on user profile
