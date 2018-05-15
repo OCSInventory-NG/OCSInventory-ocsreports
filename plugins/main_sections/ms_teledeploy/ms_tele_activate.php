@@ -247,7 +247,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $sql_data_fixe_bis = "select count(*) as %s,de.FILEID
                                     from devices d,download_enable de
                                     where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-                                    and d.tvalue %s  ";
+                                    and hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') and d.tvalue %s  ";
         $sql_data_fixe_ter = "select count(*) as %s,de.FILEID
                                     from devices d,download_enable de
                                     where d.IVALUE=de.ID  and d.name='DOWNLOAD'
