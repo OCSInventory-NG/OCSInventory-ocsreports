@@ -429,7 +429,7 @@ if ($_SESSION['OCS']['DEBUG'] == 'ON'){
  				//requete pour trouver tous les ID
  				//dans ce cas, le champ de recherche doit etre à null
 				if ($original_field_value_complement == $l->g(482))
-					$tvalue = " AND TVALUE IS NULL ";
+					$tvalue = " AND TVALUE IS NULL AND HARDWARE_ID NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 				//gestion de TOUT SAUF SUCCESS
 				elseif ($original_field_value_complement == "***".$l->g(548)."***")
 					$tvalue=" AND TVALUE not like 'SUC%' ";
