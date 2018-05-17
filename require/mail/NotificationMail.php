@@ -30,6 +30,7 @@
  require PHPMAILER.'/Exception.php';
  require PHPMAILER.'/PHPMailer.php';
  require PHPMAILER.'/SMTP.php';
+ require 'require/mail/Templates.php';
 
  /**
   * Class for the notification mail
@@ -127,12 +128,12 @@
        * send notification with phpMailer
        * @return void
        */
-      public function send_notification($subject, $body, $altBody, $isHtml = false){
+     public function send_notification($subject, $body, $altBody, $isHtml = false){
           try{
              // Content
              $this->notif->isHTML(false);
              $this->notif->Subject = 'Notification OCSInventory';
-             $this->notif->Body    = '<b>Initial body</b>';
+             $this->notif->Body    = file_get_contents('require/mail/Templates/template.php', true);;
              $this->notif->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
              $this->notif->send();
