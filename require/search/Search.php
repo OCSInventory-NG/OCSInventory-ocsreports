@@ -136,7 +136,6 @@
             self::SESS_VALUES => null,
             self::SESS_OPERATOR => null,
         ];
-        var_dump($_SESSION['OCS']['multi_search']);
     }
 
     /**
