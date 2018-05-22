@@ -56,6 +56,7 @@
     public $searchQuery = "FROM hardware ";
     public $queryArgs = [];
     public $columnsQueryConditions = "";
+    public $accountFieldsColumn = [];
 
 
     private $translationSearch;
@@ -135,6 +136,7 @@
             self::SESS_VALUES => null,
             self::SESS_OPERATOR => null,
         ];
+        var_dump($_SESSION['OCS']['multi_search']);
     }
 
     /**
@@ -378,11 +380,26 @@
     public function getSelectOptionForColumns($tableName = null)
     {
         $html = "";
-        foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
-            if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
-                $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
-                $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
-            }
+        if($tableName == "accountinfo"){
+          $this->accountFieldsColumn = $this->databaseSearch->retrieveNameFieldsAccountInfo($this->databaseSearch->getColumnsList($tableName));
+          foreach ($this->accountFieldsColumn as $index => $fieldsInfos) {
+              if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+                if(strpos($index, 'fields_') !== false){
+                  $trField = $fieldsInfos;
+                  $sortColumn[$index] .= $trField;
+                }else{
+                  $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
+                  $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
+                }
+              }
+          }
+        }else{
+          foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
+              if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+                  $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
+                  $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
+              }
+          }
         }
         asort($sortColumn);
         foreach ($sortColumn as $key => $value){
