@@ -241,6 +241,9 @@
 
         if(!empty($l->g($this->translationArray[$name]))){
             $name = $l->g($this->translationArray[$name]);
+        }elseif(strpos($name, 'fields_') !== false){
+            $databasesearch = new DatabaseSearch();
+            $name = $databasesearch->retrieveNameFields($name);
         }
 
         return $table." : ".$name;
