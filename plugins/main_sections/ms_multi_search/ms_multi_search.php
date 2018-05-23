@@ -227,7 +227,7 @@ if($protectedPost['search_ok']){
 	$list_col_cant_del = $search->defaultFields;
 	$default_fields = $search->defaultFields;
 
-
+  $_SESSION['OCS']['SEARCH_SQL_GROUP'] = $search->create_sql_cache($_SESSION['OCS']['multi_search']);
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';
 

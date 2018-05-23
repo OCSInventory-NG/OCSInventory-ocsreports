@@ -56,6 +56,7 @@
     public $searchQuery = "FROM hardware ";
     public $queryArgs = [];
     public $columnsQueryConditions = "";
+    public $values_cache_sql = [];
 
     private $translationSearch;
     private $databaseSearch;
@@ -452,4 +453,43 @@
         return $html;
     }
 
+    /**
+     * Create sql for dynamic group
+     * @param  Array $values
+     * @return String
+     */
+    public function create_sql_cache($values){
+        $cache_sql = "SELECT DISTINCT hardware.ID FROM hardware ";
+        $i =0;
+        foreach ($values as $key=>$value){
+           foreach ($value as $table => $field) {
+               $this->values_cache_sql[$key] = $field;
+               if($key != 'hardware'){
+                 $cache_sql .= "INNER JOIN ".$key." on hardware.id = ".$key.".hardware_id ";
+               }
+           }
+           $i++;
+        }
+        $cache_sql .= "WHERE ";
+        $p=1;
+        foreach ($this->values_cache_sql as $table=>$values){
+           $cache_sql .= $table.".".$values['fields']." ";
+           if($values['operator'] == 'LIKE'){
+              $cache_sql .= $values['operator']." '%".$values['value']."%' ";
+           }elseif($values['operator'] == 'DIFFERENT'){
+              $cache_sql .= "NOT LIKE '%".$values['value']."%' ";
+           }elseif($values['operator'] == 'EQUAL'){
+             $cache_sql .= "= '".$values['value']."' ";
+           }elseif($values['operator'] == 'LESS'){
+             $cache_sql .= "< ".$values['value']." ";
+           }elseif($values['operator'] == 'MORE'){
+             $cache_sql .= "> ".$values['value']." ";
+           }
+           if($p != $i){
+             $cache_sql .= "AND ";
+           }
+           $p++;
+        }
+        return $cache_sql;
+    }
  }
