@@ -148,8 +148,8 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				<div class="col-sm-3">
 					<div class="btn btn-info disabled" style="cursor:default;"><?php
             if(strpos($values['fields'], 'fields_') !== false){
-              $fields = $databaseSearch->retrieveNameFields($values['fields']);
-              echo $translationSearch->getTranslationFor($table)." : ".$fields;
+              $fields = $accountInfoSearch->getAccountInfosList();
+              echo $translationSearch->getTranslationFor($table)." : ".$fields['COMPUTERS'][$values['fields']];
             }else{
               echo $translationSearch->getTranslationFor($table)." : ".$translationSearch->getTranslationFor($values['fields']);
             }
@@ -226,6 +226,7 @@ if($protectedPost['search_ok']){
 	$list_fields = $search->fieldsList;
 	$list_col_cant_del = $search->defaultFields;
 	$default_fields = $search->defaultFields;
+
 
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';

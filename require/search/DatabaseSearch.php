@@ -74,7 +74,6 @@ class DatabaseSearch
      */
     private $tableQuery = "SHOW TABLES FROM %s";
     private $columnsQuery = "SHOW COLUMNS FROM %s";
-    private $accountinfoQuery = "SELECT COMMENT FROM accountinfo_config WHERE id = %s";
 
     /**
      * Objects
@@ -170,44 +169,6 @@ class DatabaseSearch
             $this->removeValueFromTableList($tableName);
         }
 
-    }
-
-    /**
-     * Retrieve Name of fields accountinfo
-     * @param  Array $columnList list of accountinfo column
-     * @return Array $fields
-     */
-    public function retrieveNameFieldsAccountInfo($columnList){
-        foreach ($columnList as $key => $value){
-            if(strpos($key, 'fields_') !== false){
-                $id_field = explode('_', $key);
-                $arg_sql = array(intval($id_field[1], 0));
-                $result = mysql2_query_secure($this->accountinfoQuery, $this->dbObject, $arg_sql);
-                while ($row = mysqli_fetch_array($result)){
-                  $fields[$key] = $row['COMMENT'];
-                }
-            }else{
-                $fields[$key] = $value;
-            }
-        }
-        return $fields;
-    }
-
-    /**
-     * [retrieveNameFields description]
-     * @param  String $fields [description]
-     * @return String         [description]
-     */
-    public function retrieveNameFields($fields){
-        if(strpos($fields, 'fields_') !== false){
-            $id_field = explode('_', $fields);
-            $arg_sql = array(intval($id_field[1], 0));
-            $result = mysql2_query_secure($this->accountinfoQuery, $this->dbObject, $arg_sql);
-            while ($row = mysqli_fetch_array($result)){
-              $field = $row['COMMENT'];
-            }
-        }
-        return $field;
     }
 
     /**

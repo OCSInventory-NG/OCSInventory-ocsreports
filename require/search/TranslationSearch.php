@@ -242,8 +242,9 @@
         if(!empty($l->g($this->translationArray[$name]))){
             $name = $l->g($this->translationArray[$name]);
         }elseif(strpos($name, 'fields_') !== false){
-            $databasesearch = new DatabaseSearch();
-            $name = $databasesearch->retrieveNameFields($name);
+            $accountInfoSearch = new AccountinfoSearch();
+            $translateAccount = $accountInfoSearch->getAccountInfosList();
+            $name = $translateAccount['COMPUTERS'][$name];
         }
 
         return $table." : ".$name;

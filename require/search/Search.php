@@ -56,8 +56,6 @@
     public $searchQuery = "FROM hardware ";
     public $queryArgs = [];
     public $columnsQueryConditions = "";
-    public $accountFieldsColumn = [];
-
 
     private $translationSearch;
     private $databaseSearch;
@@ -380,16 +378,12 @@
     {
         $html = "";
         if($tableName == "accountinfo"){
-          $this->accountFieldsColumn = $this->databaseSearch->retrieveNameFieldsAccountInfo($this->databaseSearch->getColumnsList($tableName));
-          foreach ($this->accountFieldsColumn as $index => $fieldsInfos) {
+          $accountinfoList = new AccountinfoSearch();
+          $test = $accountinfoList->getAccountInfosList();
+          foreach ($test['COMPUTERS'] as $index => $fieldsInfos) {
               if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
-                if(strpos($index, 'fields_') !== false){
                   $trField = $fieldsInfos;
                   $sortColumn[$index] .= $trField;
-                }else{
-                  $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
-                  $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
-                }
               }
           }
         }else{
