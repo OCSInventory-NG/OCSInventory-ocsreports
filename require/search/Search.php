@@ -379,8 +379,8 @@
         $html = "";
         if($tableName == "accountinfo"){
           $accountinfoList = new AccountinfoSearch();
-          $test = $accountinfoList->getAccountInfosList();
-          foreach ($test['COMPUTERS'] as $index => $fieldsInfos) {
+          $accountFields = $accountinfoList->getAccountInfosList();
+          foreach ($accountFields['COMPUTERS'] as $index => $fieldsInfos) {
               if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $fieldsInfos;
                   $sortColumn[$index] .= $trField;
