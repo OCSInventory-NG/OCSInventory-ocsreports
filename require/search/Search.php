@@ -106,7 +106,7 @@
         $this->accountinfoSearch = $accountinfoSearch;
 
         if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
-            $this->fieldsList['CHECK'] = 'ID';
+            $this->fieldsList['CHECK'] = 'hardwareID';
         }
 
         // Translation for default fields
@@ -275,7 +275,7 @@
 
             if($generatedId == 'hardware.NAME'){
                 $this->fieldsList["NAME"] = $selectAs;
-            } else {
+            } elseif($generatedId != 'hardware.ID') {
                 $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $selectAs;
             }
 
