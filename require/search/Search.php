@@ -280,11 +280,11 @@
                 $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $selectAs;
             }
 
-            if($sessData != null){
+            /*if($sessData != null){
                 if($sessData[$tableName][key($sessData[$tableName])][self::SESS_FIELDS] == $fieldsInfos['Field']){
                     $this->defaultFields[$this->translationSearch->getTranslationForListField($generatedId)] = $generatedId;
                 }
-            }
+            }*/
 
         }
     }
