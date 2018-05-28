@@ -85,6 +85,7 @@
      * Multiples fields search
      */
     private $multipleFieldsSearch = [];
+    private $multipleFieldsSearchCache = [];
 
     /**
      * Final query and args used for multicrits
@@ -459,36 +460,56 @@
      * @return String
      */
     public function create_sql_cache($values){
+
         $cache_sql = "SELECT DISTINCT hardware.ID FROM hardware ";
         $i =0;
         foreach ($values as $key=>$value){
            foreach ($value as $table => $field) {
-               $this->values_cache_sql[$key] = $field;
+               $i++;
+               $this->values_cache_sql[$key][$table] = $field;
                if($key != 'hardware'){
-                 $cache_sql .= "INNER JOIN ".$key." on hardware.id = ".$key.".hardware_id ";
+                 if(!array_key_exists($key, $this->multipleFieldsSearchCache)){
+                     $this->multipleFieldsSearchCache[$key] = 1;
+                 }else{
+                     $this->multipleFieldsSearchCache[$key] += 1;
+                 }
+                 if( $this->multipleFieldsSearchCache[$key] == 1 ){
+                     $cache_sql .= "INNER JOIN ".$key." on hardware.id = ".$key.".hardware_id ";
+                 }
                }
            }
-           $i++;
         }
+
         $cache_sql .= "WHERE ";
-        $p=1;
-        foreach ($this->values_cache_sql as $table=>$values){
-           $cache_sql .= $table.".".$values['fields']." ";
-           if($values['operator'] == 'LIKE'){
-              $cache_sql .= $values['operator']." '%".$values['value']."%' ";
-           }elseif($values['operator'] == 'DIFFERENT'){
-              $cache_sql .= "NOT LIKE '%".$values['value']."%' ";
-           }elseif($values['operator'] == 'EQUAL'){
-             $cache_sql .= "= '".$values['value']."' ";
-           }elseif($values['operator'] == 'LESS'){
-             $cache_sql .= "< ".$values['value']." ";
-           }elseif($values['operator'] == 'MORE'){
-             $cache_sql .= "> ".$values['value']." ";
+        $p=0;
+        foreach ($this->values_cache_sql as $table=>$value){
+           foreach ($value as $key => $values) {
+             $p++;
+             $cache_sql .= $table.".".$values['fields']." ";
+             if($values['operator'] == 'LIKE'){
+                $cache_sql .= $values['operator']." '%".$values['value']."%' ";
+             }elseif($values['operator'] == 'DIFFERENT'){
+                $cache_sql .= "NOT LIKE '%".$values['value']."%' ";
+             }elseif($values['operator'] == 'EQUAL'){
+               $cache_sql .= "= '".$values['value']."' ";
+             }elseif($values['operator'] == 'LESS'){
+               $cache_sql .= "< ".$values['value']." ";
+             }elseif($values['operator'] == 'MORE'){
+               $cache_sql .= "> ".$values['value']." ";
+             }
+             if(!array_key_exists($table.$values['fields'], $this->multipleFieldsSearchCache)){
+                 $this->multipleFieldsSearchCache[$table.$values['fields']] = 1;
+             }else{
+                 $this->multipleFieldsSearchCache[$table.$values['fields']] += 1;
+             }
+             if($p != $i){
+                 if( $this->multipleFieldsSearchCache[$table.$values['fields']] > 1 ){
+                     $cache_sql .= "OR ";
+                 }else{
+                     $cache_sql .= "AND ";
+                 }
+             }
            }
-           if($p != $i){
-             $cache_sql .= "AND ";
-           }
-           $p++;
         }
         return $cache_sql;
     }
