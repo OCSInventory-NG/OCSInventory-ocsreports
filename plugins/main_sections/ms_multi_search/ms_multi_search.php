@@ -141,14 +141,18 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 	if(isset($protectedPost['search_ok'])){
 		$search->updateSessionsInfos($protectedPost);
 	}
-
 	foreach ($_SESSION['OCS']['multi_search'] as $table => $infos) {
 		foreach ($infos as $uniqid => $values) {
 			?>
 			<div class="row" name="<?php echo $uniqid ?>">
 				<div class="col-sm-3">
 					<div class="btn btn-info disabled" style="cursor:default;"><?php
-						echo $translationSearch->getTranslationFor($table)." : ".$translationSearch->getTranslationFor($values['fields']);
+            if(strpos($values['fields'], 'fields_') !== false){
+              $fields = $accountInfoSearch->getAccountInfosList();
+              echo $translationSearch->getTranslationFor($table)." : ".$fields['COMPUTERS'][$values['fields']];
+            }else{
+              echo $translationSearch->getTranslationFor($table)." : ".$translationSearch->getTranslationFor($values['fields']);
+            }
 					?></div>
 				</div>
 				<div class="col-sm-3">
@@ -223,6 +227,7 @@ if($protectedPost['search_ok']){
 	$list_col_cant_del = $search->defaultFields;
 	$default_fields = $search->defaultFields;
 
+  $_SESSION['OCS']['SEARCH_SQL_GROUP'] = $search->create_sql_cache($_SESSION['OCS']['multi_search']);
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';
 
@@ -243,7 +248,6 @@ if($protectedPost['search_ok']){
 		$list_fonct["image/tele_search.png"]=$l->g(428);
 		$list_pag["image/tele_search.png"]=$pages_refs["ms_custom_pack"];
 	}
-	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];
 
 	$list_fonct["image/groups_search.png"]=$l->g(583);
 	$list_pag["image/groups_search.png"]=$pages_refs["ms_custom_groups"];

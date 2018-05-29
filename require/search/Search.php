@@ -56,7 +56,7 @@
     public $searchQuery = "FROM hardware ";
     public $queryArgs = [];
     public $columnsQueryConditions = "";
-
+    public $values_cache_sql = [];
 
     private $translationSearch;
     private $databaseSearch;
@@ -85,6 +85,7 @@
      * Multiples fields search
      */
     private $multipleFieldsSearch = [];
+    private $multipleFieldsSearchCache = [];
 
     /**
      * Final query and args used for multicrits
@@ -107,7 +108,7 @@
         $this->accountinfoSearch = $accountinfoSearch;
 
         if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
-            $this->fieldsList['CHECK'] = 'ID';
+            $this->fieldsList['CHECK'] = 'hardwareID';
         }
 
         // Translation for default fields
@@ -276,7 +277,7 @@
 
             if($generatedId == 'hardware.NAME'){
                 $this->fieldsList["NAME"] = $selectAs;
-            } else {
+            } elseif($generatedId != 'hardware.ID') {
                 $this->fieldsList[$this->translationSearch->getTranslationForListField($generatedId)] = $selectAs;
             }
 
@@ -378,11 +379,22 @@
     public function getSelectOptionForColumns($tableName = null)
     {
         $html = "";
-        foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
-            if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
-                $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
-                $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
-            }
+        if($tableName == "accountinfo"){
+          $accountinfoList = new AccountinfoSearch();
+          $accountFields = $accountinfoList->getAccountInfosList();
+          foreach ($accountFields['COMPUTERS'] as $index => $fieldsInfos) {
+              if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+                  $trField = $fieldsInfos;
+                  $sortColumn[$index] .= $trField;
+              }
+          }
+        }else{
+          foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
+              if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+                  $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
+                  $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
+              }
+          }
         }
         asort($sortColumn);
         foreach ($sortColumn as $key => $value){
@@ -442,4 +454,63 @@
         return $html;
     }
 
+    /**
+     * Create sql for dynamic group
+     * @param  Array $values
+     * @return String
+     */
+    public function create_sql_cache($values){
+
+        $cache_sql = "SELECT DISTINCT hardware.ID FROM hardware ";
+        $i =0;
+        foreach ($values as $key=>$value){
+           foreach ($value as $table => $field) {
+               $i++;
+               $this->values_cache_sql[$key][$table] = $field;
+               if($key != 'hardware'){
+                 if(!array_key_exists($key, $this->multipleFieldsSearchCache)){
+                     $this->multipleFieldsSearchCache[$key] = 1;
+                 }else{
+                     $this->multipleFieldsSearchCache[$key] += 1;
+                 }
+                 if( $this->multipleFieldsSearchCache[$key] == 1 ){
+                     $cache_sql .= "INNER JOIN ".$key." on hardware.id = ".$key.".hardware_id ";
+                 }
+               }
+           }
+        }
+
+        $cache_sql .= "WHERE ";
+        $p=0;
+        foreach ($this->values_cache_sql as $table=>$value){
+           foreach ($value as $key => $values) {
+             $p++;
+             $cache_sql .= $table.".".$values['fields']." ";
+             if($values['operator'] == 'LIKE'){
+                $cache_sql .= $values['operator']." '%".$values['value']."%' ";
+             }elseif($values['operator'] == 'DIFFERENT'){
+                $cache_sql .= "NOT LIKE '%".$values['value']."%' ";
+             }elseif($values['operator'] == 'EQUAL'){
+               $cache_sql .= "= '".$values['value']."' ";
+             }elseif($values['operator'] == 'LESS'){
+               $cache_sql .= "< ".$values['value']." ";
+             }elseif($values['operator'] == 'MORE'){
+               $cache_sql .= "> ".$values['value']." ";
+             }
+             if(!array_key_exists($table.$values['fields'], $this->multipleFieldsSearchCache)){
+                 $this->multipleFieldsSearchCache[$table.$values['fields']] = 1;
+             }else{
+                 $this->multipleFieldsSearchCache[$table.$values['fields']] += 1;
+             }
+             if($p != $i){
+                 if( $this->multipleFieldsSearchCache[$table.$values['fields']] > 1 ){
+                     $cache_sql .= "OR ";
+                 }else{
+                     $cache_sql .= "AND ";
+                 }
+             }
+           }
+        }
+        return $cache_sql;
+    }
  }

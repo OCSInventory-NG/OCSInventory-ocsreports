@@ -55,7 +55,7 @@ class DatabaseSearch
      * Excluded tables
      */
     private $excludedTables = [
-        "accountinfo",
+        /*"accountinfo",*/
         "download_servers",
         "groups_cache",
         "itmgmt_comments",
@@ -130,7 +130,6 @@ class DatabaseSearch
             $this->tableList[] = $tableInfos[0];
             $this->retireveColumnsList($tableInfos[0]);
         }
-
     }
 
     /**
@@ -160,7 +159,7 @@ class DatabaseSearch
                 ];
             }
             // Remove tables that doesn't reference a computer or an snmp device
-            if (!array_key_exists(self::COMPUTER_COL_RED, $this->columnsList[$tableName]) 
+            if (!array_key_exists(self::COMPUTER_COL_RED, $this->columnsList[$tableName])
                 && $tableName !== self::COMPUTER_DEF_TABLE
             ) {
                 unset($this->columnsList[$tableName]);
@@ -214,6 +213,5 @@ class DatabaseSearch
             unset($this->tableList[$key]);
         }
     }
-     
+
 }
- 

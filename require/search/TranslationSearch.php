@@ -29,6 +29,7 @@
 
     private $translationArray = [
         "accesslog" => 995,
+        "accountinfo" => 1447,
         "batteries" => 1428,
         "bios" => 273,
         "controllers" => 93,
@@ -240,6 +241,10 @@
 
         if(!empty($l->g($this->translationArray[$name]))){
             $name = $l->g($this->translationArray[$name]);
+        }elseif(strpos($name, 'fields_') !== false){
+            $accountInfoSearch = new AccountinfoSearch();
+            $translateAccount = $accountInfoSearch->getAccountInfosList();
+            $name = $translateAccount['COMPUTERS'][$name];
         }
 
         return $table." : ".$name;
