@@ -56,7 +56,49 @@ $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer
 $form_name = 'config_mach';
 
 echo open_form($form_name, '', '', 'form-horizontal');
+?>
 
+<div class="row margin-top30">
+    <div class="col-md-12">
+        <?php
+        if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
+            echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" alt=". $l->g(2122) ." class='btn btn-success'>". $l->g(2122) ."</a>";
+        }
+        ?>
+    </div>
+</div></br>
+<div class="row">
+    <div class="col-md-4 col-md-offset-2">
+        <select name="groupcombo" id="groupcombo" class="form-control">
+
+        <?php
+        $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration";
+
+        $reqGroups = "SELECT h.name,h.id,h.workgroup
+					  FROM hardware h,groups g
+					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
+        if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
+            $reqGroups .= " and workgroup = 'GROUP_4_ALL'";
+        }
+        $reqGroups .= " order by h.name";
+        $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
+        while ($valGroups = mysqli_fetch_array($resGroups)) {
+            echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+        }
+        ?>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <script>
+            function url(id) {
+                window.location="<?php echo $hrefBase; ?>&actgrp=1&grp=" + id.options[id.selectedIndex].value;
+            }
+        </script>
+        <a class="btn btn-success" OnClick=url(document.getElementById("groupcombo")) ><?php echo $l->g(589) ?></a>
+    </div>
+</div></br>
+
+<?php
 while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
     $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
     $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
@@ -187,46 +229,5 @@ if (mysqli_num_rows($resGroups) > 0) {
         <?php
     }
 }
-?>
-<div class="row">
-    <div class="col-md-4 col-md-offset-2">
-        <select name="groupcombo" id="groupcombo" class="form-control">
-
-        <?php
-        $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration";
-
-        $reqGroups = "SELECT h.name,h.id,h.workgroup
-					  FROM hardware h,groups g
-					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
-        if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
-            $reqGroups .= " and workgroup = 'GROUP_4_ALL'";
-        }
-        $reqGroups .= " order by h.name";
-        $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
-        while ($valGroups = mysqli_fetch_array($resGroups)) {
-            echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
-        }
-        ?>
-        </select>
-    </div>
-    <div class="col-md-4">
-        <script>
-            function url(id) {
-                window.location="<?php echo $hrefBase; ?>&actgrp=1&grp=" + id.options[id.selectedIndex].value;
-            }
-        </script>
-        <a class="btn btn-success" OnClick=url(document.getElementById("groupcombo")) ><?php echo $l->g(589) ?></a>
-    </div>
-</div>
-<div class="row margin-top30">
-    <div class="col-md-12">
-        <?php
-        if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
-        echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" alt=". $l->g(2122) ." class='btn btn-success'>". $l->g(2122) ."</a>";
-        }
-        ?>
-    </div>
-</div>
-<?php
 echo close_form();
 ?>
