@@ -224,3 +224,7 @@ table.dataTable a {
     background: transparent;
     background-color:#efefef;
 }
+
+a {
+  color: #961b7e;
+}
