@@ -37,9 +37,10 @@ class SoftwareCategory
         $i = 1;
         while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
             if ($i == 1) {
-                $first_onglet = $i;
+                $list_cat['first_onglet'] = $i;
             }
             $list_cat[$i] = $item_list_cat['CATEGORY_NAME'];
+            $list_cat['category_name'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['ID'];
             $i++;
         }
         $list_cat['i'] = $i;
