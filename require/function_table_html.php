@@ -1162,7 +1162,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 
 	if ($def_onglets != ""){
 
-		echo "<ul class=\"nav nav-tabs\" style='display: inline-block' role=\"tablist\">";
+		echo "<ul class=\"nav nav-pills\" style='display: inline-block' role=\"tablist\">";
 
 		$current="";
 
