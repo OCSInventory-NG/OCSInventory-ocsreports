@@ -478,7 +478,7 @@
 586 New group
 587 New static group
 588 Overwrite group
-589 statically add to group
+589 statically add to this group
 590 Reset state
 591 Include statically
 592 Exclude statically
