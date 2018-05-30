@@ -1304,6 +1304,7 @@
 1503 Ajouter des logiciels
 1504 Expression régulière ou nom du logiciel
 1505 Sélectionner une catégorie par défaut
+1506 Aucune catégorie créée
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
