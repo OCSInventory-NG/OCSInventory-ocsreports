@@ -7697,7 +7697,7 @@ var BFHLanguagesList = {
   'su': 'Basa Sunda',
   'bi': 'Bislama',
   'bs': 'bosanski jezik',
-  'br': 'brezhoneg',
+  'br': 'Português do Brasil',
   'ca': 'català',
   'ch': 'Chamoru',
   'ny': 'chiCheŵa',
