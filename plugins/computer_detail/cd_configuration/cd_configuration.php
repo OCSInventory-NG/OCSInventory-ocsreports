@@ -66,7 +66,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
         }
         ?>
     </div>
-</div></br>
+</div></br></br>
 <div class="row">
     <div class="col-md-4 col-md-offset-2">
         <select name="groupcombo" id="groupcombo" class="form-control">
@@ -96,7 +96,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
         </script>
         <a class="btn btn-success" OnClick=url(document.getElementById("groupcombo")) ><?php echo $l->g(589) ?></a>
     </div>
-</div></br>
+</div></br></br>
 
 <?php
 while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
