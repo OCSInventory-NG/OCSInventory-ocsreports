@@ -132,11 +132,38 @@ if ( isset($protectedPost['del_check']) ){
 }
 
 if($protectedGet['prov'] == 'allsoft'){
-    $_SESSION['OCS']['multi_search']['softwares'][uniqid()] = [
-        'fields' => 'NAME',
-        'value' => $protectedGet['value'],
-        'operator' => 'EQUAL',
-    ];
+  if(!array_key_exists($_SESSION['OCS']['multi_search']['softwares']['allsoft'])){
+      $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
+          'fields' => 'NAME',
+          'value' => $protectedGet['value'],
+          'operator' => 'EQUAL',
+      ];
+  }
+}
+
+if($protectedGet['prov'] == 'ipdiscover1'){
+  if(!array_key_exists($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
+      $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
+          'fields' => 'IPSUBNET',
+          'value' => $protectedGet['value'],
+          'operator' => 'EQUAL',
+      ];
+      $_SESSION['OCS']['multi_search']['devices']['ipdiscover1'] = [
+          'fields' => 'NAME',
+          'value' => 'IPDISCOVER',
+          'operator' => 'EQUAL',
+      ];
+      $_SESSION['OCS']['multi_search']['devices']['ipdiscover2'] = [
+          'fields' => 'IVALUE',
+          'value' => '1',
+          'operator' => 'EQUAL',
+      ];
+      $_SESSION['OCS']['multi_search']['devices']['ipdiscover3'] = [
+          'fields' => 'IVALUE',
+          'value' => '2',
+          'operator' => 'EQUAL',
+      ];
+  }
 }
 
 ?>
@@ -216,7 +243,6 @@ if($protectedPost['search_ok'] || $protectedGet['prov']){
 	/**
 	 * Generate Search fields
 	 */
-
 	$search->generateSearchQuery($_SESSION['OCS']['multi_search']);
 	$sql = $search->baseQuery.$search->searchQuery.$search->columnsQueryConditions;
 
