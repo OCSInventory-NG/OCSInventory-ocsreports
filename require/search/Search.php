@@ -79,6 +79,7 @@
         "LESS",
         "LIKE",
         "DIFFERENT",
+        "ISNULL",
     ];
 
     /**
@@ -151,7 +152,7 @@
             if(count($keyExploded) > 1 && !is_null($_SESSION['OCS']['multi_search'][$keyExploded[1]])){
                 if ($keyExploded[2] == self::SESS_OPERATOR) {
                     $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] = $value;
-                } else {
+                } elseif($keyExploded[2] == self::SESS_VALUES && $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] != 'ISNULL') {
                     $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_VALUES] = $value;
                 }
             }elseif(count($keyExploded) == 4){
@@ -262,13 +263,19 @@
                 }
                 // Generate condition
                 $this->getOperatorSign($value);
-                $this->columnsQueryConditions .= " %s.%s %s '%s' $operator";
-                $this->queryArgs[] = $tableName;
-                $this->queryArgs[] = $value[self::SESS_FIELDS];
-                $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                $this->queryArgs[] = $value[self::SESS_VALUES];
+                if($value[self::SESS_OPERATOR] == 'IS NULL'){
+                  $this->columnsQueryConditions .= " %s.%s %s $operator";
+                  $this->queryArgs[] = $tableName;
+                  $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                }else{
+                  $this->columnsQueryConditions .= " %s.%s %s '%s' $operator";
+                  $this->queryArgs[] = $tableName;
+                  $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  $this->queryArgs[] = $value[self::SESS_VALUES];
+                }
             }
-
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
         $this->columnsQueryConditions = substr($this->columnsQueryConditions, 0, -3);
@@ -331,6 +338,9 @@
             case 'DIFFERENT':
                 $valueArray[self::SESS_OPERATOR] = "NOT LIKE";
                 $valueArray[self::SESS_VALUES] = "%".$valueArray[self::SESS_VALUES]."%";
+                break;
+            case 'ISNULL':
+                $valueArray[self::SESS_OPERATOR] = "IS NULL";
                 break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
@@ -437,25 +447,30 @@
         $fieldId = $this->getFieldUniqId($uniqid, $tableName);
         $type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
         $html = "";
+        if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL'){
+          $attr = 'disabled';
+        }else{
+          $attr = '';
+        }
 
         switch ($type) {
             case self::DB_VARCHAR:
-                $html = '<input class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                $html = '<input class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
                 break;
 
             case self::DB_TEXT:
-                $html = '<input class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                $html = '<input class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
                 break;
 
             case self::DB_INT:
-                $html = '<input class="form-control" type="number" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                $html = '<input class="form-control" type="number" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
                 break;
 
             case self::DB_DATETIME:
-                $html = '<input class="form-control" class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                $html = '<input class="form-control" class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
                 $html = '
                 <div class="input-group date form_datetime">
-                    <input type="text" class="form-control" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" />
+                    <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'/>
                     <span class="input-group-addon">
                         '.calendars($fieldId, $l->g(1270)).'
                     </span>
@@ -463,7 +478,7 @@
                 break;
 
             default:
-                $html = '<input class="form-control" type="text" name="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'">';
+                $html = '<input class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
                 break;
         }
 
