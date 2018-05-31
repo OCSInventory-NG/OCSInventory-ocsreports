@@ -166,6 +166,38 @@ if($protectedGet['prov'] == 'ipdiscover1'){
   }
 }
 
+if($protectedGet['prov'] == 'stat'){
+  if(!array_key_exists($_SESSION['OCS']['multi_search']['devices']['stat'])){
+    $idPackage = $databaseSearch->get_package_id($protectedGet['id_pack']);
+
+    $_SESSION['OCS']['multi_search']['devices']['stat'] = [
+        'fields' => 'NAME',
+        'value' => 'DOWNLOAD',
+        'operator' => 'EQUAL',
+    ];
+    if($protectedGet['stat'] == 'SUCCESS'){
+      $value_stat = 'SUCCESS';
+      $operator_stat = 'EQUAL';
+    }elseif($protectedGet['stat'] == 'WAITING NOTIFICATION'){
+      $value_stat = '';
+      $operator_stat = 'ISNULL';
+    }
+
+    $_SESSION['OCS']['multi_search']['devices']['stattvalue'] = [
+        'fields' => 'TVALUE',
+        'value' => $value_stat,
+        'operator' => $operator_stat,
+    ];
+    foreach($idPackage as $key =>$value){
+      $_SESSION['OCS']['multi_search']['devices']['stat'.$key] = [
+          'fields' => 'IVALUE',
+          'value' => $value,
+          'operator' => 'EQUAL',
+      ];
+    }
+  }
+}
+
 ?>
 <div name="multiSearchCritsDiv">
 <?php
