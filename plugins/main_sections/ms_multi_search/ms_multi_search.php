@@ -131,6 +131,14 @@ if ( isset($protectedPost['del_check']) ){
 	}
 }
 
+if($protectedGet['prov'] == 'allsoft'){
+    $_SESSION['OCS']['multi_search']['softwares'][uniqid()] = [
+        'fields' => 'NAME',
+        'value' => $protectedGet['value'],
+        'operator' => 'EQUAL',
+    ];
+}
+
 ?>
 <div name="multiSearchCritsDiv">
 <?php
@@ -203,7 +211,7 @@ echo close_form();
 	<div class="col-sm-12">
 <?php
 
-if($protectedPost['search_ok']){
+if($protectedPost['search_ok'] || $protectedGet['prov']){
 
 	/**
 	 * Generate Search fields
