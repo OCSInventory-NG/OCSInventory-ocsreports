@@ -1323,6 +1323,7 @@
 1445 Group info
 1446 Model name
 1447 Account info
+1448 IS NULL
 
 1500 Software category
 1501 New category

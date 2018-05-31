@@ -210,6 +210,7 @@
         "LESS" => 1432,
         "LIKE" => 129,
         "DIFFERENT" => 130,
+        "ISNULL" => 1448,
     ];
 
     public function getTranslationFor($name){

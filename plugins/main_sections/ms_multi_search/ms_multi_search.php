@@ -131,6 +131,73 @@ if ( isset($protectedPost['del_check']) ){
 	}
 }
 
+if($protectedGet['prov'] == 'allsoft'){
+  if(!array_key_exists($_SESSION['OCS']['multi_search']['softwares']['allsoft'])){
+      $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
+          'fields' => 'NAME',
+          'value' => $protectedGet['value'],
+          'operator' => 'EQUAL',
+      ];
+  }
+}
+
+if($protectedGet['prov'] == 'ipdiscover1'){
+  if(!array_key_exists($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
+      $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
+          'fields' => 'IPSUBNET',
+          'value' => $protectedGet['value'],
+          'operator' => 'EQUAL',
+      ];
+      $_SESSION['OCS']['multi_search']['devices']['ipdiscover1'] = [
+          'fields' => 'NAME',
+          'value' => 'IPDISCOVER',
+          'operator' => 'EQUAL',
+      ];
+      $_SESSION['OCS']['multi_search']['devices']['ipdiscover2'] = [
+          'fields' => 'IVALUE',
+          'value' => '1',
+          'operator' => 'EQUAL',
+      ];
+      $_SESSION['OCS']['multi_search']['devices']['ipdiscover3'] = [
+          'fields' => 'IVALUE',
+          'value' => '2',
+          'operator' => 'EQUAL',
+      ];
+  }
+}
+
+if($protectedGet['prov'] == 'stat'){
+  if(!array_key_exists($_SESSION['OCS']['multi_search']['devices']['stat'])){
+    $idPackage = $databaseSearch->get_package_id($protectedGet['id_pack']);
+
+    $_SESSION['OCS']['multi_search']['devices']['stat'] = [
+        'fields' => 'NAME',
+        'value' => 'DOWNLOAD',
+        'operator' => 'EQUAL',
+    ];
+    if($protectedGet['stat'] == 'SUCCESS'){
+      $value_stat = 'SUCCESS';
+      $operator_stat = 'EQUAL';
+    }elseif($protectedGet['stat'] == 'WAITING NOTIFICATION'){
+      $value_stat = '';
+      $operator_stat = 'ISNULL';
+    }
+
+    $_SESSION['OCS']['multi_search']['devices']['stattvalue'] = [
+        'fields' => 'TVALUE',
+        'value' => $value_stat,
+        'operator' => $operator_stat,
+    ];
+    foreach($idPackage as $key =>$value){
+      $_SESSION['OCS']['multi_search']['devices']['stat'.$key] = [
+          'fields' => 'IVALUE',
+          'value' => $value,
+          'operator' => 'EQUAL',
+      ];
+    }
+  }
+}
+
 ?>
 <div name="multiSearchCritsDiv">
 <?php
@@ -157,7 +224,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>">
+						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
 							<?php echo $search->getSelectOptionForOperators($values['operator'])  ?>
 						</select>
 					</div>
@@ -170,8 +237,8 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				<div class="col-sm-3">
 					<div class="form-group">
 						<a href="?function=visu_search&delete_row=<?php echo $uniqid."_".$table ?>">
-							<button type="button" class="btn btn-danger" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
+							<button type="button" class="btn btn-danger" aria-label="Close" style="padding: 10px;">
+								<span class="glyphicon glyphicon-remove"></span>
 							</button>
 						</a>
 					</div>
@@ -203,12 +270,11 @@ echo close_form();
 	<div class="col-sm-12">
 <?php
 
-if($protectedPost['search_ok']){
+if($protectedPost['search_ok'] || $protectedGet['prov']){
 
 	/**
 	 * Generate Search fields
 	 */
-
 	$search->generateSearchQuery($_SESSION['OCS']['multi_search']);
 	$sql = $search->baseQuery.$search->searchQuery.$search->columnsQueryConditions;
 
