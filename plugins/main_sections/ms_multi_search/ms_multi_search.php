@@ -170,8 +170,8 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				<div class="col-sm-3">
 					<div class="form-group">
 						<a href="?function=visu_search&delete_row=<?php echo $uniqid."_".$table ?>">
-							<button type="button" class="btn btn-danger" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
+							<button type="button" class="btn btn-danger" aria-label="Close" style="padding: 10px;">
+								<span class="glyphicon glyphicon-remove"></span>
 							</button>
 						</a>
 					</div>
