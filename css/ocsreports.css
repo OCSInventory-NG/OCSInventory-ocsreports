@@ -79,7 +79,7 @@ a, img, .lienBleu, .norm, td, b,.warn {
 
 a,a:visited, .lienBleu {
     cursor: pointer;
-    color: #3151CD;
+    /*color: #3151CD;*/
 }
 
 a.btn-success{

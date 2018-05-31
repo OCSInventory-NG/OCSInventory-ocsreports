@@ -29,6 +29,10 @@ class plugins {
     protected $menus;
     protected $rights;
 
+    const ENGLISH_LANGUAGE = "language/en_GB/en_GB";
+    const TXT_EXT = ".txt";
+    const TMP_EXT = ".tmp";
+
     private function getMenus() {
         return $this->menus;
     }
@@ -164,7 +168,7 @@ class plugins {
         }
 
         // Add label entry
-        $file = fopen(PLUGINS_DIR . "language/english/english.txt", "a+");
+        $file = fopen(PLUGINS_DIR . self::ENGLISH_LANGUAGE . self::TXT_EXT, "a+");
         fwrite($file, $label . " " . $displayname . "\n");
         fclose($file);
     }
@@ -252,8 +256,8 @@ class plugins {
         }
 
         // Remove Label entry
-        $reading = fopen(PLUGINS_DIR . 'language/english/english.txt', 'a+');
-        $writing = fopen(PLUGINS_DIR . 'language/english/english.tmp', 'w');
+        $reading = fopen(PLUGINS_DIR . self::ENGLISH_LANGUAGE . self::TXT_EXT, 'a+');
+        $writing = fopen(PLUGINS_DIR . self::ENGLISH_LANGUAGE . self::TMP_EXT, 'w');
 
         $replaced = false;
 
@@ -269,9 +273,9 @@ class plugins {
         fclose($writing);
         // might as well not overwrite the file if we didn't replace anything
         if ($replaced) {
-            rename(PLUGINS_DIR . 'language/english/english.tmp', PLUGINS_DIR . 'language/english/english.txt');
+            rename(PLUGINS_DIR . self::ENGLISH_LANGUAGE . self::TMP_EXT, PLUGINS_DIR . self::ENGLISH_LANGUAGE . self::TXT_EXT);
         } else {
-            unlink(PLUGINS_DIR . 'language/english/english.tmp');
+            unlink(PLUGINS_DIR . self::ENGLISH_LANGUAGE . self::TMP_EXT);
         }
     }
 
@@ -362,3 +366,4 @@ class plugins {
 
 }
 ?>
+

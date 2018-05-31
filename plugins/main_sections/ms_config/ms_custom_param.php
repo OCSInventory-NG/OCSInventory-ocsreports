@@ -26,7 +26,9 @@ require_once('require/function_search.php');
 
 $form_name = "param_affect";
 echo open_form($form_name, '', '', 'form-horizontal');
+
 $list_id = multi_lot($form_name, $l->g(601));
+echo "<a class='btn btn-info' href='index.php?function=computer&head=1&systemid=".$list_id."&cat=config'>".$l->g(188)."</a></br></br>";
 
 $def_onglets['SERV'] = $l->g(499); //Serveur
 $def_onglets['INV'] = $l->g(728); //Inventaire

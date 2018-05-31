@@ -86,7 +86,6 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
     <div class="row">
         <div class="col col-md-6 text-left">
             <p>
-                <?php echo (isset($optPerso[$lbl]) ? "<span class='roundRed'></span>" : '') ?>
                 <?php echo $lblPerso; ?>
                 <span class="help-block text-success"><?php echo $helpText; ?></span>
             </p>

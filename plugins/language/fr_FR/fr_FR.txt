@@ -1297,13 +1297,41 @@
 1418 Pays
 1419 Rechercher par colonne
 1420 Thème personnalisé
-1421 Depot
+1421 Dépot
 1422 Expire
 1423 Nom fichier
 1424 Miroir
 1425 tag
 1426 maj
 1427 Base URL
+1428 Batteries
+1429 Sim
+1430 Egale
+1431 Plus que
+1432 Moins que
+1433 Matériel Id
+1434 Id utilisateur
+1435 Location
+1436 Processus
+1437 Composant chimique
+1438 Version SBDS
+1439 Erreur Max
+1440 Spécifique OEM
+1441 Date de revalidation
+1442 Définition XML
+1443 Passerelle par défaut
+1444 Périphériques USB
+1445 Groupe info
+1446 Nom du modèle
+1447 Informations de compte
+
+1500 Catégorie de logiciels
+1501 Nouvelle catégorie
+1502 Liste des catégories
+1503 Ajouter des logiciels
+1504 Expression régulière ou nom du logiciel
+1505 Sélectionner une catégorie par défaut
+1506 Aucune catégorie créée
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:

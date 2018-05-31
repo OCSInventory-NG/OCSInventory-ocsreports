@@ -215,6 +215,14 @@ function reloadform_closeme($form = '', $close = false) {
     echo "</script>";
 }
 
+function change_window($url){
+    echo "<script>";
+    if ($url != '') {
+        echo "window.location.href = '".$url."';";
+    }
+    echo "</script>";
+}
+
 function read_profil_file($name, $writable = '') {
     global $l;
     //Select config file depending on user profile
@@ -325,6 +333,7 @@ function html_header($noJavascript = false) {
 				<link rel="shortcut icon" href="favicon.ico">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css">
+				<link rel="stylesheet" href="libraries/select2/css/select2.min.css" />
 				<link rel="stylesheet" href="themes/'.$value_theme['tvalue']['CUSTOM_THEME'].'/style.css">
 				<link rel="stylesheet" href="css/dataTables-custom.css">
 				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.css">
@@ -344,6 +353,7 @@ function html_header($noJavascript = false) {
         <script src="libraries/jquery-fileupload/jquery.iframe-transport.min.js" type="text/javascript"></script>
         <script src="libraries/jquery-fileupload/jquery.fileupload.min.js" type="text/javascript"></script>
         <script src="libraries/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="libraries/select2/js/select2.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-custom.js" type="text/javascript"></script>
         <script src="js/bootstrap-datetimepicker.js" type="text/javascript"></script>
         <script src="js/bootstrap-datetimepicker-locale.js" type="text/javascript"></script>

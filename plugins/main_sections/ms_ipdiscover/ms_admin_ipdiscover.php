@@ -39,7 +39,7 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 	if (!in_array($protectedGet['value'],$_SESSION['OCS']["subnet_ipdiscover"])){
 		msg_error($l->g(837));
 		require_once(FOOTER_HTML);
-		die();	
+		die();
 	}
 	$protectedPost['onglet'] = 'ADMIN_RSX';
 	$protectedPost['MODIF']=$protectedGet['value'];
@@ -48,13 +48,13 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 }else{
 	$data_on['ADMIN_RSX']=$l->g(1140);
 	$data_on['ADMIN_TYPE']=$l->g(836);
-	
+
 	if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES')
 		$data_on['ADMIN_SMTP']=$l->g(1205);
-	
+
 	if ($protectedPost['onglet'] != $protectedPost['old_onglet'])
-	unset($protectedPost['MODIF']);	
-	
+	unset($protectedPost['MODIF']);
+
 	show_tabs($data_on,$form_name,"onglet",true);
 	$left_menu_displayed=true;
     echo '<div class="col col-md-10">';
@@ -62,6 +62,7 @@ if (isset($protectedGet['value']) and $protectedGet['value'] != ''){
 
 if ($protectedPost['onglet'] == 'ADMIN_RSX') {
     $method = verif_base_methode('OCS');
+    $url_show_ipdiscover = 'index.php?function=show_ipdiscover';
     if (!$method) {
         if (is_defined($protectedPost['SUP_PROF'])) {
             delete_subnet($protectedPost['SUP_PROF']);
@@ -81,7 +82,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 unset($_SESSION['OCS']['DATA_CACHE'][$table_name], $_SESSION['OCS']["ipdiscover"], $protectedPost['ADD_SUB'], $protectedPost['MODIF']);
                 require_once(BACKEND . 'ipdiscover/ipdiscover.php');
                 if (is_defined($protectedGet['value']))
-                    reloadform_closeme("ipdiscover", true);
+                    change_window($url_show_ipdiscover);
             }
             $tab_options['CACHE'] = 'RESET';
         }
@@ -89,7 +90,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         if (isset($protectedPost['Reset_modif'])) {
             unset($protectedPost['ADD_SUB'], $protectedPost['MODIF']);
             if (is_defined($protectedGet['value']))
-                reloadform_closeme("ipdiscover", true);
+                change_window($url_show_ipdiscover);
         }
 
         if (isset($protectedPost['ADD_SUB'])) {
