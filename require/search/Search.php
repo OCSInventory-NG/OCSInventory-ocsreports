@@ -152,7 +152,7 @@
             if(count($keyExploded) > 1 && !is_null($_SESSION['OCS']['multi_search'][$keyExploded[1]])){
                 if ($keyExploded[2] == self::SESS_OPERATOR) {
                     $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] = $value;
-                } elseif($keyExploded[2] == self::SESS_VALUES && $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] != 'ISNULL') {
+                } elseif($keyExploded[2] == self::SESS_FIELDS && $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] != 'ISNULL') {
                     $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_VALUES] = $value;
                 }
             }elseif(count($keyExploded) == 4){
@@ -263,6 +263,7 @@
                 }
                 // Generate condition
                 $this->getOperatorSign($value);
+
                 if($value[self::SESS_OPERATOR] == 'IS NULL'){
                   $this->columnsQueryConditions .= " %s.%s %s $operator";
                   $this->queryArgs[] = $tableName;
