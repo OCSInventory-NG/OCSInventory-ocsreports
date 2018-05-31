@@ -171,6 +171,9 @@
         }else{
             $exploded = $explodedRef[1]."_".$explodedRef[2];
             unset($_SESSION['OCS']['multi_search'][$exploded][$explodedRef[0]]);
+            if(empty($_SESSION['OCS']['multi_search'][$exploded])){
+                unset($_SESSION['OCS']['multi_search'][$exploded]);
+            }
         }
         if(empty($_SESSION['OCS']['multi_search'][$explodedRef[1]])){
             unset($_SESSION['OCS']['multi_search'][$explodedRef[1]]);
