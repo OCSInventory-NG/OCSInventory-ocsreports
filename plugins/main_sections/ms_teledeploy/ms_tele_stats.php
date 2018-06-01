@@ -52,6 +52,7 @@ $arg = $protectedGet["stat"];
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 $row = mysqli_fetch_object($res);
 printEnTete($l->g(498) . " <b>" . $row->name . "</b> (" . $l->g(296) . ": " . $protectedGet["stat"] . " )");
+echo "</br></br></br>";
 
 //count max values for stats
 $sql_count = "SELECT COUNT(id) as nb
@@ -125,26 +126,36 @@ $stats = new StatsChartsRenderer;
 $stats->createChartCanvas("teledeploy_stats");
 $stats->createPieChart("teledeploy_stats", "", $legend, $count_value);
 
+echo "</br>";
+
 if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
-    echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'><tr BGCOLOR='#C7D9F5'>";
-    echo "<td width='33%' align='center'><a OnClick='pag(\"VAL_SUCC\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(483) . "</b></a></td>";
-    echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_ALL\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(571) . "</b></a></td>";
-    echo "<td width='33%' align='center'><a OnClick='pag(\"DEL_NOT\",\"ACTION\",\"" . $form_name . "\");'><b>" . $l->g(575) . "</b></a></td>";
-    echo "</tr></table><br><br>";
+
+    echo "<table class='table table-striped table-condensed table-hover cell-border dataTable' role='grid' style='margin: auto; width: 50%; border: 1px solid #dddddd;' width='100%'><thead><tr role='row'>";
+    echo "<th tabindex='0' aria-controls='affich_stat' rowspan='1' colspan='1' style='width: 33%;'><a OnClick='pag(\"VAL_SUCC\",\"ACTION\",\"" . $form_name . "\");'><font>" . $l->g(483) . "</font></a></th>";
+    echo "<th tabindex='0' aria-controls='affich_stat' rowspan='1' colspan='1' style='width: 33%;'><a OnClick='pag(\"DEL_ALL\",\"ACTION\",\"" . $form_name . "\");'><font>" . $l->g(571) . "</font></a></th>";
+    echo "<th tabindex='0' aria-controls='affich_stat' rowspan='1' colspan='1' style='width: 33%;'><a OnClick='pag(\"DEL_NOT\",\"ACTION\",\"" . $form_name . "\");'><font>" . $l->g(575) . "</font></a></th>";
+    echo "</tr></thead></table><br><br>";
     echo "<input type='hidden' id='ACTION' name='ACTION' value=''>";
 }
-echo "<table class='Fenetre' align='center' border='1' cellpadding='5' width='50%'>
-<tr BGCOLOR='#C7D9F5'><td width='30px'>&nbsp;</td><td align='center'><b>" . $l->g(81) . "</b></td><td align='center'><b>" . $l->g(55) . "</b></td></tr>";
+echo "<div class='tableContainer'>
+      <div id='affich_regex_wrapper' class='dataTables_wrapper form-inline'>
+      <div>
+      <div class='dataTables_scroll'>
+      <table class='table table-striped table-condensed table-hover cell-border dataTable' role='grid' style='margin: auto; width: 70%; border: 1px solid #dddddd;' width='100%'><thead><tr role='row'>
+      <th tabindex='0' aria-controls='affich_stat' rowspan='1' colspan='1' style='width: 5%;'>&nbsp;</th>
+      <th tabindex='0' aria-controls='affich_stat' rowspan='1' colspan='1' style='width: 33%;'><font>" . $l->g(81) . "</font></th>
+      <th tabindex='0' aria-controls='affich_stat' rowspan='1' colspan='1' style='width: 33%;'><font>" . $l->g(55) . "</font></th></tr></thead>
+      <tbody>";
 $j = 0;
 while ($j < $i) {
     $nb += $count_value[$j];
-    echo "<tr>";
+    echo "<tr class='odd'>";
     if (isset($arr_FCColors[$j])) {
-        echo "<td bgcolor='" . $arr_FCColors[$j] . "'>";
+        echo "<td valign='top' colspan='1' style='background-color: #" . $arr_FCColors[$j] . ";'>";
     } else {
-        echo "<td>";
+        echo "<td valign='top' colspan='1'>";
     }
-    echo "&nbsp;</td><td>" . $name_value[$j] . "</td><td>
+    echo "&nbsp;</td><td valign='top' colspan='1'>" . $name_value[$j] . "</td><td valign='top' colspan='1'>
 			<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_multi_search'] . "&prov=stat&id_pack=" . $protectedGet["stat"] . "&stat=" . urlencode($link[$j]) . "'>" . $count_value[$j] . "</a>";
     if (substr_count($link[$j], 'SUC')) {
         echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_speed_stat'] . "&head=1&ta=" . urlencode($link[$j]) . "&stat=" . $protectedGet["stat"] . "\">&nbsp<span class='glyphicon glyphicon-stats'></span></a>";
@@ -152,7 +163,7 @@ while ($j < $i) {
     echo "	</td></tr>";
     $j++;
 }
-echo "<tr bgcolor='#C7D9F5'><td bgcolor='white'>&nbsp;</td><td><b>" . $l->g(87) . "</b></td><td><b>" . $nb . "</b></td></tr>";
-echo "</table><br><br>";
+echo "<tr bgcolor='#C7D9F5'><td valign='top' colspan='1' bgcolor='white'>&nbsp;</td><td valign='top' colspan='1'><font><b>" . $l->g(87) . "</b></font></td><td><font><b>" . $nb . "</b></font></td></tr>";
+echo "</tbody></table></div></div></div></div></div><br><br><br><br>";
 echo close_form();
 ?>

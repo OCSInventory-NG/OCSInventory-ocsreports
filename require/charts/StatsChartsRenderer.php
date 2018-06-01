@@ -25,7 +25,7 @@
  * Renders the stats charts
  */
 class StatsChartsRenderer {
-    
+
     public $colorsList = array(
         "#1941A5", //Dark Blue
         "#AFD8F8",
@@ -36,7 +36,7 @@ class StatsChartsRenderer {
         "#CCCC00", //Chrome Yellow+Green
         "#999999", //Grey
         "#0099CC", //Blue Shade
-        "#FF0000", //Bright Red 
+        "#FF0000", //Bright Red
         "#006F00", //Dark Green
         "#0099FF",//Blue (Light)
         "#FF66CC", //Dark Pink
@@ -48,29 +48,29 @@ class StatsChartsRenderer {
         "#CCCCFF", //Light violet
         "#669900", //Shade of green
     );
-    
+
     /**
      * @param type $name : name of the canvas
      * @param type $legend : show legend or not ?
      */
     public function createChartCanvas($name, $legend = true, $offset = true){
-        
+
         if($legend){
             $mainClass = "col-md-6";
         }else{
             $mainClass = "col-md-12";
         }
-        
+
         if($offset){
             $offset = "col-md-offset-2";
         }else{
             $offset = "";
         }
-        
+
         ?>
         <div class='row <?php echo $offset ?>'>
             <div class='<?php echo $mainClass ?>'>
-                <canvas id="<?php echo $name?>" />
+                <canvas id="<?php echo $name?>" height="150"/>
             </div>
             <?php if($legend){ ?>
             <div class='col-md-6 text-left'>
@@ -80,14 +80,14 @@ class StatsChartsRenderer {
         </div>
         <?php
     }
-    
+
     /**
      * @param string $canvasName Name of the canvas
      * @param array $labels Labals array
      * @param array $data Data arrays
      */
     public function createPieChart($canvasName, $displayName,  $labels, $datas){
-        
+
         ?>
         <script>
         var config = {
@@ -102,7 +102,7 @@ class StatsChartsRenderer {
                         ?>
                     ],
                     backgroundColor: [
-                        <?php 
+                        <?php
                         self::generateColorList(count($labels));
                         ?>
                     ],
@@ -119,7 +119,7 @@ class StatsChartsRenderer {
             options: {
                 responsive: true,
                 legend: {
-                    display: false, 
+                    display: false,
                 },
                 title: {
                     display: false,
@@ -138,17 +138,17 @@ class StatsChartsRenderer {
         };
         </script>
         <?php
-        
+
     }
-    
+
     public function createPointChart($canvasName ,  $labels, $datas, $dataLbl){
-        
+
         ?>
         <script>
         var config = {
             type: 'line',
             data: {
-                labels: [<?php 
+                labels: [<?php
                     foreach ($labels as $label) {
                        echo "'$label' ,";
                     }
@@ -158,7 +158,7 @@ class StatsChartsRenderer {
                     backgroundColor: "#961b7e",
                     borderColor: "#961b7e",
                     data: [
-                        <?php 
+                        <?php
                         foreach ($datas as $data) {
                             echo "$data ,";
                         }
@@ -205,9 +205,9 @@ class StatsChartsRenderer {
         };
         </script>
         <?php
-        
+
     }
-    
+
     /**
      * @param int $nb number of color to create in the list
      */
@@ -217,5 +217,5 @@ class StatsChartsRenderer {
             echo "'".$stats->colorsList[$i]."' ,";
         }
     }
-    
+
 }
