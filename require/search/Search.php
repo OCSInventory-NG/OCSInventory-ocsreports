@@ -258,6 +258,7 @@
             foreach ($searchInfos as $index => $value) {
                 if( $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] > 1 ){
                     $operator = "OR";
+                    $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] -= 1;
                 }else{
                     $operator = "AND";
                 }

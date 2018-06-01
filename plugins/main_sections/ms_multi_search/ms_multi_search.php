@@ -133,6 +133,7 @@ if ( isset($protectedPost['del_check']) ){
 
 if($protectedGet['prov'] == 'allsoft'){
   if(!array_key_exists($_SESSION['OCS']['multi_search']['softwares']['allsoft'])){
+      $_SESSION['OCS']['multi_search'] = array();
       $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
           'fields' => 'NAME',
           'value' => $protectedGet['value'],
@@ -143,6 +144,7 @@ if($protectedGet['prov'] == 'allsoft'){
 
 if($protectedGet['prov'] == 'ipdiscover1'){
   if(!array_key_exists($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
+      $_SESSION['OCS']['multi_search'] = array();
       $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
           'fields' => 'IPSUBNET',
           'value' => $protectedGet['value'],
@@ -163,13 +165,19 @@ if($protectedGet['prov'] == 'ipdiscover1'){
           'value' => '2',
           'operator' => 'EQUAL',
       ];
+
+      $_SESSION['OCS']['multi_search']['devices']['ipdiscover4'] = [
+          'fields' => 'TVALUE',
+          'value' => $protectedGet['value'],
+          'operator' => 'EQUAL',
+      ];
   }
 }
 
 if($protectedGet['prov'] == 'stat'){
   if(!array_key_exists($_SESSION['OCS']['multi_search']['devices']['stat'])){
     $idPackage = $databaseSearch->get_package_id($protectedGet['id_pack']);
-
+    $_SESSION['OCS']['multi_search'] = array();
     $_SESSION['OCS']['multi_search']['devices']['stat'] = [
         'fields' => 'NAME',
         'value' => 'DOWNLOAD',
