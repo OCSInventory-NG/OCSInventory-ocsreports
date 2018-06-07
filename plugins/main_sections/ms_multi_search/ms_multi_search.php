@@ -130,7 +130,7 @@ if ( isset($protectedPost['del_check']) ){
 	}
 }
 
-if($protectedGet['fields'] == 'HARDWARE-LASTCOME'){
+if($protectedGet['fields'] == 'HARDWARE-LASTCOME' && $protectedGet['comp'] == 'small'){
   if(!array_key_exists('HARDWARE-LASTCOME',$_SESSION['OCS']['multi_search']['hardware'])){
       $_SESSION['OCS']['multi_search'] = array();
       $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-LASTCOME'] = [
@@ -142,6 +142,28 @@ if($protectedGet['fields'] == 'HARDWARE-LASTCOME'){
       $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-LASTCOME1'] = [
           'fields' => 'LASTCOME',
           'value' => $_SESSION['DATE']['HARDWARE-LASTCOME-SMALL'],
+          'operator' => 'EQUAL',
+      ];
+  }
+}
+
+if($protectedGet['fields'] == 'HARDWARE-LASTCOME' && $protectedGet['comp'] == 'tall'){
+  if(!array_key_exists('HARDWARE-LASTCOMETODAY',$_SESSION['OCS']['multi_search']['hardware'])){
+      $_SESSION['OCS']['multi_search'] = array();
+      $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-LASTCOMETODAY'] = [
+          'fields' => 'LASTCOME',
+          'value' => $_SESSION['DATE']['HARDWARE-LASTCOME-TALL'],
+          'operator' => 'EQUAL',
+      ];
+  }
+}
+
+if($protectedGet['fields'] == 'HARDWARE-LASTDATE'){
+  if(!array_key_exists('HARDWARE-LASTDATE',$_SESSION['OCS']['multi_search']['hardware'])){
+      $_SESSION['OCS']['multi_search'] = array();
+      $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-LASTDATE'] = [
+          'fields' => 'LASTDATE',
+          'value' => $_SESSION['DATE']['HARDWARE-LASTDATE-TALL'],
           'operator' => 'EQUAL',
       ];
   }

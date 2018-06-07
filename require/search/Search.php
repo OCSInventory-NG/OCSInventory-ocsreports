@@ -277,7 +277,7 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  if($value[self::SESS_FIELDS] == 'LASTCOME'){
+                  if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
                     $this->queryArgs[] = "str_to_date(".$value[self::SESS_VALUES].", '%m/%d/%Y %H:%i')";
                   }else{
                     $this->queryArgs[] = $value[self::SESS_VALUES];
