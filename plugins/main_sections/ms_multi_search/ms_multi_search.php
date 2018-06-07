@@ -127,12 +127,39 @@ if ( isset($protectedPost['del_check']) ){
 				deleteDid($index);
 			}
 		}
-
 	}
 }
 
+if($protectedGet['fields'] == 'HARDWARE-LASTCOME'){
+  if(!array_key_exists('HARDWARE-LASTCOME',$_SESSION['OCS']['multi_search']['hardware'])){
+      $_SESSION['OCS']['multi_search'] = array();
+      $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-LASTCOME'] = [
+          'fields' => 'LASTCOME',
+          'value' => $_SESSION['DATE']['HARDWARE-LASTCOME-SMALL'],
+          'operator' => 'LESS',
+      ];
+
+      $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-LASTCOME1'] = [
+          'fields' => 'LASTCOME',
+          'value' => $_SESSION['DATE']['HARDWARE-LASTCOME-SMALL'],
+          'operator' => 'EQUAL',
+      ];
+  }
+}
+
+if($protectedGet['fields'] == 'NETWORKS-IPSUBNET'){
+  if(!array_key_exists('NETWORKS-IPSUBNET',$_SESSION['OCS']['multi_search']['networks'])){
+      $_SESSION['OCS']['multi_search'] = array();
+      $_SESSION['OCS']['multi_search']['networks']['NETWORKS-IPSUBNET'] = [
+          'fields' => 'IPSUBNET',
+          'value' => preg_replace("/[^A-Za-z0-9\.]/", "", $protectedGet['values']),
+          'operator' => 'EQUAL',
+      ];
+  }
+}
+
 if($protectedGet['prov'] == 'allsoft'){
-  if(!array_key_exists($_SESSION['OCS']['multi_search']['softwares']['allsoft'])){
+  if(!array_key_exists('allsoft',$_SESSION['OCS']['multi_search']['softwares'])){
       $_SESSION['OCS']['multi_search'] = array();
       $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
           'fields' => 'NAME',
@@ -143,7 +170,7 @@ if($protectedGet['prov'] == 'allsoft'){
 }
 
 if($protectedGet['prov'] == 'ipdiscover1'){
-  if(!array_key_exists($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
+  if(!array_key_exists('ipdiscover1',$_SESSION['OCS']['multi_search']['networks'])){
       $_SESSION['OCS']['multi_search'] = array();
       $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
           'fields' => 'IPSUBNET',
@@ -175,7 +202,7 @@ if($protectedGet['prov'] == 'ipdiscover1'){
 }
 
 if($protectedGet['prov'] == 'stat'){
-  if(!array_key_exists($_SESSION['OCS']['multi_search']['devices']['stat'])){
+  if(!array_key_exists('stat',$_SESSION['OCS']['multi_search']['devices'])){
     $idPackage = $databaseSearch->get_package_id($protectedGet['id_pack']);
     $_SESSION['OCS']['multi_search'] = array();
     $_SESSION['OCS']['multi_search']['devices']['stat'] = [
@@ -278,7 +305,7 @@ echo close_form();
 	<div class="col-sm-12">
 <?php
 
-if($protectedPost['search_ok'] || $protectedGet['prov']){
+if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields']){
 
 	/**
 	 * Generate Search fields

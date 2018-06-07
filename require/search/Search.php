@@ -42,6 +42,8 @@
 
     const MULTIPLE_DONE = "DONE";
 
+    private $type;
+
     public $fieldsList = [];
     public $defaultFields = [
         "hardware.ID",
@@ -275,7 +277,11 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  $this->queryArgs[] = $value[self::SESS_VALUES];
+                  if($value[self::SESS_FIELDS] == 'LASTCOME'){
+                    $this->queryArgs[] = "str_to_date(".$value[self::SESS_VALUES].", '%m/%d/%Y %H:%i')";
+                  }else{
+                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                  }
                 }
             }
         }
@@ -447,7 +453,7 @@
         global $l;
 
         $fieldId = $this->getFieldUniqId($uniqid, $tableName);
-        $type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
         $html = "";
         if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL'){
           $attr = 'disabled';
@@ -455,7 +461,7 @@
           $attr = '';
         }
 
-        switch ($type) {
+        switch ($this->type) {
             case self::DB_VARCHAR:
                 $html = '<input class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
                 break;
