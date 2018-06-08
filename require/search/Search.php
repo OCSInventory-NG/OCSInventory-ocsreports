@@ -552,4 +552,169 @@
         }
         return $cache_sql;
     }
+
+    /**
+     * [link_multi description]
+     * @param  string $fields [description]
+     * @param  string $value  [description]
+     * @param  string $option [description]
+     * @return [type]         [description]
+     */
+    public function link_multi($fields, $value, $option = ""){
+        switch($fields){
+          case 'allsoft':
+            if(!array_key_exists('allsoft',$_SESSION['OCS']['multi_search']['softwares'])){
+                $_SESSION['OCS']['multi_search'] = array();
+                $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
+                    'fields' => 'NAME',
+                    'value' => $value,
+                    'operator' => 'EQUAL',
+                ];
+            }
+            break;
+
+          case 'ipdiscover1':
+            if(!array_key_exists('ipdiscover1',$_SESSION['OCS']['multi_search']['networks'])){
+                $_SESSION['OCS']['multi_search'] = array();
+                $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
+                    'fields' => 'IPSUBNET',
+                    'value' => $value,
+                    'operator' => 'EQUAL',
+                ];
+                $_SESSION['OCS']['multi_search']['devices']['ipdiscover1'] = [
+                    'fields' => 'NAME',
+                    'value' => 'IPDISCOVER',
+                    'operator' => 'EQUAL',
+                ];
+                $_SESSION['OCS']['multi_search']['devices']['ipdiscover2'] = [
+                    'fields' => 'IVALUE',
+                    'value' => '1',
+                    'operator' => 'EQUAL',
+                ];
+                $_SESSION['OCS']['multi_search']['devices']['ipdiscover3'] = [
+                    'fields' => 'IVALUE',
+                    'value' => '2',
+                    'operator' => 'EQUAL',
+                ];
+
+                $_SESSION['OCS']['multi_search']['devices']['ipdiscover4'] = [
+                    'fields' => 'TVALUE',
+                    'value' => $value,
+                    'operator' => 'EQUAL',
+                ];
+            }
+            break;
+
+          case 'stat':
+            if(!array_key_exists('stat',$_SESSION['OCS']['multi_search']['devices'])){
+              $_SESSION['OCS']['multi_search'] = array();
+              $_SESSION['OCS']['multi_search']['devices']['stat'] = [
+                  'fields' => 'NAME',
+                  'value' => 'DOWNLOAD',
+                  'operator' => 'EQUAL',
+              ];
+              if($option['stat'] == 'SUCCESS'){
+                $value_stat = 'SUCCESS';
+                $operator_stat = 'EQUAL';
+              }elseif($option['stat'] == 'WAITING NOTIFICATION'){
+                $value_stat = '';
+                $operator_stat = 'ISNULL';
+              }
+
+              $_SESSION['OCS']['multi_search']['devices']['stattvalue'] = [
+                  'fields' => 'TVALUE',
+                  'value' => $value_stat,
+                  'operator' => $operator_stat,
+              ];
+              foreach($option['idPackage'] as $key =>$value){
+                $_SESSION['OCS']['multi_search']['devices']['stat'.$key] = [
+                    'fields' => 'IVALUE',
+                    'value' => $value,
+                    'operator' => 'EQUAL',
+                ];
+              }
+            }
+            break;
+
+          default :
+            break;
+        }
+    }
+
+    /**
+     * [link_index description]
+     * @param  string $fields [description]
+     * @param  string $comp   [description]
+     * @param  string $value  [description]
+     * @return [type]         [description]
+     */
+    public function link_index($fields, $comp = "", $value){
+      $field = explode("-", $fields) ;
+
+      if($comp== 'small') { $operator = 'LESS'; }
+      elseif($comp == 'tall') { $operator = 'MORE'; }
+      elseif($comp == 'exact') { $operator = 'EQUAL'; }
+
+      if(empty($field[2])){
+        if(strpos($field[0], 'HARDWARE') !== false){
+          if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['hardware'])){
+              $_SESSION['OCS']['multi_search'] = array();
+              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.$value] = [
+                  'fields' => $field[1],
+                  'value' => $value,
+                  'operator' => $operator,
+              ];
+          }
+        }elseif(strpos($field[0], 'ACCOUNTINFO') !== false){
+          if(!array_key_exists('ACCOUNTINFO-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['accountinfo'])){
+              $_SESSION['OCS']['multi_search'] = array();
+              $_SESSION['OCS']['multi_search']['accountinfo']['ACCOUNTINFO-'.$field[1].$comp.$value] = [
+                  'fields' => $field[1],
+                  'value' => $value,
+                  'operator' => $operator,
+              ];
+          }
+        }elseif(strpos($field[0], 'NETWORKS') !== false){
+          if(!array_key_exists('NETWORKS-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['networks'])){
+              $_SESSION['OCS']['multi_search'] = array();
+              $_SESSION['OCS']['multi_search']['networks']['NETWORKS-'.$field[1].$comp.$value] = [
+                  'fields' => $field[1],
+                  'value' => preg_replace("/[^A-Za-z0-9\.]/", "", $value),
+                  'operator' => $operator,
+              ];
+          }
+        }elseif(strpos($field[0], 'VIDEOS') !== false){
+          if(!array_key_exists('VIDEOS-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['videos'])){
+              $_SESSION['OCS']['multi_search'] = array();
+              $_SESSION['OCS']['multi_search']['videos']['VIDEOS-'.$field[1].$comp.$value] = [
+                  'fields' => $field[1],
+                  'value' => $value,
+                  'operator' => $operator,
+              ];
+          }
+        }
+      }else{
+        $field_bis = explode(",", $field[1]) ;
+        $comps = explode(",", $comp) ;
+        $values = explode(",", $value) ;
+
+        if($comps[1] == 'small') { $operator1 = 'LESS'; }
+        if($comps[0] == 'tall') { $operator2 = 'MORE'; }
+
+        if(!array_key_exists('HARDWARE-'.$field_bis[0].$comps[0].$values[0],$_SESSION['OCS']['multi_search']['hardware'])){
+            $_SESSION['OCS']['multi_search'] = array();
+            $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field_bis[0].$comps[0].$values[0]] = [
+                'fields' => $field_bis[0],
+                'value' => $values[0],
+                'operator' => $operator2,
+            ];
+
+            $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field_bis[0].$comp[1].$values[1]] = [
+                'fields' => $field_bis[0],
+                'value' => $values[1],
+                'operator' => $operator1,
+            ];
+        }
+      }
+    }
  }
