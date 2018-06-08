@@ -659,7 +659,7 @@
         if(strpos($field[0], 'HARDWARE') !== false){
           if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['hardware'])){
               $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.$value] = [
+              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
                   'fields' => $field[1],
                   'value' => $value,
                   'operator' => $operator,
@@ -668,7 +668,7 @@
         }elseif(strpos($field[0], 'ACCOUNTINFO') !== false){
           if(!array_key_exists('ACCOUNTINFO-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['accountinfo'])){
               $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search']['accountinfo']['ACCOUNTINFO-'.$field[1].$comp.$value] = [
+              $_SESSION['OCS']['multi_search']['accountinfo']['ACCOUNTINFO-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
                   'fields' => $field[1],
                   'value' => $value,
                   'operator' => $operator,
@@ -677,7 +677,7 @@
         }elseif(strpos($field[0], 'NETWORKS') !== false){
           if(!array_key_exists('NETWORKS-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['networks'])){
               $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search']['networks']['NETWORKS-'.$field[1].$comp.$value] = [
+              $_SESSION['OCS']['multi_search']['networks']['NETWORKS-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
                   'fields' => $field[1],
                   'value' => preg_replace("/[^A-Za-z0-9\.]/", "", $value),
                   'operator' => $operator,
@@ -686,7 +686,7 @@
         }elseif(strpos($field[0], 'VIDEOS') !== false){
           if(!array_key_exists('VIDEOS-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['videos'])){
               $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search']['videos']['VIDEOS-'.$field[1].$comp.$value] = [
+              $_SESSION['OCS']['multi_search']['videos']['VIDEOS-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
                   'fields' => $field[1],
                   'value' => $value,
                   'operator' => $operator,
@@ -703,13 +703,13 @@
 
         if(!array_key_exists('HARDWARE-'.$field_bis[0].$comps[0].$values[0],$_SESSION['OCS']['multi_search']['hardware'])){
             $_SESSION['OCS']['multi_search'] = array();
-            $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field_bis[0].$comps[0].$values[0]] = [
+            $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field_bis[0].$comps[0].preg_replace("/_/","",$values[0])] = [
                 'fields' => $field_bis[0],
                 'value' => $values[0],
                 'operator' => $operator2,
             ];
 
-            $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field_bis[0].$comp[1].$values[1]] = [
+            $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field_bis[0].$comp[1].preg_replace("/_/","",$values[1])] = [
                 'fields' => $field_bis[0],
                 'value' => $values[1],
                 'operator' => $operator1,
