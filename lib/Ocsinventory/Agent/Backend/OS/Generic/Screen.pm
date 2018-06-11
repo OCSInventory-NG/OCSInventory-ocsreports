@@ -20,11 +20,20 @@ package Ocsinventory::Agent::Backend::OS::Generic::Screen;
 #
 use strict;
 
+sub haveExternalUtils {
+    # Do we have external utilities to get EDID info?
+    # We fall back to using these if information is not available
+    # through Linux sysfs
+    my $common = shift;
+
+    return $common->can_run("monitor-get-edid-using-vbe") || $common->can_run("monitor-get-edid") || $common->can_run("get-edid");
+}
+
 sub check {
     my $params = shift;
     my $common = $params->{common};
 
-    return unless ($common->can_run("monitor-get-edid-using-vbe") || $common->can_run("monitor-get-edid") || $common->can_run("get-edid"));
+    return unless -d "/sys/devices" || haveExternalUtils($common);
     1;
 }
 
@@ -608,8 +617,8 @@ sub run {
         }
     }
 
-    # if not fall back to the old method
-    if (!@edid_list) {
+    # if not fall back to the old method, if the utilities are installed
+    if (!@edid_list && haveExternalUtils($common)) {
         for my $port(0..20){
             my $raw_edid = getEdid($port);
             if ($raw_edid){
