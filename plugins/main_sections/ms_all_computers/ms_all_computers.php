@@ -86,7 +86,7 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(949) => "h.ID",
     $l->g(24) => "h.userid",
     $l->g(25) => "h.osname",
-    $l->g(568) => "h.memory",
+    $l->g(568) => "capa",
     $l->g(569) => "h.processors",
     $l->g(33) => "h.workgroup",
     $l->g(275) => "h.osversion",
@@ -126,7 +126,7 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(949) => "h.ID",
     $l->g(24) => "h.userid",
     $l->g(25) => "h.osname",
-    $l->g(568) => "h.memory",
+    $l->g(568) => "SUM(m.capacity) as capa",
     $l->g(569) => "h.processors",
     $l->g(33) => "h.workgroup",
     $l->g(275) => "h.osversion",
@@ -178,6 +178,10 @@ if ($show_mac_addr) {
 }
 // BIOS INFOS
 $queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id ";
+
+//MEMORIES INFOS
+$queryDetails .= "LEFT JOIN memories m ON m.hardware_id=h.id ";
+
 // VIDEOS CARDS INFOS
 $queryDetails .= "LEFT JOIN videos v ON v.hardware_id=h.id ";
 $queryDetails .= "where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
