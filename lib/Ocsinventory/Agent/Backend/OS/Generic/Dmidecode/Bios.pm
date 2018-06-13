@@ -26,6 +26,8 @@ sub run {
     chomp($SystemSerial);
     $SystemSerial =~ s/^(#.*\n)+//g;
     $SystemSerial =~ s/Invalid.*$//g;
+    # System serial number can be filled with whitespace (e.g. Intel NUC)
+    $SystemSerial =~ s/^\s+|\s+$//g;
     chomp($AssetTag);
     $AssetTag =~ s/^(#.*\n)+//g;
     $AssetTag =~ s/Invalid.*$//g;
@@ -62,8 +64,13 @@ sub run {
     chomp($BiosDate);
     $BiosDate =~ s/^(#.*\n)+//g;
     $BiosDate =~ s/Invalid.*$//g;
-  
-  # Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
+
+    # If serial number is empty, assign mainboard serial (e.g Intel NUC)
+    if (!$SystemSerial) {
+        $SystemSerial = $MotherboardSerial;
+    }
+
+    # Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
     my @cpu;
     if (!$SystemSerial || $SystemSerial =~ /^0+$/) {
         @cpu = `dmidecode -t processor`;
