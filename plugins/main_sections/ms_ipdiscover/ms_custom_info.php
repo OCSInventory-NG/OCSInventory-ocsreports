@@ -156,7 +156,7 @@ if (is_defined($protectedPost['MODIF'])) {
         $protectedPost["pcparpage"] = 5;
     }
     if (isset($protectedGet['value'])) {
-        $value_preg = preg_replace("/[^A-Za-z0-9\.]/", "", $protectedGet['value']);
+        $value_preg = preg_replace("/[^A-zA-Z0-9\._]/", "", $protectedGet['value']);
         if ($protectedGet['prov'] == "no_inv") {
             $title = $l->g(947);
             $sql = "SELECT ip, mac, mask, date, name FROM netmap n
