@@ -151,3 +151,13 @@ function delete_cookie(name) {
 function reload(){
     location.reload();
 }
+
+function isnull(selectid, fieldid){
+  var selectvalue = $("#"+selectid+" :selected").val();
+  console.log(selectvalue);
+  if(selectvalue == 'ISNULL'){
+      $("#"+fieldid).prop('disabled', true);
+  }else{
+      $("#"+fieldid).prop('disabled', false);
+  }
+}

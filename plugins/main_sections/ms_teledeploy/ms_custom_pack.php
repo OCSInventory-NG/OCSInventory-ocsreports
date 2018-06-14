@@ -35,6 +35,7 @@ $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 $list_id = multi_lot($form_name, $l->g(601));
+echo "<a class='btn btn-info' href='index.php?function=computer&head=1&systemid=".$list_id."&cat=teledeploy'>".$l->g(188)."</a></br></br>";
 
 //activation options
 if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protectedPost['DWL_OPT'] == "YES") {

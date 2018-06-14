@@ -48,10 +48,10 @@ table.dataTable.cell-border thead td {
   border-left: 1px solid #dddddd;
 }
 
-table.dataTable a {
+/*table.dataTable a {
     color: rgb(116, 116, 116)!important;
     font-weight: bold;
-}
+}*/
 
 .tableContainer .row{
     margin : 0;

@@ -654,7 +654,8 @@ function pageinventory() {
         'INVENTORY_SESSION_ONLY' => 'INVENTORY_SESSION_ONLY',
         'INVENTORY_CACHE_REVALIDATE' => 'INVENTORY_CACHE_REVALIDATE',
         'INVENTORY_VALIDITY' => 'INVENTORY_VALIDITY',
-        'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED');
+        'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED',
+        'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     $values = look_config_default_values($champs);
     if (isset($champs['INVENTORY_VALIDITY'])) {
         $validity = $values['ivalue']['INVENTORY_VALIDITY'];
@@ -681,6 +682,14 @@ function pageinventory() {
     ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('INVENTORY_CACHE_ENABLED', $l->g(1265), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_CACHE_ENABLED']));
     ligne('INVENTORY_VALIDITY', $l->g(828), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_VALIDITY']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $validity, 'END' => $l->g(496), 'JAVASCRIPT' => $numeric, 'SIZE' => 3), "readonly");
+
+    // Get all software categories
+    require 'require/softwares/SoftwareCategory.php';
+    $category = new SoftwareCategory();
+    $list_cat = $category->search_all_cat();
+
+    ligne('DEFAULT_CATEGORY', $l->g(1505), 'select', array('VALUE' => $values['ivalue']['DEFAULT_CATEGORY'], 'SELECT_VALUE' => $list_cat));
+
 }
 
 function pageregistry() {

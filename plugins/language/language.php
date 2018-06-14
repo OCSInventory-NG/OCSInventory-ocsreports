@@ -34,31 +34,23 @@ if (file_exists($ms_cfg_file)) {
 $i = 0;
 
 $protectedPost['LANG'] = $_SESSION["OCS"]["LANGUAGE"];
-while (isset($list_plugins[$i])) {
+$select_lang=implode(',' , $list_plugins );
 
-  if($i == 14){
-    $select_lang .= $list_plugins[$i];
-  } else {
-    $select_lang .= $list_plugins[$i] .',';
-  }
+$show_lang = "<label for='LANGUAGE'>".$l->g(1012)."</label>
+              <div class='bfh-selectbox bfh-languages'  data-language='".$protectedPost['LANG']."' data-available='" . $select_lang . "' data-flags='true' data-blank='false'>
+                  <input type='hidden' value=''>
+                  <a class='bfh-selectbox-toggle' role='button' data-toggle='bfh-selectbox' href='#'>
+                      <span class='bfh-selectbox-option input-medium' data-option=''></span>
+                      <b class='caret'></b>
+                  </a>
+                  <div class='bfh-selectbox-options'>
+                      <div role='listbox'>
+                          <ul role='option'>
+                          </ul>
+                      </div>
+                  </div>
+              </div>";
 
-  $show_lang = "<label for='LANGUAGE'>".$l->g(1012)."</label>
-                <div class='bfh-selectbox bfh-languages'  data-language='".$protectedPost['LANG']."' data-available='" . $select_lang . "' data-flags='true' data-blank='false'>
-                    <input type='hidden' value=''>
-                    <a class='bfh-selectbox-toggle' role='button' data-toggle='bfh-selectbox' href='#'>
-                        <span class='bfh-selectbox-option input-medium' data-option=''></span>
-                        <b class='caret'></b>
-                    </a>
-                    <div class='bfh-selectbox-options'>
-                        <div role='listbox'>
-                            <ul role='option'>
-                            </ul>
-                        </div>
-                    </div>
-                </div>";
-
-      $i++;
-}
 
 echo $show_lang;
 ?>

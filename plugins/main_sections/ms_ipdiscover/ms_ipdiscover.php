@@ -80,7 +80,7 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
 					  non_ident.c as 'NON_INVENTORIE',
 					  ipdiscover.c as 'IPDISCOVER',
 					  ident.c as 'IDENTIFIE',
-					  CASE WHEN ident.c IS NULL and ipdiscover.c IS NULL THEN 100 WHEN ident.c IS NULL THEN round(inv.c * 100 / non_ident.c,1) ELSE round((inv.c + ident.c) * 100 / non_ident.c,1) END as 'pourcentage'
+					  CASE WHEN ident.c IS NULL and ipdiscover.c IS NULL THEN 100 WHEN non_ident.c IS NULL and ipdiscover.c IS NOT NULL THEN 100 WHEN ident.c IS NULL THEN round(inv.c * 100 / (non_ident.c + inv.c),1) ELSE round((inv.c + ident.c) * 100 / (non_ident.c + inv.c),1) END as 'pourcentage'
 			  from (SELECT COUNT(DISTINCT hardware_id) as c,'IPDISCOVER' as TYPE,tvalue as RSX
 					FROM devices
 					WHERE name='IPDISCOVER' and tvalue in  ";
