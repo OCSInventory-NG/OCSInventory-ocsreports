@@ -36,7 +36,7 @@ $table_name = $form_name;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name);
-$pas = $protectedGet['rzo'];
+$pas = preg_replace('/[^A-zA-Z0-9\._]/', "",$protectedGet['rzo']);
 $values = look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDISCOVER_IPD_DIR' => array('TVALUE' => VARLIB_DIR)));
 $fname = $values['tvalue']['IPDISCOVER_IPD_DIR'];
 $file_name = $fname . "/ipd/" . $pas . ".ipd";

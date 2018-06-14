@@ -127,82 +127,22 @@ if ( isset($protectedPost['del_check']) ){
 				deleteDid($index);
 			}
 		}
-
 	}
 }
 
-if($protectedGet['prov'] == 'allsoft'){
-  if(!array_key_exists($_SESSION['OCS']['multi_search']['softwares']['allsoft'])){
-      $_SESSION['OCS']['multi_search'] = array();
-      $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
-          'fields' => 'NAME',
-          'value' => $protectedGet['value'],
-          'operator' => 'EQUAL',
-      ];
-  }
+if(isset($protectedGet['fields'])){
+  $search->link_index($protectedGet['fields'], $protectedGet['comp'], $protectedGet['values']);
 }
 
-if($protectedGet['prov'] == 'ipdiscover1'){
-  if(!array_key_exists($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
-      $_SESSION['OCS']['multi_search'] = array();
-      $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
-          'fields' => 'IPSUBNET',
-          'value' => $protectedGet['value'],
-          'operator' => 'EQUAL',
-      ];
-      $_SESSION['OCS']['multi_search']['devices']['ipdiscover1'] = [
-          'fields' => 'NAME',
-          'value' => 'IPDISCOVER',
-          'operator' => 'EQUAL',
-      ];
-      $_SESSION['OCS']['multi_search']['devices']['ipdiscover2'] = [
-          'fields' => 'IVALUE',
-          'value' => '1',
-          'operator' => 'EQUAL',
-      ];
-      $_SESSION['OCS']['multi_search']['devices']['ipdiscover3'] = [
-          'fields' => 'IVALUE',
-          'value' => '2',
-          'operator' => 'EQUAL',
-      ];
-
-      $_SESSION['OCS']['multi_search']['devices']['ipdiscover4'] = [
-          'fields' => 'TVALUE',
-          'value' => $protectedGet['value'],
-          'operator' => 'EQUAL',
-      ];
-  }
-}
-
-if($protectedGet['prov'] == 'stat'){
-  if(!array_key_exists($_SESSION['OCS']['multi_search']['devices']['stat'])){
-    $idPackage = $databaseSearch->get_package_id($protectedGet['id_pack']);
-    $_SESSION['OCS']['multi_search'] = array();
-    $_SESSION['OCS']['multi_search']['devices']['stat'] = [
-        'fields' => 'NAME',
-        'value' => 'DOWNLOAD',
-        'operator' => 'EQUAL',
-    ];
-    if($protectedGet['stat'] == 'SUCCESS'){
-      $value_stat = 'SUCCESS';
-      $operator_stat = 'EQUAL';
-    }elseif($protectedGet['stat'] == 'WAITING NOTIFICATION'){
-      $value_stat = '';
-      $operator_stat = 'ISNULL';
-    }
-
-    $_SESSION['OCS']['multi_search']['devices']['stattvalue'] = [
-        'fields' => 'TVALUE',
-        'value' => $value_stat,
-        'operator' => $operator_stat,
-    ];
-    foreach($idPackage as $key =>$value){
-      $_SESSION['OCS']['multi_search']['devices']['stat'.$key] = [
-          'fields' => 'IVALUE',
-          'value' => $value,
-          'operator' => 'EQUAL',
-      ];
-    }
+if(isset($protectedGet['prov'])){
+  if($protectedGet['prov'] == 'allsoft'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
+  }elseif($protectedGet['prov'] == 'ipdiscover1'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
+  }elseif($protectedGet['prov'] == 'stat'){
+    $options['idPackage'] = $databaseSearch->get_package_id($protectedGet['id_pack']);
+    $options['stat'] = $protectedGet['stat'];
+    $search->link_multi($protectedGet['prov'], $protectedGet['value'], $options);
   }
 }
 
@@ -278,7 +218,7 @@ echo close_form();
 	<div class="col-sm-12">
 <?php
 
-if($protectedPost['search_ok'] || $protectedGet['prov']){
+if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields']){
 
 	/**
 	 * Generate Search fields

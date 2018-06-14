@@ -40,11 +40,15 @@ if (isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
 
 $no_restrict = array("OCS_REPORT_NB_ALL_COMPUTOR");
 
+$_SESSION['DATE']['HARDWARE-LASTCOME-TALL'] = date($l->g(1242));
+$_SESSION['DATE']['HARDWARE-LASTDATE-TALL'] = date($l->g(1242));
+$_SESSION['DATE']['HARDWARE-LASTCOME-SMALL'] = date($l->g(1242), mktime(0, 0, 0, date("m"), date("d") - $data_limit['GUI_REPORT_AGIN_MACH'], date("Y")));
+
 $multi_search = array("OCS_REPORT_NB_NOTIFIED" => array("FIELD" => '', "COMP" => '', "VALUE" => ''),
     "OCS_REPORT_NB_ERR" => array("FIELD" => '', "COMP" => '', "VALUE" => ''),
-    "OCS_REPORT_NB_CONTACT" => array("FIELD" => 'HARDWARE-LASTCOME', "COMP" => 'tall', "VALUE" => date($l->g(1242))),
-    "OCS_REPORT_NB_INV" => array("FIELD" => 'HARDWARE-LASTDATE', "COMP" => 'tall', "VALUE" => date($l->g(1242))),
-    "OCS_REPORT_NB_4_MOMENT" => array("FIELD" => 'HARDWARE-LASTCOME', "COMP" => 'small', "VALUE" => date($l->g(1242), mktime(0, 0, 0, date("m"), date("d") - $data_limit['GUI_REPORT_AGIN_MACH'], date("Y")))),
+    "OCS_REPORT_NB_CONTACT" => array("FIELD" => 'HARDWARE-LASTCOME', "COMP" => 'tall', "VALUE" => $_SESSION['DATE']['HARDWARE-LASTCOME-TALL']),
+    "OCS_REPORT_NB_INV" => array("FIELD" => 'HARDWARE-LASTDATE', "COMP" => 'tall', "VALUE" => $_SESSION['DATE']['HARDWARE-LASTDATE-TALL']),
+    "OCS_REPORT_NB_4_MOMENT" => array("FIELD" => 'HARDWARE-LASTCOME', "COMP" => 'small', "VALUE" => $_SESSION['DATE']['HARDWARE-LASTCOME-SMALL']),
     "OCS_REPORT_NB_HARD_DISK_H" => array("FIELD" => '', "COMP" => '', "VALUE" => ''),
     "OCS_REPORT_OSNAME" => array("FIELD" => 'HARDWARE-OSNAME', "COMP" => '', "VALUE" => ''),
     "OCS_REPORT_USERAGENT" => array("FIELD" => 'HARDWARE-USERAGENT', "COMP" => 'exact', "VALUE" => ''),
