@@ -226,5 +226,10 @@ table.dataTable a {
 }
 
 a {
-  color: #961b7e;
+    color: #961b7e;
+}
+
+div.progress {
+    margin-bottom: 0;
+    margin-right : 3px;
 }

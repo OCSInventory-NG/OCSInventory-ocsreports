@@ -29,10 +29,10 @@ function percent_bar($status) {
     if (($status < 0) || ($status > 100)) {
         return $status;
     }
-    return "<div class='percent_bar'><!--" . str_pad($status, 3, "0", STR_PAD_LEFT) . "-->
-<div class='percent_status' style='width:" . $status . "px;'>&nbsp;</div>
-<div class='percent_text'>" . $status . "%</div>
-</div>";
+    return "<div class='progress'><!--" . str_pad($status, 3, "0", STR_PAD_LEFT) . "-->
+            <div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='" . $status . "' aria-valuemin='0' aria-valuemax='100' style='width:" . $status . "%;'>
+            <font color='#333'><b>" . $status . "%</b></font></div>
+            </div>";
 }
 
 ?>
