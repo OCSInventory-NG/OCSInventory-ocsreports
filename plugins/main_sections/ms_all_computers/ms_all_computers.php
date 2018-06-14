@@ -187,6 +187,13 @@ if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
     $queryDetails .= "AND a.TAG= '$tag' ";
 }
 
+// TAG RESTRICTIONS
+if (is_defined($_GET['value']) && strpos($_GET['filtre'], 'a.fields_') === 0){
+    $tag = $_GET['value'];
+    $fields = $_GET['filtre'];
+    $queryDetails .= "AND ".$fields."= '$tag' ";
+}
+
 if (is_defined($_SESSION['OCS']["mesmachines"])) {
     $queryDetails .= "AND " . $_SESSION['OCS']["mesmachines"];
 }

@@ -170,7 +170,7 @@ function find_value_field($name) {
     $data = look_config_default_values($name . '\_%', true);
     if (isset($data['name'])) {
         foreach ($data['name'] as $field => $value) {
-            $array_tab_account[$data['ivalue'][$field]] = $data['tvalue'][$field];
+            $array_tab_account[$data['tvalue'][$field]] = $data['tvalue'][$field];
         }
     }
     return $array_tab_account;
