@@ -40,7 +40,6 @@ $def_onglets['CNX'] = $l->g(1108); //connexion
 $def_onglets['SNMP'] = $l->g(1136); //SNMP
 $def_onglets['WOL'] = $l->g(1279); //WOL
 $def_onglets['PLUGINSCONF'] = $l->g(6000); //Plugins Configuration
-$def_onglets['NOTIFICATION'] = $l->g(8000); //Plugins Configuration
 
 if (DEV_OPTION) {
     $def_onglets['DEV'] = $l->g(1302);
@@ -126,9 +125,6 @@ switch ($protectedPost['onglet']) {
         break;
     case 'WOL':
         pageswol();
-        break;
-    case 'NOTIFICATION':
-        pagesnotif();
         break;
     default:
         pageinventory();

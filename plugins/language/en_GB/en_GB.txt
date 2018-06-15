@@ -1528,3 +1528,5 @@
 8008 SMTP password
 8009 Email send mode
 8010 (Optional)
+8011 Configuration
+8012 Personnalisation

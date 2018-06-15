@@ -332,4 +332,8 @@
         <value>asset_cat_list</value>
         <directory>ms_asset_cat</directory>
     </url>
+    <url key="ms_notification">
+        <value>notification</value>
+        <directory>ms_config</directory>
+    </url>
 </urls>
