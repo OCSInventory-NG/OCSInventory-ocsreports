@@ -49,6 +49,22 @@
       private $psswd_SMTP = null;
       private $notif;
 
+      public function get_notif_selected(){
+          $sql = "SELECT `FILE` FROM notification WHERE `TYPE`= 'SELECTED'";
+          $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+          $item_notif = mysqli_fetch_array($result);
+
+          return $item_notif['FILE'];
+      }
+
+      public function update_perso($selected){
+          $sql = "UPDATE notification SET `FILE` = '%s' WHERE `TYPE` = 'SELECTED'";
+          $arg_sql = array($selected);
+          $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
+      }
+
+
+
       /**
        * retrieve values notification config
        * @return call send_notification()
@@ -133,7 +149,7 @@
              // Content
              $this->notif->isHTML(false);
              $this->notif->Subject = 'Notification OCSInventory';
-             $this->notif->Body    = file_get_contents('require/mail/Templates/template.php', true);;
+             $this->notif->Body    = file_get_contents('require/mail/Templates/OCS_template.php', true);
              $this->notif->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
              $this->notif->send();
