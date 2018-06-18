@@ -77,7 +77,7 @@ define('PHPMAILER', __DIR__ . '/libraries/PHPMailer-6.0.5/src');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7014');
+define('GUI_VER', '7015');
 /**
  * GUI Version
  */

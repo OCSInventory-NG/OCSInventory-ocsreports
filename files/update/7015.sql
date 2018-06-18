@@ -1,0 +1,12 @@
+-- Create notification table
+CREATE TABLE IF NOT EXISTS `notification` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `TYPE` VARCHAR(255) NOT NULL,
+    `FILE` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- INSERT DEFAULT TEMPLATE
+UNLOCK TABLES;
+INSERT INTO `notification`(`TYPE`, `FILE`) VALUES ('SELECTED', 'DEFAULT');
+INSERT INTO `notification`(`TYPE`, `FILE`) VALUES ('DEFAULT', 'require/mail/Templates/OCS_template.php');
