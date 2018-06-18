@@ -27,6 +27,8 @@
 class SoftwareCategory
 {
 
+    public $html;
+
     /**
      * Get all categories for onglet
      * @return array
@@ -113,5 +115,39 @@ class SoftwareCategory
             $list[] = $item['SOFTWARE_EXP'];
         }
         return ($list);
+    }
+
+    public function get_table_html_soft(){
+        global $l;
+        $cat = $this->search_all_cat();
+        unset($cat['0']);
+
+        $this->html = '<table 0="[object Object]" 1="[object Object]" 2="[object Object]" border="0" style="cellspacing:0;color:#000;font-family:Roboto, Helvetica, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;">
+                        <tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;border-top:1px solid #ecedee; text-align:center;padding:15px 0;">
+                          <th style="padding-left: 65px;">'.$l->g(49).'</th>
+                          <th style="padding-left: 75px;">'.$l->g(2131).'</th>
+                        </tr>';
+
+        foreach ($cat as $key => $value){
+          $sql = "SELECT DISTINCT `NAME` FROM softwares WHERE CATEGORY = %s";
+          $arg = array($key);
+          $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+
+          while ($computer = mysqli_fetch_array($result)) {
+              $nb[$value][] = $computer['NAME'];
+          }
+          $nb_computer[$value] = count($nb[$value]);
+        }
+
+        foreach($nb_computer as $name => $nb){
+            $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
+                              <td style="padding: 0 15px 0 0;">'.$name.'</td>
+                              <td style="padding: 0 0 0 15px;">'.$nb.'</td>
+                            </tr>';
+        }
+
+        $this->html .= '</table>';
+
+        return $this->html;
     }
 }
