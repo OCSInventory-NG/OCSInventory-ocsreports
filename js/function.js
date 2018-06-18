@@ -161,3 +161,16 @@ function isnull(selectid, fieldid){
       $("#"+fieldid).prop('disabled', false);
   }
 }
+
+/// show/hide
+function hide(id, preview, perso){
+	document.getElementById(id).style.display='none';
+  document.getElementById(preview).style.display='';
+  document.getElementById(perso).style.display='none';
+}
+
+function show(id, preview, perso){
+	document.getElementById(id).style.display='';//'block'
+  document.getElementById(preview).style.display='none';
+  document.getElementById(perso).style.display='';
+}
