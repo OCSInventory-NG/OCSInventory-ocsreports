@@ -1455,6 +1455,12 @@
 2123 Paquets disponibles
 2124 Paquets supprimés
 2125 ATTENTION: L'extension CURL pour PHP n'est pas installée. Essayez d'installer le paquet php-curl (Linux).
+2126 Catégories d'Actifs
+2127 La requête multi-critères en cours sera utilisée comme critère de catégorisation des actifs.
+2128 ëtes-vous sûr ?
+2129 Retour à la multi-critères
+2130 Catégories d'Actifs
+2131 Nombre de machines par catégorie
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
@@ -1522,3 +1528,6 @@
 8008 Mot de passe SMTP
 8009 Mode d'envoi des courriels
 8010 (Facultatif)
+8011 Configuration
+8012 Personnalisation
+8013 Voici le résumé par défaut de l'inventaire OCS, il contient un rapport des catégories de logiciels et des catégories d'actifs :

@@ -1460,6 +1460,7 @@
 2128 Are you sure ?
 2129 Back to multi search
 2130 Assets categories
+2131 Number of machines per category
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1529,4 +1530,5 @@
 8009 Email send mode
 8010 (Optional)
 8011 Configuration
-8012 Personnalisation
+8012 Customize template
+8013 Here is the default OCS Inventory summary, it contains a report of the software categories and assets categories :
