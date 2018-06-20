@@ -124,8 +124,8 @@ class SoftwareCategory
 
         $this->html = '<table 0="[object Object]" 1="[object Object]" 2="[object Object]" border="0" style="cellspacing:0;color:#000;font-family:Roboto, Helvetica, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;">
                         <tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;border-top:1px solid #ecedee; text-align:center;padding:15px 0;">
-                          <th style="padding-left: 65px;">'.$l->g(49).'</th>
-                          <th style="padding-left: 75px;">'.$l->g(2131).'</th>
+                          <th style="padding: 0 15px 0 0; text-align:center;">'.$l->g(49).'</th>
+                          <th style="padding: 0 0 0 15px; text-align:center;">'.$l->g(2131).'</th>
                         </tr>';
 
         foreach ($cat as $key => $value){
