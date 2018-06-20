@@ -1532,3 +1532,9 @@
 8011 Configuration
 8012 Customize template
 8013 Here is the default OCS Inventory summary, it contains a report of the software categories and assets categories :
+8014 Successfull upload
+8015 Failed upload
+8016 Here you can download your customized notification template:</br>• The file must be an html file.</br></br>Informations:</br>• For get traduction put {{g.(number of traduction)}} in your html code- Example: {{g.49}} = Name</br>• For the moment you have two choices of report inventory: </br> {{Report.Software}} - Number of softwares per software category </br> {{Report.Asset}} - Number of machines per asset category
+8017 This file is not an html file
+8018 Subject
+8019 Notification OCSInventory
