@@ -1,13 +1,4 @@
-<?php
-require 'require/assets/AssetsCategory.php';
-require 'require/softwares/SoftwareCategory.php';
-  $assets = new AssetsCategory();
-  $soft = new SoftwareCategory();
-
-  $assets->get_assets();
-  $soft->get_table_html_soft();
-
- echo '<!doctype html>
+<!doctype html>
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
       <head>
         <title>
@@ -149,7 +140,7 @@ require 'require/softwares/SoftwareCategory.php';
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Roboto, Helvetica, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#616161;">
                           <p>
-                            '.$l->g(8013).'
+                            {{g.8013}}
                           </p>
                         </div>
                       </td>
@@ -170,12 +161,12 @@ require 'require/softwares/SoftwareCategory.php';
               <td style="direction:ltr;font-size:0px;padding:0px;text-align:center;vertical-align:top;">
 
 
-              <h4>'.$l->g(2130).'</h4>
+              <h4>{{g.2130}}</h4>
                 <div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                   <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        '.$assets->html.'
+                        {{Report.Asset}}
                       </td>
                     </tr>
                   </table>
@@ -194,12 +185,12 @@ require 'require/softwares/SoftwareCategory.php';
             <tr>
               <td style="direction:ltr;font-size:0px;padding:0px;text-align:center;vertical-align:top;">
 
-                <h4>'.$l->g(1500).'</h4>
+                <h4>{{g.1500}}</h4>
                 <div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                   <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        '.$soft->html.'
+                        {{Report.Software}}
                       </td>
                     </tr>
                   </table>
@@ -214,4 +205,4 @@ require 'require/softwares/SoftwareCategory.php';
 
     </div>
   </body>
-</html>';
+</html>
