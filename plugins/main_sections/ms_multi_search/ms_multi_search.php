@@ -219,7 +219,7 @@ echo close_form();
 <?php
 
 if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields']){
-
+  unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 	/**
 	 * Generate Search fields
 	 */
@@ -241,7 +241,7 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$list_col_cant_del = $search->defaultFields;
 	$default_fields = $search->defaultFields;
 
-  $_SESSION['OCS']['SEARCH_SQL_GROUP'] = $search->create_sql_cache($_SESSION['OCS']['multi_search']);
+  $_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $search->create_sql_cache($_SESSION['OCS']['multi_search']);
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';
 
