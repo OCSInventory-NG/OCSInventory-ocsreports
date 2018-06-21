@@ -74,7 +74,7 @@ define('PHPMAILER', __DIR__ . '/libraries/PHPMailer-6.0.5/src');
 /**
  * Template Mail Directory
  */
-define('TEMPLATE', __DIR__.'/require/mail/Templates/');
+define('TEMPLATE', __DIR__.'/templates/');
 //====================================================================================
 // GUI Options
 //====================================================================================

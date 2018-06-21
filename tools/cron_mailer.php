@@ -10,7 +10,7 @@ require_once('../require/fichierConf.class.php');
 
 
 $_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME);
-$mail = new NotificationMail();
+$mail = new NotificationMail(DEFAULT_LANGUAGE);
 
 $week = array('MON' => 'Monday', 'TUE' => 'Tuesday', 'WED' => 'Wednesday', 'THURS' => 'Thursday', 'FRI' => 'Friday', 'SAT' => 'Saturday', 'SUN' => 'Sunday');
 $values = $mail->get_info_smtp();

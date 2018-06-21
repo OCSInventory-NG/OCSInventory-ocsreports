@@ -33,7 +33,7 @@
 require_once('require/function_config_generale.php');
 require_once('require/mail/NotificationMail.php');
 
-$mail = new NotificationMail();
+$mail = new NotificationMail($_SESSION['OCS']['LANGUAGE']);
 $mail->html_div();
 
 $def_onglets['NOTIF_CONFIG'] = $l->g(8011); //Notification config.

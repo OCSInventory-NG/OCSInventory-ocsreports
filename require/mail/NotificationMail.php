@@ -48,9 +48,9 @@
                         );
       private $week = array('MON' => 'MON', 'TUE' => 'TUE', 'WED' => 'WED', 'THURS' => 'THURS', 'FRI' => 'FRI', 'SAT' => 'SAT', 'SUN' => 'SUN');
 
-      public function __construct(){
+      public function __construct($language){
         global $l;
-        $l = new language('en_GB');
+        $l = new language($language);
       }
 
       /**
