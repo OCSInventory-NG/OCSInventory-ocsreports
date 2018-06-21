@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
     `TYPE` VARCHAR(255) NOT NULL,
     `FILE` VARCHAR(255) DEFAULT NULL,
     `SUBJECT` VARCHAR(255) DEFAULT NULL,
-    `ALTBODY` VARCHAR(255) DEFAULT NULL,
+    `ALTBODY` TEXT DEFAULT NULL,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS `notification_config` (
 -- INSERT DEFAULT TEMPLATE
 UNLOCK TABLES;
 INSERT INTO `notification`(`TYPE`, `FILE`) VALUES ('SELECTED', 'DEFAULT');
-INSERT INTO `notification`(`TYPE`, `FILE`, `SUBJECT`, `ALTBODY`) VALUES ('DEFAULT', 'require/mail/Templates/OCS_template.html', 'Notification OCSInventory', 'Default report inventory');
+INSERT INTO `notification`(`TYPE`, `FILE`, `SUBJECT`, `ALTBODY`) VALUES ('DEFAULT', 'templates/OCS_template.html', 'Notification OCSInventory', 'Default report inventory');
 INSERT INTO `notification`(`TYPE`) VALUES ('PERSO');
