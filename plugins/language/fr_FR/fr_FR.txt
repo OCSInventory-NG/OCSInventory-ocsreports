@@ -1455,6 +1455,12 @@
 2123 Paquets disponibles
 2124 Paquets supprimés
 2125 ATTENTION: L'extension CURL pour PHP n'est pas installée. Essayez d'installer le paquet php-curl (Linux).
+2126 Catégories d'Actifs
+2127 La requête multi-critères en cours sera utilisée comme critère de catégorisation des actifs.
+2128 ëtes-vous sûr ?
+2129 Retour à la multi-critères
+2130 Catégories d'Actifs
+2131 Nombre de machines par catégorie
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
@@ -1510,3 +1516,23 @@
 7013 installé
 7014 Il n'y a aucun plugin disponible
 7015 Sélectionnez au minimum un ordinateur !
+
+8000 Notifications
+8001 Activer le suivi par courriel
+8002 Courriel de l'administrateur
+8003 Nom de l'administrateur
+8004 Courriel de réponse
+8005 Nom de réponse
+8006 Hôte SMTP
+8007 Identifiant SMTP
+8008 Mot de passe SMTP
+8009 Mode d'envoi des courriels
+8010 (Facultatif)
+8011 Configuration
+8012 Personnalisation
+8013 Voici le résumé par défaut de l'inventaire OCS, il contient un rapport des catégories de logiciels et des catégories d'actifs :
+8014 Téléchargement réussi
+8015 Téléchargement échoué
+8016 Ici vous pouvez télécharger votre modèle de notification personnalisé:</br>• Le fichier doit être un fichier html.</br></br>Informations:</br>• Pour avoir les traduction mettez {{g.(numéro de la traduction)}} dans votre code html - Exemple: {{g.49}} = Nom</br>• Pour le moment vous disposez de deux choix de rapport d'inventaire: </br> {{Report.Software}} - Nombre de logiciels par catégorie de logiciel </br> {{Report.Asset}} - Nombre de machines par catégorie d'actifs
+8017 Ce fichier n'est pas un fichier html
+8018 Sujet

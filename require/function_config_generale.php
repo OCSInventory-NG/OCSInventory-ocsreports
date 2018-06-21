@@ -217,6 +217,9 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
         echo "</select>";
     } elseif ($type == 'long_text') {
         echo "<textarea name='" . $name . "' id='" . $name . "' cols='" . $data['COLS'] . "' rows='" . $data['ROWS'] . "'  class='down' " . $data['JAVASCRIPT'] . ">" . $data['VALUE'] . "</textarea>" . $data['END'];
+    }elseif($type == 'password'){
+        echo "<input class='form-control input-sm' type='password' name='" . $name . "' id='" . $name . "' value='" . $data['VALUE'] . "' maxlength=" . $data['MAXLENGTH'] . " " . $data['JAVASCRIPT'] . ">";
+        echo "<p class='help-block'>" . $helpInput . "</p>";
     } else {
         echo $data['LINKS'];
     }
@@ -901,4 +904,5 @@ function get_available_themes() {
     }
     return $result;
 }
+
 ?>

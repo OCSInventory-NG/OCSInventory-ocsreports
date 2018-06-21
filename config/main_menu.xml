@@ -80,6 +80,10 @@
         <label>g(2100)</label>
         <url>ms_update_new_tag</url>
       </menu-elem>
+      <menu-elem id="ms_notification">
+        <label>g(8000)</label>
+        <url>ms_notification</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="networks">

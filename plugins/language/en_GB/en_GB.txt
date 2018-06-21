@@ -1460,6 +1460,7 @@
 2128 Are you sure ?
 2129 Back to multi search
 2130 Assets categories
+2131 Number of machines per category
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1516,3 +1517,24 @@
 7014 There is currently no plugin available for installation
 7015 Select at least one computer !
 7016 MTU
+
+8000 Notifications
+8001 Enable notification tracking
+8002 Administrator's email address
+8003 Administrator's name
+8004 Reply email address
+8005 Reply name
+8006 Host SMTP
+8007 SMTP identifier
+8008 SMTP password
+8009 Email send mode
+8010 (Optional)
+8011 Configuration
+8012 Customize template
+8013 Here is the default OCS Inventory summary, it contains a report of the software categories and assets categories :
+8014 Successfull upload
+8015 Failed upload
+8016 Here you can download your customized notification template:</br>• The file must be an html file.</br></br>Informations:</br>• To get traduction put {{g.(number of traduction)}} in your html code- Example: {{g.49}} = Name</br>• For the moment you have two choices of report inventory: </br> {{Report.Software}} - Number of softwares per software category </br> {{Report.Asset}} - Number of machines per asset category
+8017 This file is not an html file
+8018 Subject
+8019 Notification OCSInventory
