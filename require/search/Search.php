@@ -34,6 +34,7 @@
     const SESS_FIELDS = "fields";
     const SESS_VALUES = "value";
     const SESS_OPERATOR = "operator";
+    const SESS_COMPARATOR = "comparator";
 
     const DB_TEXT = "text";
     const DB_INT = "int";
@@ -82,6 +83,14 @@
         "LIKE",
         "DIFFERENT",
         "ISNULL",
+    ];
+
+    /**
+     * Comparator list
+     */
+    private $comparatorList = [
+        "AND",
+        "OR"
     ];
 
     /**
@@ -138,6 +147,7 @@
             self::SESS_FIELDS => $postData['columns_select'],
             self::SESS_VALUES => null,
             self::SESS_OPERATOR => null,
+            self::SESS_COMPARATOR => null,
         ];
     }
 
@@ -156,12 +166,16 @@
                     $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] = $value;
                 } elseif($keyExploded[2] == self::SESS_FIELDS && $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] != 'ISNULL') {
                     $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_VALUES] = $value;
+                }elseif($keyExploded[2] == self::SESS_COMPARATOR){
+                  $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
                 }
             }elseif(count($keyExploded) == 4){
                 $keyExplodedBis = $keyExploded[1]."_".$keyExploded[2];
                 if(!is_null($_SESSION['OCS']['multi_search'][$keyExplodedBis])){
                   if ($keyExploded[3] == self::SESS_OPERATOR) {
                       $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_OPERATOR] = $value;
+                  } elseif($keyExploded[3] == self::SESS_COMPARATOR){
+                    $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
                   } else {
                       $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_VALUES] = $value;
                   }
@@ -218,6 +232,18 @@
     }
 
     /**
+     * Generate comparator uniq id for displaying
+     *
+     * @param String $uniqid
+     * @param String $tableName
+     * @return void
+     */
+    public function getComparatorUniqId($uniqid, $tableName)
+    {
+        return $uniqid."_".$tableName."_".self::SESS_COMPARATOR;
+    }
+
+    /**
      * Generate feilds uniq id for displaying
      *
      * @param String $uniqid
@@ -242,6 +268,8 @@
                 $this->pushBaseQueryForTable($tableName, $sessData);
             }
         }
+        $i = 0;
+        $p = 0;
         foreach ($sessData as $tableName => $searchInfos) {
 
             if($tableName != "hardware"){
@@ -250,30 +278,42 @@
             }
 
             foreach ($searchInfos as $index => $value) {
-                if(!array_key_exists($tableName.$value[self::SESS_FIELDS], $this->multipleFieldsSearch)){
-                    $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] = 1;
+
+                if($value['comparator'] != null){
+                    $operator[] = $value['comparator'];
+                }elseif($i != 0 && $value['comparator'] == null){
+                    $operator[] = "AND";
                 }else{
-                    $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] += 1;
+                    $operator[] = "";
                 }
+                $i++;
             }
 
             foreach ($searchInfos as $index => $value) {
-                if( $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] > 1 ){
-                    $operator = "OR";
-                    $this->multipleFieldsSearch[$tableName.$value[self::SESS_FIELDS]] -= 1;
-                }else{
-                    $operator = "AND";
-                }
+                  $values[] = $value;
+            }
+
+            foreach ($searchInfos as $index => $value) {
+                $open="";
+                $close="";
                 // Generate condition
                 $this->getOperatorSign($value);
 
+                if($p == 0 && $operator[$p+1] == 'OR'){
+                    $open = "(";
+                }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
+                    $close=")";
+                }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
+                    $open = "(";
+                }
+
                 if($value[self::SESS_OPERATOR] == 'IS NULL'){
-                  $this->columnsQueryConditions .= " %s.%s %s $operator";
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
                 }else{
-                  $this->columnsQueryConditions .= " %s.%s %s '%s' $operator";
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
@@ -283,11 +323,11 @@
                     $this->queryArgs[] = $value[self::SESS_VALUES];
                   }
                 }
+                $p++;
             }
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
-        $this->columnsQueryConditions = substr($this->columnsQueryConditions, 0, -3);
-        $this->columnsQueryConditions .= "GROUP BY hardware.id";
+        $this->columnsQueryConditions .= " GROUP BY hardware.id";
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
 
@@ -449,7 +489,6 @@
      */
     public function returnFieldHtml($uniqid, $fieldsInfos, $tableName)
     {
-
         global $l;
 
         $fieldId = $this->getFieldUniqId($uniqid, $tableName);
@@ -493,13 +532,42 @@
         return $html;
     }
 
+    public function returnFieldHtmlAndOr($uniqid, $fieldsInfos, $infos, $tableName, $defaultValue = null)
+    {
+        global $l;
+        $i = 0;
+
+        foreach ($infos as $id => $value){
+            if($value['fields'] == $fieldsInfos['fields']){
+              $i++;
+            }
+        }
+
+        $fieldId = $this->getFieldUniqId($uniqid, $tableName);
+        $html = "";
+
+        if($i > 1){
+          $html = "<select class='form-control' name='".$this->getComparatorUniqId($uniqid, $tableName)."' id='".$this->getComparatorUniqId($uniqid, $tableName)."'>";
+          foreach ($this->comparatorList as $value) {
+              $trValue = $this->translationSearch->getTranslationForComparator($value);
+              if ($defaultValue == $value) {
+                  $html .= "<option selected value=".$value." >".$trValue."</option>";
+              } else {
+                  $html .= "<option value=".$value." >".$trValue."</option>";
+              }
+          }
+          $html .= "</select>";
+        }
+
+        return $html;
+    }
+
     /**
      * Create sql for dynamic group
      * @param  Array $values
      * @return String
      */
     public function create_sql_cache($values){
-
         $cache_sql = "SELECT DISTINCT hardware.ID FROM hardware ";
         $i =0;
         foreach ($values as $key=>$value){
@@ -520,34 +588,49 @@
         }
 
         $cache_sql .= "WHERE ";
+
+        $index=0;
+        foreach ($values as $index => $value) {
+          foreach($value as $key => $compar)
+            if($compar['comparator'] != null){
+                $operator[] = $compar['comparator'];
+            }elseif($index != 0 && $compar['comparator'] == null){
+                $operator[] = "AND";
+            }else{
+                $operator[] = "";
+            }
+            $index++;
+        }
+
         $p=0;
+        $in=0;
         foreach ($this->values_cache_sql as $table=>$value){
            foreach ($value as $key => $values) {
+
+             $open="";
+             $close="";
+
+             if($in == 0 && $operator[$in+1] == 'OR'){
+                 $open = "(";
+             }if($operator[$in] =='OR' && $operator[$in+1] !='OR'){
+                 $close=")";
+             }if($p != 0 && $operator[$in] !='OR' && $operator[$in+1] =='OR'){
+                 $open = "(";
+             }
              $p++;
-             $cache_sql .= $table.".".$values['fields']." ";
+             $cache_sql .= $operator[$in]." ".$open.$table.".".$values['fields']." ";
              if($values['operator'] == 'LIKE'){
-                $cache_sql .= $values['operator']." '%".$values['value']."%' ";
+                $cache_sql .= $values['operator']." '%".$values['value']."%'".$close;
              }elseif($values['operator'] == 'DIFFERENT'){
-                $cache_sql .= "NOT LIKE '%".$values['value']."%' ";
+                $cache_sql .= "NOT LIKE '%".$values['value']."%'".$close;
              }elseif($values['operator'] == 'EQUAL'){
-               $cache_sql .= "= '".$values['value']."' ";
+               $cache_sql .= "= '".$values['value']."'".$close;
              }elseif($values['operator'] == 'LESS'){
-               $cache_sql .= "< ".$values['value']." ";
+               $cache_sql .= "< ".$values['value'].$close;
              }elseif($values['operator'] == 'MORE'){
-               $cache_sql .= "> ".$values['value']." ";
+               $cache_sql .= "> ".$values['value'].$close;
              }
-             if(!array_key_exists($table.$values['fields'], $this->multipleFieldsSearchCache)){
-                 $this->multipleFieldsSearchCache[$table.$values['fields']] = 1;
-             }else{
-                 $this->multipleFieldsSearchCache[$table.$values['fields']] += 1;
-             }
-             if($p != $i){
-                 if( $this->multipleFieldsSearchCache[$table.$values['fields']] > 1 ){
-                     $cache_sql .= "OR ";
-                 }else{
-                     $cache_sql .= "AND ";
-                 }
-             }
+             $in++;
            }
         }
         return $cache_sql;
