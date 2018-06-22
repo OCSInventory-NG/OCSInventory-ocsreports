@@ -471,7 +471,7 @@
 577 Group name
 580 All computers (replay)
 581 All computers (cached)
-582 and
+582 AND
 583 Groups
 584 For the request
 585 For selection
