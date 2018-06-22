@@ -153,13 +153,28 @@ if(isset($protectedGet['prov'])){
 echo open_form('multiSearchCrits', '', '', '');
 
 if (!empty($_SESSION['OCS']['multi_search'])) {
+
 	if(isset($protectedPost['search_ok'])){
 		$search->updateSessionsInfos($protectedPost);
 	}
+
+
 	foreach ($_SESSION['OCS']['multi_search'] as $table => $infos) {
+    $i = 0;
+
 		foreach ($infos as $uniqid => $values) {
 			?>
 			<div class="row" name="<?php echo $uniqid ?>">
+        <?php if($i != 0){
+          $htmlComparator = $search->returnFieldHtmlAndOr($uniqid, $values, $infos, $table, $values['comparator']);
+            if($htmlComparator != ""){
+              echo "<div class='col-sm-5'></div><div class='col-sm-1'>
+        					     <div class='form-group'>
+        							        ".$htmlComparator."
+        					     </div>
+        				    </div></br></br></br>";
+            }
+          } ?>
 				<div class="col-sm-3">
 					<div class="btn btn-info disabled" style="cursor:default;"><?php
             if(strpos($values['fields'], 'fields_') !== false){
@@ -193,6 +208,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				</div>
 			</div>
 			<?php
+      $i++;
 		}
 	}
 }

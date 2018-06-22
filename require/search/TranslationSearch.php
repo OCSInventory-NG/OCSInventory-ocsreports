@@ -213,6 +213,11 @@
         "ISNULL" => 1448,
     ];
 
+    private $comparatorsArray = [
+        "AND" => 582,
+        "OR" => 386,
+    ];
+
     public function getTranslationFor($name){
         global $l;
         $name = strtolower($name);
@@ -225,6 +230,11 @@
     public function getTranslationForOperator($name){
         global $l;
         return $l->g($this->operatorsArray[$name]);
+    }
+
+    public function getTranslationForComparator($name){
+        global $l;
+        return $l->g($this->comparatorsArray[$name]);
     }
 
     public function getTranslationForListField($string){
