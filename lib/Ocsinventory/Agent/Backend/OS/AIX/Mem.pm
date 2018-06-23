@@ -23,14 +23,9 @@ sub run {
     $memory=0;
     @lsdev=`lsdev -Cc memory -F 'name' -t totmem`;
     for (@lsdev){
-        @lsattr=`lsattr -EOl$_`;
-        for (@lsattr){
-            if (! /^#/){
-                /^(.+):(.+)/;
-                $memory += $2;
-            }
-        }
+        $memory += `lsattr -a size -F value -El$_`;
     }
+
   
     # Paging Space
     @grep=`lsps -s`;
