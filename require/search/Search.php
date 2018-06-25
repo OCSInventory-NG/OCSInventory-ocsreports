@@ -710,12 +710,21 @@
                   'value' => $value_stat,
                   'operator' => $operator_stat,
               ];
+
+              $i = 0;
               foreach($option['idPackage'] as $key =>$value){
+                if($i == 0){
+                  $comparator = 'AND';
+                }else{
+                  $comparator = 'OR';
+                }
                 $_SESSION['OCS']['multi_search']['devices']['stat'.$key] = [
                     'fields' => 'IVALUE',
                     'value' => $value,
                     'operator' => 'EQUAL',
+                    'comparator' => $comparator
                 ];
+                $i++;
               }
             }
             break;
