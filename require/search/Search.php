@@ -678,6 +678,7 @@
                     'fields' => 'IVALUE',
                     'value' => '2',
                     'operator' => 'EQUAL',
+                    'comparator' => 'OR',
                 ];
 
                 $_SESSION['OCS']['multi_search']['devices']['ipdiscover4'] = [
