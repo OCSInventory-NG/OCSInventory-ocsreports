@@ -106,7 +106,7 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(36) => "e.ssn",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
-    $l->g(34) => "h.ipaddr",
+    $l->g(34) => "GROUP_CONCAT(DISTINCT(n.ipaddress)) as ipaddress",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -146,7 +146,7 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(36) => "e.ssn",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
-    $l->g(34) => "h.ipaddr",
+    $l->g(34) => "GROUP_CONCAT(DISTINCT(n.ipaddress)) as ipaddress",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -174,7 +174,6 @@ $queryDetails = $sql['SQL'] . " from hardware h
 
 if ($show_mac_addr) {
     $queryDetails .= "	LEFT JOIN networks n ON n.hardware_id=h.id ";
-    $queryDetails .= " AND h.IPADDR=n.IPADDRESS ";
 }
 // BIOS INFOS
 $queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id ";
