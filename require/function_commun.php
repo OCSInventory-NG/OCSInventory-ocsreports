@@ -577,11 +577,21 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                       echo "</div>";
                                     }
                                 } else if($inputType == 'checkbox'){
-                                    if($field["CONFIG"]["SELECTED_VALUE"] == "on"){
-                                        echo "$label <input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked>";
+                                  if($field["CONFIG"]["SELECTED_VALUE"] != ''){
+                                      $field_check = explode("&&&", $field["CONFIG"]["SELECTED_VALUE"]);
+                                      foreach($field_check as $keys => $values){
+                                        if($values != ''){
+                                          $field_checkbox[$values] = $values;
+                                        }
+                                      }
+                                  }
+                                  foreach ($field['DEFAULT_VALUE'] as $key => $value){
+                                    if(array_key_exists($value, $field_checkbox)){
+                                        echo "<div><input style='display:initial;width:20px;height: 14px;'  type='".$inputType."' name='".$field['INPUT_NAME']."_".$value."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked> $value </div> ";
                                     }else{
-                                        echo "$label <input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                        echo "<div><input style='display:initial;width:20px;height: 14px;' type='".$inputType."' name='".$field['INPUT_NAME']."_".$value."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">$value </div>";
                                     }
+                                  }
                                 } else if( $inputType == 'button' || $inputType == 'link'){
                                     echo "<a href='".$field['DEFAULT_VALUE']."' class='".($inputType == 'button') ? 'btn' : ''."' ".$field['CONFIG']['JAVASCRIPT']."></a>";
                                 } else if($inputType == 'qrcode'){
