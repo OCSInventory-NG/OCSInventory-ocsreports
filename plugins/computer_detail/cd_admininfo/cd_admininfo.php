@@ -164,6 +164,7 @@ if (!is_array($info_account_id)) {
                 }
                 array_push($config['SELECT_DEFAULT'], 'YES');
                 $field_select_values = find_value_field("ACCOUNT_VALUE_" . $val_admin_info['NAME']);
+                asort($field_select_values);
 
                 //cas of checkbox
                 if ($val_admin_info['TYPE'] == 4) {
