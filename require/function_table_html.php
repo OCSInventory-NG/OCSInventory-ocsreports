@@ -1666,8 +1666,26 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							//echo percent_bar($value_of_field);
 							$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 						}
+
 						if (!empty($tab_options['REPLACE_VALUE'][$key])){
-							$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
+ 							$temp_val=explode('&&&',$value_of_field);
+ 							if (count($temp_val)==1) {
+ 								$temp_val=explode('&amp;&amp;&amp;',$value_of_field);
+ 							}
+ 							if (count($temp_val)!=1) {
+ 								$multi_value=0;
+ 								$temp_value_of_field="";
+ 								while (isset($temp_val[$multi_value])){
+ 									$temp_value_of_field.=$temp_val[$multi_value]."<br>";
+ 									$multi_value++;
+ 								}
+ 								$temp_value_of_field=substr($temp_value_of_field,0,-4);
+ 								$value_of_field=$temp_value_of_field;
+ 								$row[$column]=$value_of_field;
+ 							}
+ 							else {
+ 								$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
+ 							}
 						}
 						if(!empty($tab_options['VALUE'][$key])){
 							if(!empty($tab_options['LIEN_CHAMP'][$key])){
