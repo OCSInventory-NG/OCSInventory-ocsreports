@@ -51,6 +51,13 @@ sub run {
 
         my $size = $memory->{'dimm_size'};
 
+        my $desc = $memory->{'dimm_part_number'};
+        if ($desc !~ /empty/) {
+            # dimm_part_number is an hex string, convert it to ascii
+            $desc = pack "H*", $desc;
+            $desc =~ s/\s+$//;
+        }
+
         # if system_profiler lables the size in gigs, we need to trim it down to megs so it's displayed properly
         if($size =~ /GB$/){
                 $size =~ s/GB$//;
@@ -61,7 +68,7 @@ sub run {
             'SPEED'         => $memory->{'dimm_speed'},
             'TYPE'          => $memory->{'dimm_type'},
             'SERIALNUMBER'  => $memory->{'dimm_serial_number'},
-            'DESCRIPTION'   => $memory->{'dimm_part_number'},
+            'DESCRIPTION'   => $desc,
             'NUMSLOTS'      => $slot,
             'CAPTION'       => 'Status: '.$memory->{'dimm_status'},
         });
