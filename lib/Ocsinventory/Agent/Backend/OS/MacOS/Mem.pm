@@ -66,5 +66,11 @@ sub run {
             'CAPTION'       => 'Status: '.$memory->{'dimm_status'},
         });
     }
+
+    # Send total memory size to inventory object
+    my $sysctl_memsize=`sysctl -n hw.memsize`;
+    $common->setHardware({
+        MEMORY =>  $sysctl_memsize / 1024 / 1024,
+    });
 }
 1;
