@@ -146,17 +146,9 @@ define('DEV_OPTION', false);
 // Plugins Configuration
 //====================================================================================
 /**
- * Directory where you put plugin sources
+ * Directory where you put extensions sources
  */
-define('PLUGINS_DL_DIR', __DIR__ . '/download/');
-/**
- * Don't touch this dir used by plugin engine
- */
-define('PLUGINS_SRV_SIDE', __DIR__ . '/upload/');
-/**
- * Plugins engine ws url, don't touch if you don't know what you are doing
- */
-define('PLUGIN_WS_URL', '/ocsplugins');
+define('EXT_DL_DIR', __DIR__ . '/extensions/');
 //====================================================================================
 // Misc Options
 //====================================================================================
