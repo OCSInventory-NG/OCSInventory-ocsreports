@@ -41,6 +41,9 @@ class ExtensionManager{
     const APACHE_EXT = 'apache';
     const AGENT_EXT = 'agent';
     
+    // Json infos of the extension
+    const INFOS_EXT = 'infos.json';
+    
     // Extensions fobiden name
     const FORBIDEN_EXT_NAME = [
         ".",
@@ -53,6 +56,12 @@ class ExtensionManager{
     const EXTENSION_DELETE_METHD = 'extension_delete_';
     const EXTENSION_UPGRADE_METHD = 'extension_upgrade_';
     const EXTENSION_HOOK_METHD = 'extension_hook_';
+    
+    /**
+     * Insert query
+     */
+    private $insertQuery = "INSERT INTO `extensions`(`id`, `name`, `description`, `version`, `licence`, `author`, `contributor`, `install_date`) "
+            . "VALUES (?,?,?,?,?,?,?,?)";
     
     /**
      * Objects
@@ -122,9 +131,25 @@ class ExtensionManager{
      */
     public function installExtension($name){
         if($this->isInstalled($name)){
+            // TODO : error already installed
             return false;
         }
         
+        // Add plugin record in database
+        $jsonStr = file_get_contents(EXT_DL_DIR.$name."/".self::INFOS_EXT);
+        $jsonInfos = json_decode($jsonStr, true);
+        var_dump($jsonInfos);
+        
+        try{
+            $installMethod = self::EXTENSION_INSTALL_METHD.$name;
+            $installMethod();
+            // TODO : Successfuly instllaed
+            return true;
+        } catch (Exception $ex) {
+            // TODO : PHP Error occured
+            return false;
+        }
+
     }
     
     /**
