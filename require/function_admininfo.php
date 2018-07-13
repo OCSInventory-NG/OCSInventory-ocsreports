@@ -22,12 +22,11 @@
  */
 
 //type of choice
-$type_accountinfo = array('TEXT', 'TEXTAREA', 'SELECT',
-    mb_strtoupper($l->g(802)), 'CHECKBOX',
-    'BLOB (FILE)', 'DATE', 'RADIOBUTTON', 'QRCODE');
+$type_accountinfo = array('TEXT', 'TEXTAREA', 'SELECT', 'CHECKBOX',
+                          'DATE', 'RADIOBUTTON', 'QRCODE');
 $sql_type_accountinfo = array('VARCHAR(255)', 'LONGTEXT', 'VARCHAR(255)',
-    'VARCHAR(255)', 'VARCHAR(255)', 'BLOB', 'DATE',
-    'VARCHAR(255)', 'VARCHAR(255)');
+                              'VARCHAR(255)', 'DATE',
+                              'VARCHAR(255)', 'VARCHAR(255)');
 
 
 $convert_type = array('0', '1', '2', '3', '5', '8', '14', '11', '12');
