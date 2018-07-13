@@ -29,6 +29,7 @@ if (AJAX) {
 }
 
 require_once 'require/extensions/ExtensionManager.php';
+require_once 'require/extensions/ExtensionCommon.php';
 
 printEnTete($l->g(7008));
 
@@ -73,6 +74,8 @@ if($extMgr->checkPrerequisites()){
 </div>
 <?php
 
-var_dump($protectedPost);
+if(isset($protectedPost['extensions'])){
+    $extMgr->installExtension($protectedPost['extensions']);
+}
 
 echo "WIP";
