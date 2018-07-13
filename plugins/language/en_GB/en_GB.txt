@@ -1501,7 +1501,7 @@
 6012 Select All
 
 7000 Plugins
-7001 Plugins manager
+7001 Extensions manager
 7002 Plugin's name
 7003 Version
 7004 License

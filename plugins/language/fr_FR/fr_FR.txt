@@ -1501,7 +1501,7 @@
 6012 Tout afficher
 
 7000 Plugins
-7001 Gestionnaire de plugins
+7001 Gestionnaire d'extensions
 7002 Nom du plugin
 7003 Version
 7004 Licence
