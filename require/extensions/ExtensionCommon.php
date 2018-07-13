@@ -23,4 +23,27 @@
 
 class ExtensionCommon{
     
+    /**
+     * Objects
+     */
+    private $dbObject = null;
+    
+    /**
+     * Constructor
+     */
+    function __construct()
+    {
+        $this->dbObject = $_SESSION['OCS']["readServer"];
+    }
+    
+    /**
+     * Execute a SQL Query
+     * 
+     * @param String $query
+     * @param Array $args
+     */
+    public function sqlQuery($query, $args = ''){
+        mysql2_query_secure($query, $this->dbObject, $args);
+    }
+    
 }
