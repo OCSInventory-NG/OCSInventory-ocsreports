@@ -99,14 +99,14 @@
     <page>ms_add_key</page>
     <page>ms_export_ocs</page>
     <page>ms_qrcode</page>
-    <page>ms_plugins</page>
+    <page>ms_extension</page>
     <page>ms_stats_top</page>
     <page>ms_server_infos</page>
     <page>ms_wiki</page>
     <page>ms_irc</page>
     <page>ms_offers</page>
     <page>ms_ask</page>
-    <page>ms_pluginsmanager</page>
+    <page>ms_extensionmanager</page>
     <page>ms_soft_cat</page>
     <page>ms_asset_cat</page>
     <page>ms_asset_cat_list</page>
