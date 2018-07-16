@@ -589,17 +589,18 @@
 
         $cache_sql .= "WHERE ";
 
-        $index=0;
+        $ind=0;
         foreach ($values as $index => $value) {
-          foreach($value as $key => $compar)
+          foreach($value as $key => $compar){
             if($compar['comparator'] != null){
                 $operator[] = $compar['comparator'];
-            }elseif($index != 0 && $compar['comparator'] == null){
+            }elseif($ind != 0 && $compar['comparator'] == null){
                 $operator[] = "AND";
             }else{
                 $operator[] = "";
             }
-            $index++;
+            $ind++;
+          }
         }
 
         $p=0;
