@@ -74,8 +74,50 @@ if($extMgr->checkPrerequisites()){
 </div>
 <?php
 
-if(isset($protectedPost['extensions'])){
-    $extMgr->installExtension($protectedPost['extensions']);
+if (!AJAX) {
+    if(isset($protectedPost['extensions'])){
+        $extMgr->installExtension($protectedPost['extensions']);
+    }
+
+    if(isset($protectedPost['SUP_PROF'])){
+        $extMgr->deleteExtension($protectedPost['SUP_PROF']);
+    }
 }
 
-echo "WIP";
+// Plugins Tab
+printEnTete($l->g(7009));
+$form_name = "show_all_extensions";
+$table_name = $form_name;
+$tab_options = $protectedPost;
+$tab_options['form_name'] = $form_name;
+$tab_options['table_name'] = $table_name;
+echo open_form($form_name, '', '', 'form-horizontal');
+
+$list_fields = array('ID' => 'id',
+    $l->g(7002) => 'name',
+    $l->g(53) => 'description',
+    $l->g(7003) => 'version',
+    $l->g(7005) => 'author',
+    $l->g(7004) => 'licence'
+);
+
+$tab_options['FILTRE'] = array_flip($list_fields);
+$tab_options['FILTRE']['NAME'] = $l->g(49);
+asort($tab_options['FILTRE']);
+$list_fields['SUP'] = 'ID';
+$list_col_cant_del = array('SUP' => 'SUP');
+$default_fields = array($l->g(7002) => $l->g(7002), $l->g(7003) => $l->g(7003), $l->g(7004) => $l->g(7005), $l->g(7006), $l->g(7006));
+$sql = prepare_sql_tab($list_fields, $list_col_cant_del);
+$tab_options['ARG_SQL'] = $sql['ARG'];
+$queryDetails = $sql['SQL'] . ",ID from extensions";
+$tab_options['LBL_POPUP']['SUP'] = $l->g(7007) . " ";
+$tab_options['LBL']['SUP'] = $l->g(122);
+$tab_options['LIEN_CHAMP']['NAME'] = 'ID';
+$tab_options['LBL']['NAME'] = $l->g(49);
+ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+echo close_form();
+
+if (AJAX) {
+    ob_end_clean();
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+}
