@@ -6,7 +6,7 @@ use warnings;
 sub check{
     my $params = shift;
     my $common = $params->{common};
-    return unless $common->can_run("apt");
+    return unless $common->can_run("apt-cache");
 }
 
 sub run{
