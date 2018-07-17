@@ -23,4 +23,52 @@
 
 class ExtensionHook{
     
+    /**
+     * @param type $lang identifier of the lang you want to extend.
+     * 
+     * Possible values : 
+     * br_BR
+     * cs_CZ
+     * de_DE
+     * en_GB
+     * es_ES
+     * fr_FR
+     * it_IT
+     * ja_JP
+     * pl_PL
+     * pt_PT
+     * ru_RU
+     * si_SI
+     * tr_TR
+     * ug_UY
+     * uk_UA
+     */
+    public function addTranslation($lang){
+        
+    }
+    
+    /**
+     * @param String $identifier identifier of the menu 
+     * @param Integer $translationNumber name of the menu in the interface
+     * 
+     * Note : The addTranslationHook will be applied before 
+     * so you can use translation added by the plugin itself
+     */
+    public function addMenu($identifier, $translationNumber){
+        
+    }
+    
+    /**
+     * @param String $mainMenuIdentifier identifier of the menu 
+     * @param Integer $translationNumber name of the menu in the interface
+     * 
+     * Note : The addTranslationHook will be applied before 
+     * so you can use translation added by the plugin itself
+     */
+    public function addSubMenu($mainMenuIdentifier, $translationNumber){
+        
+    }
+    
+
+    
 }
