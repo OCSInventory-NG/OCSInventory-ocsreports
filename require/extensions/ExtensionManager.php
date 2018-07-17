@@ -58,11 +58,21 @@ class ExtensionManager{
     const EXTENSION_HOOK_METHD = 'extension_hook_';
     
     /**
+     * List query
+     */
+    private $selectQuery = "SELECT * FROM `extensions`";
+    private $selectQueryTarget = "SELECT * FROM `extensions` WHERE id = '%s'";
+    
+    /**
      * Insert query
      */
-    private $insertQuery = "INSERT INTO `extensions`(`id`, `name`, `description`, `version`, `licence`, `author`, `contributor`, `install_date`) "
-            . "VALUES (?,?,?,?,?,?,?,?)";
+    private $insertQuery = "INSERT INTO `extensions`(`id`, `name`, `description`, `version`, `licence`, `author`, `contributor`) VALUES ('%s','%s','%s',%s,'%s','%s','%s')";
     
+    /**
+     * Delete query
+     */
+    private $deleteQuery = "DELETE FROM `extensions` WHERE id = '%s'";
+
     /**
      * Objects
      */
@@ -74,6 +84,7 @@ class ExtensionManager{
     function __construct()
     {
         $this->dbObject = $_SESSION['OCS']["readServer"];
+        $this->getInstalledExtensionsList();
     }
     
     /**
@@ -130,6 +141,7 @@ class ExtensionManager{
      * Extension installation
      */
     public function installExtension($name){
+        
         if($this->isInstalled($name)){
             // TODO : error already installed
             return false;
@@ -138,7 +150,17 @@ class ExtensionManager{
         // Add plugin record in database
         $jsonStr = file_get_contents(EXT_DL_DIR.$name."/".self::INFOS_EXT);
         $jsonInfos = json_decode($jsonStr, true);
-        var_dump($jsonInfos);
+        
+        $queryArrayArgs = [];
+        $queryArrayArgs[] = $name;
+        $queryArrayArgs[] = $jsonInfos['displayName'];
+        $queryArrayArgs[] = $jsonInfos['description']['en'];
+        $queryArrayArgs[] = $jsonInfos['version'];
+        $queryArrayArgs[] = $jsonInfos['licence'];
+        $queryArrayArgs[] = $jsonInfos['author'][0];
+        $queryArrayArgs[] = $jsonInfos['author'][0];
+        
+        mysql2_query_secure($this->insertQuery, $this->dbObject, $queryArrayArgs);
         
         try{
             $installMethod = self::EXTENSION_INSTALL_METHD.$name;
@@ -157,6 +179,19 @@ class ExtensionManager{
      */
     public function deleteExtension($name){
         
+        if(!$this->isInstalled($name)){
+            return false;
+        }
+        
+        try{
+            mysql2_query_secure($this->deleteQuery, $this->dbObject, $name);
+            $deleteMethod = self::EXTENSION_DELETE_METHD.$name;
+            $deleteMethod();
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }
+        
     }
     
     /**
@@ -164,19 +199,35 @@ class ExtensionManager{
      */
     private function isInstalled($name){
         
+        if(in_array($name, $this->installedExtensionsList)){
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
+
+    /**
+     * Will set an array of installed extensions
+     */
+    private function getInstalledExtensionsList(){
+        
+        $selectResult = mysql2_query_secure($this->selectQuery, $this->dbObject);
+        $installedExt = [];
+        
+        while($installedExtRows = $selectResult->fetch_array())
+        {
+            $installedExt[] = $installedExtRows['id'];
+        }
+        
+        $this->installedExtensionsList = $installedExt;
+        
     }
     
     /**
      * Init installed extensions on login
      */
     public function initInstalledExtensions(){
-        
-    }
-    
-    /**
-     * Will set an array of installed extensions
-     */
-    private function getInstalledExtensionsList(){
         
     }
     
