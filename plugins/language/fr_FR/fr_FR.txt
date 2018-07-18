@@ -1325,6 +1325,7 @@
 1446 Nom du modèle
 1447 Informations de compte
 1448 EST NULL
+1149 Configuration générale
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie
