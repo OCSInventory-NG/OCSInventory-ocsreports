@@ -396,7 +396,7 @@ function updateinfo_computer($id, $values, $list = '') {
         if($accountinfo_id != false and $field != "TAG"){
             $accountinfo_datas = find_info_accountinfo($accountinfo_id[1]);
 
-            if($accountinfo_datas[$accountinfo_id[1]]['type'] === '6'){
+            if($accountinfo_datas[$accountinfo_id[1]]['type'] === '14'){
                 $date_accountinfo = true;
             }
         }
