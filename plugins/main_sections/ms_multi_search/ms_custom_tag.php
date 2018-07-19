@@ -147,7 +147,7 @@ if (is_defined($list_id)) {
                         $tab_typ_champ[$i]['CONFIG']['SIZE'] = 30;
                     }
                     $tab_typ_champ[$i]['INPUT_NAME'] = $truename;
-                    $tab_typ_champ[$i]['INPUT_TYPE'] = $convert_type[$field_of_accountinfo['LIST_TYPE'][$id]];
+                    $tab_typ_champ[$i]['INPUT_TYPE'] = $field_of_accountinfo['LIST_TYPE'][$id];
                     $tab_typ_champ[$i]['CONFIG']['JAVASCRIPT'] = $java . " onclick='document.getElementById(\"check" . $truename . "\").checked = true' ";
 
                     $tab_name[$i] = $lbl;

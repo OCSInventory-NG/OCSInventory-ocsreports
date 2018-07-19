@@ -153,8 +153,8 @@ if (!is_array($info_account_id)) {
                 $up_png .= updown($val_admin_info['ID'], 'DOWN');
             }
             if ($val_admin_info['TYPE'] == 2
-                    or $val_admin_info['TYPE'] == 4
-                    or $val_admin_info['TYPE'] == 7) {
+                    or $val_admin_info['TYPE'] == 5
+                    or $val_admin_info['TYPE'] == 11) {
                 array_push($config['JAVASCRIPT'], '');
                 array_push($config['SIZE'], '');
                 if ($admin_accountinfo) {
@@ -167,7 +167,7 @@ if (!is_array($info_account_id)) {
                 asort($field_select_values);
 
                 //cas of checkbox
-                if ($val_admin_info['TYPE'] == 4) {
+                if ($val_admin_info['TYPE'] == 5) {
 
                     $temp_val = explode('&&&', $info_account_id[$name_accountinfo]);
                     $i = 0;
@@ -194,7 +194,7 @@ if (!is_array($info_account_id)) {
                         array_push($value_field, $field_select_values[$protectedPost[$name_accountinfo]]);
                     }
                 }
-            } elseif ($val_admin_info['TYPE'] == 6) {
+            } elseif ($val_admin_info['TYPE'] == 14) {
                 $info_account_id[$name_accountinfo] = date($l->g(1242), strtotime($info_account_id[$name_accountinfo]));
                 array_push($value_field, $info_account_id[$name_accountinfo]);
                 if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
@@ -243,7 +243,7 @@ if (!is_array($info_account_id)) {
             array_push($name_field, $name_accountinfo);
             array_push($tab_name, $val_admin_info['COMMENT']);
             if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
-                array_push($type_field, $convert_type[$val_admin_info['TYPE']]);
+                array_push($type_field, $val_admin_info['TYPE']);
             } else {
                 //TODO : QRCode management
                 array_push($type_field, 13);
@@ -266,6 +266,7 @@ if (!is_array($info_account_id)) {
         }
 
         $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
+
         if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES') {
             $tab_hidden = array('ADMIN' => '', 'UP' => '', 'DOWN' => '');
         }
