@@ -99,6 +99,11 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
                 if (array_key_exists($key, $cont)) {
                     if (($field == 'TAG' || substr($key, 0, 7) == 'fields_') && isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$val])) {
                         // administrative data
+                        if(strpos($cont[$key], "&&&")){
+                          $value_field = explode("&&&", $cont[$key]);
+                          $value_admin = implode(" ", $value_field);
+                          $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]] = $value_admin;
+                        }
                         $data[$i][$key] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]];
                     } else {
                         // normal data

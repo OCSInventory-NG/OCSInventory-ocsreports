@@ -60,7 +60,7 @@
 96 Sound
 97 Monitor(s)
 103 Update
-107 Config
+107 Configuration
 108 Registry requests
 111 Windows license
 113 Cancel
@@ -1324,6 +1324,7 @@
 1446 Model name
 1447 Account info
 1448 IS NULL
+1449 General configuration
 
 1500 Software category
 1501 New category
