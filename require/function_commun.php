@@ -520,8 +520,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                             $field['INPUT_TYPE'] == 14
                     ){
                             $inputType = 'text';
-                    } else if($field['INPUT_TYPE'] == 2 ||
-                            $field['INPUT_TYPE'] == 11){
+                    } else if($field['INPUT_TYPE'] == 2){
                             $inputType = 'select';
                     } else if($field['INPUT_TYPE'] == 3){
                             $inputType = 'hidden';
@@ -537,6 +536,8 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                         $inputType = 'disabled';
                     } else if($field['INPUT_TYPE'] == 12){
                         $inputType = 'qrcode';
+                    } elseif($field['INPUT_TYPE'] == 11){
+                        $inputType = 'radio';
                     } else {
                             $inputType = 'hidden';
                     }
@@ -590,6 +591,22 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                         echo "<div><input style='display:initial;width:20px;height: 14px;'  type='".$inputType."' name='".$field['INPUT_NAME']."_".$value."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked> $value </div> ";
                                     }else{
                                         echo "<div><input style='display:initial;width:20px;height: 14px;' type='".$inputType."' name='".$field['INPUT_NAME']."_".$value."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">$value </div>";
+                                    }
+                                  }
+                                } else if($inputType == 'radio'){
+                                  if($field["CONFIG"]["SELECTED_VALUE"] != ''){
+                                      $field_radio = explode("&&&", $field["CONFIG"]["SELECTED_VALUE"]);
+                                      foreach($field_radio as $keys => $values){
+                                        if($values != ''){
+                                          $field_radio[$values] = $values;
+                                        }
+                                      }
+                                  }
+                                  foreach ($field['DEFAULT_VALUE'] as $key => $value){
+                                    if(array_key_exists($value, $field_radio)){
+                                        echo "<div><input style='display:initial;width:20px;height: 14px;'  type='".$inputType."' name='".$field['INPUT_NAME']."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked> $value </div> ";
+                                    }else{
+                                        echo "<div><input style='display:initial;width:20px;height: 14px;' type='".$inputType."' name='".$field['INPUT_NAME']."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">$value </div>";
                                     }
                                   }
                                 } else if( $inputType == 'button' || $inputType == 'link'){
