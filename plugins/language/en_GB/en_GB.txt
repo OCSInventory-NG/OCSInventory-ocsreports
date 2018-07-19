@@ -1334,6 +1334,8 @@
 1505 Select default category for softwares
 1506 No category created
 
+1700 Advanced configuration
+
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
 2002 ERROR: line
