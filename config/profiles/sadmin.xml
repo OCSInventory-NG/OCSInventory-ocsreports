@@ -89,7 +89,6 @@
     <page>ms_options</page>
     <page>ms_snmp</page>
     <page>ms_snmp_detail</page>
-    <page>ms_update_new_tag</page>
     <page>ms_server_redistrib</page>
     <page>jp_teledeploy_stats</page>
     <page>jp_teledeploy_speed_stats</page>
