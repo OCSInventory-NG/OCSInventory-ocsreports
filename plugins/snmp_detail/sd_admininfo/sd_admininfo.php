@@ -187,7 +187,7 @@ if ($list_tab != '') {
         array_push($name_field, $name_accountinfo);
         array_push($tab_name, $val_admin_info['COMMENT']);
         if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
-            array_push($type_field, $convert_type[$val_admin_info['TYPE']]);
+            array_push($type_field, $val_admin_info['TYPE']);
         } else {
             array_push($type_field, 3);
         }
