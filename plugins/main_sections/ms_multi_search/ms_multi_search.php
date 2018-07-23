@@ -34,6 +34,7 @@ require("require/search/AccountinfoSearch.php");
 require("require/search/TranslationSearch.php");
 require("require/search/LegacySearch.php");
 require("require/search/Search.php");
+require_once('require/function_admininfo.php');
 
 // Get tables and columns infos
 $databaseSearch = new DatabaseSearch();
@@ -261,6 +262,10 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';
 
+  //BEGIN SHOW ACCOUNTINFO
+	$option_comment['comment_be'] = $l->g(1210)." ";
+	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
+  
 	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
 	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
