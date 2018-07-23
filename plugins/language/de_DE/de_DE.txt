@@ -1168,7 +1168,7 @@
 1207 Community hinzufügen Community
 1208 Community hinzugefügt
 1209 Community aktualisiert
-1210 Admin-Info:
+1210 Admin-Info :
 1211 URL der SNMP-Community-Datei
 1212 Community gelöscht
 1213 Feldtrenner der Export-Datei

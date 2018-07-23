@@ -1172,7 +1172,7 @@
 1207 Adicionar comunidade
 1208 Comunidade adicionada
 1209 Comunidade atualizada
-1210 Informação da conta:
+1210 Informação da conta :
 1211 URL where SNMP community file is
 1212 Comunidade removida
 1213 Separador no arquivo exportado
@@ -1422,4 +1422,3 @@
 6003 Número da licença
 6004 Total disponível
 6005 Ligar/Desligar
-

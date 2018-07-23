@@ -1098,7 +1098,7 @@
 1207 Add community
 1208 Community added
 1209 Community updated
-1210 Account info:
+1210 Account info :
 1211 URL where SNMP community file is
 1212 Community deleted
 1213 Separator of export file

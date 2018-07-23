@@ -1104,7 +1104,7 @@
 1207 Dodaj społeczność
 1208 Społeczność dodana
 1209 Zaktualizowano społeczność
-1210 Informacje o koncie:
+1210 Informacje o koncie :
 1211 URL where SNMP community file is
 1212 Skasowano społeczność
 1213 Separator of export file
