@@ -49,11 +49,11 @@ $array_qr_action = array('URL' => array('TYPE' => 'url', 'VALUE' => OCSREPORT_UR
 function accountinfo_tab($id) {
     $info_tag = find_info_accountinfo($id);
     if ($info_tag[$id]['type'] == 2
-            or $info_tag[$id]['type'] == 4
-            or $info_tag[$id]['type'] == 7) {
+            or $info_tag[$id]['type'] == 5
+            or $info_tag[$id]['type'] == 11) {
         $info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id]['name']);
         return $info;
-    } elseif ($info_tag[$id]['type'] == 5) {
+    } elseif ($info_tag[$id]['type'] == 8) {
         return false;
     }
 

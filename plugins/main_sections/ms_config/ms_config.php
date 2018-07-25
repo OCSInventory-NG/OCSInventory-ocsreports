@@ -140,10 +140,10 @@ switch ($protectedPost['onglet']) {
 }
 
 ?>
+</br>
 <input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>
 <input type="submit" name="Valid" value="<?php echo $l->g(103) ?>" class="btn btn-success">
 <input type="submit" name="Reset" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
-
 <?php
 echo close_form();
 echo '</div>';
