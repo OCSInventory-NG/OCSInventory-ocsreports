@@ -76,10 +76,6 @@
         <label>g(17)</label>
         <url>ms_upload_file</url>
       </menu-elem>
-      <menu-elem id="ms_update_new_tag">
-        <label>g(2100)</label>
-        <url>ms_update_new_tag</url>
-      </menu-elem>
       <menu-elem id="ms_notification">
         <label>g(8000)</label>
         <url>ms_notification</url>

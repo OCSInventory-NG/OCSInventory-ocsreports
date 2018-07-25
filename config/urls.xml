@@ -248,10 +248,6 @@
         <value>snmp_detail</value>
         <directory>ms_snmp</directory>
     </url>
-    <url key="ms_update_new_tag">
-        <value>script_new_tag</value>
-        <directory>ms_scripts</directory>
-    </url>
     <url key="ms_server_redistrib">
         <value>server_redistrib</value>
         <directory>ms_teledeploy</directory>
