@@ -1093,7 +1093,7 @@
 1207 Přidat komunitu
 1208 Komunita přidána
 1209 Komunita zaktualizována
-1210 Informace o účtu:
+1210 Informace o účtu :
 1211 URL adresa na které se nachází soubor SNMP komunity
 1212 Komunita smazána
 1213 Oddělovač exportního souboru

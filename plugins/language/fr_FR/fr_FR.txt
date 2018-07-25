@@ -1094,7 +1094,7 @@
 1207 Ajouter une communauté
 1208 Communauté ajoutée
 1209 Communauté modifiée
-1210 Account info:
+1210 Account info :
 1211 URL du fichier des communautés SNMP
 1212 Communauté supprimée
 1213 Séparateur des fichiers d'export
