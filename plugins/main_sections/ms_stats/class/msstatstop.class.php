@@ -45,7 +45,7 @@ class MsStatsTop extends MsStats{
             $protectedPost['CHOICE_OP'] = 'TOP_SOFT';
         }
 
-        $array_option = array('NB_OS' => $l->g(783), 'TOP_SOFT' => 'top soft', 'NB_AGENTS' => $l->g(784));
+        $array_option = array('NB_OS' => $l->g(783), 'TOP_SOFT' => 'Top Soft', 'NB_AGENTS' => $l->g(784));
         echo $l->g(1251) . ": " . show_modif($array_option, "CHOICE_OP", 2, parent::getFormName()) . "<br>";
         if ($protectedPost['CHOICE_OP'] == 'TOP_SOFT') {
 
