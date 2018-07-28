@@ -21,22 +21,22 @@ sub run {
     my $params = shift;
     my $common = $params->{common};
 
-    if ($^O == "freebsd") {
+    if ($^O eq 'freebsd') {
         foreach my $line (`LANG=C pkg -vv 2>/dev/null`){
             next if ($line =~ /^Repositories:/i);
-            if ($line =~ /^(\w):\s\{/i){
+            if ($line =~ /^\s+(.*):\s\{/i){
                 $repo_name = $1;
-            } elsif ($line =~ /^url\s+:\s\"(.*)\"/i) {
+            } elsif ($line =~ /url\s+:\s\"(.*)\"/i) {
                 $repo_baseurl = $1;
-            } elsif ($line =~ /^enabled\s+:\s(.*)\,/i){
+            } elsif ($line =~ /enabled\s+:\s(.*)\,/i){
                 $repo_enable = $1;
-            } elsif ($line =~ /^priority\s+:\s(.*)\,/i) {
+            } elsif ($line =~ /priority\s+:\s(.*)\,/i) {
                 $repo_priority = $1;
-            } elsif ($line =~ /^Mirror_type\s+:\s\"(.*)\"\,/i){
+            } elsif ($line =~ /Mirror_type\s+:\s\"(.*)\"\,/i){
                 $repo_mirror_type = $1;
-            } elsif ($line =~ /^signature_type\s+:\s\"(.*)\"\,/i){
+            } elsif ($line =~ /signature_type\s+:\s\"(.*)\"\,/i){
                 $repo_signature_type = $1;
-            } elsif ($line =~ /^fingerprints\s+:\s\"(.*)\"/i){
+            } elsif ($line =~ /fingerprints\s+:\s\"(.*)\"/i){
                 $repo_fingerprints = $1;
             }
             if ($line =~ /^  \}$/) {
