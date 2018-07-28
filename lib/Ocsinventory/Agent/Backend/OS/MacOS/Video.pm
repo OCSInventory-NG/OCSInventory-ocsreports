@@ -40,7 +40,13 @@ sub run {
 
     # add the video information
     foreach my $video (@$data){
-        my $memory = $video->{'spdisplays_vram'};
+        my $memory;
+        # macOS 10.13 doesn't have spdisplays_vram but has _spdisplays_vram
+        if (exists($video->{'spdisplays_vram'})) {
+            $memory = $video->{'spdisplays_vram'};
+        } elsif (exists($video->{'_spdisplays_vram'})) {
+            $memory = $video->{'_spdisplays_vram'};
+        }
         $memory =~ s/ MB$//;
 
         $common->addVideo({
