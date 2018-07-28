@@ -25,10 +25,6 @@ install :: all pure_install doc_install
 }
 
 my $version = $Ocsinventory::Agent::Config::VERSION;
-if (-d '.git') {
-    chomp( my $gitRev = `git rev-parse --short HEAD`);
-    $version .= "~git".$gitRev;
-}
 
 name 'Ocsinventory-Unix-Agent';
 include 'Module::AutoInstall';
