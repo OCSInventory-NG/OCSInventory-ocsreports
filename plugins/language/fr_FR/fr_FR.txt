@@ -55,7 +55,7 @@
 91 Périphérique(s) d'entrée
 92 Disque(s)
 93 Contrôleur(s)
-94 Nombre de slots
+94 Numéro de slot
 95 Adresse MAC
 96 Son
 97 Moniteur(s)
