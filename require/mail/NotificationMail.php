@@ -48,6 +48,8 @@
                         );
       private $week = array('MON' => 'MON', 'TUE' => 'TUE', 'WED' => 'WED', 'THURS' => 'THURS', 'FRI' => 'FRI', 'SAT' => 'SAT', 'SUN' => 'SUN');
 
+      const HTML_EXT = 'html';
+      
       public function __construct($language){
         global $l;
         $l = new language($language);
@@ -180,20 +182,27 @@
        * @return void
        */
      public function send_notification($subject, $body, $altBody = '', $selected, $isHtml = false ){
-          $body = $this->replace_value($body, $selected);
-          try{
-             // Content
-             $this->notif->isHTML(false);
-             $this->notif->Subject = $subject;
-             $this->notif->Body    = $body;
-             $this->notif->AltBody = $altBody;
+            
+            $body = $this->replace_value($body, $selected);
+         
+            if(!$body){
+                error_log('Error reading custom template');
+                return false;
+            }
+            
+            try{
+               // Content
+               $this->notif->isHTML(false);
+               $this->notif->Subject = $subject;
+               $this->notif->Body    = $body;
+               $this->notif->AltBody = $altBody;
 
-             $this->notif->send();
-             error_log('Message has been sent');
-         } catch (Exception $e) {
-             $msg = 'Message could not be sent. Mailer Error: '. $mail->ErrorInfo;
-             error_log($msg);
-         }
+               $this->notif->send();
+               error_log('Message has been sent');
+           } catch (Exception $e) {
+               $msg = 'Message could not be sent. Mailer Error: '. $mail->ErrorInfo;
+               error_log($msg);
+           }
       }
 
       /**
@@ -214,7 +223,11 @@
           if($selected == 'DEFAULT'){
             $template = file_get_contents(TEMPLATE.'OCS_template.html', true);
           }else{
-            $template = file_get_contents($file, true);
+            if(file_exists($file)){
+                $template = file_get_contents($file, true); 
+            }else{
+                return false;
+            }
           }
 
           if(strpos($template, "{{") !== false){
@@ -263,6 +276,11 @@
       public function upload_file($file, $subject){
           global $l;
           $uploadFile = TEMPLATE . basename($file['template']['name']);
+          
+          if(!$this->is_html_extension($uploadFile)){
+              msg_error($l->g(8021));
+              return false;
+          }
 
           if($file['template']['type'] == 'text/html'){
             if (move_uploaded_file($_FILES['template']['tmp_name'], $uploadFile)) {
@@ -278,6 +296,22 @@
           }else{
             msg_error($l->g(8017));
             return false;
+          }
+      }
+      
+      /**
+       * Check if file respect naming convention
+       * And have extension .html
+       * 
+       * @param array $uploaded_file
+       */
+      private function is_html_extension($uploaded_file_name){
+          $ext = end((explode(".", $uploaded_file_name)));
+          var_dump($ext);
+          if($ext == self::HTML_EXT){
+              return true;
+          }else{
+              return false;
           }
       }
 
