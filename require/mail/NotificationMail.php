@@ -48,6 +48,8 @@
                         );
       private $week = array('MON' => 'MON', 'TUE' => 'TUE', 'WED' => 'WED', 'THURS' => 'THURS', 'FRI' => 'FRI', 'SAT' => 'SAT', 'SUN' => 'SUN');
 
+      const HTML_EXT = 'html';
+      
       public function __construct($language){
         global $l;
         $l = new language($language);
@@ -274,6 +276,11 @@
       public function upload_file($file, $subject){
           global $l;
           $uploadFile = TEMPLATE . basename($file['template']['name']);
+          
+          if(!$this->is_html_extension($uploadFile)){
+              msg_error($l->g(8021));
+              return false;
+          }
 
           if($file['template']['type'] == 'text/html'){
             if (move_uploaded_file($_FILES['template']['tmp_name'], $uploadFile)) {
@@ -289,6 +296,22 @@
           }else{
             msg_error($l->g(8017));
             return false;
+          }
+      }
+      
+      /**
+       * Check if file respect naming convention
+       * And have extension .html
+       * 
+       * @param array $uploaded_file
+       */
+      private function is_html_extension($uploaded_file_name){
+          $ext = end((explode(".", $uploaded_file_name)));
+          var_dump($ext);
+          if($ext == self::HTML_EXT){
+              return true;
+          }else{
+              return false;
           }
       }
 

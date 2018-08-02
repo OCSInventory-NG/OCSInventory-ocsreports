@@ -1542,3 +1542,4 @@
 8017 Ce fichier n'est pas un fichier html
 8018 Sujet
 8020 WARNING : Fichier de template personnalisé non trouvé
+8021 Le fichier upload doit avoir pour extension .html

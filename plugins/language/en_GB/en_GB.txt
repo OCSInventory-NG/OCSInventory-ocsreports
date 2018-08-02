@@ -1544,3 +1544,4 @@
 8018 Subject
 8019 Notification OCSInventory
 8020 WARNING : Mail template file not found
+8021 The uploaded file need to have .html extension to be valid
