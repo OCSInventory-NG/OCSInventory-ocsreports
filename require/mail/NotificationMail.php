@@ -180,20 +180,27 @@
        * @return void
        */
      public function send_notification($subject, $body, $altBody = '', $selected, $isHtml = false ){
-          $body = $this->replace_value($body, $selected);
-          try{
-             // Content
-             $this->notif->isHTML(false);
-             $this->notif->Subject = $subject;
-             $this->notif->Body    = $body;
-             $this->notif->AltBody = $altBody;
+            
+            $body = $this->replace_value($body, $selected);
+         
+            if(!$body){
+                error_log('Error reading custom template');
+                return false;
+            }
+            
+            try{
+               // Content
+               $this->notif->isHTML(false);
+               $this->notif->Subject = $subject;
+               $this->notif->Body    = $body;
+               $this->notif->AltBody = $altBody;
 
-             $this->notif->send();
-             error_log('Message has been sent');
-         } catch (Exception $e) {
-             $msg = 'Message could not be sent. Mailer Error: '. $mail->ErrorInfo;
-             error_log($msg);
-         }
+               $this->notif->send();
+               error_log('Message has been sent');
+           } catch (Exception $e) {
+               $msg = 'Message could not be sent. Mailer Error: '. $mail->ErrorInfo;
+               error_log($msg);
+           }
       }
 
       /**
@@ -214,7 +221,11 @@
           if($selected == 'DEFAULT'){
             $template = file_get_contents(TEMPLATE.'OCS_template.html', true);
           }else{
-            $template = file_get_contents($file, true);
+            if(file_exists($file)){
+                $template = file_get_contents($file, true); 
+            }else{
+                return false;
+            }
           }
 
           if(strpos($template, "{{") !== false){

@@ -192,10 +192,13 @@ if($protectedPost['onglet'] == 'NOTIF_PERSO'){
 
     //Perso
     $info = $mail->get_all_information('PERSO');
+    $output = $mail->replace_value($mail->get_template_perso(), 'PERSO');
+    if(!$output){
+        $output = $l->g(8020);
+    }
     echo "<div id=perso_mail ".$style_perso.">";
     echo "<div class='form-group'><label class='control-label col-sm-2' for='subject'>".$l->g(8018)."</label><div class='col-sm-8'>
           <input type='text' class='form-control' id='subject' name='subject' size='50' maxlength='255' value='".$info['PERSO']['SUBJECT']."'/></div></div>";
-    $output = $mail->replace_value($mail->get_template_perso(), 'PERSO');
     echo $output;
     echo "</div>";
 

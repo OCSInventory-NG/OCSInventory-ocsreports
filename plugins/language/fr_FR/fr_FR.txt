@@ -1541,3 +1541,4 @@
 8016 Ici vous pouvez télécharger votre modèle de notification personnalisé:</br>• Le fichier doit être un fichier html.</br></br>Informations:</br>• Pour avoir les traduction mettez {{g.(numéro de la traduction)}} dans votre code html - Exemple: {{g.49}} = Nom</br>• Pour le moment vous disposez de deux choix de rapport d'inventaire: </br> {{Report.Software}} - Nombre de logiciels par catégorie de logiciel </br> {{Report.Asset}} - Nombre de machines par catégorie d'actifs
 8017 Ce fichier n'est pas un fichier html
 8018 Sujet
+8020 WARNING : Fichier de template personnalisé non trouvé

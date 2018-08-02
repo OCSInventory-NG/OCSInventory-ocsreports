@@ -1543,3 +1543,4 @@
 8017 This file is not an html file
 8018 Subject
 8019 Notification OCSInventory
+8020 WARNING : Mail template file not found
