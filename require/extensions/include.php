@@ -20,3 +20,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
+
+require_once 'ExtensionCommon.php';
+require_once 'ExtensionHook.php';
+require_once 'ExtensionCommon.php';
