@@ -69,7 +69,7 @@ if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION[
     $msg = "";
 
     while ($item = mysqli_fetch_object($resultDetails)) {
-        $wol->wake($item->MACADDR);
+        $wol->wake($item->MACADDR,$item->IPADDRESS);
 
         if ($wol->wol_send == $l->g(1282)) {
             msg_info($wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS);
