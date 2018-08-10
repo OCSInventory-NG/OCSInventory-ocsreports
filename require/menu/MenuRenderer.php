@@ -30,10 +30,13 @@
 class MenuRenderer {
     private $active_link;
     private $parent_elem_clickable;
+    private $extension_hooks;
 
     public function __construct() {
         $this->active_link = null;
         $this->parent_elem_clickable = false;
+        $arrayExt = ['sampleextension'];
+        $this->extension_hooks = new ExtensionHook($arrayExt);
     }
 
     public function render(Menu $menu) {
@@ -41,6 +44,17 @@ class MenuRenderer {
 
         foreach ($menu->getChildren() as $menu_elem) {
             $html .= $this->renderElem($menu_elem);
+        }
+        
+        
+        // If extension generate new menu / sub menus
+        if($this->extension_hooks->needHookTrigger(ExtensionHook::MENU_HOOK)){
+            foreach ($this->extension_hooks->menuExtensionsHooks as $ext_key => $menus_array) {
+                for ($index = 0; $index < count($menus_array); $index++) {
+                    $extension_menus_elem = $this->extension_hooks->generateMenuRenderer($menus_array[$index], false);
+                    $html .= $this->renderElem($extension_menus_elem);
+                }
+            }
         }
 
         $html .= '</ul>';
@@ -57,6 +71,7 @@ class MenuRenderer {
      * @return string The html tag code
      */
     public function renderElem(MenuElem $menu_elem, $level = 0) {
+        
         // Hook to check if the elem must be displayed or not
         if (!$this->canSeeElem($menu_elem)) {
             return '';
