@@ -23,4 +23,4 @@
 
 require_once 'ExtensionCommon.php';
 require_once 'ExtensionHook.php';
-require_once 'ExtensionCommon.php';
+require_once 'ExtensionManager.php';
