@@ -27,6 +27,8 @@ if (!isset($debut)) {
 unset($_SESSION['OCS']['SQL_DEBUG']);
 
 // Before session_start to allow objects to be unserialized from session
+require_once('var.php');
+require_once('require/extensions/include.php');
 require_once('require/menu/include.php');
 require_once('require/config/include.php');
 
@@ -41,7 +43,6 @@ if ($_SESSION['OCS']['LOG_GUI'] == 1) {
     define("LOG_FILE", $_SESSION['OCS']['LOG_DIR'] . "log.csv");
 }
 
-require_once('var.php');
 require_once('require/fichierConf.class.php');
 require_once('require/function_commun.php');
 require_once('require/aide_developpement.php');
