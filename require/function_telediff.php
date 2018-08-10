@@ -222,6 +222,8 @@ function activ_pack($fileid, $https_server, $file_serv) {
 		$reqEnable = "SELECT * FROM download_enable WHERE fileid=%s";
 		$argEnable = array($fileid);
 		$result = mysql2_query_secure($reqEnable, $_SESSION['OCS']["readServer"], $argEnable);
+		$listInfoLoc = array();
+		$listPackLoc = array();
 		while($recVerif = mysqli_fetch_array($result)){
 				$listInfoLoc[] = $recVerif['INFO_LOC'];
 				$listPackLoc[] = $recVerif['PACK_LOC'];

@@ -106,6 +106,8 @@ function show_computer_summary($computer) {
         'AGENT' => $l->g(1390),
     );
 
+    $link = array();
+
     foreach ($labels as $cat) {
         foreach ($cat as $key => $lbl) {
             if ($key == "MEMORY") {
