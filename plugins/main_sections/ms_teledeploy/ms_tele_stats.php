@@ -98,19 +98,25 @@ $sqlStats = "SELECT COUNT(id) as nb, tvalue as txt
 					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
 					and tvalue is null";
 
-$arg = array($arg, 'EXIT_CODE%', 'ERR%', $l->g(573), $arg, 'EXIT_CODE%', 'ERR%', $l->g(482), $arg);
+$arg = array($arg, 'EXIT_CODE%', 'ERR%', 'ERRORS', $arg, 'EXIT_CODE%', 'ERR%', 'WAITING', $arg);
 $resStats = mysql2_query_secure($sqlStats . " ORDER BY nb DESC", $_SESSION['OCS']["readServer"], $arg);
 $i = 0;
 while ($row = mysqli_fetch_object($resStats)) {
     $txt_status = strtoupper($row->txt);
     $name_value[$i] = $txt_status;
+    $link[$i] = $txt_status;
+
+    $lang = array(
+        'ERRORS' => 956,
+        'NOTIFIED' => 1000,
+        'SUCCESS' => 572,
+        'WAITING' => 482,
+    );
+    if(isset($lang[$txt_status]))
+        $name_value[$i] = strtoupper($l->g($lang[$txt_status]));
+
     $pourc = round(($row->nb * 100) / $total, 2);
     $legend[$i] = $name_value[$i] . " (" . $pourc . "%)";
-    if ($name_value[$i] == strtoupper($l->g(573))) {
-        $link[$i] = "***" . $l->g(956) . "***";
-    } else {
-        $link[$i] = $name_value[$i];
-    }
     $lbl[$i] = $name_value[$i] . "<br>(" . $pourc . "%)";
     $count_value[$i] = $row->nb;
     if (isset($arr_FCColors[$i])) {

@@ -691,25 +691,12 @@
             break;
 
           case 'stat':
-            if(!array_key_exists('stat',$_SESSION['OCS']['multi_search']['devices'])){
+            {
               $_SESSION['OCS']['multi_search'] = array();
               $_SESSION['OCS']['multi_search']['devices']['stat'] = [
                   'fields' => 'NAME',
                   'value' => 'DOWNLOAD',
                   'operator' => 'EQUAL',
-              ];
-              if($option['stat'] == 'SUCCESS'){
-                $value_stat = 'SUCCESS';
-                $operator_stat = 'EQUAL';
-              }elseif($option['stat'] == 'WAITING NOTIFICATION'){
-                $value_stat = '';
-                $operator_stat = 'ISNULL';
-              }
-
-              $_SESSION['OCS']['multi_search']['devices']['stattvalue'] = [
-                  'fields' => 'TVALUE',
-                  'value' => $value_stat,
-                  'operator' => $operator_stat,
               ];
 
               $i = 0;
@@ -727,6 +714,41 @@
                 ];
                 $i++;
               }
+
+              $comparator = 'AND';
+
+              if($option['stat'] == 'WAITING')
+              {
+                $value_stat = '';
+                $operator_stat = 'ISNULL';
+              }
+              else if($option['stat'] == 'ERRORS')
+              {
+                $value_stat = 'EXIT_CODE';
+                $operator_stat = 'LIKE';
+
+                $_SESSION['OCS']['multi_search']['devices']['stattvalue2'] = [
+                    'fields' => 'TVALUE',
+                    'value' => $value_stat,
+                    'operator' => $operator_stat,
+                    'comparator' => $comparator
+                ];
+
+                $value_stat = 'ERR';
+                $comparator = 'OR';
+              }
+              else
+              {
+                $value_stat = $option['stat'];
+                $operator_stat = 'EQUAL';
+              }
+
+              $_SESSION['OCS']['multi_search']['devices']['stattvalue'] = [
+                  'fields' => 'TVALUE',
+                  'value' => $value_stat,
+                  'operator' => $operator_stat,
+                  'comparator' => $comparator
+              ];
             }
             break;
 
