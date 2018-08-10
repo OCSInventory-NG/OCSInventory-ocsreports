@@ -23,6 +23,144 @@
 
 class ExtensionHook{
     
+    const XML_HOOKS_FILE = "/hook.xml";
+    
+    const LANG_HOOK = "lang";
+    const MENU_HOOK = "menu";
+    const SUB_MENU_HOOK = "submenu";
+    
+    const IDENTIFIER = "identifier";
+    const MAIN_MENU_IDENTIFIER = "mainmenuidentifier";
+    const TRANSLATION = "translation";
+    
+    public $menuExtensionsHooks = array();
+    public $subMenuExtensionsHooks = array();
+    public $languageExtensionsHooks = array();
+    
+    private $xmlElement;
+    
+    private $currentScannedExt = "";
+    
+    function __construct($activatedExtArray) {
+        
+        foreach ($activatedExtArray as $extLabel) {
+            if($this->haveHook($extLabel)){
+                $this->readHookXml($extLabel);
+            }
+        }
+        
+    }
+    
+    /**
+     * 
+     * @param String $hookType Constant hook type
+     */
+    public function needHookTrigger($hookType){
+        switch ($hookType) {
+            case self::LANG_HOOK:
+                if(empty($this->subMenuExtensionsHooks)){
+                    return false;
+                }else{
+                    return true;
+                }
+
+            case self::MENU_HOOK:
+                if(empty($this->subMenuExtensionsHooks)){
+                    return false;
+                }else{
+                    return true;
+                }
+
+            case self::SUB_MENU_HOOK:
+                if(empty($this->subMenuExtensionsHooks)){
+                    return false;
+                }else{
+                    return true;
+                }
+
+            default:
+                return false;
+        }
+    }
+    
+    /**
+     * This method read the hook.xml in extension to create menu / lang / submenu and more to come.
+     */
+    private function readHookXml($extLabel){
+        $this->currentScannedExt = $extLabel;
+        $xmlStr = file_get_contents(EXT_DL_DIR.$extLabel.self::XML_HOOKS_FILE);
+        $this->xmlElement = new SimpleXMLElement($xmlStr);
+        foreach ($this->xmlElement->hook as $hooks) {
+            switch ($hooks->attributes()->type) {
+                case self::LANG_HOOK:
+                    $this->addLangEntries($hooks->value);
+                    break;
+                
+                case self::MENU_HOOK:
+                    $menuHookArray = array(
+                        self::IDENTIFIER => $hooks->identifier,
+                        self::TRANSLATION => $hooks->translation
+                    );
+                    $this->addMenuEntry($menuHookArray);
+                    break;
+                
+                case self::SUB_MENU_HOOK:
+                    $subMenuHookArray = array(
+                        self::MAIN_MENU_IDENTIFIER => $hooks->mainmenuidentifier,
+                        self::IDENTIFIER => $hooks->identifier,
+                        self::TRANSLATION => $hooks->translation
+                    );
+                    $this->addSubMenuEntry($subMenuHookArray);
+                    break;
+
+                default:
+                    break;
+            }
+        }  
+    }
+    
+    /**
+     * Add lang entries in the class attributies for later use
+     * 
+     * @param array $xmlHookRender Array for xml hooks that contains all lang to add
+     */
+    private function addSubMenuEntry(array $xmlHookRender){
+        $this->subMenuExtensionsHooks[(string)$xmlHookRender[self::MAIN_MENU_IDENTIFIER]][$this->currentScannedExt][] = array(
+            self::IDENTIFIER => (string)$xmlHookRender[self::IDENTIFIER],
+            self::TRANSLATION => (string)$xmlHookRender[self::TRANSLATION]
+        );
+    }
+    
+    /**
+     * Add lang entries in the class attributies for later use
+     * 
+     * @param array $xmlHookRender Array for xml hooks that contains all lang to add
+     */
+    private function addMenuEntry(array $xmlHookRender){
+        $this->menuExtensionsHooks[$this->currentScannedExt][] = array(
+            self::IDENTIFIER => (string)$xmlHookRender[self::IDENTIFIER],
+            self::TRANSLATION => (string)$xmlHookRender[self::TRANSLATION]
+        );
+    }
+    
+    /**
+     * Add lang entries in the class attributies for later use
+     * 
+     * @param array $xmlElementHookRender Array for xml hooks that contains all lang to add
+     */
+    private function addLangEntries(SimpleXMLElement $xmlElementHookRender){
+        foreach ($xmlElementHookRender as $value) {
+            $this->languageExtensionsHooks[$this->currentScannedExt][] = (string)$value[0];
+        }        
+    }
+    
+    /**
+     * This method check if the extension have a hook xml file
+     */
+    private function haveHook($extLabel){
+        return file_exists(EXT_DL_DIR.$extLabel.self::XML_HOOKS_FILE);
+    }
+    
     /**
      * @param type $lang identifier of the lang you want to extend.
      * 
@@ -48,25 +186,58 @@ class ExtensionHook{
     }
     
     /**
-     * @param String $identifier identifier of the menu 
-     * @param Integer $translationNumber name of the menu in the interface
+     * @param String $mainMenuIdentifier identifier of the menu 
      * 
-     * Note : The addTranslationHook will be applied before 
-     * so you can use translation added by the plugin itself
+     * Get sub menu list for a menu 
      */
-    public function addMenu($identifier, $translationNumber){
-        
+    private function getSubMenu($mainMenuIdentifier){
+        return $this->subMenuExtensionsHooks[$mainMenuIdentifier];
     }
     
     /**
-     * @param String $mainMenuIdentifier identifier of the menu 
-     * @param Integer $translationNumber name of the menu in the interface
+     * Will generate MenuElement for each array entries.
      * 
-     * Note : The addTranslationHook will be applied before 
-     * so you can use translation added by the plugin itself
+     * @param Array $menuDatas Array of values
      */
-    public function addSubMenu($mainMenuIdentifier, $translationNumber){
+    public function generateMenuRenderer($menuDatas, $isSubMenu = false){
         
+        global $l;
+        
+        $childrenArray = array();
+        if(!$isSubMenu){
+            $subMenusInfos = $this->generateMenuChildrensRenderer($menuDatas[self::IDENTIFIER]);
+            if($subMenusInfos != false){
+                $childrenArray = $subMenusInfos;
+            }
+        }
+        
+        if(!empty($childrenArray)){
+            $menuElem = new MenuElem("g(".$menuDatas[self::TRANSLATION].")",$menuDatas[self::IDENTIFIER], $childrenArray);
+        }else{
+            $menuElem = new MenuElem("g(".$menuDatas[self::TRANSLATION].")",$menuDatas[self::IDENTIFIER]);
+        }
+
+        return $menuElem;
+    }
+    
+    /**
+     * Will generate MenuElement for each sub menus
+     * 
+     * @param Array $menusArray Array of values
+     */
+    public function generateMenuChildrensRenderer($mainMenuIdentifier){
+        $subMenus = $this->getSubMenu($mainMenuIdentifier);
+        if(empty($subMenus)){
+            return false;
+        }else{
+            $menusElemArray = array();
+            foreach ($subMenus as $extKey => $subMenusInfos) {
+                for ($index = 0; $index < count($subMenusInfos); $index++) {
+                    $menusElemArray[$subMenusInfos[$index][self::IDENTIFIER]] = $this->generateMenuRenderer($subMenusInfos[$index], true);
+                }
+            }
+            return $menusElemArray;
+        }
     }
     
 
