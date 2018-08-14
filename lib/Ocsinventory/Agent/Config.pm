@@ -182,7 +182,7 @@ sub help {
     print STDERR "\t--delaytime	      set a max delay time (in second) if no PROLOG_FREQ is set (".$self->{config}{delaytime}.")\n";
     print STDERR "\t--scan-homedirs     permit to scan home user directories (".$self->{config}{scanhomedirs}.")\n" ;
     print STDERR "\t--ssl=0|1           disable or enable SSL communications check\n" ;
-    print STDERR "\t--ca=FILE           path to CA certificate chain file in PEM format\n" ;
+    print STDERR "\t--ca=FILE           path to CA certificates file in PEM format\n" ;
 
     print STDERR "\n";
     print STDERR "Manpage:\n";

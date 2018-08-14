@@ -195,7 +195,7 @@ Revision history for Ocsinventory::Agent
        * Download.pm uses LWP useragent initiated by Network.pm for SSL checks 
        * Download.pm uses LWP useragent initiated by Network.pm for info and frags files downloads
        * Network.pm can use LWP version 6 SSL useragent options
-       * New --ca configuration option to specify a CA certificate path for SSL certificate checks 
+       * New --ca configuration option to specify a CA certificates file path for SSL certificate checks
        * New --ssl configuration option to enable/disable SSL certificate checks 
        * Customize SNMP scans using a special XML format received from server 
        * Getting network devices MAC address during SNMP scans
