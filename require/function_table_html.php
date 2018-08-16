@@ -1495,7 +1495,7 @@ function ajaxsort(&$tab_options){
 	if (!empty($tri) && !empty($sens)){
 	$tab_iplike=array('H.IPADDR','IPADDRESS','IP','IPADDR');
 	if (in_array(mb_strtoupper($tri),$tab_iplike)){
-		$sort= " order by INET_ATON(".$tri.") ".$sens;
+		$sort= " order by INET_ATON(n.ipaddress) ".$sens;
 	}elseif ($tab_options['TRI']['SIGNED'][$tri]){
 		$sort= " order by cast(".$$tri." as signed) ".$sens;
 	}
