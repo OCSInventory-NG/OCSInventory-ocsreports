@@ -263,6 +263,7 @@
      */
     public function generateSearchQuery($sessData){
         $this->pushBaseQueryForTable("hardware", null);
+        if(!isset($sessData['accountinfo'])) $sessData['accountinfo'] = array();
         foreach ($sessData as $tableName => $searchInfos) {
             if($tableName != "hardware"){
                 $this->pushBaseQueryForTable($tableName, $sessData);
@@ -327,6 +328,17 @@
             }
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
+
+        // has tag restrictions?
+        if(!empty($_SESSION['OCS']['TAGS']))
+        {
+            $tags = $_SESSION['OCS']['TAGS'];
+            foreach($tags as $k => $v)
+                $tags[$k] = "'".mysqli_real_escape_string($_SESSION['OCS']["readServer"], $v)."'";
+            $tags = implode(', ', $tags);
+            $this->columnsQueryConditions .= " AND accountinfo.TAG IN ($tags)";
+        }
+
         $this->columnsQueryConditions .= " GROUP BY hardware.id";
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
