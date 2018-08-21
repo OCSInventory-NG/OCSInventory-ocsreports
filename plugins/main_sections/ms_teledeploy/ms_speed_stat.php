@@ -95,6 +95,7 @@ while ($item = mysqli_fetch_object($result)) {
 
 ksort($nb_4_hour);
 $i = 0;
+$data = array();
 foreach ($nb_4_hour as $key => $value) {
     $ancienne += $value;
     $data[$i] = round((($ancienne * 100) / $total_mach), 2);
