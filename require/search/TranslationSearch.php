@@ -130,7 +130,7 @@
         "ipaddr" => 34,
         "dns" => 318,
         "defaultgateway" => 1443,
-        "lastdate" => 652,
+        "lastdate" => 46,
         "lastcome" => 352,
         "quality" => 353,
         "fidelity" => 354,
