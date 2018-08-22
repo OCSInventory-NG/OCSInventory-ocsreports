@@ -312,16 +312,20 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
+                  $this->queryArgs[] = $tableName;
+                  $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  $this->queryArgs[] = $value[self::SESS_VALUES];
+                  global $l;
+                  $this->queryArgs[] = $l->g(269);
                 }else{
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
-                    $this->queryArgs[] = "str_to_date(".$value[self::SESS_VALUES].", '%m/%d/%Y %H:%i')";
-                  }else{
-                    $this->queryArgs[] = $value[self::SESS_VALUES];
-                  }
+                  $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
                 $p++;
             }
