@@ -1167,6 +1167,7 @@
 1281 On Wake On Lan
 1282 Wake On Lan order sent
 1283 Do you want a Wake On Lan on this computer
+1284 Source IP
 1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Installation time

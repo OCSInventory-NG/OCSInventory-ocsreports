@@ -142,7 +142,7 @@
         "useragent" => 357,
         //"checksum" => "",
         // "sstate" => "",
-        "ipsrc" => 34,
+        "ipsrc" => 1284,
         //"uuid" => "",
         "arch" => 1247,
         "interface" => 1247,
