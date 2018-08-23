@@ -68,6 +68,12 @@
   	<category>software</category>
   	<available>softwares</available>
   </plugin>
+  <plugin id="cd_saas">
+  	<label>g(8100)</label>
+  	<system>1</system>
+  	<category>software</category>
+  	<available>saas</available>
+  </plugin>
 
   <!-- NETWORK -->
   <plugin id="cd_networks">
