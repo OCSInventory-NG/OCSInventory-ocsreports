@@ -1543,3 +1543,12 @@
 8018 Sujet
 8020 WARNING : Fichier de template personnalisé non trouvé
 8021 Le fichier upload doit avoir pour extension .html
+
+8100 Inventaire SAAS
+8101 SAAS liste
+8102 Créer SAAS
+8103 DNS associé
+8104 Entrée
+8105 Donnée
+8106 Temps de vie
+8107 Ce SAAS existe déjà
