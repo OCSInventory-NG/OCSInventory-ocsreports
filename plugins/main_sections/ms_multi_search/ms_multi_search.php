@@ -144,6 +144,8 @@ if(isset($protectedGet['prov'])){
     $options['idPackage'] = $databaseSearch->get_package_id($protectedGet['id_pack']);
     $options['stat'] = $protectedGet['stat'];
     $search->link_multi($protectedGet['prov'], $protectedGet['value'], $options);
+  }elseif($protectedGet['prov'] == 'saas'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }
 }
 
@@ -265,7 +267,7 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
   //BEGIN SHOW ACCOUNTINFO
 	$option_comment['comment_be'] = $l->g(1210)." ";
 	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
-  
+
 	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
 	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
