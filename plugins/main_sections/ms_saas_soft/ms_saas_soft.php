@@ -55,6 +55,9 @@
      $sqlQuery = "DELETE FROM `saas_exp` WHERE ID = %s";
      $sqlArg = [$protectedPost['SUP_PROF']];
      mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArg);
+     $sqlQuery = "DELETE FROM `saas` WHERE SAAS_EXP_ID = %s";
+     $sqlArg = [$protectedPost['SUP_PROF']];
+     mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArg);
      $tab_options['CACHE'] = 'RESET';
  }
 
