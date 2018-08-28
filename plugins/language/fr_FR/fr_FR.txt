@@ -1552,3 +1552,4 @@
 8105 Donnée
 8106 Temps de vie
 8107 Ce SAAS existe déjà
+8108 Activer l'inventaire de Logiciel en tant que Service

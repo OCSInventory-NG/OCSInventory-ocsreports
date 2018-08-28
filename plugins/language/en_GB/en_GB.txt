@@ -1554,3 +1554,4 @@
 8105 Data
 8106 Time to live
 8107 This SAAS already exists
+8108 Enable Software as a Service Inventory
