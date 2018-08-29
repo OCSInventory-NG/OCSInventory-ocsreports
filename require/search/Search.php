@@ -469,9 +469,11 @@
     public function getSelectOptionForColumns($tableName = null)
     {
         $html = "";
+        $sortColumn = array();
         if($tableName == "accountinfo"){
           $accountinfoList = new AccountinfoSearch();
           $accountFields = $accountinfoList->getAccountInfosList();
+          if(isset($accountFields['COMPUTERS']) && is_array($accountFields['COMPUTERS']))
           foreach ($accountFields['COMPUTERS'] as $index => $fieldsInfos) {
               if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $fieldsInfos;
@@ -479,7 +481,8 @@
               }
           }
         }else{
-          foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
+          $fields = $this->databaseSearch->getColumnsList($tableName);
+          if(is_array($fields)) foreach ($fields as $index => $fieldsInfos) {
               if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
                   $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
@@ -663,7 +666,7 @@
     public function link_multi($fields, $value, $option = ""){
         switch($fields){
           case 'allsoft':
-            if(!array_key_exists('allsoft',$_SESSION['OCS']['multi_search']['softwares'])){
+            if(!isset($_SESSION['OCS']['multi_search']['softwares']['allsoft'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
                     'fields' => 'NAME',
@@ -674,7 +677,7 @@
             break;
 
           case 'ipdiscover1':
-            if(!array_key_exists('ipdiscover1',$_SESSION['OCS']['multi_search']['networks'])){
+            if(!isset($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
                     'fields' => 'IPSUBNET',
@@ -716,7 +719,7 @@
               ];
 
               $i = 0;
-              foreach($option['idPackage'] as $key =>$value){
+              if(isset($option['idPackage'])) foreach($option['idPackage'] as $key =>$value){
                 if($i == 0){
                   $comparator = 'AND';
                 }else{

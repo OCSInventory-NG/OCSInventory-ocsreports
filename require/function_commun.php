@@ -546,6 +546,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                         echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
                         echo "<div class='col-sm-10'>";
 
+                                $field_checkbox = array();
                                 if($inputType == 'text'){
                                     if($field['INPUT_TYPE'] == 14){
                                         echo "<div class='input-group date form_datetime'>";
