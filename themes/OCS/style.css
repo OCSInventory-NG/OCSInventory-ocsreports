@@ -182,6 +182,10 @@ table.dataTable a {
     font-weight: bold;
 }
 
+.table-striped > tbody > tr:hover > td {
+    background-color: #e2e2e2;
+}
+
 .pagination > li > span {
     color: #961b7e;
 }
