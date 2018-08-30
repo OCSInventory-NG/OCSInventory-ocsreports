@@ -202,6 +202,8 @@
         "subsystem" => 25,
         "vmtype" => 66,
         "vcpu" => 54,
+        "group_id" => 1450,
+        "static" => 1451,
     ];
 
     private $operatorsArray = [
