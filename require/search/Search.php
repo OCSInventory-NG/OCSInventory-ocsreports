@@ -790,6 +790,10 @@
       elseif($comp == 'tall') { $operator = 'MORE'; }
       elseif($comp == 'exact') { $operator = 'EQUAL'; }
 
+      if($fields == 'HARDWARE-LASTDATE' || $fields == 'HARDWARE-LASTCOME'){
+          $value = str_replace(substr($value, -5), '00:00', $value);
+      }
+
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){
           if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['hardware'])){
