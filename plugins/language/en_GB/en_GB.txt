@@ -1326,6 +1326,8 @@
 1447 Account info
 1448 IS NULL
 1449 General configuration
+1450 ID
+1451 Static ?
 
 1500 Software category
 1501 New category
