@@ -87,7 +87,7 @@
 
      $table_name = "LIST_SAAS";
 
-     $queryDetails = "SELECT  e.NAME, count(s.HARDWARE_ID) as nb, s.ENTRY, s.DATA, s.ENTRY id FROM saas s LEFT JOIN saas_exp e ON e.ID = s.SAAS_EXP_ID group by e.NAME";
+     $queryDetails = "SELECT e.NAME, count(DISTINCT s.HARDWARE_ID) as nb, s.ENTRY, GROUP_CONCAT(DISTINCT CASE WHEN s.DATA != 0x20 THEN s.DATA ELSE NULL END SEPARATOR 0x2D) as DATA, s.ENTRY id FROM saas s LEFT JOIN saas_exp e ON e.ID = s.SAAS_EXP_ID group by s.ENTRY";
 
      $tab_options['LIEN_LBL']['nb'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=saas&value=';
      $tab_options['LIEN_CHAMP']['nb'] = 'id';
