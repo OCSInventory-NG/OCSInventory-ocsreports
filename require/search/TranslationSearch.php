@@ -38,8 +38,8 @@
         "download_history" => 969,
         //"download_servers" => "A ajouter",
         "drives" => 92,
-        "groups" => 1445,
-        //"groups_cache" => 995,
+        //"groups" => 1445,
+        "groups_cache" => 1445,
         "hardware" => 23,
         "inputs" => 91,
         //"itmgmt_comments" => 995,
@@ -211,6 +211,8 @@
         "LIKE" => 129,
         "DIFFERENT" => 130,
         "ISNULL" => 1448,
+        "BELONG" => 967,
+        "DONTBELONG" => 968,
     ];
 
     private $comparatorsArray = [

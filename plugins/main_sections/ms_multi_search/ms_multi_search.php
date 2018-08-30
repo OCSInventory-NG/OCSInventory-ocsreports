@@ -32,6 +32,7 @@ require('require/function_computers.php');
 require("require/search/DatabaseSearch.php");
 require("require/search/AccountinfoSearch.php");
 require("require/search/TranslationSearch.php");
+require("require/search/GroupSearch.php");
 require("require/search/LegacySearch.php");
 require("require/search/Search.php");
 require_once('require/function_admininfo.php');
@@ -45,10 +46,13 @@ $accountInfoSearch = new AccountinfoSearch();
 // Get columns infos datamap structure
 $translationSearch = new TranslationSearch();
 
+// Get columns infos datamap structure
+$groupSearch = new GroupSearch();
+
 // Get search object to perform action and show result
 //$legacySearch = new LegacySearch();
 
-$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch);
+$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch);
 
 if (isset($protectedPost['table_select'])) {
 	$defaultTable = $protectedPost['table_select'];
@@ -189,7 +193,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				<div class="col-sm-3">
 					<div class="form-group">
 						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
-							<?php echo $search->getSelectOptionForOperators($values['operator'])  ?>
+							<?php echo $search->getSelectOptionForOperators($values['operator'], $table)  ?>
 						</select>
 					</div>
 				</div>
@@ -265,7 +269,7 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
   //BEGIN SHOW ACCOUNTINFO
 	$option_comment['comment_be'] = $l->g(1210)." ";
 	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
-  
+
 	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
 	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
