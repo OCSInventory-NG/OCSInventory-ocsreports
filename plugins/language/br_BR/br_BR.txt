@@ -51,12 +51,12 @@
 86 Sistema de Arquivos
 87 Total
 88 Livre
-90 Resultado
+90 Resultados
 91 Dispositivos de entrada
 92 HD
 93 Controladora
 94 Número do Slot
-95 MAC
+95 Endereço MAC
 96 Som
 97 Monitor
 103 Atualizar
@@ -165,7 +165,7 @@
 254 Caminho da chave (Ex: SOFTWARE\Mozilla)
 255 Nome da chave que será lida (* para todos)
 256 Escolha
-257 Chave
+257 Chave de Registro
 258 Valor
 259 Erro, o dado não pode ser inserido (caracteres especiais não são permitidos)
 260 Rótulo modificado com sucesso
@@ -1439,7 +1439,7 @@
 2100 Atualizar dados administrativos antigos
 2101 Adicionar por script
 2102 AVISO: Se você alterar o nome do banco de dados (ocsweb), não esqueça de alterar o arquivo 'z-ocsinventory-server.conf'
-2103 mODO DEMO: você não pode atualizar os dados
+2103 MODO DEMO: você não pode atualizar os dados
 2104 VOCÊ ESTÁ VISUALIZANDO A VERSÃO DE DEMONSTRAÇÃO DE
 2105 Seu banco de dados está OK.<br>Nenhuma ação tomada.
 2106 na configuração do MySQL, a variável 'max_allowed_packet' permite apenas arquivos de tamanho <
