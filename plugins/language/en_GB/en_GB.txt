@@ -1321,11 +1321,13 @@
 1442 XML Definition
 1443 Default Gateway
 1444 USB Devices
-1445 Group info
+1445 Group
 1446 Model name
 1447 Account info
 1448 IS NULL
 1449 General configuration
+1450 ID
+1451 Static ?
 
 1500 Software category
 1501 New category

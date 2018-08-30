@@ -41,7 +41,11 @@
     const DB_VARCHAR = "varchar";
     const DB_DATETIME = "datetime";
 
+    const HTML_SELECT = "SELECT";
+
     const MULTIPLE_DONE = "DONE";
+
+    const GROUP_TABLE = "groups_cache";
 
     private $type;
 
@@ -64,6 +68,7 @@
     private $translationSearch;
     private $databaseSearch;
     private $accountinfoSearch;
+    private $groupSearch;
 
     /**
      * Excluded columns that won't be visible
@@ -86,6 +91,14 @@
     ];
 
     /**
+     * Operator list
+     */
+    private $operatorGroup = [
+        "BELONG",
+        "DONTBELONG",
+    ];
+
+    /**
      * Comparator list
      */
     private $comparatorList = [
@@ -105,19 +118,22 @@
     private $finalQuery;
     private $finalArgs;
 
+
     /**
      * Constructor
      *
      * @param TranslationSearch $translationSearch
      * @param DatabaseSearch $databaseSearch
      * @param AccountinfoSearch $accountinfoSearch
+     * @param GroupSearch $groupSearch
      */
-    function __construct($translationSearch, $databaseSearch, $accountinfoSearch)
+    function __construct($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch)
     {
 
         $this->translationSearch = $translationSearch;
         $this->databaseSearch = $databaseSearch;
         $this->accountinfoSearch = $accountinfoSearch;
+        $this->groupSearch = $groupSearch;
 
         if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
             $this->fieldsList['CHECK'] = 'hardwareID';
@@ -262,6 +278,7 @@
      * @return void
      */
     public function generateSearchQuery($sessData){
+
         $this->pushBaseQueryForTable("hardware", null);
         if(!isset($sessData['accountinfo'])) $sessData['accountinfo'] = array();
         foreach ($sessData as $tableName => $searchInfos) {
@@ -313,6 +330,12 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                } elseif($tableName == self::GROUP_TABLE){
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
+                  $this->queryArgs[] = 'hardware';
+                  $this->queryArgs[] = 'ID';
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
                 }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
                   $this->queryArgs[] = $tableName;
@@ -406,6 +429,12 @@
             case 'ISNULL':
                 $valueArray[self::SESS_OPERATOR] = "IS NULL";
                 break;
+            case 'BELONG' :
+                $valueArray[self::SESS_OPERATOR] = "IN";
+                break;
+            case 'DONTBELONG' :
+                $valueArray[self::SESS_OPERATOR] = "NOT IN";
+                break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
                 break;
@@ -418,12 +447,18 @@
      * @param String $defaultValue
      * @return void
      */
-    public function getSelectOptionForOperators($defaultValue)
+    public function getSelectOptionForOperators($defaultValue, $table = null)
     {
 
         $html = "";
+        $operatorList = array();
+        if($table == self::GROUP_TABLE) {
+            $operatorList = $this->operatorGroup;
+        } else {
+            $operatorList = $this->operatorList;
+        }
 
-        foreach ($this->operatorList as $value) {
+        foreach ($operatorList as $value) {
             $trValue = $this->translationSearch->getTranslationForOperator($value);
             if ($defaultValue == $value) {
                 $html .= "<option selected value=".$value." >".$trValue."</option>";
@@ -480,6 +515,9 @@
                   $sortColumn[$index] .= $trField;
               }
           }
+        }elseif($tableName == self::GROUP_TABLE){
+          $trField = $this->translationSearch->getTranslationFor('NAME');
+          $sortColumn['name'] = $trField;
         }else{
           $fields = $this->databaseSearch->getColumnsList($tableName);
           if(is_array($fields)) foreach ($fields as $index => $fieldsInfos) {
@@ -511,7 +549,14 @@
         global $l;
 
         $fieldId = $this->getFieldUniqId($uniqid, $tableName);
-        $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        $fieldGroup = array();
+
+        if($tableName == self::GROUP_TABLE) {
+            $this->type = self::HTML_SELECT;
+        } else {
+            $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        }
+
         $html = "";
         if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL'){
           $attr = 'disabled';
@@ -541,6 +586,19 @@
                         '.calendars($fieldId, $l->g(1270)).'
                     </span>
                 </div>';
+                break;
+
+            case self::HTML_SELECT:
+                $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
+                $fieldGroup = $this->groupSearch->get_group_name();
+                foreach ($fieldGroup as $key => $value){
+                    if ($fieldsInfos[self::SESS_VALUES] == $key) {
+                        $html .= "<option value=".$key." selected >".$value."</option>";
+                    } else {
+                        $html .= "<option value=".$key." >".$value."</option>";
+                    }
+                }
+                $html .= '</select>';
                 break;
 
             default:
