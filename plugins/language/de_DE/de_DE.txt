@@ -1291,7 +1291,7 @@
 1360 Server-Informationen
 1361 Mein Konto
 1362 Über
-1363 Gruppe anlegen
+1363 OK
 1364 Abbrechen
 1365 Mein Konto
 1366 Vorname
