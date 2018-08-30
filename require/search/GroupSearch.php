@@ -27,7 +27,10 @@
  class GroupSearch
  {
 
-
+   /**
+    * Get all group name
+    * @return array $table
+    */
     public function get_group_name() {
         $sql = 'SELECT h.NAME, h.ID FROM hardware h INNER JOIN groups g ON g.HARDWARE_ID = h.ID';
         $tableList = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
@@ -39,6 +42,11 @@
         return $table;
     }
 
+    /**
+     * Get all id for a group
+     * @param int $group_id
+     * @return string $listGroup
+     */
     public function get_all_id($group_id) {
         $sql = 'SELECT DISTINCT HARDWARE_ID FROM groups_cache WHERE GROUP_ID = %s';
         $arg_sql = array($group_id);
@@ -56,7 +64,6 @@
         } else {
           $listGroup = "0";
         }
-
 
         return $listGroup;
     }
