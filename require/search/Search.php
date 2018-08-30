@@ -41,7 +41,11 @@
     const DB_VARCHAR = "varchar";
     const DB_DATETIME = "datetime";
 
+    const HTML_SELECT = "SELECT";
+
     const MULTIPLE_DONE = "DONE";
+
+    const GROUP_TABLE = "groups_cache";
 
     private $type;
 
@@ -113,6 +117,7 @@
      */
     private $finalQuery;
     private $finalArgs;
+
 
     /**
      * Constructor
@@ -274,7 +279,6 @@
      */
     public function generateSearchQuery($sessData){
 
-      var_dump($sessData);
         $this->pushBaseQueryForTable("hardware", null);
         if(!isset($sessData['accountinfo'])) $sessData['accountinfo'] = array();
         foreach ($sessData as $tableName => $searchInfos) {
@@ -305,7 +309,6 @@
 
             foreach ($searchInfos as $index => $value) {
                   $values[] = $value;
-                  var_dump($values);
             }
 
             foreach ($searchInfos as $index => $value) {
@@ -327,7 +330,7 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                } elseif($tableName == 'groups_cache'){
+                } elseif($tableName == self::GROUP_TABLE){
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
                   $this->queryArgs[] = 'hardware';
                   $this->queryArgs[] = 'ID';
@@ -449,7 +452,7 @@
 
         $html = "";
         $operatorList = array();
-        if($table == 'groups_cache') {
+        if($table == self::GROUP_TABLE) {
             $operatorList = $this->operatorGroup;
         } else {
             $operatorList = $this->operatorList;
@@ -512,7 +515,7 @@
                   $sortColumn[$index] .= $trField;
               }
           }
-        }elseif($tableName == "groups_cache"){
+        }elseif($tableName == self::GROUP_TABLE){
           $trField = $this->translationSearch->getTranslationFor('NAME');
           $sortColumn['name'] = $trField;
         }else{
@@ -548,8 +551,8 @@
         $fieldId = $this->getFieldUniqId($uniqid, $tableName);
         $fieldGroup = array();
 
-        if($tableName == 'groups_cache') {
-            $this->type = 'SELECT';
+        if($tableName == self::GROUP_TABLE) {
+            $this->type = self::HTML_SELECT;
         } else {
             $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
         }
@@ -585,7 +588,7 @@
                 </div>';
                 break;
 
-            case 'SELECT':
+            case self::HTML_SELECT:
                 $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
                 $fieldGroup = $this->groupSearch->get_group_name();
                 foreach ($fieldGroup as $key => $value){
