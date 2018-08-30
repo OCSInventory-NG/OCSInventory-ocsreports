@@ -38,8 +38,8 @@
         "download_history" => 969,
         //"download_servers" => "A ajouter",
         "drives" => 92,
-        "groups" => 1445,
-        //"groups_cache" => 995,
+        //"groups" => 1445,
+        "groups_cache" => 1445,
         "hardware" => 23,
         "inputs" => 91,
         //"itmgmt_comments" => 995,
@@ -130,7 +130,7 @@
         "ipaddr" => 34,
         "dns" => 318,
         "defaultgateway" => 1443,
-        "lastdate" => 652,
+        "lastdate" => 46,
         "lastcome" => 352,
         "quality" => 353,
         "fidelity" => 354,
@@ -142,7 +142,7 @@
         "useragent" => 357,
         //"checksum" => "",
         // "sstate" => "",
-        "ipsrc" => 34,
+        "ipsrc" => 1284,
         //"uuid" => "",
         "arch" => 1247,
         "interface" => 1247,
@@ -202,6 +202,8 @@
         "subsystem" => 25,
         "vmtype" => 66,
         "vcpu" => 54,
+        "group_id" => 1450,
+        "static" => 1451,
     ];
 
     private $operatorsArray = [
@@ -211,6 +213,8 @@
         "LIKE" => 129,
         "DIFFERENT" => 130,
         "ISNULL" => 1448,
+        "BELONG" => 967,
+        "DONTBELONG" => 968,
     ];
 
     private $comparatorsArray = [

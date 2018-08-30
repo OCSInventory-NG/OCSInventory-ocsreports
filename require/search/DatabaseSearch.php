@@ -57,7 +57,6 @@ class DatabaseSearch
     private $excludedTables = [
         /*"accountinfo",*/
         "download_servers",
-        "groups_cache",
         "itmgmt_comments",
         "javainfo",
         "journallog"
@@ -181,7 +180,7 @@ class DatabaseSearch
         $query = $searchObj->baseQuery.$searchObj->searchQuery.$searchObj->columnsQueryConditions;
         $idList = mysql2_query_secure($query, $this->dbObject, $searchObj->queryArgs);
         $idArray = [];
-        foreach ($idList as $index => $fields) {
+        if(is_array($idList)) foreach ($idList as $index => $fields) {
             $idArray[] = $fields['hardwareID'];
         }
         return $idArray;

@@ -51,12 +51,12 @@
 86 Sistema de Arquivos
 87 Total
 88 Livre
-90 Resultado
+90 Resultados
 91 Dispositivos de entrada
 92 HD
 93 Controladora
 94 Número do Slot
-95 MAC
+95 Endereço MAC
 96 Som
 97 Monitor
 103 Atualizar
@@ -165,7 +165,7 @@
 254 Caminho da chave (Ex: SOFTWARE\Mozilla)
 255 Nome da chave que será lida (* para todos)
 256 Escolha
-257 Chave
+257 Chave de Registro
 258 Valor
 259 Erro, o dado não pode ser inserido (caracteres especiais não são permitidos)
 260 Rótulo modificado com sucesso
@@ -1126,7 +1126,7 @@
 1239 MHz
 1240 MB
 1241 Número de dispositivos SNMP
-1242 d/m/Y
+1242 d/m/Y h:i
 1243 Somente arquivos ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe e ocspackage.exe podem ser publicados
 1244 Esse arquivo não pode ser vazio
 1245 Administrar seus clientes OCS-NG
@@ -1168,6 +1168,7 @@
 1281 Em Wake On Lan
 1282 Wake On Lan enviado
 1283 Você quer enviar Wake On Lan para este computador
+1284 IP de Origem
 1292 Usar opções avançadas de implantação
 1293 Forçar implantação
 1294 Hora de instalação
@@ -1438,7 +1439,7 @@
 2100 Atualizar dados administrativos antigos
 2101 Adicionar por script
 2102 AVISO: Se você alterar o nome do banco de dados (ocsweb), não esqueça de alterar o arquivo 'z-ocsinventory-server.conf'
-2103 mODO DEMO: você não pode atualizar os dados
+2103 MODO DEMO: você não pode atualizar os dados
 2104 VOCÊ ESTÁ VISUALIZANDO A VERSÃO DE DEMONSTRAÇÃO DE
 2105 Seu banco de dados está OK.<br>Nenhuma ação tomada.
 2106 na configuração do MySQL, a variável 'max_allowed_packet' permite apenas arquivos de tamanho <

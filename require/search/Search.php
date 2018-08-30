@@ -41,7 +41,11 @@
     const DB_VARCHAR = "varchar";
     const DB_DATETIME = "datetime";
 
+    const HTML_SELECT = "SELECT";
+
     const MULTIPLE_DONE = "DONE";
+
+    const GROUP_TABLE = "groups_cache";
 
     private $type;
 
@@ -64,6 +68,7 @@
     private $translationSearch;
     private $databaseSearch;
     private $accountinfoSearch;
+    private $groupSearch;
 
     /**
      * Excluded columns that won't be visible
@@ -86,6 +91,14 @@
     ];
 
     /**
+     * Operator list
+     */
+    private $operatorGroup = [
+        "BELONG",
+        "DONTBELONG",
+    ];
+
+    /**
      * Comparator list
      */
     private $comparatorList = [
@@ -105,19 +118,22 @@
     private $finalQuery;
     private $finalArgs;
 
+
     /**
      * Constructor
      *
      * @param TranslationSearch $translationSearch
      * @param DatabaseSearch $databaseSearch
      * @param AccountinfoSearch $accountinfoSearch
+     * @param GroupSearch $groupSearch
      */
-    function __construct($translationSearch, $databaseSearch, $accountinfoSearch)
+    function __construct($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch)
     {
 
         $this->translationSearch = $translationSearch;
         $this->databaseSearch = $databaseSearch;
         $this->accountinfoSearch = $accountinfoSearch;
+        $this->groupSearch = $groupSearch;
 
         if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
             $this->fieldsList['CHECK'] = 'hardwareID';
@@ -262,7 +278,9 @@
      * @return void
      */
     public function generateSearchQuery($sessData){
+
         $this->pushBaseQueryForTable("hardware", null);
+        if(!isset($sessData['accountinfo'])) $sessData['accountinfo'] = array();
         foreach ($sessData as $tableName => $searchInfos) {
             if($tableName != "hardware"){
                 $this->pushBaseQueryForTable($tableName, $sessData);
@@ -312,21 +330,42 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                } elseif($tableName == self::GROUP_TABLE){
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
+                  $this->queryArgs[] = 'hardware';
+                  $this->queryArgs[] = 'ID';
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
+                  $this->queryArgs[] = $tableName;
+                  $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  $this->queryArgs[] = $value[self::SESS_VALUES];
+                  global $l;
+                  $this->queryArgs[] = $l->g(269);
                 }else{
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
-                    $this->queryArgs[] = "str_to_date(".$value[self::SESS_VALUES].", '%m/%d/%Y %H:%i')";
-                  }else{
-                    $this->queryArgs[] = $value[self::SESS_VALUES];
-                  }
+                  $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
                 $p++;
             }
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
+
+        // has tag restrictions?
+        if(!empty($_SESSION['OCS']['TAGS']))
+        {
+            $tags = $_SESSION['OCS']['TAGS'];
+            foreach($tags as $k => $v)
+                $tags[$k] = "'".mysqli_real_escape_string($_SESSION['OCS']["readServer"], $v)."'";
+            $tags = implode(', ', $tags);
+            $this->columnsQueryConditions .= " AND accountinfo.TAG IN ($tags)";
+        }
+
         $this->columnsQueryConditions .= " GROUP BY hardware.id";
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
@@ -390,6 +429,12 @@
             case 'ISNULL':
                 $valueArray[self::SESS_OPERATOR] = "IS NULL";
                 break;
+            case 'BELONG' :
+                $valueArray[self::SESS_OPERATOR] = "IN";
+                break;
+            case 'DONTBELONG' :
+                $valueArray[self::SESS_OPERATOR] = "NOT IN";
+                break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
                 break;
@@ -402,12 +447,18 @@
      * @param String $defaultValue
      * @return void
      */
-    public function getSelectOptionForOperators($defaultValue)
+    public function getSelectOptionForOperators($defaultValue, $table = null)
     {
 
         $html = "";
+        $operatorList = array();
+        if($table == self::GROUP_TABLE) {
+            $operatorList = $this->operatorGroup;
+        } else {
+            $operatorList = $this->operatorList;
+        }
 
-        foreach ($this->operatorList as $value) {
+        foreach ($operatorList as $value) {
             $trValue = $this->translationSearch->getTranslationForOperator($value);
             if ($defaultValue == $value) {
                 $html .= "<option selected value=".$value." >".$trValue."</option>";
@@ -453,17 +504,23 @@
     public function getSelectOptionForColumns($tableName = null)
     {
         $html = "";
+        $sortColumn = array();
         if($tableName == "accountinfo"){
           $accountinfoList = new AccountinfoSearch();
           $accountFields = $accountinfoList->getAccountInfosList();
+          if(isset($accountFields['COMPUTERS']) && is_array($accountFields['COMPUTERS']))
           foreach ($accountFields['COMPUTERS'] as $index => $fieldsInfos) {
               if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $fieldsInfos;
                   $sortColumn[$index] .= $trField;
               }
           }
+        }elseif($tableName == self::GROUP_TABLE){
+          $trField = $this->translationSearch->getTranslationFor('NAME');
+          $sortColumn['name'] = $trField;
         }else{
-          foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
+          $fields = $this->databaseSearch->getColumnsList($tableName);
+          if(is_array($fields)) foreach ($fields as $index => $fieldsInfos) {
               if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
                   $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
@@ -492,7 +549,14 @@
         global $l;
 
         $fieldId = $this->getFieldUniqId($uniqid, $tableName);
-        $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        $fieldGroup = array();
+
+        if($tableName == self::GROUP_TABLE) {
+            $this->type = self::HTML_SELECT;
+        } else {
+            $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        }
+
         $html = "";
         if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL'){
           $attr = 'disabled';
@@ -522,6 +586,19 @@
                         '.calendars($fieldId, $l->g(1270)).'
                     </span>
                 </div>';
+                break;
+
+            case self::HTML_SELECT:
+                $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
+                $fieldGroup = $this->groupSearch->get_group_name();
+                foreach ($fieldGroup as $key => $value){
+                    if ($fieldsInfos[self::SESS_VALUES] == $key) {
+                        $html .= "<option value=".$key." selected >".$value."</option>";
+                    } else {
+                        $html .= "<option value=".$key." >".$value."</option>";
+                    }
+                }
+                $html .= '</select>';
                 break;
 
             default:
@@ -647,7 +724,7 @@
     public function link_multi($fields, $value, $option = ""){
         switch($fields){
           case 'allsoft':
-            if(!array_key_exists('allsoft',$_SESSION['OCS']['multi_search']['softwares'])){
+            if(!isset($_SESSION['OCS']['multi_search']['softwares']['allsoft'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
                     'fields' => 'NAME',
@@ -658,7 +735,7 @@
             break;
 
           case 'ipdiscover1':
-            if(!array_key_exists('ipdiscover1',$_SESSION['OCS']['multi_search']['networks'])){
+            if(!isset($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
                     'fields' => 'IPSUBNET',
@@ -700,7 +777,7 @@
               ];
 
               $i = 0;
-              foreach($option['idPackage'] as $key =>$value){
+              if(isset($option['idPackage'])) foreach($option['idPackage'] as $key =>$value){
                 if($i == 0){
                   $comparator = 'AND';
                 }else{
@@ -781,6 +858,10 @@
       if($comp== 'small') { $operator = 'LESS'; }
       elseif($comp == 'tall') { $operator = 'MORE'; }
       elseif($comp == 'exact') { $operator = 'EQUAL'; }
+
+      if($fields == 'HARDWARE-LASTDATE' || $fields == 'HARDWARE-LASTCOME'){
+          $value = str_replace(substr($value, -5), '00:00', $value);
+      }
 
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){

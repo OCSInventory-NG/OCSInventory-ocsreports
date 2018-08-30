@@ -56,7 +56,7 @@ $data_on[2] = $l->g(1060);
 $data_on[3] = $l->g(1701);
 $data_on[4] = $l->g(1702);
 
-if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] = 1) {
+if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 1) {
     $protectedPost['onglet'] = 2;
     $accountinfo_detail = find_info_accountinfo($protectedPost['MODIF']);
     $protectedPost['newfield'] = $accountinfo_detail[$protectedPost['MODIF']]['name'];
@@ -68,7 +68,7 @@ if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !is
     $hidden = $protectedPost['MODIF'];
 }
 
-if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] = 3) {
+if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 3) {
     $protectedPost['onglet'] = 4;
     $val_info = look_config_default_values(array("TAB_ACCOUNTAG_" . $protectedPost['MODIF']));
     $protectedPost['newfield'] = $val_info['tvalue']["TAB_ACCOUNTAG_" . $protectedPost['MODIF']];

@@ -1167,6 +1167,7 @@
 1281 On Wake On Lan
 1282 Wake On Lan order sent
 1283 Do you want a Wake On Lan on this computer
+1284 Source IP
 1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Installation time
@@ -1320,11 +1321,13 @@
 1442 XML Definition
 1443 Default Gateway
 1444 USB Devices
-1445 Group info
+1445 Group
 1446 Model name
 1447 Account info
 1448 IS NULL
 1449 General configuration
+1450 ID
+1451 Static ?
 
 1500 Software category
 1501 New category
@@ -1546,6 +1549,7 @@
 8020 WARNING : Mail template file not found
 8021 The uploaded file need to have .html extension to be valid
 
+
 8100 SAAS Inventory
 8101 SAAS list
 8102 Add SAAS
@@ -1555,3 +1559,4 @@
 8106 Time to live
 8107 This SAAS already exists
 8108 Enable Software as a Service Inventory
+

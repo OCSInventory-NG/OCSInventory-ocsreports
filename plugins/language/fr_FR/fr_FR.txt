@@ -1168,6 +1168,7 @@
 1281 Sur le Wake On Lan
 1282 Ordre de Wake On Lan envoyé
 1283 Exécuter un Wake On Lan sur cette machine
+1284 IP source
 1292 Utiliser les options avancées de téléploiement
 1293 Forcer le télédéploiement
 1294 Heure d'installation
@@ -1321,11 +1322,13 @@
 1442 Définition XML
 1443 Passerelle par défaut
 1444 Périphériques USB
-1445 Groupe info
+1445 Groupe
 1446 Nom du modèle
 1447 Informations de compte
 1448 EST NULL
-1149 Configuration générale
+1449 Configuration générale
+1450 ID
+1451 Static ?
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie
