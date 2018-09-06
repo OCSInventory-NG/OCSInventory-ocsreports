@@ -712,15 +712,15 @@
              $p++;
              $cache_sql .= $operator[$in]." ".$open.$table.".".$values['fields']." ";
              if($values['operator'] == 'LIKE'){
-                $cache_sql .= $values['operator']." '%".$values['value']."%'".$close;
+                $cache_sql .= $values['operator']." '%".$values['value']."%'".$close." ";
              }elseif($values['operator'] == 'DIFFERENT'){
-                $cache_sql .= "NOT LIKE '%".$values['value']."%'".$close;
+                $cache_sql .= "NOT LIKE '%".$values['value']."%'".$close." ";
              }elseif($values['operator'] == 'EQUAL'){
-               $cache_sql .= "= '".$values['value']."'".$close;
+               $cache_sql .= "= '".$values['value']."'".$close." ";
              }elseif($values['operator'] == 'LESS'){
-               $cache_sql .= "< ".$values['value'].$close;
+               $cache_sql .= "< ".$values['value'].$close." ";
              }elseif($values['operator'] == 'MORE'){
-               $cache_sql .= "> ".$values['value'].$close;
+               $cache_sql .= "> ".$values['value'].$close." ";
              }
              $in++;
            }
