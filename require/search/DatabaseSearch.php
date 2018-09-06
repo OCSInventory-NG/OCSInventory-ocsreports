@@ -180,7 +180,8 @@ class DatabaseSearch
         $query = $searchObj->baseQuery.$searchObj->searchQuery.$searchObj->columnsQueryConditions;
         $idList = mysql2_query_secure($query, $this->dbObject, $searchObj->queryArgs);
         $idArray = [];
-        if(is_array($idList)) foreach ($idList as $index => $fields) {
+
+        if($idList) foreach ($idList as $index => $fields) {
             $idArray[] = $fields['hardwareID'];
         }
         return $idArray;

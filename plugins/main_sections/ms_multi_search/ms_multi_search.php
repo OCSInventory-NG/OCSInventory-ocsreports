@@ -298,6 +298,7 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$list_pag["asset_cat"]=$pages_refs["ms_asset_cat"];
 
 	$list_id = $databaseSearch->getIdList($search);
+  $_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 
 	?>
 	<div class='row' style='margin: 0'>
