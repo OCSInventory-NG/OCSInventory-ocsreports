@@ -1493,9 +1493,15 @@ function ajaxsort(&$tab_options){
 	}
 	$sort ="";
 	if (!empty($tri) && !empty($sens)){
-	$tab_iplike=array('H.IPADDR','IPADDRESS','IP','IPADDR');
+	$tab_iplike=array('H.IPADDR','N.IPADDRESS','IP','IPADDR');
+
+	//@TODO : multiple values management
+	if($tri == 'ipaddress'){
+		$tri = 'n.ipaddress';
+	}
+
 	if (in_array(mb_strtoupper($tri),$tab_iplike)){
-		$sort= " order by INET_ATON(n.ipaddress) ".$sens;
+		$sort= " order by INET_ATON(".$tri.") ".$sens;
 	}elseif ($tab_options['TRI']['SIGNED'][$tri]){
 		$sort= " order by cast(".$$tri." as signed) ".$sens;
 	}
