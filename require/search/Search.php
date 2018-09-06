@@ -724,14 +724,12 @@
     public function link_multi($fields, $value, $option = ""){
         switch($fields){
           case 'allsoft':
-            if(!isset($_SESSION['OCS']['multi_search']['softwares']['allsoft'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
                     'fields' => 'NAME',
                     'value' => $value,
                     'operator' => 'EQUAL',
                 ];
-            }
             break;
 
           case 'ipdiscover1':
