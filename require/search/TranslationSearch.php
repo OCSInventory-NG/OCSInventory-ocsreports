@@ -36,6 +36,7 @@
         "cpus" => 54,
         "devices" => 1331,
         "download_history" => 969,
+        "download_available" => 969,
         //"download_servers" => "A ajouter",
         "drives" => 92,
         //"groups" => 1445,

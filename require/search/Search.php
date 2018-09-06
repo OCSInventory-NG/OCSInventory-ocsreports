@@ -297,6 +297,11 @@
 
             foreach ($searchInfos as $index => $value) {
 
+              if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
+                  // Generate union
+                  $this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
+              }
+
                 if($value['comparator'] != null){
                     $operator[] = $value['comparator'];
                 }elseif($i != 0 && $value['comparator'] == null){
@@ -346,8 +351,13 @@
                   $this->queryArgs[] = $l->g(269);
                 }else{
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
-                  $this->queryArgs[] = $tableName;
-                  $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  if($tableName == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
+                    $this->queryArgs[] = 'download_available';
+                    $this->queryArgs[] = 'NAME';
+                  }else{
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  }
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
                   $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
@@ -379,6 +389,10 @@
      */
     private function pushBaseQueryForTable($tableName, $sessData = null){
         foreach($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos){
+            if($tableName == "download_history" && $fieldsInfos['Field'] == "PKG_NAME"){
+              $tableName = "download_available";
+              $fieldsInfos['Field'] = "NAME";
+            }
             $generatedId = $tableName.".".$fieldsInfos['Field'];
             $selectAs = $tableName.$fieldsInfos['Field'];
             $this->baseQuery .= " %s.%s AS ".$selectAs." ,";
