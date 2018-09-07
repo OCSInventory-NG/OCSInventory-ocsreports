@@ -100,9 +100,12 @@ function migrate_profiles_2_2() {
 
 /**
  * Update TYPE accountinfo
- * @return [type] [description]
  */
 function migrate_adminData_2_5(){
+    //4,6 and 7 correspond to the old values type of administrative data and 5,14 and 11 are the new
+    //4 -> old type of checkbox fields
+    //6 -> old type of date fields
+    //7 -> old type of radio button fields
     $type_replace = array( '4' => '5',
               '6' => '14',
               '7' => '11');
