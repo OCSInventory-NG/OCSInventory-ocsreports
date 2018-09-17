@@ -148,6 +148,8 @@ if(isset($protectedGet['prov'])){
     $options['idPackage'] = $databaseSearch->get_package_id($protectedGet['id_pack']);
     $options['stat'] = $protectedGet['stat'];
     $search->link_multi($protectedGet['prov'], $protectedGet['value'], $options);
+  }elseif($protectedGet['prov'] == 'saas'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }
 }
 

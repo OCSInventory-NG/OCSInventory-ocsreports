@@ -332,4 +332,8 @@
         <value>notification</value>
         <directory>ms_config</directory>
     </url>
+    <url key="ms_saas_soft">
+        <value>saas_soft</value>
+        <directory>ms_saas_soft</directory>
+    </url>
 </urls>
