@@ -95,7 +95,6 @@ if ($info_name_soft['table'] != 'softwares' || $_SESSION['OCS']["usecache"] == 1
         array_push($sql['ARG'], $protectedGet['comp']);
         array_push($sql['ARG'], $protectedGet['nb']);
     }
-    error_log(print_r($sql['SQL'], true));
 }
 
 if (isset($protectedGet['all_computers']) && isset($protectedGet['nb']) && is_numeric($protectedGet['nb']) && $protectedGet['nb'] < 16 && isset($protectedGet['comp']) && $protectedGet['comp'] == "<") {
