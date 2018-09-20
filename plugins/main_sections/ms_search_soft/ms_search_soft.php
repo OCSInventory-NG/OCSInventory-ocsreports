@@ -114,6 +114,10 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
                                WHERE a.HARDWARE_ID =h.ID and a.NAME='" . $logiciel . "' ";
     }
 
+    if (is_defined($_SESSION['OCS']["mesmachines"])) {
+        $queryDetails .= "AND " . $_SESSION['OCS']["mesmachines"];
+    }
+
     $tab_options['LBL']['NAME'] = $l->g(478);
     $tab_options['LBL']['ip'] = $l->g(176);
     $tab_options['LBL']['domaine'] = $l->g(680);
