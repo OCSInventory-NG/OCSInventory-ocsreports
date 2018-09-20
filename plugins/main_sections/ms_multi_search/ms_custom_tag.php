@@ -129,11 +129,11 @@ if (is_defined($list_id)) {
                     } else {
                         $truename = "fields_" . $id;
                     }
-                    if ($field_of_accountinfo['LIST_TYPE'][$id] == 6) {
+                    if ($field_of_accountinfo['LIST_TYPE'][$id] == 14) {
                         $tab_typ_champ[$i]['CONFIG']['MAXLENGTH'] = 10;
                         $tab_typ_champ[$i]['CONFIG']['SIZE'] = 10;
                         $tab_typ_champ[$i]['COMMENT_AFTER'] = calendars($truename, $l->g(1270)) . "</td></span><span class='input-group-addon' id='" . $truename . "-addon'><td><input type='checkbox' name='check" . $truename . "' id='check" . $truename . "' " . (isset($protectedPost['check' . $truename]) ? " checked " : "") . ">";
-                    } elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id], array(2, 4, 7))) {
+                    } elseif (in_array($field_of_accountinfo['LIST_TYPE'][$id], array(2, 5, 11))) {
                         $sql = "select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_%s' order by 2";
                         $arg = $field_of_accountinfo['LIST_NAME'][$id] . "%";
                         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
