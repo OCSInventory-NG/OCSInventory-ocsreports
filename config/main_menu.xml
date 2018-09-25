@@ -28,10 +28,6 @@
         <label>g(1050)</label>
         <url>ms_search_soft</url>
       </menu-elem>
-      <menu-elem id="ms_saas_soft">
-        <label>g(8100)</label>
-        <url>ms_saas_soft</url>
-      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="deployment">
