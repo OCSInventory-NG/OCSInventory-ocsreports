@@ -21,6 +21,8 @@
  * MA 02110-1301, USA.
  */
 
+require 'require/function_admininfo.php';
+
  /**
   * This class implement basic behavior for accountinfo search management
   */
@@ -46,7 +48,7 @@
     ];
 
     /**
-     * Query 
+     * Query
      */
     private $accountInfoConfigQuery= "SELECT * FROM `accountinfo_config`";
 
@@ -93,7 +95,7 @@
             }else{
                 $accountInfos[$this->accountInfosStruct->id] = "fields_".$accountInfos[$this->accountInfosStruct->id];
             }
-            
+
             switch ($accountInfos['ACCOUNT_TYPE']) {
                 case self::ACC_TYPE_SNMP:
                     $accType = self::ACC_TYPE_SNMP;
@@ -110,10 +112,49 @@
     }
 
     /**
-     * Get accountinfos list 
+     * Get accountinfos list
      */
     public function getAccountInfosList(){
         return $this->accountInfosList;
+    }
+
+    /**
+     * Get accountinfos type
+     * @param  string $field_account
+     * @return string $info
+     */
+    public function getSearchAccountInfo($field_account){
+        $id = explode("_", $field_account);
+        $sql = "SELECT TYPE FROM accountinfo_config WHERE ID = %s";
+        $arg = array($id[1]);
+        $result = mysql2_query_secure($sql, $this->dbObject, $arg);
+
+        while ($type = mysqli_fetch_array($result)){
+          $info = $type['TYPE'];
+        }
+
+        return $info;
+    }
+
+    /**
+     * Get accountinfos_config name
+     * @param  string $field
+     * @return array $values
+     */
+    public function find_accountinfo_values($field){
+
+        $id = explode("_", $field);
+        $sql = "SELECT `NAME` FROM accountinfo_config WHERE ID = %s";
+        $arg = array($id[1]);
+        $result = mysql2_query_secure($sql, $this->dbObject, $arg);
+
+        while ($type = mysqli_fetch_array($result)){
+          $info = 'ACCOUNT_VALUE_'.$type['NAME'];
+        }
+
+        $values = find_value_field($info);
+
+        return $values;
     }
 
  }

@@ -195,13 +195,21 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				<div class="col-sm-3">
 					<div class="form-group">
 						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
-							<?php echo $search->getSelectOptionForOperators($values['operator'], $table)  ?>
+							<?php if(strpos($values['fields'], 'fields_') !== false){
+                echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
+              } else {
+                echo $search->getSelectOptionForOperators($values['operator'], $table);
+              } ?>
 						</select>
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<?php echo $search->returnFieldHtml($uniqid, $values, $table) ?>
+						<?php if(strpos($values['fields'], 'fields_') !== false){
+              echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
+            }else {
+              echo $search->returnFieldHtml($uniqid, $values, $table );
+            } ?>
 					</div>
 				</div>
 				<div class="col-sm-3">
@@ -271,6 +279,9 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
   //BEGIN SHOW ACCOUNTINFO
 	$option_comment['comment_be'] = $l->g(1210)." ";
 	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
+  $tab_options['REPLACE_VALUE'][$l->g(66)] = $type_accountinfo;
+  $tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
+
 
 	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 

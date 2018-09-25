@@ -603,8 +603,9 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                         }
                                       }
                                   }
+
                                   foreach ($field['DEFAULT_VALUE'] as $key => $value){
-                                    if(array_key_exists($value, $field_radio)){
+                                    if(array_key_exists($key, $field_radio)){
                                         echo "<div><input style='display:initial;width:20px;height: 14px;'  type='".$inputType."' name='".$field['INPUT_NAME']."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked> $value </div> ";
                                     }else{
                                         echo "<div><input style='display:initial;width:20px;height: 14px;' type='".$inputType."' name='".$field['INPUT_NAME']."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">$value </div>";
