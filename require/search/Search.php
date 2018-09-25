@@ -99,6 +99,14 @@
     ];
 
     /**
+     * Operator list
+     */
+    private $operatorAccount = [
+        "HAVING",
+        "NOTHAVING",
+    ];
+
+    /**
      * Comparator list
      */
     private $comparatorList = [
@@ -279,6 +287,7 @@
      */
     public function generateSearchQuery($sessData){
 
+        $accountInfos = new AccountinfoSearch();
         $this->pushBaseQueryForTable("hardware", null);
         if(!isset($sessData['accountinfo'])) $sessData['accountinfo'] = array();
         foreach ($sessData as $tableName => $searchInfos) {
@@ -449,6 +458,9 @@
             case 'DONTBELONG' :
                 $valueArray[self::SESS_OPERATOR] = "NOT IN";
                 break;
+            case 'NOTHAVING' :
+                $valueArray[self::SESS_OPERATOR] = "!=";
+                break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
                 break;
@@ -461,13 +473,21 @@
      * @param String $defaultValue
      * @return void
      */
-    public function getSelectOptionForOperators($defaultValue, $table = null)
+    public function getSelectOptionForOperators($defaultValue, $table = null, $field = null)
     {
+
+        $account = new AccountinfoSearch();
+        $accounttype = null;
+        if($field != null){
+          $accounttype = $account->getSearchAccountInfo($field);
+        }
 
         $html = "";
         $operatorList = array();
         if($table == self::GROUP_TABLE) {
             $operatorList = $this->operatorGroup;
+        } elseif($accounttype == '2' || $accounttype == '11') {
+            $operatorList = $this->operatorAccount;
         } else {
             $operatorList = $this->operatorList;
         }
@@ -558,14 +578,22 @@
      * @param String $tableName
      * @return String HTML
      */
-    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName)
+    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName, $field = null)
     {
         global $l;
 
         $fieldId = $this->getFieldUniqId($uniqid, $tableName);
         $fieldGroup = array();
 
+        $accountInfos = new AccountinfoSearch();
+
+        if($field != null){
+          $accounttype = $accountInfos->getSearchAccountInfo($field);
+        }
+
         if($tableName == self::GROUP_TABLE) {
+            $this->type = self::HTML_SELECT;
+        } elseif($accounttype == '2' || $accounttype == '11') {
             $this->type = self::HTML_SELECT;
         } else {
             $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
@@ -604,8 +632,13 @@
 
             case self::HTML_SELECT:
                 $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
-                $fieldGroup = $this->groupSearch->get_group_name();
-                foreach ($fieldGroup as $key => $value){
+                if($accounttype != null) {
+                  $fieldSelect = $accountInfos->find_accountinfo_values($field);
+                } else {
+                  $fieldSelect = $this->groupSearch->get_group_name();
+                }
+
+                foreach ($fieldSelect as $key => $value){
                     if ($fieldsInfos[self::SESS_VALUES] == $key) {
                         $html .= "<option value=".$key." selected >".$value."</option>";
                     } else {

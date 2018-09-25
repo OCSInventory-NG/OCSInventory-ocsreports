@@ -216,6 +216,8 @@
         "ISNULL" => 1448,
         "BELONG" => 967,
         "DONTBELONG" => 968,
+        "HAVING" => 507,
+        "NOTHAVING" => 508,
     ];
 
     private $comparatorsArray = [
