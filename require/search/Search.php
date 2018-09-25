@@ -376,6 +376,12 @@
             $this->columnsQueryConditions .= " AND accountinfo.TAG IN ($tags)";
         }
 
+        // has lock machine ?
+        if (isset($_SESSION['OCS']["mesmachines"])) {
+            $lockResult = str_replace('a.hardware_id', 'accountinfo.hardware_id', $_SESSION['OCS']["mesmachines"]);
+            $this->columnsQueryConditions .=  "AND " . $lockResult;
+        }
+
         $this->columnsQueryConditions .= " GROUP BY hardware.id";
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
