@@ -308,6 +308,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     </div>
 
     <script>
+        // For the cve-search integration
+        var cveAjaxRequests = [];
         //Check all the checkbox
         function checkall()
         {
@@ -516,8 +518,38 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 $("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-up");
                 $("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-down");
                 $("#<?php echo $option['table_name']; ?>_settings").fadeToggle();
-
             });
+            // Remove version from software name
+            function removeVersion(name){
+                return name.replace(/\s+[\d\.]+/i, "");
+            };
+            // Remove some words that are commonly removed from CPE
+            function formalizeVendor(vendor) {
+                return vendor.replace(/,?\s(corporation|inc.|incorporated|LLC)/i, "");
+            };
+            // get CVE info from a CVE-Search instance for a given software
+            function getCVE(row) {
+                var nameColumn = row.find(".NAME,.NAME sorting_1");
+                var name = nameColumn.text().toLowerCase();
+                // Don't execute this function for updates and security updates
+                if (name.startsWith("update for") | name.startsWith("security update for") | name.startsWith("service pack")){return};
+                name = removeVersion(name);
+                name = name.replace(/\s/g,"_");
+                var vendor = row.find(".PUBLISHER,.PUBLISHER sorting_1").text().toLowerCase();
+                if (vendor == '') {vendor=name};
+                vendor = formalizeVendor(vendor);
+                vendor = vendor.replace(/\s/g,"_");
+                var cveUrl = "http://127.0.0.1:5000/api/search/" + vendor + "/" + name;
+                cveAjaxRequests[cveAjaxRequests.length] = $.ajax({
+                    url: cveUrl,
+                    dataType: 'json',
+                    context: nameColumn,
+                    success: function(data){
+                        newText = this.text() + ' (' + data.length + ' CVE found)';
+                        this.text(newText);
+                    }
+                });
+            };
     <?php if ($opt) { ?>
                 $("#" + table_name + "_settings_toggle").show();
         <?php
@@ -543,6 +575,19 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                         $('#infototal_' + table_name).text(total);
                         $('#' + table_name + '_csv_download').show();
                         $("#" + table_name + "_settings_toggle").show();
+                    }
+                    // For tables listing softwares, try to get CVE info
+                    if (table_id == 'table#affich_soft') {
+                        // Abort any pending ajax requests
+                        if (cveAjaxRequests.length>0) {
+                            for (i=0;i<cveAjaxRequests.length;i++){
+                                cveAjaxRequests[i].abort();
+                            }
+                        }
+                        // For data rows only
+                        $(table_id).find(".odd,.even").each(function(){
+                            getCVE($(this));
+                        });
                     }
                 });
         <?php
