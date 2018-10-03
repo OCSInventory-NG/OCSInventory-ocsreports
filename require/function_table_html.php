@@ -583,6 +583,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                             for (i=0;i<cveAjaxRequests.length;i++){
                                 cveAjaxRequests[i].abort();
                             }
+                            cveAjaxRequests = [];
                         }
                         // For data rows only
                         $(table_id).find(".odd,.even").each(function(){
