@@ -519,13 +519,21 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 $("#" + table_name + "_settings_toggle").toggleClass("glyphicon-chevron-down");
                 $("#<?php echo $option['table_name']; ?>_settings").fadeToggle();
             });
-            // Remove version from software name
-            function removeVersion(name){
-                return name.replace(/\s+[\d\.]+/i, "");
+            // Normalize a software name to a CPE software
+            function CpeNormalizeName(name){
+                // Remove version information
+                var name = name.replace(/\s+[\d\.]+/i, "");
+                // Replace blank characters by underscore
+                name = name.replace(/\s/g,"_");
+                return name;
             };
-            // Remove some words that are commonly removed from CPE
-            function formalizeVendor(vendor) {
-                return vendor.replace(/,?\s(corporation|inc.|incorporated|LLC)/i, "");
+            // Normalize a vendor name to a CPE vendor
+            function CpeNormalizeVendor(vendor) {
+                // Remove some words that are commonly removed from CPE
+                var vendor = vendor.replace(/,?\s(corporation|inc.|incorporated|LLC)/i, "");
+                // Replace blank characters by underscore
+                vendor = vendor.replace(/\s/g,"_");
+                return vendor;
             };
             // get CVE info from a CVE-Search instance for a given software
             function getCVE(row) {
@@ -533,20 +541,27 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 var name = nameColumn.text().toLowerCase();
                 // Don't execute this function for updates and security updates
                 if (name.startsWith("update for") | name.startsWith("security update for") | name.startsWith("service pack")){return};
-                name = removeVersion(name);
-                name = name.replace(/\s/g,"_");
+                name = CpeNormalizeName(name);
                 var vendor = row.find(".PUBLISHER,.PUBLISHER sorting_1").text().toLowerCase();
                 if (vendor == '') {vendor=name};
-                vendor = formalizeVendor(vendor);
-                vendor = vendor.replace(/\s/g,"_");
+                vendor = CpeNormalizeVendor(vendor);
                 var cveUrl = "http://127.0.0.1:5000/api/search/" + vendor + "/" + name;
+                // Add bug icon
+                var newContent = nameColumn.text();
+                newContent = newContent + '&nbsp<img src="image/bug-grey.png">';
+                nameColumn.html(newContent);
                 cveAjaxRequests[cveAjaxRequests.length] = $.ajax({
                     url: cveUrl,
                     dataType: 'json',
                     context: nameColumn,
                     success: function(data){
-                        newText = this.text() + ' (' + data.length + ' CVE found)';
-                        this.text(newText);
+                        var newContent = this.text();
+                        if (data.length>0) {
+                            newContent = newContent + '&nbsp<img src="image/bug-red.png">';
+                        } else {
+                            newContent = newContent + '&nbsp<img src="image/bug-green.png">';
+                        }
+                        this.html(newContent);
                     }
                 });
             };
