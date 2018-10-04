@@ -1167,7 +1167,6 @@
 1281 On Wake On Lan
 1282 Wake On Lan order sent
 1283 Do you want a Wake On Lan on this computer
-1284 Source IP
 1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Installation time
@@ -1321,7 +1320,7 @@
 1442 XML Definition
 1443 Default Gateway
 1444 USB Devices
-1445 Group
+1445 Group info
 1446 Model name
 1447 Account info
 1448 IS NULL
@@ -1332,7 +1331,9 @@
 1453 GUID
 1454 Source
 1455 Virtual interface
-
+1460 Cve-search integration
+1461 Enable cve-search integration
+1462 URL of the cve-search host to use for the integration
 
 1500 Software category
 1501 New category

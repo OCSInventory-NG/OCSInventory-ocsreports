@@ -364,8 +364,7 @@ function update_default_value($POST) {
         'LOG_GUI', 'DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_FRAG_LATENCY', 'DOWNLOAD_GROUPS_TRACE_EVENTS',
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
-        'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
-        'INVENTORY_SAAS_ENABLED');
+        'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -698,14 +697,12 @@ function pageinventory($advance) {
           'INVENTORY_CACHE_REVALIDATE' => 'INVENTORY_CACHE_REVALIDATE',
           'INVENTORY_VALIDITY' => 'INVENTORY_VALIDITY',
           'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED',
-          'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY',
-          'INVENTORY_SAAS_ENABLED' => 'INVENTORY_SAAS_ENABLED');
+          'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     }else{
       $champs = array('FREQUENCY' => 'FREQUENCY',
           'INVENTORY_CACHE_REVALIDATE' => 'INVENTORY_CACHE_REVALIDATE',
           'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED',
-          'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY',
-          'INVENTORY_SAAS_ENABLED' => 'INVENTORY_SAAS_ENABLED');
+          'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     }
 
     $values = look_config_default_values($champs);
@@ -747,7 +744,6 @@ function pageinventory($advance) {
     $category = new SoftwareCategory();
     $list_cat = $category->search_all_cat();
 
-    ligne('INVENTORY_SAAS_ENABLED', $l->g(8108), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SAAS_ENABLED']));
     ligne('DEFAULT_CATEGORY', $l->g(1505), 'select', array('VALUE' => $values['ivalue']['DEFAULT_CATEGORY'], 'SELECT_VALUE' => $list_cat));
 
 }
@@ -869,6 +865,21 @@ function pagewebservice() {
     ligne('WEB_SERVICE_ENABLED', $l->g(761), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WEB_SERVICE_ENABLED']), '', "readonly");
     ligne('WEB_SERVICE_RESULTS_LIMIT', $l->g(762), 'input', array('VALUE' => $values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'], 'END' => $l->g(511), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly", $sup1);
     ligne('WEB_SERVICE_PRIV_MODS_CONF', $l->g(763), 'input', array('VALUE' => $values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "readonly");
+}
+
+function pageVulnerability() {
+    global $l, $numeric, $sup1;
+
+    // Which lines do we need?
+    $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
+        'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST');
+
+    // Get configuration values from DB
+    $values = look_config_default_values($champs);
+
+    // Display configuration items
+    ligne('VULN_CVESEARCH_ENABLE', $l->g(1451), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE']));
+    ligne('VULN_CVESEARCH_HOST', $l->g(1452), 'input', array('VALUE' => $values['ivalue']['VULN_CVESEARCH_HOST']));
 }
 
 function pageConnexion() {
