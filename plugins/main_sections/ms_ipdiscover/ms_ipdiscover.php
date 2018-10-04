@@ -117,9 +117,7 @@ if (isset($protectedPost['DPT_CHOISE']) && $protectedPost['DPT_CHOISE'] != '0') 
         'NON_INVENTORIE' => 'NON_INVENTORIE',
         'IPDISCOVER' => 'IPDISCOVER',
         'IDENTIFIE' => 'IDENTIFIE');
-    if ($_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES") {
         $list_fields['PERCENT_BAR'] = 'pourcentage';
-    }
     $table_name = "IPDISCOVER";
     $tab_options['table_name'] = $table_name;
     $default_fields = $list_fields;
