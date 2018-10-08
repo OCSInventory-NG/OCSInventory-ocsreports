@@ -536,6 +536,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 return vendor;
             };
             // get CVE info from a CVE-Search instance for a given software
+            function getCVE(row) {
                 // Get important data
                 var nameColumn = row.find(".NAME,.NAME sorting_1");
                 var name = nameColumn.text().toLowerCase();

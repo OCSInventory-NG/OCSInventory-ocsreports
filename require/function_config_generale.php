@@ -882,8 +882,8 @@ function pageVulnerability() {
     $values = look_config_default_values($champs);
 
     // Display configuration items
-    ligne('VULN_CVESEARCH_ENABLE', $l->g(1451), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE']));
-    ligne('VULN_CVESEARCH_HOST', $l->g(1452), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('VULN_CVESEARCH_ENABLE', $l->g(1453), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE']));
+    ligne('VULN_CVESEARCH_HOST', $l->g(1454), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
 }
 
 function pageConnexion() {

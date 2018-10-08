@@ -82,7 +82,7 @@ if($values['ivalue']['ADVANCE_CONFIGURATION']){
   $def_onglets['FILTER'] = $l->g(735); //Filter
   $def_onglets['WEBSERVICES'] = $l->g(760); //Webservice
   $def_onglets['CNX'] = $l->g(1108); //connexion
-  $def_onglets['VULN'] = $l->g(1450); //cve-search integration
+  $def_onglets['VULN'] = $l->g(1452); //cve-search integration
 }
 
 show_tabs($def_onglets,$form_name,"onglet",true);
