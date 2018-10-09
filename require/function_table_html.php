@@ -553,7 +553,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 cveUrl = cveUrl + "/api/search/" + vendor + "/" + name;
                 // Add bug icon
                 var newContent = nameColumn.text();
-                newContent = newContent + '&nbsp<img src="image/bug-grey.png">';
+                newContent = newContent + '&nbsp<img src="image/bug-grey-16.png">';
                 nameColumn.html(newContent);
                 // Query the cve-search instance via AJAX
                 cveAjaxRequests[cveAjaxRequests.length] = $.ajax({
@@ -563,16 +563,12 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                     success: function(data){
                         var newContent = this.text();
                         if (data.length>0) {
-                            newContent = newContent + '&nbsp<img src="image/bug-red.png">';
+                            newContent = newContent + '&nbsp<img src="image/bug-red-16.png">';
                         } else {
-                            newContent = newContent + '&nbsp<img src="image/bug-green.png">';
+                            newContent = newContent + '&nbsp<img src="image/bug-green-16.png">';
                         }
                         this.html(newContent);
                     },
-                    error: function() {
-                        var newContent = this.text();
-                        newContent = newContent + '&nbsp<img src="image/bug-crossed.png">';
-                    }
                 });
             };
     <?php if ($opt) { ?>
