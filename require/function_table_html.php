@@ -536,41 +536,56 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 return vendor;
             };
             // get CVE info from a CVE-Search instance for a given software
-            function getCVE(row) {
-                // Get important data
-                var nameColumn = row.find(".NAME,.NAME sorting_1");
-                var name = nameColumn.text().toLowerCase();
-                var vendor = row.find(".PUBLISHER,.PUBLISHER sorting_1").text().toLowerCase();
-                // Don't execute this function for updates and security updates
-                if (name.startsWith("update for") | name.startsWith("security update for") | name.startsWith("service pack")){return};
-                // normalize data to better comply with CPE dictionary format
-                name = CpeNormalizeName(name);
-                if (vendor == '') {vendor=name};
-                vendor = CpeNormalizeVendor(vendor);
-                // Get URL of the cve-search instance to query from the config
-                var cveUrl = "<?php $h=look_config_default_values(array('VULN_CVESEARCH_HOST'));echo $h['tvalue']['VULN_CVESEARCH_HOST'] ?>";
-                console.log(cveUrl);
-                cveUrl = cveUrl + "/api/search/" + vendor + "/" + name;
-                // Add bug icon
-                var newContent = nameColumn.text();
-                newContent = newContent + '&nbsp<img src="image/bug-grey-16.png">';
-                nameColumn.html(newContent);
+            function getCVE(row,soft,vendor,version) {
+                // Construct the URL to query the cve-search instance for the given software
+                var thisCveUrl = cveUrl + vendor + "/" + soft;
                 // Query the cve-search instance via AJAX
-                cveAjaxRequests[cveAjaxRequests.length] = $.ajax({
-                    url: cveUrl,
+                var jqxhr = $.ajax({
+                    url: thisCveUrl,
                     dataType: 'json',
-                    context: nameColumn,
-                    success: function(data){
-                        var newContent = this.text();
+                    context: row,
+                    success: function(data,status,jqxhr){
+                        var nameColumn = this.find(".NAME,.NAME sorting_1");
                         if (data.length>0) {
-                            newContent = newContent + '&nbsp<img src="image/bug-red-16.png">';
+                            // CVE found, lookup if it applies to this particular version
+                            var version = this.find(".VERSION,.VERSION sorting_1").text();
+                            if (JSON.stringify(data).search(version)>=0) {
+                                var newContent = nameColumn.text() + '&nbsp<img src="image/bug-red-16.png">';
+                            } else {
+                                var newContent = nameColumn.text() + '&nbsp<img src="image/bug-orange-16.png">';
+                            }
                         } else {
-                            newContent = newContent + '&nbsp<img src="image/bug-green-16.png">';
+                            // No CVE found, perform recursive search with alternate (vendor,software) tulpes
+                            for (i=0;i<cveAjaxRequests.length;i++){  
+                                // find back the parameters of this ajax request
+                                if (cveAjaxRequests[i].jqxhr==jqxhr){
+                                    var soft=cveAjaxRequests[i].soft;  
+                                    var vendor=cveAjaxRequests[i].vendor;  
+                                    // Stop recursion once the vendor is equal to soft
+                                    if (vendor!=soft){
+                                        if (soft.startsWith(vendor) && vendor!="") {
+                                            // More often than not the software name start with the vendor while this is rarely the case in CPE
+                                            soft=soft.substr(vendor.length+1);
+                                        } else {
+                                            // Last try, when vendor is uncommon it is often set to the software name in CPE
+                                            vendor=soft;
+                                        }
+                                        var version=cveAjaxRequests[i].version;  
+                                        getCVE(this,soft,vendor,version);
+                                    } else {
+                                        // No single CVE could be found during the recursive searches
+                                        newContent = nameColumn.text() + '&nbsp<img src="image/bug-yellow-16.png">';
+                                    }
+                                 }
+                            }
                         }
-                        this.html(newContent);
-                    },
+                        nameColumn.html(newContent);
+                    }
                 });
+                // Add an object with this ajax request parameters to the array of active ajax request parameters 
+                cveAjaxRequests[cveAjaxRequests.length] = {jqxhr: jqxhr, soft: soft, vendor: vendor, version: version};
             };
+
     <?php if ($opt) { ?>
                 $("#" + table_name + "_settings_toggle").show();
         <?php
@@ -609,9 +624,25 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 }
                                 cveAjaxRequests = [];
                             }
+                            cveUrl = "<?php $h=look_config_default_values(array('VULN_CVESEARCH_HOST'));echo $h['tvalue']['VULN_CVESEARCH_HOST'] ?>" + "/api/search/";
                             // For data rows only
                             $(table_id).find(".odd,.even").each(function(){
-                                getCVE($(this));
+                                // Get software name
+                                var soft = $(this).find(".NAME,.NAME sorting_1").text();
+                                soft = cpeNormalizeName(soft);
+                                if (soft.startsWith("update_for") | soft.startsWith("security_update_for") | soft.startsWith("service_pack") | soft==undefined){return};
+                                // Get vendor  name
+                                var vendor = $(this).find(".PUBLISHER,.PUBLISHER sorting_1").text();
+                                if (vendor == '') {vendor=soft};
+                                vendor = cpeNormalizeVendor(vendor);
+                                // Get version number
+                                var version = $(this).find(".VERSION,.VERSION sorting_1").text().toLowerCase();
+                                // Add grey bug icon
+                                var nameColumn = $(this).find(".NAME,.NAME sorting_1");
+                                var newContent = nameColumn.text() + '&nbsp<img src="image/bug-grey.png">';
+                                nameColumn.html(newContent);
+                                // Get CVE
+                                getCVE($(this),soft,vendor,version)
                             });
                         }
                     }
