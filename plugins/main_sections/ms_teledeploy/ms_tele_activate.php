@@ -168,6 +168,9 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $l->g(53) => 'COMMENT');
     $tab_options['REPLACE_COLUMN_KEY'][$l->g(593)] = 'CREADATE';
     $tab_options['REPLACE_COLUMN_KEY'][$l->g(462) . " KB"] = 'WEIGHT';
+    $tab_options['NO_SEARCH']['NOTI'] = 'NOTI';
+    $tab_options['NO_SEARCH']['SUCC'] = 'SUCC';
+    $tab_options['NO_SEARCH']['ERR_'] = 'ERR_';
     if ($show_stats) {
         $list_fields['NO_NOTIF'] = 'NO_NOTIF';
         $list_fields['NOTI'] = 'NOTI';

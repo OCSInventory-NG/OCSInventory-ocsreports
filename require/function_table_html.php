@@ -1378,6 +1378,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 						$rang =0;
 						foreach($tab_options['visible_col'] as $index=>$column){
+							if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+								$tab_options['columns'][$column]['searchable'] = false;
+							}
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 							$name = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['columns'][$column]['name']);
 							if (!empty($tab_options["replace_query_arg"][$name])){
@@ -1433,6 +1436,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
+			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+				$tab_options['columns'][$column]['searchable'] = false;
+			}
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
 				$searchable =true;
