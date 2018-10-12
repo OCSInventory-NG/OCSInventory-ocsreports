@@ -329,7 +329,6 @@ function show_console_field($fields, $form_name) {
 
 
             if ($myids) {
-              var_dump($myids);
                 if (!in_array($key, $no_restrict)) {
                     if (is_defined($arg_result[2]) || $table[$key] == 'hardware' || is_defined($sql_field[$key]['SQL'])) {
                         $sql_result .= " and ";
