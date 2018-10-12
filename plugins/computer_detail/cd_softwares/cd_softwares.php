@@ -70,7 +70,7 @@ $list_fields['GUID'] = 'GUID';
 $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
 $list_fields[$l->g(1238)] = 'INSTALLDATE';
 $list_fields[$l->g(1247)] = 'BITSWIDTH';
-$list_fields[$l->g(388)] = 'CATEGORY';
+$list_fields[$l->g(388)] = 'c.CATEGORY_NAME';
 
 $tab_options['FILTRE'] = array_flip($list_fields);
 
