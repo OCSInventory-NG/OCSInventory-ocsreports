@@ -1710,6 +1710,10 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
 						}
 						if (!empty($tab_options['LIEN_LBL'][$key])){
+							if(strpos($row[$tab_options['LIEN_CHAMP'][$key]], '+')){
+								$row[$tab_options['LIEN_CHAMP'][$key]] = str_replace("+", "%2B", $row[$tab_options['LIEN_CHAMP'][$key]]);
+							}
+							error_log(print_r($row[$tab_options['LIEN_CHAMP'][$key]], true));
 							$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
 						}
 						if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){
