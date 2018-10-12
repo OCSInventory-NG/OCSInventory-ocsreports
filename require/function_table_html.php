@@ -521,18 +521,36 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             });
             // Normalize a software name to a CPE software
             function CpeNormalizeName(name){
-                // Remove version information
-                var name = name.replace(/\s+[\d\.]+/i, "");
+                // Make sure it's lowercase
+                name = name.toLowerCase();
+                // Remove trailing whitespaces
+                name = name.trimEnd();
+                // Remove any trailing parenthesis
+                name = name.replace(/\s*\([^\)]+\)+$/i, "");
+                // Remove trailing architecture info
+                name = name.replace(/\s*\d+-bit$/i, "");
+                // Remove trailing version information
+                name = name.replace(/\s*(v|version|release)?\s*[\d\.]+(\s+ESR)?$/i, "");
+                // Remove some words that are commonly removed from CPE
+                name = name.replace(/\s*\(r\)/i, "");
                 // Replace blank characters by underscore
                 name = name.replace(/\s/g,"_");
+                // Only UTF-8 characters in the range x00-x7F are allowed (NISTIR-7695)
+                name = name.replace(/[^\x00-\x7F]/g, "");
                 return name;
             };
             // Normalize a vendor name to a CPE vendor
             function CpeNormalizeVendor(vendor) {
-                // Remove some words that are commonly removed from CPE
-                var vendor = vendor.replace(/,?\s(corporation|inc.|incorporated|LLC)/i, "");
+                // Make sure it's lowercase
+                vendor = vendor.toLowerCase();
+                // Remove trailing whitespaces
+                vendor = vendor.trimEnd();
+                // Remove some trailing words that are commonly removed from CPE
+                vendor = vendor.replace(/,?\s*(corporation|gmbh|inc\.|incorporated|LLC|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated)$/i, "");
                 // Replace blank characters by underscore
                 vendor = vendor.replace(/\s/g,"_");
+                // Only UTF-8 characters in the range x00-x7F are allowed (NISTIR-7695)
+                vendor = vendor.replace(/[^\x00-\x7F]/g, "");
                 return vendor;
             };
             // get CVE info from a CVE-Search instance for a given software
