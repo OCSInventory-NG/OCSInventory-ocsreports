@@ -520,7 +520,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 $("#<?php echo $option['table_name']; ?>_settings").fadeToggle();
             });
             // Normalize a software name to a CPE software
-            function CpeNormalizeName(name){
+            function cpeNormalizeName(name){
                 // Make sure it's lowercase
                 name = name.toLowerCase();
                 // Remove trailing whitespaces
@@ -540,7 +540,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 return name;
             };
             // Normalize a vendor name to a CPE vendor
-            function CpeNormalizeVendor(vendor) {
+            function cpeNormalizeVendor(vendor) {
                 // Make sure it's lowercase
                 vendor = vendor.toLowerCase();
                 // Remove trailing whitespaces
