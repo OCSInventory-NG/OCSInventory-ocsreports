@@ -386,9 +386,9 @@
         }
 
         // has lock machine ?
-        if (isset($_SESSION['OCS']["mesmachines"])) {
+        if (isset($_SESSION['OCS']["mesmachines"]) && strpos($_SESSION['OCS']["mesmachines"], 'a.TAG') === true) {
             $lockResult = str_replace('a.hardware_id', 'accountinfo.hardware_id', $_SESSION['OCS']["mesmachines"]);
-            $this->columnsQueryConditions .=  "AND " . $lockResult;
+            $this->columnsQueryConditions .=  " AND " . $lockResult;
         }
 
         $this->columnsQueryConditions .= " GROUP BY hardware.id";
