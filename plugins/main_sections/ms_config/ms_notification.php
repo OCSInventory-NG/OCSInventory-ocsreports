@@ -31,7 +31,7 @@
   * Add value in config table
   */
 require_once('require/function_config_generale.php');
-require_once('require/mail/NotificationMail.php');
+require_once('require/mail/NotificationMail_'.PHPMAILER_VERSION.'.php');
 
 $mail = new NotificationMail($_SESSION['OCS']['LANGUAGE']);
 $mail->html_div();

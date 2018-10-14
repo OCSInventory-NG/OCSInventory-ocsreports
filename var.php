@@ -72,6 +72,10 @@ define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php');
  */
 define('PHPMAILER', __DIR__ . '/libraries/PHPMailer-6.0.5/src');
 /**
+ * PHPMAILER major version
+ */
+define('PHPMAILER_VERSION', '6');
+/**
  * Template Mail Directory
  */
 define('TEMPLATE', __DIR__.'/templates/');

@@ -4,7 +4,7 @@
 require_once('../dbconfig.inc.php');
 require_once('../var.php');
 require_once('../require/function_commun.php');
-require_once('../require/mail/NotificationMail.php');
+require_once('../require/mail/NotificationMail_'.PHPMAILER_VERSION.'.php');
 require_once('../require/config/include.php');
 require_once('../require/fichierConf.class.php');
 
