@@ -605,9 +605,14 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 var cpe=data[i].vulnerable_configuration;
                                 cpe.concat(data[i].vulnerable_configuration_cpe_2_2);
                                 for (j=0;j<cpe.length;j++) {
-                                    var cpeVendor=cpe[j].split(":")[3];
-                                    var cpeSoft=cpe[j].split(":")[4];
-                                    var cpeVersion=cpe[j].split(":")[5];
+                                    if (cpe[j].startsWith("cpe:2.3")) {
+                                      var s=3;
+                                    } else {
+                                      var s=2;
+                                    }
+                                    var cpeVendor=cpe[j].split(":")[s];
+                                    var cpeSoft=cpe[j].split(":")[s+1];
+                                    var cpeVersion=cpe[j].split(":")[s+2];
                                     if (cpeVendor==vendor && cpeSoft==soft) {
                                         if (cpeVersion==undefined || cmpVersions(version,cpeVersion)<=0){
                                             // Ouch! This CVE applies to this software version or above. Let's update the newContent variable and break out of the loop
