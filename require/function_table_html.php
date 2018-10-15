@@ -540,11 +540,13 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 return name;
             };
             // Normalize a vendor name to a CPE vendor
-            function cpeNormalizeVendor(vendor) {
+            function cpeNormalizeVendor(vendor,soft) {
+                // Remove leading and trailing whitespaces
+                vendor = vendor.trim();
+                // Return the software name if the vendor is only an URL
+                if (vendor.match(/^https?:[^\s]+$/)){return soft};
                 // Make sure it's lowercase
                 vendor = vendor.toLowerCase();
-                // Remove trailing whitespaces
-                vendor = vendor.trimEnd();
                 // Remove some trailing words that are commonly removed from CPE
                 vendor = vendor.replace(/,?\s*(corporation|gmbh|inc\.|incorporated|LLC|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated)$/i, "");
                 // Replace blank characters by underscore
@@ -697,7 +699,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 // Get vendor  name
                                 var vendor = $(this).find(".PUBLISHER,.PUBLISHER sorting_1").text();
                                 if (vendor == '') {vendor=soft};
-                                vendor = cpeNormalizeVendor(vendor);
+                                vendor = cpeNormalizeVendor(vendor,soft);
                                 // Get version number
                                 var version = $(this).find(".VERSION,.VERSION sorting_1").text().toLowerCase();
                                 // Add grey bug icon
