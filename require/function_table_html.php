@@ -678,7 +678,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                             // Abort any pending ajax requests
                             if (cveAjaxRequests.length>0) {
                                 for (i=0;i<cveAjaxRequests.length;i++){
-                                    cveAjaxRequests[i].abort();
+                                    cveAjaxRequests[i].jqxhr.abort();
                                 }
                                 cveAjaxRequests = [];
                             }
