@@ -94,6 +94,15 @@ class SoftwareCategory
      * @return boolean
      */
     public function insert_exp($id_cat, $regExp, $sign = null, $version = null, $vendor = null){
+        if($vendor == '0'){
+          $vendor = null;
+        }
+
+        if($version == '0'){
+          $version = null;
+          $sign = null;
+        }
+        
         $sql_reg = "INSERT INTO `software_category_exp` (`CATEGORY_ID`, `SOFTWARE_EXP`, `SIGN_VERSION`, `VERSION`, `PUBLISHER`) values(%s, '%s', '%s', '%s', '%s')";
         $arg_reg = array($id_cat, $regExp, $sign, $version, $vendor);
 
@@ -107,12 +116,15 @@ class SoftwareCategory
      * @return array
      */
     public function display_reg($onglet_active){
-        $sql = "SELECT `SOFTWARE_EXP` FROM `software_category_exp` WHERE `CATEGORY_ID`= '%s'";
+        $sql = "SELECT * FROM `software_category_exp` WHERE `CATEGORY_ID`= '%s'";
         $arg_sql = array($onglet_active);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg_sql);
 
         while ($item = mysqli_fetch_array($result)) {
-            $list[] = $item['SOFTWARE_EXP'];
+            $list[] = ['NAME' => $item['SOFTWARE_EXP'],
+                      'SIGN' => $item['SIGN_VERSION'],
+                      'VERSION' => $item['VERSION'],
+                      'PUBLISHER' => $item['PUBLISHER']];
         }
         return ($list);
     }

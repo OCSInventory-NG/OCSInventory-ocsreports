@@ -130,7 +130,11 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
                           <table width='100%' class='table table-striped table-condensed table-hover cell-border dataTable no-footer' role='grid' style='margin-left: 0px; width: 998px;'>
                             <thead>
                               <tr role='row'>
-                                <th class='SOFTWARE_EXP' tabindex='0' aria-controls='affich_regex' rowspan='1' colspan='1' style='width: 100%;' aria-label='Regular expression or Software name: activate to sort column ascending'><font>".$l->g(1504)."</font></th>
+                                <th class='SOFTWARE_EXP' tabindex='0' aria-controls='affich_regex' rowspan='1' colspan='1' style='width: 22%;' aria-label='Regular expression or Software name: activate to sort column ascending'><font>".$l->g(1504)."</font></th>
+                                <th class='SOFTWARE_EXP' tabindex='0' aria-controls='affich_version' rowspan='1' colspan='1' style='width: 22%;' aria-label='Version'><font>".$l->g(1511)."</font></th>
+                                <th class='SOFTWARE_EXP' tabindex='0' aria-controls='affich_version' rowspan='1' colspan='1' style='width: 22%;' aria-label='Version'><font>".$l->g(277)."</font></th>
+                                <th class='SOFTWARE_EXP' tabindex='0' aria-controls='affich_publisher' rowspan='1' colspan='1' style='width: 22%;' aria-label='Publisher'><font>".$l->g(69)."</font></th>
+                                <th class='SOFTWARE_EXP' tabindex='0' aria-controls='affich_version' rowspan='1' colspan='1' style='width: 12%;' aria-label='Version'><font>".$l->g(1381)."</font></th>
                               </tr>
                             </thead>
                           </table>
@@ -142,8 +146,11 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 
         if($reg != null){
             for($i=0; $reg[$i]!=null; $i++){
-                echo "<tr class='odd'><td valign='top' colspan='1' class='affich_regex'>".$reg[$i]."</td>
-                      <td class='ACTIONS' valign='top' colspan='1'><a href=# OnClick='confirme(\"\",\"".$reg[$i]."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)."\");'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
+                echo "<tr class='odd'><td valign='top' colspan='1' style='width: 22%;' class='affich_regex'>".$reg[$i]['NAME']."</td>
+                      <td valign='top' colspan='1'  style='width: 22%;' class='affich_publisher'>".$reg[$i]['SIGN']."</td>
+                      <td valign='top' colspan='1'  style='width: 22%;'c lass='affich_version'>".$reg[$i]['VERSION']."</td>
+                      <td valign='top' colspan='1'  style='width: 22%;' class='affich_publisher'>".$reg[$i]['PUBLISHER']."</td>
+                      <td class='ACTIONS' valign='top' colspan='1' style='width: 12%;'><a href=# OnClick='confirme(\"\",\"".$reg[$i]['NAME']."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)."\");'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
             }
         }else{
             echo "<tr class='odd'><td valign='top' colspan='1' class='affich_regex'>".$l->g(1334)."</td></tr>";
@@ -203,10 +210,10 @@ if($protectedPost['onglet'] == 'NEW_CAT'){
 if($protectedPost['onglet'] == 'ADD_SOFT'){
 
   $operatorsArray = [
+      "0" => " ",
       "EQUAL" => $l->g(1430),
-      "MORE" => $l->g(1431),
-      "LESS" => $l->g(1432),
-      "DIFFERENT" => $l->g(130),
+      "MORE" => $l->g(1513),
+      "LESS" => $l->g(1512),
   ];
 
     if(isset($protectedPost['valid_reg'])){
@@ -234,10 +241,10 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
 
     if(isset($protectedPost['advanced'])){
         $check = 'checked';
-        $resend = 'onfocusOut="this.form.submit()"';
+        $resend = 'onfocusOut="this.form.submit()" required';
     }else{
         $check = '';
-        $resend = '';
+        $resend = 'required';
         unset($protectedPost['version_sign']);
         unset($protectedPost['version_soft']);
         unset($protectedPost['vendor_soft']);
