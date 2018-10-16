@@ -202,11 +202,19 @@ if($protectedPost['onglet'] == 'NEW_CAT'){
 /****************************************ADD SOFTWARE TO CATEGORY*************************************************/
 if($protectedPost['onglet'] == 'ADD_SOFT'){
 
+  $operatorsArray = [
+      "EQUAL" => $l->g(1430),
+      "MORE" => $l->g(1431),
+      "LESS" => $l->g(1432),
+      "DIFFERENT" => $l->g(130),
+  ];
+
     if(isset($protectedPost['valid_reg'])){
         if($protectedPost['cat_select'] != 0){
-            $result_reg = $softCat->insert_exp($protectedPost['cat_select'], $protectedPost['regular_exp']);
+            $result_reg = $softCat->insert_exp($protectedPost['cat_select'], $protectedPost['regular_exp'],$protectedPost['version_sign'], $protectedPost['version_soft'],$protectedPost['vendor_soft']);
             if($result_reg == true){
               msg_success($l->g(572));
+              unset($protectedPost['regular_exp']);
             }else{
               msg_error($l->g(573));
             }
@@ -214,7 +222,7 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
     }
 
     //autocompletion for Software Name
-    $xml_file = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_options'] . "&no_header=1";
+    $xml_file = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_options_soft_cat'] . "&no_header=1";
     echo "\n" . '<script type="text/javascript">
     	window.onload = function(){initAutoComplete(document.getElementById(\'' . $form_name . '\'), document.getElementById(\'regular_exp\'), document.getElementById(\'valid_reg\'),\'' . $xml_file . '\')}
     	</script>';
@@ -224,9 +232,32 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
 
     $select_cat = $softCat->search_all_cat();
 
+    if(isset($protectedPost['advanced'])){
+        $check = 'checked';
+        $resend = 'onfocusOut="this.form.submit()"';
+    }else{
+        $check = '';
+        $resend = '';
+        unset($protectedPost['version_sign']);
+        unset($protectedPost['version_soft']);
+        unset($protectedPost['vendor_soft']);
+    }
+
     formGroup('select', 'cat_select', $l->g(388).' :', '', '','' , '', $select_cat, $select_cat, 'required');
-    formGroup('text', 'regular_exp', $l->g(382).' :', '', '', '', '', '', '', 'required');
+    formGroup('text', 'regular_exp', $l->g(382).' :', '', '', $protectedPost['regular_exp'], '', '', '', $resend);
     echo "<p>".$l->g(358)."</p>";
+
+    echo '<div><input style="display:initial;width:20px;height:14px;" type="checkbox" name="advanced" value="0" id="advanced" class="form-control" '.$check.' onClick="this.form.submit();">'.$l->g(1509).'</div><br/>';
+
+    if(isset($protectedPost['advanced'])){
+      $version = $softCat->search_version($protectedPost['regular_exp']);
+      $vendor = $softCat->search_vendor($protectedPost['regular_exp']);
+
+      formGroup('select', 'version_sign', $l->g(1510).' :', '', '','' , '', $operatorsArray, $operatorsArray);
+      formGroup('select', 'version_soft', $l->g(1507).' :', '', '', '', '', $version, $version);
+      formGroup('select', 'vendor_soft', $l->g(1508).' :', '', '', '', '', $vendor, $vendor);
+    }
+
     echo "<input type='submit' name='valid_reg' id='valid_reg' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</div></div>";
 }
