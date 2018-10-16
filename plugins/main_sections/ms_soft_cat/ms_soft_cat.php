@@ -83,15 +83,6 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
     unset($list_cat['first_onglet']);
     unset($list_cat['category_name']);
 
-
-    if ($i <= 20) {
-        echo "<p>";
-        onglet($list_cat, $form_name, "onglet_soft", 5);
-        echo "</p>";
-    } else {
-        echo "<p>" . $l->g(398) . ": " . show_modif($list_cat, 'onglet_soft', 2, $form_name) . "</p>";
-    }
-
     //delete categorie
     if (is_defined($protectedPost['SUP_CAT'])) {
         if ($protectedPost['SUP_CAT'] == 1) {
@@ -100,6 +91,19 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         $reqDcat = "DELETE FROM software_categories WHERE CATEGORY_NAME ='" . $list_cat[$protectedPost['SUP_CAT']] . "'";
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcat) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
         unset($list_cat[$protectedPost['SUP_CAT']]);
+        unset($protectedPost['SUP_CAT']);
+     }
+
+     if ($protectedPost['onglet_soft'] == "" || !isset($list_cat[$protectedPost['onglet_soft']])) {
+         $protectedPost['onglet_soft'] = $first_onglet;
+     }
+
+     if ($i <= 20) {
+         echo "<p>";
+         onglet($list_cat, $form_name, "onglet_soft", 5);
+         echo "</p>";
+     } else {
+         echo "<p>" . $l->g(398) . ": " . show_modif($list_cat, 'onglet_soft', 2, $form_name) . "</p>";
      }
 
     //delete regex

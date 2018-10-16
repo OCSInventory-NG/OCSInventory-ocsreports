@@ -1378,6 +1378,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 						$rang =0;
 						foreach($tab_options['visible_col'] as $index=>$column){
+							if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+								$tab_options['columns'][$column]['searchable'] = false;
+							}
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 							$name = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['columns'][$column]['name']);
 							if (!empty($tab_options["replace_query_arg"][$name])){
@@ -1433,6 +1436,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
+			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+				$tab_options['columns'][$column]['searchable'] = false;
+			}
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
 				$searchable =true;
@@ -1704,6 +1710,10 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
 						}
 						if (!empty($tab_options['LIEN_LBL'][$key])){
+							if(strpos($row[$tab_options['LIEN_CHAMP'][$key]], '+')){
+								$row[$tab_options['LIEN_CHAMP'][$key]] = str_replace("+", "%2B", $row[$tab_options['LIEN_CHAMP'][$key]]);
+							}
+							error_log(print_r($row[$tab_options['LIEN_CHAMP'][$key]], true));
 							$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
 						}
 						if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){
