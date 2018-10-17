@@ -24,7 +24,7 @@ function convertToUpper(v_string) {
 }
 
 function codeTouche(evenement) {
-    for (prop in evenement) {
+    for (var prop in evenement) {
         if (prop == 'which')
             return(evenement.which);
     }
@@ -34,7 +34,7 @@ function codeTouche(evenement) {
 function pressePapierNS6(evenement, touche) {
     var rePressePapierNS = /[cvxz]/i;
 
-    for (prop in evenement)
+    for (var prop in evenement)
         if (prop == 'ctrlKey')
             isModifiers = true;
     if (isModifiers)
@@ -49,7 +49,6 @@ function scanTouche(evenement, exReguliere) {
     var codeDecimal = codeTouche(evenement);
     var car = String.fromCharCode(codeDecimal);
     var autorisation = reCarValides.test(car) || reCarSpeciaux.test(car) || pressePapierNS6(evenement, car);
-    var toto = autorisation;
     return autorisation;
 }
 
