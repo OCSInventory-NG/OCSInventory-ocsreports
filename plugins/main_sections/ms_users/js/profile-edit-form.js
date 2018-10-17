@@ -1,7 +1,4 @@
 (function ($) {
-    var counter = 0,
-            forms = {};
-
     function addFieldError($field, errorMessage) {
         if (!$field.hasClass('field-has-errors')) {
             $field.addClass('field-has-errors');
@@ -33,7 +30,7 @@
                 $form.find('input[type=submit]').prop('disabled', false);
 
                 if (data.errors) {
-                    for (key in data.errors) {
+                    for (var key in data.errors) {
                         $.each(data.errors[key], function (i, err) {
                             addFieldError($form.find('.field-' + key), err);
                         });
