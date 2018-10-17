@@ -65,7 +65,7 @@ function NewCal(pCtrl, pFormat, pShowTime, pTimeMode, pCheck)
         var Sp1;//Index of Date Separator 1
         var Sp2;//Index of Date Separator 2 
         var tSp1;//Index of Time Separator 1
-        var tSp1;//Index of Time Separator 2
+        var tSp2;//Index of Time Separator 2
         var strMonth;
         var strDate;
         var strYear;
@@ -171,7 +171,7 @@ function RenderCal()
     docCal.write(vCalHeader);
 
     //Calendar detail
-    CalDate = new Date(Cal.Year, Cal.Month);
+    var CalDate = new Date(Cal.Year, Cal.Month);
     CalDate.setDate(1);
     vFirstDay = CalDate.getDay();
     vCalData = "<tr>";
@@ -245,7 +245,7 @@ function GenCell(pValue, pHighLight, pColor)//Generate table cell with value
     var PCellStr;
     var vColor;
     var vHLstr1;//HighLight string
-    var vHlstr2;
+    var vHLstr2;
     var vTimeStr;
 
     if (pValue == null)
@@ -309,7 +309,7 @@ function Calendar(pDate, pCtrl)
 
 function GetMonthIndex(shortMonthName)
 {
-    for (i = 0; i < 12; i++)
+    for (var i = 0; i < 12; i++)
     {
         if (MonthName[i].substring(0, 3).toUpperCase() == shortMonthName)
             return i;
