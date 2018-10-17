@@ -1337,6 +1337,13 @@
 1504 Expression régulière ou nom du logiciel
 1505 Sélectionner une catégorie par défaut
 1506 Aucune catégorie créée
+1507 Version du logiciel
+1508 Editeur
+1509 Paramètres avancés
+1510 Comparateur version logiciel
+1511 Comparateur version
+1512 Inférieure ou égale
+1513 Supérieure ou égale
 
 1700 Configuration avancée
 1701 Onglet disponible
