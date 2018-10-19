@@ -555,6 +555,13 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 vendor = vendor.replace(/[^\x00-\x7F]/g, "");
                 return vendor;
             };
+             // Try to extract a proper version from the software's version field
+            function getSoftwareVersion(version) {
+                result = version.match(/[\d\.]+/);
+                // Default if we failed to extract a "proper" version
+                if (result==null){result=[version]}
+                return result[0];
+            };
             // Compare 2 version numbers
             function cmpVersions (a, b) {
                 var i, diff;
@@ -701,7 +708,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 if (vendor == '') {vendor=soft};
                                 vendor = cpeNormalizeVendor(vendor,soft);
                                 // Get version number
-                                var version = $(this).find(".VERSION,.VERSION sorting_1").text().toLowerCase();
+                                var version = getSoftwareVersion($(this).find(".VERSION,.VERSION sorting_1").text());
                                 // Add grey bug icon
                                 var nameColumn = $(this).find(".NAME,.NAME sorting_1");
                                 var newContent = nameColumn.text() + '&nbsp<img src="image/bug-grey.png">';
