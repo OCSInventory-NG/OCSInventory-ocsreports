@@ -80,7 +80,7 @@ Usage :
 \t--debug                       activate debug mode configuration option while installing OCS Inventory NG Unix Unified agent
 \t--logfile=path                set OCS Inventory NG Unix Unified agent log file path (if needed) 
 \t--nossl                       disable SSL CA verification configuration option while installing OCS Inventory NG Unix Unified agent (not recommended)
-\t--ca=path                     set OCS Inventory NG Unix Unified agent CA certificate chain file path
+\t--ca=path                     set OCS Inventory NG Unix Unified agent CA certificates file path
 \t--download                    activate package deployment feature while installing OCS Inventory NG Unix Unified agent
 \t--snmp                        activate SNMP scans feature while installing OCS Inventory NG Unix Unified agent
 \t--now                         launch OCS Inventory NG Unix Unified agent after installation
@@ -212,10 +212,10 @@ unless ($nowizard) {
         $nossl = ask_yn("Do you want disable SSL CA verification configuration option (not recommended) ?", 'n');
     }
 
-    #Set CA certificate path ?
+    #Set CA certificates file path ?
     unless ($config->{ca}) {
-        if (ask_yn("Do you want to set CA certificate chain file path ?", 'y')){ 
-            $config->{ca} = promptUser('Specify CA certificate chain file path', $config->{ca}, '^\/\w+', 'The location must begin with /');
+        if (ask_yn("Do you want to set CA certificates file path ?", 'y')){
+            $config->{ca} = promptUser('Specify CA certificates file path', $config->{ca}, '^\/\w+', 'The location must begin with /');
         }
     }
 
