@@ -196,12 +196,8 @@ function addLog($type, $value = "", $lbl_sql = '') {
 
 function dateTimeFromMysql($v) {
     global $l;
-
-    $sql = "SELECT date_format('%s', '%s %%H:%%i:%%S') as dt";
-    $arg = array($v, $l->g(269));
-    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $ret = mysqli_fetch_array($result);
-    return $ret['dt'];
+    $d = DateTime::createFromFormat('Y-m-d H:i:s', $v);
+    return $d? $d->format($l->g(1242)) : '';
 }
 
 function reloadform_closeme($form = '', $close = false) {

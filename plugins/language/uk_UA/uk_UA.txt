@@ -1126,7 +1126,7 @@
 1239 МГц
 1240 МБ
 1241 Кількість пристроїв SNMP
-1242 m/d/Y h:i
+1242 m/d/Y H:i
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Керуйте своїми клієнтами OCS-NG

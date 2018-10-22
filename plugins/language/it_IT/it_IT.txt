@@ -1126,7 +1126,7 @@
 1239 MHz
 1240 MB
 1241 Numero di periferiche SNMP
-1242 d/m/Y h:i
+1242 d/m/Y H:i
 1243 I soli file ammessi sono ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe ed ocspackage.exe
 1244 Questo file non può essere vuoto
 1245 Gestione client OCS-NG
