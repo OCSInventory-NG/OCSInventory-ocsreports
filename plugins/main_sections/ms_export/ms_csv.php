@@ -51,7 +51,8 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
             $col[$lbl] = $name;
             $toBeWritten .= $name . $separator;
         } elseif ($name == 'NAME' || $name == $l->g(23)) {
-            $col['name'] = "name";
+            $lbl = $_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name];
+            $col[$lbl] = $name;
             $toBeWritten .= $l->g(23) . $separator;
         }
     }
