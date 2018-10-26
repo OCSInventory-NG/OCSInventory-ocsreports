@@ -521,6 +521,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             });
             // Normalize a software name to a CPE software
             function cpeNormalizeName(name){
+               // Special case for Java Standard Edition
+                if (name.match(/java\s\d+\supdate\s\d+/i)){return "jre"};
                 // Make sure it's lowercase
                 name = name.toLowerCase();
                 // Remove trailing whitespaces
