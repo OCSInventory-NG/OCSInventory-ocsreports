@@ -595,7 +595,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 if (vendor == '') {vendor=soft};
                 // Get version number
                 var version = getSoftwareVersion(row.find($("[class^=' VERSION']")).text());
-                version = version.concat(getSoftwareVersion(row.find($("[class^=softwaresVERSION]")).text()));
+                version = version.concat(getSoftwareVersion(row.find($("[class^=' softwaresVERSION']")).text()));
                 // return
                 return {soft: soft, vendor: vendor, version: version};
             };
