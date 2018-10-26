@@ -549,8 +549,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 if (vendor.match(/^https?:[^\s]+$/)){return soft};
                 // Make sure it's lowercase
                 vendor = vendor.toLowerCase();
+                // Remove any URL
+                vendor = vendor.replace(/https?:[^\s]+/g,"");
                 // Remove some trailing words that are commonly removed from CPE
-                vendor = vendor.replace(/,?\s*(corporation|gmbh|inc\.|incorporated|LLC|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated)$/i, "");
+                vendor = vendor.replace(/,?\s*(corporation|gmbh|inc\.|incorporated|LLC|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated)$/i,"");
                 // Replace blank characters by underscore
                 vendor = vendor.replace(/\s/g,"_");
                 // Only UTF-8 characters in the range x00-x7F are allowed (NISTIR-7695)
