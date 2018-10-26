@@ -582,6 +582,23 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 }
                 return segmentsA.length - segmentsB.length;
             };
+            // Get software details from a specific row in a table
+            function getSoftwareDetails(row){
+                // Get software name
+                var soft = row.find($("[class^=' NAME']")).text();
+                soft = soft.concat(row.find($("[class^=' softwaresNAME']")).text());
+                soft = cpeNormalizeName(soft);
+                // Get vendor  name
+                var vendor = row.find($("[class^=PUBLISHER]")).text();
+                vendor = vendor.concat(row.find($("[class^=' softwaresPUBLISHER']")).text());
+                vendor = cpeNormalizeVendor(vendor,soft);
+                if (vendor == '') {vendor=soft};
+                // Get version number
+                var version = getSoftwareVersion(row.find($("[class^=' VERSION']")).text());
+                version = version.concat(getSoftwareVersion(row.find($("[class^=softwaresVERSION]")).text()));
+                // return
+                return {soft: soft, vendor: vendor, version: version};
+            };
             // Find back the details of a soft from its ajax request
             function getSoftwareInfoFromJqxhr(jArray, jq){
                 for (i=0;i<jArray.length;i++){
@@ -690,9 +707,11 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                     }
                     // For tables listing softwares, try to get CVE info
                     if (table_id == 'table#affich_soft') {
-                        // Only if cve-search integration is enabled
+                        // Search for CVE if cve-search integration is enabled
                         var cveEnabled = "<?php $h=look_config_default_values(array('VULN_CVESEARCH_ENABLE'));echo $h['ivalue']['VULN_CVESEARCH_ENABLE'] ?>";
                         if (cveEnabled==1) {
+                            // Get URL of cve-search instance to be queried
+                            cveSearchUrl = "<?php $h=look_config_default_values(array('VULN_CVESEARCH_HOST'));echo $h['tvalue']['VULN_CVESEARCH_HOST'] ?>";
                             // Abort any pending ajax requests
                             if (cveAjaxRequests.length>0) {
                                 for (i=0;i<cveAjaxRequests.length;i++){
@@ -700,25 +719,20 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 }
                                 cveAjaxRequests = [];
                             }
-                            cveSearchUrl = "<?php $h=look_config_default_values(array('VULN_CVESEARCH_HOST'));echo $h['tvalue']['VULN_CVESEARCH_HOST'] ?>";
                             // For data rows only
                             $(table_id).find(".odd,.even").each(function(){
-                                // Get software name
-                                var soft = $(this).find(".NAME,.NAME sorting_1").text();
-                                soft = cpeNormalizeName(soft);
-                                if (soft.startsWith("update_for") | soft.startsWith("security_update_for") | soft.startsWith("service_pack") | soft==undefined){return};
-                                // Get vendor  name
-                                var vendor = $(this).find(".PUBLISHER,.PUBLISHER sorting_1").text();
-                                if (vendor == '') {vendor=soft};
-                                vendor = cpeNormalizeVendor(vendor,soft);
-                                // Get version number
-                                var version = getSoftwareVersion($(this).find(".VERSION,.VERSION sorting_1").text());
+                                var softDetails=getSoftwareDetails($(this));
+                                // Do not get CVE for these kind of softwares
+                                if (softDetails.soft.startsWith("update_for") | softDetails.soft.startsWith("security_update_for") |
+                                    softDetails.soft.startsWith("service_pack") | softDetails.soft==undefined | softDetails.soft==''){
+                                   return
+                                };
                                 // Add grey bug icon
-                                var nameColumn = $(this).find(".NAME,.NAME sorting_1");
+                                var nameColumn = $(this).find($("[class^=' NAME]'"));
+                                if (nameColumn==undefined){nameColumn=$(this).find($("[class^=' softwaresNAME]'"))};
                                 var newContent = nameColumn.text() + '&nbsp<img src="image/bug-grey.png">';
                                 nameColumn.html(newContent);
-                                // Get CVE
-                                getCVE($(this),soft,vendor,version)
+                                getCVE($(this),softDetails.soft,softDetails.vendor,softDetails.version);
                             });
                         }
                     }
