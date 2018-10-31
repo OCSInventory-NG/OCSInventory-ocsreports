@@ -199,7 +199,7 @@
                   if ($keyExploded[3] == self::SESS_OPERATOR) {
                       $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_OPERATOR] = $value;
                   } elseif($keyExploded[3] == self::SESS_COMPARATOR){
-                    $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
+                    $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
                   } else {
                       $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_VALUES] = $value;
                   }
