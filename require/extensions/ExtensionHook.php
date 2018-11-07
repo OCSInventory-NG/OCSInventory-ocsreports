@@ -36,12 +36,19 @@ class ExtensionHook{
     public $menuExtensionsHooks = array();
     public $subMenuExtensionsHooks = array();
     public $languageExtensionsHooks = array();
+
+    public $activatedExt = array();
+
+    // Simple array of menu available in all loaded extension
+    public $extDeclaredMenu = array();
     
     private $xmlElement;
     
     private $currentScannedExt = "";
     
     function __construct($activatedExtArray) {
+
+        $this->activatedExt = $activatedExtArray;
         
         foreach ($activatedExtArray as $extLabel) {
             if($this->haveHook($extLabel)){
@@ -95,8 +102,9 @@ class ExtensionHook{
                 case self::LANG_HOOK:
                     $this->addLangEntries($hooks->value);
                     break;
-                
+
                 case self::MENU_HOOK:
+                    $this->extDeclaredMenu[strval($hooks->identifier)] = $this->currentScannedExt;
                     $menuHookArray = array(
                         self::IDENTIFIER => $hooks->identifier,
                         self::TRANSLATION => $hooks->translation
@@ -105,6 +113,7 @@ class ExtensionHook{
                     break;
                 
                 case self::SUB_MENU_HOOK:
+                    $this->extDeclaredMenu[strval($hooks->identifier)] = $this->currentScannedExt;
                     $subMenuHookArray = array(
                         self::MAIN_MENU_IDENTIFIER => $hooks->mainmenuidentifier,
                         self::IDENTIFIER => $hooks->identifier,
@@ -146,7 +155,7 @@ class ExtensionHook{
     /**
      * Add lang entries in the class attributies for later use
      * 
-     * @param array $xmlElementHookRender Array for xml hooks that contains all lang to add
+     * @param SimpleXMLElement $xmlElementHookRender Array for xml hooks that contains all lang to add
      */
     private function addLangEntries(SimpleXMLElement $xmlElementHookRender){
         foreach ($xmlElementHookRender as $value) {
@@ -238,6 +247,27 @@ class ExtensionHook{
             }
             return $menusElemArray;
         }
+    }
+
+    /**
+     * This method will check if the menu is from an extension.
+     *
+     * @param $menuIdentifier
+     *
+     * @return boolean : if is in extDeclaredMenu array
+     */
+    public function isMenuFromExt($menuIdentifier){
+        return array_key_exists($menuIdentifier, $this->extDeclaredMenu);
+    }
+
+    /**
+     * This method will check if an extension add a menu to an existing menu
+     *
+     * @param $mainMenuUrl : Main menu url
+     * @return boolean : true if ext have sub menu
+     */
+    public function haveExtSubMenu($mainMenuUrl){
+        return array_key_exists($mainMenuUrl, $this->subMenuExtensionsHooks);
     }
     
 
