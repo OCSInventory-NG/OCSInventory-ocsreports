@@ -43,16 +43,29 @@ class MenuRenderer {
         $html = '<ul class="nav navbar-nav">';
 
         foreach ($menu->getChildren() as $menu_elem) {
+            if($this->extension_hooks->haveExtSubMenu($menu_elem->getUrl())){
+                foreach ($this->extension_hooks->activatedExt as $extName){
+                    if(isset($this->extension_hooks->subMenuExtensionsHooks[$menu_elem->getUrl()][$extName])){
+                        for ($index = 0; $index < count($this->extension_hooks->subMenuExtensionsHooks[$menu_elem->getUrl()][$extName]); $index++) {
+                            $extMenuElem = $this->extension_hooks->generateMenuRenderer(
+                                $this->extension_hooks->subMenuExtensionsHooks[$menu_elem->getUrl()][$extName][$index],
+                                true
+                            );
+                            $menu_elem->addElem(0, $extMenuElem);
+                        }
+                    }
+                }
+
+            }
             $html .= $this->renderElem($menu_elem);
         }
-        
         
         // If extension generate new menu / sub menus
         if($this->extension_hooks->needHookTrigger(ExtensionHook::MENU_HOOK)){
             foreach ($this->extension_hooks->menuExtensionsHooks as $ext_key => $menus_array) {
                 for ($index = 0; $index < count($menus_array); $index++) {
                     $extension_menus_elem = $this->extension_hooks->generateMenuRenderer($menus_array[$index], false);
-                    $html .= $this->renderElem($extension_menus_elem);
+                    $html .= $this->renderElem($extension_menus_elem, 0, true);
                 }
             }
         }
@@ -67,11 +80,17 @@ class MenuRenderer {
      *
      * @param MenuElem $menu_elem The MenuElem to convert
      * @param integer  $level The level
+     * @param boolean  $extFrom Render from extension ?
      *
      * @return string The html tag code
      */
-    public function renderElem(MenuElem $menu_elem, $level = 0) {
-        
+    public function renderElem(MenuElem $menu_elem, $level = 0, $extFrom = false) {
+
+        // Add for extension manager
+        if($extFrom){
+            $this->addValueToProfileAndUrls($menu_elem->getUrl(), $this->extension_hooks->extDeclaredMenu[$menu_elem->getUrl()]);
+        }
+
         // Hook to check if the elem must be displayed or not
         if (!$this->canSeeElem($menu_elem)) {
             return '';
@@ -92,7 +111,11 @@ class MenuRenderer {
         if ($menu_elem->hasChildren()) {
             $children_html = '';
             foreach ($menu_elem->getChildren() as $child_elem) {
-                $children_html .= $this->renderElem($child_elem, $level + 1);
+                if($this->extension_hooks->isMenuFromExt($child_elem->getUrl())){
+                    $children_html .= $this->renderElem($child_elem, $level + 1, true);
+                }else{
+                    $children_html .= $this->renderElem($child_elem, $level + 1);
+                }
             }
 
             // Hide menu elem if none of its children could be displayed
@@ -128,6 +151,11 @@ class MenuRenderer {
 
     protected function canSeeElem(MenuElem $menu_elem) {
         //@TODO : buggy code
+        return true;
+    }
+
+    protected function addValueToProfileAndUrls($value, $extMapName){
+        //@TODO : management of multiple profile (hook.xml improvement)
         return true;
     }
 
