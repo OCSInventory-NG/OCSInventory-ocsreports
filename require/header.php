@@ -435,7 +435,17 @@ if ($url_name) {
     if ($urls->getDirectory($url_name)) {
         $rep = $urls->getDirectory($url_name);
     }
-    require (MAIN_SECTIONS_DIR . $rep . "/" . $url_name . ".php");
+
+    $test = $rep . "/" . $url_name . ".php";
+
+    if(file_exists(MAIN_SECTIONS_DIR . $rep . "/" . $url_name . ".php")){
+        require (MAIN_SECTIONS_DIR . $rep . "/" . $url_name . ".php");
+    }elseif (file_exists($rep . "/" . $url_name . ".php")){
+        require ($rep . "/" . $url_name . ".php");
+    }else{
+        die("page not found !!!!");
+    }
+
 } else {
     $default_first_page = MAIN_SECTIONS_DIR . "ms_console/ms_console.php";
     if (isset($protectedGet['first'])) {
