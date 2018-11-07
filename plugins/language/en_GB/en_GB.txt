@@ -39,7 +39,7 @@
 65 Model
 66 Type
 67 Disk size
-69 Editor
+69 Publisher
 70 Designation
 79 Printer(s)
 80 Caption
@@ -1336,6 +1336,13 @@
 1504 Regular expression or Software name
 1505 Select default category for softwares
 1506 No category created
+1507 Software version
+1508 Software vendor
+1509 Advanced settings
+1510 Software version comparator
+1511 Version comparator
+1512 Less or Equal
+1513 More or Equal
 
 1700 Advanced configuration
 1701 Tab available
@@ -1559,4 +1566,3 @@
 8106 Time to live
 8107 This SAAS already exists
 8108 Enable Software as a Service Inventory
-
