@@ -173,9 +173,12 @@ class ExtensionManager{
         }
 
     }
-    
+
     /**
      * Extension removal
+     *
+     * @param $name : Name of the plugin
+     * @return bool : true is ok else false
      */
     public function deleteExtension($name){
         
@@ -221,13 +224,6 @@ class ExtensionManager{
         }
         
         $this->installedExtensionsList = $installedExt;
-        
-    }
-    
-    /**
-     * Init installed extensions on login
-     */
-    public function initInstalledExtensions(){
         
     }
     
