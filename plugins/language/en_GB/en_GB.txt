@@ -1476,6 +1476,7 @@
 2129 Back to multi search
 2130 Assets categories
 2131 Number of machines per category
+2132 Assets category
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
