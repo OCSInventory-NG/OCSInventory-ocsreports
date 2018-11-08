@@ -59,7 +59,8 @@ class DatabaseSearch
         "download_servers",
         "itmgmt_comments",
         "javainfo",
-        "journallog"
+        "journallog",
+        "groups"
     ];
 
     /**
