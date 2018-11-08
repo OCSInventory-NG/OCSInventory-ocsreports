@@ -988,6 +988,9 @@
       }
     }
 
+    /**
+     * Get all assets category
+     */
     public function asset_categories(){
       $sqlAsset = "SELECT CATEGORY_NAME, ID FROM assets_categories";
       $result = mysqli_query($_SESSION['OCS']["readServer"], $sqlAsset);
