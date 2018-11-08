@@ -1329,6 +1329,11 @@
 1449 Configuration générale
 1450 ID
 1451 Static ?
+1452 Waranty begin
+1453 GUID
+1454 Source
+1455 Interface virtuelle
+
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie
@@ -1344,6 +1349,7 @@
 1511 Comparateur version
 1512 Inférieure ou égale
 1513 Supérieure ou égale
+1514 Catégorie
 
 1700 Configuration avancée
 1701 Onglet disponible
