@@ -192,6 +192,7 @@ if (is_defined($protectedPost['MODIF'])) {
             $tab_options['MODIF']['IMG'] = "image/prec16.png";
             $tab_options['LBL']['MODIF'] = $l->g(114);
             $default_fields = $list_fields;
+
         } elseif ($protectedGet['prov'] == "ident") {
             $title = $l->g(948);
             $sql = "select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
@@ -287,10 +288,13 @@ if (is_defined($protectedPost['MODIF'])) {
             } else {
                 msg_info($msg_info);
             }
+
+            if ($protectedGet['prov'] == "no_inv"){
+              echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-remove delete-span'></span></a>";
+              echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
+            }
         }
 
-        echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-remove delete-span'></span></a>";
-        echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
         echo close_form();
     }
 }
