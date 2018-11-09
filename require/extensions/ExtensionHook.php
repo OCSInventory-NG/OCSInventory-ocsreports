@@ -28,19 +28,25 @@ class ExtensionHook{
     const LANG_HOOK = "lang";
     const MENU_HOOK = "menu";
     const SUB_MENU_HOOK = "submenu";
+    const CD_DETAIL_HOOK = "cdentry";
     
     const IDENTIFIER = "identifier";
     const MAIN_MENU_IDENTIFIER = "mainmenuidentifier";
     const TRANSLATION = "translation";
+    const AVAILABLE = "available";
+    const CATEGORY = "category";
+    const EXTENSION = "extension";
     
     public $menuExtensionsHooks = array();
     public $subMenuExtensionsHooks = array();
     public $languageExtensionsHooks = array();
+    public $computerDetailExtensionsHooks = array();
 
     public $activatedExt = array();
 
     // Simple array of menu available in all loaded extension
     public $extDeclaredMenu = array();
+    public $computerDeclaredMenu = array();
     
     private $xmlElement;
     
@@ -54,8 +60,9 @@ class ExtensionHook{
             if($this->haveHook($extLabel)){
                 $this->readHookXml($extLabel);
             }
+            $this->addTranslation($extLabel);
         }
-        
+
     }
     
     /**
@@ -65,14 +72,14 @@ class ExtensionHook{
     public function needHookTrigger($hookType){
         switch ($hookType) {
             case self::LANG_HOOK:
-                if(empty($this->subMenuExtensionsHooks)){
+                if(empty($this->languageExtensionsHooks)){
                     return false;
                 }else{
                     return true;
                 }
 
             case self::MENU_HOOK:
-                if(empty($this->subMenuExtensionsHooks)){
+                if(empty($this->menuExtensionsHooks)){
                     return false;
                 }else{
                     return true;
@@ -84,6 +91,14 @@ class ExtensionHook{
                 }else{
                     return true;
                 }
+
+            case self::CD_DETAIL_HOOK:
+                if(empty($this->computerDetailExtensionsHooks)){
+                    return false;
+                }else{
+                    return true;
+                }
+                break;
 
             default:
                 return false;
@@ -122,14 +137,50 @@ class ExtensionHook{
                     $this->addSubMenuEntry($subMenuHookArray);
                     break;
 
+                case self::CD_DETAIL_HOOK:
+                    $this->computerDeclaredMenu[strval($hooks->identifier)] = $this->currentScannedExt;
+                    $computerDetailHookArray = array(
+                        self::IDENTIFIER => $hooks->identifier,
+                        self::TRANSLATION => $hooks->translation,
+                        self::CATEGORY => $hooks->category,
+                        self::AVAILABLE => $hooks->available
+                    );
+                    $this->addCdEntry($computerDetailHookArray);
+                    break;
+
                 default:
                     break;
             }
         }  
     }
+
+    /**
+     * Return the cd details in specified category
+     *
+     * @param $catName : Category name
+     * @return array : Values
+     */
+    public function getCdEntryByCategory($catName){
+        return $this->computerDetailExtensionsHooks[$catName];
+    }
+
+    /**
+     * Add cd computers entries in class attributes
+     *
+     * @param array $xmlHookRender Array for xml hooks that contains cd entries to add
+     */
+    private function addCdEntry(array $xmlHookRender){
+        $this->computerDetailExtensionsHooks[(string)$xmlHookRender[self::CATEGORY]][(string)$xmlHookRender[self::IDENTIFIER]] = array(
+            self::IDENTIFIER => (string)$xmlHookRender[self::IDENTIFIER],
+            self::TRANSLATION => (string)$xmlHookRender[self::TRANSLATION],
+            self::CATEGORY => (string)$xmlHookRender[self::CATEGORY],
+            self::AVAILABLE => (string)$xmlHookRender[self::AVAILABLE],
+            self::EXTENSION => $this->currentScannedExt
+        );
+    }
     
     /**
-     * Add lang entries in the class attributies for later use
+     * Add lang entries in the class attributes for later use
      * 
      * @param array $xmlHookRender Array for xml hooks that contains all lang to add
      */
@@ -141,7 +192,7 @@ class ExtensionHook{
     }
     
     /**
-     * Add lang entries in the class attributies for later use
+     * Add lang entries in the class attributes for later use
      * 
      * @param array $xmlHookRender Array for xml hooks that contains all lang to add
      */
@@ -153,7 +204,7 @@ class ExtensionHook{
     }
     
     /**
-     * Add lang entries in the class attributies for later use
+     * Add lang entries in the class attributes for later use
      * 
      * @param SimpleXMLElement $xmlElementHookRender Array for xml hooks that contains all lang to add
      */
@@ -190,8 +241,15 @@ class ExtensionHook{
      * ug_UY
      * uk_UA
      */
-    public function addTranslation($lang){
-        
+    public function addTranslation($extName, $lang){
+
+        global $l;
+
+        $currentLang = $_SESSION['OCS']['LANGUAGE'];
+        $langFile = EXT_DL_DIR.$extName."/language/".$currentLang."/".$currentLang.".txt";
+        if(file_exists($langFile)){
+            $l->addExternalLangFile($langFile);
+        }
     }
     
     /**
