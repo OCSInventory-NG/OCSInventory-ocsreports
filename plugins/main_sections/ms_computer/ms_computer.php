@@ -28,6 +28,8 @@ if (AJAX) {
 }
 require('require/function_opt_param.php');
 require('require/function_graphic.php');
+require_once('require/extensions/ExtensionManager.php');
+require_once('require/extensions/ExtensionHook.php');
 require_once('require/function_machine.php');
 require_once('require/function_files.php');
 require_once('ms_computer_views.php');
@@ -85,6 +87,8 @@ if (AJAX) {
 
 $plugins_serializer = new XMLPluginsSerializer();
 $plugins = $plugins_serializer->unserialize(file_get_contents( CD_CONFIG_DIR .'plugins.xml'));
+$extMgr = new ExtensionManager();
+$extHooks = new ExtensionHook($extMgr->installedExtensionsList);
 
 if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('software', 'hardware', 'network', 'devices', 'admin', 'config', 'teledeploy', 'other'))) {
     // If category
@@ -101,6 +105,15 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
                     echo '</div>';
                 }
             }
+        }
+    }
+    // Load cd entries for extensions
+    foreach ($extHooks->getCdEntryByCategory($protectedGet['cat']) as $extensionPlugins){
+        $fileName = EXT_DL_DIR.$extensionPlugins[ExtensionHook::EXTENSION]."/".$extensionPlugins[ExtensionHook::IDENTIFIER]."/".$extensionPlugins[ExtensionHook::IDENTIFIER].".php";
+        if(file_exists($fileName)){
+            echo '<div class="plugin-name-' . $extensionPlugins[ExtensionHook::IDENTIFIER] . ' ">';
+            require $fileName;
+            echo '</div>';
         }
     }
 } else if (isset($protectedGet['option']) && isset($plugins[$protectedGet['option']])) {
