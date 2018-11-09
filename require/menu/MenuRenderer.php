@@ -35,8 +35,8 @@ class MenuRenderer {
     public function __construct() {
         $this->active_link = null;
         $this->parent_elem_clickable = false;
-        $arrayExt = ['sampleextension'];
-        $this->extension_hooks = new ExtensionHook($arrayExt);
+        $extMgr = new ExtensionManager();
+        $this->extension_hooks = new ExtensionHook($extMgr->installedExtensionsList);
     }
 
     public function render(Menu $menu) {
