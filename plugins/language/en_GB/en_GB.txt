@@ -1201,7 +1201,7 @@
 1322 Unable to open socket for WOL
 1323 Server printer sharing
 1324 Sharing printer on server
-1325 screen horizontal / vertical
+1325 Screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
 1328 Manage
@@ -1301,8 +1301,8 @@
 1422 Expire
 1423 File name
 1424 Mirrors
-1425 tag
-1426 updated
+1425 Tag
+1426 Updated
 1427 Base URL
 1428 Battery
 1429 Sim card
@@ -1328,6 +1328,11 @@
 1449 General configuration
 1450 ID
 1451 Static ?
+1452 Waranty begin
+1453 GUID
+1454 Source
+1455 Virtual interface
+
 
 1500 Software category
 1501 New category
@@ -1343,6 +1348,7 @@
 1511 Version comparator
 1512 Less or Equal
 1513 More or Equal
+1514 Category
 
 1700 Advanced configuration
 1701 Tab available
