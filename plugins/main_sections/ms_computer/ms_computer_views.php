@@ -79,6 +79,7 @@ function show_computer_summary($computer) {
             'WINPRODID' => $l->g(111),
             'WINPRODKEY' => $l->g(553),
             'VMTYPE' => $l->g(1267),
+            'ASSET' => $l->g(2132),
         ),
         'NETWORK' => array(
             'WORKGROUP' => $l->g(33),
@@ -153,6 +154,12 @@ function show_computer_summary($computer) {
                 $link[$key] = true;
             } elseif ($computer->$key != '') {
                 $data[$key] = $computer->$key;
+            } elseif ($key == "ASSET") {
+                $sqlAsset = "SELECT CATEGORY_NAME FROM assets_categories LEFT JOIN hardware AS h ON h.CATEGORY_ID = assets_categories.ID WHERE h.ID = %s";
+                $argAsset = array($computer->ID);
+                $resAsset = mysql2_query_secure($sqlAsset, $_SESSION['OCS']["readServer"], $argAsset);
+                $asset = mysqli_fetch_array($resAsset);
+                $data[$key] = $asset['CATEGORY_NAME'];
             }
         }
     }

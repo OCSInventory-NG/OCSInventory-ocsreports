@@ -110,7 +110,8 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
-    $l->g(61) => "vname");
+    $l->g(61) => "vname",
+    $l->g(2132) => "ac.category_name");
 if ($show_mac_addr) {
     $list_fields2[$l->g(95)] = "n.macaddr";
     $list_fields2[$l->g(208)] = "n.ipmask";
@@ -150,7 +151,8 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
-    $l->g(61) => "v.name as vname");
+    $l->g(61) => "v.name as vname",
+    $l->g(2132) => "ac.category_name");
 
 // List for select
 $select_fields = array_merge($list_fields, $select_fields2);
@@ -180,6 +182,9 @@ $queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id ";
 
 //MEMORIES INFOS
 $queryDetails .= "LEFT JOIN memories m ON m.hardware_id=h.id ";
+
+//ASSETS CATEGORY
+$queryDetails .= "LEFT JOIN assets_categories ac ON ac.ID = h.CATEGORY_ID ";
 
 // VIDEOS CARDS INFOS
 $queryDetails .= "LEFT JOIN videos v ON v.hardware_id=h.id ";

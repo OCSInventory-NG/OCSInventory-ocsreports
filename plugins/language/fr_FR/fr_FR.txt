@@ -1476,12 +1476,13 @@
 2123 Paquets disponibles
 2124 Paquets supprimés
 2125 ATTENTION: L'extension CURL pour PHP n'est pas installée. Essayez d'installer le paquet php-curl (Linux).
-2126 Catégories d'Actifs
+2126 Catégorisation d'Actifs
 2127 La requête multi-critères en cours sera utilisée comme critère de catégorisation des actifs.
-2128 ëtes-vous sûr ?
+2128 êtes-vous sûr ?
 2129 Retour à la multi-critères
 2130 Catégories d'Actifs
 2131 Nombre de machines par catégorie
+2132 Catégorie d'Actifs
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

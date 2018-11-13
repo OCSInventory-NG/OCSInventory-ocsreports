@@ -344,12 +344,19 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                } elseif($tableName == self::GROUP_TABLE){
+                } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID'){
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
-                  $this->queryArgs[] = 'hardware';
-                  $this->queryArgs[] = 'ID';
-                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                  if($tableName == self::GROUP_TABLE){
+                    $this->queryArgs[] = 'hardware';
+                    $this->queryArgs[] = 'ID';
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                  }else{
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                  }
                 }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
                   $this->queryArgs[] = $tableName;
@@ -374,6 +381,8 @@
             }
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
+
+
 
         // has tag restrictions?
         if(!empty($_SESSION['OCS']['TAGS']))
@@ -481,7 +490,6 @@
      */
     public function getSelectOptionForOperators($defaultValue, $table = null, $field = null)
     {
-
         $account = new AccountinfoSearch();
         $accounttype = null;
         if($field != null){
@@ -490,7 +498,7 @@
 
         $html = "";
         $operatorList = array();
-        if($table == self::GROUP_TABLE) {
+        if($table == self::GROUP_TABLE || $field == "CATEGORY_ID") {
             $operatorList = $this->operatorGroup;
         } elseif($accounttype == '2' || $accounttype == '11') {
             $operatorList = $this->operatorAccount;
@@ -593,11 +601,11 @@
 
         $accountInfos = new AccountinfoSearch();
 
-        if($field != null){
+        if($field != null && $field != "CATEGORY_ID"){
           $accounttype = $accountInfos->getSearchAccountInfo($field);
         }
 
-        if($tableName == self::GROUP_TABLE) {
+        if($tableName == self::GROUP_TABLE || $field == 'CATEGORY_ID') {
             $this->type = self::HTML_SELECT;
         } elseif($accounttype == '2' || $accounttype == '11') {
             $this->type = self::HTML_SELECT;
@@ -637,9 +645,12 @@
                 break;
 
             case self::HTML_SELECT:
+
                 $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
                 if($accounttype != null) {
                   $fieldSelect = $accountInfos->find_accountinfo_values($field);
+                } elseif($field == 'CATEGORY_ID') {
+                   $fieldSelect = $this->asset_categories();
                 } else {
                   $fieldSelect = $this->groupSearch->get_group_name();
                 }
@@ -975,5 +986,18 @@
             ];
         }
       }
+    }
+
+    /**
+     * Get all assets category
+     */
+    public function asset_categories(){
+      $sqlAsset = "SELECT CATEGORY_NAME, ID FROM assets_categories";
+      $result = mysqli_query($_SESSION['OCS']["readServer"], $sqlAsset);
+
+      while($asset_row = mysqli_fetch_array($result)){
+        $asset[$asset_row['ID']] = $asset_row['CATEGORY_NAME'];
+      }
+      return $asset;
     }
  }

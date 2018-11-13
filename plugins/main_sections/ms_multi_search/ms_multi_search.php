@@ -192,10 +192,11 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
             }
 					?></div>
 				</div>
+
 				<div class="col-sm-3">
 					<div class="form-group">
 						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
-							<?php if(strpos($values['fields'], 'fields_') !== false){
+							<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID")){
                 echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
               } else {
                 echo $search->getSelectOptionForOperators($values['operator'], $table);
@@ -205,7 +206,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<?php if(strpos($values['fields'], 'fields_') !== false){
+						<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID")){
               echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
             }else {
               echo $search->returnFieldHtml($uniqid, $values, $table );
