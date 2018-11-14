@@ -94,6 +94,21 @@ if (isset($protectedPost['Valid_modif'])) {
     }
 }
 
+//del the selection
+if ($protectedPost['DEL_ALL'] != '') {
+    foreach ($protectedPost as $key => $value) {
+        $checkbox = explode('check', $key);
+        if (isset($checkbox[1])) {
+          $sql = "DELETE FROM netmap WHERE mac='%s'";
+          mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $checkbox[1]);
+          $sql = "DELETE FROM network_devices WHERE macaddr='%s'";
+          mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $checkbox[1]);
+          unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_' . $protectedGet['prov']]);
+        }
+    }
+    $tab_options['CACHE'] = 'RESET';
+}
+
 //formulaire de saisie de l'identification de l'adresse mac
 if (is_defined($protectedPost['MODIF'])) {
     //cas d'une modification de la donnée déjà saisie
@@ -172,10 +187,12 @@ if (is_defined($protectedPost['MODIF'])) {
             $tab_options['FILTRE'] = array_flip($list_fields);
             $tab_options['ARG_SQL_COUNT'] = array($value_preg);
             $list_fields['SUP'] = 'mac';
+            $list_fields['CHECK'] = 'mac';
             $list_fields['MODIF'] = 'mac';
             $tab_options['MODIF']['IMG'] = "image/prec16.png";
             $tab_options['LBL']['MODIF'] = $l->g(114);
             $default_fields = $list_fields;
+
         } elseif ($protectedGet['prov'] == "ident") {
             $title = $l->g(948);
             $sql = "select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
@@ -249,7 +266,7 @@ if (is_defined($protectedPost['MODIF'])) {
 
         $tab_options['LBL']['MAC'] = $l->g(95);
 
-        $list_col_cant_del = array($l->g(66) => $l->g(66), 'SUP' => 'SUP', 'MODIF' => 'MODIF');
+        $list_col_cant_del = array($l->g(66) => $l->g(66), 'SUP' => 'SUP', 'CHECK' => 'CHECK', 'MODIF' => 'MODIF');
         $table_name = "IPDISCOVER_" . $protectedGet['prov'];
         $tab_options['table_name'] = $table_name;
         $form_name = $table_name;
@@ -271,7 +288,13 @@ if (is_defined($protectedPost['MODIF'])) {
             } else {
                 msg_info($msg_info);
             }
+
+            if ($protectedGet['prov'] == "no_inv"){
+              echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-remove delete-span'></span></a>";
+              echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
+            }
         }
+
         echo close_form();
     }
 }
