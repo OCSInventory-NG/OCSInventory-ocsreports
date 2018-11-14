@@ -99,6 +99,7 @@ function input_pack_taille($name, $other_field, $size, $input_size, $input_value
 
 function desactive_option($name, $list_id, $packid) {
     global $l;
+
     $sql_desactive = "delete from devices where name='%s' and ivalue=%s";
     $arg_desactive = array($name, $packid);
     if ($list_id != '') {
@@ -115,17 +116,36 @@ function desactive_option($name, $list_id, $packid) {
 
 function active_option($name, $list_id, $packid, $tvalue = '') {
     global $l;
-    desactive_option($name, $list_id, $packid);
-    $sql_active = "insert into devices (HARDWARE_ID, NAME, IVALUE,TVALUE) select ID,'%s','%s',";
-    if ($tvalue == '') {
-        $sql_active .= "null from hardware where id in ";
-        $arg_active = array($name, $packid);
-    } else {
-        $sql_active .= "'%s' from hardware where id in ";
-        $arg_active = array($name, $packid, $tvalue);
-    }
-    $sql = mysql2_prepare($sql_active, $arg_active, $list_id);
-    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
+
+		if(strpos($packid, ',')) {
+			$pack_id = explode(',',$packid);
+			foreach($pack_id as $key => $value){
+				desactive_option($name, $list_id, $value);
+		    $sql_active = "insert into devices (HARDWARE_ID, NAME, IVALUE,TVALUE) select ID,'%s','%s',";
+		    if ($tvalue == '') {
+		        $sql_active .= "null from hardware where id in ";
+		        $arg_active = array($name, $value);
+		    } else {
+		        $sql_active .= "'%s' from hardware where id in ";
+		        $arg_active = array($name, $value, $tvalue);
+		    }
+		    $sql = mysql2_prepare($sql_active, $arg_active, $list_id);
+		    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
+			}
+		} else {
+				desactive_option($name, $list_id, $packid);
+		    $sql_active = "insert into devices (HARDWARE_ID, NAME, IVALUE,TVALUE) select ID,'%s','%s',";
+		    if ($tvalue == '') {
+		        $sql_active .= "null from hardware where id in ";
+		        $arg_active = array($name, $packid);
+		    } else {
+		        $sql_active .= "'%s' from hardware where id in ";
+		        $arg_active = array($name, $packid, $tvalue);
+		    }
+		    $sql = mysql2_prepare($sql_active, $arg_active, $list_id);
+		    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
+		}
+
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) );
 }
 
