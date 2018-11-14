@@ -40,7 +40,7 @@ function initAutoComplete(form, field, submit, add) {
     _inputField.onblur = onBlurHandler;
     window.onresize = onResizeHandler;
     // Premier déclenchement de la fonction dans 200 millisecondes
-    setTimeout("mainLoop()", 200)
+    setTimeout("mainLoop()", 200);
 }
 
 var _oldInputFieldValue = "";	// valeur précédente du champ texte
@@ -205,7 +205,7 @@ function metsEnPlace(valeur, liste) {
         var nouveauSpan = document.createElement("SPAN");
         nouveauSpan.innerHTML = liste[f]; // le texte de la suggestion
         nouveauDiv.appendChild(nouveauSpan);
-        _completeDiv.appendChild(nouveauDiv)
+        _completeDiv.appendChild(nouveauDiv);
     }
     PressAction();
     if (_completeDivRows > 0) {
@@ -349,7 +349,6 @@ function PressAction() {
         case 8:
         case 33:
         case 34:
-        case 35:
         case 35:
         case 36:
         case 37:
