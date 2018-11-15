@@ -85,7 +85,6 @@
     <page>ms_admin_management</page>
     <page>ms_adminvalues</page>
     <page>ms_view_file</page>
-    <page>ms_search_soft</page>
     <page>ms_options</page>
     <page>ms_options_soft_cat</page>
     <page>ms_snmp</page>
