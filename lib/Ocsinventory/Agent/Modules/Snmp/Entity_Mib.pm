@@ -21,7 +21,7 @@ sub snmp_run {
         #1 => "other",
         #2 => "unknown",
         3 => "chassis",
-        #4 => "backplane",
+        4 => "backplane",
         #5 => "container",
         6 => "powerSupply",
         7 => "fan",
@@ -44,7 +44,7 @@ sub snmp_run {
            my $PhysicalClass=$result_snmp->{$snmp_entPhysicalClass.".".$ref};
  
            my $info = {};
-           if ( $PhysicalClass =~ /^[3,6,7,9,11]$/ ) {
+           if ( $PhysicalClass =~ /^[3,4,6,7,9,11]$/ ) {
                info_element($info,$session,$ref,$logger);
                $info->{TYPE}=$translation_entPhysicalClass->{$PhysicalClass};
                if ( $PhysicalClass == 3 ) {
@@ -52,6 +52,9 @@ sub snmp_run {
                    $nbr_switch++;
                    $common->addSnmpSwitch( $info ); 
                    # Infos for a switch: DESCRIPTION, REFERENCE, REVISION, FIRMWARE, SERIALNUMBER, MANUFACTURER, TYPE
+               } elsif ( $PhysicalClass == 4 ) {
+		   # Infos for the backplane : DESCRIPTION, FIRMWARE MANUFACTURER REFERENCE SERIALNUMBER TYPE
+                   $common->addSnmpBackPlane( $info );
                } elsif ( $PhysicalClass == 6 ) {
                    # Infos for an alimentation DESCRIPTION, REFERENCE, REVISION, SERIALNUMBER, MANUFACTURER, TYPE
                    $common->addSnmpPowerSupply( $info );
