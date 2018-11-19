@@ -165,7 +165,6 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 		$search->updateSessionsInfos($protectedPost);
 	}
 
-
 	foreach ($_SESSION['OCS']['multi_search'] as $table => $infos) {
     $i = 0;
 
@@ -196,7 +195,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				<div class="col-sm-3">
 					<div class="form-group">
 						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
-							<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID")){
+							<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
                 echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
               } else {
                 echo $search->getSelectOptionForOperators($values['operator'], $table);
@@ -206,7 +205,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID")){
+						<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
               echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
             }else {
               echo $search->returnFieldHtml($uniqid, $values, $table );
