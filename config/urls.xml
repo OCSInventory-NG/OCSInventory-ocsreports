@@ -124,10 +124,6 @@
         <value>help</value>
         <directory>ms_help</directory>
     </url>
-    <url key="ms_stats">
-        <value>stats</value>
-        <directory>ms_stats</directory>
-    </url>
     <url key="ms_codes">
         <value>admin_codes</value>
         <directory/>

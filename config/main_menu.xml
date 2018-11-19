@@ -152,10 +152,6 @@
         <label>g(928)</label>
         <url>ms_logs</url>
       </menu-elem>
-      <menu-elem id="ms_stats">
-        <label>g(1251)</label>
-        <url>ms_stats</url>
-      </menu-elem>
        <menu-elem id="ms_server_infos">
         <label>g(1360)</label>
         <url>ms_server_infos</url>
