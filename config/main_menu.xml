@@ -24,10 +24,6 @@
         <label>g(9)</label>
         <url>ms_multi_search</url>
       </menu-elem>
-      <menu-elem id="ms_search_soft">
-        <label>g(1050)</label>
-        <url>ms_search_soft</url>
-      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="deployment">

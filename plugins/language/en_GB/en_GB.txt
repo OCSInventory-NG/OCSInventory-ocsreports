@@ -1349,6 +1349,9 @@
 1512 Less or Equal
 1513 More or Equal
 1514 Category
+1515 All OS
+1516 All software (but default)
+
 
 1600 My dashboard
 1601 Dynamic groups

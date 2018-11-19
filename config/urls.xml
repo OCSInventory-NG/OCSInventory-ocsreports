@@ -228,10 +228,6 @@
         <value>view_file</value>
         <directory>ms_upload_file</directory>
     </url>
-    <url key="ms_search_soft">
-        <value>search_soft</value>
-        <directory>ms_search_soft</directory>
-    </url>
     <url key="ms_options">
         <value>search_soft_option</value>
         <directory>ms_search_soft</directory>
