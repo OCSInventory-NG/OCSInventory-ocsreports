@@ -127,11 +127,15 @@ while ($row = mysqli_fetch_object($resStats)) {
     $color[$i] = "plotProps: {fill: \"" . $color[$i] . "\"}";
     $i++;
 }
-
+echo "<div class='col-md-12 col-xs-offset-0 col-md-offset-3'>";
 $stats = new StatsChartsRenderer;
-$stats->createChartCanvas("teledeploy_stats");
-$stats->createPieChart("teledeploy_stats", "", $legend, $count_value);
-
+$name = ["teledeploy_stats" => "teledeploy_stats"];
+$stats->createChartCanvas($name);
+$chart["teledeploy_stats"] = ["name" => [0 => "teledeploy_stats"],
+                              "count" => $count_value,
+                              "name_value" => $legend];
+$stats->createPieChart($chart);
+echo "</div>";
 echo "</br>";
 
 if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {

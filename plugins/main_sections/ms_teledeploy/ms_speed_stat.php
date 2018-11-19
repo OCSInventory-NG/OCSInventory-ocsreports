@@ -103,9 +103,10 @@ foreach ($nb_4_hour as $key => $value) {
     $i++;
 }
 if (isset($data) && count($data) != 1) {
-    
+
     $stats = new StatsChartsRenderer;
-    $stats->createChartCanvas("teledeploy_speed", false, false);
+		$name = ["teledeploy_speed" => "teledeploy_speed"];
+    $stats->createChartCanvas($name, false, false);
     $stats->createPointChart("teledeploy_speed", $legende, $data, $l->g(1125));
 
 } else {
