@@ -1713,7 +1713,6 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							if(strpos($row[$tab_options['LIEN_CHAMP'][$key]], '+')){
 								$row[$tab_options['LIEN_CHAMP'][$key]] = str_replace("+", "%2B", $row[$tab_options['LIEN_CHAMP'][$key]]);
 							}
-							error_log(print_r($row[$tab_options['LIEN_CHAMP'][$key]], true));
 							$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
 						}
 						if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){

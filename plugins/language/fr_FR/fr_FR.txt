@@ -1350,6 +1350,8 @@
 1512 Inférieure ou égale
 1513 Supérieure ou égale
 1514 Catégorie
+1515 Tous les OS
+1516 Tous les logiciels (sauf défaut)
 
 1700 Configuration avancée
 1701 Onglet disponible

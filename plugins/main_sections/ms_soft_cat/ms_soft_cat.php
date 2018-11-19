@@ -70,6 +70,13 @@ if ($search_count != "" || $search_cache != "") {
     msg_warning($l->g(767));
 }
 
+$os_version = [
+  "ALL" => $l->g(1515),
+  "WINDOWS" => "Windows",
+  "unix" => "Unix",
+  "Android" => "Android"
+];
+
 $softCat = new SoftwareCategory();
 
 /*******************************************LIST OF CATEGORIES*****************************************************/
@@ -79,9 +86,11 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
     $i = $list_cat['i'];
     $first_onglet = $list_cat['first_onglet'];
     $categorie_id = $list_cat['category_name'];
+    $os = $list_cat['OS'];
     unset($list_cat['i']);
     unset($list_cat['first_onglet']);
     unset($list_cat['category_name']);
+    unset($list_cat['OS']);
 
     //delete categorie
     if (is_defined($protectedPost['SUP_CAT'])) {
@@ -119,6 +128,13 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
     if ($i != 1 && isset($list_cat[$protectedPost['onglet_soft']])) {
         echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a></br>";
     }
+
+    if($os_version[$os[$list_cat[$protectedPost['onglet_soft']]]] != null){
+      echo "<br><br><h4>".$l->g(274)." : ".$os_version[$os[$list_cat[$protectedPost['onglet_soft']]]]."</h4><br>";
+    }else{
+      echo "<br><br><h4>".$l->g(274)." : ".$l->g(1515)."</h4><br>";
+    }
+
     if(!empty($list_cat)){
         echo "<h4>".$l->g(1504)."</h4><br>";
         echo "<div class='tableContainer'>
@@ -191,7 +207,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 if($protectedPost['onglet'] == 'NEW_CAT'){
 
     if(isset($protectedPost['valid'])){
-        $result = $softCat->add_category($protectedPost['cat_name']);
+        $result = $softCat->add_category($protectedPost['cat_name'], $protectedPost['os_version']);
         if($result == true){
           msg_success($l->g(572));
         }else{
@@ -202,6 +218,7 @@ if($protectedPost['onglet'] == 'NEW_CAT'){
     echo "<div class='row margin-top30'>
             <div class='col-sm-10'>";
     formGroup('text', 'cat_name', $l->g(49).' :', '', '', '', '', '', '', "required");
+    formGroup('select', 'os_version', $l->g(274).' :', '', '', '', '', $os_version, $os_version);
     echo "<input type='submit' name='valid' id='valid' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</div></div>";
 }
