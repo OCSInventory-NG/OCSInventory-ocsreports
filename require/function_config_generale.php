@@ -705,7 +705,8 @@ function pageinventory($advance) {
       $champs = array('FREQUENCY' => 'FREQUENCY',
           'INVENTORY_CACHE_REVALIDATE' => 'INVENTORY_CACHE_REVALIDATE',
           'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED',
-          'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
+          'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY',
+          'INVENTORY_SAAS_ENABLED' => 'INVENTORY_SAAS_ENABLED');
     }
 
     $values = look_config_default_values($champs);
