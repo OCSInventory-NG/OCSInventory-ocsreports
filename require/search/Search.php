@@ -344,7 +344,7 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID'){
+                } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY'){
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
                   if($tableName == self::GROUP_TABLE){
                     $this->queryArgs[] = 'hardware';
@@ -495,10 +495,10 @@
         if($field != null){
           $accounttype = $account->getSearchAccountInfo($field);
         }
-
+var_dump($field);
         $html = "";
         $operatorList = array();
-        if($table == self::GROUP_TABLE || $field == "CATEGORY_ID") {
+        if($table == self::GROUP_TABLE || $field == "CATEGORY_ID" || $field == "CATEGORY") {
             $operatorList = $this->operatorGroup;
         } elseif($accounttype == '2' || $accounttype == '11') {
             $operatorList = $this->operatorAccount;
@@ -601,11 +601,11 @@
 
         $accountInfos = new AccountinfoSearch();
 
-        if($field != null && $field != "CATEGORY_ID"){
+        if($field != null && $field != "CATEGORY_ID" && $field != "CATEGORY"){
           $accounttype = $accountInfos->getSearchAccountInfo($field);
         }
 
-        if($tableName == self::GROUP_TABLE || $field == 'CATEGORY_ID') {
+        if($tableName == self::GROUP_TABLE || $field == 'CATEGORY_ID' || $field == 'CATEGORY') {
             $this->type = self::HTML_SELECT;
         } elseif($accounttype == '2' || $accounttype == '11') {
             $this->type = self::HTML_SELECT;
@@ -651,6 +651,11 @@
                   $fieldSelect = $accountInfos->find_accountinfo_values($field);
                 } elseif($field == 'CATEGORY_ID') {
                    $fieldSelect = $this->asset_categories();
+                } elseif($field == 'CATEGORY'){
+                  require_once('require/softwares/SoftwareCategory.php');
+                  $soft = new SoftwareCategory();
+                  $fieldSelect = $soft->search_all_cat();
+                  unset($fieldSelect[0]);
                 } else {
                   $fieldSelect = $this->groupSearch->get_group_name();
                 }
@@ -960,6 +965,15 @@
                   'fields' => $field[1],
                   'value' => $value,
                   'operator' => $operator,
+              ];
+          }
+        }elseif(strpos($field[0], 'ASSETS') !== false){
+          if(!array_key_exists('ASSETS'.$value,$_SESSION['OCS']['multi_search']['hardware'])){
+              $_SESSION['OCS']['multi_search'] = array();
+              $_SESSION['OCS']['multi_search']['hardware']['ASSETS'.preg_replace("/_/","",$value)] = [
+                  'fields' => 'CATEGORY_ID',
+                  'value' => $value,
+                  'operator' => "BELONG",
               ];
           }
         }

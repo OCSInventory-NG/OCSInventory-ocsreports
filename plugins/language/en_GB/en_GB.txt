@@ -1353,6 +1353,9 @@
 1516 All software (but default)
 
 
+1600 My dashboard
+1601 Dynamic groups
+
 1700 Advanced configuration
 1701 Tab available
 1702 New tab

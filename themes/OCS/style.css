@@ -237,3 +237,20 @@ div.progress {
     margin-bottom: 0;
     margin-right : 3px;
 }
+
+.panel-heading {
+  background: #a7a7a7;
+  background-color:#a7a7a7;
+  color: white;
+}
+
+.soft-table {
+  border-bottom:1pt solid #dddddd;
+}
+
+.soft-table-td {
+  width: 50%;
+  padding-left: 100px;
+  padding-top : 10px;
+  padding-bottom : 10px;
+}

@@ -27,242 +27,177 @@ if (AJAX) {
 }
 
 require_once('require/function_config_generale.php');
-$form_name = "console";
-if ($protectedPost['RESET'] == 'FIRST') {
-    unset($_SESSION['OCS']['COUNT_CONSOLE']);
-}
-if ($protectedPost['ADMIN'] == 'ADMIN' && !isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
-    $_SESSION['OCS']['ADMIN_CONSOLE'] = 'ADMIN';
-} elseif ($protectedPost['ADMIN'] == 'ADMIN' && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
-    unset($_SESSION['OCS']['ADMIN_CONSOLE']);
-}
-
-if (is_defined($protectedPost['VISIBLE']) && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
-    insert_update($protectedPost['VISIBLE'], 1, '', 'IVALUE');
-}
-
-if (is_defined($protectedPost['NO_VISIBLE']) && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
-    delete($protectedPost['NO_VISIBLE']);
-}
-
-if (is_defined($protectedPost['UPDATE_VALUE']) && isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
-    $arg = look_config_default_values($protectedPost['UPDATE_VALUE']);
-    insert_update($protectedPost['UPDATE_VALUE'], $protectedPost[$protectedPost['UPDATE_VALUE']], $arg['ivalue'][$protectedPost['UPDATE_VALUE']], 'IVALUE');
-}
-
+require('require/stats/Stats.php');
+require('require/console/Console.php');
+require('require/charts/StatsChartsRenderer.php');
+require('require/softwares/SoftwareCategory.php');
 require_once('require/function_console.php');
+require_once('require/function_groups.php');
+require_once('require/function_computers.php');
 
+$stats = new Stats();
+$console = new Console();
+$soft = new SoftwareCategory();
 
-$data_on = define_tab();
-$data_tab = show_active_tab($data_on);
-echo open_form($form_name);
-if (isset($protectedPost["onglet"]) and !isset($data_tab['DATA'][$protectedPost["onglet"]]))
-	$protectedPost["onglet"]=$data_tab['DEFAULT'];
+PrintEnTete($l->g(1600));
 
-if ($data_tab['DATA'] != array()){
-	show_tabs($data_tab['DATA'],$form_name,"onglet",true);
+echo "<div class='col-md-10 col-xs-offset-0 col-md-offset-1'>";
 
-	echo '<div class="col col-md-10">';
+/************************************** MACHINE CONTACTED TODAY **************************************/
 
-	if ($_SESSION['OCS']['profile']->getConfigValue('CONSOLE') == 'YES'){
-		echo "<table align='right' border='0'><tr><td colspan=10 align='right'><a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"".$form_name."\");'>";
-		if (isset($_SESSION['OCS']['ADMIN_CONSOLE']) and $_SESSION['OCS']['ADMIN_CONSOLE'] == 'ADMIN')
-                        echo "<span class='glyphicon glyphicon-ok'></span>";
-		else if($protectedPost['onglet'] != 'MSG')
-			echo "<span class='glyphicon glyphicon-edit'></span>";
-		echo "</a></td></tr></table>";
-	}
-	if ($data_on['DATA'][$protectedPost['onglet']]){
-		$fields=list_field($protectedPost['onglet']);
-		show_console_field($fields,$form_name);
-	}else{
-		$array_group="";
-		$sql_group="select id,name from hardware where deviceid='_SYSTEMGROUP_'";
-		$res=mysql2_query_secure($sql_group,$_SESSION['OCS']["readServer"]);
-		while ($value = mysqli_fetch_object($res)){
-			$array_group[$value->id]=$value->name;
-		}
-		if (is_array($array_group)){
+$form_name = "console";
+echo open_form($form_name, '', '', 'form-horizontal');
 
-			if (isset($protectedPost["SUP_PROF"]) and $protectedPost["SUP_PROF"]!=''){
-				delete($protectedPost['SUP_PROF']);
-			}
+$table = $console->html_table_machine();
 
-			if (isset($protectedPost["Valid_modif"]) and $protectedPost["Valid_modif"] != '') {
-				$sql_msg="select name from config where name like '%s'";
-				$arg="GUI_REPORT_MSG%";
-				$result_msg = mysql2_query_secure($sql_msg,$_SESSION['OCS']["readServer"],$arg);
-				while($item_msg = mysqli_fetch_object($result_msg)){
-					$list_name_msg[]=substr($item_msg ->name,14);
-				}
-				if (isset($list_name_msg)){
-					$i=1;
-					foreach ($list_name_msg as $k=>$v){
-						if ($v == $i)
-						$i++;
-					}
-				} else {
-					$i=1;
-				}
+echo "<br><h4>".$l->g(795)."</h4><br>";
+echo $table;
 
-				$tab_options=$protectedPost;
-
-				if (trim($protectedPost['GROUP']) != "" and is_numeric($protectedPost['GROUP']) and trim($protectedPost['MESSAGE'])!=""){
-                                        $sql="insert into config (NAME,IVALUE,TVALUE) values ('%s',%s,'%s')";
-					$arg=array("GUI_REPORT_MSG".$i,$protectedPost['GROUP'],$protectedPost['MESSAGE']);
-					mysql2_query_secure( $sql, $_SESSION['OCS']["writeServer"],$arg );
-					$tab_options['CACHE']='RESET';
-                                        $protectedPost['MESSAGE'] = "";
-				} else {
-					msg_error($l->g(239));
-				}
-			}else{
-				$tab_options=$protectedPost;
-			}
-
-			$table_name=$protectedPost['onglet'];
-			$tab_options['table_name']=$table_name;
-			$tab_options['form_name']=$form_name;
-			$list_fields=array('GROUP_NAME'=>'h.NAME',
-							   $l->g(915) => 'tvalue',
-							   'SUP'=>'CNAME');
-
-			$sql=prepare_sql_tab($list_fields,array('SUP'));
-			$list_col_cant_del=$list_fields;
-			$default_fields= $list_fields;
-			$sql['SQL']  = $sql['SQL'].",c.name as CNAME,ID FROM %s WHERE (c.name like '%s')";
-			$sql['ARG'][]='config c left join hardware h on c.ivalue=h.id';
-			$sql['ARG'][]='GUI_REPORT_MSG%';
-			$tab_options['ARG_SQL']=$sql['ARG'];
-			$tab_options['LBL_POPUP']['SUP']=$l->g(919);
-			$tab_options['LBL']['GROUP_NAME']=$l->g(49);
-			ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
-			echo "<input type='submit' name='NEW' id='NEW' value='".$l->g(617)."' class='btn btn-success' >";
-			if ($protectedPost["NEW"]){
-					$name_field=array("GROUP","MESSAGE");
-					$tab_name=array($l->g(577).": ",$l->g(449).":");
-					$type_field= array(2,1);
-					$value_field=array($array_group,'');
-					$tab_typ_champ=show_field($name_field,$type_field,$value_field);
-					foreach ($tab_typ_champ as $id=>$values){
-						$tab_typ_champ[$id]['CONFIG']['SIZE']=20;
-					}
-					if (isset($tab_typ_champ)){
-                                            echo "<p>";
-						modif_values($tab_name,$tab_typ_champ,$tab_hidden);
-                                            echo "</p>";
-					}
-			}
-		}
-	}
-
-	echo "</div>";
-	echo "<input type=hidden name='ADMIN' value='' id='ADMIN'>";
-	echo "<input type=hidden name='VISIBLE' value='' id='VISIBLE'>";
-	echo "<input type=hidden name='NO_VISIBLE' value='' id='NO_VISIBLE'>";
-	echo "<input type=hidden name='VALID_MODIF' value='' id='VALID_MODIF'>";
-	echo "<input type=hidden name='SHOW_ME' value='' id='SHOW_ME'>";
-	echo "<input type=hidden name='UPDATE_VALUE' value='' id='UPDATE_VALUE'>";
-}else
-	echo "<table align=center><tr><td align=center><img src='image/fond.png'></td></tr></table>";
-
-if (isset($protectedPost["onglet"]) and isset($protectedPost["old_onglet"])
-	and $protectedPost["onglet"]!=$protectedPost["old_onglet"])
-	unset($protectedPost["SHOW_ME"],$protectedPost["SHOW_ME_SAUV"]);
-
-if (is_defined($protectedPost["SHOW_ME"]) && $protectedPost["SHOW_ME_SAUV"] != "" && $protectedPost["SHOW_ME"] != $protectedPost["SHOW_ME_SAUV"]) {
-    unset($protectedPost["SHOW_ME_SAUV"]);
-}
-
-if (is_defined($protectedPost["SHOW_ME_SAUV"]) && $protectedPost["SHOW_ME"] == "") {
-    $protectedPost["SHOW_ME"] = $protectedPost["SHOW_ME_SAUV"];
-}
-
-
-if ((is_defined($protectedPost["SHOW_ME"]))) {
-    $array_fields = array_values($table_field[$protectedPost["SHOW_ME"]]);
-    echo "<input type=hidden name='SHOW_ME_SAUV' value='" . $protectedPost["SHOW_ME"] . "' id='SHOW_ME_SAUV'>";
-    $table_name = $protectedPost["SHOW_ME"];
-    $tab_options = $protectedPost;
-    $tab_options['form_name'] = $form_name;
-    $tab_options['table_name'] = $table_name;
-    if (!isset($sql_field[$protectedPost["SHOW_ME"]]['SQL'])) {
-        $sql_field[$protectedPost["SHOW_ME"]]['SQL'] = "SELECT %s FROM %s %s ";
-    }
-
-    $list_fields = $table_field[$protectedPost["SHOW_ME"]];
-    $list_fields[$l->g(1120)] = 'c';
-    foreach ($table_field[$protectedPost["SHOW_ME"]] as $lbl => $value) {
-        $recup_list_add_field[] = $value;
-    }
-
-    $sql_field[$protectedPost["SHOW_ME"]]['ARG'][0] = "count(*) c," . implode(',', $recup_list_add_field);
-    if (!preg_match("/where/i", $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2])) {
-        $sql_field[$protectedPost["SHOW_ME"]]['SQL'] = "SELECT %s FROM %s WHERE %s";
-    } else {
-        $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= " AND ";
-    }
-    //restriction on computer id
-    if (isset($myids)) {
-        if (mb_strtoupper($sql_field[$protectedPost["SHOW_ME"]]['ARG'][1]) == "HARDWARE") {
-            $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= "id ";
-        } else {
-            $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= "hardware_id";
-        }
-        $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= " in (" . implode(',', $myids['ARG']) . ") AND ";
-    }
-    $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2] .= $recup_list_add_field[0] . " is not null GROUP BY " . implode(',', $recup_list_add_field);
-    $tab_options['SQL_COUNT'] = "SELECT %s FROM %s %s";
-    $tab_options['ARG_SQL_COUNT'] = array("count(distinct " . implode(',', $recup_list_add_field) . ") count_nb_ligne",
-        $sql_field[$protectedPost["SHOW_ME"]]['ARG'][1], $sql_field[$protectedPost["SHOW_ME"]]['ARG'][2]);
-    $list_col_cant_del = $list_fields;
-    $default_fields = $list_fields;
-    $tab_options['ARG_SQL'] = $sql_field[$protectedPost["SHOW_ME"]]['ARG'];
-    if (isset($multi_search[$protectedPost["SHOW_ME"]])) {
-        $tab_options['LIEN_LBL'][$l->g(1120)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&fields=';
-        $tab_options['LIEN_LBL'][$l->g(1120)] .= $multi_search[$protectedPost["SHOW_ME"]]['FIELD'] . "&comp=" . $multi_search[$protectedPost["SHOW_ME"]]['COMP'] . "&values=";
-        $tab_options['LIEN_CHAMP'][$l->g(1120)] = $array_fields[0];
-    }
-    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-}
+echo "<hr>";
 echo close_form();
-//show messages
-if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES") {
-    $info_msg = look_config_default_values('GUI_REPORT_MSG%', 'LIKE');
-    if (is_array($info_msg['ivalue'])) {
-        $list_id_groups = implode(',', $info_msg['ivalue']);
-    }
 
-    if ($list_id_groups != "") {
-        $sql_my_msg = "select distinct g_c.group_id groups
-					FROM accountinfo a ,groups_cache g_c
-					WHERE g_c.HARDWARE_ID=a.HARDWARE_ID
-						AND	g_c.GROUP_ID in (" . $list_id_groups . ")";
-        if (is_defined($_SESSION['OCS']['mesmachines'])) {
-            $sql_my_msg .= " AND " . $_SESSION['OCS']['mesmachines'];
-        }
-        $result_my_msg = mysqli_query($_SESSION['OCS']["readServer"], $sql_my_msg);
-        while ($item_my_msg = mysqli_fetch_object($result_my_msg)) {
-            foreach ($info_msg['ivalue'] as $key => $value) {
-                if ($value == $item_my_msg->groups) {
-                    $msg_group[$key] = $info_msg['tvalue'][$key];
-                }
-            }
-        }
+/********************************************* STATISTIC *********************************************/
 
-        if (isset($msg_group) && $msg_group != '') {
-            msg_warning(implode('<br>', $msg_group));
-        }
+$form_name = "stat";
+echo open_form($form_name, '', '', 'form-horizontal');
+
+echo "<br><h4>".$l->g(1251)."</h4><br>";
+echo "<div class='row'>";
+$form = [
+  'NB_AGENT' => 'Agent',
+  'NB_OS' => 'OS'
+];
+
+$stats->showForm($form);
+
+echo "</div>";
+echo "<hr>";
+echo close_form();
+
+/********************************************* GROUPS ************************************************/
+
+$tab_options = $protectedPost;
+//view only your computers
+if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
+    $mycomputers = computer_list_by_tag();
+    if ($mycomputers == "ERROR") {
+        msg_error($l->g(893));
+        require_once(FOOTER_HTML);
+        die();
     }
 }
+//View for all profils?
+if (!AJAX) {
+    if (is_defined($protectedPost['CONFIRM_CHECK'])) {
+        $result = group_4_all($protectedPost['CONFIRM_CHECK']);
+    }
+}
+
+$form_name = 'groups';
+$tab_options['form_name'] = $form_name;
+
+echo open_form($form_name, '', '', 'form-horizontal');
+
+echo "<br><h4>".$l->g(1601)."</h4><br>";
+
+$list_fields = array('GROUP_NAME' => 'h.NAME',
+    'GROUP_ID' => 'h.ID',
+    'DESCRIPTION' => 'h.DESCRIPTION',
+    'CREATE' => 'h.LASTDATE',
+    'NBRE' => 'NBRE');
+
+$tab_options['LBL']['GROUP_NAME'] = $l->g(49);
+
+$table_name = "LIST_GROUPS";
+$tab_options['table_name'] = $table_name;
+
+$default_fields = array('GROUP_NAME' => 'GROUP_NAME', 'DESCRIPTION' => 'DESCRIPTION', 'CREATE' => 'CREATE', 'NBRE' => 'NBRE');
+$list_col_cant_del = array('GROUP_NAME' => 'GROUP_NAME');
+$query = prepare_sql_tab($list_fields, array('NBRE'));
+$tab_options['ARG_SQL'] = $query['ARG'];
+$querygroup = $query['SQL'];
+
+
+$querygroup .= " from hardware h,groups g ";
+$querygroup .= "where g.hardware_id=h.id and h.deviceid = '_SYSTEMGROUP_' ";
+
+$querygroup .= " and ((g.request is not null and trim(g.request) != '')
+			or (g.xmldef is not null and trim(g.xmldef) != ''))";
+
+if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') != "YES") {
+    $querygroup .= " and h.workgroup='GROUP_4_ALL' ";
+}
+
+//calcul du nombre de machines par groupe
+$sql_nb_mach = "SELECT count(*) nb, group_id
+			from groups_cache gc,hardware h where h.id=gc.hardware_id ";
+if ($_SESSION['OCS']['profile']->getRestriction('GUI') == "YES") {
+    $sql_nb_mach .= " and gc.hardware_id in " . $mycomputers;
+}
+$sql_nb_mach .= " group by group_id";
+
+$querygroup .= " group by h.ID";
+$result = mysql2_query_secure($sql_nb_mach, $_SESSION['OCS']["readServer"]);
+while ($item = mysqli_fetch_object($result)) {
+    //on force les valeurs du champ "nombre" à l'affichage
+    $tab_options['VALUE']['NBRE'][$item->group_id] = $item->nb;
+    $_SESSION['OCS']['VALUE_FIXED'][$tab_options['table_name']]['NBRE'][$item->group_id] = $item->nb;
+}
+
+//Modif ajoutée pour la prise en compte
+//du chiffre à rajouter dans la colonne de calcul
+//quand on a un seul groupe et qu'aucune machine n'est dedant.
+if (!isset($tab_options['VALUE']['NBRE'])) {
+    $tab_options['VALUE']['NBRE'][] = 0;
+}
+
+//on ajoute un javascript lorsque l'on clic sur la visibilité du groupe pour tous
+$tab_options['JAVA']['CHECK']['NAME'] = "NAME";
+$tab_options['JAVA']['CHECK']['QUESTION'] = $l->g(811);
+$tab_options['FILTRE'] = array('NAME' => $l->g(679), 'DESCRIPTION' => $l->g(53));
+//affichage du tableau
+$result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+echo "<hr>";
+//fermeture du formulaire
+echo close_form();
+
+
+/********************************************* CATEGORIES ********************************************/
+
+$form_name = "category";
+echo open_form($form_name, '', '', 'form-horizontal');
+echo "<br><h4>".$l->g(1027)."</h4><br>";
+echo "<div class='row'>";
+
+// Software category
+echo '<div class="col-md-6">
+      <div class="panel">
+      <div class="panel-heading panel-ocs">'.$l->g(1500).'</div>
+      <div class="panel-body">';
+      $cat = $console->html_software_cat($soft->search_all_cat());
+      echo $cat;
+echo '</div>
+      </div></div>';
+
+// Assets category
+echo '<div class="col-md-6">
+      <div class="panel">
+      <div class="panel-heading panel-ocs">'.$l->g(2132).'</div>
+      <div class="panel-body">';
+
+      $assets_cat = $console->get_assets();
+      echo $assets_cat;
+echo '</div>
+      </div></div>';
+
+echo "</div>";
+echo close_form();
+
+echo "</div>";
 
 if (AJAX) {
-    ob_end_clean();
-
-    if (isset($sql_field[$protectedPost["SHOW_ME"]]['SQL'])) {
-        tab_req($list_fields, $default_fields, $list_col_cant_del, $sql_field[$protectedPost["SHOW_ME"]]['SQL'], $tab_options);
-    } else {
-        tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
-    }
+  ob_end_clean();
+  tab_req($list_fields, $default_fields, $list_col_cant_del, $querygroup, $tab_options);
 }
 ?>

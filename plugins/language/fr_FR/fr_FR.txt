@@ -1353,6 +1353,9 @@
 1515 Tous les OS
 1516 Tous les logiciels (sauf défaut)
 
+1600 Mon tableau de bord
+1601 Groupes dynamiques
+
 1700 Configuration avancée
 1701 Onglet disponible
 1702 Nouvel onglet
