@@ -180,6 +180,17 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 $l->g(1039) => 'a.PRIORITY',
                 $l->g(51) => 'a.COMMENT',
                 $l->g(274) => 'a.OSNAME',
+                $l->g(953) . " (KB)" => 'SIZE'
+            );
+
+            $select_fields2 = array('FILE_ID' => 'e.FILEID',
+                'INFO_LOC' => 'e.INFO_LOC',
+                'CERT_FILE' => 'e.CERT_FILE',
+                'CERT_PATH' => 'e.CERT_PATH',
+                $l->g(1037) => 'a.NAME',
+                $l->g(1039) => 'a.PRIORITY',
+                $l->g(51) => 'a.COMMENT',
+                $l->g(274) => 'a.OSNAME',
                 $l->g(953) . " (KB)" => 'round(a.SIZE/1024,0) as SIZE'
             );
 
@@ -195,6 +206,10 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                     $list_fields['CHECK'] = 'e.FILEID';
                 }
             }
+
+            // List for select
+            $select_fields = array_merge($list_fields, $select_fields2);
+
             $default_fields = array($l->g(1037) => $l->g(1037), $l->g(1039) => $l->g(1039), $l->g(274) => $l->g(274), $l->g(953) . " (KB)" => $l->g(953) . " (KB)", 'SELECT' => 'SELECT');
             $list_col_cant_del = array($l->g(1037) => $l->g(1037), 'MODIF' => 'MODIF', 'CHECK' => 'CHECK');
 
@@ -209,7 +224,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 $distinct = false;
             }
 
-            $sql = prepare_sql_tab($list_fields, array('SELECT', 'CHECK'), $distinct);
+            $sql = prepare_sql_tab($select_fields, array('SELECT', 'CHECK'), $distinct);
 
             $sql['SQL'] .= " from download_available a, download_enable e ";
             if ($protectedPost['onglet'] == 'MACH') {
