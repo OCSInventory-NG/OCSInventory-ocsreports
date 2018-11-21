@@ -1352,6 +1352,7 @@
 1514 Catégorie
 1515 Tous les OS
 1516 Tous les logiciels (sauf défaut)
+1517 Aucune catégorie n'a été sélectionnée
 
 1700 Configuration avancée
 1701 Onglet disponible
