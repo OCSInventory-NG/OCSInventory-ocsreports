@@ -122,7 +122,8 @@ class SoftwareCategory
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg_sql);
 
         while ($item = mysqli_fetch_array($result)) {
-            $list[] = ['NAME' => $item['SOFTWARE_EXP'],
+            $list[] = ['ID' => $item['ID'],
+                      'NAME' => $item['SOFTWARE_EXP'],
                       'SIGN' => $item['SIGN_VERSION'],
                       'VERSION' => $item['VERSION'],
                       'PUBLISHER' => $item['PUBLISHER']];

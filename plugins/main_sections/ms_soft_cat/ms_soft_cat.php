@@ -97,6 +97,8 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         if ($protectedPost['SUP_CAT'] == 1) {
             $first_onglet = 2;
          }
+         $reqDcatall = "DELETE FROM software_category_exp WHERE CATEGORY_ID = (SELECT ID FROM software_categories WHERE CATEGORY_NAME = '" . $list_cat[$protectedPost['SUP_CAT']] . "')";
+         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
         $reqDcat = "DELETE FROM software_categories WHERE CATEGORY_NAME ='" . $list_cat[$protectedPost['SUP_CAT']] . "'";
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcat) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
         unset($list_cat[$protectedPost['SUP_CAT']]);
@@ -117,7 +119,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 
     //delete regex
     if (is_defined($protectedPost['SUP_PROF'])) {
-        $reqDreg = "DELETE FROM software_category_exp WHERE CATEGORY_ID ='" . $categorie_id[$list_cat[$protectedPost['onglet_soft']]] . "' AND SOFTWARE_EXP = '".$protectedPost['SUP_PROF']."'";
+        $reqDreg = "DELETE FROM software_category_exp WHERE CATEGORY_ID ='" . $categorie_id[$list_cat[$protectedPost['onglet_soft']]] . "' AND ID = ".$protectedPost['SUP_PROF'];
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDreg) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
         unset($list_cat[$protectedPost['SUP_PROF']]);
     }
@@ -166,7 +168,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
                       <td valign='top' colspan='1'  style='width: 22%;' class='affich_publisher'>".$reg[$i]['SIGN']."</td>
                       <td valign='top' colspan='1'  style='width: 22%;'c lass='affich_version'>".$reg[$i]['VERSION']."</td>
                       <td valign='top' colspan='1'  style='width: 22%;' class='affich_publisher'>".$reg[$i]['PUBLISHER']."</td>
-                      <td class='ACTIONS' valign='top' colspan='1' style='width: 12%;'><a href=# OnClick='confirme(\"\",\"".$reg[$i]['NAME']."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)."\");'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
+                      <td class='ACTIONS' valign='top' colspan='1' style='width: 12%;'><a href=# OnClick='confirme(\"\",\"".$reg[$i]['ID']."\",\"".$form_name."\",\"SUP_PROF\",\"".$l->g(640)."\");'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
             }
         }else{
             echo "<tr class='odd'><td valign='top' colspan='1' class='affich_regex'>".$l->g(1334)."</td></tr>";
@@ -242,6 +244,8 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
             }else{
               msg_error($l->g(573));
             }
+        }else{
+            msg_error($l->g(1517));
         }
     }
 
@@ -267,7 +271,7 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
         unset($protectedPost['vendor_soft']);
     }
 
-    formGroup('select', 'cat_select', $l->g(388).' :', '', '','' , '', $select_cat, $select_cat, 'required');
+    formGroup('select', 'cat_select', $l->g(388).' :', '', '',$protectedPost['cat_select'] , '', $select_cat, $select_cat, 'required');
     formGroup('text', 'regular_exp', $l->g(382).' :', '', '', $protectedPost['regular_exp'], '', '', '', $resend);
     echo "<p>".$l->g(358)."</p>";
 
@@ -277,9 +281,9 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
       $version = $softCat->search_version($protectedPost['regular_exp']);
       $vendor = $softCat->search_vendor($protectedPost['regular_exp']);
 
-      formGroup('select', 'version_sign', $l->g(1510).' :', '', '','' , '', $operatorsArray, $operatorsArray);
-      formGroup('select', 'version_soft', $l->g(1507).' :', '', '', '', '', $version, $version);
-      formGroup('select', 'vendor_soft', $l->g(1508).' :', '', '', '', '', $vendor, $vendor);
+      formGroup('select', 'version_sign', $l->g(1510).' :', '', '',$protectedPost['version_sign'] , '', $operatorsArray, $operatorsArray);
+      formGroup('select', 'version_soft', $l->g(1507).' :', '', '', $protectedPost['version_soft'], '', $version, $version);
+      formGroup('select', 'vendor_soft', $l->g(1508).' :', '', '', $protectedPost['vendor_soft'], '', $vendor, $vendor);
     }
 
     echo "<input type='submit' name='valid_reg' id='valid_reg' class='btn btn-success' value='".$l->g(13)."'>";
