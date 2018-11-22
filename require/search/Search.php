@@ -297,6 +297,7 @@
         }
         $i = 0;
         $p = 0;
+
         foreach ($sessData as $tableName => $searchInfos) {
 
             if($tableName != "hardware"){
@@ -495,7 +496,7 @@
         if($field != null){
           $accounttype = $account->getSearchAccountInfo($field);
         }
-var_dump($field);
+
         $html = "";
         $operatorList = array();
         if($table == self::GROUP_TABLE || $field == "CATEGORY_ID" || $field == "CATEGORY") {
@@ -714,9 +715,16 @@ var_dump($field);
      * @return String
      */
     public function create_sql_cache($values){
+
         $cache_sql = "SELECT DISTINCT hardware.ID FROM hardware ";
         $i =0;
+        $belong = [];
         foreach ($values as $key=>$value){
+
+            if($key == self::GROUP_TABLE){
+                $belong['table'] = 'hardware';
+                $belong['field'] = 'ID';
+            }
            foreach ($value as $table => $field) {
                $i++;
                $this->values_cache_sql[$key][$table] = $field;
@@ -729,6 +737,11 @@ var_dump($field);
                  if( $this->multipleFieldsSearchCache[$key] == 1 ){
                      $cache_sql .= "INNER JOIN ".$key." on hardware.id = ".$key.".hardware_id ";
                  }
+                 if($key == "download_history") {
+                     // Generate union
+                     $cache_sql .= "INNER JOIN download_available on download_available.FILEID = $key.PKG_ID ";
+                 }
+
                }
            }
         }
@@ -765,21 +778,59 @@ var_dump($field);
                  $open = "(";
              }
              $p++;
-             $cache_sql .= $operator[$in]." ".$open.$table.".".$values['fields']." ";
+             if(!empty($belong)){
+               $cache_sql .= $operator[$in]." ".$open.$belong['table'].".".$belong['field']." ";
+             }elseif ($table == 'download_history' && $values['fields'] == "PKG_NAME"){
+               $cache_sql .= $operator[$in]." ".$open."download_available.NAME ";
+             } else{
+               $cache_sql .= $operator[$in]." ".$open.$table.".".$values['fields']." ";
+             }
+
+             if($table == 'hardware' && ($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE')){
+                $values['value'] = "str_to_date('".$values['value']."', '%m/%d/%Y %H:%i')";
+             }
+
              if($values['operator'] == 'LIKE'){
                 $cache_sql .= $values['operator']." '%".$values['value']."%'".$close." ";
-             }elseif($values['operator'] == 'DIFFERENT'){
+             }
+             elseif($values['operator'] == 'DIFFERENT'){
                 $cache_sql .= "NOT LIKE '%".$values['value']."%'".$close." ";
-             }elseif($values['operator'] == 'EQUAL'){
+             }
+             elseif($values['operator'] == 'EQUAL' || $values['operator'] == 'HAVING'){
                $cache_sql .= "= '".$values['value']."'".$close." ";
-             }elseif($values['operator'] == 'LESS'){
+             }
+             elseif($values['operator'] == 'LESS'){
                $cache_sql .= "< ".$values['value'].$close." ";
-             }elseif($values['operator'] == 'MORE'){
+             }
+             elseif($values['operator'] == 'MORE'){
                $cache_sql .= "> ".$values['value'].$close." ";
+             }
+             elseif($values['operator'] == 'NOTHAVING'){
+               $cache_sql .= "!= '".$values['value'].$close."' ";
+             }
+             elseif($values['operator'] == 'BELONG'){
+               if(!empty($belong)){
+                 $belong['values'] = $this->groupSearch->get_all_id($values['value']);
+                 $cache_sql .= "IN (".$belong['values'].$close.") ";
+               }else{
+                 $cache_sql .= "IN (".$values['value'].$close.") ";
+               }
+             }
+             elseif($values['operator'] == 'DONTBELONG'){
+               if(!empty($belong)){
+                 $belong['values'] = $this->groupSearch->get_all_id($values['value']);
+                 $cache_sql .= "NOT IN (".$belong['values'].$close.") ";
+               }else{
+                 $cache_sql .= "NOT IN (".$values['value'].$close.") ";
+               }
+             }
+             elseif($values['operator'] == 'ISNULL'){
+               $cache_sql .= "IS NULL ".$close." ";
              }
              $in++;
            }
         }
+
         return $cache_sql;
     }
 
