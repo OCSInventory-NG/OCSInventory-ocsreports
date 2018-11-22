@@ -38,15 +38,14 @@
           $sql = "SELECT name, count(id) as nb, USERAGENT FROM hardware WHERE lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND USERAGENT LIKE '%$key%'";
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-
           while($item = mysqli_fetch_array($result)){
             if(strpos($item['USERAGENT'], 'unix') !== false){
                 $machine['unix'] = intval($item['nb']);
                 $machine['all'] = $machine['all'] + intval($item['nb']);
-            }elseif(strpos($item['USERAGENT'], 'windows') !== false){
+            }elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false){
                 $machine['windows'] = intval($item['nb']);
                 $machine['all'] = $machine['all'] + intval($item['nb']);
-            }elseif(strpos($item['USERAGENT'], 'android') !== false){
+            }elseif(strpos($item['USERAGENT'], 'Android') !== false){
                 $machine['android'] = intval($item['nb']);
                 $machine['all'] = $machine['all'] + intval($item['nb']);
             }
@@ -122,28 +121,36 @@
     * @return string      [description]
     */
    public function html_software_cat($cat){
+        global $l;
+
         unset($cat[0]);
-        foreach($cat as $key => $value){
-          $sql = "SELECT count(ID) as nb FROM softwares WHERE CATEGORY = %s";
-          $arg = array($key);
-          $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+        if(!empty($cat)){
 
-          while($item = mysqli_fetch_array($result)){
-            $category[$key][$value] = $item['nb'];
-          }
-        }
+          foreach($cat as $key => $value){
+            $sql = "SELECT count(ID) as nb FROM softwares WHERE CATEGORY = %s";
+            $arg = array($key);
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
-        $html = "<table class='cell-border' style='width:100%;'>";
-        foreach($category as $id => $array){
-          foreach($array as $name => $nb){
-            if($nb != '0'){
-                $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_all_soft&onglet=".$id."'>".$nb."</a></th></tr>";
-            }else{
-                $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+            while($item = mysqli_fetch_array($result)){
+              $category[$key][$value] = $item['nb'];
             }
           }
+
+          $html = "<table class='cell-border' style='width:100%;'>";
+          foreach($category as $id => $array){
+            foreach($array as $name => $nb){
+              if($nb != '0'){
+                  $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_all_soft&onglet=".$id."'>".$nb."</a></th></tr>";
+              }else{
+                  $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+              }
+            }
+          }
+          $html .= "</table>";
+        }else{
+          $html = $l->g(2134);
         }
-        $html .= "</table>";
+
         return $html;
    }
 
@@ -152,6 +159,8 @@
     * @return [type] [description]
     */
    public function get_assets(){
+       global $l;
+
        $sql = "SELECT * FROM assets_categories";
        $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
 
@@ -161,27 +170,32 @@
            $list_asset[$item_asset['ID']]['SQL_ARGS'] = $item_asset['SQL_ARGS'];
        }
 
-       foreach($list_asset as $key => $values){
-           $nb = [];
-           $asset = explode(",", $list_asset[$key]['SQL_ARGS']);
-           $result_computer = mysql2_query_secure($list_asset[$key]['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
-           while ($computer = mysqli_fetch_array($result_computer)) {
-               $nb[] = $computer['hardwareID'];
-           }
-           $nb_computer[$key][$list_asset[$key]['CATEGORY_NAME']] = count($nb);
-       }
+       if(is_array($list_asset)){
+         foreach($list_asset as $key => $values){
+             $nb = [];
+             $asset = explode(",", $list_asset[$key]['SQL_ARGS']);
+             $result_computer = mysql2_query_secure($list_asset[$key]['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
+             while ($computer = mysqli_fetch_array($result_computer)) {
+                 $nb[] = $computer['hardwareID'];
+             }
+             $nb_computer[$key][$list_asset[$key]['CATEGORY_NAME']] = count($nb);
+         }
 
-       $html = "<table class='cell-border' style='width:100%;'>";
-       foreach($nb_computer as $key => $cat){
-         foreach($cat as $name => $nb){
-           if($nb != 0){
-               $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_search&fields=ASSETS&comp=&values=".$key."&values2=&type_field='>".$nb."</a></th></tr>";
-           }else{
-               $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+         $html = "<table class='cell-border' style='width:100%;'>";
+         foreach($nb_computer as $key => $cat){
+           foreach($cat as $name => $nb){
+             if($nb != 0){
+                 $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_search&fields=ASSETS&comp=&values=".$key."&values2=&type_field='>".$nb."</a></th></tr>";
+             }else{
+                 $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+             }
            }
          }
+         $html .= "</table>";
+       }else{
+         $html = $l->g(2133);
        }
-       $html .= "</table>";
+       
        return $html;
    }
 

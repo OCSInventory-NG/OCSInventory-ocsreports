@@ -68,7 +68,11 @@ $form = [
   'NB_OS' => 'OS'
 ];
 
-$stats->showForm($form);
+$result = $stats->showForm($form);
+
+if($result == false){
+  msg_info($l->g(2135));
+}
 
 echo "</div>";
 echo "<hr>";

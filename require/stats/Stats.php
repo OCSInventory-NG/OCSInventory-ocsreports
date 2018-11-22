@@ -88,6 +88,9 @@ class Stats{
             $stats = new StatsChartsRenderer;
             $stats->createChartCanvas($form);
             $stats->createPieChart($chart);
+            return true;
+        } else {
+          return false;
         }
     }
 

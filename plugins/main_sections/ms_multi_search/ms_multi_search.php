@@ -136,7 +136,7 @@ if ( isset($protectedPost['del_check']) ){
 }
 
 if(isset($protectedGet['fields'])){
-  $search->link_index($protectedGet['fields'], $protectedGet['comp'], $protectedGet['values']);
+  $search->link_index($protectedGet['fields'], $protectedGet['comp'], $protectedGet['values'], $protectedGet['values2']);
 }
 
 if(isset($protectedGet['prov'])){

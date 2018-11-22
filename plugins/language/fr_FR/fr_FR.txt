@@ -1489,6 +1489,9 @@
 2130 Catégories d'Actifs
 2131 Nombre de machines par catégorie
 2132 Catégorie d'Actifs
+2133 Vous n'avez pas créé de catégorie d'actif
+2134 Vous n'avez pas créé de catégorie logicielle
+2135 Aucune machine n'a été inventoriée
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]

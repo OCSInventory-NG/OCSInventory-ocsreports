@@ -970,7 +970,7 @@
      * @param  string $value  [description]
      * @return [type]         [description]
      */
-    public function link_index($fields, $comp = "", $value){
+    public function link_index($fields, $comp = "", $value, $value2 = null){
       $field = explode("-", $fields) ;
 
       if($comp== 'small') { $operator = 'LESS'; }
@@ -983,12 +983,18 @@
 
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){
-          if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['hardware'])){
+          if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value.$value2,$_SESSION['OCS']['multi_search']['hardware'])){
               $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
+              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value).preg_replace("/_/","",$value2)] = [
                   'fields' => $field[1],
                   'value' => $value,
                   'operator' => $operator,
+              ];
+              if($value2 != null && $value2 != 'all')
+              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value2)] = [
+                  'fields' => 'USERAGENT',
+                  'value' => $value2,
+                  'operator' => 'LIKE',
               ];
           }
         }elseif(strpos($field[0], 'ACCOUNTINFO') !== false){
