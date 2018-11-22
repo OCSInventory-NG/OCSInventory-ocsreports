@@ -70,7 +70,7 @@ $form = [
 
 $result = $stats->showForm($form);
 
-if(!$result){
+if($result == false){
   msg_info($l->g(2135));
 }
 
