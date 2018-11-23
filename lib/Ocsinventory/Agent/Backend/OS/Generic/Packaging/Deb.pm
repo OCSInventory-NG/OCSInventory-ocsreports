@@ -25,7 +25,7 @@ sub run {
     foreach my $file_list (@listfile){
         my $stat=stat($file_list);
         my ($year,$month,$day,$hour,$min,$sec)=(localtime($stat->mtime))[5,4,3,2,1,0];
-        $value=sprintf "%02d/%02d%02d %02d:%02d:%02d",($year+1900),$month,$day,$hour,$min,$sec;
+        $value=sprintf "%02d/%02d/%02d %02d:%02d:%02d",($year+1900),$month,$day,$hour,$min,$sec;
         $key=fileparse($file_list, ".list");
         $key =~ s/(\s+):.+/$1/;
         $statinfo{$key}=$value;
