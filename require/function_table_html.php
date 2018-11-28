@@ -160,6 +160,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         "STAT",
         "ACTIVE",
         "MAC",
+				"EDIT_DEPLOY",
     );
     //If the column selected are different from the default columns
     if (!empty($_COOKIE[$option['table_name'] . "_col"])) {
@@ -183,6 +184,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     }
     $actions = array(
         "MODIF",
+				"EDIT_DEPLOY",
         "SUP",
         "ZIP",
         "STAT",
@@ -577,6 +579,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
     echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
     echo "<input type='hidden' id='OTHER_TER' name='OTHER_TER' value=''>";
+		echo "<input type='hidden' id='EDIT_DEPLOY' name='EDIT_DEPLOY' value=''>";
 
     if ($_SESSION['OCS']['DEBUG'] == 'ON') {
         ?><center>
@@ -1672,6 +1675,9 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><span class='glyphicon glyphicon-edit'></span></a><center>";
 						}
 						break;
+					case "EDIT_DEPLOY":
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_package']."&head=1&package=".$value_of_field."\"><span class='glyphicon glyphicon-edit'></span></span></a>";
+						break;
 					default :
 						if (substr($key,0,11) == "PERCENT_BAR"){
 							//require_once("function_graphic.php");
@@ -1734,6 +1740,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 			}
 			$actions = array(
 				"MODIF",
+				"EDIT_DEPLOY",
 				"SUP",
 				"ZIP",
 				"STAT",
@@ -1796,11 +1803,13 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"ACTIVE",
 			"MAC",
 			"MD5_DEVICEID",
+			"EDIT_DEPLOY",
 	);
 
 
 	$actions = array(
 				"MODIF",
+				"EDIT_DEPLOY",
 				"SUP",
 				"ZIP",
 				"STAT",
