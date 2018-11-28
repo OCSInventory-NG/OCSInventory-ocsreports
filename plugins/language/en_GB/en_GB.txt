@@ -1494,6 +1494,8 @@
 2133 You haven't created an asset category
 2134 You haven't created a software category
 2135 No machine has been inventoried
+2136 Update
+2137 Choose a new file if you want to modify the old one
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
