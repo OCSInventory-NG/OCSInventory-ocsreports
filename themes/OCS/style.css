@@ -160,21 +160,25 @@ input[type=checkbox], input[type=radio] {
 table.dataTable .glyphicon-stats {
     color: #337ab7  !important;
     font-weight: bold;
+    font-size: small;
 }
 
 table.dataTable .glyphicon-remove {
     color:#C12E2A  !important;
     font-weight: bold;
+    font-size: small;
 }
 
-table.dataTable .glyphicon-share {
+table.dataTable .glyphicon-ok {
     color:#5cb85c  !important;
     font-weight: bold;
+    font-size: small;
 }
 
 table.dataTable .glyphicon-download-alt {
     color:#6c757d  !important;
     font-weight: bold;
+    font-size: small;
 }
 
 table.dataTable a {
@@ -253,4 +257,10 @@ div.progress {
   padding-left: 100px;
   padding-top : 10px;
   padding-bottom : 10px;
+}
+
+.panel-modify {
+    background: transparent;
+    background-color:#f2dede;
+    padding-top: 5px;
 }

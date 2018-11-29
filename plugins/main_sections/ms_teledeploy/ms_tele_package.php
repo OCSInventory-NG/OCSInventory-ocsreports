@@ -773,7 +773,9 @@ formGroup('select', 'OS', $arrayName['os'], '', $config_input['MAXLENGTH'], $pro
 formGroup('select', 'PROTOCOLE', $arrayName['proto'], '', $config_input['MAXLENGTH'], $protectedPost['PROTOCOLE'], '', $list_proto, $list_proto);
 formGroup('select', 'PRIORITY', $arrayName['prio'], '', $config_input['MAXLENGTH'], $protectedPost['PRIORITY'], '', $list_prio, $list_prio);
 if(isset($protectedGet['package'])){
-  echo $l->g(2137);
+  echo "<div class='form-group'><div class='col-sm-2'></div><div class='col-sm-10'>";
+  echo "<div id='my-alert-' class='alert alert-danger fade in' role='alert' style='width:100%;'>".$l->g(2137)."</div>";
+  echo "</div></div>";
 }
 formGroup('file', 'teledeploy_file', $arrayName['file'], '', $config_input['MAXLENGTH'], $protectedPost['teledeploy_file'], '', '', "accept='archive/zip'");
 formGroup('select', 'ACTION', $arrayName['action'], '', $config_input['MAXLENGTH'], $protectedPost['ACTION'], '', $list_action, $list_action, "onchange='changeLabelAction()' ");

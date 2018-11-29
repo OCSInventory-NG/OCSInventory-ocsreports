@@ -1656,7 +1656,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><span class='glyphicon glyphicon-stats' title='".$l->g(1251)."'></span></a>";
 						break;
 					case "ACTIVE":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><span class='glyphicon glyphicon-share' title='".$l->g(431)."'></span></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><span class='glyphicon glyphicon-ok' title='".$l->g(431)."'></span></a>";
 						break;
 					case "SHOWACTIVE":
 						if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
