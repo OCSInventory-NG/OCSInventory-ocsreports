@@ -1,5 +1,25 @@
 Revision history for Ocsinventory::Agent
 
+2.4.2
+       * Fix warning argument freebsd isn't numeric
+       * Fix Debian repository
+       * Update manifest
+       * Fix name and url in Repository
+       * Fix for Ubuntu and older Debian version
+       * Merge PR #141,#135,#143
+       * Fix spelling errors
+       * Add arcconf for Adaptec
+       * Fix issue #124
+       * Replace hpacucli with ssacli
+       * Merge PR #144,#145,#146,#147,#148,#150
+       * Make use of EDID utilities optional on modern kernels
+       * Fallback to mainboard serial if bios serial is not available
+       * Merge PR #152, #156, #158, #159
+       * Fix issue for ipdiscover
+       * Indicate god value for memory
+       * Use now Parse::EDID module to retrieve monitor infomrations
+       * Merge PR #161, #163, #164, #165, #169, #170, #172, #173, #174
+
 2.4.1  
        * Add the date of installation for debian/ubuntu packages
        * Add support for zfs
@@ -175,7 +195,7 @@ Revision history for Ocsinventory::Agent
        * Download.pm uses LWP useragent initiated by Network.pm for SSL checks 
        * Download.pm uses LWP useragent initiated by Network.pm for info and frags files downloads
        * Network.pm can use LWP version 6 SSL useragent options
-       * New --ca configuration option to specify a CA certificate path for SSL certificate checks 
+       * New --ca configuration option to specify a CA certificates file path for SSL certificate checks
        * New --ssl configuration option to enable/disable SSL certificate checks 
        * Customize SNMP scans using a special XML format received from server 
        * Getting network devices MAC address during SNMP scans

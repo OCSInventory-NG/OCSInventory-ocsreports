@@ -6,7 +6,7 @@ use warnings;
 sub check { 
     my $params = shift;
     my $common = $params->{common};
-    $common->can_run ("ipdiscover") 
+    $common->can_run ("ipdiscover");
 }
 
 sub run {
@@ -40,13 +40,24 @@ sub run {
     }
 
     my $ifname;
-    foreach (`route -n`) {
-        if (/^(\d+\.\d+\.\d+\.\d+).*?\s(\S+)$/) {
-            if ($network eq $1) {
-                $ifname = $2;
-                last;
-            } elsif (!$ifname && $1 eq "0.0.0.0") {
-                $ifname = $2;
+    if ($common->can_run("ip")) {
+        foreach (`ip route`) {
+            if (/^default via (\d+\d.\d+\.\d+\.\d+) dev (\S+).*/) {
+                if ($network = $1 ){
+                    $ifname = $2;
+                    last;
+                } 
+            }
+        }
+    } elsif ($common->can_run("route")){
+        foreach (`route -n`) {
+            if (/^(\d+\.\d+\.\d+\.\d+).*?\s(\S+)$/) {
+                if ($network eq $1) {
+                    $ifname = $2;
+                    last;
+                } elsif (!$ifname && $1 eq "0.0.0.0") {
+                    $ifname = $2;
+                }
             }
         }
     }

@@ -9,8 +9,11 @@ use Time::Local;
 sub check {
     my $params = shift;
     my $common = $params->{common};
-    return unless (($common->can_run("ip") || $common->can_run("ifconfig")) && $common->can_run("route") && $common->can_load("Net::IP qw(:PROC)"));
-    1;
+    if ($common->can_run("ip") && $common->can_load("Net::IP qw(:PROC)") || ($common->can_run("ifconfig") && $common->can_run("route")) && $common->can_load("Net::IP qw(:PROC)")){
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 sub getLeaseFile {
@@ -137,6 +140,9 @@ sub run {
 
                 # Retrieve mtu from /sys/class/net/$description/mtu
                 $mtu=getMTU($description);
+
+                # Retrieve status from /sys/class/net/$description/status
+                $status=getStatus($description);
 
                 if (-d "/sys/class/net/$description/wireless"){
                     my @wifistatus = `iwconfig $description 2>/dev/null`;
@@ -269,36 +275,40 @@ sub run {
                         MTU => $mtu,
                         SLAVE => $slave?$slave : undef,
                     });
+                } else {
+                    $common->addNetwork({
+                        DESCRIPTION => $description,
+                        DRIVER => $driver,
+                        MACADDR => $macaddr,
+                        PCISLOT => $pcislot,
+                        STATUS => $status?"Up":"Down",
+                        TYPE => $type,
+                        VIRTUALDEV => $virtualdev,
+                        DUPLEX => $duplex?"Full":"Half",
+                        SPEED => $speed,
+                        MTU => $mtu,
+                    });
                 }
-                $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = $mtu = undef;
+                $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $ipaddress6 = $ipgateway6 = $ipmask6 = $ipsubnet6 = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = $mtu = undef;
             }
             $description = $1 if ($line =~ /^\d+:\s+([^:@]+)/); # Interface name
+            if ($description && $description eq "lo" ) { next; } # loopback interface is not inventoried
             if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i){
                 $ipaddress=$1;
                 $ipmask=getIPNetmask($2);
                 $ipsubnet=getSubnetAddressIPv4($ipaddress,$ipmask);
                 $ipgateway=getIPRoute($ipaddress);
-            } elsif ($line =~ /\s+link\/(\S+)\s+((?:\w{2}+\:){5}\w{2}(?=\s)|(?:\w{2}+\:){19}\w{2}(?=\s))/i){
+            } elsif ($line =~ /\s+link\/(\S+)/){
                 $type=$1;
                 if ($type eq "ether"){
                     $type="ethernet";
                 }
-                $macaddr=$2;
-            } elsif ($line =~ /^.+(?:,|<)UP(?:,|>)/){
-                $status=1;
-            #} elsif ($line =~ /inet6 ((?:[0-9a-fA-F]{0,4}:|::){0,7}(?:[0-9a-fA-F]{0,4})\/(\d+)(?=\s))/i){
+                $macaddr=getMAC($description);
             } elsif ($line =~ /inet6 (\S+)\/(d{1,2})/i){
                 $ipaddress6=$1;
                 $ipmask6=getIPNetmaskV6($2);
                 $ipsubnet6=getSubnetAddressIPv6($ipaddress6,$ipmask6);
                 $ipgateway6=getIPRoute($ipaddress6);
-            }
-            if (!$ipaddress) {
-                $ipaddress="0.0.0.0";
-                $ipmask="0.0.0.0";
-                $ipgateway="0.0.0.0";
-                $ipsubnet="0.0.0.0";
-                $status=0;
             }
         }
     }  elsif ($common->can_run("ifconfig")){
@@ -458,14 +468,9 @@ sub run {
             } else { # In a section
                 if ($line =~ /^(\S+):/) {
                     $description = $1; # Interface name
+                    if ($description && $description eq "lo" ) { next; } # loopback interface is not inventoried
                 }
 
-                # Retrieve mtu from /sys/class/net/$description/mtu
-                $mtu=getMTU($description);
-
-                #$description = $1 if($line =~ /^(\w+)\s+/); # Interface name
-
-                # BUG: ipv4 address gets overwritten by ipv6 address but we want all ip addresses
                 if ($line =~ /inet add?r:(\S+)/i || $line =~ /^\s*inet\s+(\S+)/i || $line =~ /inet (\S+)\s+netmask/i){
                     $ipaddress=$1;
                     $ipmask=getIPNetmask($ipaddress);
@@ -485,6 +490,9 @@ sub run {
                 if ($type eq "ether" || $type eq "Ethernet") {
                     $type="ethernet";
                 }
+
+                # Retrieve mtu from /sys/class/net/$description/mtu
+                $mtu=getMTU($description);
             }
         }
     }
@@ -553,6 +561,38 @@ sub getMTU {
         close MTU;
     }
     return $mtu;
+}
+
+sub getStatus {
+    my ($prefix)=@_;
+    my $status;
+
+    return undef unless $prefix;
+
+    if (open STATUS, "</sys/class/net/$prefix/carrier"){
+        foreach (<STATUS>){
+            chomp;
+            $status=$_;
+        }
+        close STATUS;
+    }
+    return $status;
+}
+
+sub getMAC {
+    my ($prefix)=@_;
+    my $mac;
+
+    return undef unless $prefix;
+
+    if (open MAC, "</sys/class/net/$prefix/address"){
+        foreach (<MAC>){
+            chomp;
+            $mac=$_;
+        }
+        close MAC;
+    }
+    return $mac;
 }
 
 sub getSubnetAddressIPv4 {

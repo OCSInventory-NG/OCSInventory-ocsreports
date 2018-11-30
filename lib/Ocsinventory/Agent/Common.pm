@@ -854,6 +854,20 @@ sub addSnmpNetwork {
     push @{$xmltags->{NETWORKS}},$content;
 }
 
+sub addSnmpBackPlane {
+    my ($self,$args) = @_;
+    my $xmltags = $self->{xmltags};
+    my $content = {};
+
+    foreach my $key (qw/DESCRIPTION FIRMWARE MANUFACTURER REFERENCE SERIALNUMBER TYPE/) {
+        if (exists $args->{$key}) {
+            $content->{$key}[0] = $args->{$key};
+        }
+    }
+
+    push @{$xmltags->{BACKPLANE}},$content;
+}
+
 sub addSnmpCard {
     my ($self,$args) = @_;
     my $xmltags = $self->{xmltags};
