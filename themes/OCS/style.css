@@ -263,7 +263,7 @@ div.progress {
     z-index: 1; /* Stay on top */
     top: 0;
     left: 0;
-    background-color: white; /* Black*/
+    background-color: #F6F9FF; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidepanel */
@@ -271,7 +271,7 @@ div.progress {
 
 /* The sidepanel links */
 .sidepanel a {
-    padding: 8px 8px 8px 0;
+    padding: 8px 8px 8px 0px;
     text-decoration: none;
     font-size: 16px;
     color: #961b7e;
@@ -304,7 +304,8 @@ div.progress {
 
 .sidepanel p {
     color: #818181;
-    font-size: 12px;
+    font-size: 16px;
+    text-align:left;
 }
 
 .sidepanel .aside {

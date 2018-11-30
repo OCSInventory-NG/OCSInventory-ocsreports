@@ -176,12 +176,12 @@ function show(id, preview, perso){
 
 /* Set the width of the sidebar to 250px (show it) */
 function openNav() {
-    document.getElementById("mySidepanel").style.width = "250px";
+    document.getElementById("mySidepanel").style.width = "25%";
     for(var i = 0; document.getElementById("news"+i) != null; i++){
       document.getElementById("news"+i).style.display='';
       document.getElementById("news"+i).style.textAlign='left';
       document.getElementById("news"+i).style.paddingLeft = '30px';
-      document.getElementById("news"+i).style.paddingRight = '0';
+      document.getElementById("news"+i).style.paddingRight = '30px';
       document.getElementById("imagenews"+i).style.display = 'none';
       document.getElementById("linknews"+i).style.display = 'none';
       if(document.getElementById("contentmodifnews"+i) != null){
@@ -199,7 +199,7 @@ function closeNav() {
       document.getElementById("news"+i).style.display='';
       document.getElementById("news"+i).style.textAlign='left';
       document.getElementById("news"+i).style.paddingLeft = '30px';
-      document.getElementById("news"+i).style.paddingRight = '0';
+      document.getElementById("news"+i).style.paddingRight = '30px';
       document.getElementById("imagenews"+i).style.display = 'none';
       document.getElementById("linknews"+i).style.display = 'none';
       if(document.getElementById("contentmodifnews"+i) != null){
@@ -223,8 +223,8 @@ function openfullNav(div) {
       document.getElementById("content"+div).style.display = '';
     }
     document.getElementById(div).style.textAlign = 'center';
-    document.getElementById(div).style.paddingLeft = '25%';
-    document.getElementById(div).style.paddingRight = '25%';
+    document.getElementById(div).style.paddingLeft = '30%';
+    document.getElementById(div).style.paddingRight = '30%';
     document.getElementById("image"+div).style.display = '';
     document.getElementById("link"+div).style.display = '';
     document.getElementById("return").style.display = '';

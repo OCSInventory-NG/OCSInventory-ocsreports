@@ -41,6 +41,7 @@ class News
           if(strlen($value->CONTENT) > 150){
             $value->CONTENTMODIF = (string)substr($value->CONTENT, 0, 150) . " ...";
           }
+          $value->CONTENT = nl2br($value->CONTENT);
         }
 
         return $obj;
