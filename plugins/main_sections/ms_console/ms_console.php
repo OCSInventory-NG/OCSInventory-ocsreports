@@ -34,14 +34,55 @@ require('require/softwares/SoftwareCategory.php');
 require_once('require/function_console.php');
 require_once('require/function_groups.php');
 require_once('require/function_computers.php');
+require('require/news/News.php');
 
 $stats = new Stats();
 $console = new Console();
 $soft = new SoftwareCategory();
+$news = new News();
 
 PrintEnTete($l->g(1600));
-
 echo "<div class='col-md-10 col-xs-offset-0 col-md-offset-1'>";
+
+/*********************************************** NEWS ************************************************/
+$champs = array(
+    'ACTIVE_NEWS' => 'ACTIVE_NEWS',
+);
+$values = look_config_default_values($champs);
+
+if($values['ivalue']['ACTIVE_NEWS'] == 1){
+    $obj = $news->get_json_news();
+
+    echo '<div id="mySidepanel" class="sidepanel">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><span class="glyphicon glyphicon-remove" title="'.$l->g(8024).'"></span></a>
+            <a href="javascript:void(0)" class="returnbtn" onclick="openNav()" id="return" style="display:none;"><span class="glyphicon glyphicon-chevron-left" title="'.$l->g(8025).'"></span></a>';
+
+            foreach ($obj->NEWS as $key => $value){
+              echo '<div id=news'.$key.' class="aside">';
+              echo '<a href="javascript:void(0)" onclick="openfullNav(\'news'.$key.'\')" id='.$key.'>'.$value->DATE.' - '.$value->TITLE.'</a>';
+              echo '<div id="imagenews'.$key.'" style="display:none;" align="center" class="aside">';
+              if($value->IMAGE != false){
+                  echo '<br/><img src="'.$value->IMAGE.'" class="center"><br/>';
+              }
+              echo '</div>';
+              if($value->CONTENTMODIF != null){
+                echo '<p id="contentmodifnews'.$key.'">'.$value->CONTENTMODIF.'</p>';
+                echo '<p id="contentnews'.$key.'" style="display:none;">'.$value->CONTENT.'</p>';
+              }else{
+                echo '<p>'.$value->CONTENT.'</p>';
+              }
+              echo '<div id="linknews'.$key.'" style="display:none;" class="aside">';
+              if($value->LINK != false){
+                  echo '<a href="'.$value->LINK.'" class="center" style="text-align:center;">'.$value->LINK.'</a>';
+              }
+              echo '</div>';
+              echo '</div>';
+            }
+
+    echo '</div>';
+
+    echo '<button class="btn btn-default" onclick="openNav()">'.$l->g(8022).'</button>';
+}
 
 /************************************** MACHINE CONTACTED TODAY **************************************/
 

@@ -254,3 +254,67 @@ div.progress {
   padding-top : 10px;
   padding-bottom : 10px;
 }
+
+/* The sidepanel menu */
+.sidepanel {
+    height: 100%; /* Specify a height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: white; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidepanel */
+}
+
+/* The sidepanel links */
+.sidepanel a {
+    padding: 8px 8px 8px 0;
+    text-decoration: none;
+    font-size: 16px;
+    color: #961b7e;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidepanel a:hover {
+    color: #df53c3;
+}
+
+/* Position and style the close button (top right corner) */
+.sidepanel .closebtn {
+    position: absolute;
+    top: 0;
+    right: 16px;
+    font-size: 25px;
+    margin-left: 60px;
+}
+
+/* Position and style the close button (top right corner) */
+.sidepanel .returnbtn {
+    position: absolute;
+    top: 0;
+    left: 16px;
+    font-size: 25px;
+    margin-right: 60px;
+}
+
+.sidepanel p {
+    color: #818181;
+    font-size: 12px;
+}
+
+.sidepanel .aside {
+    text-align: left;
+    padding-left: 30px;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
