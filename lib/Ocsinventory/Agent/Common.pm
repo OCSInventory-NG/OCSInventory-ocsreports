@@ -14,6 +14,129 @@ use strict;
 no strict 'refs';
 use warnings;
 
+=head1 NAME
+
+Ocsinventory::Agent::Common - give common methods to other modules
+
+=over
+
+=item addController()
+
+Add a controller in the inventory.
+
+=item addUsb()
+
+Add external usb devices in the inventory.
+
+=item addInput()
+
+Add internal inputs as keyboard, mouse in the inventory.
+
+=item addModem()
+
+Add a modem in the inventory.
+
+=item addDrive()
+
+Add a partition in the inventory.
+
+=item addStorages()
+
+Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
+
+=item addMemory()
+
+Add a memory module in the inventory.
+
+=item addPort()
+
+Add a port module in the inventory.
+
+=item addSlot()
+
+Add a slot in the inventory.
+
+=item addSoftware()
+
+Register a software in the inventory.
+
+=item addMonitor()
+
+Add a monitor (screen) in the inventory.
+
+=item addVideo()
+
+Add a video card in the inventory.
+
+=item addSound()
+
+Add a sound card in the inventory.
+
+=item addNetwork()
+
+Register a network in the inventory.
+
+=item addRepo()
+
+Register a repository in the inventory.
+
+=item setHardware()
+
+Save global information regarding the machine.
+
+The use of setHardware() to update USERID and PROCESSOR* information is
+deprecated, please, use addUser() and addCPU() instead.
+
+=item setBios()
+
+Set BIOS information.
+
+=item addCPU()
+
+Add a CPU in the inventory.
+
+=item addUser()
+
+Add an user in the list of logged user.
+
+=item addPrinter()
+
+Add a printer in the inventory.
+
+=item addVirtualMachine()
+
+Add a Virtual Machine in the inventory.
+
+=item addProcess()
+
+Record a running process in the inventory.
+
+=item addCamera()
+
+Add a camera device in the inventory. Only avalaible for MacOSX
+
+=item addIpDiscoverEntry()
+
+IpDiscover is used to identify network interface on the local network. This
+is done on the ARP level.
+
+This function adds a network interface in the inventory.
+
+=item setAccessLog()
+
+What is that for? :)
+
+=item flushXMLTags()
+
+Clear the content of $common->{xmltags} (to use after adding it in XML)
+
+=item addBatteries()
+
+Add a memory module in the inventory.
+
+=back
+=cut
+
 ##################################################################################
 #  Ocsinventory::Agent::Common is use to give common methods to other modules   #
 ##################################################################################
@@ -31,11 +154,6 @@ sub new {
     bless $self;
 }
 
-=item addController()
-
-Add a controller in the inventory.
-
-=cut
 sub addController {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -51,11 +169,6 @@ sub addController {
 
 }
 
-=item addUsb()
-
-Add external usb devices in the inventory.
-
-=cut
 sub addUsb {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -71,11 +184,6 @@ sub addUsb {
 
 }
 
-=item addInput()
-
-Add internal inputs as keyboard, mouse in the inventory.
-
-=cut
 sub addInput {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -91,11 +199,6 @@ sub addInput {
 
 }
 
-=item addModem()
-
-Add a modem in the inventory.
-
-=cut
 sub addModem {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -121,11 +224,6 @@ sub addModems {
     $self->addModem(@_);
 }
 
-=item addDrive()
-
-Add a partition in the inventory.
-
-=cut
 sub addDrive {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -151,11 +249,6 @@ sub addDrives {
     $self->addDrive(@_);
 }
 
-=item addStorages()
-
-Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
-
-=cut
 sub addStorages {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -181,11 +274,6 @@ sub addStorage {
 }
 
 
-=item addMemory()
-
-Add a memory module in the inventory.
-
-=cut
 sub addMemory {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -210,11 +298,6 @@ sub addMemories {
     $self->addMemory(@_);
 }
 
-=item addPort()
-
-Add a port module in the inventory.
-
-=cut
 sub addPorts{
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -239,11 +322,6 @@ sub addPort {
     $self->addPort(@_);
 }
 
-=item addSlot()
-
-Add a slot in the inventory.
-
-=cut
 sub addSlot {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -268,11 +346,6 @@ sub addSlots {
     $self->addSlot(@_);
 }
 
-=item addSoftware()
-
-Register a software in the inventory.
-
-=cut
 sub addSoftware {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -297,11 +370,6 @@ sub addSoftwares {
     $self->addSoftware(@_);
 }
 
-=item addMonitor()
-
-Add a monitor (screen) in the inventory.
-
-=cut
 sub addMonitor {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -326,11 +394,6 @@ sub addMonitors {
     $self->addMonitor(@_);
 }
 
-=item addVideo()
-
-Add a video card in the inventory.
-
-=cut
 sub addVideo {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -355,11 +418,6 @@ sub addVideos {
     $self->addVideo(@_);
 }
 
-=item addSound()
-
-Add a sound card in the inventory.
-
-=cut
 sub addSound {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -384,11 +442,6 @@ sub addSounds {
     $self->addSound(@_);
 }
 
-=item addNetwork()
-
-Register a network in the inventory.
-
-=cut
 sub addNetwork {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -413,11 +466,6 @@ sub addNetworks {
     $self->addNetwork(@_);
 }
 
-=item addRepo()
-
-Register a repository in the inventory.
-
-=cut
 sub addRepo {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -443,14 +491,6 @@ sub addRepos {
 }
 
 
-=item setHardware()
-
-Save global information regarding the machine.
-
-The use of setHardware() to update USERID and PROCESSOR* information is
-deprecated, please, use addUser() and addCPU() instead.
-
-=cut
 sub setHardware {
     my ($self, $args, $nonDeprecated) = @_;
     my $xmltags = $self->{xmltags};
@@ -475,12 +515,6 @@ sub setHardware {
     }
 }
 
-
-=item setBios()
-
-Set BIOS information.
-
-=cut
 sub setBios {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -493,18 +527,13 @@ sub setBios {
     }
 }
 
-=item addCPU()
-
-Add a CPU in the inventory.
-
-=cut
 sub addCPU {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
 
     my $content = {};
 
-    foreach my $key (qw/CORES CPUARCH CPUSTATUS CURRENT_SPEED DATA_WIDTH HPT L2CACHESIZE MANUFACTURER NBSOCKET SERIALNUMBER SOCKET SPEED TYPE VOLTAGE LOGICAL_CPUS/) {
+    foreach my $key (qw/CORES CPUARCH CPUSTATUS CURRENT_SPEED DATA_WIDTH HPT L2CACHESIZE MANUFACTURER NBSOCKET SERIALNUMBER SOCKET SPEED THREADS TYPE VOLTAGE LOGICAL_CPUS/) {
         if (exists $args->{$key}) {
             $content->{$key}[0] = $args->{$key} if $args->{$key};
         }
@@ -525,11 +554,6 @@ sub addCPU {
 
 }
 
-=item addUser()
-
-Add an user in the list of logged user.
-
-=cut
 sub addUser {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -558,11 +582,6 @@ sub addUser {
 
 }
 
-=item addPrinter()
-
-Add a printer in the inventory.
-
-=cut
 sub addPrinter {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -588,11 +607,21 @@ sub addPrinters {
     $self->addPrinter(@_);
 }
 
-=item addVirtualMachine()
+sub addBatteries {
+    my ($self, $args) = @_;
+    my $xmltags = $self->{xmltags};
 
-Add a Virtual Machine in the inventory.
+    my $content = {};
 
-=cut
+    foreach my $key (qw/CHEMISTRY DESIGNCAPACITY DESIGNVOLTAGE LOCATION MANUFACTURER MANUFACTUREDATE MAXERROR NAME OEMSPECIFIC SBDSVERSION SERIALNUMBER /) {
+        if (exists $args->{$key}) {
+            $content->{$key}[0] = $args->{$key} if $args->{$key};
+        }
+    }
+
+    push @{$xmltags->{BATTERIES}}, $content;
+}
+
 sub addVirtualMachine {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -609,11 +638,6 @@ sub addVirtualMachine {
 
 }
 
-=item addProcess()
-
-Record a running process in the inventory.
-
-=cut
 sub addProcess {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -629,11 +653,6 @@ sub addProcess {
     push @{$xmltags->{RUNNING_PROCESSES}}, $content;
 }
 
-=item addCamera()
-
-Add a camera device in the inventory. Only avalaible for MacOSX
-
-=cut
 sub addCamera {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -649,14 +668,6 @@ sub addCamera {
     push @{$xmltags->{RUNNING_PROCESSES}}, $content;
 }
 
-=item addIpDiscoverEntry()
-
-IpDiscover is used to identify network interface on the local network. This
-is done on the ARP level.
-
-This function adds a network interface in the inventory.
-
-=cut
 sub addIpDiscoverEntry {
     my ($self, $args) = @_;
     my $xmltags = $self->{xmltags};
@@ -670,7 +681,7 @@ sub addIpDiscoverEntry {
     }
 
     push @{$xmltags->{IPDISCOVER}{H}}, {
-        # If I or M is undef, the server will ingore the host
+        # If I or M is undef, the server will ignore the host
         I => [$ipaddress?$ipaddress:""],
         M => [$macaddr?$macaddr:""],
         N => [$name?$name:"-"], # '-' is the default value returned by ipdiscover
@@ -678,11 +689,6 @@ sub addIpDiscoverEntry {
 }
 
 
-=item setAccessLog()
-
-What is that for? :)
-
-=cut
 sub setAccessLog {
     my ($self, $args) = @_;
 
@@ -693,11 +699,6 @@ sub setAccessLog {
     }
 }
 
-=item flushXMlTags()
-
-Clear the content of $common->{xmltags} (to use after adding it in XML)
-
-=cut
 sub flushXMLTags {
     my $self= shift;
     $self->{xmltags} = {};
@@ -956,28 +957,6 @@ sub addSnmpCPU {
 
 }
 
-
-
-=item addBatteries()
-
-Add a memory module in the inventory.
-
-=cut
-sub addBatteries {
-    my ($self, $args) = @_;
-    my $xmltags = $self->{xmltags};
-
-    my $content = {};
-
-    foreach my $key (qw/CHEMISTRY DESIGNCAPACITY DESIGNVOLTAGE LOCATION MANUFACTURER MANUFACTUREDATE MAXERROR NAME OEMSPECIFIC SBDSVERSION SERIALNUMBER /) {
-        if (exists $args->{$key}) {
-            $content->{$key}[0] = $args->{$key} if $args->{$key};
-        }
-    }
-
-    push @{$xmltags->{BATTERIES}}, $content;
-}
-
 #Subroutine to add 0 in 'Sun like' MAC address if needed
 sub padSnmpMacAddress {
     my ($self,$mac) = @_;
@@ -993,7 +972,6 @@ sub padSnmpMacAddress {
   $mac=join (':', @splitedAddr);
   return $mac;
 }
-
 
 sub cleanXml {
     my ($self,$content) = @_;
@@ -1062,7 +1040,6 @@ sub parseXmlArray {
     }
 }
 
-
 #Subroutine to convert versions to numbers (with icutting or right padding if needed)
 # We create it because Perl 5.8 does not include version comparison modules or functions
 sub convertVersion {
@@ -1104,6 +1081,44 @@ sub get_sysprofile_devices_names {
     return $names;
 }
 
+# Function getDmidecodeInfos.
+#
+sub getDmidecodeInfos {
+    my @dmidecode=`dmidecode`;
+
+    my ($info, $block, $type);
+
+    foreach my $line (@dmidecode){
+        chomp $line;
+        if ($line =~ /DMI type (\d+)/) {
+            if ($block) {
+                push (@{$info->{$type}}, $block);
+                undef $block;
+            }
+            $type=$1;
+            next;
+        }
+        next unless defined $type;
+        next unless $line =~ /^\s+ ([^:]+) : \s (.*\S)/x;
+        next if
+            $2 eq 'N/A' ||
+            $2 eq 'Not Specified' ||
+            $2 eq 'Not Present' ||
+            $2 eq 'Unknown' ||
+            $2 eq '<BAD INDEX>' ||
+            $2 eq '<OUT OF SPEC>' ||
+            $2 eq '<OUT OF SPEC><OUT OF SPEC>';
+        $block->{$1} = $2;
+    }
+    if ($block) {
+        push(@{$info->{$type}}, $block);
+    }
+
+    return if keys %{$info} < 2;
+
+    return $info;
+
+}
 
 ### Generic shared subroutines #####
 
@@ -1165,8 +1180,7 @@ sub get_path{
     my $binary = shift;
     my $path;
 
-    my @bin_directories  = qw {   /usr/local/sbin/ /sbin/ /usr/sbin/ /bin/ /usr/bin/
-            /usr/local/bin/ /etc/ocsinventory-client/};
+    my @bin_directories  = qw {   /usr/local/sbin/ /sbin/ /usr/sbin/ /bin/ /usr/bin/ /usr/local/bin/ /etc/ocsinventory-client/};
 
     print "\n=> retrieving $binary...\n" if $::debug;
     for (@bin_directories){
@@ -1195,6 +1209,5 @@ sub already_in_array {
     }
     return 0;
 }
-
 
 1;
