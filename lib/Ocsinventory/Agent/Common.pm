@@ -533,7 +533,7 @@ sub addCPU {
 
     my $content = {};
 
-    foreach my $key (qw/CORES CPUARCH CPUSTATUS CURRENT_SPEED DATA_WIDTH HPT L2CACHESIZE MANUFACTURER NBSOCKET SERIALNUMBER SOCKET SPEED TYPE VOLTAGE LOGICAL_CPUS/) {
+    foreach my $key (qw/CORES CPUARCH CPUSTATUS CURRENT_SPEED DATA_WIDTH HPT L2CACHESIZE MANUFACTURER NBSOCKET SERIALNUMBER SOCKET SPEED THREADS TYPE VOLTAGE LOGICAL_CPUS/) {
         if (exists $args->{$key}) {
             $content->{$key}[0] = $args->{$key} if $args->{$key};
         }
@@ -1093,6 +1093,45 @@ sub get_sysprofile_devices_names {
     }
 
     return $names;
+}
+
+# Function getDmidecodeInfos.
+#
+sub getDmidecodeInfos {
+    my @dmidecode=`dmidecode`;
+
+    my ($info, $block, $type);
+
+    foreach my $line (@dmidecode){
+        chomp $line;
+        if ($line =~ /DMI type (\d+)/) {
+            if ($block) {
+                push (@{$info->{$type}}, $block);
+                undef $block;
+            }
+            $type=$1;
+            next;
+        }
+        next unless defined $type;
+        next unless $line =~ /^\s+ ([^:]+) : \s (.*\S)/x;
+        next if
+            $2 eq 'N/A' ||
+            $2 eq 'Not Specified' ||
+            $2 eq 'Not Present' ||
+            $2 eq 'Unknown' ||
+            $2 eq '<BAD INDEX>' ||
+            $2 eq '<OUT OF SPEC>' ||
+            $2 eq '<OUT OF SPEC><OUT OF SPEC>';
+        $block->{$1} = $2;
+    }
+    if ($block) {
+        push(@{$info->{$type}}, $block);
+    }
+
+    return if keys %{$info} < 2;
+
+    return $info;
+
 }
 
 ### Generic shared subroutines #####

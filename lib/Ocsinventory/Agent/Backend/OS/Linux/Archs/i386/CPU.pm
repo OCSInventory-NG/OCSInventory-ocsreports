@@ -1,128 +1,67 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Archs::i386::CPU;
 
 use strict;
-use Config;
+use warnings;
+use Data::Dumper;
 
 sub check { 
     my $params = shift;
     my $common = $params->{common};
-    $common->can_read("/proc/cpuinfo") 
+    $common->can_run("lscpu"); 
 }
 
 sub run {
 
-    open(my $fh, '<:encoding(UTF-8)', "/proc/cpuinfo") or warn;
-    my @cpuinfo         = <$fh>;
-    close($fh);
-    
-    my $params      = shift;
-    my $common      = $params->{common};
-    my @dmidecode       = `dmidecode -t processor`;
-    my $fake_physid = 1;
-    my $processors;
-    my $processor;
-    my $vendor_id;
-    my $modelName;
-    my $cacheSize;
-    my $mhz;
-    my $physical_id;
-    my $siblings;
-    my $core_id;
-    my $cpuCores;
-    my $arch;
-    my $addressWidth;
-    my $dataWidth;
-    my $voltage;
-    my $serial;
-    my $maxMhz;
-    my $socket;
-    my $sockettype;
-    my $status;
-    $processor = $vendor_id = $modelName = $cacheSize = $mhz = $physical_id = $siblings
-    = $core_id = $cpuCores = $arch = $dataWidth = $addressWidth = $voltage = $serial
-    = $maxMhz = $socket = $status = $sockettype = "";
+    my $params = shift;
+    my $common = $params->{common};
 
-    # get data from /proc/cpuinfo
-    foreach my $line (@cpuinfo) {
-        chomp $line;
-        if ($line =~ /^\s*$/) { # empty line, dump what we know
-            $physical_id = $fake_physid if ( $physical_id eq "");
-            $processors->{$physical_id}->{MANUFACTURER}             = $vendor_id;
-            $processors->{$physical_id}->{TYPE}                     = $modelName;
-            $processors->{$physical_id}->{CURRENT_SPEED}            = $mhz;
-            $processors->{$physical_id}->{L2CACHESIZE}              = $cacheSize;
-            $processors->{$physical_id}->{CORES}                    = $cpuCores ? $cpuCores : 1;
-            $processors->{$physical_id}->{LOGICAL_CPUS}             = $siblings ? $siblings : $processors->{$physical_id}->{CORES};
-            $processors->{$physical_id}->{CPUARCH}                  = $arch;
-            $processors->{$physical_id}->{DATA_WIDTH}               = $dataWidth;
-            $processors->{$physical_id}->{CURRENT_ADDRESS_WIDTH}    = $addressWidth;
-                      
-            $processor = $vendor_id = $modelName = $cacheSize = $mhz
-            = $physical_id = $siblings = $core_id = $cpuCores = $arch
-            = $dataWidth = $addressWidth = $voltage = $sockettype = "";
-        }
-        $processor = $1 if($line =~ /processor\s*:\s*(\S.*)/i);
-        $vendor_id = $2 if($line =~ /^vendor_id\s*:\s*(Authentic|Genuine|)(.+)/i);
-        $vendor_id =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-        $vendor_id =~ s/CyrixInstead/Cyrix/;
-        $vendor_id =~ s/CentaurHauls/VIA/;
-        $modelName = $1 if($line =~ /model\sname\s*:\s*(\S.*)/i);
-        if($line =~ /cpu\sMHz\s*:\s*(\S.*)/i) {
-            $mhz = $1;
-            $mhz = sprintf "%i", $mhz;
-        }
-        if($line =~ /cache\ssize\s*:\s*(\S.*)/i) {
-            $cacheSize = $1;
-            $cacheSize =~ s/\D+//;
-        }
-        $physical_id = $1 if($line =~ /physical\sid\s*:\s*(\S.*)/i);
-        $siblings = $1 if($line =~ /siblings\s*:\s*(\S.*)/i);
-        $core_id = $1 if($line =~ /core\sid\s*:\s*(\S.*)/i);
-        $cpuCores = $1 if($line =~ /cpu\scores\s*:\s*(\S.*)/i);
-        if($line =~ /address\ssizes\s*:\s*(\S.*)/i) {
-            $addressWidth = $1;
-            $addressWidth =~ /(\d+)\s+bits\s*physical,\s*(\d+)\s*bits\s*virtual/;
-            $addressWidth = $2 ? $2 : ( $1 ? $1 : '' );
-        }
-        if($line =~ /flags/) {
-            if($line =~ /lm/) {
-                $arch       = "x86_64";
-                $dataWidth  = 64;
-            }
-            else {
-                $arch       = "x86";
-                $dataWidth  = 32;
-            }       
-        }
-    }
-    $socket = -1;
-    foreach my $line (@dmidecode) {
-        chomp $line;
-        $socket++ if($line =~ /^Handle/);   # handle opens a new processor in dmidecode output
-        next if $socket < 0;    # if in preface still
-        if($line =~ /^\s*$/ ) { # end of processor/socket found
-            if ( $status ne "Unpopulated") {
-                if ($socket >= 0) {
-                    $processors->{$socket}->{VOLTAGE}          = $voltage;
-                    $processors->{$socket}->{SPEED}            = $maxMhz;
-                    $processors->{$socket}->{SERIALNUMBER}     = $serial;
-                    $processors->{$socket}->{SOCKET}           = $sockettype;
-                }   # dmidecode tells about more CPUs than /proc/cpuinfo
-            }
-            $voltage = $maxMhz = $status = $serial = $sockettype = "";
+    my @cpuinfos=`LANG=C lscpu`;
+    my $cpu;
+    my $nbcpus;
+
+    foreach my $info (@cpuinfos){
+        chomp $info;
+        $cpu->{CPUARCH}=$1 if ($info =~ /Architecture:\s*(.*)/i);
+        $cpu->{NBCPUS}=$1 if ($info =~ /^CPU\(s\):\s*(\d)/i);
+        $cpu->{THREADS}=$1 if ($info =~ /Thread\(s\)\sper\score:\s*(\d)/i);
+        $cpu->{CORES}=$1 if ($info =~ /Core\(s\)\sper\ssocket:\s*(\d)/i);
+        $cpu->{NBSOCKET}=$1 if ($info =~ /Socket\(s\):\s*(\d)/i);
+        $cpu->{TYPE}=$1 if ($info =~ /Model\sname:\s*(.*)/i);
+        if ($info =~ /Vendor ID:\s*(Authentic|Genuine|)(.+)/i){
+            $cpu->{MANUFACTURER} = $2;
+            $cpu->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $cpu->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
+            $cpu->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
         }
 
-        $voltage = $1 if ($line =~ /Voltage:\s*(\S.*)/i);
-        $maxMhz = $1 if($line =~ /Current\sSpeed:\s*(\d+)/i);
-        $status = $1 if($line =~ /Status:\s*(\S.*)/i);
-        $serial = $1 if($line =~ /serial\sNumber:\s*(\S.*)/i);
-        if($line =~ /Upgrade:\s*(\S.*)/i) {
-                        $sockettype = $1 unless ( $1 =~ /Unknown|Other/i );
+        $cpu->{CURRENT_SPEED} = $1 if ($info =~ /CPU\sMHz:\s*(\d+)(|\.\d+)$/i);
+        $cpu->{L2CACHESIZE} = $1 if ($info =~ /L2\scache:\s*(.*)/i);
+        if ($cpu->{CPUARCH} && $cpu->{CPUARCH} eq 'x86_64'){
+            $cpu->{DATA_WIDTH}='64';
+        } else {
+            $cpu->{DATA_WIDTH}='32';
+        }
+        
+        if ($cpu->{TYPE}) {
+            if ($cpu->{TYPE} =~ /([\d\.]+)MHz$/){
+                $cpu->{SPEED}=$1;
+            } elsif ($cpu->{TYPE} =~ /([\d\.]+)GHz$/){
+                $cpu->{SPEED}=$1*1000;
+            }
         }
     }
-    foreach (keys %{$processors} ) {
-        $common->addCPU($processors->{$_});
+
+    my $infos=$common->getDmidecodeInfos();
+    foreach my $info (@{$infos->{4}}) {
+        next if $info->{Status} && $info->{Status} =~ /Unpopulated|Disabled/i;
+        $cpu->{SERIAL}=$info->{'Serial Number'};
+        $cpu->{VOLTAGE}=$info->{'Voltage'};
     }
+
+    for (my $i=0;$i<$cpu->{NBCPUS};$i++) {
+        $common->addCPU($cpu);
+    }
+
 }
 
-1
+1;
