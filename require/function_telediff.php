@@ -82,18 +82,20 @@ function time_deploy($label = '') {
     formGroup('text', 'TPS', $label, '10', '', '', '', '', '', $champ);
 }
 
-function input_pack_taille($name, $other_field, $size, $input_size, $input_value, $label = '', $addon = '') {
+function input_pack_taille($name, $other_field, $size, $input_size, $input_value, $label = '', $addon = '', $modif = true) {
     javascript_pack();
-    if ($size > 1024) {
+    if ($size > 1024 && $modif == true) {
         $champ = '	onKeyPress="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 		 			onkeydown="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 		 			onkeyup="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 		  			onblur="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 		  			onclick="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 				';
+    } elseif($modif == false) {
+        $champ = " disabled='disabled' ";
     } else {
-        $champ = " value=1 disable='disable' ";
-    }
+				$champ = " value=1 disabled='disabled' ";
+		}
     formGroup('text', $name, $label, $input_size, '', $input_value, '', '', '', $champ, ($addon != '' ? $addon : ''));
 }
 
@@ -392,7 +394,7 @@ function recursive_remove_directory($directory, $empty = false) {
     return true;
 }
 
-function create_pack($sql_details, $info_details) {
+function create_pack($sql_details, $info_details, $modif = true) {
     global $l;
 
     if (DEMO) {
@@ -401,36 +403,40 @@ function create_pack($sql_details, $info_details) {
     }
 
     $info_details = xml_escape_string($info_details);
-    //get temp file
-    $fname = $sql_details['document_root'] . $sql_details['timestamp'] . "/tmp";
-    //cut this package
-    if ($size = @filesize($fname)) {
-        $handle = fopen($fname, "rb");
-        $read = 0;
-        for ($i = 1; $i < $sql_details['nbfrags']; $i++) {
-            $contents = fread($handle, $size / $sql_details['nbfrags']);
-            $read += strlen($contents);
-            $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
-            fwrite($handfrag, $contents);
-            fclose($handfrag);
-        }
 
-        $contents = fread($handle, $size - $read);
-        $read += strlen($contents);
-        $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
-        fwrite($handfrag, $contents);
-        fclose($handfrag);
-        fclose($handle);
+		if($modif == false){
+				//get temp file
+		    $fname = $sql_details['document_root'] . $sql_details['timestamp'] . "/tmp";
+		    //cut this package
+		    if ($size = @filesize($fname)) {
+		        $handle = fopen($fname, "rb");
+		        $read = 0;
+		        for ($i = 1; $i < $sql_details['nbfrags']; $i++) {
+		            $contents = fread($handle, $size / $sql_details['nbfrags']);
+		            $read += strlen($contents);
+		            $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
+		            fwrite($handfrag, $contents);
+		            fclose($handfrag);
+		        }
 
-        unlink($sql_details['document_root'] . $sql_details['timestamp'] . "/tmp");
-    } else {
-        if (!file_exists($sql_details['document_root'] . $sql_details['timestamp'])) {
-            mkdir($sql_details['document_root'] . $sql_details['timestamp']);
-        }
-    }
-    if (!is_defined($info_details['DIGEST'])) {
-        $sql_details['nbfrags'] = 0;
-    }
+		        $contents = fread($handle, $size - $read);
+		        $read += strlen($contents);
+		        $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
+		        fwrite($handfrag, $contents);
+		        fclose($handfrag);
+		        fclose($handle);
+
+		        unlink($sql_details['document_root'] . $sql_details['timestamp'] . "/tmp");
+		    } else {
+		        if (!file_exists($sql_details['document_root'] . $sql_details['timestamp'])) {
+		            mkdir($sql_details['document_root'] . $sql_details['timestamp']);
+		        }
+		    }
+		    if (!is_defined($info_details['DIGEST'])) {
+		        $sql_details['nbfrags'] = 0;
+		    }
+		}
+
 
     //create info
     $info = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -498,15 +504,22 @@ function crypt_file($dir_FILES, $digest_algo, $digest_encod) {
     return $digest;
 }
 
-function creat_temp_file($directory, $dir_FILES) {
+function creat_temp_file($directory, $dir_FILES, $modif = false) {
     if (DEMO) {
         return;
     }
 
     if (!file_exists($directory . "/tmp")) {
-        if (!@mkdir($directory) || !copy($dir_FILES, $directory . "/tmp")) {
+			if($modif == false){
+				if (!@mkdir($directory) || !copy($dir_FILES, $directory . "/tmp")) {
             msg_error("ERROR: can't create or write in " . $directory . " folder, please refresh when fixed.<br>(or try disabling php safe mode)");
         }
+			}else{
+				if (!copy($dir_FILES, $directory . "/tmp")) {
+            msg_error("ERROR: can't create or write in " . $directory . " folder, please refresh when fixed.<br>(or try disabling php safe mode)");
+        }
+			}
+
     }
 }
 

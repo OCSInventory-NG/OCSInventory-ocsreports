@@ -1492,6 +1492,8 @@
 2133 Vous n'avez pas créé de catégorie d'actif
 2134 Vous n'avez pas créé de catégorie logicielle
 2135 Aucune machine n'a été inventoriée
+2136 Modifier
+2137 Choississez un nouveau fichier si vous souhaitez modifier l'ancien
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
