@@ -365,7 +365,7 @@ function update_default_value($POST) {
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
-        'INVENTORY_SAAS_ENABLED');
+        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -513,10 +513,12 @@ function pageGUI($advance) {
           'OLD_CONF_DIR' => 'OLD_CONF_DIR',
           'WARN_UPDATE' => 'WARN_UPDATE',
           'CUSTOM_THEME' => 'CUSTOM_THEME',
+          'ACTIVE_NEWS' => 'ACTIVE_NEWS',
       );
     }else{
       $champs = array('LOG_GUI' => 'LOG_GUI',
           'CUSTOM_THEME' => 'CUSTOM_THEME',
+          'ACTIVE_NEWS' => 'ACTIVE_NEWS',
       );
     }
 
@@ -530,9 +532,10 @@ function pageGUI($advance) {
     $select_old_profils = trait_post('OLD_CONF_DIR');
     $select_custom_theme = trait_post('CUSTOM_THEME');
 
-
     $themes = get_available_themes();
     if($advance){
+      ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
+
       ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
 
       ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
@@ -559,6 +562,7 @@ function pageGUI($advance) {
       ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE']));
       ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
     }else{
+      ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
       ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
       ligne('LOG_GUI', $l->g(824), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOG_GUI']));
     }

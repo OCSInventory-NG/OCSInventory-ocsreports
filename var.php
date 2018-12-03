@@ -92,6 +92,7 @@ define('GUI_VER_SHOW', '2.5');
 define('DEFAULT_LANGUAGE', 'en_GB');
 define('PAG_INDEX', 'function');
 define('UPDATE_JSON_URI', 'http://check-version.ocsinventory-ng.org');
+define('URL_NEWS', 'http://check-version.ocsinventory-ng.org/newsfeed.json');
 
 //====================================================================================
 // Default OCS DIR

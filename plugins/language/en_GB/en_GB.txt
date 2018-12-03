@@ -1575,7 +1575,12 @@
 8019 Notification OCSInventory
 8020 WARNING : Mail template file not found
 8021 The uploaded file need to have .html extension to be valid
-
+8022 See news
+8023 ... Read more
+8024 Close news
+8025 Back to the news menu
+8026 Enable OCS Inventory News on dashboard
+8027 A problem of OCS news data recovery has occurred
 
 8100 SAAS Inventory
 8101 SAAS list
