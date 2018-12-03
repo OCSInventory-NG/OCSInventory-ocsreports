@@ -1126,7 +1126,7 @@
 1239 MHz
 1240 MB
 1241 Número de dispositivos SNMP
-1242 d/m/Y h:i
+1242 d/m/Y H:i
 1243 Somente arquivos ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe e ocspackage.exe podem ser publicados
 1244 Esse arquivo não pode ser vazio
 1245 Administrar seus clientes OCS-NG

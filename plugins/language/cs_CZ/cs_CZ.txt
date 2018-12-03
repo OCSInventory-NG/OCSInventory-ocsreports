@@ -1125,7 +1125,7 @@
 1239 MHz
 1240 MB
 1241 Počet SNMP zařízení
-1242 m/d/Y h:i
+1242 m/d/Y H:i
 1243 Poslat je možné pouze soubory ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe a ocspackage.exe
 1244 Tento soubor nemůže být prázdný
 1245 Spravovat OCS-NG klienty
