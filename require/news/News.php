@@ -27,14 +27,12 @@
 class News
 {
 
-    private $url = 'http://check-version.ocsinventory-ng.org/newsfeed.json';
-
     /**
      * Get JSON news from url
      * @return object [description]
      */
     public function get_json_news(){
-        $json = file_get_contents($this->url);
+        $json = file_get_contents(URL_NEWS);
         $obj = json_decode($json);
 
         foreach($obj->NEWS as $key => $value){
@@ -45,6 +43,28 @@ class News
         }
 
         return $obj;
+    }
+
+    /**
+     * Test connection and json
+     * @return string [description]
+     */
+    public function test_connect(){
+        global $l;
+
+        $array = get_headers(URL_NEWS);
+        $string = $array[0];
+        if(strpos($string,"200")) {
+            $json = file_get_contents(URL_NEWS);
+            $obj = json_decode($json);
+            if($obj != null){
+              return 'true';
+            }else{
+              return $l->g(8027);
+            }
+        } else {
+            return $l->g(8027);
+        }
     }
 
 }
