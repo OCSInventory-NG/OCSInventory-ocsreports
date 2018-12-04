@@ -116,7 +116,14 @@ if ($protectedPost['onglet'] == "") {
 }
 
 //show first lign of onglet
-show_tabs($def_onglets,$form_name,"onglet",true);
+if($i < 11){
+  show_tabs($def_onglets,$form_name,"onglet",true, $i);
+}
+
+if ($i >= 11) {
+    echo "<div class='col col-md-2'>";
+    echo show_modif($def_onglets, 'onglet', 2, $form_name) . "</div>";
+}
 echo '<div class="col col-md-10" >';
 
 if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NBRE'])) {

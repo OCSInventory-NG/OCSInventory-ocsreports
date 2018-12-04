@@ -109,7 +109,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
          $protectedPost['onglet_soft'] = $first_onglet;
      }
 
-     if ($i <= 20) {
+     if ($i <= 10) {
          echo "<p>";
          onglet($list_cat, $form_name, "onglet_soft", 5);
          echo "</p>";
