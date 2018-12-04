@@ -54,7 +54,9 @@ if($values['ivalue']['ACTIVE_NEWS'] == 1){
     $result_test = $news->test_connect();
     if($result_test == 'true'){
         $obj = $news->get_json_news();
-
+        if(isset($obj->RECENT)){
+          msg_info((string)$obj->RECENT);
+        }
         echo '<div id="mySidepanel" class="sidepanel">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><span class="glyphicon glyphicon-remove" title="'.$l->g(8024).'"></span></a>
                 <a href="javascript:void(0)" class="returnbtn" onclick="openNav()" id="return" style="display:none;"><span class="glyphicon glyphicon-chevron-left" title="'.$l->g(8025).'"></span></a>';
