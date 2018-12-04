@@ -125,7 +125,7 @@ if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NB
 
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
-    $sql['SQL'] = 'SELECT s.name, count(s.name) as nb, s.name id, sc.CATEGORY_NAME as category FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(s.name) as nb, s.name id, sc.CATEGORY_NAME FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -138,12 +138,22 @@ if($protectedPost['onglet'] == "ALL"){
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] =  $sql_fin['ARG'];
         }
-        $list_fields = array('name' => 'name',
-             $l->g(388) => 'category',
+        $list_fields = array($l->g(69) => 'PUBLISHER',
+             'name' => 'NAME',
+             $l->g(277) => 'VERSION',
+             $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
+        $list_fields[$l->g(51)] = 'COMMENTS';
+        $list_fields[$l->g(1248)] = 'FOLDER';
+        $list_fields[$l->g(446)] = 'FILENAME';
+        $list_fields[ucfirst(strtolower($l->g(953)))] = 'FILESIZE';
+        $list_fields['GUID'] = 'GUID';
+        $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
+        $list_fields[$l->g(1238)] = 'INSTALLDATE';
+        $list_fields[$l->g(1247)] = 'BITSWIDTH';
         $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
         $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
@@ -160,7 +170,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $champs = array('DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     $values = look_config_default_values($champs);
 
-    $sql['SQL'] = 'SELECT s.name, count(s.name) as nb, s.name id, sc.CATEGORY_NAME as category FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(s.name) as nb, s.name id, sc.CATEGORY_NAME FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -176,12 +186,22 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array('name' => 'name',
-             $l->g(388) => 'category',
+        $list_fields = array($l->g(69) => 'PUBLISHER',
+             'name' => 'NAME',
+             $l->g(277) => 'VERSION',
+             $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
+        $list_fields[$l->g(51)] = 'COMMENTS';
+        $list_fields[$l->g(1248)] = 'FOLDER';
+        $list_fields[$l->g(446)] = 'FILENAME';
+        $list_fields[ucfirst(strtolower($l->g(953)))] = 'FILESIZE';
+        $list_fields['GUID'] = 'GUID';
+        $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
+        $list_fields[$l->g(1238)] = 'INSTALLDATE';
+        $list_fields[$l->g(1247)] = 'BITSWIDTH';
         $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
         $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
@@ -195,7 +215,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
 /****************************************** SOFTWARE PER CATEGORY ******************************************/
 else {
-    $sql['SQL'] = 'SELECT s.name, count(s.name) as nb, s.name id, sc.CATEGORY_NAME as category FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(s.name) as nb, s.name id, sc.CATEGORY_NAME FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -211,12 +231,22 @@ else {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array('name' => 'name',
-             $l->g(388) => 'category',
+        $list_fields = array($l->g(69) => 'PUBLISHER',
+             'name' => 'NAME',
+             $l->g(277) => 'VERSION',
+             $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
+        $list_fields[$l->g(51)] = 'COMMENTS';
+        $list_fields[$l->g(1248)] = 'FOLDER';
+        $list_fields[$l->g(446)] = 'FILENAME';
+        $list_fields[ucfirst(strtolower($l->g(953)))] = 'FILESIZE';
+        $list_fields['GUID'] = 'GUID';
+        $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
+        $list_fields[$l->g(1238)] = 'INSTALLDATE';
+        $list_fields[$l->g(1247)] = 'BITSWIDTH';
         $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
         $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
