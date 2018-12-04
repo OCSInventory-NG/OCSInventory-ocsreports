@@ -83,7 +83,7 @@ if($values['ivalue']['ACTIVE_NEWS'] == 1){
 
         echo '</div>';
 
-        echo '<button class="btn btn-default" onclick="openNav()">'.$l->g(8022).'</button>';
+        echo '<button class="btn btn-info" onclick="openNav()">'.$l->g(8022).'</button>';
     } else {
         msg_error($result_test);
     }
