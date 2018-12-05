@@ -1581,6 +1581,7 @@
 8025 Back to the news menu
 8026 Enable OCS Inventory News on dashboard
 8027 A problem of OCS news data recovery has occurred
+8028 You have recent news
 
 8100 SAAS Inventory
 8101 SAAS list
