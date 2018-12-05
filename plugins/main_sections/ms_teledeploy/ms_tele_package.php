@@ -343,7 +343,6 @@ if(isset($protectedPost['valid_modif'])){
              document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
              msg='NULL';
           }
-
           msg_trait(msg);
         }
 
@@ -417,7 +416,7 @@ if(isset($protectedPost['valid_modif'])){
           formGroup('hidden', 'comment', '', '', '', $protectedPost['DESCRIPTION'], '', '', '', '');
           echo "<input type='button' class='btn btn-success' name='TEST_END' id='TEST_END' OnClick='" . $java_script . "' value='" . $l->g(13) . "'>";
           echo "<input type='hidden' name='digest' value='" . $digest . "'>";
-          echo "<input type='hidden' name='VALID_END_MODIF' id='VALID_END_MODIF' value=''>";
+          echo "<input type='hidden' name='VALID_END' id='VALID_END' value=''>";
           echo "<input type='hidden' name='SIZE' value='" . $size . "'>";
       }
   }else{

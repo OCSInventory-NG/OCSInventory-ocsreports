@@ -72,15 +72,13 @@ class Stats{
             $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
             $i = 0;
             while ($row = mysqli_fetch_object($res)) {
-                if($i <= 10){
-                    $chart[$key]['count'][$i] = $row->c;
-                    $chart[$key]['name_value'][$i] = addslashes($row->name);
-                    $chart[$key]['name'] = [$key];
-                    if($key == 'NB_OS'){
-                      $chart[$key]['title'] = $l->g(783);
-                    }else{
-                      $chart[$key]['title'] = $l->g(784);
-                    }
+                $chart[$key]['count'][$i] = $row->c;
+                $chart[$key]['name_value'][$i] = addslashes($row->name);
+                $chart[$key]['name'] = [$key];
+                if($key == 'NB_OS'){
+                  $chart[$key]['title'] = $l->g(783);
+                }else{
+                  $chart[$key]['title'] = $l->g(784);
                 }
                 $i++;
             }
