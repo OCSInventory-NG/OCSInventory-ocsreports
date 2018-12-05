@@ -32,6 +32,8 @@ class News
      * @return object [description]
      */
     public function get_json_news(){
+        global $l;
+
         $json = file_get_contents(URL_NEWS);
         $obj = json_decode($json);
 
@@ -40,6 +42,10 @@ class News
             $value->CONTENTMODIF = (string)substr($value->CONTENT, 0, 150) . " ...";
           }
           $value->CONTENT = nl2br($value->CONTENT);
+
+          if(((string)strtotime($value->DATE) >= mktime(0, 0, 0, date("Y"), date("m"), date("d")-7))){
+              $obj->RECENT = $l->g(8028);
+          }
         }
 
         return $obj;
