@@ -383,6 +383,8 @@
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
 
+
+
         // has tag restrictions?
         if(!empty($_SESSION['OCS']['TAGS']))
         {
@@ -394,7 +396,7 @@
         }
 
         // has lock machine ?
-        if (isset($_SESSION['OCS']["mesmachines"]) && strpos($_SESSION['OCS']["mesmachines"], 'a.TAG') === false) {
+        if (isset($_SESSION['OCS']["mesmachines"]) && strpos($_SESSION['OCS']["mesmachines"], 'a.TAG') === true) {
             $lockResult = str_replace('a.hardware_id', 'accountinfo.hardware_id', $_SESSION['OCS']["mesmachines"]);
             $this->columnsQueryConditions .=  " AND " . $lockResult;
         }
