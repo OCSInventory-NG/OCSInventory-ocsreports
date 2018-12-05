@@ -208,6 +208,7 @@
         "category" => 1514,
         "warantybegin" => 1452,
         "capacity" => 83,
+        "category_id" => 2132,
     ];
 
     private $operatorsArray = [
