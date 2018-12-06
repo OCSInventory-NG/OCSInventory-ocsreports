@@ -63,7 +63,10 @@ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($prot
 } elseif ($affich_method == 'SSO' && isset($_SERVER['HTTP_AUTH_USER'])) {
     $login = $_SERVER['HTTP_AUTH_USER'];
     $mdp = 'NO_PASSWD';
-}
+}  elseif ($affich_method == 'SSO' && isset($_SERVER['REMOTE_USER'])) {
+    $login = $_SERVER['REMOTE_USER'];
+    $mdp = 'NO_PASSWD';
+} 
 
 if (isset($login) && isset($mdp)) {
     $i = 0;
