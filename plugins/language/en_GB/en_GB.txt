@@ -39,7 +39,7 @@
 65 Model
 66 Type
 67 Disk size
-69 Editor
+69 Publisher
 70 Designation
 79 Printer(s)
 80 Caption
@@ -60,7 +60,7 @@
 96 Sound
 97 Monitor(s)
 103 Update
-107 Config
+107 Configuration
 108 Registry requests
 111 Windows license
 113 Cancel
@@ -1093,7 +1093,7 @@
 1207 Add community
 1208 Community added
 1209 Community updated
-1210 Account info:
+1210 Account info :
 1211 URL where SNMP community file is
 1212 Community deleted
 1213 Separator of export file
@@ -1125,7 +1125,7 @@
 1239 MHz
 1240 MB
 1241 Number of SNMP devices
-1242 m/d/Y h:i
+1242 m/d/Y H:i
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients
@@ -1167,6 +1167,7 @@
 1281 On Wake On Lan
 1282 Wake On Lan order sent
 1283 Do you want a Wake On Lan on this computer
+1284 Source IP
 1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Installation time
@@ -1200,7 +1201,7 @@
 1322 Unable to open socket for WOL
 1323 Server printer sharing
 1324 Sharing printer on server
-1325 screen horizontal / vertical
+1325 Screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
 1328 Manage
@@ -1300,8 +1301,8 @@
 1422 Expire
 1423 File name
 1424 Mirrors
-1425 tag
-1426 updated
+1425 Tag
+1426 Updated
 1427 Base URL
 1428 Battery
 1429 Sim card
@@ -1320,10 +1321,18 @@
 1442 XML Definition
 1443 Default Gateway
 1444 USB Devices
-1445 Group info
+1445 Group
 1446 Model name
 1447 Account info
 1448 IS NULL
+1449 General configuration
+1450 ID
+1451 Static ?
+1452 Waranty begin
+1453 GUID
+1454 Source
+1455 Virtual interface
+
 
 1500 Software category
 1501 New category
@@ -1332,6 +1341,26 @@
 1504 Regular expression or Software name
 1505 Select default category for softwares
 1506 No category created
+1507 Software version
+1508 Software vendor
+1509 Advanced settings
+1510 Software version comparator
+1511 Version comparator
+1512 Less or Equal
+1513 More or Equal
+1514 Category
+1515 All OS
+1516 All software (but default)
+1517 No category have been selected
+
+
+1600 My dashboard
+1601 Dynamic groups
+
+1700 Advanced configuration
+1701 Tab available
+1702 New tab
+1703 Add selected packages
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
@@ -1461,6 +1490,12 @@
 2129 Back to multi search
 2130 Assets categories
 2131 Number of machines per category
+2132 Assets category
+2133 You haven't created an asset category
+2134 You haven't created a software category
+2135 No machine has been inventoried
+2136 Update
+2137 Choose a new file if you want to modify the old one
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1538,3 +1573,22 @@
 8017 This file is not an html file
 8018 Subject
 8019 Notification OCSInventory
+8020 WARNING : Mail template file not found
+8021 The uploaded file need to have .html extension to be valid
+8022 See news
+8023 ... Read more
+8024 Close news
+8025 Back to the news menu
+8026 Enable OCS Inventory News on dashboard
+8027 A problem of OCS news data recovery has occurred
+8028 You have recent news
+
+8100 SAAS Inventory
+8101 SAAS list
+8102 Add SAAS
+8103 Associated DNS
+8104 Entry
+8105 Data
+8106 Time to live
+8107 This SAAS already exists
+8108 Enable Software as a Service Inventory

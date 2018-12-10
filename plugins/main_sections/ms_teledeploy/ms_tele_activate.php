@@ -168,6 +168,9 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $l->g(53) => 'COMMENT');
     $tab_options['REPLACE_COLUMN_KEY'][$l->g(593)] = 'CREADATE';
     $tab_options['REPLACE_COLUMN_KEY'][$l->g(462) . " KB"] = 'WEIGHT';
+    $tab_options['NO_SEARCH']['NOTI'] = 'NOTI';
+    $tab_options['NO_SEARCH']['SUCC'] = 'SUCC';
+    $tab_options['NO_SEARCH']['ERR_'] = 'ERR_';
     if ($show_stats) {
         $list_fields['NO_NOTIF'] = 'NO_NOTIF';
         $list_fields['NOTI'] = 'NOTI';
@@ -183,6 +186,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     if (!$cant_active) {
         $list_fields['ZIP'] = 'FILEID';
         $list_fields['ACTIVE'] = 'FILEID';
+        $list_fields['EDIT_DEPLOY'] = 'FILEID';
         $list_fields['SUP'] = 'FILEID';
         $list_fields['CHECK'] = 'FILEID';
         $tab_options['LBL_POPUP']['SUP'] = 'NAME';
@@ -194,9 +198,9 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $l->g(593) => $l->g(593),
         'SHOWACTIVE' => 'SHOWACTIVE',
         'CHECK' => 'CHECK', 'NOTI' => 'NOTI', 'SUCC' => 'SUCC',
-        'ERR_' => 'ERR_', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP');
-    $list_col_cant_del = array('SHOWACTIVE' => 'SHOWACTIVE', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'CHECK' => 'CHECK');
-    $querypack = prepare_sql_tab($list_fields, array('SELECT', 'ZIP', 'STAT', 'ACTIVE', 'SUP', 'CHECK', 'NO_NOTIF', 'NOTI', 'SUCC', 'ERR_'));
+      'ERR_' => 'ERR_', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'EDIT_DEPLOY' => 'EDIT_DEPLOY');
+    $list_col_cant_del = array('SHOWACTIVE' => 'SHOWACTIVE', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'CHECK' => 'CHECK', 'EDIT_DEPLOY' => 'EDIT_DEPLOY');
+    $querypack = prepare_sql_tab($list_fields, array('SELECT', 'EDIT_DEPLOY', 'ZIP', 'STAT', 'ACTIVE', 'SUP', 'CHECK', 'NO_NOTIF', 'NOTI', 'SUCC', 'ERR_'));
 
     $querypack['SQL'] .= " from download_available ";
     if ($protectedPost['SHOW_SELECT'] == 'download') {

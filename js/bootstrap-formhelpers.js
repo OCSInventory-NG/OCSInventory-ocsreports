@@ -15773,8 +15773,7 @@ var BFHTimezonesList = {
     },
 
     addLanguages: function () {
-      var split,
-          value,
+      var value,
           languages,
           language;
 
@@ -15806,8 +15805,7 @@ var BFHTimezonesList = {
           $options,
           value,
           languages,
-          language,
-          split;
+          language;
 
       value = this.options.language;
       $input = this.$element.find('input[type="hidden"]');
@@ -15966,8 +15964,6 @@ var BFHTimezonesList = {
     constructor: BFHNumber,
 
     initInput: function() {
-      var value;
-
       if (this.options.buttons === true) {
         this.$element.wrap('<div class="input-group"></div>');
         this.$element.parent().append('<span class="input-group-addon bfh-number-btn inc"><span class="glyphicon glyphicon-chevron-up"></span></span>');
@@ -16628,10 +16624,8 @@ var BFHTimezonesList = {
       var $this,
           $items,
           $parent,
-          $subItems,
           isActive,
-          index,
-          selectedIndex;
+          index;
 
       if (!/(38|40|27)/.test(e.keyCode)) {
         return true;
@@ -16645,7 +16639,7 @@ var BFHTimezonesList = {
       $parent = getParent($this);
       isActive = $parent.hasClass('open');
 
-      if (!isActive || (isActive && e.keyCode === 27)) {
+      if (!isActive || (e.keyCode === 27)) {
         if (e.which === 27) {
           $parent.find(toggle).focus();
         }
@@ -16688,9 +16682,7 @@ var BFHTimezonesList = {
 
     select: function (e) {
       var $this,
-          $parent,
-          $span,
-          $input;
+          $parent;
 
       $this = $(this);
 

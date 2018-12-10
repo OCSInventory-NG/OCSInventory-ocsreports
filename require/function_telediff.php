@@ -82,23 +82,26 @@ function time_deploy($label = '') {
     formGroup('text', 'TPS', $label, '10', '', '', '', '', '', $champ);
 }
 
-function input_pack_taille($name, $other_field, $size, $input_size, $input_value, $label = '', $addon = '') {
+function input_pack_taille($name, $other_field, $size, $input_size, $input_value, $label = '', $addon = '', $modif = true) {
     javascript_pack();
-    if ($size > 1024) {
+    if ($size > 1024 && $modif == true) {
         $champ = '	onKeyPress="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 		 			onkeydown="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 		 			onkeyup="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 		  			onblur="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 		  			onclick="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
 				';
+    } elseif($modif == false) {
+        $champ = " disabled='disabled' ";
     } else {
-        $champ = " value=1 disable='disable' ";
-    }
+				$champ = " value=1 disabled='disabled' ";
+		}
     formGroup('text', $name, $label, $input_size, '', $input_value, '', '', '', $champ, ($addon != '' ? $addon : ''));
 }
 
 function desactive_option($name, $list_id, $packid) {
     global $l;
+
     $sql_desactive = "delete from devices where name='%s' and ivalue=%s";
     $arg_desactive = array($name, $packid);
     if ($list_id != '') {
@@ -115,17 +118,36 @@ function desactive_option($name, $list_id, $packid) {
 
 function active_option($name, $list_id, $packid, $tvalue = '') {
     global $l;
-    desactive_option($name, $list_id, $packid);
-    $sql_active = "insert into devices (HARDWARE_ID, NAME, IVALUE,TVALUE) select ID,'%s','%s',";
-    if ($tvalue == '') {
-        $sql_active .= "null from hardware where id in ";
-        $arg_active = array($name, $packid);
-    } else {
-        $sql_active .= "'%s' from hardware where id in ";
-        $arg_active = array($name, $packid, $tvalue);
-    }
-    $sql = mysql2_prepare($sql_active, $arg_active, $list_id);
-    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
+
+		if(strpos($packid, ',')) {
+			$pack_id = explode(',',$packid);
+			foreach($pack_id as $key => $value){
+				desactive_option($name, $list_id, $value);
+		    $sql_active = "insert into devices (HARDWARE_ID, NAME, IVALUE,TVALUE) select ID,'%s','%s',";
+		    if ($tvalue == '') {
+		        $sql_active .= "null from hardware where id in ";
+		        $arg_active = array($name, $value);
+		    } else {
+		        $sql_active .= "'%s' from hardware where id in ";
+		        $arg_active = array($name, $value, $tvalue);
+		    }
+		    $sql = mysql2_prepare($sql_active, $arg_active, $list_id);
+		    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
+			}
+		} else {
+				desactive_option($name, $list_id, $packid);
+		    $sql_active = "insert into devices (HARDWARE_ID, NAME, IVALUE,TVALUE) select ID,'%s','%s',";
+		    if ($tvalue == '') {
+		        $sql_active .= "null from hardware where id in ";
+		        $arg_active = array($name, $packid);
+		    } else {
+		        $sql_active .= "'%s' from hardware where id in ";
+		        $arg_active = array($name, $packid, $tvalue);
+		    }
+		    $sql = mysql2_prepare($sql_active, $arg_active, $list_id);
+		    mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
+		}
+
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) );
 }
 
@@ -222,6 +244,8 @@ function activ_pack($fileid, $https_server, $file_serv) {
 		$reqEnable = "SELECT * FROM download_enable WHERE fileid=%s";
 		$argEnable = array($fileid);
 		$result = mysql2_query_secure($reqEnable, $_SESSION['OCS']["readServer"], $argEnable);
+		$listInfoLoc = array();
+		$listPackLoc = array();
 		while($recVerif = mysqli_fetch_array($result)){
 				$listInfoLoc[] = $recVerif['INFO_LOC'];
 				$listPackLoc[] = $recVerif['PACK_LOC'];
@@ -370,7 +394,7 @@ function recursive_remove_directory($directory, $empty = false) {
     return true;
 }
 
-function create_pack($sql_details, $info_details) {
+function create_pack($sql_details, $info_details, $modif = true) {
     global $l;
 
     if (DEMO) {
@@ -379,36 +403,40 @@ function create_pack($sql_details, $info_details) {
     }
 
     $info_details = xml_escape_string($info_details);
-    //get temp file
-    $fname = $sql_details['document_root'] . $sql_details['timestamp'] . "/tmp";
-    //cut this package
-    if ($size = @filesize($fname)) {
-        $handle = fopen($fname, "rb");
-        $read = 0;
-        for ($i = 1; $i < $sql_details['nbfrags']; $i++) {
-            $contents = fread($handle, $size / $sql_details['nbfrags']);
-            $read += strlen($contents);
-            $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
-            fwrite($handfrag, $contents);
-            fclose($handfrag);
-        }
 
-        $contents = fread($handle, $size - $read);
-        $read += strlen($contents);
-        $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
-        fwrite($handfrag, $contents);
-        fclose($handfrag);
-        fclose($handle);
+		if($modif == true){
+				//get temp file
+		    $fname = $sql_details['document_root'] . $sql_details['timestamp'] . "/tmp";
+		    //cut this package
+		    if ($size = @filesize($fname)) {
+		        $handle = fopen($fname, "rb");
+		        $read = 0;
+		        for ($i = 1; $i < $sql_details['nbfrags']; $i++) {
+		            $contents = fread($handle, $size / $sql_details['nbfrags']);
+		            $read += strlen($contents);
+		            $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
+		            fwrite($handfrag, $contents);
+		            fclose($handfrag);
+		        }
 
-        unlink($sql_details['document_root'] . $sql_details['timestamp'] . "/tmp");
-    } else {
-        if (!file_exists($sql_details['document_root'] . $sql_details['timestamp'])) {
-            mkdir($sql_details['document_root'] . $sql_details['timestamp']);
-        }
-    }
-    if (!is_defined($info_details['DIGEST'])) {
-        $sql_details['nbfrags'] = 0;
-    }
+		        $contents = fread($handle, $size - $read);
+		        $read += strlen($contents);
+		        $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
+		        fwrite($handfrag, $contents);
+		        fclose($handfrag);
+		        fclose($handle);
+
+		        unlink($sql_details['document_root'] . $sql_details['timestamp'] . "/tmp");
+		    } else {
+		        if (!file_exists($sql_details['document_root'] . $sql_details['timestamp'])) {
+		            mkdir($sql_details['document_root'] . $sql_details['timestamp']);
+		        }
+		    }
+		    if (!is_defined($info_details['DIGEST'])) {
+		        $sql_details['nbfrags'] = 0;
+		    }
+		}
+
 
     //create info
     $info = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -476,15 +504,22 @@ function crypt_file($dir_FILES, $digest_algo, $digest_encod) {
     return $digest;
 }
 
-function creat_temp_file($directory, $dir_FILES) {
+function creat_temp_file($directory, $dir_FILES, $modif = false) {
     if (DEMO) {
         return;
     }
 
     if (!file_exists($directory . "/tmp")) {
-        if (!@mkdir($directory) || !copy($dir_FILES, $directory . "/tmp")) {
+			if($modif == false){
+				if (!@mkdir($directory) || !copy($dir_FILES, $directory . "/tmp")) {
             msg_error("ERROR: can't create or write in " . $directory . " folder, please refresh when fixed.<br>(or try disabling php safe mode)");
         }
+			}else{
+				if (!copy($dir_FILES, $directory . "/tmp")) {
+            msg_error("ERROR: can't create or write in " . $directory . " folder, please refresh when fixed.<br>(or try disabling php safe mode)");
+        }
+			}
+
     }
 }
 

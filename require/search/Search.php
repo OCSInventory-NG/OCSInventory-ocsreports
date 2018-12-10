@@ -41,7 +41,11 @@
     const DB_VARCHAR = "varchar";
     const DB_DATETIME = "datetime";
 
+    const HTML_SELECT = "SELECT";
+
     const MULTIPLE_DONE = "DONE";
+
+    const GROUP_TABLE = "groups_cache";
 
     private $type;
 
@@ -64,6 +68,7 @@
     private $translationSearch;
     private $databaseSearch;
     private $accountinfoSearch;
+    private $groupSearch;
 
     /**
      * Excluded columns that won't be visible
@@ -86,6 +91,22 @@
     ];
 
     /**
+     * Operator list
+     */
+    private $operatorGroup = [
+        "BELONG",
+        "DONTBELONG",
+    ];
+
+    /**
+     * Operator list
+     */
+    private $operatorAccount = [
+        "HAVING",
+        "NOTHAVING",
+    ];
+
+    /**
      * Comparator list
      */
     private $comparatorList = [
@@ -105,19 +126,22 @@
     private $finalQuery;
     private $finalArgs;
 
+
     /**
      * Constructor
      *
      * @param TranslationSearch $translationSearch
      * @param DatabaseSearch $databaseSearch
      * @param AccountinfoSearch $accountinfoSearch
+     * @param GroupSearch $groupSearch
      */
-    function __construct($translationSearch, $databaseSearch, $accountinfoSearch)
+    function __construct($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch)
     {
 
         $this->translationSearch = $translationSearch;
         $this->databaseSearch = $databaseSearch;
         $this->accountinfoSearch = $accountinfoSearch;
+        $this->groupSearch = $groupSearch;
 
         if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
             $this->fieldsList['CHECK'] = 'hardwareID';
@@ -175,7 +199,7 @@
                   if ($keyExploded[3] == self::SESS_OPERATOR) {
                       $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_OPERATOR] = $value;
                   } elseif($keyExploded[3] == self::SESS_COMPARATOR){
-                    $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
+                    $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
                   } else {
                       $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_VALUES] = $value;
                   }
@@ -262,7 +286,10 @@
      * @return void
      */
     public function generateSearchQuery($sessData){
+
+        $accountInfos = new AccountinfoSearch();
         $this->pushBaseQueryForTable("hardware", null);
+        if(!isset($sessData['accountinfo'])) $sessData['accountinfo'] = array();
         foreach ($sessData as $tableName => $searchInfos) {
             if($tableName != "hardware"){
                 $this->pushBaseQueryForTable($tableName, $sessData);
@@ -270,6 +297,7 @@
         }
         $i = 0;
         $p = 0;
+
         foreach ($sessData as $tableName => $searchInfos) {
 
             if($tableName != "hardware"){
@@ -278,6 +306,11 @@
             }
 
             foreach ($searchInfos as $index => $value) {
+
+              if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
+                  // Generate union
+                  $this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
+              }
 
                 if($value['comparator'] != null){
                     $operator[] = $value['comparator'];
@@ -312,21 +345,60 @@
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                }else{
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
+                } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY'){
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
+                  if($tableName == self::GROUP_TABLE){
+                    $this->queryArgs[] = 'hardware';
+                    $this->queryArgs[] = 'ID';
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                  }else{
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                  }
+                }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
-                    $this->queryArgs[] = "str_to_date(".$value[self::SESS_VALUES].", '%m/%d/%Y %H:%i')";
+                  $this->queryArgs[] = $value[self::SESS_VALUES];
+                  global $l;
+                  $this->queryArgs[] = $l->g(269);
+                }else{
+                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
+                  if($tableName == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
+                    $this->queryArgs[] = 'download_available';
+                    $this->queryArgs[] = 'NAME';
                   }else{
-                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
                   }
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
                 $p++;
             }
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
+
+        // has tag restrictions?
+        if(!empty($_SESSION['OCS']['TAGS']))
+        {
+            $tags = $_SESSION['OCS']['TAGS'];
+            foreach($tags as $k => $v)
+                $tags[$k] = "'".mysqli_real_escape_string($_SESSION['OCS']["readServer"], $v)."'";
+            $tags = implode(', ', $tags);
+            $this->columnsQueryConditions .= " AND accountinfo.TAG IN ($tags)";
+        }
+
+        // has lock machine ?
+        if (isset($_SESSION['OCS']["mesmachines"]) && strpos($_SESSION['OCS']["mesmachines"], 'a.TAG') === false) {
+            $lockResult = str_replace('a.hardware_id', 'accountinfo.hardware_id', $_SESSION['OCS']["mesmachines"]);
+            $this->columnsQueryConditions .=  " AND " . $lockResult;
+        }
+
         $this->columnsQueryConditions .= " GROUP BY hardware.id";
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
@@ -340,6 +412,10 @@
      */
     private function pushBaseQueryForTable($tableName, $sessData = null){
         foreach($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos){
+            if($tableName == "download_history" && $fieldsInfos['Field'] == "PKG_NAME"){
+              $tableName = "download_available";
+              $fieldsInfos['Field'] = "NAME";
+            }
             $generatedId = $tableName.".".$fieldsInfos['Field'];
             $selectAs = $tableName.$fieldsInfos['Field'];
             $this->baseQuery .= " %s.%s AS ".$selectAs." ,";
@@ -390,6 +466,15 @@
             case 'ISNULL':
                 $valueArray[self::SESS_OPERATOR] = "IS NULL";
                 break;
+            case 'BELONG' :
+                $valueArray[self::SESS_OPERATOR] = "IN";
+                break;
+            case 'DONTBELONG' :
+                $valueArray[self::SESS_OPERATOR] = "NOT IN";
+                break;
+            case 'NOTHAVING' :
+                $valueArray[self::SESS_OPERATOR] = "!=";
+                break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
                 break;
@@ -402,12 +487,25 @@
      * @param String $defaultValue
      * @return void
      */
-    public function getSelectOptionForOperators($defaultValue)
+    public function getSelectOptionForOperators($defaultValue, $table = null, $field = null)
     {
+        $account = new AccountinfoSearch();
+        $accounttype = null;
+        if($field != null){
+          $accounttype = $account->getSearchAccountInfo($field);
+        }
 
         $html = "";
+        $operatorList = array();
+        if($table == self::GROUP_TABLE || $field == "CATEGORY_ID" || $field == "CATEGORY") {
+            $operatorList = $this->operatorGroup;
+        } elseif($accounttype == '2' || $accounttype == '11') {
+            $operatorList = $this->operatorAccount;
+        } else {
+            $operatorList = $this->operatorList;
+        }
 
-        foreach ($this->operatorList as $value) {
+        foreach ($operatorList as $value) {
             $trValue = $this->translationSearch->getTranslationForOperator($value);
             if ($defaultValue == $value) {
                 $html .= "<option selected value=".$value." >".$trValue."</option>";
@@ -453,17 +551,23 @@
     public function getSelectOptionForColumns($tableName = null)
     {
         $html = "";
+        $sortColumn = array();
         if($tableName == "accountinfo"){
           $accountinfoList = new AccountinfoSearch();
           $accountFields = $accountinfoList->getAccountInfosList();
+          if(isset($accountFields['COMPUTERS']) && is_array($accountFields['COMPUTERS']))
           foreach ($accountFields['COMPUTERS'] as $index => $fieldsInfos) {
               if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $fieldsInfos;
                   $sortColumn[$index] .= $trField;
               }
           }
+        }elseif($tableName == self::GROUP_TABLE){
+          $trField = $this->translationSearch->getTranslationFor('NAME');
+          $sortColumn['name'] = $trField;
         }else{
-          foreach ($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos) {
+          $fields = $this->databaseSearch->getColumnsList($tableName);
+          if(is_array($fields)) foreach ($fields as $index => $fieldsInfos) {
               if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
                   $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
@@ -487,12 +591,27 @@
      * @param String $tableName
      * @return String HTML
      */
-    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName)
+    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName, $field = null)
     {
         global $l;
 
         $fieldId = $this->getFieldUniqId($uniqid, $tableName);
-        $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        $fieldGroup = array();
+
+        $accountInfos = new AccountinfoSearch();
+
+        if($field != null && $field != "CATEGORY_ID" && $field != "CATEGORY"){
+          $accounttype = $accountInfos->getSearchAccountInfo($field);
+        }
+
+        if($tableName == self::GROUP_TABLE || $field == 'CATEGORY_ID' || $field == 'CATEGORY') {
+            $this->type = self::HTML_SELECT;
+        } elseif($accounttype == '2' || $accounttype == '11') {
+            $this->type = self::HTML_SELECT;
+        } else {
+            $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        }
+
         $html = "";
         if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL'){
           $attr = 'disabled';
@@ -522,6 +641,32 @@
                         '.calendars($fieldId, $l->g(1270)).'
                     </span>
                 </div>';
+                break;
+
+            case self::HTML_SELECT:
+
+                $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
+                if($accounttype != null) {
+                  $fieldSelect = $accountInfos->find_accountinfo_values($field);
+                } elseif($field == 'CATEGORY_ID') {
+                   $fieldSelect = $this->asset_categories();
+                } elseif($field == 'CATEGORY'){
+                  require_once('require/softwares/SoftwareCategory.php');
+                  $soft = new SoftwareCategory();
+                  $fieldSelect = $soft->search_all_cat();
+                  unset($fieldSelect[0]);
+                } else {
+                  $fieldSelect = $this->groupSearch->get_group_name();
+                }
+
+                foreach ($fieldSelect as $key => $value){
+                    if ($fieldsInfos[self::SESS_VALUES] == $key) {
+                        $html .= "<option value=".$key." selected >".$value."</option>";
+                    } else {
+                        $html .= "<option value=".$key." >".$value."</option>";
+                    }
+                }
+                $html .= '</select>';
                 break;
 
             default:
@@ -568,9 +713,16 @@
      * @return String
      */
     public function create_sql_cache($values){
+
         $cache_sql = "SELECT DISTINCT hardware.ID FROM hardware ";
         $i =0;
+        $belong = [];
         foreach ($values as $key=>$value){
+
+            if($key == self::GROUP_TABLE){
+                $belong['table'] = 'hardware';
+                $belong['field'] = 'ID';
+            }
            foreach ($value as $table => $field) {
                $i++;
                $this->values_cache_sql[$key][$table] = $field;
@@ -583,23 +735,29 @@
                  if( $this->multipleFieldsSearchCache[$key] == 1 ){
                      $cache_sql .= "INNER JOIN ".$key." on hardware.id = ".$key.".hardware_id ";
                  }
+                 if($key == "download_history") {
+                     // Generate union
+                     $cache_sql .= "INNER JOIN download_available on download_available.FILEID = $key.PKG_ID ";
+                 }
+
                }
            }
         }
 
         $cache_sql .= "WHERE ";
 
-        $index=0;
+        $ind=0;
         foreach ($values as $index => $value) {
-          foreach($value as $key => $compar)
+          foreach($value as $key => $compar){
             if($compar['comparator'] != null){
                 $operator[] = $compar['comparator'];
-            }elseif($index != 0 && $compar['comparator'] == null){
+            }elseif($ind != 0 && $compar['comparator'] == null){
                 $operator[] = "AND";
             }else{
                 $operator[] = "";
             }
-            $index++;
+            $ind++;
+          }
         }
 
         $p=0;
@@ -618,21 +776,59 @@
                  $open = "(";
              }
              $p++;
-             $cache_sql .= $operator[$in]." ".$open.$table.".".$values['fields']." ";
+             if(!empty($belong)){
+               $cache_sql .= $operator[$in]." ".$open.$belong['table'].".".$belong['field']." ";
+             }elseif ($table == 'download_history' && $values['fields'] == "PKG_NAME"){
+               $cache_sql .= $operator[$in]." ".$open."download_available.NAME ";
+             } else{
+               $cache_sql .= $operator[$in]." ".$open.$table.".".$values['fields']." ";
+             }
+
+             if($table == 'hardware' && ($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE')){
+                $values['value'] = "str_to_date('".$values['value']."', '%m/%d/%Y %H:%i')";
+             }
+
              if($values['operator'] == 'LIKE'){
-                $cache_sql .= $values['operator']." '%".$values['value']."%'".$close;
-             }elseif($values['operator'] == 'DIFFERENT'){
-                $cache_sql .= "NOT LIKE '%".$values['value']."%'".$close;
-             }elseif($values['operator'] == 'EQUAL'){
-               $cache_sql .= "= '".$values['value']."'".$close;
-             }elseif($values['operator'] == 'LESS'){
-               $cache_sql .= "< ".$values['value'].$close;
-             }elseif($values['operator'] == 'MORE'){
-               $cache_sql .= "> ".$values['value'].$close;
+                $cache_sql .= $values['operator']." '%".$values['value']."%'".$close." ";
+             }
+             elseif($values['operator'] == 'DIFFERENT'){
+                $cache_sql .= "NOT LIKE '%".$values['value']."%'".$close." ";
+             }
+             elseif($values['operator'] == 'EQUAL' || $values['operator'] == 'HAVING'){
+               $cache_sql .= "= '".$values['value']."'".$close." ";
+             }
+             elseif($values['operator'] == 'LESS'){
+               $cache_sql .= "< ".$values['value'].$close." ";
+             }
+             elseif($values['operator'] == 'MORE'){
+               $cache_sql .= "> ".$values['value'].$close." ";
+             }
+             elseif($values['operator'] == 'NOTHAVING'){
+               $cache_sql .= "!= '".$values['value'].$close."' ";
+             }
+             elseif($values['operator'] == 'BELONG'){
+               if(!empty($belong)){
+                 $belong['values'] = $this->groupSearch->get_all_id($values['value']);
+                 $cache_sql .= "IN (".$belong['values'].$close.") ";
+               }else{
+                 $cache_sql .= "IN (".$values['value'].$close.") ";
+               }
+             }
+             elseif($values['operator'] == 'DONTBELONG'){
+               if(!empty($belong)){
+                 $belong['values'] = $this->groupSearch->get_all_id($values['value']);
+                 $cache_sql .= "NOT IN (".$belong['values'].$close.") ";
+               }else{
+                 $cache_sql .= "NOT IN (".$values['value'].$close.") ";
+               }
+             }
+             elseif($values['operator'] == 'ISNULL'){
+               $cache_sql .= "IS NULL ".$close." ";
              }
              $in++;
            }
         }
+
         return $cache_sql;
     }
 
@@ -646,18 +842,16 @@
     public function link_multi($fields, $value, $option = ""){
         switch($fields){
           case 'allsoft':
-            if(!array_key_exists('allsoft',$_SESSION['OCS']['multi_search']['softwares'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
                     'fields' => 'NAME',
                     'value' => $value,
                     'operator' => 'EQUAL',
                 ];
-            }
             break;
 
           case 'ipdiscover1':
-            if(!array_key_exists('ipdiscover1',$_SESSION['OCS']['multi_search']['networks'])){
+            if(!isset($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
                     'fields' => 'IPSUBNET',
@@ -690,29 +884,16 @@
             break;
 
           case 'stat':
-            if(!array_key_exists('stat',$_SESSION['OCS']['multi_search']['devices'])){
+            {
               $_SESSION['OCS']['multi_search'] = array();
               $_SESSION['OCS']['multi_search']['devices']['stat'] = [
                   'fields' => 'NAME',
                   'value' => 'DOWNLOAD',
                   'operator' => 'EQUAL',
               ];
-              if($option['stat'] == 'SUCCESS'){
-                $value_stat = 'SUCCESS';
-                $operator_stat = 'EQUAL';
-              }elseif($option['stat'] == 'WAITING NOTIFICATION'){
-                $value_stat = '';
-                $operator_stat = 'ISNULL';
-              }
-
-              $_SESSION['OCS']['multi_search']['devices']['stattvalue'] = [
-                  'fields' => 'TVALUE',
-                  'value' => $value_stat,
-                  'operator' => $operator_stat,
-              ];
 
               $i = 0;
-              foreach($option['idPackage'] as $key =>$value){
+              if(isset($option['idPackage'])) foreach($option['idPackage'] as $key =>$value){
                 if($i == 0){
                   $comparator = 'AND';
                 }else{
@@ -726,6 +907,52 @@
                 ];
                 $i++;
               }
+
+              $comparator = 'AND';
+
+              if($option['stat'] == 'WAITING')
+              {
+                $value_stat = '';
+                $operator_stat = 'ISNULL';
+              }
+              else if($option['stat'] == 'ERRORS')
+              {
+                $value_stat = 'EXIT_CODE';
+                $operator_stat = 'LIKE';
+
+                $_SESSION['OCS']['multi_search']['devices']['stattvalue2'] = [
+                    'fields' => 'TVALUE',
+                    'value' => $value_stat,
+                    'operator' => $operator_stat,
+                    'comparator' => $comparator
+                ];
+
+                $value_stat = 'ERR';
+                $comparator = 'OR';
+              }
+              else
+              {
+                $value_stat = $option['stat'];
+                $operator_stat = 'EQUAL';
+              }
+
+              $_SESSION['OCS']['multi_search']['devices']['stattvalue'] = [
+                  'fields' => 'TVALUE',
+                  'value' => $value_stat,
+                  'operator' => $operator_stat,
+                  'comparator' => $comparator
+              ];
+            }
+            break;
+
+          case 'saas':
+            if(!array_key_exists('saas',$_SESSION['OCS']['multi_search']['saas'])){
+                $_SESSION['OCS']['multi_search'] = array();
+                $_SESSION['OCS']['multi_search']['saas']['saas'] = [
+                    'fields' => 'ENTRY',
+                    'value' => $value,
+                    'operator' => 'EQUAL',
+                ];
             }
             break;
 
@@ -741,21 +968,31 @@
      * @param  string $value  [description]
      * @return [type]         [description]
      */
-    public function link_index($fields, $comp = "", $value){
+    public function link_index($fields, $comp = "", $value, $value2 = null){
       $field = explode("-", $fields) ;
 
       if($comp== 'small') { $operator = 'LESS'; }
       elseif($comp == 'tall') { $operator = 'MORE'; }
       elseif($comp == 'exact') { $operator = 'EQUAL'; }
 
+      if($fields == 'HARDWARE-LASTDATE' || $fields == 'HARDWARE-LASTCOME'){
+          $value = str_replace(substr($value, -5), '00:00', $value);
+      }
+
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){
-          if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['hardware'])){
+          if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value.$value2,$_SESSION['OCS']['multi_search']['hardware'])){
               $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
+              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value).preg_replace("/_/","",$value2)] = [
                   'fields' => $field[1],
                   'value' => $value,
                   'operator' => $operator,
+              ];
+              if($value2 != null && $value2 != 'all')
+              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value2)] = [
+                  'fields' => 'USERAGENT',
+                  'value' => $value2,
+                  'operator' => 'LIKE',
               ];
           }
         }elseif(strpos($field[0], 'ACCOUNTINFO') !== false){
@@ -785,6 +1022,15 @@
                   'operator' => $operator,
               ];
           }
+        }elseif(strpos($field[0], 'ASSETS') !== false){
+          if(!array_key_exists('ASSETS'.$value,$_SESSION['OCS']['multi_search']['hardware'])){
+              $_SESSION['OCS']['multi_search'] = array();
+              $_SESSION['OCS']['multi_search']['hardware']['ASSETS'.preg_replace("/_/","",$value)] = [
+                  'fields' => 'CATEGORY_ID',
+                  'value' => $value,
+                  'operator' => "BELONG",
+              ];
+          }
         }
       }else{
         $field_bis = explode(",", $field[1]) ;
@@ -809,5 +1055,18 @@
             ];
         }
       }
+    }
+
+    /**
+     * Get all assets category
+     */
+    public function asset_categories(){
+      $sqlAsset = "SELECT CATEGORY_NAME, ID FROM assets_categories";
+      $result = mysqli_query($_SESSION['OCS']["readServer"], $sqlAsset);
+
+      while($asset_row = mysqli_fetch_array($result)){
+        $asset[$asset_row['ID']] = $asset_row['CATEGORY_NAME'];
+      }
+      return $asset;
     }
  }

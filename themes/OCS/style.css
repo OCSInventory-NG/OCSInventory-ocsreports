@@ -160,26 +160,34 @@ input[type=checkbox], input[type=radio] {
 table.dataTable .glyphicon-stats {
     color: #337ab7  !important;
     font-weight: bold;
+    font-size: small;
 }
 
 table.dataTable .glyphicon-remove {
     color:#C12E2A  !important;
     font-weight: bold;
+    font-size: small;
 }
 
-table.dataTable .glyphicon-share {
+table.dataTable .glyphicon-ok {
     color:#5cb85c  !important;
     font-weight: bold;
+    font-size: small;
 }
 
 table.dataTable .glyphicon-download-alt {
     color:#6c757d  !important;
     font-weight: bold;
+    font-size: small;
 }
 
 table.dataTable a {
     color: #961b7e  !important;
     font-weight: bold;
+}
+
+.table-striped > tbody > tr:hover > td {
+    background-color: #e2e2e2;
 }
 
 .pagination > li > span {
@@ -232,4 +240,92 @@ a {
 div.progress {
     margin-bottom: 0;
     margin-right : 3px;
+}
+
+.panel-heading {
+  background: #a7a7a7;
+  background-color:#a7a7a7;
+  color: white;
+}
+
+.soft-table {
+  border-bottom:1pt solid #dddddd;
+}
+
+.soft-table-td {
+  width: 50%;
+  padding-left: 100px;
+  padding-top : 10px;
+  padding-bottom : 10px;
+}
+
+/* The sidepanel menu */
+.sidepanel {
+    height: 100%; /* Specify a height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #F6F9FF; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidepanel */
+}
+
+/* The sidepanel links */
+.sidepanel a {
+    padding: 8px 8px 8px 0px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #961b7e;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidepanel a:hover {
+    color: #df53c3;
+}
+
+/* Position and style the close button (top right corner) */
+.sidepanel .closebtn {
+    position: absolute;
+    top: 0;
+    right: 16px;
+    font-size: 25px;
+    margin-left: 60px;
+}
+
+/* Position and style the close button (top right corner) */
+.sidepanel .returnbtn {
+    position: absolute;
+    top: 0;
+    left: 16px;
+    font-size: 25px;
+    margin-right: 60px;
+}
+
+.sidepanel p {
+    color: #818181;
+    font-size: 16px;
+    text-align:left;
+}
+
+.sidepanel .aside {
+    text-align: left;
+    padding-left: 30px;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.panel-modify {
+    background: transparent;
+    background-color:#f2dede;
+    padding-top: 5px;
 }

@@ -196,12 +196,8 @@ function addLog($type, $value = "", $lbl_sql = '') {
 
 function dateTimeFromMysql($v) {
     global $l;
-
-    $sql = "SELECT date_format('%s', '%s %%H:%%i:%%S') as dt";
-    $arg = array($v, $l->g(269));
-    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $ret = mysqli_fetch_array($result);
-    return $ret['dt'];
+    $d = DateTime::createFromFormat('Y-m-d H:i:s', $v);
+    return $d? $d->format($l->g(1242)) : '';
 }
 
 function reloadform_closeme($form = '', $close = false) {
@@ -334,7 +330,6 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css">
 				<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css">
 				<link rel="stylesheet" href="libraries/select2/css/select2.min.css" />
-				<link rel="stylesheet" href="themes/'.$value_theme['tvalue']['CUSTOM_THEME'].'/style.css">
 				<link rel="stylesheet" href="css/dataTables-custom.css">
 				<link rel="stylesheet" href="libraries/datatable/media/css/dataTables.bootstrap.css">
 				<link rel="stylesheet" href="css/ocsreports.css">
@@ -342,7 +337,8 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="css/header.css">
 				<link rel="stylesheet" href="css/computer_details.css">
         <link rel="stylesheet" href="css/bootstrap-formhelpers.css">
-				<link rel="stylesheet" href="css/forms.css">';
+				<link rel="stylesheet" href="css/forms.css">
+				<link rel="stylesheet" href="themes/'.$value_theme['tvalue']['CUSTOM_THEME'].'/style.css">';
 
     if (!$noJavascript) {
         //js for graph
@@ -520,8 +516,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                             $field['INPUT_TYPE'] == 14
                     ){
                             $inputType = 'text';
-                    } else if($field['INPUT_TYPE'] == 2 ||
-                            $field['INPUT_TYPE'] == 11){
+                    } else if($field['INPUT_TYPE'] == 2){
                             $inputType = 'select';
                     } else if($field['INPUT_TYPE'] == 3){
                             $inputType = 'hidden';
@@ -537,6 +532,8 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                         $inputType = 'disabled';
                     } else if($field['INPUT_TYPE'] == 12){
                         $inputType = 'qrcode';
+                    } elseif($field['INPUT_TYPE'] == 11){
+                        $inputType = 'radio';
                     } else {
                             $inputType = 'hidden';
                     }
@@ -545,6 +542,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                         echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
                         echo "<div class='col-sm-10'>";
 
+                                $field_checkbox = array();
                                 if($inputType == 'text'){
                                     if($field['INPUT_TYPE'] == 14){
                                         echo "<div class='input-group date form_datetime'>";
@@ -585,12 +583,36 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                         }
                                       }
                                   }
+                                  echo "<div>";
                                   foreach ($field['DEFAULT_VALUE'] as $key => $value){
-                                    if(array_key_exists($value, $field_checkbox)){
-                                        echo "<div><input style='display:initial;width:20px;height: 14px;'  type='".$inputType."' name='".$field['INPUT_NAME']."_".$value."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked> $value </div> ";
-                                    }else{
-                                        echo "<div><input style='display:initial;width:20px;height: 14px;' type='".$inputType."' name='".$field['INPUT_NAME']."_".$value."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">$value </div>";
-                                    }
+                                      if(array_key_exists($value, $field_checkbox)){
+                                          echo "<div><input style='display:initial;width:20px;height: 14px;'  type='".$inputType."' name='".$field['INPUT_NAME']."_".$value."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked> $value </div> ";
+                                      }else{
+                                          echo "<div><input style='display:initial;width:20px;height: 14px;' type='".$inputType."' name='".$field['INPUT_NAME']."_".$value."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']."> $value </div>";
+                                      }
+                                  }
+                                  if($field['COMMENT_AFTER'] == ""){
+                                    echo "</div>";
+                                  }
+                                } else if($inputType == 'radio'){
+                                  if($field["CONFIG"]["SELECTED_VALUE"] != ''){
+                                      $field_radio = explode("&&&", $field["CONFIG"]["SELECTED_VALUE"]);
+                                      foreach($field_radio as $keys => $values){
+                                          if($values != ''){
+                                            $field_radio[$values] = $values;
+                                          }
+                                      }
+                                  }
+                                  echo "<div>";
+                                  foreach ($field['DEFAULT_VALUE'] as $key => $value){
+                                      if(array_key_exists($key, $field_radio)){
+                                          echo "<div><input style='display:initial;width:20px;height: 14px;'  type='".$inputType."' name='".$field['INPUT_NAME']."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." checked> $value </div> ";
+                                      }else{
+                                          echo "<div><input style='display:initial;width:20px;height: 14px;' type='".$inputType."' name='".$field['INPUT_NAME']."' value='".$key."' id='".$field['INPUT_NAME']."_".$value."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">$value </div>";
+                                      }
+                                  }
+                                  if($field['COMMENT_AFTER'] == ""){
+                                    echo "</div>";
                                   }
                                 } else if( $inputType == 'button' || $inputType == 'link'){
                                     echo "<a href='".$field['DEFAULT_VALUE']."' class='".($inputType == 'button') ? 'btn' : ''."' ".$field['CONFIG']['JAVASCRIPT']."></a>";
@@ -604,7 +626,6 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     echo "<span class='input-group-addon' id='".$field['INPUT_NAME']."-addon'>".$field['COMMENT_AFTER']."</span>";
                                     echo "</div>";
                                 }
-
                         echo "</div>";
                     echo "</div>";
 

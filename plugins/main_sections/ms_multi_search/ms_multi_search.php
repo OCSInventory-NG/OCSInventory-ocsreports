@@ -32,8 +32,10 @@ require('require/function_computers.php');
 require("require/search/DatabaseSearch.php");
 require("require/search/AccountinfoSearch.php");
 require("require/search/TranslationSearch.php");
+require("require/search/GroupSearch.php");
 require("require/search/LegacySearch.php");
 require("require/search/Search.php");
+require_once('require/function_admininfo.php');
 
 // Get tables and columns infos
 $databaseSearch = new DatabaseSearch();
@@ -44,10 +46,13 @@ $accountInfoSearch = new AccountinfoSearch();
 // Get columns infos datamap structure
 $translationSearch = new TranslationSearch();
 
+// Get columns infos datamap structure
+$groupSearch = new GroupSearch();
+
 // Get search object to perform action and show result
 //$legacySearch = new LegacySearch();
 
-$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch);
+$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch);
 
 if (isset($protectedPost['table_select'])) {
 	$defaultTable = $protectedPost['table_select'];
@@ -131,7 +136,7 @@ if ( isset($protectedPost['del_check']) ){
 }
 
 if(isset($protectedGet['fields'])){
-  $search->link_index($protectedGet['fields'], $protectedGet['comp'], $protectedGet['values']);
+  $search->link_index($protectedGet['fields'], $protectedGet['comp'], $protectedGet['values'], $protectedGet['values2']);
 }
 
 if(isset($protectedGet['prov'])){
@@ -143,6 +148,8 @@ if(isset($protectedGet['prov'])){
     $options['idPackage'] = $databaseSearch->get_package_id($protectedGet['id_pack']);
     $options['stat'] = $protectedGet['stat'];
     $search->link_multi($protectedGet['prov'], $protectedGet['value'], $options);
+  }elseif($protectedGet['prov'] == 'saas'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }
 }
 
@@ -157,7 +164,6 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 	if(isset($protectedPost['search_ok'])){
 		$search->updateSessionsInfos($protectedPost);
 	}
-
 
 	foreach ($_SESSION['OCS']['multi_search'] as $table => $infos) {
     $i = 0;
@@ -185,16 +191,25 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
             }
 					?></div>
 				</div>
+
 				<div class="col-sm-3">
 					<div class="form-group">
 						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
-							<?php echo $search->getSelectOptionForOperators($values['operator'])  ?>
+							<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
+                echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
+              } else {
+                echo $search->getSelectOptionForOperators($values['operator'], $table);
+              } ?>
 						</select>
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<?php echo $search->returnFieldHtml($uniqid, $values, $table) ?>
+						<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
+              echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
+            }else {
+              echo $search->returnFieldHtml($uniqid, $values, $table );
+            } ?>
 					</div>
 				</div>
 				<div class="col-sm-3">
@@ -261,6 +276,13 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';
 
+  //BEGIN SHOW ACCOUNTINFO
+	$option_comment['comment_be'] = $l->g(1210)." ";
+	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
+  $tab_options['REPLACE_VALUE'][$l->g(66)] = $type_accountinfo;
+  $tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
+
+
 	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
 	if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
@@ -289,6 +311,7 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$list_pag["asset_cat"]=$pages_refs["ms_asset_cat"];
 
 	$list_id = $databaseSearch->getIdList($search);
+  $_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 
 	?>
 	<div class='row' style='margin: 0'>

@@ -338,6 +338,8 @@ if (!isset($_SESSION['OCS']["ipdiscover"])) {
     require_once(BACKEND . 'ipdiscover/ipdiscover.php');
 }
 
+/* * ********************************************************gestion des administrative data*************************************************** */
+migrate_adminData_2_5();
 /* * *******************************************************gestion de la suppression automatique des machines trop vieilles************************ */
 //require_once('plugins/options_config/del_old_computers.php');
 

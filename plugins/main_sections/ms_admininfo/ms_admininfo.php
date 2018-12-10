@@ -23,7 +23,7 @@
 /*
  * It Set Management light
  * Admin your accountinfo
- * 
+ *
  */
 if (AJAX) {
     parse_str($protectedPost['ocs']['0'], $params);
@@ -32,9 +32,15 @@ if (AJAX) {
 }
 
 require_once('require/function_admininfo.php');
+require_once('require/function_config_generale.php');
 
 $accountinfo_choise['COMPUTERS'] = $l->g(729);
 $accountinfo_choise['SNMP'] = $l->g(1136);
+
+if(isset($protectedPost['addtab_x'])){
+  $protectedPost['onglet'] = 4;
+}
+
 if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == '') {
     $protectedPost['onglet'] = 1;
 }
@@ -47,7 +53,10 @@ $tab_options['table_name'] = $table_name;
 
 $data_on[1] = $l->g(1059);
 $data_on[2] = $l->g(1060);
-if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif'])) {
+$data_on[3] = $l->g(1701);
+$data_on[4] = $l->g(1702);
+
+if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 1) {
     $protectedPost['onglet'] = 2;
     $accountinfo_detail = find_info_accountinfo($protectedPost['MODIF']);
     $protectedPost['newfield'] = $accountinfo_detail[$protectedPost['MODIF']]['name'];
@@ -59,7 +68,17 @@ if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !is
     $hidden = $protectedPost['MODIF'];
 }
 
-if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "") {
+if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 3) {
+    $protectedPost['onglet'] = 4;
+    $val_info = look_config_default_values(array("TAB_ACCOUNTAG_" . $protectedPost['MODIF']));
+    $protectedPost['newfield'] = $val_info['tvalue']["TAB_ACCOUNTAG_" . $protectedPost['MODIF']];
+    if (isset($protectedGet['nb_field']) && is_numeric($protectedGet['nb_field'])) {
+        $protectedPost['2newfield'] = $val_info['comments']["TAB_ACCOUNTAG_" . $protectedPost['MODIF']];
+    }
+    $hidden = $protectedPost['MODIF'];
+}
+
+if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 2) {
     //UPDATE VALUE
     $msg = update_accountinfo($protectedPost['MODIF_OLD'], array('TYPE' => $protectedPost['newtype'],
         'NAME' => $protectedPost['newfield'],
@@ -78,6 +97,71 @@ if (isset($msg['ERROR'])) {
 if (isset($msg['SUCCESS'])) {
     msg_success($msg['SUCCESS']);
     $protectedPost['onglet'] = 1;
+}
+
+if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 4) {
+    //UPDATE VALUE
+    update_config("TAB_ACCOUNTAG_" . $protectedPost['MODIF_OLD'], 'TVALUE', $protectedPost['newfield']);
+    if (isset($protectedPost['2newfield'])) {
+        update_config("TAB_ACCOUNTAG_" . $protectedPost['MODIF_OLD'], 'COMMENTS', $protectedPost['2newfield'], false);
+    }
+    $hidden = $protectedPost['MODIF_OLD'];
+    $protectedPost['onglet'] = 3;
+} elseif ($protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 4) {
+    //ADD NEW VALUE
+    //vérification que le nom du champ n'existe pas pour les nouveaux champs
+    if (trim($protectedPost['newfield']) != '') {
+        $sql_verif = "SELECT count(*) c FROM config WHERE TVALUE = '%s' and NAME like '%s'";
+        //echo $sql_verif;
+        $arg_verif = array($protectedPost['newfield'], "TAB_ACCOUNTAG_%");
+        $res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
+        //echo $val_verif = mysqli_fetch_array( $res_verif );
+        $val_verif = mysqli_fetch_array($res_verif);
+        if ($val_verif['c'] > 0) {
+            $ERROR = $l->g(656);
+        }
+    } else {
+        $ERROR = $l->g(1068);
+    }
+
+    if (!isset($ERROR)) {
+        $sql_new_value = "SELECT max(ivalue) max FROM config WHERE  NAME like '%s'";
+        $arg_new_value = array("TAB_ACCOUNTAG_%");
+        $res_new_value = mysql2_query_secure($sql_new_value, $_SESSION['OCS']["readServer"], $arg_new_value);
+        $val_new_value = mysqli_fetch_array($res_new_value);
+        if ($val_new_value['max'] == "") {
+            $val_new_value['max'] = 0;
+        }
+        $val_new_value['max'] ++;
+        $sql_insert = "INSERT INTO config (NAME,TVALUE,IVALUE";
+        if (isset($protectedPost['2newfield'])) {
+            $sql_insert .= ",COMMENTS";
+        }
+        $sql_insert .= ") VALUES('%s','%s','%s'";
+        if (isset($protectedPost['2newfield'])) {
+            $sql_insert .= ",'%s'";
+        }
+        $sql_insert .= ")";
+        $arg_insert = array("TAB_ACCOUNTAG_" . $val_new_value['max'], $protectedPost['newfield'], $val_new_value['max']);
+        if (isset($protectedPost['2newfield'])) {
+            array_push($arg_insert, $protectedPost['2newfield']);
+        }
+        mysql2_query_secure($sql_insert, $_SESSION['OCS']["readServer"], $arg_insert);
+        //si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
+        msg_success($l->g(1069));
+        if ($protectedGet['form']) {
+            reloadform_closeme($protectedGet['form']);
+        }
+        $protectedPost['onglet'] = 3;
+    } else {
+        msg_error($ERROR);
+        $protectedPost['onglet'] = 3;
+    }
+
+}
+
+if (isset($hidden) && is_numeric($hidden)) {
+    $tab_hidden['MODIF_OLD'] = $hidden;
 }
 
 echo open_form($form_name, '', '', 'form-horizontal');
@@ -203,8 +287,8 @@ if ($protectedPost['onglet'] == 1) {
 
     $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
 
-    $tab_typ_champ[3]['COMMENT_AFTER']="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_adminvalues']."&head=1&tag=TAB_ACCOUNTAG&form=admin_info,\"admin_tab_accountag\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=450\")><img src=image/plus.png></a>";
-    
+    $tab_typ_champ[3]['COMMENT_AFTER']="<input type='image' name='addtab' src='image/plus.png'>";
+
     if( (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != "") || (isset($protectedPost['MODIF_OLD']) && $protectedPost['MODIF_OLD'] != "") ){
         formGroup('hidden', 'MODIF_OLD', '', '', '', $protectedPost['MODIF'], '', '', '', '');
         formGroup('hidden', 'newfield', '', '', '', $protectedPost['newfield']);
@@ -223,7 +307,7 @@ if ($protectedPost['onglet'] == 1) {
     if($protectedPost['newtype'] == 8){
         formGroup('select', 'default_value', $l->g(1099), '', '', $protectedPost['default_value'], '', $tab_typ_champ[5]['DEFAULT_VALUE'], $tab_typ_champ[5]['DEFAULT_VALUE'], '', '');
     }
-    
+
 ?>
 
 <div class="row">
@@ -234,6 +318,64 @@ if ($protectedPost['onglet'] == 1) {
 
 
 <?php
+}elseif($protectedPost['onglet'] == 3){
+  $tab_options['CACHE'] = 'RESET';
+
+  //delete few fields
+  if (is_defined($protectedPost['del_check'])) {
+      $list = $protectedPost['del_check'];
+      $sql_delete = "DELETE FROM config WHERE name like '%s' and ivalue in (%s)";
+      $arg_delete = array("TAB_ACCOUNTAG_%", $list);
+      mysql2_query_secure($sql_delete, $_SESSION['OCS']["readServer"], $arg_delete);
+      if ($protectedGet['form']) {
+          reloadform_closeme($protectedGet['form']);
+      }
+  }
+
+  //delete on field
+  if (isset($protectedPost['SUP_PROF'])) {
+      delete("TAB_ACCOUNTAG_" . $protectedPost['SUP_PROF']);
+  }
+
+  $queryDetails = "select IVALUE,TVALUE from config where name like 'TAB_ACCOUNTAG\_%'";
+
+  if (!isset($protectedPost['SHOW'])) {
+      $protectedPost['SHOW'] = 'NOSHOW';
+  }
+  if (!(isset($protectedPost["pcparpage"]))) {
+      $protectedPost["pcparpage"] = 5;
+  }
+
+  $list_fields[$l->g(224)] = 'TVALUE';
+  $list_fields['SUP'] = 'IVALUE';
+  $list_fields['MODIF'] = 'IVALUE';
+  $list_fields['CHECK'] = 'IVALUE';
+  $tab_options['LBL_POPUP']['SUP'] = 'TVALUE';
+  $list_col_cant_del = $list_fields;
+  $default_fields = $list_col_cant_del;
+  $are_result = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+  //traitement par lot
+  if ($are_result) {
+      del_selection($form_name);
+      if ($protectedGet['form']) {
+          reloadform_closeme($protectedGet['form']);
+      }
+  }
+
+}elseif($protectedPost['onglet'] == 4){
+
+  //NAME FIELD
+  $name_field = array("newfield");
+  $tab_name[0] = $l->g(80);
+  $type_field = array(0);
+  $value_field = array($protectedPost['newfield']);
+
+  $tab_typ_champ = show_field($name_field, $type_field, $value_field);
+  $tab_typ_champ[0]['CONFIG']['SIZE'] = 20;
+
+  modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+      'form_name' => 'NO_FORM'
+  ));
 }
 
 echo "</div>";

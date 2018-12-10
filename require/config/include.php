@@ -98,4 +98,29 @@ function migrate_profiles_2_2() {
     }
 }
 
+/**
+ * Update TYPE accountinfo
+ */
+function migrate_adminData_2_5(){
+    //4,6 and 7 correspond to the old values type of administrative data and 5,14 and 11 are the new
+    //4 -> old type of checkbox fields
+    //6 -> old type of date fields
+    //7 -> old type of radio button fields
+    $type_replace = array( '4' => '5',
+              '6' => '14',
+              '7' => '11');
+
+    $sql = "SELECT TYPE FROM accountinfo_config";
+
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+    if($result) foreach ($result as $index => $type){
+      if($type['TYPE'] == '4' || $type['TYPE'] == '6' || $type['TYPE'] == '7'){
+        $sql_replace = "UPDATE accountinfo_config SET TYPE = '%s' WHERE TYPE = '%s'";
+        $arg_replace = array($type_replace[$type['TYPE']], $type['TYPE']);
+
+        mysql2_query_secure($sql_replace, $_SESSION['OCS']["writeServer"], $arg_replace);
+      }
+    }
+}
+
 ?>

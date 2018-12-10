@@ -55,7 +55,7 @@
 91 Périphérique(s) d'entrée
 92 Disque(s)
 93 Contrôleur(s)
-94 Nombre de slots
+94 Numéro de slot
 95 Adresse MAC
 96 Son
 97 Moniteur(s)
@@ -1094,7 +1094,7 @@
 1207 Ajouter une communauté
 1208 Communauté ajoutée
 1209 Communauté modifiée
-1210 Account info:
+1210 Account info :
 1211 URL du fichier des communautés SNMP
 1212 Communauté supprimée
 1213 Séparateur des fichiers d'export
@@ -1126,7 +1126,7 @@
 1239 MHz
 1240 Mo
 1241 Nombre de périphériques SNMP remontés
-1242 d/m/Y h:i
+1242 d/m/Y H:i
 1243 Seuls les fichiers ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe et ocspackage.exe peuvent être envoyés
 1244 Le fichier ne peut pas être vide
 1245 Administrer les clients OCS-NG
@@ -1168,6 +1168,7 @@
 1281 Sur le Wake On Lan
 1282 Ordre de Wake On Lan envoyé
 1283 Exécuter un Wake On Lan sur cette machine
+1284 IP source
 1292 Utiliser les options avancées de téléploiement
 1293 Forcer le télédéploiement
 1294 Heure d'installation
@@ -1321,10 +1322,18 @@
 1442 Définition XML
 1443 Passerelle par défaut
 1444 Périphériques USB
-1445 Groupe info
+1445 Groupe
 1446 Nom du modèle
 1447 Informations de compte
 1448 EST NULL
+1449 Configuration générale
+1450 ID
+1451 Static ?
+1452 Waranty begin
+1453 GUID
+1454 Source
+1455 Interface virtuelle
+
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie
@@ -1333,6 +1342,24 @@
 1504 Expression régulière ou nom du logiciel
 1505 Sélectionner une catégorie par défaut
 1506 Aucune catégorie créée
+1507 Version du logiciel
+1508 Editeur
+1509 Paramètres avancés
+1510 Comparateur version logiciel
+1511 Comparateur version
+1512 Inférieure ou égale
+1513 Supérieure ou égale
+1514 Catégorie
+1515 Tous les OS
+1516 Tous les logiciels (sauf défaut)
+1517 Aucune catégorie n'a été sélectionnée
+
+1600 Mon tableau de bord
+1601 Groupes dynamiques
+
+1700 Configuration avancée
+1701 Onglet disponible
+1702 Nouvel onglet
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1455,12 +1482,18 @@
 2123 Paquets disponibles
 2124 Paquets supprimés
 2125 ATTENTION: L'extension CURL pour PHP n'est pas installée. Essayez d'installer le paquet php-curl (Linux).
-2126 Catégories d'Actifs
+2126 Catégorisation d'Actifs
 2127 La requête multi-critères en cours sera utilisée comme critère de catégorisation des actifs.
-2128 ëtes-vous sûr ?
+2128 êtes-vous sûr ?
 2129 Retour à la multi-critères
 2130 Catégories d'Actifs
 2131 Nombre de machines par catégorie
+2132 Catégorie d'Actifs
+2133 Vous n'avez pas créé de catégorie d'actif
+2134 Vous n'avez pas créé de catégorie logicielle
+2135 Aucune machine n'a été inventoriée
+2136 Modifier
+2137 Choississez un nouveau fichier si vous souhaitez modifier l'ancien
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
@@ -1536,3 +1569,22 @@
 8016 Ici vous pouvez télécharger votre modèle de notification personnalisé:</br>• Le fichier doit être un fichier html.</br></br>Informations:</br>• Pour avoir les traduction mettez {{g.(numéro de la traduction)}} dans votre code html - Exemple: {{g.49}} = Nom</br>• Pour le moment vous disposez de deux choix de rapport d'inventaire: </br> {{Report.Software}} - Nombre de logiciels par catégorie de logiciel </br> {{Report.Asset}} - Nombre de machines par catégorie d'actifs
 8017 Ce fichier n'est pas un fichier html
 8018 Sujet
+8020 WARNING : Fichier de template personnalisé non trouvé
+8021 Le fichier upload doit avoir pour extension .html
+8022 Voir les news
+8023 ... Read more
+8024 Fermer les news
+8025 Retour au menu des news
+8026 Activer les News OCS Inventory sur le tableau de bord
+8027 Un problème de récupération des données des news OCS est survenue
+8028 Vous avez des news récentes
+
+8100 Inventaire SAAS
+8101 SAAS liste
+8102 Créer SAAS
+8103 DNS associé
+8104 Entrée
+8105 Donnée
+8106 Temps de vie
+8107 Ce SAAS existe déjà
+8108 Activer l'inventaire de Logiciel en tant que Service

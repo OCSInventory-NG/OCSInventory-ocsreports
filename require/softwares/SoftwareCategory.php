@@ -34,7 +34,7 @@ class SoftwareCategory
      * @return array
      */
     public function onglet_cat(){
-        $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME` FROM `software_categories`";
+        $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME`, `OS` FROM `software_categories`";
         $result_list_cat = mysqli_query($_SESSION['OCS']["readServer"], $sql_list_cat);
         $i = 1;
         while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
@@ -43,6 +43,7 @@ class SoftwareCategory
             }
             $list_cat[$i] = $item_list_cat['CATEGORY_NAME'];
             $list_cat['category_name'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['ID'];
+            $list_cat['OS'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['OS'];
             $i++;
         }
         $list_cat['i'] = $i;
@@ -54,7 +55,7 @@ class SoftwareCategory
      * @param string $catName
      * @return boolean
      */
-    public function add_category($catName){
+    public function add_category($catName, $osVersion){
         $sql_verif = "SELECT `CATEGORY_NAME` FROM `software_categories` WHERE `CATEGORY_NAME` = '%s'";
         $arg_verif = array($catName);
         $result_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
@@ -64,8 +65,8 @@ class SoftwareCategory
         if($item != null){
             return(false);
         }else{
-            $sql = "INSERT INTO `software_categories` (`CATEGORY_NAME`) values('%s');";
-            $arg_sql = array($catName);
+            $sql = "INSERT INTO `software_categories` (`CATEGORY_NAME`, `OS`) values('%s', '%s');";
+            $arg_sql = array($catName, $osVersion);
 
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
             return ($result);
@@ -93,9 +94,18 @@ class SoftwareCategory
      * @param  string $regExp
      * @return boolean
      */
-    public function insert_exp($id_cat, $regExp){
-        $sql_reg = "INSERT INTO `software_category_exp` (`CATEGORY_ID`, `SOFTWARE_EXP`) values(%s, '%s')";
-        $arg_reg = array($id_cat, $regExp);
+    public function insert_exp($id_cat, $regExp, $sign = null, $version = null, $vendor = null){
+        if($vendor == '0'){
+          $vendor = null;
+        }
+
+        if($version == '0'){
+          $version = null;
+          $sign = null;
+        }
+
+        $sql_reg = "INSERT INTO `software_category_exp` (`CATEGORY_ID`, `SOFTWARE_EXP`, `SIGN_VERSION`, `VERSION`, `PUBLISHER`) values(%s, '%s', '%s', '%s', '%s')";
+        $arg_reg = array($id_cat, $regExp, $sign, $version, $vendor);
 
         $result = mysql2_query_secure($sql_reg, $_SESSION['OCS']["writeServer"], $arg_reg);
         return ($result);
@@ -107,12 +117,16 @@ class SoftwareCategory
      * @return array
      */
     public function display_reg($onglet_active){
-        $sql = "SELECT `SOFTWARE_EXP` FROM `software_category_exp` WHERE `CATEGORY_ID`= '%s'";
+        $sql = "SELECT * FROM `software_category_exp` WHERE `CATEGORY_ID`= '%s'";
         $arg_sql = array($onglet_active);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg_sql);
 
         while ($item = mysqli_fetch_array($result)) {
-            $list[] = $item['SOFTWARE_EXP'];
+            $list[] = ['ID' => $item['ID'],
+                      'NAME' => $item['SOFTWARE_EXP'],
+                      'SIGN' => $item['SIGN_VERSION'],
+                      'VERSION' => $item['VERSION'],
+                      'PUBLISHER' => $item['PUBLISHER']];
         }
         return ($list);
     }
@@ -149,5 +163,94 @@ class SoftwareCategory
         $this->html .= '</table>';
 
         return $this->html;
+    }
+
+    /**
+     * Search version of soft
+     * @param  string $softName [description]
+     * @return [type]           [description]
+     */
+    public function search_version($softName){
+        global $l;
+
+        $softName = str_replace("*", "", $softName);
+        $softName = str_replace("?", "", $softName);
+
+        $sql = "SELECT DISTINCT `VERSION` FROM softwares WHERE NAME LIKE '%$softName%' ORDER BY softwares.VERSION";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+
+        $version[0] = " ";
+        while ($soft = mysqli_fetch_array($result)) {
+            $version[$soft['VERSION']] = $soft['VERSION'];
+        }
+        return $version;
+    }
+
+    /**
+     * Search vendor of soft
+     * @param  string $softName [description]
+     * @return [type]           [description]
+     */
+    public function search_vendor($softName){
+        global $l;
+
+        $softName = str_replace("*", "", $softName);
+        $softName = str_replace("?", "", $softName);
+
+        $sql = "SELECT DISTINCT `PUBLISHER` FROM softwares WHERE NAME LIKE '%$softName%' ORDER BY softwares.PUBLISHER";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+
+        $vendor[0] = " ";
+        while ($soft = mysqli_fetch_array($result)) {
+            $vendor[$soft['PUBLISHER']] = $soft['PUBLISHER'];
+        }
+        return $vendor;
+    }
+
+    /**
+     * Merge array
+     * @param  array $arr  [description]
+     * @param  array $arr2 [description]
+     * @return array       [description]
+     */
+    public function array_merge_values($arr, $arr2) {
+        foreach ($arr2 as $values) {
+            array_push($arr, $values);
+        }
+        return $arr;
+    }
+
+    /**
+     * Get all categories for onglet in computer details
+     * @param  int $computerID [description]
+     * @return array
+     */
+    public function onglet_cat_cd($computerID){
+        $sql = "SELECT CATEGORY FROM softwares WHERE hardware_id = %s GROUP BY CATEGORY";
+        $sql_arg = array($computerID);
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
+        while ($idCat = mysqli_fetch_array($result)) {
+            $id[$idCat['CATEGORY']] = $idCat['CATEGORY'];
+        }
+        $cat = implode(',', $id);
+
+        if($id != null){
+          $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME`, `OS` FROM `software_categories` WHERE ID IN (%s)";
+          $sql_list_arg = array($cat);
+
+          $result_list_cat = mysql2_query_secure($sql_list_cat, $_SESSION['OCS']["readServer"], $sql_list_arg);
+          $i = 1;
+          while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
+              if ($i == 1) {
+                  $list_cat['first_onglet'] = $i;
+              }
+              $list_cat[$i] = $item_list_cat['CATEGORY_NAME'];
+              $list_cat['category_name'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['ID'];
+              $list_cat['OS'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['OS'];
+              $i++;
+          }
+          $list_cat['i'] = $i;
+        }
+        return ($list_cat);
     }
 }

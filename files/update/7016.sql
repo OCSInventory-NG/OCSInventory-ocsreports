@@ -1,14 +1,16 @@
-DROP TABLE `plugins`;
-
-CREATE TABLE IF NOT EXISTS `extensions` (
-  `id` varchar(255) COLLATE utf8_bin NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `description` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `version` double NOT NULL,
-  `licence` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `author` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `contributor` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `install_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+-- Create saas table
+CREATE TABLE IF NOT EXISTS `saas` (
+    `SAAS_EXP_ID` INT(6) NOT NULL,
+    `HARDWARE_ID` INT(11) NOT NULL,
+    `ENTRY` varchar(255) NOT NULL,
+    `DATA` varchar(255) NOT NULL,
+    `TTL` int(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-ALTER TABLE `plugins` ADD PRIMARY KEY (`id`);
+-- Create saas_exp table
+CREATE TABLE IF NOT EXISTS `saas_exp` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `NAME` varchar(255) NOT NULL,
+    `DNS_EXP` varchar(255) NOT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

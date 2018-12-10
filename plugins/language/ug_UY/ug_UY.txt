@@ -1189,7 +1189,7 @@
 1207 Add community
 1208 Community added
 1209 Community updated
-1210 Account info:
+1210 Account info :
 1211 URL where SNMP community file is
 1212 Community deleted
 1213 Separator of export file
@@ -1221,7 +1221,7 @@
 1239 MHz
 1240 MB
 1241 Number of SNMP devices
-1242 Y/m/d
+1242 Y/m/d H:i
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients

@@ -1093,7 +1093,7 @@
 1207 コミュニティの追加
 1208 コミュニティを追加しました。
 1209 コミュニティを更新しました。
-1210 登録情報：
+1210 登録情報 ：
 1211 URL where SNMP community file is
 1212 Community deleted
 1213 Separator of export file
@@ -1125,7 +1125,7 @@
 1239 MHz
 1240 MB
 1241 SNMP対応デバイス数
-1242 Y/m/d h:i
+1242 Y/m/d H:i
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients

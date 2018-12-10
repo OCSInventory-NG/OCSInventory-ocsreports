@@ -81,17 +81,18 @@ define('TEMPLATE', __DIR__.'/templates/');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7016');
+define('GUI_VER', '7021');
 /**
  * GUI Version
  */
-define('GUI_VER_SHOW', '2.4.1');
+define('GUI_VER_SHOW', '2.5');
 /**
  * Default GUI language
  */
 define('DEFAULT_LANGUAGE', 'en_GB');
 define('PAG_INDEX', 'function');
 define('UPDATE_JSON_URI', 'http://check-version.ocsinventory-ng.org');
+define('URL_NEWS', 'http://check-version.ocsinventory-ng.org/newsfeed.json');
 
 //====================================================================================
 // Default OCS DIR

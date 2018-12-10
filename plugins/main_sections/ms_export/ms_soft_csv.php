@@ -61,6 +61,11 @@ if ($info_name_soft['table'] != 'softwares' || $_SESSION['OCS']["usecache"] == 1
         $sql['SQL'] .= " and a.tag in ";
         $sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $_SESSION['OCS']['TAGS']);
     }
+
+    if (is_defined($_SESSION['OCS']["mesmachines"])) {
+        $sql['SQL'] .= "AND " . $_SESSION['OCS']["mesmachines"];
+    }
+
     $sql['SQL'] .= " group by " . $field_name_soft;
     if (is_defined($protectedGet['nb']) && is_defined($protectedGet['comp'])) {
         $sql['SQL'] .= " having nb %s %s";
@@ -78,6 +83,11 @@ if ($info_name_soft['table'] != 'softwares' || $_SESSION['OCS']["usecache"] == 1
         $sql['SQL'] .= " and a.tag in ";
         $sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $_SESSION['OCS']['TAGS']);
     }
+
+    if (is_defined($_SESSION['OCS']["mesmachines"])) {
+        $sql['SQL'] .= "AND " . $_SESSION['OCS']["mesmachines"];
+    }
+
     $sql['SQL'] .= " group by " . $field_name_soft;
 
     if (is_defined($protectedGet['nb']) && is_defined($protectedGet['comp'])) {

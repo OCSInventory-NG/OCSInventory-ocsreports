@@ -24,10 +24,6 @@
         <label>g(9)</label>
         <url>ms_multi_search</url>
       </menu-elem>
-      <menu-elem id="ms_search_soft">
-        <label>g(1050)</label>
-        <url>ms_search_soft</url>
-      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="deployment">
@@ -57,7 +53,7 @@
     <url>ms_config</url>
     <submenu>
       <menu-elem id="ms_config">
-        <label>g(107)</label>
+        <label>g(1449)</label>
         <url>ms_config</url>
       </menu-elem>
       <menu-elem id="ms_users">
@@ -75,10 +71,6 @@
       <menu-elem id="ms_upload_file">
         <label>g(17)</label>
         <url>ms_upload_file</url>
-      </menu-elem>
-      <menu-elem id="ms_update_new_tag">
-        <label>g(2100)</label>
-        <url>ms_update_new_tag</url>
       </menu-elem>
       <menu-elem id="ms_notification">
         <label>g(8000)</label>
@@ -155,10 +147,6 @@
       <menu-elem id="ms_logs">
         <label>g(928)</label>
         <url>ms_logs</url>
-      </menu-elem>
-      <menu-elem id="ms_stats">
-        <label>g(1251)</label>
-        <url>ms_stats</url>
       </menu-elem>
        <menu-elem id="ms_server_infos">
         <label>g(1360)</label>

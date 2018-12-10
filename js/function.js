@@ -24,7 +24,7 @@ function convertToUpper(v_string) {
 }
 
 function codeTouche(evenement) {
-    for (prop in evenement) {
+    for (var prop in evenement) {
         if (prop == 'which')
             return(evenement.which);
     }
@@ -34,7 +34,7 @@ function codeTouche(evenement) {
 function pressePapierNS6(evenement, touche) {
     var rePressePapierNS = /[cvxz]/i;
 
-    for (prop in evenement)
+    for (var prop in evenement)
         if (prop == 'ctrlKey')
             isModifiers = true;
     if (isModifiers)
@@ -49,7 +49,6 @@ function scanTouche(evenement, exReguliere) {
     var codeDecimal = codeTouche(evenement);
     var car = String.fromCharCode(codeDecimal);
     var autorisation = reCarValides.test(car) || reCarSpeciaux.test(car) || pressePapierNS6(evenement, car);
-    var toto = autorisation;
     return autorisation;
 }
 
@@ -173,4 +172,60 @@ function show(id, preview, perso){
 	document.getElementById(id).style.display='';//'block'
   document.getElementById(preview).style.display='none';
   document.getElementById(perso).style.display='';
+}
+
+/* Set the width of the sidebar to 250px (show it) */
+function openNav() {
+    document.getElementById("mySidepanel").style.width = "25%";
+    for(var i = 0; document.getElementById("news"+i) != null; i++){
+      document.getElementById("news"+i).style.display='';
+      document.getElementById("news"+i).style.textAlign='left';
+      document.getElementById("news"+i).style.paddingLeft = '30px';
+      document.getElementById("news"+i).style.paddingRight = '30px';
+      document.getElementById("imagenews"+i).style.display = 'none';
+      document.getElementById("linknews"+i).style.display = 'none';
+      if(document.getElementById("contentmodifnews"+i) != null){
+        document.getElementById("contentmodifnews"+i).style.display = '';
+        document.getElementById("contentnews"+i).style.display = 'none';
+      }
+    }
+    document.getElementById("return").style.display = 'none';
+}
+
+/* Set the width of the sidebar to 0 (hide it) */
+function closeNav() {
+    document.getElementById("mySidepanel").style.width = "0";
+    for(var i = 0; document.getElementById("news"+i) != null; i++){
+      document.getElementById("news"+i).style.display='';
+      document.getElementById("news"+i).style.textAlign='left';
+      document.getElementById("news"+i).style.paddingLeft = '30px';
+      document.getElementById("news"+i).style.paddingRight = '30px';
+      document.getElementById("imagenews"+i).style.display = 'none';
+      document.getElementById("linknews"+i).style.display = 'none';
+      if(document.getElementById("contentmodifnews"+i) != null){
+        document.getElementById("contentmodifnews"+i).style.display = '';
+        document.getElementById("contentnews"+i).style.display = 'none';
+      }
+    }
+}
+
+/* Open the sidenav */
+function openfullNav(div) {
+    document.getElementById("mySidepanel").style.width = "100%";
+
+    for(var i = 0; document.getElementById("news"+i) != null; i++){
+      if(document.getElementById("news"+i) != document.getElementById(div)){
+        document.getElementById("news"+i).style.display='none';
+      }
+    }
+    if(document.getElementById("contentmodif"+div) != null){
+      document.getElementById("contentmodif"+div).style.display = 'none';
+      document.getElementById("content"+div).style.display = '';
+    }
+    document.getElementById(div).style.textAlign = 'center';
+    document.getElementById(div).style.paddingLeft = '30%';
+    document.getElementById(div).style.paddingRight = '30%';
+    document.getElementById("image"+div).style.display = '';
+    document.getElementById("link"+div).style.display = '';
+    document.getElementById("return").style.display = '';
 }

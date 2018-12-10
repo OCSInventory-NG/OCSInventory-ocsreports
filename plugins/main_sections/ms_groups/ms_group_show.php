@@ -345,6 +345,7 @@ function print_computers_real($systemid) {
     $arg = $systemid;
     $resGroup = mysql2_query_secure($sql_group, $_SESSION['OCS']["readServer"], $arg);
     $valGroup = mysqli_fetch_array($resGroup); //group old version
+
     if (!$valGroup["xmldef"]) {
         $sql_group = "SELECT request FROM groups WHERE hardware_id='%s'";
         $arg = $systemid;
@@ -371,8 +372,9 @@ function print_computers_real($systemid) {
                 unset($tab_id);
             }
             $result_value = mysqli_query($_SESSION['OCS']["readServer"], xml_decode($tab_list_sql[$i])) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+
             while ($value = mysqli_fetch_array($result_value)) {
-                $tab_id[] = $value["HARDWARE_ID"];
+                $tab_id[] = $value["ID"];
             }
             $i++;
         }

@@ -300,86 +300,91 @@ function show_console_field($fields, $form_name) {
 
     echo "<table ALIGN = 'Center' cellspacing='5' CELLPADDING='4'><tr ><td align =center><font size=2>";
     foreach ($fields as $key => $value) {
-        if (isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
-            if (isset($no_show['name'][$key])) {
-                $icon = "<td align=center><a href=# OnClick='pag(\"" . $key . "\",\"NO_VISIBLE\",\"" . $form_name . "\");'><img src='image/red.png'></a></td>";
-            } else {
-                $icon = "<td align=center><a href=# OnClick='pag(\"" . $key . "\",\"VISIBLE\",\"" . $form_name . "\");'><img src='image/green.png'></a></td>";
-            }
-        } else {
-            $icon = "";
-        }
-
-        $arg_result = $sql_field[$key]['ARG'];
-        if (isset($sql_field[$key]['SQL'])) {
-            $sql_result = $sql_field[$key]['SQL'];
-        } else {
-            $sql_result = "select %s from %s %s";
-        }
-
-        if ($table[$key] == 'hardware') {
-            if (is_defined($arg_result[2])) {
-                $sql_result .= " and " . $no_groups_sql;
-            } else {
-                $sql_result .= " where " . $no_groups_sql;
-            }
-        }
-
-        if ($myids) {
-            if (!in_array($key, $no_restrict)) {
-                if (is_defined($arg_result[2]) || $table[$key] == 'hardware' || is_defined($sql_field[$key]['SQL'])) {
-                    $sql_result .= " and ";
+      if($sql_field[$key]['ARG'] != null){
+            if (isset($_SESSION['OCS']['ADMIN_CONSOLE'])) {
+                if (isset($no_show['name'][$key])) {
+                    $icon = "<td align=center><a href=# OnClick='pag(\"" . $key . "\",\"NO_VISIBLE\",\"" . $form_name . "\");'><img src='image/red.png'></a></td>";
                 } else {
-                    $sql_result .= " where ";
+                    $icon = "<td align=center><a href=# OnClick='pag(\"" . $key . "\",\"VISIBLE\",\"" . $form_name . "\");'><img src='image/green.png'></a></td>";
                 }
+            } else {
+                $icon = "";
+            }
 
-                if ($table[$key] != 'hardware' && $table[$key] != 'snmp' && $table[$key] != 'nk') {
-                    $sql_result .= $table[$key] . ".hardware_id in " . $myids['SQL'];
-                } elseif ($table[$key] == 'hardware') {
-                    $sql_result .= " id in " . $myids['SQL'];
-                } elseif ($table[$key] == 'snmp') {
+            $arg_result = $sql_field[$key]['ARG'];
 
-                } elseif ($table[$key] == 'nk') {
-                    $sql_result = substr($sql_result, 0, -4);
-                }
+            if (isset($sql_field[$key]['SQL'])) {
+                $sql_result = $sql_field[$key]['SQL'];
+            } else {
+                $sql_result = "select %s from %s %s";
+            }
 
-                if (is_array($sql_field[$key]['ARG'])) {
-                    $arg_result = array_merge($arg_result, $myids['ARG']);
+            if ($table[$key] == 'hardware') {
+                if (is_defined($arg_result[2])) {
+                    $sql_result .= " and " . $no_groups_sql;
                 } else {
-                    $arg_result = $myids['ARG'];
+                    $sql_result .= " where " . $no_groups_sql;
                 }
             }
-        }
-        if (!isset($_SESSION['OCS']['COUNT_CONSOLE'][$key])) {
-            $res = mysql2_query_secure($sql_result, $_SESSION['OCS']["readServer"], $arg_result);
-            if ($res) {
-                $count = mysqli_fetch_object($res);
-                $_SESSION['OCS']['COUNT_CONSOLE'][$key] = $count->c;
-            }
-        }
-        if (isset($_SESSION['OCS']['COUNT_CONSOLE'][$key]) && is_numeric($_SESSION['OCS']['COUNT_CONSOLE'][$key])) {
-            $id_count = $_SESSION['OCS']['COUNT_CONSOLE'][$key];
-            if (is_array($link[$key]) && $id_count != 0) {
-                if (isset($link[$key]['PAGE'])) {
-                    $link_me_begin = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$link[$key]['PAGE']];
-                    if (isset($multi_search[$key]['FIELD'])) {
-                        $link_me_begin .= "&fields=" . $multi_search[$key]['FIELD'] . "&comp=" . $multi_search[$key]['COMP'] . "&values=" . $multi_search[$key]['VALUE'] . "&values2=" . $multi_search[$key]['VALUE2'] . "&type_field=" . $multi_search[$key]['TYPE_FIELD'];
+
+
+            if ($myids) {
+                if (!in_array($key, $no_restrict)) {
+                    if (is_defined($arg_result[2]) || $table[$key] == 'hardware' || is_defined($sql_field[$key]['SQL'])) {
+                        $sql_result .= " and ";
+                    } else {
+                        $sql_result .= " where ";
                     }
-                    $link_me_begin .= "'>";
-                    $link_me_end = "</a>";
-                } elseif (isset($link[$key]['RELOAD'])) {
-                    $link_me_begin = "<a href=# OnClick='pag(\"" . $link[$key]['RELOAD'] . "\",\"SHOW_ME\",\"" . $form_name . "\");'>";
-                    $link_me_end = "</a>";
-                }
-            } else {
-                $link_me_begin = "";
-                $link_me_end = "";
-            }
 
-            echo $value . "</font></td><td>&nbsp;</td><td align=center><font size=2><B>" . $link_me_begin . $id_count . $link_me_end . "</B></font></td>" . $icon . "</tr><tr><td align =center><font size=2>";
+                    if ($table[$key] != 'hardware' && $table[$key] != 'snmp' && $table[$key] != 'nk') {
+                        $sql_result .= $table[$key] . ".hardware_id in " . $myids['SQL'];
+                    } elseif ($table[$key] == 'hardware') {
+                        $sql_result .= " id in " . $myids['SQL'];
+                    } elseif ($table[$key] == 'snmp') {
+
+                    } elseif ($table[$key] == 'nk') {
+                        $sql_result = substr($sql_result, 0, -4);
+                    }
+
+                    if (is_array($sql_field[$key]['ARG'])) {
+                        $arg_result = array_merge($arg_result, $myids['ARG']);
+                    } else {
+                        $arg_result = $myids['ARG'];
+                    }
+                }
+            }
+            if (!isset($_SESSION['OCS']['COUNT_CONSOLE'][$key])) {
+                $res = mysql2_query_secure($sql_result, $_SESSION['OCS']["readServer"], $arg_result);
+                if ($res) {
+                    $count = mysqli_fetch_object($res);
+                    $_SESSION['OCS']['COUNT_CONSOLE'][$key] = $count->c;
+                }
+            }
+            if (isset($_SESSION['OCS']['COUNT_CONSOLE'][$key]) && is_numeric($_SESSION['OCS']['COUNT_CONSOLE'][$key])) {
+                $id_count = $_SESSION['OCS']['COUNT_CONSOLE'][$key];
+                if (is_array($link[$key]) && $id_count != 0) {
+                    if (isset($link[$key]['PAGE'])) {
+                        $link_me_begin = "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$link[$key]['PAGE']];
+                        if (isset($multi_search[$key]['FIELD'])) {
+                            $link_me_begin .= "&fields=" . $multi_search[$key]['FIELD'] . "&comp=" . $multi_search[$key]['COMP'] . "&values=" . $multi_search[$key]['VALUE'] . "&values2=" . $multi_search[$key]['VALUE2'] . "&type_field=" . $multi_search[$key]['TYPE_FIELD'];
+                        }
+                        $link_me_begin .= "'>";
+                        $link_me_end = "</a>";
+                    } elseif (isset($link[$key]['RELOAD'])) {
+                        $link_me_begin = "<a href=# OnClick='pag(\"" . $link[$key]['RELOAD'] . "\",\"SHOW_ME\",\"" . $form_name . "\");'>";
+                        $link_me_end = "</a>";
+                    }
+                } else {
+                    $link_me_begin = "";
+                    $link_me_end = "";
+                }
+
+                echo $value . "</font></td><td>&nbsp;</td><td align=center><font size=2><B>" . $link_me_begin . $id_count . $link_me_end . "</B></font></td>" . $icon . "</tr><tr><td align =center><font size=2>";
+            }
         }
-    }
-    echo "</table>";
+      }
+      echo "</table>";
+
 }
 
 function find_limit_values() {

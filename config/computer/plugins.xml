@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugins>
   <!-- HARDWARE -->
+  <plugin id="cd_bios">
+  	<label>g(273)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>bios</available>
+  </plugin>
   <plugin id="cd_processors">
   	<label>g(54)</label>
   	<system>1</system>
@@ -54,12 +60,6 @@
   	<category>hardware</category>
   	<available>ports</available>
   </plugin>
-  <plugin id="cd_bios">
-  	<label>g(273)</label>
-  	<system>1</system>
-  	<category>hardware</category>
-  	<available>bios</available>
-  </plugin>
 
   <!-- SOFTWARE -->
   <plugin id="cd_softwares">
@@ -67,6 +67,12 @@
   	<system>1</system>
   	<category>software</category>
   	<available>softwares</available>
+  </plugin>
+  <plugin id="cd_saas">
+  	<label>g(8100)</label>
+  	<system>1</system>
+  	<category>software</category>
+  	<available>saas</available>
   </plugin>
 
   <!-- NETWORK -->
