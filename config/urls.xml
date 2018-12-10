@@ -280,13 +280,13 @@
         <value>qrcode</value>
         <directory>ms_computer</directory>
     </url>
-    <url key="ms_plugins">
-        <value>plugins</value>
-        <directory>ms_plugins</directory>
+    <url key="ms_extension">
+        <value>extension</value>
+        <directory>ms_extension</directory>
     </url>
-    <url key="ms_pluginsmanager">
-        <value>pluginsmanager</value>
-        <directory>ms_plugins</directory>
+    <url key="ms_extensionmanager">
+        <value>extensionmanager</value>
+        <directory>ms_extensionmanager</directory>
     </url>
     <url key="ms_stats_top">
         <value>stats_top</value>

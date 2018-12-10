@@ -60,6 +60,17 @@ class language {
         }
     }
 
+    function addExternalLangFile($path){
+        $externalFile = fopen($path, "r");
+        while (!feof($externalFile)) {
+            $val = fgets($externalFile, 1024);
+            $tok1 = rtrim(strtok($val, " "));
+            $tok2 = rtrim(strtok(""));
+            $this->tableauMots[$tok1] = $tok2;
+        }
+        fclose($externalFile);
+    }
+
     function g($i) {
         global $tab_dont_see;
         //If word doesn't exist for language, return default english word

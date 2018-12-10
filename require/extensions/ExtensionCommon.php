@@ -21,38 +21,29 @@
  * MA 02110-1301, USA.
  */
 
-/**
- * Renders the main menu
- */
-class MainMenuRenderer extends MenuRenderer {
-    private $profile;
-    private $urls;
-
-    public function __construct($profile, $urls) {
-        parent::__construct();
-
-        $this->profile = $profile;
-        $this->urls = $urls;
-    }
-
-    protected function canSeeElem(MenuElem $menu_elem) {
-        return $menu_elem->hasChildren() || $this->profile->hasPage($menu_elem->getUrl());
-    }
-
+class ExtensionCommon{
+    
     /**
-     * Add value to profile pages
-     * This is needed for the extension engine
-     *
-     * @param $value : value to add in profiles pages
+     * Objects
      */
-    protected function addValueToProfileAndUrls($value, $extMapName){
-        $this->profile->addPage($value);
-        $this->urls->addUrl($value, $value, EXT_DL_DIR.$extMapName."/".$value);
+    private $dbObject = null;
+    
+    /**
+     * Constructor
+     */
+    function __construct()
+    {
+        $this->dbObject = $_SESSION['OCS']["readServer"];
     }
-
-    protected function getUrl(MenuElem $menu_elem) {
-        return "?" . PAG_INDEX . "=" . $this->urls->getUrl($menu_elem->getUrl());
+    
+    /**
+     * Execute a SQL Query
+     * 
+     * @param String $query
+     * @param Array $args
+     */
+    public function sqlQuery($query, $args = ''){
+        mysql2_query_secure($query, $this->dbObject, $args);
     }
-
+    
 }
-?>
