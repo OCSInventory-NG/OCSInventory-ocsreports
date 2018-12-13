@@ -51,7 +51,7 @@ class MenuRenderer {
                                 $this->extension_hooks->subMenuExtensionsHooks[$menu_elem->getUrl()][$extName][$index],
                                 true
                             );
-                            $menu_elem->addElem(0, $extMenuElem);
+                            $menu_elem->addElem($extMenuElem->getUrl(), $extMenuElem);
                         }
                     }
                 }
@@ -59,7 +59,7 @@ class MenuRenderer {
             }
             $html .= $this->renderElem($menu_elem);
         }
-        
+
         // If extension generate new menu / sub menus
         if($this->extension_hooks->needHookTrigger(ExtensionHook::MENU_HOOK)){
             foreach ($this->extension_hooks->menuExtensionsHooks as $ext_key => $menus_array) {
