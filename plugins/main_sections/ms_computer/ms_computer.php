@@ -108,24 +108,39 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
         }
     }
     // Load cd entries for extensions
-    foreach ($extHooks->getCdEntryByCategory($protectedGet['cat']) as $extensionPlugins){
-        $fileName = EXT_DL_DIR.$extensionPlugins[ExtensionHook::EXTENSION]."/".$extensionPlugins[ExtensionHook::IDENTIFIER]."/".$extensionPlugins[ExtensionHook::IDENTIFIER].".php";
-        if(file_exists($fileName)){
-            echo '<div class="plugin-name-' . $extensionPlugins[ExtensionHook::IDENTIFIER] . ' ">';
-            require $fileName;
-            echo '</div>';
+    if($extHooks->getCdEntryByCategory($protectedGet['cat']) != null ){
+        foreach ($extHooks->getCdEntryByCategory($protectedGet['cat']) as $extensionPlugins){
+            $fileName = EXT_DL_DIR.$extensionPlugins[ExtensionHook::EXTENSION]."/".$extensionPlugins[ExtensionHook::IDENTIFIER]."/".$extensionPlugins[ExtensionHook::IDENTIFIER].".php";
+            $protectedPost['computersectionrequest'] = $extensionPlugins[ExtensionHook::EXTENSION];
+            if(file_exists($fileName)){
+                echo '<div class="plugin-name-' . $extensionPlugins[ExtensionHook::IDENTIFIER] . ' ">';
+                require $fileName;
+                echo '</div>';
+            }
         }
     }
-} else if (isset($protectedGet['option']) && isset($plugins[$protectedGet['option']])) {
+} else if (isset($protectedGet['option'])) {
     // If specific plugin
     $plugin = $plugins[$protectedGet['option']];
-    $plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
+    if($plugin != null){
+        $plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
+    }else{
+        $file_extension = EXT_DL_DIR . $protectedGet['option'] . "/cd_" . $protectedGet['option'] . "/cd_" . $protectedGet['option'] .".php";
+    }
 
-    if (file_exists($plugin_file)) {
+    if (file_exists($plugin_file) || file_exists($file_extension)) {
         if (!AJAX) {
-            echo '<div class="plugin-name-' . $plugin->getId() . '">';
+            if(file_exists($file_extension)){
+                echo '<div class="plugin-name-' . $protectedGet['option'] . '">';
+            }else{
+                echo '<div class="plugin-name-' . $plugin->getId() . '">';
+            }
         }
-        require $plugin_file;
+        if(file_exists($file_extension)){
+            require $file_extension;
+        }else{
+            require $plugin_file;
+        }
         if (!AJAX) {
             echo '</div>';
         }
