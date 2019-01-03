@@ -57,13 +57,16 @@ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($prot
     $protectedMdp = $protectedPost['PASSWD'];
 } elseif ($affich_method == 'CAS') {
     require_once('methode/cas.php');
+} elseif ($affich_method == 'SSO' && isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER'])) {
+    $login = $_SERVER['REMOTE_USER'];
+    $mdp = 'NO_PASSWD';
+} elseif ($affich_method == 'SSO' && isset($_SERVER['HTTP_AUTH_USER']) && !empty($_SERVER['HTTP_AUTH_USER'])) {
+    $login = $_SERVER['HTTP_AUTH_USER'];
+    $mdp = 'NO_PASSWD';
 } elseif ($affich_method != 'HTML' && isset($_SERVER['PHP_AUTH_USER'])) {
     $login = $_SERVER['PHP_AUTH_USER'];
     $mdp = $_SERVER['PHP_AUTH_PW'];
-} elseif ($affich_method == 'SSO' && isset($_SERVER['HTTP_AUTH_USER'])) {
-    $login = $_SERVER['HTTP_AUTH_USER'];
-    $mdp = 'NO_PASSWD';
-}
+} 
 
 if (isset($login) && isset($mdp)) {
     $i = 0;
