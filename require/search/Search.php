@@ -322,8 +322,12 @@
                 $i++;
             }
 
+            $isSameColumn = [];
+            $columnName = [];
+
             foreach ($searchInfos as $index => $value) {
                   $values[] = $value;
+                  $columnName[$index] = $value['fields'];
             }
 
             foreach ($searchInfos as $index => $value) {
@@ -331,6 +335,12 @@
                 $close="";
                 // Generate condition
                 $this->getOperatorSign($value);
+
+                foreach(array_count_values($columnName) as $name => $nb){
+                  if($nb > 1){
+                    $isSameColumn[$tableName] = $name;
+                  }
+                }
 
                 if($p == 0 && $operator[$p+1] == 'OR'){
                     $open = "(";
@@ -340,7 +350,24 @@
                     $open = "(";
                 }
 
-                if($value[self::SESS_OPERATOR] == 'IS NULL'){
+                if(!empty($isSameColumn)){
+                  if($value[self::SESS_OPERATOR] != "IS NULL"){
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                  }else{
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  }
+                }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && empty($isSameColumn)){
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
@@ -744,7 +771,7 @@
            }
         }
 
-        $cache_sql .= "WHERE ";
+        $cache_sql .= "WHERE";
 
         $ind=0;
         foreach ($values as $index => $value) {
@@ -761,12 +788,27 @@
         }
 
         $p=0;
-        $in=0;
-        foreach ($this->values_cache_sql as $table=>$value){
+        foreach ($this->values_cache_sql as $table => $value){
+
+            $isSameColumn = [];
+            $columnName = [];
+
+            foreach ($value as $id => $field) {
+                $columnName[$id] = $field['fields'];
+            }
+
            foreach ($value as $key => $values) {
 
              $open="";
              $close="";
+
+             $this->getOperatorSign($values);
+
+             foreach(array_count_values($columnName) as $name => $nb){
+               if($nb > 1){
+                 $isSameColumn[$tableName] = $name;
+               }
+             }
 
              if($in == 0 && $operator[$in+1] == 'OR'){
                  $open = "(";
@@ -776,56 +818,29 @@
                  $open = "(";
              }
              $p++;
-             if(!empty($belong)){
-               $cache_sql .= $operator[$in]." ".$open.$belong['table'].".".$belong['field']." ";
-             }elseif ($table == 'download_history' && $values['fields'] == "PKG_NAME"){
-               $cache_sql .= $operator[$in]." ".$open."download_available.NAME ";
-             } else{
-               $cache_sql .= $operator[$in]." ".$open.$table.".".$values['fields']." ";
-             }
-
-             if($table == 'hardware' && ($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE')){
-                $values['value'] = "str_to_date('".$values['value']."', '%m/%d/%Y %H:%i')";
-             }
-
-             if($values['operator'] == 'LIKE'){
-                $cache_sql .= $values['operator']." '%".$values['value']."%'".$close." ";
-             }
-             elseif($values['operator'] == 'DIFFERENT'){
-                $cache_sql .= "NOT LIKE '%".$values['value']."%'".$close." ";
-             }
-             elseif($values['operator'] == 'EQUAL' || $values['operator'] == 'HAVING'){
-               $cache_sql .= "= '".$values['value']."'".$close." ";
-             }
-             elseif($values['operator'] == 'LESS'){
-               $cache_sql .= "< ".$values['value'].$close." ";
-             }
-             elseif($values['operator'] == 'MORE'){
-               $cache_sql .= "> ".$values['value'].$close." ";
-             }
-             elseif($values['operator'] == 'NOTHAVING'){
-               $cache_sql .= "!= '".$values['value'].$close."' ";
-             }
-             elseif($values['operator'] == 'BELONG'){
-               if(!empty($belong)){
-                 $belong['values'] = $this->groupSearch->get_all_id($values['value']);
-                 $cache_sql .= "IN (".$belong['values'].$close.") ";
+             if(!empty($isSameColumn)){
+               if($values['operator'] != "IS NULL"){
+                 $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
                }else{
-                 $cache_sql .= "IN (".$values['value'].$close.") ";
+                 $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator'].")$close ";
+               }
+             }elseif($values['operator'] == 'IS NULL' && empty($isSameColumn)){
+               $cache_sql .= $values['comparator']." $open ".$table.".".$values['fields']." ".$values['operator']."$close ";
+             } elseif($table == self::GROUP_TABLE){
+               $group_id = $this->groupSearch->get_all_id($values['value']);
+               $cache_sql .= $values['comparator']." $open hardware.ID ".$values['operator']." ($group_id)$close ";
+             }elseif($values['fields'] == 'CATEGORY_ID' || $values['fields'] == 'CATEGORY'){
+               $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." (".$values['value'].")$close ";
+             }else if($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE'){
+               global $l;
+               $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." str_to_date('".$values['value']."', '".$l->g(269)."')$close ";
+             }else{
+               if($table == "download_history" && $values['fields'] == "PKG_NAME"){
+                 $cache_sql .= $values['comparator']." $open download_available.NAME ".$values['operator']." '".$values['value']."'$close ";
+               }else{
+                 $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." '".$values['value']."'$close ";
                }
              }
-             elseif($values['operator'] == 'DONTBELONG'){
-               if(!empty($belong)){
-                 $belong['values'] = $this->groupSearch->get_all_id($values['value']);
-                 $cache_sql .= "NOT IN (".$belong['values'].$close.") ";
-               }else{
-                 $cache_sql .= "NOT IN (".$values['value'].$close.") ";
-               }
-             }
-             elseif($values['operator'] == 'ISNULL'){
-               $cache_sql .= "IS NULL ".$close." ";
-             }
-             $in++;
            }
         }
 
