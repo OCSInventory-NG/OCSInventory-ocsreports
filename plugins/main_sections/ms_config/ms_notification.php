@@ -79,18 +79,20 @@ if($protectedPost['onglet'] == 'NOTIF_CONFIG'){
 
     echo $mail->div['NOTIF_FOLLOW'];
     if($mail->info['NOTIF_FOLLOW'] == 'ON'){
-      echo "<input type='radio' id='NOTIF_FOLLOW' name='NOTIF_FOLLOW' value='ON' checked/>ON</br>";
-      echo "<input type='radio' id='NOTIF_FOLLOW' name='NOTIF_FOLLOW' value='OFF'/>OFF";
+      echo "<input type='radio' id='NOTIF_FOLLOW_ON' name='NOTIF_FOLLOW' value='ON' onclick='checkrequire(\"ON\");' checked/>ON</br>";
+      echo "<input type='radio' id='NOTIF_FOLLOW_OFF' name='NOTIF_FOLLOW' value='OFF' onclick='checkrequire(\"OFF\");'/>OFF";
+      $required = "required";
     }else{
-      echo "<input type='radio' id='NOTIF_FOLLOW' name='NOTIF_FOLLOW' value='ON'/>ON</br>";
-      echo "<input type='radio' id='NOTIF_FOLLOW' name='NOTIF_FOLLOW' value='OFF'checked/>OFF";
+      echo "<input type='radio' id='NOTIF_FOLLOW_ON' name='NOTIF_FOLLOW' value='ON' onclick='checkrequire(\"ON\");'/>ON</br>";
+      echo "<input type='radio' id='NOTIF_FOLLOW_OFF' name='NOTIF_FOLLOW' value='OFF' onclick='checkrequire(\"OFF\");' checked/>OFF";
+      $required = "";
     }
     echo "</div></div></div>";
     echo $mail->div['NOTIF_MAIL_ADMIN'];
-    echo "<input type='text' id='NOTIF_MAIL_ADMIN' name='NOTIF_MAIL_ADMIN' class='form-control input-sm' value='".$mail->info['NOTIF_MAIL_ADMIN']."' maxlength='254'required/>";
+    echo "<input type='text' id='NOTIF_MAIL_ADMIN' name='NOTIF_MAIL_ADMIN' class='form-control input-sm' value='".$mail->info['NOTIF_MAIL_ADMIN']."' maxlength='254' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_NAME_ADMIN'];
-    echo "<input type='text' id='NOTIF_NAME_ADMIN' name='NOTIF_NAME_ADMIN' class='form-control input-sm' value='".$mail->info['NOTIF_NAME_ADMIN']."' maxlength='254'required/>";
+    echo "<input type='text' id='NOTIF_NAME_ADMIN' name='NOTIF_NAME_ADMIN' class='form-control input-sm' value='".$mail->info['NOTIF_NAME_ADMIN']."' maxlength='254' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_MAIL_REPLY'];
     echo "<input type='text' id='NOTIF_MAIL_REPLY' name='NOTIF_MAIL_REPLY' class='form-control input-sm' value='".$mail->info['NOTIF_MAIL_REPLY']."' maxlength='254'/>";
@@ -112,10 +114,10 @@ if($protectedPost['onglet'] == 'NOTIF_CONFIG'){
     echo "</select>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_SMTP_HOST'];
-    echo "<input type='text' id='NOTIF_SMTP_HOST' name='NOTIF_SMTP_HOST' class='form-control input-sm' value='".$mail->info['NOTIF_SMTP_HOST']."' maxlength='254'required/>";
+    echo "<input type='text' id='NOTIF_SMTP_HOST' name='NOTIF_SMTP_HOST' class='form-control input-sm' value='".$mail->info['NOTIF_SMTP_HOST']."' maxlength='254' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_PORT_SMTP'];
-    echo "<input type='number' id='NOTIF_PORT_SMTP' name='NOTIF_PORT_SMTP' class='form-control input-sm' value='".$mail->info['NOTIF_PORT_SMTP']."' maxlength='254'required/>";
+    echo "<input type='number' id='NOTIF_PORT_SMTP' name='NOTIF_PORT_SMTP' class='form-control input-sm' value='".$mail->info['NOTIF_PORT_SMTP']."' maxlength='254' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_USER_SMTP'];
     echo "<input type='text' id='NOTIF_USER_SMTP' name='NOTIF_USER_SMTP' class='form-control input-sm' value='".$mail->info['NOTIF_USER_SMTP']."' maxlength='254'/>";
@@ -126,7 +128,7 @@ if($protectedPost['onglet'] == 'NOTIF_CONFIG'){
     echo "<p class='help-block'>" . $l->g(8010) . "</p>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_PROG_TIME'];
-    echo "<input type='time' id='NOTIF_PROG_TIME' class='form-control input-sm' name='NOTIF_PROG_TIME' value='".$mail->info['NOTIF_PROG_TIME']."'required/>";
+    echo "<input type='time' id='NOTIF_PROG_TIME' class='form-control input-sm' name='NOTIF_PROG_TIME' value='".$mail->info['NOTIF_PROG_TIME']."' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_PROG_DAY'];
 

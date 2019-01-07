@@ -229,3 +229,20 @@ function openfullNav(div) {
     document.getElementById("link"+div).style.display = '';
     document.getElementById("return").style.display = '';
 }
+
+function checkrequire(statut){
+    if(statut == "OFF"){
+      $('#NOTIF_MAIL_ADMIN').prop('required',false);
+      $('#NOTIF_NAME_ADMIN').prop('required',false);
+      $('#NOTIF_SMTP_HOST').prop('required',false);
+      $('#NOTIF_PORT_SMTP').prop('required',false);
+      $('#NOTIF_PROG_TIME').prop('required',false);
+    }else{
+      $('#NOTIF_MAIL_ADMIN').prop('required',true);
+      $('#NOTIF_NAME_ADMIN').prop('required',true);
+      $('#NOTIF_SMTP_HOST').prop('required',true);
+      $('#NOTIF_PORT_SMTP').prop('required',true);
+      $('#NOTIF_PROG_TIME').prop('required',true);
+    }
+
+}
