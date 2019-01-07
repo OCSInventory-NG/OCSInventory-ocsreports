@@ -22,21 +22,21 @@
  */
 
 class ExtensionHook{
-    
+
     const XML_HOOKS_FILE = "/hook.xml";
-    
+
     const LANG_HOOK = "lang";
     const MENU_HOOK = "menu";
     const SUB_MENU_HOOK = "submenu";
     const CD_DETAIL_HOOK = "cdentry";
-    
+
     const IDENTIFIER = "identifier";
     const MAIN_MENU_IDENTIFIER = "mainmenuidentifier";
     const TRANSLATION = "translation";
     const AVAILABLE = "available";
     const CATEGORY = "category";
     const EXTENSION = "extension";
-    
+
     public $menuExtensionsHooks = array();
     public $subMenuExtensionsHooks = array();
     public $languageExtensionsHooks = array();
@@ -47,15 +47,15 @@ class ExtensionHook{
     // Simple array of menu available in all loaded extension
     public $extDeclaredMenu = array();
     public $computerDeclaredMenu = array();
-    
+
     private $xmlElement;
-    
+
     private $currentScannedExt = "";
-    
+
     function __construct($activatedExtArray) {
 
         $this->activatedExt = $activatedExtArray;
-        
+
         foreach ($activatedExtArray as $extLabel) {
             if($this->haveHook($extLabel)){
                 $this->readHookXml($extLabel);
@@ -64,9 +64,9 @@ class ExtensionHook{
         }
 
     }
-    
+
     /**
-     * 
+     *
      * @param String $hookType Constant hook type
      */
     public function needHookTrigger($hookType){
@@ -104,7 +104,7 @@ class ExtensionHook{
                 return false;
         }
     }
-    
+
     /**
      * This method read the hook.xml in extension to create menu / lang / submenu and more to come.
      */
@@ -126,7 +126,7 @@ class ExtensionHook{
                     );
                     $this->addMenuEntry($menuHookArray);
                     break;
-                
+
                 case self::SUB_MENU_HOOK:
                     $this->extDeclaredMenu[strval($hooks->identifier)] = $this->currentScannedExt;
                     $subMenuHookArray = array(
@@ -151,7 +151,7 @@ class ExtensionHook{
                 default:
                     break;
             }
-        }  
+        }
     }
 
     /**
@@ -178,10 +178,10 @@ class ExtensionHook{
             self::EXTENSION => $this->currentScannedExt
         );
     }
-    
+
     /**
      * Add lang entries in the class attributes for later use
-     * 
+     *
      * @param array $xmlHookRender Array for xml hooks that contains all lang to add
      */
     private function addSubMenuEntry(array $xmlHookRender){
@@ -190,10 +190,10 @@ class ExtensionHook{
             self::TRANSLATION => (string)$xmlHookRender[self::TRANSLATION]
         );
     }
-    
+
     /**
      * Add lang entries in the class attributes for later use
-     * 
+     *
      * @param array $xmlHookRender Array for xml hooks that contains all lang to add
      */
     private function addMenuEntry(array $xmlHookRender){
@@ -202,29 +202,29 @@ class ExtensionHook{
             self::TRANSLATION => (string)$xmlHookRender[self::TRANSLATION]
         );
     }
-    
+
     /**
      * Add lang entries in the class attributes for later use
-     * 
+     *
      * @param SimpleXMLElement $xmlElementHookRender Array for xml hooks that contains all lang to add
      */
     private function addLangEntries(SimpleXMLElement $xmlElementHookRender){
         foreach ($xmlElementHookRender as $value) {
             $this->languageExtensionsHooks[$this->currentScannedExt][] = (string)$value[0];
-        }        
+        }
     }
-    
+
     /**
      * This method check if the extension have a hook xml file
      */
     private function haveHook($extLabel){
         return file_exists(EXT_DL_DIR.$extLabel.self::XML_HOOKS_FILE);
     }
-    
+
     /**
      * @param type $lang identifier of the lang you want to extend.
-     * 
-     * Possible values : 
+     *
+     * Possible values :
      * br_BR
      * cs_CZ
      * de_DE
@@ -241,35 +241,39 @@ class ExtensionHook{
      * ug_UY
      * uk_UA
      */
-    public function addTranslation($extName, $lang){
+   public function addTranslation($extName){
 
         global $l;
 
         $currentLang = $_SESSION['OCS']['LANGUAGE'];
         $langFile = EXT_DL_DIR.$extName."/language/".$currentLang."/".$currentLang.".txt";
+
         if(file_exists($langFile)){
+            $l->addExternalLangFile($langFile);
+        }else{
+            $langFile = EXT_DL_DIR.$extName."/language/en_GB/en_GB.txt";
             $l->addExternalLangFile($langFile);
         }
     }
-    
+
     /**
-     * @param String $mainMenuIdentifier identifier of the menu 
-     * 
-     * Get sub menu list for a menu 
+     * @param String $mainMenuIdentifier identifier of the menu
+     *
+     * Get sub menu list for a menu
      */
     private function getSubMenu($mainMenuIdentifier){
         return $this->subMenuExtensionsHooks[$mainMenuIdentifier];
     }
-    
+
     /**
      * Will generate MenuElement for each array entries.
-     * 
+     *
      * @param Array $menuDatas Array of values
      */
     public function generateMenuRenderer($menuDatas, $isSubMenu = false){
-        
+
         global $l;
-        
+
         $childrenArray = array();
         if(!$isSubMenu){
             $subMenusInfos = $this->generateMenuChildrensRenderer($menuDatas[self::IDENTIFIER]);
@@ -277,7 +281,7 @@ class ExtensionHook{
                 $childrenArray = $subMenusInfos;
             }
         }
-        
+
         if(!empty($childrenArray)){
             $menuElem = new MenuElem("g(".$menuDatas[self::TRANSLATION].")",$menuDatas[self::IDENTIFIER], $childrenArray);
         }else{
@@ -286,10 +290,10 @@ class ExtensionHook{
 
         return $menuElem;
     }
-    
+
     /**
      * Will generate MenuElement for each sub menus
-     * 
+     *
      * @param Array $menusArray Array of values
      */
     public function generateMenuChildrensRenderer($mainMenuIdentifier){
@@ -327,7 +331,7 @@ class ExtensionHook{
     public function haveExtSubMenu($mainMenuUrl){
         return array_key_exists($mainMenuUrl, $this->subMenuExtensionsHooks);
     }
-    
 
-    
+
+
 }
