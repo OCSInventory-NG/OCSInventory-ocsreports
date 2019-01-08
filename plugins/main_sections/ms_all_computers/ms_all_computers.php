@@ -189,6 +189,10 @@ $queryDetails .= "LEFT JOIN assets_categories ac ON ac.ID = h.CATEGORY_ID ";
 // VIDEOS CARDS INFOS
 $queryDetails .= "LEFT JOIN videos v ON v.hardware_id=h.id ";
 $queryDetails .= "where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
+
+// STATUS NETWORK INTERFACE UP
+$queryDetails .= " AND n.STATUS = 'up' ";
+
 // TAG RESTRICTIONS
 if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
     $tag = $_GET['value'];
