@@ -57,8 +57,8 @@ if sameMachine == 'n' or sameMachine == 'N':
 		location = res
 
 	#Check if plugin files exists
-	if not os.path.exists(directory + plugins[selection] + "/APACHE/map.pm") or not os.path.exists(directory + plugins[selection] + "/APACHE/" + plugins[selection] + ".conf"):
-		print("ERROR: check if map.pm and [pluginName].conf exist")
+	if not os.path.exists(directory + plugins[selection] + "/APACHE/Map.pm") or not os.path.exists(directory + plugins[selection] + "/APACHE/" + plugins[selection] + ".conf"):
+		print("ERROR: check if Map.pm and " + plugins[selection] + ".conf exist")
 		exit()
 
 	#Connexion SSH + mkdir directory
@@ -66,7 +66,7 @@ if sameMachine == 'n' or sameMachine == 'N':
 		clientssh = paramiko.SSHClient()
 		clientssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 		clientssh.connect(host, username=username, password=password)
-		clientssh.exec_command("mkdir -p " + location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection])
+		clientssh.exec_command("mkdir -p " + location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection].title())
 	except Exception as e:
 		print(e)
 		exit()
@@ -74,7 +74,7 @@ if sameMachine == 'n' or sameMachine == 'N':
 	#Connexion SCP + transfer
 	try:
 		with SCPClient(clientssh.get_transport()) as scp:
-			scp.put(directory + plugins[selection] + "/APACHE/map.pm", location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection] + "/map.pm")
+			scp.put(directory + plugins[selection] + "/APACHE/Map.pm", location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection].title() + "/Map.pm")
 			scp.put(directory + plugins[selection] + "/APACHE/" + plugins[selection] + ".conf", location + "/plugins/" + plugins[selection] + ".conf")
 	except Exception as e:
 		print(e)
@@ -93,16 +93,16 @@ else:
 		exit()
 
 	#create directory if not exist
-	if not os.path.exists(location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection]):
-		os.makedirs(location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection])
+	if not os.path.exists(location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection].title()):
+		os.makedirs(location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection].title())
 
 	#Check if plugin files exists
-	if not os.path.exists(directory + plugins[selection] + "/APACHE/map.pm") or not os.path.exists(directory + plugins[selection] + "/APACHE/" + plugins[selection] + ".conf"):
-		print("ERROR: check if map.pm and [pluginName].conf exist")
+	if not os.path.exists(directory + plugins[selection] + "/APACHE/Map.pm") or not os.path.exists(directory + plugins[selection] + "/APACHE/" + plugins[selection] + ".conf"):
+		print("ERROR: check if Map.pm and " + plugins[selection] + ".conf exist")
 		exit()
 
 	#Copy Files
-	shutil.copyfile(directory + plugins[selection] + "/APACHE/map.pm", location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection] + "/map.pm")
+	shutil.copyfile(directory + plugins[selection] + "/APACHE/Map.pm", location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection].title() + "/Map.pm")
 	shutil.copyfile(directory + plugins[selection] + "/APACHE/" + plugins[selection] + ".conf", location + "/plugins/" + plugins[selection] + ".conf")
 
 exit()
