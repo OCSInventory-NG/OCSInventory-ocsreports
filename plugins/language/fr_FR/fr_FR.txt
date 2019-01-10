@@ -1578,6 +1578,7 @@
 8026 Activer les News OCS Inventory sur le tableau de bord
 8027 Un problème de récupération des données des news OCS est survenue
 8028 Vous avez des news récentes
+8029 n'a pas les droits d'écriture
 
 8100 Inventaire SAAS
 8101 SAAS liste
