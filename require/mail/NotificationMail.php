@@ -49,7 +49,7 @@
       private $week = array('MON' => 'MON', 'TUE' => 'TUE', 'WED' => 'WED', 'THURS' => 'THURS', 'FRI' => 'FRI', 'SAT' => 'SAT', 'SUN' => 'SUN');
 
       const HTML_EXT = 'html';
-      
+
       public function __construct($language){
         global $l;
         $l = new language($language);
@@ -182,14 +182,14 @@
        * @return void
        */
      public function send_notification($subject, $body, $altBody = '', $selected, $isHtml = false ){
-            
+
             $body = $this->replace_value($body, $selected);
-         
+
             if(!$body){
                 error_log('Error reading custom template');
                 return false;
             }
-            
+
             try{
                // Content
                $this->notif->isHTML(false);
@@ -224,7 +224,7 @@
             $template = file_get_contents(TEMPLATE.'OCS_template.html', true);
           }else{
             if(file_exists($file)){
-                $template = file_get_contents($file, true); 
+                $template = file_get_contents($file, true);
             }else{
                 return false;
             }
@@ -276,38 +276,42 @@
       public function upload_file($file, $subject){
           global $l;
           $uploadFile = TEMPLATE . basename($file['template']['name']);
-          
+
           if(!$this->is_html_extension($uploadFile)){
               msg_error($l->g(8021));
               return false;
           }
 
           if($file['template']['type'] == 'text/html'){
-            if (move_uploaded_file($_FILES['template']['tmp_name'], $uploadFile)) {
-              $sql = "UPDATE `notification` SET FILE='%s', SUBJECT='%s' WHERE TYPE='PERSO'";
-              $arg = array(TEMPLATE . basename($file['template']['name']), $subject);
-              mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-              msg_success($l->g(8014));
-              $this->get_template_perso();
-            } else {
-              msg_error($l->g(8015));
-              return false;
+            if(is_writable(TEMPLATE)){
+              if (move_uploaded_file($_FILES['template']['tmp_name'], $uploadFile)) {
+                $sql = "UPDATE `notification` SET FILE='%s', SUBJECT='%s' WHERE TYPE='PERSO'";
+                $arg = array(TEMPLATE . basename($file['template']['name']), $subject);
+                mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+                msg_success($l->g(8014));
+                $this->get_template_perso();
+              } else {
+                msg_error($l->g(8015));
+                return false;
+              }
+            }else{
+              $msg = $l->g(8015). ", ". TEMPLATE . " " . $l->g(8029);
+              msg_error($msg);
             }
           }else{
             msg_error($l->g(8017));
             return false;
           }
       }
-      
+
       /**
        * Check if file respect naming convention
        * And have extension .html
-       * 
+       *
        * @param array $uploaded_file
        */
       private function is_html_extension($uploaded_file_name){
           $ext = end((explode(".", $uploaded_file_name)));
-          var_dump($ext);
           if($ext == self::HTML_EXT){
               return true;
           }else{
