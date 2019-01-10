@@ -439,6 +439,10 @@ function create_pack($sql_details, $info_details, $modif = true) {
 
 
     //create info
+    if($sql_details['nbfrags'] == null){
+			$sql_details['nbfrags'] = '1';
+		}
+
     $info = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     $info .= "<DOWNLOAD ID=\"" . $sql_details['timestamp'] . "\" " .
             "PRI=\"" . $info_details['PRI'] . "\" " .
