@@ -910,7 +910,7 @@
 1024 will be deleted
 1025 Unaffect
 1026 Packages deleted on computers
-1027 Categories
+1027 カテゴリ
 1028 New
 1029 Ignored
 1030 Unchanged
@@ -1167,7 +1167,8 @@
 1281 On Wake On Lan
 1282 Wake On Lan order sent
 1283 Do you want a Wake On Lan on this computer
-1292 遠隔配置に詳細オプションを使用する
+1284 Source IP
+1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Installation time
 1295 Installation date/time
@@ -1294,7 +1295,7 @@
 1416 OperatorName
 1417 IMEI/DEVICEID
 1418 Country
-1419 Search in column
+1419 列で検索
 1420 Theme customization
 1421 Repository
 1422 Expire
@@ -1322,13 +1323,44 @@
 1444 USB Devices
 1445 Group info
 1446 Model name
+1447 Account info
+1448 IS NULL
+1449 General configuration
+1450 ID
+1451 Static ?
+1452 Waranty begin
+1453 GUID
+1454 Source
+1455 Virtual interface
 
-1500 Software category
-1501 New category
-1502 List of categories
-1503 Add software
-1504 Regular expression or Software name
-1505 Select default category for softwares
+
+1500 ソフトウェアカテゴリ
+1501 新規カテゴリ
+1502 カテゴリ一覧
+1503 ソフトウェア追加
+1504 ソフトウェア名または正規表現
+1505 ソフトウェアの既定のカテゴリを選択
+1506 カテゴリは作成されていません
+1507 ソフトウェアバージョン
+1508 ソフトウェアベンダー
+1509 詳細設定
+1510 Software version comparator
+1511 Version comparator
+1512 以下
+1513 以上
+1514 カテゴリ
+1515 すべてのOS
+1516 All software (but default)
+1517 No category have been selected
+
+
+1600 ダッシュボード
+1601 動的グループ
+
+1700 Advanced configuration
+1701 Tab available
+1702 New tab
+1703 Add selected packages
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 エラー：
@@ -1381,18 +1413,18 @@
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
 2050 インストールが完了しました。ユーザー名=admin パスワード=admin で index.php にログインできます。
 2051 クリックして OCS-NG へ
-2052 エラー:　ディレクトリに書き込みができません。 (dbconfig.inc.php), ocsinventoryのインストールに必要な権限を設定してください。 (インストールが成功したら書き込み権限を解除してください。)
+2052 エラー: ディレクトリに書き込みができません。 (dbconfig.inc.php), ocsinventoryのインストールに必要な権限を設定してください。 (インストールが成功したら書き込み権限を解除してください。)
 2053 しばらくお待ちください。データベースのアップデートは最大30分程度かかる場合があります。
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 データベース作成が成功しました
 2056 MySQLの設定ファイルに書き込みができました。
 2057 既存のデータベースがアップデートされます。
 2058 データベースエンジンをチェックしています...
-2059 ERROR: Alter query failed
-2060 ERROR: Show table status query failed
+2059 ERROR: Alter query が失敗しました
+2060 ERROR: Show table status query が失敗しました
 2061 ERROR: InnoDB conversion failed, install InnoDB MySQL engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your MySQL config file.)<br>Reinstall when corrected.
 2062 ERROR: HEAP conversion failed, install HEAP MySQL engine support on your server<br>or you will experience severe performance issues.
-2063 Database engine successfully updated
+2063 データベースエンジンのアップデートが成功しました
 2064 table(s) altered
 2065 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2066 WARNING: 'files' directory missing, can't import
@@ -1457,6 +1489,13 @@
 2128 Are you sure ?
 2129 Back to multi search
 2130 Assets categories
+2131 Number of machines per category
+2132 Assets category
+2133 You haven't created an asset category
+2134 You haven't created a software category
+2135 インベントリ収集済のPCはありません。
+2136 アップデート
+2137 Choose a new file if you want to modify the old one
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1513,3 +1552,44 @@
 7014 インストール可能なプラグインはありません。
 7015 １つ以上のコンピュータを選択してください！
 7016 MTU
+
+8000 通知
+8001 Enable notification tracking
+8002 管理者メールアドレス
+8003 管理者名
+8004 返信先メールアドレス
+8005 返信名
+8006 SMTPホスト
+8007 SMTPアカウント
+8008 SMTPパスワード
+8009 Email send mode
+8010 (Optional)
+8011 設定
+8012 テンプレートをカスタマイズ
+8013 Here is the default OCS Inventory summary, it contains a report of the software categories and assets categories :
+8014 アップロード成功
+8015 アップロード失敗
+8016 Here you can download your customized notification template:</br>• The file must be an html file.</br></br>Informations:</br>• To get traduction put {{g.(number of traduction)}} in your html code- Example: {{g.49}} = Name</br>• For the moment you have two choices of report inventory: </br> {{Report.Software}} - Number of softwares per software category </br> {{Report.Asset}} - Number of machines per asset category
+8017 htmlファイルではありません
+8018 タイトル
+8019 Notification OCSInventory
+8020 警告 : メールテンプレートが見つかりません
+8021 アップロードファイルの拡張子は.htmlである必要があります。
+8022 ニュース
+8023 ... さらに
+8024 Close news
+8025 ニュースメニューに戻る
+8026 ダッシュボードで OCS Inventory のニュースを有効化する
+8027 A problem of OCS news data recovery has occurred
+8028 You have recent news
+8029 is not writable
+
+8100 SAAS Inventory
+8101 SAAS list
+8102 Add SAAS
+8103 Associated DNS
+8104 Entry
+8105 Data
+8106 Time to live
+8107 This SAAS already exists
+8108 Enable Software as a Service Inventory
