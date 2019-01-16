@@ -4,6 +4,7 @@
 Operating system : 
 
 ### Server installation method ( Only one choice )
+- [ ] DEB Package
 - [ ] RPM Package
 - [ ] Install SH
 - [ ] Manual installation
