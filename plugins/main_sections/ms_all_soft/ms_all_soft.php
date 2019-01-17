@@ -305,6 +305,9 @@ echo "</div>";
 echo "</div>";
 echo close_form();
 
+// Prevents searching in 'Count' columns
+$tab_options['NO_SEARCH']['nb'] = 'nb';
+
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
