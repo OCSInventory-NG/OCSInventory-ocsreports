@@ -1966,16 +1966,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	echo json_encode($res);
 }
 
-
-
-
-
-
-
-
-
-
-
 //fonction qui permet de gérer les données à afficher dans le tableau
 function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name){
 	global $l,$protectedPost,$pages_refs;
