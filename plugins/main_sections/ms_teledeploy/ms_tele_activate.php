@@ -168,6 +168,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $l->g(53) => 'COMMENT');
     $tab_options['REPLACE_COLUMN_KEY'][$l->g(593)] = 'CREADATE';
     $tab_options['REPLACE_COLUMN_KEY'][$l->g(462) . " KB"] = 'WEIGHT';
+    // Prevents searching in these 3 columns
     $tab_options['NO_SEARCH']['NOTI'] = 'NOTI';
     $tab_options['NO_SEARCH']['SUCC'] = 'SUCC';
     $tab_options['NO_SEARCH']['ERR_'] = 'ERR_';
@@ -176,13 +177,13 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $list_fields['NOTI'] = 'NOTI';
         $list_fields['SUCC'] = 'SUCC';
         $list_fields['ERR_'] = 'ERR_';
-        //can't sort on this cols
+	// Prevents sorting on these columns
         $tab_options['NO_TRI']['NOTI'] = 1;
         $tab_options['NO_TRI']['NO_NOTIF'] = 1;
         $tab_options['NO_TRI']['SUCC'] = 1;
         $tab_options['NO_TRI']['ERR_'] = 1;
     }
-    //only for profils who can activate packet
+    //only for profiles who can activate packet
     if (!$cant_active) {
         $list_fields['ZIP'] = 'FILEID';
         $list_fields['ACTIVE'] = 'FILEID';
