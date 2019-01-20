@@ -160,6 +160,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         "STAT",
         "ACTIVE",
         "MAC",
+				"EDIT_DEPLOY",
     );
     //If the column selected are different from the default columns
     if (!empty($_COOKIE[$option['table_name'] . "_col"])) {
@@ -183,6 +184,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     }
     $actions = array(
         "MODIF",
+				"EDIT_DEPLOY",
         "SUP",
         "ZIP",
         "STAT",
@@ -577,6 +579,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
     echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
     echo "<input type='hidden' id='OTHER_TER' name='OTHER_TER' value=''>";
+		echo "<input type='hidden' id='EDIT_DEPLOY' name='EDIT_DEPLOY' value=''>";
 
     if ($_SESSION['OCS']['DEBUG'] == 'ON') {
         ?><center>
@@ -1378,6 +1381,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 						$rang =0;
 						foreach($tab_options['visible_col'] as $index=>$column){
+							if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+								$tab_options['columns'][$column]['searchable'] = false;
+							}
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 							$name = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['columns'][$column]['name']);
 							if (!empty($tab_options["replace_query_arg"][$name])){
@@ -1433,6 +1439,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
+			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+				$tab_options['columns'][$column]['searchable'] = false;
+			}
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
 				$searchable =true;
@@ -1493,7 +1502,13 @@ function ajaxsort(&$tab_options){
 	}
 	$sort ="";
 	if (!empty($tri) && !empty($sens)){
-	$tab_iplike=array('H.IPADDR','IPADDRESS','IP','IPADDR');
+	$tab_iplike=array('H.IPADDR','N.IPADDRESS','IP','IPADDR');
+
+	//@TODO : multiple values management
+	if($tri == 'ipaddress'){
+		$tri = 'n.ipaddress';
+	}
+
 	if (in_array(mb_strtoupper($tri),$tab_iplike)){
 		$sort= " order by INET_ATON(".$tri.") ".$sens;
 	}elseif ($tab_options['TRI']['SIGNED'][$tri]){
@@ -1641,7 +1656,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_stats']."&head=1&stat=".$value_of_field."\"><span class='glyphicon glyphicon-stats' title='".$l->g(1251)."'></span></a>";
 						break;
 					case "ACTIVE":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><span class='glyphicon glyphicon-share' title='".$l->g(431)."'></span></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_popup_active']."&head=1&active=".$value_of_field."\"><span class='glyphicon glyphicon-ok' title='".$l->g(431)."'></span></a>";
 						break;
 					case "SHOWACTIVE":
 						if(!empty($tab_options['SHOW_ONLY'][$key][$row['FILEID']])){
@@ -1660,14 +1675,35 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><span class='glyphicon glyphicon-edit'></span></a><center>";
 						}
 						break;
+					case "EDIT_DEPLOY":
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_package']."&head=1&package=".$value_of_field."\"><span class='glyphicon glyphicon-edit'></span></span></a>";
+						break;
 					default :
 						if (substr($key,0,11) == "PERCENT_BAR"){
 							//require_once("function_graphic.php");
 							//echo percent_bar($value_of_field);
 							$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 						}
+
 						if (!empty($tab_options['REPLACE_VALUE'][$key])){
-							$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
+ 							$temp_val=explode('&&&',$value_of_field);
+ 							if (count($temp_val)==1) {
+ 								$temp_val=explode('&amp;&amp;&amp;',$value_of_field);
+ 							}
+ 							if (count($temp_val)!=1) {
+ 								$multi_value=0;
+ 								$temp_value_of_field="";
+ 								while (isset($temp_val[$multi_value])){
+ 									$temp_value_of_field.=$temp_val[$multi_value]."<br>";
+ 									$multi_value++;
+ 								}
+ 								$temp_value_of_field=substr($temp_value_of_field,0,-4);
+ 								$value_of_field=$temp_value_of_field;
+ 								$row[$column]=$value_of_field;
+ 							}
+ 							else {
+ 								$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
+ 							}
 						}
 						if(!empty($tab_options['VALUE'][$key])){
 							if(!empty($tab_options['LIEN_CHAMP'][$key])){
@@ -1680,6 +1716,9 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
 						}
 						if (!empty($tab_options['LIEN_LBL'][$key])){
+							if(strpos($row[$tab_options['LIEN_CHAMP'][$key]], '+')){
+								$row[$tab_options['LIEN_CHAMP'][$key]] = str_replace("+", "%2B", $row[$tab_options['LIEN_CHAMP'][$key]]);
+							}
 							$row[$column]= "<a href='".$tab_options['LIEN_LBL'][$key].$row[$tab_options['LIEN_CHAMP'][$key]]."'>".$value_of_field."</a>";
 						}
 						if (!empty($tab_options['REPLACE_COLUMN_KEY'][$key])){
@@ -1701,6 +1740,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 			}
 			$actions = array(
 				"MODIF",
+				"EDIT_DEPLOY",
 				"SUP",
 				"ZIP",
 				"STAT",
@@ -1763,11 +1803,13 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"ACTIVE",
 			"MAC",
 			"MD5_DEVICEID",
+			"EDIT_DEPLOY",
 	);
 
 
 	$actions = array(
 				"MODIF",
+				"EDIT_DEPLOY",
 				"SUP",
 				"ZIP",
 				"STAT",
@@ -1923,16 +1965,6 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 	echo json_encode($res);
 }
-
-
-
-
-
-
-
-
-
-
 
 //fonction qui permet de gérer les données à afficher dans le tableau
 function gestion_donnees($sql_data,$list_fields,$tab_options,$form_name,$default_fields,$list_col_cant_del,$queryDetails,$table_name){

@@ -1,5 +1,54 @@
 Revision history for ocsreports
 
+2.6 RC
+		* Plugin engine rework (see. http://wiki.ocsinventory-ng.org/10.Plugin-engine/Using-plugins-installer/)
+		* You can now edit deployment package without re-creating one from "inventory > activate"
+		* Improve software categorization to have more detailed criterias
+		* Add notifications system to have latest OCS Inventory News
+		* Rework login dashboard (better informations, dynamic group from the welcome page)
+		* Improve multi search engine introduced in 2.5
+		* Fix CSV problems on hostname export
+		* Migrate all tables to InnoDB
+		* Improve accountinfo display and edit
+
+2.5
+		* Full rework on the multi-criteras engine, you can now query the whole database.
+		* Add software categorization, you can now put categories on softwares depending on regular expressions (see http://wiki.ocsinventory-ng.org/03.Management-console-and-its-advanced-features/Using-Software-Categorization)
+		* Assets categorization using the new multi-criterias search. (see http://wiki.ocsinventory-ng.org/03.Management-console-and-its-advanced-features/Using-Assets-Categorization)
+		* Mail notification system to have recurrent reports (see http://wiki.ocsinventory-ng.org/03.Management-console-and-its-advanced-features/Configure-mail-notification)
+		* Advanced configuration trigger to show more configuration informations.
+		* Dynamic group creation improvements
+		* Administrative data simplification
+		* Deployment stats improvements
+		* Front-end improvments
+		* Security fix ( Thanks to Jaume Llopis, Pablo Martínez and Juan Manuel Fernández from Tarlogic )
+		* Bugs fix
+
+2.4.1
+		* A theme has been created which allow you to add your custom CSS and images to our report. The documentation will be available soon.
+		* Some security fix has been made with the help from Simon Bieber and Michael Hermann, secuvera GmbH, Germany. You will find the detailed logs file in their security reports.
+		* OCSInventory is now translated in Czech.
+		* Some light fix bugs has been made on the interface and communication server.
+
+
+2.4
+		* Rest API
+		* Datatable search rework
+		* Complete rework on the old datetime picker
+    		* Add show / hide column functionality for software search
+    		* Machine details tabs will now follow the page and prevent user for scroll up for changing tab
+    		* Improve datatable informations visibility
+    		* Improve admin data visibility for read only profiles
+    		* Improve machine inventory workflow by adding a network tab on computers
+    		* Improve statistics management
+    		* Number of entries have been updated to show more entries
+    		* Add SSL support for plugin engine
+    		* Improve CSV export
+    		* Improve WOL function
+    		* Improve setup detection method
+    		* Minor bugs fix
+
+
 2.3.1
 		* Enhancement ocs reports :
 		* English translation update

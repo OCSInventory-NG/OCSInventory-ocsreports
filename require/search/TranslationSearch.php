@@ -36,10 +36,11 @@
         "cpus" => 54,
         "devices" => 1331,
         "download_history" => 969,
+        "download_available" => 969,
         //"download_servers" => "A ajouter",
         "drives" => 92,
-        "groups" => 1445,
-        //"groups_cache" => 995,
+        //"groups" => 1445,
+        "groups_cache" => 1445,
         "hardware" => 23,
         "inputs" => 91,
         //"itmgmt_comments" => 995,
@@ -130,7 +131,7 @@
         "ipaddr" => 34,
         "dns" => 318,
         "defaultgateway" => 1443,
-        "lastdate" => 652,
+        "lastdate" => 46,
         "lastcome" => 352,
         "quality" => 353,
         "fidelity" => 354,
@@ -142,7 +143,7 @@
         "useragent" => 357,
         //"checksum" => "",
         // "sstate" => "",
-        "ipsrc" => 34,
+        "ipsrc" => 1284,
         //"uuid" => "",
         "arch" => 1247,
         "interface" => 1247,
@@ -161,7 +162,7 @@
         "ipgateway" => 207,
         "ipsubnet" => 331,
         "ipdhcp" => 281,
-        //"virtualdev" => 36,
+        "virtualdev" => 1455,
         "driver" => 278,
         "port" => 272,
         "servername" => 1323,
@@ -175,7 +176,7 @@
         "exclude" => 600,
         "excluded" => 614,
         "expire" => 1422,
-        //"filename" => 213,
+        "filename" => 1423,
         "mirrors" => 1424,
         "pkgs" => 498,
         "revision" => 18,
@@ -190,18 +191,24 @@
         "publisher" => 69,
         "folder" => 1248,
         "filesize" => 1240,
-        //"source" => 70,
-        //"guid" => 1012,
+        "source" => 1454,
+        "guid" => 1453,
         "language" => 1012,
         "installdate" => 1238,
         "bitswidth" => 1247,
-        //"disksize" => 1247,
+        "disksize" => 67,
         "firmware" => 1229,
         "chipset" => 276,
         "screen horizontal / vertical" => 1325,
         "subsystem" => 25,
         "vmtype" => 66,
         "vcpu" => 54,
+        "group_id" => 1450,
+        "static" => 1451,
+        "category" => 1514,
+        "warantybegin" => 1452,
+        "capacity" => 83,
+        "category_id" => 2132,
     ];
 
     private $operatorsArray = [
@@ -210,6 +217,16 @@
         "LESS" => 1432,
         "LIKE" => 129,
         "DIFFERENT" => 130,
+        "ISNULL" => 1448,
+        "BELONG" => 967,
+        "DONTBELONG" => 968,
+        "HAVING" => 507,
+        "NOTHAVING" => 508,
+    ];
+
+    private $comparatorsArray = [
+        "AND" => 582,
+        "OR" => 386,
     ];
 
     public function getTranslationFor($name){
@@ -224,6 +241,11 @@
     public function getTranslationForOperator($name){
         global $l;
         return $l->g($this->operatorsArray[$name]);
+    }
+
+    public function getTranslationForComparator($name){
+        global $l;
+        return $l->g($this->comparatorsArray[$name]);
     }
 
     public function getTranslationForListField($string){

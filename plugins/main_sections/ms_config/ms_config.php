@@ -29,14 +29,9 @@ $def_onglets['INVENTORY'] = $l->g(728); //Inventory
 $def_onglets['SERVER'] = $l->g(499); //Server
 $def_onglets['IPDISCOVER'] = $l->g(312); //IP Discover
 $def_onglets['TELEDEPLOY'] = $l->g(512); //Teledeploy
-$def_onglets['REDISTRIB'] = $l->g(628); //redistribution servers
 $def_onglets['GROUPS'] = $l->g(583); //Groups
 $def_onglets['REGISTRY'] = $l->g(211); //Registry
-$def_onglets['INV_FILE'] = $l->g(734); //Inventory file
-$def_onglets['FILTER'] = $l->g(735); //Filter
-$def_onglets['WEBSERVICES'] = $l->g(760); //Webservice
 $def_onglets['GUI'] = $l->g(84); //GUI
-$def_onglets['CNX'] = $l->g(1108); //connexion
 $def_onglets['SNMP'] = $l->g(1136); //SNMP
 $def_onglets['WOL'] = $l->g(1279); //WOL
 $def_onglets['PLUGINSCONF'] = $l->g(6000); //Plugins Configuration
@@ -72,9 +67,23 @@ if ($protectedPost['Valid'] == $l->g(103)) {
 if (is_defined($MAJ)) {
     msg_success($MAJ);
 }
+
+$champs = array('ADVANCE_CONFIGURATION' => 'ADVANCE_CONFIGURATION');
+$values = look_config_default_values($champs);
+
 printEnTete($l->g(107));
+
 $form_name = 'modif_onglet';
 echo open_form($form_name, '', '', 'form-horizontal');
+
+if($values['ivalue']['ADVANCE_CONFIGURATION']){
+  $def_onglets['REDISTRIB'] = $l->g(628); //redistribution servers
+  $def_onglets['INV_FILE'] = $l->g(734); //Inventory file
+  $def_onglets['FILTER'] = $l->g(735); //Filter
+  $def_onglets['WEBSERVICES'] = $l->g(760); //Webservice
+  $def_onglets['CNX'] = $l->g(1108); //connexion
+}
+
 show_tabs($def_onglets,$form_name,"onglet",true);
 echo '<div class="col col-md-10">';
 switch ($protectedPost['onglet']) {
@@ -82,19 +91,19 @@ switch ($protectedPost['onglet']) {
         pageConnexion();
         break;
     case 'GUI':
-        pageGUI();
+        pageGUI($values['ivalue']['ADVANCE_CONFIGURATION']);
         break;
     case 'INVENTORY':
-        pageinventory();
+        pageinventory($values['ivalue']['ADVANCE_CONFIGURATION']);
         break;
     case 'SERVER':
-        pageserveur();
+        pageserveur($values['ivalue']['ADVANCE_CONFIGURATION']);
         break;
     case 'IPDISCOVER':
-        pageipdiscover();
+        pageipdiscover($values['ivalue']['ADVANCE_CONFIGURATION']);
         break;
     case 'TELEDEPLOY':
-        pageteledeploy();
+        pageteledeploy($values['ivalue']['ADVANCE_CONFIGURATION']);
         break;
     case 'REDISTRIB':
         pageredistrib();
@@ -127,14 +136,14 @@ switch ($protectedPost['onglet']) {
         pageswol();
         break;
     default:
-        pageinventory();
+        pageinventory($values['ivalue']['ADVANCE_CONFIGURATION']);
 }
 
 ?>
+</br>
 <input type='hidden' id='RELOAD_CONF' name='RELOAD_CONF' value=''>
 <input type="submit" name="Valid" value="<?php echo $l->g(103) ?>" class="btn btn-success">
 <input type="submit" name="Reset" value="<?php echo $l->g(1364) ?>" class="btn btn-danger">
-
 <?php
 echo close_form();
 echo '</div>';

@@ -86,7 +86,7 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(949) => "h.ID",
     $l->g(24) => "h.userid",
     $l->g(25) => "h.osname",
-    $l->g(568) => "h.memory",
+    $l->g(568) => "capa",
     $l->g(569) => "h.processors",
     $l->g(33) => "h.workgroup",
     $l->g(275) => "h.osversion",
@@ -106,11 +106,12 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(36) => "e.ssn",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
-    $l->g(34) => "h.ipaddr",
+    $l->g(34) => "ipaddress",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
-    $l->g(61) => "vname");
+    $l->g(61) => "vname",
+    $l->g(2132) => "ac.category_name");
 if ($show_mac_addr) {
     $list_fields2[$l->g(95)] = "n.macaddr";
     $list_fields2[$l->g(208)] = "n.ipmask";
@@ -126,7 +127,7 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(949) => "h.ID",
     $l->g(24) => "h.userid",
     $l->g(25) => "h.osname",
-    $l->g(568) => "h.memory",
+    $l->g(568) => "h.memory as capa",
     $l->g(569) => "h.processors",
     $l->g(33) => "h.workgroup",
     $l->g(275) => "h.osversion",
@@ -146,11 +147,12 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(36) => "e.ssn",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
-    $l->g(34) => "h.ipaddr",
+    $l->g(34) => "GROUP_CONCAT(DISTINCT CASE WHEN n.ipaddress != 0x20 THEN n.ipaddress ELSE NULL END SEPARATOR 0x2D) as ipaddress",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
-    $l->g(61) => "v.name as vname");
+    $l->g(61) => "v.name as vname",
+    $l->g(2132) => "ac.category_name");
 
 // List for select
 $select_fields = array_merge($list_fields, $select_fields2);
@@ -174,17 +176,34 @@ $queryDetails = $sql['SQL'] . " from hardware h
 
 if ($show_mac_addr) {
     $queryDetails .= "	LEFT JOIN networks n ON n.hardware_id=h.id ";
-    $queryDetails .= " AND h.IPADDR=n.IPADDRESS ";
 }
 // BIOS INFOS
 $queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id ";
+
+//MEMORIES INFOS
+$queryDetails .= "LEFT JOIN memories m ON m.hardware_id=h.id ";
+
+//ASSETS CATEGORY
+$queryDetails .= "LEFT JOIN assets_categories ac ON ac.ID = h.CATEGORY_ID ";
+
 // VIDEOS CARDS INFOS
 $queryDetails .= "LEFT JOIN videos v ON v.hardware_id=h.id ";
 $queryDetails .= "where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
+
+// STATUS NETWORK INTERFACE UP
+$queryDetails .= " AND n.STATUS = 'up' ";
+
 // TAG RESTRICTIONS
 if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
     $tag = $_GET['value'];
     $queryDetails .= "AND a.TAG= '$tag' ";
+}
+
+// TAG RESTRICTIONS
+if (is_defined($_GET['value']) && strpos($_GET['filtre'], 'a.fields_') === 0){
+    $tag = $_GET['value'];
+    $fields = $_GET['filtre'];
+    $queryDetails .= "AND ".$fields."= '$tag' ";
 }
 
 if (is_defined($_SESSION['OCS']["mesmachines"])) {

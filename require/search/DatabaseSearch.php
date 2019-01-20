@@ -57,10 +57,10 @@ class DatabaseSearch
     private $excludedTables = [
         /*"accountinfo",*/
         "download_servers",
-        "groups_cache",
         "itmgmt_comments",
         "javainfo",
-        "journallog"
+        "journallog",
+        "groups"
     ];
 
     /**
@@ -181,7 +181,8 @@ class DatabaseSearch
         $query = $searchObj->baseQuery.$searchObj->searchQuery.$searchObj->columnsQueryConditions;
         $idList = mysql2_query_secure($query, $this->dbObject, $searchObj->queryArgs);
         $idArray = [];
-        foreach ($idList as $index => $fields) {
+
+        if($idList) foreach ($idList as $index => $fields) {
             $idArray[] = $fields['hardwareID'];
         }
         return $idArray;
@@ -214,4 +215,13 @@ class DatabaseSearch
         }
     }
 
+    public function get_package_id($fileid){
+      $sql= "SELECT id FROM download_enable d_e LEFT JOIN download_available d_a ON d_a.fileid=d_e.fileid
+             WHERE 1=1 AND d_a.comment NOT LIKE '%[VISIBLE=0]%' AND d_e.fileid='".$fileid."'";
+      $idPackage = mysql2_query_secure($sql, $this->dbObject);
+      foreach ($idPackage as $index => $fields) {
+          $idArray[] = $fields['id'];
+      }
+      return $idArray;
+    }
 }

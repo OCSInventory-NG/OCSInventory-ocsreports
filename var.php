@@ -67,23 +67,32 @@ define('TC_LIB_BARCODE', __DIR__ . '/libraries/tclib/Barcode/autoload.php');
  * Library PASSWORD-COMPAT
  */
 define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php');
+/**
+ * Library PHPMAILER
+ */
+define('PHPMAILER', __DIR__ . '/libraries/PHPMailer-6.0.5/src');
+/**
+ * Template Mail Directory
+ */
+define('TEMPLATE', __DIR__.'/templates/');
 //====================================================================================
 // GUI Options
 //====================================================================================
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7014');
+define('GUI_VER', '7021');
 /**
  * GUI Version
  */
-define('GUI_VER_SHOW', '2.4.1');
+define('GUI_VER_SHOW', '2.6RC');
 /**
  * Default GUI language
  */
 define('DEFAULT_LANGUAGE', 'en_GB');
 define('PAG_INDEX', 'function');
 define('UPDATE_JSON_URI', 'http://check-version.ocsinventory-ng.org');
+define('URL_NEWS', 'http://check-version.ocsinventory-ng.org/newsfeed.json');
 
 //====================================================================================
 // Default OCS DIR
@@ -138,17 +147,9 @@ define('DEV_OPTION', false);
 // Plugins Configuration
 //====================================================================================
 /**
- * Directory where you put plugin sources
+ * Directory where you put extensions sources
  */
-define('PLUGINS_DL_DIR', __DIR__ . '/download/');
-/**
- * Don't touch this dir used by plugin engine
- */
-define('PLUGINS_SRV_SIDE', __DIR__ . '/upload/');
-/**
- * Plugins engine ws url, don't touch if you don't know what you are doing
- */
-define('PLUGIN_WS_URL', '/ocsplugins');
+define('EXT_DL_DIR', __DIR__ . '/extensions/');
 //====================================================================================
 // Misc Options
 //====================================================================================

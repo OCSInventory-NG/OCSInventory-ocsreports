@@ -84,7 +84,7 @@ if (isset($protectedPost['Valid_modif'])) {
 
         }
         if(isset($sql)){
-            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg); 
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
         }
 
         //suppression du cache pour prendre en compte la modif
@@ -92,6 +92,21 @@ if (isset($protectedPost['Valid_modif'])) {
     } else {
         $protectedPost['MODIF'] = $protectedPost['mac'];
     }
+}
+
+//del the selection
+if ($protectedPost['DEL_ALL'] != '') {
+    foreach ($protectedPost as $key => $value) {
+        $checkbox = explode('check', $key);
+        if (isset($checkbox[1])) {
+          $sql = "DELETE FROM netmap WHERE mac='%s'";
+          mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $checkbox[1]);
+          $sql = "DELETE FROM network_devices WHERE macaddr='%s'";
+          mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $checkbox[1]);
+          unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_' . $protectedGet['prov']]);
+        }
+    }
+    $tab_options['CACHE'] = 'RESET';
 }
 
 //formulaire de saisie de l'identification de l'adresse mac
@@ -156,6 +171,7 @@ if (is_defined($protectedPost['MODIF'])) {
         $protectedPost["pcparpage"] = 5;
     }
     if (isset($protectedGet['value'])) {
+        $value_preg = preg_replace("/[^A-zA-Z0-9\._]/", "", $protectedGet['value']);
         if ($protectedGet['prov'] == "no_inv") {
             $title = $l->g(947);
             $sql = "SELECT ip, mac, mask, date, name FROM netmap n
@@ -163,24 +179,26 @@ if (is_defined($protectedPost['MODIF'])) {
                             WHERE n.netid='%s'
                             AND (ns.macaddr IS NULL)
                             AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
-            $tab_options['ARG_SQL'] = array($protectedGet['value']);
+            $tab_options['ARG_SQL'] = array($value_preg);
             $list_fields = array($l->g(34) => 'ip', 'MAC' => 'mac',
                 $l->g(208) => 'mask',
                 $l->g(232) => 'date',
                 $l->g(318) => 'name');
             $tab_options['FILTRE'] = array_flip($list_fields);
-            $tab_options['ARG_SQL_COUNT'] = array($protectedGet['value']);
+            $tab_options['ARG_SQL_COUNT'] = array($value_preg);
             $list_fields['SUP'] = 'mac';
+            $list_fields['CHECK'] = 'mac';
             $list_fields['MODIF'] = 'mac';
             $tab_options['MODIF']['IMG'] = "image/prec16.png";
             $tab_options['LBL']['MODIF'] = $l->g(114);
             $default_fields = $list_fields;
+
         } elseif ($protectedGet['prov'] == "ident") {
             $title = $l->g(948);
             $sql = "select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
 				 from network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
 				 where netid='%s'";
-            $tab_options['ARG_SQL'] = array($protectedGet['value']);
+            $tab_options['ARG_SQL'] = array($value_preg);
             $list_fields = array($l->g(66) => 'TYPE', $l->g(53) => 'DESCRIPTION',
                 $l->g(34) => 'IP',
                 $l->g(95) => 'MAC',
@@ -190,7 +208,7 @@ if (is_defined($protectedPost['MODIF'])) {
                 $l->g(232) => 'date',
                 $l->g(369) => 'USER');
             $tab_options['FILTRE'] = array_flip($list_fields);
-            $tab_options['ARG_SQL_COUNT'] = array($protectedGet['value']);
+            $tab_options['ARG_SQL_COUNT'] = array($value_preg);
             $list_fields['SUP'] = 'MAC';
             $list_fields['MODIF'] = 'ID';
             $default_fields = array($l->g(34) => $l->g(34), $l->g(66) => $l->g(66), $l->g(53) => $l->g(53),
@@ -231,13 +249,13 @@ if (is_defined($protectedPost['MODIF'])) {
                 $sql .= " where a.hardware_id=h.id and (d.ivalue=1 or d.ivalue=2) and d.name='IPDISCOVER' and d.tvalue='%s'";
             }
 
-            array_push($tab_options['ARG_SQL'], $protectedGet['value']);
+            array_push($tab_options['ARG_SQL'], $value_preg);
             $default_fields['NAME'] = 'NAME';
             $default_fields[$l->g(34)] = $l->g(34);
             $default_fields[$l->g(24)] = $l->g(24);
             $default_fields[$l->g(25)] = $l->g(25);
             $default_fields[$l->g(275)] = $l->g(275);
-            $tab_options['ARG_SQL_COUNT'] = array($protectedGet['value']);
+            $tab_options['ARG_SQL_COUNT'] = array($value_preg);
             $tab_options['FILTRE']['h.name'] = $l->g(49);
             $tab_options['FILTRE']['h.userid'] = $l->g(24);
             $tab_options['FILTRE']['h.osname'] = $l->g(25);
@@ -248,7 +266,7 @@ if (is_defined($protectedPost['MODIF'])) {
 
         $tab_options['LBL']['MAC'] = $l->g(95);
 
-        $list_col_cant_del = array($l->g(66) => $l->g(66), 'SUP' => 'SUP', 'MODIF' => 'MODIF');
+        $list_col_cant_del = array($l->g(66) => $l->g(66), 'SUP' => 'SUP', 'CHECK' => 'CHECK', 'MODIF' => 'MODIF');
         $table_name = "IPDISCOVER_" . $protectedGet['prov'];
         $tab_options['table_name'] = $table_name;
         $form_name = $table_name;
@@ -266,11 +284,17 @@ if (is_defined($protectedPost['MODIF'])) {
                 $msg_info = $l->g(342) . " " . $fipdisc . " (" . $IPD_DIR . ")";
             }
             if (!isset($msg_info)) {
-                echo "<p><input type='button' onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_ipdiscover_analyse'] . "&head=1&rzo=" . $protectedGet['value'] . "\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='" . $l->g(317) . "' class='btn'></p>";
+                echo "<p><input type='button' onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_ipdiscover_analyse'] . "&head=1&rzo=" . $value_preg . "\",\"analyse\",\"location=0,status=0,scrollbars=1,menubar=0,resizable=0,width=800,height=650\") name='analyse' value='" . $l->g(317) . "' class='btn'></p>";
             } else {
                 msg_info($msg_info);
             }
+
+            if ($protectedGet['prov'] == "no_inv"){
+              echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-remove delete-span'></span></a>";
+              echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
+            }
         }
+
         echo close_form();
     }
 }

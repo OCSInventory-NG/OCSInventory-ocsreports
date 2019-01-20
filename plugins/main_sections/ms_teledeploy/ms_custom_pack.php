@@ -38,6 +38,17 @@ $list_id = multi_lot($form_name, $l->g(601));
 echo "<a class='btn btn-info' href='index.php?function=computer&head=1&systemid=".$list_id."&cat=teledeploy'>".$l->g(188)."</a></br></br>";
 
 //activation options
+if(isset($protectedPost['Valid_package'])) {
+    foreach ($protectedPost as $key => $value) {
+      if(strpos($key, 'check') !== false){
+          $id[] = substr($key, 5);
+      }
+    }
+    if(is_array($id)){
+      $protectedPost['MODIF'] = implode(',',$id);
+    }
+}
+
 if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protectedPost['DWL_OPT'] == "YES") {
     $tab_hidden['SELECT'] = $protectedPost['MODIF'];
     $tab_hidden['onglet'] = $protectedPost['onglet'];
@@ -169,6 +180,17 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 $l->g(1039) => 'a.PRIORITY',
                 $l->g(51) => 'a.COMMENT',
                 $l->g(274) => 'a.OSNAME',
+                $l->g(953) . " (KB)" => 'SIZE'
+            );
+
+            $select_fields2 = array('FILE_ID' => 'e.FILEID',
+                'INFO_LOC' => 'e.INFO_LOC',
+                'CERT_FILE' => 'e.CERT_FILE',
+                'CERT_PATH' => 'e.CERT_PATH',
+                $l->g(1037) => 'a.NAME',
+                $l->g(1039) => 'a.PRIORITY',
+                $l->g(51) => 'a.COMMENT',
+                $l->g(274) => 'a.OSNAME',
                 $l->g(953) . " (KB)" => 'round(a.SIZE/1024,0) as SIZE'
             );
 
@@ -177,13 +199,19 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                     $list_fields['PACK_LOC'] = 'e.PACK_LOC';
                     $list_fields['ACTIVE_ID'] = 'e.ID';
                     $list_fields['MODIF'] = 'e.ID';
+                    $list_fields['CHECK'] = 'e.ID';
                 } else {
                     $list_fields['ACTIVE_ID'] = 'e.FILEID';
                     $list_fields['MODIF'] = 'e.FILEID';
+                    $list_fields['CHECK'] = 'e.FILEID';
                 }
             }
+
+            // List for select
+            $select_fields = array_merge($list_fields, $select_fields2);
+
             $default_fields = array($l->g(1037) => $l->g(1037), $l->g(1039) => $l->g(1039), $l->g(274) => $l->g(274), $l->g(953) . " (KB)" => $l->g(953) . " (KB)", 'SELECT' => 'SELECT');
-            $list_col_cant_del = array($l->g(1037) => $l->g(1037), 'MODIF' => 'MODIF');
+            $list_col_cant_del = array($l->g(1037) => $l->g(1037), 'MODIF' => 'MODIF', 'CHECK' => 'CHECK');
 
             if ($protectedPost['onglet'] != 'SERV_GROUP') {
                 $default_fields['PACK_LOC'] = 'PACK_LOC';
@@ -196,7 +224,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 $distinct = false;
             }
 
-            $sql = prepare_sql_tab($list_fields, array('SELECT'), $distinct);
+            $sql = prepare_sql_tab($select_fields, array('SELECT', 'CHECK'), $distinct);
 
             $sql['SQL'] .= " from download_available a, download_enable e ";
             if ($protectedPost['onglet'] == 'MACH') {
@@ -221,6 +249,8 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
             $tab_options['MODIF']['IMG'] = "image/prec16.png";
 
             $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+            echo '<input class="btn" type="submit" id="Valid_package" name="Valid_package" value="'.$l->g(1703).'">';
         }
     }
 }

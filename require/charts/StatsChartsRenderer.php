@@ -25,7 +25,7 @@
  * Renders the stats charts
  */
 class StatsChartsRenderer {
-    
+
     public $colorsList = array(
         "#1941A5", //Dark Blue
         "#AFD8F8",
@@ -36,7 +36,7 @@ class StatsChartsRenderer {
         "#CCCC00", //Chrome Yellow+Green
         "#999999", //Grey
         "#0099CC", //Blue Shade
-        "#FF0000", //Bright Red 
+        "#FF0000", //Bright Red
         "#006F00", //Dark Green
         "#0099FF",//Blue (Light)
         "#FF66CC", //Dark Pink
@@ -48,107 +48,121 @@ class StatsChartsRenderer {
         "#CCCCFF", //Light violet
         "#669900", //Shade of green
     );
-    
+
     /**
      * @param type $name : name of the canvas
      * @param type $legend : show legend or not ?
      */
     public function createChartCanvas($name, $legend = true, $offset = true){
-        
-        if($legend){
-            $mainClass = "col-md-6";
-        }else{
-            $mainClass = "col-md-12";
-        }
-        
-        if($offset){
-            $offset = "col-md-offset-2";
-        }else{
-            $offset = "";
-        }
-        
-        ?>
-        <div class='row <?php echo $offset ?>'>
-            <div class='<?php echo $mainClass ?>'>
-                <canvas id="<?php echo $name?>" />
+
+        foreach($name as $key => $value){
+            if($legend){
+                $mainClass = "col-md-4";
+            }else{
+                $mainClass = "col-md-12";
+            }
+
+            if($offset){
+                $offset = "";
+            }else{
+                $offset = "";
+            }
+
+            ?>
+            <div>
+                <div class='<?php echo $mainClass ?>'>
+                    <canvas id="<?php echo $key?>" height="150"/>
+                </div>
+                <?php if($legend){ ?>
+                <div class='col-md-2 text-left'>
+                    <div id="<?php echo $key ?>legend" class="span-charts">&nbsp;</div>
+                </div>
+                <?php } ?>
             </div>
-            <?php if($legend){ ?>
-            <div class='col-md-6 text-left'>
-                <div id="<?php echo $name ?>legend" class="span-charts">&nbsp;</div>
-            </div>
-            <?php } ?>
-        </div>
-        <?php
+            <?php
+        }
     }
-    
+
     /**
      * @param string $canvasName Name of the canvas
      * @param array $labels Labals array
      * @param array $data Data arrays
      */
-    public function createPieChart($canvasName, $displayName,  $labels, $datas){
-        
+    public function createPieChart($chart){
+        $i = 0;
+        foreach($chart as $key => $value){
+          ?>
+          <script>
+          var config<?php echo $i ?> = {
+              type: 'doughnut',
+              data: {
+                  datasets: [{
+                      data: [
+                          <?php
+                          foreach ($value['count'] as $data) {
+                              echo "$data ,";
+                          }
+                          ?>
+                      ],
+                      backgroundColor: [
+                          <?php
+                          self::generateColorList(count($value['name_value']));
+                          ?>
+                      ],
+                      label: 'Stats'
+                  }],
+                  labels: [
+                      <?php
+                      foreach ($value['name_value'] as $label) {
+                         echo "'$label' ,";
+                      }
+                      ?>
+                  ]
+              },
+              options: {
+                  responsive: true,
+                  legend: {
+                      display: false,
+                  },
+                  title: {
+                      display: true,
+                      text: "<?php echo $value['title'] ?>"
+                  },
+                  animation: {
+                      animateScale: true,
+                      animateRotate: true
+                  }
+              }
+          };
+          </script>
+          <?php
+
+          $name[$i] = $value['name'][0];
+          $i++;
+        }
+
         ?>
         <script>
-        var config = {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data: [
-                        <?php
-                        foreach ($datas as $data) {
-                            echo "$data ,";
-                        }
-                        ?>
-                    ],
-                    backgroundColor: [
-                        <?php 
-                        self::generateColorList(count($labels));
-                        ?>
-                    ],
-                    label: 'Stats'
-                }],
-                labels: [
-                    <?php
-                    foreach ($labels as $label) {
-                       echo "'$label' ,";
-                    }
-                    ?>
-                ]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    display: false, 
-                },
-                title: {
-                    display: false,
-                    text: "<?php echo $displayName ?>"
-                },
-                animation: {
-                    animateScale: true,
-                    animateRotate: true
-                }
-            }
-        };
         window.onload = function() {
-            var ctx = document.getElementById("<?php echo $canvasName ?>").getContext("2d");
-            window.myDoughnut = new Chart(ctx, config);
-            document.getElementById("<?php echo $canvasName."legend" ?>").innerHTML = window.myDoughnut.generateLegend();
+          <?php for($p = 0; $name[$p] != null; $p++){ ?>
+            var ctx<?php echo $p ?> = document.getElementById("<?php echo $name[$p] ?>").getContext("2d");
+            window.myDoughnut = new Chart(ctx<?php echo $p ?>, config<?php echo $p ?>);
+            document.getElementById("<?php echo $name[$p] ?>legend").innerHTML = window.myDoughnut.generateLegend();
+          <?php } ?>
         };
         </script>
         <?php
-        
+
     }
-    
+
     public function createPointChart($canvasName ,  $labels, $datas, $dataLbl){
-        
+
         ?>
         <script>
         var config = {
             type: 'line',
             data: {
-                labels: [<?php 
+                labels: [<?php
                     foreach ($labels as $label) {
                        echo "'$label' ,";
                     }
@@ -158,7 +172,7 @@ class StatsChartsRenderer {
                     backgroundColor: "#961b7e",
                     borderColor: "#961b7e",
                     data: [
-                        <?php 
+                        <?php
                         foreach ($datas as $data) {
                             echo "$data ,";
                         }
@@ -205,9 +219,9 @@ class StatsChartsRenderer {
         };
         </script>
         <?php
-        
+
     }
-    
+
     /**
      * @param int $nb number of color to create in the list
      */
@@ -217,5 +231,5 @@ class StatsChartsRenderer {
             echo "'".$stats->colorsList[$i]."' ,";
         }
     }
-    
+
 }

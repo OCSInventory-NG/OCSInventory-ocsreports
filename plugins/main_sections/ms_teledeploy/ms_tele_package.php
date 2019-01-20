@@ -21,6 +21,9 @@
  * MA 02110-1301, USA.
  */
 require_once('require/function_telediff.php');
+require_once('require/teledeploy/Teledeploy.php');
+
+$teledeploy = new Teledeploy();
 
 echo "<div class='container'><div class='col-md-8 col-xs-offset-0 col-md-offset-2'>";
 
@@ -29,7 +32,7 @@ foreach ($_POST as $key => $value) {
 }
 $protectedPost = $temp_post;
 
-if (isset($protectedPost["VALID_END"])) {
+if (isset($protectedPost["VALID_END"]) || isset($protectedPost['VALID_END_MODIF'])) {
     //configure description of this package
     $description_details = $protectedPost['DESCRIPTION'];
     if (is_defined($protectedPost['TYPE_PACK'])) {
@@ -65,7 +68,13 @@ if (isset($protectedPost["VALID_END"])) {
         'NEED_DONE_ACTION' => $protectedPost['NEED_DONE_ACTION'],
         'NEED_DONE_ACTION_TEXT' => $protectedPost['NEED_DONE_ACTION_TEXT'],
         'GARDEFOU' => "rien");
-    create_pack($sql_details, $info_details);
+    if(!isset($protectedPost['VALID_MODIF_END'])){
+      create_pack($sql_details, $info_details);
+    }else{
+      $modif = $protectedPost['MODIF_FILE'];
+      create_pack($sql_details, $info_details, $modif);
+    }
+
 
     if ($protectedPost['REDISTRIB_USE'] == 1) {
         $timestamp_redistrib = time();
@@ -134,6 +143,39 @@ if (isset($protectedPost["VALID_END"])) {
     }
     unset($protectedPost, $_SESSION['OCS']['DATA_CACHE']);
 }
+
+if(isset($protectedGet['package']) && !isset($protectedPost['valid_modif']) && !isset($protectedPost['VALID_END_MODIF'])){
+    $xml = $teledeploy->get_package(preg_replace("/[^A-zA-Z0-9\._]/", "", $protectedGet['package']));
+    $protectedPost['NAME'] = $xml['NAME_PACK'];
+    $protectedPost['DESCRIPTION'] = $xml['COMMENT'];
+    $protectedPost['OS'] = $xml['OS'];
+    $protectedPost['PRIORITY'] = $xml['PRI'];
+    $protectedPost['ACTION'] = $xml['ACT'];
+    $protectedPost['digest'] = $xml['DIGEST'];
+    $protectedPost['PROTOCOLE'] = $xml['PROTO'];
+    $protectedPost["digest_algo"] = $xml['DIGEST_ALGO'];
+    $protectedPost["digest_encod"] = $xml['DIGEST_ENCODE'];
+    if($xml['PATH'] != null){
+      $protectedPost['ACTION_INPUT'] = $xml['PATH'];
+    } elseif ($xml['NAME'] != null){
+      $protectedPost['ACTION_INPUT'] = $xml['NAME'];
+    }else{
+      $protectedPost['ACTION_INPUT'] = $xml['COMMAND'];
+    }
+    $protectedPost['NOTIFY_USER'] = $xml['NOTIFY_USER'];
+    $protectedPost['NOTIFY_TEXT'] = $xml['NOTIFY_TEXT'];
+    $protectedPost['NOTIFY_COUNTDOWN'] = $xml['NOTIFY_COUNTDOWN'];
+    $protectedPost['NOTIFY_CAN_ABORT'] = $xml['NOTIFY_CAN_ABORT'];
+    $protectedPost['NOTIFY_CAN_DELAY'] = $xml['NOTIFY_CAN_DELAY'];
+    $protectedPost['NEED_DONE_ACTION'] = $xml['NEED_DONE_ACTION'];
+    $protectedPost['NEED_DONE_ACTION_TEXT'] = $xml['NEED_DONE_ACTION_TEXT'];
+    $protectedPost['GARDEFOU'] = $xml['GARDEFOU'];
+    $protectedPost['timestamp'] = $xml['ID'];
+    $protectedPost['document_root'] = $xml['DOCUMENT'];
+    $protectedPost['FRAGS'] = $xml['FRAGMENTS'];
+    $protectedPost['SIZE'] = $xml['SIZE'];
+}
+
 $form_name = "create_pack";
 printEnTete($l->g(434));
 echo open_form($form_name, '', "enctype='multipart/form-data'", "form-horizontal");
@@ -252,13 +294,207 @@ if (isset($protectedPost['valid'])) {
             input_pack_taille("nbfrags_redistrib", "tailleFrag_redistrib", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
             $java_script = "verif_redistributor();";
         }
-        
+
         formGroup('hidden', 'comment', '', '', '', $protectedPost['DESCRIPTION'], '', '', '', '');
         echo "<input type='button' class='btn btn-success' name='TEST_END' id='TEST_END' OnClick='" . $java_script . "' value='" . $l->g(13) . "'>";
         echo "<input type='hidden' name='digest' value='" . $digest . "'>";
         echo "<input type='hidden' name='VALID_END' id='VALID_END' value=''>";
         echo "<input type='hidden' name='SIZE' value='" . $size . "'>";
     }
+}
+
+if(isset($protectedPost['valid_modif'])){
+  looking4config();
+
+  if($_FILES["teledeploy_file"]["tmp_name"] != ''){
+      //file exist
+      if (file_exists($_FILES["teledeploy_file"]["tmp_name"]) && is_readable($_FILES["teledeploy_file"]["tmp_name"]) && filesize($_FILES["teledeploy_file"]["tmp_name"]) > 0) {
+          //is it a zip file or TAR.GZ file?
+          $name_file_extention = explode('.', $_FILES["teledeploy_file"]["name"]);
+          $extention = array_pop($name_file_extention);
+          if (strtoupper($extention) != "ZIP" && strtoupper($extention) != "GZ") {
+              $error = $l->g(1231);
+              //ok
+          } elseif (strtoupper($extention) == "GZ" && strtoupper(array_pop($name_file_extention)) != "TAR") {
+              $error = $l->g(1232);
+          }
+      }
+      //file not exist
+      else {
+          if ($protectedPost['ACTION'] != 'EXECUTE') {
+              $error = $l->g(436) . " " . $_FILES["teledeploy_file"]["tmp_name"];
+          }
+      }
+
+      if ($error) {
+          msg_error($error);
+          unset($protectedPost['valid_modif']);
+      } else {
+          //some fields are empty?
+          echo "<script language='javascript'>
+        function verif2()
+         {
+          var msg = '';
+          if (document.getElementById(\"tailleFrag\").value == ''){
+             document.getElementById(\"tailleFrag\").style.backgroundColor = 'RED';
+             msg='NULL';
+          }
+          if (document.getElementById(\"nbfrags\").value == ''){
+             document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
+             msg='NULL';
+          }
+
+          msg_trait(msg);
+        }
+
+        function verif_redistributor(){
+          var msg = '';
+          if (document.getElementById(\"tailleFrag\").value == ''){
+             document.getElementById(\"tailleFrag\").style.backgroundColor = 'RED';
+             msg='NULL';
+          }
+          if (document.getElementById(\"nbfrags\").value == ''){
+             document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
+             msg='NULL';
+          }
+          if (document.getElementById(\"tailleFrag_redistrib\").value == ''){
+                 document.getElementById(\"tailleFrag_redistrib\").style.backgroundColor = 'RED';
+                 msg='NULL';
+          }
+          if (document.getElementById(\"nbfrags_redistrib\").value == ''){
+              document.getElementById(\"nbfrags_redistrib\").style.backgroundColor = 'RED';
+               msg='NULL';
+          }
+
+          msg_trait(msg);
+        }
+
+        function msg_trait(msg){
+          if (msg != ''){
+            alert ('" . $l->g(1001) . "');
+            return false;
+          }else{
+              pag(\"END\",\"VALID_END_MODIF\",\"" . $form_name . "\");
+              return true;
+            }
+        }
+      </script>";
+
+          //get the file
+          if (!($_FILES["teledeploy_file"]["size"] == 0 && $protectedPost['ACTION'] == 'EXECUTE')) {
+              $size = filesize($_FILES["teledeploy_file"]["tmp_name"]);
+              //crypt the file
+              $digest = crypt_file($_FILES["teledeploy_file"]["tmp_name"], $protectedPost["digest_algo"], $protectedPost["digest_encod"]);
+              //create temp file
+              creat_temp_file($protectedPost['document_root'] . $protectedPost['timestamp'], $_FILES["teledeploy_file"]["tmp_name"], $modif = true);
+          }
+          $digName = $protectedPost["digest_algo"] . " / " . $protectedPost["digest_encod"];
+
+          $title_creat = "<h4>" . $l->g(435) . ": " . "[" . $protectedPost['NAME'] . "]</h4><br/>";
+          $name_file = $l->g(446) . ": " . $_FILES["teledeploy_file"]["name"] . "<br/>";
+          $ident = $l->g(460) . ": " . $protectedPost['timestamp'] . "<br/>";
+          $view_digest = $l->g(461) . ": " . $digName . " " . $digest . "<br/>";
+          $total_ko = $l->g(462) . ": " . round($size / 1024) . " " . $l->g(516) . "<br/><br/>";
+
+          echo $title_creat . $name_file . $ident . $view_digest . $total_ko;
+
+          // INPUT
+          input_pack_taille("tailleFrag", "nbfrags", round($size), '8', round($size / 1024), $l->g(463), $l->g(516));
+          input_pack_taille("nbfrags", "tailleFrag", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
+          time_deploy($l->g(1002));
+          $java_script = "verif2();";
+
+          if ($protectedPost['REDISTRIB_USE'] == 1) {
+              echo "<br />";
+              echo "<h4>" . $l->g(1003) . "</h4>";
+              input_pack_taille("tailleFrag_redistrib", "nbfrags_redistrib", round($size), '8', round($size / 1024), $l->g(463), $l->g(516));
+              input_pack_taille("nbfrags_redistrib", "tailleFrag_redistrib", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
+              $java_script = "verif_redistributor();";
+          }
+
+          $protectedPost['MODIF_FILE'] = true;
+
+          formGroup('hidden', 'comment', '', '', '', $protectedPost['DESCRIPTION'], '', '', '', '');
+          echo "<input type='button' class='btn btn-success' name='TEST_END' id='TEST_END' OnClick='" . $java_script . "' value='" . $l->g(13) . "'>";
+          echo "<input type='hidden' name='digest' value='" . $digest . "'>";
+          echo "<input type='hidden' name='VALID_END_MODIF' id='VALID_END_MODIF' value=''>";
+          echo "<input type='hidden' name='SIZE' value='" . $size . "'>";
+      }
+  }else{
+    //some fields are empty?
+    echo "<script language='javascript'>
+        function verif2()
+         {
+          var msg = '';
+          if (document.getElementById(\"tailleFrag\").value == ''){
+             document.getElementById(\"tailleFrag\").style.backgroundColor = 'RED';
+             msg='NULL';
+          }
+          if (document.getElementById(\"nbfrags\").value == ''){
+             document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
+             msg='NULL';
+          }
+          msg_trait(msg);
+        }
+
+        function verif_redistributor(){
+          var msg = '';
+          if (document.getElementById(\"tailleFrag\").value == ''){
+             document.getElementById(\"tailleFrag\").style.backgroundColor = 'RED';
+             msg='NULL';
+          }
+          if (document.getElementById(\"nbfrags\").value == ''){
+             document.getElementById(\"nbfrags\").style.backgroundColor = 'RED';
+             msg='NULL';
+          }
+          if (document.getElementById(\"tailleFrag_redistrib\").value == ''){
+                 document.getElementById(\"tailleFrag_redistrib\").style.backgroundColor = 'RED';
+                 msg='NULL';
+          }
+          if (document.getElementById(\"nbfrags_redistrib\").value == ''){
+              document.getElementById(\"nbfrags_redistrib\").style.backgroundColor = 'RED';
+               msg='NULL';
+          }
+
+          msg_trait(msg);
+        }
+
+        function msg_trait(msg){
+          if (msg != ''){
+            alert ('" . $l->g(1001) . "');
+            return false;
+          }else{
+              pag(\"END\",\"VALID_END_MODIF\",\"" . $form_name . "\");
+              return true;
+            }
+        }
+      </script>";
+      $digName = $protectedPost["digest_algo"] . " / " . $protectedPost["digest_encod"];
+
+      $title_creat = "<h4>" . $l->g(435) . ": " . "[" . $protectedPost['timestamp'] . "]</h4><br/>";
+      $name_file = $l->g(446) . ": " . $protectedPost['timestamp'] . "<br/>";
+      $ident = $l->g(460) . ": " . $protectedPost['timestamp'] . "<br/>";
+      $view_digest = $l->g(461) . ": " . $digName . " " . $digest . "<br/>";
+      $total_ko = $l->g(462) . ": " . round($protectedPost['SIZE'] / 1024) . " " . $l->g(516) . "<br/><br/>";
+
+      echo $title_creat . $name_file . $ident . $view_digest . $total_ko;
+
+      // INPUT
+      input_pack_taille("tailleFrag", "nbfrags", round($protectedPost['SIZE']), '8', round($protectedPost['SIZE'] / 1024), $l->g(463), $l->g(516), $modif = false);
+      input_pack_taille("nbfrags", "tailleFrag", round($protectedPost['SIZE']), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>', $modif = false);
+      time_deploy($l->g(1002));
+      $java_script = "verif2();";
+
+      $protectedPost['MODIF_FILE'] = false;
+
+      formGroup('hidden', 'comment', '', '', '', $protectedPost['DESCRIPTION'], '', '', '', '');
+      echo "<input type='button' class='btn btn-success' name='TEST_END' id='TEST_END' OnClick='" . $java_script . "' value='" . $l->g(13) . "'>";
+      echo "<input type='hidden' name='digest' value='" . $digest . "'>";
+      echo "<input type='hidden' name='VALID_END_MODIF' id='VALID_END_MODIF' value=''>";
+      echo "<input type='hidden' name='SIZE' value='" . $protectedPost['SIZE'] . "'>";
+
+  }
+
 }
 
 $default_value = array(
@@ -324,7 +560,7 @@ echo "<script language='javascript'>
 					label.html('ERROR');
 			}
 		}
-		function verif()
+		function verif(modif = null)
 		 {
 			var msg = '';
 			champs = ['NAME','DESCRIPTION','OS','PROTOCOLE','PRIORITY','ACTION','ACTION_INPUT','REDISTRIB_USE'];
@@ -361,16 +597,16 @@ echo "<script language='javascript'>
 					var debut=name_file.length-3;
 				else
 					var debut=name_file.length-6;
-				if (document.getElementById('ACTION').value != 'EXECUTE' && document.getElementById(champs_ACTION[n]).value == ''){
+				if (document.getElementById('ACTION').value != 'EXECUTE' && document.getElementById(champs_ACTION[n]).value == '' && modif == null){
 					alert('" . $l->g(602) . "');
 				 	document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 				 	msg='NULL';
 				 }
-				else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'ZIP' && document.getElementById(\"OS\").value == 'WINDOWS'){
+				else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'ZIP' && document.getElementById(\"OS\").value == 'WINDOWS' && modif == null){
 					alert('" . $l->g(1231) . "');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
-				}else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'TAR.GZ' && document.getElementById(\"OS\").value != 'WINDOWS'){
+				}else if (document.getElementById('ACTION').value != 'EXECUTE' && name_file.substring(debut,name_file.length) != 'TAR.GZ' && document.getElementById(\"OS\").value != 'WINDOWS' && modif == null){
 					alert('" . $l->g(1232) . "');
 					document.getElementById(champs_ACTION[n]).style.backgroundColor = 'RED';
 					msg='NULL';
@@ -417,7 +653,7 @@ echo "<script language='javascript'>
 	</script>";
 
 echo "<div ";
-if ($protectedPost['valid'])
+if ($protectedPost['valid'] || $protectedPost['valid_modif'])
     echo " style='display:none;'";
 echo ">";
 
@@ -519,15 +755,32 @@ $arrayDisplayValue = array(
     )
 );
 
+$arrayDisplayTrad = array(
+  'EXECUTE' => $l->g(444),
+  'STORE' => $l->g(445),
+  'LAUNCH' => $l->g(446),
+);
+
+if(isset($protectedGet['package'])){
+   $trad = $arrayDisplayTrad[$xml['ACT']];
+} else {
+   $trad = $l->g(444);
+}
+
 formGroup('text', 'NAME', $arrayName['name'], $config_input['SIZE'], $config_input['MAXLENGTH'], $protectedPost['NAME']);
 
-formGroup('text', 'DESCRIPTION', $arrayName['description'], $config_input['MAXLENGTH'], $protectedPost['DESCRIPTION']);
+formGroup('text', 'DESCRIPTION', $arrayName['description'],'', $config_input['MAXLENGTH'], $protectedPost['DESCRIPTION']);
 formGroup('select', 'OS', $arrayName['os'], '', $config_input['MAXLENGTH'], $protectedPost['OS'], '', $list_os, $list_os, "onchange='active(\"OS_div\", this.value==\"WINDOWS\");' ");
 formGroup('select', 'PROTOCOLE', $arrayName['proto'], '', $config_input['MAXLENGTH'], $protectedPost['PROTOCOLE'], '', $list_proto, $list_proto);
 formGroup('select', 'PRIORITY', $arrayName['prio'], '', $config_input['MAXLENGTH'], $protectedPost['PRIORITY'], '', $list_prio, $list_prio);
+if(isset($protectedGet['package'])){
+  echo "<div class='form-group'><div class='col-sm-2'></div><div class='col-sm-10'>";
+  echo "<div id='my-alert-' class='alert alert-danger fade in' role='alert' style='width:100%;'>".$l->g(2137)."</div>";
+  echo "</div></div>";
+}
 formGroup('file', 'teledeploy_file', $arrayName['file'], '', $config_input['MAXLENGTH'], $protectedPost['teledeploy_file'], '', '', "accept='archive/zip'");
 formGroup('select', 'ACTION', $arrayName['action'], '', $config_input['MAXLENGTH'], $protectedPost['ACTION'], '', $list_action, $list_action, "onchange='changeLabelAction()' ");
-formGroup('text', 'ACTION_INPUT', $l->g(444), '' ,$config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
+formGroup('text', 'ACTION_INPUT', $trad, '' ,$config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
 
 echo "<br />";
 echo "<h4>" . $arrayName['title_redistribution'] . "</h4>";
@@ -560,9 +813,9 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
 </script>
 <?php
 formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', [0,1], [0 => 'No', 1 => 'Yes'], "onchange='redistributeUse()' ");
-?>
-<div id="REDISTRIB_USE_div" style="display: none;">
-    <?php
+
+    echo '<div id="REDISTRIB_USE_div" style="display: none;">';
+
     formGroup('text', 'DOWNLOAD_SERVER_DOCROOT', $arrayName['path_remote_server'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $default['DOWNLOAD_SERVER_DOCROOT'], '', $list_prio);
     formGroup('select', 'REDISTRIB_PRIORITY', $arrayName['prio'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_PRIORITY'], '', $list_prio, $list_prio);
     echo "</div>";
@@ -573,9 +826,12 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
     echo "<br />";
 
     formGroup('select', 'NOTIFY_USER', $arrayName['warn_user'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['NOTIFY_USER'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'), "onchange='notifyUser()'");
-    ?>
-    <div id="NOTIFY_USER_div" style="display: none;">
-        <?php
+
+    if($protectedPost['NOTIFY_USER'] == '1'){
+      echo '<div id="NOTIFY_USER_div">';
+    }else{
+      echo '<div id="NOTIFY_USER_div" style="display: none;">';
+    }
         formGroup('text', 'NOTIFY_TEXT', $arrayName['notify_text'], '', '', $protectedPost['NOTIFY_TEXT']);
         formGroup('text', 'NOTIFY_COUNTDOWN', $arrayName['notify_countdown'], 4, 4, $protectedPost['NOTIFY_COUNTDOWN'], '', '', '', ' onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"', $l->g(511));
         formGroup('select', 'NOTIFY_CAN_ABORT', $arrayName['user_can_abort'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
@@ -584,15 +840,30 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
     </div>
     <?php
     formGroup('select', 'NEED_DONE_ACTION', $arrayName['need_user_action'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['NEED_DONE_ACTION'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'), "onchange='needDoneAction()'");
-    ?>
-    <div id="NEED_DONE_ACTION_div" style="display: none;">
-        <?php
+
+    if($protectedPost['NEED_DONE_ACTION_div'] == '1'){
+      echo '<div id="NEED_DONE_ACTION_div">';
+    }else{
+      echo '<div id="NEED_DONE_ACTION_div" style="display: none;">';
+    }
         formGroup('text', 'NEED_DONE_ACTION_TEXT', $arrayName['notify_text'], '', '', $protectedPost['NEED_DONE_ACTION_TEXT']);
         ?>
     </div>
 
 </div>
-<input type='submit' name='valid' id='valid' class="btn btn-success" value='<?php echo $l->g(13) ?>' OnClick='return verif();'>
+<?php
+
+if(isset($protectedGet['package'])){
+  echo "<input type='submit' name='valid_modif' id='valid_modif' class='btn btn-success' value='".$l->g(2136)."' OnClick='return verif(".$protectedGet['package'].");'>&nbsp;&nbsp;";
+  echo "<input type='button' name='cancel' id='cancel' class='btn btn-danger' value='".$l->g(113)."' OnClick='location=\"index.php?function=tele_activate\";'>";
+  echo "<input type='hidden' id='SIZE' name='SIZE' value='".$protectedPost['SIZE']."'>";
+  echo "<input type='hidden' id='FRAGS' name='FRAGS' value='".$protectedPost['FRAGS']."'>";
+}else{
+  echo "<input type='submit' name='valid' id='valid' class='btn btn-success' value='".$l->g(13)."' OnClick='return verif()'>";
+}
+
+ ?>
+
 <input type='hidden' id='digest_algo' name='digest_algo' value='MD5'>
 <input type='hidden' id='digest_encod' name='digest_encod' value='Hexa'>
 <input type='hidden' id='download_rep_creat' name='download_rep_creat' value='<?php echo $default['DOWNLOAD_REP_CREAT'] ?>'>

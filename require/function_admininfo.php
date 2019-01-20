@@ -22,15 +22,20 @@
  */
 
 //type of choice
-$type_accountinfo = array('TEXT', 'TEXTAREA', 'SELECT',
-    mb_strtoupper($l->g(802)), 'CHECKBOX',
-    'BLOB (FILE)', 'DATE', 'RADIOBUTTON', 'QRCODE');
-$sql_type_accountinfo = array('VARCHAR(255)', 'LONGTEXT', 'VARCHAR(255)',
-    'VARCHAR(255)', 'VARCHAR(255)', 'BLOB', 'DATE',
-    'VARCHAR(255)', 'VARCHAR(255)');
-
-
-$convert_type = array('0', '1', '2', '3', '5', '8', '14', '11', '12');
+$type_accountinfo = array('0' => 'TEXT',
+    '1' => 'TEXTAREA',
+    '2' => 'SELECT',
+    '5' => 'CHECKBOX',
+    '14' => 'DATE',
+    '11' => 'RADIOBUTTON'
+  );
+$sql_type_accountinfo = array('0' => 'VARCHAR(255)',
+    '1' => 'LONGTEXT',
+    '2' => 'VARCHAR(255)',
+    '5' => 'VARCHAR(255)',
+    '14' => 'DATE',
+    '11' => 'VARCHAR(255)'
+  );
 
 $array_qr_values = array('URL' => $l->g(646),
     'NAME' => $l->g(35),
@@ -44,11 +49,11 @@ $array_qr_action = array('URL' => array('TYPE' => 'url', 'VALUE' => OCSREPORT_UR
 function accountinfo_tab($id) {
     $info_tag = find_info_accountinfo($id);
     if ($info_tag[$id]['type'] == 2
-            or $info_tag[$id]['type'] == 4
-            or $info_tag[$id]['type'] == 7) {
+            or $info_tag[$id]['type'] == 5
+            or $info_tag[$id]['type'] == 11) {
         $info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id]['name']);
         return $info;
-    } elseif ($info_tag[$id]['type'] == 5) {
+    } elseif ($info_tag[$id]['type'] == 8) {
         return false;
     }
 
@@ -95,6 +100,7 @@ function add_accountinfo($newfield, $newtype, $newlbl, $tab, $type = 'COMPUTERS'
         mysql2_query_secure($sql_insert_config, $_SESSION['OCS']["writeServer"], $arg_insert_config);
 
         $sql_add_column = "ALTER TABLE " . $table . " ADD COLUMN fields_%s %s default NULL";
+
         $arg_add_column = array(mysqli_insert_id($_SESSION['OCS']["writeServer"]), $sql_type_accountinfo[$newtype]);
         mysql2_query_secure($sql_add_column, $_SESSION['OCS']["writeServer"], $arg_add_column);
         unset($newfield, $newlbl, $_SESSION['OCS']['TAG_LBL']);
@@ -390,7 +396,7 @@ function updateinfo_computer($id, $values, $list = '') {
         if($accountinfo_id != false and $field != "TAG"){
             $accountinfo_datas = find_info_accountinfo($accountinfo_id[1]);
 
-            if($accountinfo_datas[$accountinfo_id[1]]['type'] === '6'){
+            if($accountinfo_datas[$accountinfo_id[1]]['type'] === '14'){
                 $date_accountinfo = true;
             }
         }
@@ -438,7 +444,7 @@ function updown($field, $type) {
 }
 
 function show_accountinfo($id = '', $type = '', $exclu_type = '') {
-    global $convert_type, $protectedPost;
+    global $protectedPost;
 
     $data = find_info_accountinfo($id, $type, $exclu_type);
     $i = 0;
@@ -454,16 +460,16 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
                     }
                     break;
                 case "type":
-                    $type_field[$i] = $convert_type[$value];
+                    $type_field[$i] = $value;
                     switch ($value) {
-                        case '6':
+                        case '14':
                             $comment_behing[$i] = datePick('fields_' . $v['id']);
                             $config[$i]['CONFIG']['JAVASCRIPT'] = "READONLY";
                             $config[$i]['CONFIG']['SIZE'] = 7;
                             break;
-                        case '4':
+                        case '5':
                         case '2':
-                        case '7':
+                        case '11':
                             $value_field[$i] = find_value_field("ACCOUNT_VALUE_" . $v['name']);
                             $comment_behing[$i] = '';
                             $config[$i]['CONFIG']['DEFAULT'] = 'YES';

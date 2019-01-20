@@ -601,7 +601,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
             array_push($name, $arg);
         }
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($item = mysqli_fetch_object($result)) {
+        if($result) while ($item = mysqli_fetch_object($result)) {
             $res[$item->id] = $item->name;
         }
         return $res;
@@ -614,7 +614,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
         $arg = array();
         $sql = mysql2_prepare($sql, $arg, $list_id);
         $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
-        while ($item = mysqli_fetch_object($result)) {
+        if($result) while ($item = mysqli_fetch_object($result)) {
             $res[$item->id] = $item->id;
         }
         return $res;

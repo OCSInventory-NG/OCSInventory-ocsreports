@@ -217,6 +217,9 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
         echo "</select>";
     } elseif ($type == 'long_text') {
         echo "<textarea name='" . $name . "' id='" . $name . "' cols='" . $data['COLS'] . "' rows='" . $data['ROWS'] . "'  class='down' " . $data['JAVASCRIPT'] . ">" . $data['VALUE'] . "</textarea>" . $data['END'];
+    }elseif($type == 'password'){
+        echo "<input class='form-control input-sm' type='password' name='" . $name . "' id='" . $name . "' value='" . $data['VALUE'] . "' maxlength=" . $data['MAXLENGTH'] . " " . $data['JAVASCRIPT'] . ">";
+        echo "<p class='help-block'>" . $helpInput . "</p>";
     } else {
         echo $data['LINKS'];
     }
@@ -361,7 +364,8 @@ function update_default_value($POST) {
         'LOG_GUI', 'DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_FRAG_LATENCY', 'DOWNLOAD_GROUPS_TRACE_EVENTS',
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
-        'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY');
+        'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
+        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -493,22 +497,31 @@ function trait_post($name) {
     return $select;
 }
 
-function pageGUI() {
+function pageGUI($advance) {
     global $l, $values;
     //what ligne we need?
-    $champs = array('LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER',
-        'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR',
-        'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR',
-        'LOG_GUI' => 'LOG_GUI',
-        'LOG_DIR' => 'LOG_DIR',
-        'EXPORT_SEP' => 'EXPORT_SEP',
-        'TAB_CACHE' => 'TAB_CACHE',
-        'LOG_SCRIPT' => 'LOG_SCRIPT',
-        'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR',
-        'OLD_CONF_DIR' => 'OLD_CONF_DIR',
-        'WARN_UPDATE' => 'WARN_UPDATE',
-        'CUSTOM_THEME' => 'CUSTOM_THEME',
-    );
+    if($advance){
+      $champs = array('LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER',
+          'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR',
+          'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR',
+          'LOG_GUI' => 'LOG_GUI',
+          'LOG_DIR' => 'LOG_DIR',
+          'EXPORT_SEP' => 'EXPORT_SEP',
+          'TAB_CACHE' => 'TAB_CACHE',
+          'LOG_SCRIPT' => 'LOG_SCRIPT',
+          'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR',
+          'OLD_CONF_DIR' => 'OLD_CONF_DIR',
+          'WARN_UPDATE' => 'WARN_UPDATE',
+          'CUSTOM_THEME' => 'CUSTOM_THEME',
+          'ACTIVE_NEWS' => 'ACTIVE_NEWS',
+      );
+    }else{
+      $champs = array('LOG_GUI' => 'LOG_GUI',
+          'CUSTOM_THEME' => 'CUSTOM_THEME',
+          'ACTIVE_NEWS' => 'ACTIVE_NEWS',
+      );
+    }
+
     $values = look_config_default_values($champs);
     $select_local_uri = trait_post('LOCAL_URI_SERVER');
     $select_pack = trait_post('DOWNLOAD_PACK_DIR');
@@ -519,49 +532,68 @@ function pageGUI() {
     $select_old_profils = trait_post('OLD_CONF_DIR');
     $select_custom_theme = trait_post('CUSTOM_THEME');
 
-
     $themes = get_available_themes();
-    ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
+    if($advance){
+      ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
 
-    ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
-    $def = VARLIB_DIR . '/download';
-    ligne('DOWNLOAD_PACK_DIR', $l->g(775), 'radio', array('DEFAULT' => $l->g(823) . " ($def)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_pack), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_PACK_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/download"));
+      ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
 
-    $def = VARLIB_DIR . '/ipd';
-    ligne('IPDISCOVER_IPD_DIR', $l->g(776), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_ipd), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['IPDISCOVER_IPD_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/ipd"));
+      ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
+      $def = VARLIB_DIR . '/download';
+      ligne('DOWNLOAD_PACK_DIR', $l->g(775), 'radio', array('DEFAULT' => $l->g(823) . " ($def)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_pack), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_PACK_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/download"));
 
-    ligne('LOG_GUI', $l->g(824), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOG_GUI']));
+      $def = VARLIB_DIR . '/ipd';
+      ligne('IPDISCOVER_IPD_DIR', $l->g(776), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_ipd), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['IPDISCOVER_IPD_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/ipd"));
 
-    $def = VARLOG_DIR . '/logs';
-    ligne('LOG_DIR', $l->g(825), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_log), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/logs"));
+      ligne('LOG_GUI', $l->g(824), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOG_GUI']));
 
-    $def = VARLOG_DIR . '/scripts';
-    ligne('LOG_SCRIPT', $l->g(1254), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_scripts), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_SCRIPT'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/scripts"));
+      $def = VARLOG_DIR . '/logs';
+      ligne('LOG_DIR', $l->g(825), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_log), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/logs"));
 
-    $def = ETC_DIR . '/' . MAIN_SECTIONS_DIR . 'conf/';
-    ligne('CONF_PROFILS_DIR', $l->g(1252), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_profils), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['CONF_PROFILS_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/conf"));
+      $def = VARLOG_DIR . '/scripts';
+      ligne('LOG_SCRIPT', $l->g(1254), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_scripts), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_SCRIPT'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/scripts"));
 
-    $def = ETC_DIR . '/' . MAIN_SECTIONS_DIR . 'old_conf/';
-    ligne('OLD_CONF_DIR', $l->g(1253), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_old_profils), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['OLD_CONF_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/old_conf"));
-    ligne('EXPORT_SEP', $l->g(1213), 'input', array('VALUE' => $values['tvalue']['EXPORT_SEP'], 'SIZE' => "30%", 'MAXLENGTH' => 4));
-    ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE']));
-    ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
+      $def = ETC_DIR . '/' . MAIN_SECTIONS_DIR . 'conf/';
+      ligne('CONF_PROFILS_DIR', $l->g(1252), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_profils), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['CONF_PROFILS_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/conf"));
+
+      $def = ETC_DIR . '/' . MAIN_SECTIONS_DIR . 'old_conf/';
+      ligne('OLD_CONF_DIR', $l->g(1253), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_old_profils), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['OLD_CONF_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/old_conf"));
+      ligne('EXPORT_SEP', $l->g(1213), 'input', array('VALUE' => $values['tvalue']['EXPORT_SEP'], 'SIZE' => "30%", 'MAXLENGTH' => 4));
+      ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE']));
+      ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
+    }else{
+      ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
+      ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
+      ligne('LOG_GUI', $l->g(824), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOG_GUI']));
+    }
 }
 
-function pageteledeploy() {
+function pageteledeploy($advance) {
     global $l, $numeric, $sup1;
     //open array;
     //what ligne we need?
-    $champs = array('DOWNLOAD' => 'DOWNLOAD',
-        'DOWNLOAD_CYCLE_LATENCY' => 'DOWNLOAD_CYCLE_LATENCY',
-        'DOWNLOAD_FRAG_LATENCY' => 'DOWNLOAD_FRAG_LATENCY',
-        'DOWNLOAD_GROUPS_TRACE_EVENTS' => 'DOWNLOAD_GROUPS_TRACE_EVENTS',
-        'DOWNLOAD_PERIOD_LATENCY' => 'DOWNLOAD_PERIOD_LATENCY',
-        'DOWNLOAD_TIMEOUT' => 'DOWNLOAD_TIMEOUT',
-        'DOWNLOAD_PERIOD_LENGTH' => 'DOWNLOAD_PERIOD_LENGTH',
-        'DEPLOY' => 'DEPLOY',
-        'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO',
-        'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG');
+    if($advance){
+      $champs = array('DOWNLOAD' => 'DOWNLOAD',
+          'DOWNLOAD_CYCLE_LATENCY' => 'DOWNLOAD_CYCLE_LATENCY',
+          'DOWNLOAD_FRAG_LATENCY' => 'DOWNLOAD_FRAG_LATENCY',
+          'DOWNLOAD_GROUPS_TRACE_EVENTS' => 'DOWNLOAD_GROUPS_TRACE_EVENTS',
+          'DOWNLOAD_PERIOD_LATENCY' => 'DOWNLOAD_PERIOD_LATENCY',
+          'DOWNLOAD_TIMEOUT' => 'DOWNLOAD_TIMEOUT',
+          'DOWNLOAD_PERIOD_LENGTH' => 'DOWNLOAD_PERIOD_LENGTH',
+          'DEPLOY' => 'DEPLOY',
+          'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO',
+          'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG');
+    }else{
+      $champs = array('DOWNLOAD' => 'DOWNLOAD',
+          'DOWNLOAD_CYCLE_LATENCY' => 'DOWNLOAD_CYCLE_LATENCY',
+          'DOWNLOAD_FRAG_LATENCY' => 'DOWNLOAD_FRAG_LATENCY',
+          'DOWNLOAD_PERIOD_LATENCY' => 'DOWNLOAD_PERIOD_LATENCY',
+          'DOWNLOAD_TIMEOUT' => 'DOWNLOAD_TIMEOUT',
+          'DEPLOY' => 'DEPLOY',
+          'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO',
+          'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG');
+    }
+
 
     $values = look_config_default_values($champs);
     if (isset($values['tvalue']['DOWNLOAD_URI_INFO'])) {
@@ -579,10 +611,14 @@ function pageteledeploy() {
     ligne('DOWNLOAD', $l->g(417), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD']));
     ligne('DOWNLOAD_CYCLE_LATENCY', $l->g(720), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_CYCLE_LATENCY'], 'END' => $l->g(511), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('DOWNLOAD_FRAG_LATENCY', $l->g(721), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_FRAG_LATENCY'], 'END' => $l->g(511), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-    ligne('DOWNLOAD_GROUPS_TRACE_EVENTS', $l->g(758), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD_GROUPS_TRACE_EVENTS']));
+    if($advance){
+      ligne('DOWNLOAD_GROUPS_TRACE_EVENTS', $l->g(758), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD_GROUPS_TRACE_EVENTS']));
+    }
     ligne('DOWNLOAD_PERIOD_LATENCY', $l->g(722), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_PERIOD_LATENCY'], 'END' => $l->g(511), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('DOWNLOAD_TIMEOUT', $l->g(424), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_TIMEOUT'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-    ligne('DOWNLOAD_PERIOD_LENGTH', $l->g(723), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_PERIOD_LENGTH'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric));
+    if($advance){
+      ligne('DOWNLOAD_PERIOD_LENGTH', $l->g(723), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_PERIOD_LENGTH'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric));
+    }
     ligne('DEPLOY', $l->g(414), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DEPLOY']));
     ligne('DOWNLOAD_URI_FRAG', $l->g(826), 'radio', array('DEFAULT' => $l->g(823) . " (HTTP://localhost/download)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_frag), array('BEGIN' => "http://", 'HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_URI_FRAG'], 'SIZE' => 70, 'MAXLENGTH' => 254));
     ligne('DOWNLOAD_URI_INFO', $l->g(827), 'radio', array('DEFAULT' => $l->g(823) . " (HTTPS://localhost/download)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_info), array('BEGIN' => "https://", 'HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_URI_INFO'], 'SIZE' => 70, 'MAXLENGTH' => 254));
@@ -604,18 +640,30 @@ function pagegroups() {
     ligne('GROUPS_CACHE_REVALIDATE', $l->g(738), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['GROUPS_CACHE_REVALIDATE'], 'SIZE' => 5, 'MAXLENGTH' => 6, 'JAVASCRIPT' => $numeric), '', '', $sup1);
 }
 
-function pageserveur() {
+function pageserveur($advance) {
     global $l, $numeric, $sup1;
 
     //what ligne we need?
-    $champs = array('LOGLEVEL' => 'LOGLEVEL',
-        'PROLOG_FREQ' => 'PROLOG_FREQ',
-        'AUTO_DUPLICATE_LVL' => 'AUTO_DUPLICATE_LVL',
-        'SECURITY_LEVEL' => 'SECURITY_LEVEL',
-        'LOCK_REUSE_TIME' => 'LOCK_REUSE_TIME',
-        'TRACE_DELETED' => 'TRACE_DELETED',
-        'SESSION_VALIDITY_TIME' => 'SESSION_VALIDITY_TIME',
-        'INVENTORY_ON_STARTUP' => 'INVENTORY_ON_STARTUP');
+    if($advance){
+      $champs = array('LOGLEVEL' => 'LOGLEVEL',
+          'PROLOG_FREQ' => 'PROLOG_FREQ',
+          'AUTO_DUPLICATE_LVL' => 'AUTO_DUPLICATE_LVL',
+          'SECURITY_LEVEL' => 'SECURITY_LEVEL',
+          'LOCK_REUSE_TIME' => 'LOCK_REUSE_TIME',
+          'TRACE_DELETED' => 'TRACE_DELETED',
+          'SESSION_VALIDITY_TIME' => 'SESSION_VALIDITY_TIME',
+          'INVENTORY_ON_STARTUP' => 'INVENTORY_ON_STARTUP',
+          'ADVANCE_CONFIGURATION' => 'ADVANCE_CONFIGURATION');
+    }else{
+      $champs = array('LOGLEVEL' => 'LOGLEVEL',
+          'PROLOG_FREQ' => 'PROLOG_FREQ',
+          'AUTO_DUPLICATE_LVL' => 'AUTO_DUPLICATE_LVL',
+          'TRACE_DELETED' => 'TRACE_DELETED',
+          'INVENTORY_ON_STARTUP' => 'INVENTORY_ON_STARTUP',
+          'ADVANCE_CONFIGURATION' => 'ADVANCE_CONFIGURATION');
+    }
+
+
     $values = look_config_default_values($champs);
     if (isset($champs['AUTO_DUPLICATE_LVL'])) {
         //on utilise la fonction pour connaître les cases cochées correspondantes au chiffre en base de AUTO_DUPLICATE_LVL
@@ -632,25 +680,38 @@ function pageserveur() {
         'ASSETTAG' => 'AssetTag',
         'CHECK' => $check,
     ));
-    ligne('SECURITY_LEVEL', $l->g(739), 'input', array('VALUE' => $values['ivalue']['SECURITY_LEVEL'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly");
-    ligne('LOCK_REUSE_TIME', $l->g(740), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['LOCK_REUSE_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+    if($advance){
+      ligne('SECURITY_LEVEL', $l->g(739), 'input', array('VALUE' => $values['ivalue']['SECURITY_LEVEL'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly");
+      ligne('LOCK_REUSE_TIME', $l->g(740), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['LOCK_REUSE_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+      ligne('SESSION_VALIDITY_TIME', $l->g(777), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SESSION_VALIDITY_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+    }
     ligne('TRACE_DELETED', $l->g(415), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TRACE_DELETED']));
-    ligne('SESSION_VALIDITY_TIME', $l->g(777), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SESSION_VALIDITY_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('INVENTORY_ON_STARTUP', $l->g(2121), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_ON_STARTUP']));
+    ligne('ADVANCE_CONFIGURATION', $l->g(1700), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ADVANCE_CONFIGURATION']));
 }
 
-function pageinventory() {
+function pageinventory($advance) {
     global $l, $numeric, $sup1;
     //what ligne we need?
-    $champs = array('FREQUENCY' => 'FREQUENCY',
-        'INVENTORY_DIFF' => 'INVENTORY_DIFF',
-        'INVENTORY_TRANSACTION' => 'INVENTORY_TRANSACTION',
-        'INVENTORY_WRITE_DIFF' => 'INVENTORY_WRITE_DIFF',
-        'INVENTORY_SESSION_ONLY' => 'INVENTORY_SESSION_ONLY',
-        'INVENTORY_CACHE_REVALIDATE' => 'INVENTORY_CACHE_REVALIDATE',
-        'INVENTORY_VALIDITY' => 'INVENTORY_VALIDITY',
-        'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED',
-        'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
+    if($advance){
+      $champs = array('FREQUENCY' => 'FREQUENCY',
+          'INVENTORY_DIFF' => 'INVENTORY_DIFF',
+          'INVENTORY_TRANSACTION' => 'INVENTORY_TRANSACTION',
+          'INVENTORY_WRITE_DIFF' => 'INVENTORY_WRITE_DIFF',
+          'INVENTORY_SESSION_ONLY' => 'INVENTORY_SESSION_ONLY',
+          'INVENTORY_CACHE_REVALIDATE' => 'INVENTORY_CACHE_REVALIDATE',
+          'INVENTORY_VALIDITY' => 'INVENTORY_VALIDITY',
+          'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED',
+          'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY',
+          'INVENTORY_SAAS_ENABLED' => 'INVENTORY_SAAS_ENABLED');
+    }else{
+      $champs = array('FREQUENCY' => 'FREQUENCY',
+          'INVENTORY_CACHE_REVALIDATE' => 'INVENTORY_CACHE_REVALIDATE',
+          'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED',
+          'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY',
+          'INVENTORY_SAAS_ENABLED' => 'INVENTORY_SAAS_ENABLED');
+    }
+
     $values = look_config_default_values($champs);
     if (isset($champs['INVENTORY_VALIDITY'])) {
         $validity = $values['ivalue']['INVENTORY_VALIDITY'];
@@ -669,20 +730,28 @@ function pageinventory() {
     } else {
         $optvalueselected = 'CUSTOM';
     }
-    ligne('FREQUENCY', $l->g(494), 'radio', array('ALWAYS' => $l->g(485), 'NEVER' => $l->g(486), 'CUSTOM' => $l->g(487), 'VALUE' => $optvalueselected), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['ivalue']['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
-    ligne('INVENTORY_DIFF', $l->g(741), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_DIFF']));
-    ligne('INVENTORY_TRANSACTION', $l->g(742), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_TRANSACTION']));
-    ligne('INVENTORY_WRITE_DIFF', $l->g(743), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_WRITE_DIFF']));
-    ligne('INVENTORY_SESSION_ONLY', $l->g(744), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SESSION_ONLY']));
-    ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-    ligne('INVENTORY_CACHE_ENABLED', $l->g(1265), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_CACHE_ENABLED']));
-    ligne('INVENTORY_VALIDITY', $l->g(828), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_VALIDITY']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $validity, 'END' => $l->g(496), 'JAVASCRIPT' => $numeric, 'SIZE' => 3), "readonly");
+
+    if($advance){
+      ligne('FREQUENCY', $l->g(494), 'radio', array('ALWAYS' => $l->g(485), 'NEVER' => $l->g(486), 'CUSTOM' => $l->g(487), 'VALUE' => $optvalueselected), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['ivalue']['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
+      ligne('INVENTORY_DIFF', $l->g(741), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_DIFF']));
+      ligne('INVENTORY_TRANSACTION', $l->g(742), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_TRANSACTION']));
+      ligne('INVENTORY_WRITE_DIFF', $l->g(743), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_WRITE_DIFF']));
+      ligne('INVENTORY_SESSION_ONLY', $l->g(744), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SESSION_ONLY']));
+      ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+      ligne('INVENTORY_CACHE_ENABLED', $l->g(1265), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_CACHE_ENABLED']));
+      ligne('INVENTORY_VALIDITY', $l->g(828), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_VALIDITY']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $validity, 'END' => $l->g(496), 'JAVASCRIPT' => $numeric, 'SIZE' => 3), "readonly");
+    }else{
+      ligne('FREQUENCY', $l->g(494), 'radio', array('ALWAYS' => $l->g(485), 'NEVER' => $l->g(486), 'CUSTOM' => $l->g(487), 'VALUE' => $optvalueselected), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['ivalue']['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
+      ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+      ligne('INVENTORY_CACHE_ENABLED', $l->g(1265), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_CACHE_ENABLED']));
+    }
 
     // Get all software categories
     require 'require/softwares/SoftwareCategory.php';
     $category = new SoftwareCategory();
     $list_cat = $category->search_all_cat();
 
+    ligne('INVENTORY_SAAS_ENABLED', $l->g(8108), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SAAS_ENABLED']));
     ligne('DEFAULT_CATEGORY', $l->g(1505), 'select', array('VALUE' => $values['ivalue']['DEFAULT_CATEGORY'], 'SELECT_VALUE' => $list_cat));
 
 }
@@ -695,15 +764,19 @@ function pageregistry() {
     ligne('REGISTRY', $l->g(412), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['REGISTRY']));
 }
 
-function pageipdiscover() {
+function pageipdiscover($advance) {
     global $l, $numeric, $sup1, $sup10;
     //what ligne we need?
-    $champs = array('IPDISCOVER' => 'IPDISCOVER',
-        'IPDISCOVER_BETTER_THRESHOLD' => 'IPDISCOVER_BETTER_THRESHOLD',
-        'IPDISCOVER_LATENCY' => 'IPDISCOVER_LATENCY',
-        'IPDISCOVER_MAX_ALIVE' => 'IPDISCOVER_MAX_ALIVE',
-        'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
-        'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS');
+    if($advance){
+      $champs = array('IPDISCOVER' => 'IPDISCOVER',
+          'IPDISCOVER_BETTER_THRESHOLD' => 'IPDISCOVER_BETTER_THRESHOLD',
+          'IPDISCOVER_LATENCY' => 'IPDISCOVER_LATENCY',
+          'IPDISCOVER_MAX_ALIVE' => 'IPDISCOVER_MAX_ALIVE',
+          'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
+          'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS');
+    }else{
+      $champs = array('IPDISCOVER' => 'IPDISCOVER',);
+    }
 
     $values = look_config_default_values($champs);
     if (isset($champs['IPDISCOVER'])) {
@@ -715,12 +788,17 @@ function pageipdiscover() {
             $values['ivalue']['IPDISCOVER'] = 'OFF';
         }
     }
-    ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
-    ligne('IPDISCOVER_BETTER_THRESHOLD', $l->g(746), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-    ligne('IPDISCOVER_LATENCY', $l->g(567), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_LATENCY'], 'END' => $l->g(732), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup10);
-    ligne('IPDISCOVER_MAX_ALIVE', $l->g(419), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_MAX_ALIVE'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-    ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
-    ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
+
+    if($advance){
+      ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
+      ligne('IPDISCOVER_BETTER_THRESHOLD', $l->g(746), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+      ligne('IPDISCOVER_LATENCY', $l->g(567), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_LATENCY'], 'END' => $l->g(732), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup10);
+      ligne('IPDISCOVER_MAX_ALIVE', $l->g(419), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_MAX_ALIVE'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+      ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
+      ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
+    }else{
+      ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
+    }
 }
 
 function pageredistrib() {
@@ -824,7 +902,7 @@ function pageConnexion() {
 
     ligne('CONEX_LDAP_SERVEUR', $l->g(830), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_SERVEUR'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_ROOT_DN', $l->g(1016) . '<br>' . $l->g(1018), 'input', array('VALUE' => $values['tvalue']['CONEX_ROOT_DN'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_ROOT_PW', $l->g(1017) . '<br>' . $l->g(1018), 'input', array('VALUE' => $values['tvalue']['CONEX_ROOT_PW'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_ROOT_PW', $l->g(1017) . '<br>' . $l->g(1018), 'password', array('VALUE' => $values['tvalue']['CONEX_ROOT_PW'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_PORT', $l->g(831), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PORT'], 'SIZE' => "30%", 'MAXLENGTH' => 20));
     ligne('CONEX_DN_BASE_LDAP', $l->g(832), 'input', array('VALUE' => $values['tvalue']['CONEX_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LOGIN_FIELD', $l->g(833), 'input', array('VALUE' => $values['tvalue']['CONEX_LOGIN_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
@@ -901,4 +979,5 @@ function get_available_themes() {
     }
     return $result;
 }
+
 ?>

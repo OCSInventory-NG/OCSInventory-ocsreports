@@ -1094,7 +1094,7 @@
 1207 Aggiungi comunità
 1208 Comunità aggiunta
 1209 Comunità aggiornata
-1210 Account info:
+1210 Account info :
 1211 URL dei file della comunità SNMP
 1212 Comunità cancellata
 1213 Carattere separatore per il file di export
@@ -1126,7 +1126,7 @@
 1239 MHz
 1240 MB
 1241 Numero di periferiche SNMP
-1242 d/m/Y
+1242 d/m/Y H:i
 1243 I soli file ammessi sono ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe ed ocspackage.exe
 1244 Questo file non può essere vuoto
 1245 Gestione client OCS-NG

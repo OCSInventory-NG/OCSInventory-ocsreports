@@ -25,15 +25,47 @@ if (AJAX) {
     $protectedPost += $params;
     ob_start();
 }
+
+/*
+ * Software category
+ */
+require_once('require/softwares/SoftwareCategory.php');
+
 unset($list_fields);
 print_item_header($l->g(20));
+echo "<br/>";
 $form_name = "affich_soft";
 $table_name = $form_name;
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
+
+$softCat = new SoftwareCategory();
+
+$all_soft = [0 => $l->g(765)];
+$list_cat = $softCat->onglet_cat_cd($systemid);
+$i = $list_cat['i'];
+$first_onglet = $list_cat['first_onglet'];
+$categorie_id = $list_cat['category_name'];
+
+unset($list_cat['i']);
+unset($list_cat['first_onglet']);
+unset($list_cat['category_name']);
+unset($list_cat['OS']);
+
+$list_cat_soft = $softCat->array_merge_values($all_soft, $list_cat);
+
+if ($i <= 10) {
+    echo "<p>";
+    onglet($list_cat_soft, $form_name, "onglet_soft", 5);
+    echo "</p>";
+} else {
+    echo "<p>" . $l->g(398) . ": " . show_modif($list_cat_soft, 'onglet_soft', 2, $form_name) . "</p>";
+}
+
 $list_fields[$l->g(69)] = 'PUBLISHER';
+
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
         and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
     $queryDetails = "SELECT s.PUBLISHER,
@@ -53,6 +85,11 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
 								 WHERE (hardware_id=$systemid)";
     $list_fields[$l->g(49)] = 'NAME';
 }
+
+if($protectedPost['onglet_soft'] != 0){
+  $queryDetails .= " AND c.id = ".$categorie_id[$list_cat[$protectedPost['onglet_soft']]];
+}
+
 $list_fields[$l->g(277)] = 'VERSION';
 $list_fields[$l->g(51)] = 'COMMENTS';
 if ($show_all_column) {
@@ -70,7 +107,7 @@ $list_fields['GUID'] = 'GUID';
 $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
 $list_fields[$l->g(1238)] = 'INSTALLDATE';
 $list_fields[$l->g(1247)] = 'BITSWIDTH';
-$list_fields[$l->g(388)] = 'CATEGORY';
+$list_fields[$l->g(388)] = 'c.CATEGORY_NAME';
 
 $tab_options['FILTRE'] = array_flip($list_fields);
 

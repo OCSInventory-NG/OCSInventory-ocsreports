@@ -1,0 +1,23 @@
+-- Create notification table
+CREATE TABLE IF NOT EXISTS `notification` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `TYPE` VARCHAR(255) NOT NULL,
+    `FILE` VARCHAR(255) DEFAULT NULL,
+    `SUBJECT` VARCHAR(255) DEFAULT NULL,
+    `ALTBODY` TEXT DEFAULT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- Create notification table
+CREATE TABLE IF NOT EXISTS `notification_config` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `NAME` VARCHAR(255) NOT NULL,
+    `TVALUE` VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- INSERT DEFAULT TEMPLATE
+UNLOCK TABLES;
+INSERT INTO `notification`(`TYPE`, `FILE`) VALUES ('SELECTED', 'DEFAULT');
+INSERT INTO `notification`(`TYPE`, `FILE`, `SUBJECT`, `ALTBODY`) VALUES ('DEFAULT', 'templates/OCS_template.html', 'Notification OCSInventory', 'Default report inventory');
+INSERT INTO `notification`(`TYPE`) VALUES ('PERSO');

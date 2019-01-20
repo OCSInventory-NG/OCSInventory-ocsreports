@@ -124,10 +124,6 @@
         <value>help</value>
         <directory>ms_help</directory>
     </url>
-    <url key="ms_stats">
-        <value>stats</value>
-        <directory>ms_stats</directory>
-    </url>
     <url key="ms_codes">
         <value>admin_codes</value>
         <directory/>
@@ -232,13 +228,13 @@
         <value>view_file</value>
         <directory>ms_upload_file</directory>
     </url>
-    <url key="ms_search_soft">
-        <value>search_soft</value>
-        <directory>ms_search_soft</directory>
-    </url>
     <url key="ms_options">
         <value>search_soft_option</value>
         <directory>ms_search_soft</directory>
+    </url>
+    <url key="ms_options_soft_cat">
+        <value>soft_cat_option</value>
+        <directory>ms_soft_cat</directory>
     </url>
     <url key="ms_snmp">
         <value>snmp</value>
@@ -247,10 +243,6 @@
     <url key="ms_snmp_detail">
         <value>snmp_detail</value>
         <directory>ms_snmp</directory>
-    </url>
-    <url key="ms_update_new_tag">
-        <value>script_new_tag</value>
-        <directory>ms_scripts</directory>
     </url>
     <url key="ms_server_redistrib">
         <value>server_redistrib</value>
@@ -288,13 +280,13 @@
         <value>qrcode</value>
         <directory>ms_computer</directory>
     </url>
-    <url key="ms_plugins">
-        <value>plugins</value>
-        <directory>ms_plugins</directory>
+    <url key="ms_extension">
+        <value>extension</value>
+        <directory>ms_extension</directory>
     </url>
-    <url key="ms_pluginsmanager">
-        <value>pluginsmanager</value>
-        <directory>ms_plugins</directory>
+    <url key="ms_extensionmanager">
+        <value>extensionmanager</value>
+        <directory>ms_extensionmanager</directory>
     </url>
     <url key="ms_stats_top">
         <value>stats_top</value>
@@ -331,5 +323,9 @@
     <url key="ms_asset_cat_list">
         <value>asset_cat_list</value>
         <directory>ms_asset_cat</directory>
+    </url>
+    <url key="ms_notification">
+        <value>notification</value>
+        <directory>ms_config</directory>
     </url>
 </urls>

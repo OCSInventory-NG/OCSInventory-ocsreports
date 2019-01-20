@@ -50,6 +50,7 @@ $list_fields = array($l->g(49)  => 'NAME',
 );
 
 $default_fields = $list_fields;
+$list_col_cant_del = $list_fields;
 $sql = prepare_sql_tab($list_fields);
 $sql['SQL'] .= "FROM repository WHERE (hardware_id = %s)";
 array_push($sql['ARG'], $systemid);

@@ -87,19 +87,19 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
         'ip' => 'h.IPADDR',
         'domaine' => 'h.WORKGROUP',
         'user' => 'h.USERID',
-        'snom' => 'a.NAME as softname',
-        'sversion' => 'a.VERSION',
-        'sfold' => 'a.FOLDER');
+        'snom' => 's.NAME as softname',
+        'sversion' => 's.VERSION',
+        'sfold' => 's.FOLDER');
     $list_col_cant_del = array(
         'ip' => 'h.IPADDR',
-        'snom' => 'a.NAME as softname',
+        'snom' => 's.NAME as softname',
     );
     $default_fields = $list_fields;
-    $tab_options['AS']['a.NAME'] = 'SNAME';
-    $queryDetails = "SELECT h.ID,";
+    $tab_options['AS']['s.NAME'] = 'SNAME';
+    $queryDetails = "SELECT DISTINCT h.ID,";
     foreach ($list_fields as $lbl => $value) {
-        if ($value == 'a.NAME') {
-            $queryDetails .= $value . " as " . $tab_options['AS']['a.NAME'] . ",";
+        if ($value == 's.NAME') {
+            $queryDetails .= $value . " as " . $tab_options['AS']['s.NAME'] . ",";
         } else {
             $queryDetails .= $value . ",";
         }
@@ -107,11 +107,15 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
     $queryDetails = substr($queryDetails, 0, -1);
 
     if($wildcard){
-        $queryDetails .= " FROM hardware h ,softwares a
-                       WHERE a.HARDWARE_ID =h.ID and a.NAME like '" . $logiciel . "' ";
+        $queryDetails .= " FROM hardware h INNER JOIN softwares s ON s.hardware_id = h.ID INNER JOIN accountinfo a ON a.hardware_id = h.ID
+                       WHERE s.HARDWARE_ID =h.ID and s.NAME like '" . $logiciel . "' ";
     }else{
-        $queryDetails .= " FROM hardware h ,softwares a
-                               WHERE a.HARDWARE_ID =h.ID and a.NAME='" . $logiciel . "' ";
+        $queryDetails .= " FROM hardware h INNER JOIN softwares s ON s.hardware_id = h.ID INNER JOIN accountinfo a ON a.hardware_id = h.ID
+                               WHERE s.HARDWARE_ID =h.ID and s.NAME='" . $logiciel . "' ";
+    }
+
+    if (is_defined($_SESSION['OCS']["mesmachines"])) {
+        $queryDetails .= "AND " . $_SESSION['OCS']["mesmachines"];
     }
 
     $tab_options['LBL']['NAME'] = $l->g(478);
