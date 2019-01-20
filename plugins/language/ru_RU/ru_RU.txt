@@ -39,7 +39,7 @@
 65 Модель
 66 Тип
 67 Объем диска
-69 Производитель
+69 Издатель
 70 Назначение
 79 Принтер(ы)
 80 Заголовок
@@ -60,7 +60,7 @@
 96 Звук
 97 Монитор(ы)
 103 Обновить
-107 Конфигурация
+107 Настройка
 108 Операции с реестром
 111 Лицензия Windows
 113 Отменить
@@ -108,7 +108,7 @@
 197 Одинаковых сер.номеров
 198 Совпадений MAC-адресов
 199 Дубликаты
-200 Corresponding relay decremented
+200 Соответствующее перенаправление уменьшено
 201 МЕНЬШЕ
 202 БОЛЬШЕ
 203 МЕЖДУ
@@ -188,7 +188,7 @@
 277 Версия
 278 Драйвер
 279 Порт
-280 Тип MIB
+280 Тип MIB 
 281 DHCP IP
 282 Шлюзы
 283 Назначение
@@ -281,7 +281,7 @@
 372 Выберите компоненты
 373 Зарегистрированный пользователь
 374 Обновленный пользователь
-375 Версия агента OCS NG
+375 Версия агента OCS NG 
 376 Компьютер заблокирован. Пожалуйста попробуйте через несколько минут
 377 Частота процессора, МГц
 380 Словарь
@@ -442,16 +442,16 @@
 547 все
 548 Все кроме УСПЕШНО
 549 Файл (помещаемый на клиентский компьютер)
-550 File (not mandatory, may be used by "execute" commmand)
+550 Файл (не обязательно, может использоваться командой «выполнить»)
 551 Пакет с таким именем уже существует
-552 <i>You must make a computer search, and then click 'deploy' to assign these activated packages<br>You may also assign a package to a single computer by using the 'customization' tab of any computer details</i>.
+552 <i>Вы должны выполнить поиск в компьютере, а затем нажать «развернуть», чтобы назначить эти активированные пакеты<br>Вы также можете назначить пакет для одного компьютера, используя вкладку «настройка» любых деталей компьютера</i>.
 553 Ключ Windows
 554 Монитор: серийный №
 555 Монитор: производитель
 556 Монитор: модель
 557 Домен MS
 558 Распространенные пакеты
-559 Это не файл .ocs
+559 Это не файл .ocs 
 560 На сервер
 561 Неизвестно (удаленный пакет)
 562 Сети с назначенными uid:
@@ -471,14 +471,14 @@
 577 Имя группы
 580 Все компьютеры (повторить)
 581 Все компьютеры (из кэша)
-582 и
+582 И
 583 Группы
 584 По параметрам
 585 Ручное назначение
 586 Новая группа
 587 Новая статичная группа
 588 Перезаписать существующую
-589 добавить в существующую
+589 Статически добавлено в эту группу
 590 Сбросить статус
 591 Включить статично
 592 Исключить статично
@@ -550,7 +550,7 @@
 660 ГРУППА РАЗВЕРТЫВАНИЯ НЕ СУЩЕСТВУЕТ
 661 ПАКЕТЫ ДЛЯ РАЗВЕРТЫВАНИЯ
 662 Правила распространения
-663 INTERNES PROBLEM
+663 ВНУТРЕННЯЯ ПРОБЛЕМА
 664 Действие выполено
 665 МАШИНА НЕ ВЫБРАНА. ГРУППА РАЗВЕРТЫВАНИЯ НЕ СОЗДАНА
 666 Создана группа развертывания
@@ -568,7 +568,7 @@
 679 ИМЯ
 680 ДОМЕН
 681 ПОЛЬЗОВАТЕЛЬ
-682 to Add a supplementary condition
+682 Добавить дополнительное условие
 683 ПРОВЕРИТЬ ПРАВИЛО
 684 Следующие поля должны быть охвачены
 685 Добавить правило
@@ -580,7 +580,7 @@
 691 Общие значения $IP$ и $NAME$
 692 Вы изменили ВСЕ значения серверов
 693 Вы изменили значения следующего сервера:
-694 to find the default values, validate the vacuous fields
+694 Найти значения по умолчанию, проверить пустые поля
 695 Вы изменяете группу развертывания
 696 Показать пакеты, активированные к распространению на
 697 машина
@@ -597,7 +597,7 @@
 708 этот MAC-адрес
 709 Пользовательский PROLOG_FREQ
 710 Выборочная загрузка
-711 Taken into account modifications
+711 Внесены изменения в учет
 712 Перевод
 713 Вы уверены, что хотите заменить этот перевод
 714 Исходный перевод
@@ -613,7 +613,7 @@
 724 Время между 2 подключениями агента к серверу
 725 (в час)
 726 URI серверов развертывания ($IP и NAME$ являются универсальными значениями)
-727 Directory of destination of packages.
+727 Каталог назначения пакетов.
 728 Инвентаризация
 729 компьютеров
 730 часов
@@ -642,20 +642,20 @@
 754 Enable core filter system to modify some things "on the fly"
 755 Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period
 756 Period definition for INVENTORY_FILTER_FLOOD_IP
-757 Enable inventory filter stack
+757 Включить стек инвентаризации
 758 Если вы хотите отслеживать распространение пакетов на группу подробно по каждому компьютеру
 759 Должно быть больше или равно
 760 Webservice
 761 Enable/Disable the soap service
 762 Result page size (be aware of performances issues)
-763 Include file of your own modules
+763 Включить файл ваших модулей
 764 Настройки ниже не доступны из GUI.<br>(см. ocsinventory-server.conf)
 765 Все программы
 766 Ничего не найдено
 767 ВНИМАНИЕ: РЕЗУЛЬТАТ ФИЛЬТРАЦИИ
 768 Количество записей
-769 Transfer Made
-770 UPDATE OF
+769 Обмен завершен
+770 ОБНОВЛЕНИЕ
 771 Эта категория уже существует
 772 Имя категории не должно быть нулевым
 773 Вы должны выбрать имя категории
@@ -713,13 +713,13 @@
 825 Директория логов
 826 Address to find teledeploy packages fragments to activate
 827 Address to find teledeploy packages INFO files to activate
-828 Remove computers with inventory older than
+828 Удалить компьютеры с инвентаризацией старше чем
 829 Директория для создания пакетов развертывания
 830 Адрес сервера LDAP
 831 Порт сервера LDAP
 832 Базовое имя LDAP  + DC
-833 Field name to define login
-834 Version LDAP_OPT_PROTOCOL_VERSION
+833 Имя поля для определения логина
+834 Версия LDAP_OPT_PROTOCOL_VERSION
 835 Добавить RSX
 836 Управление ТИПАМИ
 837 У Вас нет доступа к этим данным
@@ -728,7 +728,7 @@
 840 Диск: Формат
 841 Диск: Объем
 842 Диск: Свободное место
-843 Диск: Имя раздела
+843 Диск: Имя тома
 844 Группа: Id
 845 Группа: Статическая?
 846 ПО: Компания
@@ -756,7 +756,7 @@
 868 Сеть: Статус
 869 Сеть: IP-адрес
 870 Сеть: Сетевая маска
-871 Сеть: Адрес подсети
+871 Сеть: IP подсети
 872 Сеть: Шлюз
 873 Сеть: DHCP IP
 874 Ключ реестра: Имя
@@ -768,58 +768,58 @@
 880 ГРУППА СОЗДАНА
 881 Компьютеры добавлены
 882 Компьютеры удалены из группы
-883 Restrict view
+883 Ограничить представление
 884 ВНИМАНИЕ: Результаты отфильтрованы
 885 неизвестно
-886 Simple desaffection
+886 Простое удаление
 887 Возможно, что этот пакет не назначен серверам развертывания
 888 Удаление
 889 Подключен как
-890 Interface is actually locked on a search with various criteria
-891 Remove interface LOCK
-892 connect with another account
-893 NO TAG ASSIGNED TO YOUR PROFILE
+890 Интерфейс фактически заблокирован при поиске с различными критериями
+891 Снять БЛОКИРОВКУ интерфейса
+892 соединиться с другой учетной записью
+893 К ВАШЕМУ ПРОФИЛЮ НЕТ НАЗНАЧЕННЫХ ТЕГОВ
 894 К ВАШЕМУ ПРОФИЛЮ НЕ ОПРЕДЕЛЕНЫ УРОВНИ ПРАВ
-895 TAG Modification
+895 Изменение ТЕГА
 898 Добавить аннотацию
 899 Автор
 900 Вы уверены, что хотите удалить раздел?
-901 Action on the query result
-902 Action on the result of selection
+901 Действие по результатам запроса
+902 Действие по результатам выбора
 903 Вы должны заполнить поле объяснения
 904 Переназначение пакетов
-905 Explanation about perfomed actions<br>on computer to be able to <br>assign package
-906 Package teledeploy removal
+905 Explanation about performed actions<br>on computer to be able to <br>assign package
+906 Удаление распространения пакета
 907 Explanation about package removal<br>on this computer
-908 Mobile terminal information
-909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
+908 Информация мобильного терминала
+909 ИЗМЕНЕНИЕ НЕ ПРОИЗВЕДЕНО: НЕВЕРНЫЙ НОВЫЙ ПРОФИЛЬ
 910 Проверить
 911 Переключить профиль
-912 Export list of computers that have this software
+912 Экспорт списка компьютеров, на которых установлено это ПО
 913 Количество неинвентаризованных сетевых интерфейсов
 914 Number of agents that didn't send inventory since at least
 915 сообщения
-916 The value must be higher than
+916 Значение должно быть больше чем
 917 Значение FREQUENCY
 918 Differential between LASTDATE and LASTCOME
 919 Вы уверены, что хотите удалить это сообщение
-920 ERROR, the requested doesn't exists.
+920 ОШИБКА, запрос не существует.
 921 Удалить эту категорию
-922 To merge, you have to select at least 2 computers
-923 You have no computer in count
+922 Для слияния Вы должны выбрать как минимум 2 компьютера
+923 У Вас нет компьютера на учете
 924 EXTRACTION REQUEST NOT CONVENTIONAL!
 925 FUSER functionality
 926 Fuser login:
-927 CACHE ISN'T REGENERATED BY THIS ACTION
+927 КЕШ НЕ ПЕРЕГЕНЕРИРУЕТСЯ ЭТОЙ ОПЕРАЦИЕЙ
 928 Визуализация логов
-929 subnetworks managementn is not performed locally.
-930 You cannot add/modify/remove subnetworks
+929 subnet's management is not performed locally.
+930 Вы не можете добавлять/изменять/удалять подсети
 931 Изменить подсеть
-932 The IP address field cannot be blank
-933 The network name field cannot be blank
-934 The network ID field cannot be blank
-935 The netmask address field cannot be blank
-936 The type field cannot be blank
+932 Поле IP адреса не может быть пустым
+933 Поле имени сети не может быть пустым
+934 Поле ID сети не может быть пустым
+935 Поле сетевой маски не может быть пустым
+936 Поле типа не может быть пустым
 937 Этот тип уже существует
 938 Новый тип
 939 Компьютеры члены группы
@@ -829,21 +829,21 @@
 943 Вы должны выбрать тип переферии
 944 Данные введены
 945 Изменение переферии
-946 New peripheral addition
+946 Добавление периферии
 947 Non identified peripherals list
 948 Identified peripherals list
-949 Computer Id
-950 FILE NAME
+949 Id компьютера
+950 ИМЯ ФАЙЛА
 951 ФАЙЛ СОЗДАН В
 952 ФАЙЛ ИЗМЕНЕН В
 953 SIZE
-954 A SESSION loss happened
+954 Произошла потеря СЕССИИ
 955 НЕ НАЙДЕНО СИСТЕМ В БАЗЕ ДАННЫХ
 956 Все ошибки
 957 Все УСПЕШНЫЕ
 958 TELEDEPLOY VALUE PROBLEM
-959 TO MUCH SOFTWARES PULLED UP. BE MORE SPECIFIC WITH THE SEARCH
-960 NO SOFTWARE CORRESPONDING TO THE SEARCH
+959 TO MUCH SOFTWARE PULLED UP. BE MORE SPECIFIC WITH THE SEARCH
+960 НЕТ ПРОГРАММ ОТВЕЧАЮЩИХ УСЛОВИЯМ ПОИСКА
 961 СПИСОК
 962 (one , between every)
 963 DIFFERENT LIST OF
@@ -863,8 +863,8 @@
 977 Блокировать
 978 You are going to lock all the interface on the search with criteria results
 979 To come back to a standard state, you will have to click on the icon <span class='glyphicon glyphicon-lock'></span> which is at the right top of the interface
-980 Packages on computers
-981 Packages on servers groups
+980 Пакеты на компьютерах
+981 Пакеты на группах серверов
 982 НЕТ ДОСТУПНЫХ ПРАВИЛ НАЗНАЧЕНИЯ. РАЗВЕРТЫВАНИЕ НЕВОЗМОЖНО.
 983 You have to choose on which type modifications has to perform
 984 Модификации
@@ -880,20 +880,20 @@
 994 PDA/SMARTPHONE
 995 user ID
 996 Фамилия
-997 You must fill user ID
-998 choose a valid profile
-999 This user ID already exists
-1000 Notified
-1001 Red fields are in errors!
+997 Вы должны заполнить ID пользователя
+998 выберите верный профиль
+999 Этот ID пользователя уже существует
+1000 Уведомлен
+1001 Красные поля содержат ошибки!
 1002 Estimated time for deploy
 1003 Параметры пакетов серверов развертывания
 1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/).
 1005 Package creation is therefore not possible.
-1006 don't have wrinting rights
+1006 don't have writing permissions
 1007 ДИРЕКТОРИЯ
 1008 Использовать на этом пакете развертывания
-1009 Path on remote server
-1010 NORMAL
+1009 Путь на удаленном сервере
+1010 НОРМАЛЬНО
 1011 DEBUG
 1012 ЯЗЫК
 1013 ОБСЛУЖИВАНИЕ
@@ -912,8 +912,8 @@
 1026 Пакеты, удаленные на компьютерах
 1027 Категории
 1028 New
-1029 Ignored
-1030 Unchanged
+1029 Игнорируется
+1030 Не изменено
 1031 workflow for Teledeploy
 1032 Activate workflow for Teledeploy
 1033 Requester Information
@@ -923,7 +923,7 @@
 1037 Имя пакета
 1038 Автор запроса
 1039 Приоритет
-1040 User notified
+1040 Пользователь уведомлен
 1041 User can defer
 1042 выполненоно перезагрузок
 1043 Stock control to validate the installation
@@ -936,15 +936,15 @@
 1050 Поиск ПО
 1051 Поиск
 1052 История
-1053 Demande modifiee
-1054 Demande effectuee
+1053 Demand change
+1054 Demand execution
 1055 Ваш почтовый адрес неверен
 1056 Обратитесь к администратору OCS-NG
-1057 Невозможно соединиться с почтовым сервером
+1057 Failed to connect to the mailserver
 1058 нет правильного адреса
 1059 Данные доступны
 1060 Новые данные
-1061 Tab
+1061 Вкладка
 1062 Field
 1063 Wording
 1064 Mandatory
@@ -952,10 +952,10 @@
 1066 Linked to a status
 1067 Field name is already used
 1068 The name of the field can not be empty
-1069 Adding value done
+1069 Значение добавлено
 1070 New Field
 1071 Тип поля
-1072 Pending resquests
+1072 Ожидающие запросы
 1073 Сделать запрос
 1074 'Workflow' function is not activated.
 1075 Активируйте эту функцию, чтобы использовать её
@@ -972,26 +972,26 @@
 1086 TAG value for test
 1087 Value of the test tag
 1088 TAG value for restraint perimeter
-1089 No status is active. Start by activating one
+1089 Нет активных статусов. Начните с активации
 1090 has modify request n°
 1091 Новый запрос был отправлен
 1092 послать новый запрос
 1093 Неполная база данных
-1094 Почалуйста совершите полную переустановку базы данных
-1095 Status Admin
-1096 Fields list
-1097 Tabs list
-1098 Field name
-1099 Default value
-1100 Status list
-1101 This field can't be updated
-1102 Active status
-1103 Status ID
+1094 Почалуйста совершите полную переустановку базы данных 
+1095 Администрирование статусов
+1096 Список полей
+1097 Список столбцов
+1098 Имя поля
+1099 Значение по умолчанию
+1100 Список статусов
+1101 Это поле не может быть обновлено
+1102 Активный статус
+1103 ID статуса
 1104 Level
 1105 Workflow functionality is enabled
 1106 It is possible to create a package only if a request exist before
 1107 And the status is correct
-1108 LDAP configuration
+1108 Настройка LDAP
 1109 Фильтр
 1110 The assignment of a package depends on the status of the request
 1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
@@ -1022,47 +1022,47 @@
 1136 SNMP
 1137 Включить/Отключить службу SNMP
 1138 Показать все подсети
-1139 Administer
-1140 Administer subnet
+1139 Администрирование
+1140 Администрирование подсети
 1141 Подсеть добавлена
 1142 Добавит новую подсеть в черный список
 1143 Маска подсети
 1144 Неверны MAC-адрес. (должен быть: XX.XX.XX.XX.XX.XX)
 1145 значение должно быть между
-1146 Administer profiles
+1146 Профили администрирования
 1147 Вы не можете обновить это.
 1148 <b>WARNING:</b> No automatic backup of configuration files will be possible
 1149 Имя нового профиля
 1150 Reference profile
 1151 Text profile
 1152 WARNING: delete basic profiles may cause instability in OCS-NG
-1153 Profile name
+1153 Имя профиля
 1154 On computers
 1155 On teledeploy's workflow
 1156 Manage teledeploy's workflow
 1157 On the fields of teledeploy's workflow
-1158 On package activation
-1159 On MAC addresses
-1160 On serial numbers
+1158 По активации пакета
+1159 По MAC адресам
+1160 По серийным номерам
 1161 По подсети ipdiscover
-1162 Manage teledeploy
-1163 Update Configuration
+1162 Управление распространением
+1163 Обновить настройки
 1164 Управление группами
 1165 Консоль управления
-1166 See warning messages of the GUI
-1167 Manage accounts info
-1168 may change accounts info computers
-1169 may change their membership group
+1166 Смотреть предупреждения в GUI
+1167 Управлять информацией об учетных записях
+1168 может изменять информацию о компьютерах
+1169 может изменять их членство в группах
 1170 Управление профилями
 1171 Manage profiles group
 1172 Manage ipdiscover
 1173 Информация профиля
 1174 Пользовательские страницы
 1175 Ограничения
-1176 Rights to Blacklist
+1176 Права на Черный Список
 1177 Права для управления
 1178 Это поле
-1179 is a variable. It can not contain special characters
+1179 является переменной. Не может содержать спецсимволы
 1180 не может быть пусто
 1181 Сервер развертывания
 1182 Вы не можете управлять правилами развертывания, эта функция отключена
@@ -1070,7 +1070,7 @@
 1184 Ключ добавлен
 1185 Ключ обновлен
 1186 Ваши данные обновлены
-1187 Configuration is pending
+1187 Настройка ожидает
 1188 This group is declared as a TEST perimeter
 1189 This group is declared as a RESTRAINT perimeter
 1190 You can't assign packages higher level
@@ -1091,16 +1091,16 @@
 1205 Управление SNMP communities
 1206 Директория файла SNMP communities
 1207 Добавить сообщество
-1208 Community added
-1209 Community updated
-1210 Об учетной записи :
+1208 Сообщество добавлено
+1209 Сообщество обновлено
+1210 Account info :
 1211 URL где лежит файл SNMP community
-1212 Community deleted
-1213 Separator of export file
+1212 Сообщество удалено
+1213 Разделитель экспортируемого файла
 1214 Настроить движок на обновление snmp инвентаря согласно таблице snmp_laststate (ниже нагрузка на базу данных)
 1215 Blade server
 1216 Фаервол
-1217 Load balancer
+1217 Балансировщик нагрузки
 1218 Коммутатор(ы)
 1219 Карты
 1220 Картриджи
@@ -1113,7 +1113,7 @@
 1227 Контакт
 1228 Device SNMP
 1229 Прошивка
-1230 Имя тома
+1230 Имя Тома
 1231 Формат файла должен быть ZIP
 1232 Формат файла должен быть TAR.GZ
 1233 Имя базы данных
@@ -1125,22 +1125,22 @@
 1239 MHz
 1240 MB
 1241 Число устройств SNMP
-1242 d/m/Y H:i
+1242 m/d/Y H:i
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 Это поле не может быть пусто
-1245 Manage your OCS-NG clients
+1245 Управлять клиентами OCS-NG
 1246 Назначить снова
 1247 Архитектура
 1248 Каталог
 1249 Activation of cache tables (allows less solicit the MySQL database)
-1250 Teledeploy speed
+1250 Скорость распространения
 1251 Статистика
 1252 Configuration profiles files directory
 1253 Directory of old conf profiles files
 1254 Directory of scripts logs
 1255 Число соединений по дням
 1256 Число неверных соединений по дням
-1257 Use flash on GUI
+1257 Использовать flash в GUI
 1258 Manual Entry
 1259 На одну неделю
 1260 На один месяц
@@ -1148,7 +1148,7 @@
 1262 Нет включенных плагинов для Вашего профиля
 1263 УГРОЗА БЕЗОПАСНОСТИ!
 1264 Далее
-1265 Enable cache tables
+1265 Включить кеш таблиц
 1266 Вартуальные машины
 1267 Тип виртуальных машин
 1268 Uuid
@@ -1160,13 +1160,14 @@
 1274 Профиль обновлен
 1275 Профили не могут быть удалены.
 1276 Профиль создан
-1277 Default profile (blank for none)
-1278 You are not allowed to connect
+1277 Профиль по умолчанию (пусто для none)
+1278 Вам не разрешено соединение
 1279 WOL
 1280 Wake On Lan
 1281 По Wake On Lan
 1282 Wake On Lan order sent
 1283 Do you want a Wake On Lan on this computer
+1284 IP Источника
 1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Время установки
@@ -1177,14 +1178,14 @@
 1299 QRCode
 1300 Проверить QRCode
 1301 on invisible packages
-1302 development
+1302 разработка
 1303 Экспорт
 1304 XML
 1305 On the generation of an XML inventory
 1306 Управлять планинами
 1307 Активные плагины
 1308 Добавить плагины
-1309 Teledeploy options
+1309 Настройки распространения
 1310 Выключение
 1311 Перезагрузка
 1312 Ширина данных
@@ -1195,12 +1196,12 @@
 1317 Число ядер
 1318 Размер кеша L2
 1319 Вольтаж
-1320 Use , between data
-1321 No port defined for WOL
-1322 Unable to open socket for WOL
+1320 Используйте , между данными
+1321 Не назначено порта для WOL
+1322 Невозможно открыть сокет для WOL
 1323 Server printer sharing
 1324 Sharing printer on server
-1325 screen horizontal / vertical
+1325 Screen horizontal / vertical
 1326 Shared
 1327 Локальный / Сетевой
 1328 Управление
@@ -1283,7 +1284,7 @@
 1405 Профиль был успешно создан
 1406 An error occurred while trying to create the profile, please check the filesystem or contact an administrator
 1407 Файл профиля недоступен на запись
-1408 The profile was successfully updated
+1408 Профиль был успешно обновлен
 1409 An error occurred while trying to update the profile, please check the filesystem or contact an administrator
 1410 Пользователи
 1411 Отображаемое имя
@@ -1300,9 +1301,66 @@
 1422 Истекает
 1423 Имя файла
 1424 Зеркала
-1425 тег
-1426 обновлено
+1425 Тег
+1426 Обновлено
 1427 Базовый URL
+1428 Батарея
+1429 Sim карта
+Равно
+1431 Больше чем
+1432 Меньше чем
+1433 Hardware Link Id
+1434 Id Пользователя
+1435 Расположение
+1436 Процессы
+1437 Chemistry
+1438 Версия SBDS
+1439 Max error
+1440 OEM Specific
+1441 Revalidate time
+1442 XML Definition
+1443 Шлюз по умолчанию
+1444 USB Устройства
+1445 Группа
+1446 Название можели
+1447 Информация об четной записи
+1448 ПУСТУЕТ
+1449 Общая настройка
+1450 ID
+1451 Static ?
+1452 Начало гарантии
+1453 GUID
+1454 Источник
+1455 Виртуальный интерфейс
+
+
+1500 Категория программ
+1501 Новая категория
+1502 Список категорий
+1503 Добавить программу
+1504 Регулярное выражение или имя программы
+1505 Выберите категорию по умолчанию для ПО
+1506 Нет созданных категорий
+1507 Версия ПО
+1508 Производитель ПО
+1509 Расширенные настройки
+1510 Сравнение версий ПО
+1511 Сравнение версий
+1512 Меньше и Равно
+1513 Больше и Равно
+1514 Категория
+1515 Все ОС
+1516 Все программы (по умолчанию)
+1517 Категории не были выбраны
+
+
+1600 Моя панель управления
+1601 Динамические группы
+
+1700 Расширенная настройка
+1701 Доступные столбцы
+1702 Новый столбец
+1703 Добавить выбранные пакеты
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ОШИБКА:
@@ -1325,44 +1383,43 @@
 2018 импортирован
 2019 были уже импортированы
 2020 Файл install.php присутствует в установочном каталоге (по умолчанию: /usr/share/ocsinventory-reports/ocsreports).
-2021 Your logs directory (by default : /var/lib/ocsinventory-reports/logs) is not writable
-2022 You can't send a file larger than
+2021 Каталог логирования  (по умолчанию : /var/lib/ocsinventory-reports/logs) не доступен на запись
+2022 Вы не можете отправить файл больше чем
 2023 Удалить
 2024 Назначен логин/пароль по умолчанию для Вашей SQL базы данных:
-2025 Change your login password for 'ocs' user in MySQL
+2025 Смените логин и пароль пользователя 'ocs' в MySQL
 2026 The default login/password is activate on OCS-NG GUI
-2027 Change your 'admin' password on OCS-NG GUI
-2028 Authentication key
-2029 The config directory is not writable
-
+2027 Смените пароль 'admin' в OCS-NG GUI
+2028 Ключ аутентификации
+2029 Конфигурационная директория недоступна для записи
 
 2030 Установка OCS-NG Inventory
 2031 Текущая установленная версия
-2032 is lower than this version
+2032 ниже этой версии
 2033 Автоматическая установка запущена.
 2034 Конфигурация базы не выполнена. Автоматическая установка запущена
-2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
-2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
+2035 ОШИБКА: Сессии для PHP не установлены.<br>Попробуйте установить пакет php-session.
+2036 ВНИМАНИЕ: XML для PHP не установлен, вы не сможете использовать утилиту ipdiscover.
 2037 ОШИБКА: MySQL для PHP не установлен.<br>Попробуйте установить пакет MySQL для php (Debian: php5-mysql)
 2038 ВНИМАНИЕ: GD для PHP не установлен.<br>Вы не сможете увидеть графический интерфейс<br>Попробуйте раскомментировать extension=php_gd2.dll (Windows), удалив точку с запятой в файле php.ini, или установите пакет php5-gd (Linux).
-2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
-2040 WARNING: You will not be able to build any deployment package with size greater than
+2039 ВНИМАНИЕ: OpenSSL для PHP не установлен.<br>Некоторые автоматические функции развертывания не будут доступны<br>Попробуйте раскомментировать extension=php_openssl.dll (Windows), убрав точку с запятой в файле in file php.ini, или попробуйте установить пакет php-openssl (Linux).
+2040 ВНИМАНИЕ: Вы не сможете собрать любой пакет для распространения размером больше чем
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your vhost configuration to increase this limit.
 2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
 2044 Label added
 2045 Label NOT added (not tag will be asked on client launch)
-2046 ERROR: MySQL authentication problem.
+2046 ОШИБКА: Проблема аутентификации MySQL.
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
 2050 Установка завершена, Вы можете войти на index.php используя логин=admin и пароль=admin
-2051 Click here to enter OCS-NG GUI
+2051 Щелкните для входа в OCS-NG GUI
 2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successful)
-2053 Please wait, database update may take up to 30 minutes...
+2053 Пожалуйста ждите, обновление базы данных может занять более 30 минут...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 База данных успешно сгенерирована
-2056 MySQL config file successfully written
+2056 Файл конфигурации MySQL успешно записан
 2057 Существующая база данных обновлена
-2058 Database engine checking...
+2058 Проверка движка БД...
 2059 ERROR: Alter query failed
 2060 ERROR: Show table status query failed
 2061 ERROR: InnoDB conversion failed, install InnoDB MySQL engine support on your server<br>or you will experience severe performance issues.<br>(Try to uncomment skip-innodb in your MySQL config file.)<br>Reinstall when corrected.
@@ -1371,7 +1428,7 @@
 2064 table(s) altered
 2065 ERROR: The installer ended unsuccessfully, rerun install.php once problems are corrected
 2066 WARNING: 'files' directory missing, can't import
-2067 from it
+2067 из них
 2068 was not inserted. You need to set the max_allowed_packet MySQL value to at least 2MB
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
 2071 WARNING: One or more files were already inserted
@@ -1395,7 +1452,7 @@
 2091 ОШИБКА: Невозможно очистить
 2092 orphan lines deleted
 2093 Очистка сетевой карты...
-2094 ERROR: Could not clean netmap
+2094 ОШИБКА: Невозможно очистить карту сети
 2095 netmap lines deleted
 2096 Please enter the label of the windows client tag input box:
 2097 Leave empty if you don't want a popup to be shown on each agent launch
@@ -1403,17 +1460,17 @@
 2099 ОШИБКА: эта учетная запись MySQL не имеет прав на создание баз
 2100 Обновление старой информации об аккаунтах
 2101 Добавить скриптом
-2102 WARNING: If you change default database name (ocsweb) or user (ocs), don't forget to update the file 'z-ocsinventory-server.conf' in your Apache configuration directory
+2102 ВНИМАНИЕ: Если Вы измените имя базы данных по умолчанию (ocsweb) или пользователя (ocs), не забудьте обновить файл 'z-ocsinventory-server.conf' в каталоге настройки Apache
 2103 ДЕМО режим: вы не можете обновлять данные
 2104 ВЫ СМОТРИТЕ ДЕМОНСТРАЦИОННУЮ ВЕРСИЮ
 2105 Ваша база данных OK.<br>Действия не требуются.
 2106 in MySQL configuration, the variable 'max_allowed_packet' allows only file size <
-2107 The version of WEB interface is lower than the version of the database
-2108 The version of the database <b> MUST </b> be less than or equal to the version of the web interface
+2107 Версия WEB интерфейса ниже версии базы данных
+2108 Версия базы данных <b> ДОЛЖНА </b> быть ниже или равна версии интерфейса
 2109 Текущая версия
 2110 Ожидаемая версия
 2111 Произвести обновление
-2112 The following file is not present or is not readable
+2112 Этот файл не существует или нельзя прочитать
 2113 Версия установленного PHP ниже версии 5.4 и будет несовместима со следующими версиями (версия&nbsp;:&nbsp;
 2114 No sql file found for version
 2115 The user you typed does not seem to be root
@@ -1422,12 +1479,23 @@
 2118 OCSInventory
 2119 доступно
 2120 Щелкните здесь, чтобы скачать
-2121 Launch inventory on agent service startup (Windows)
+2121 Запускать инвентаризацию при старте службы агента (Windows)
 2122 Изменить
 2123 Доступные пакеты
 2124 Удаленные пакеты
 2125 ВНИМАНИЕ: CURL для PHP не установлен. Попробуйте установить пакет php-curl (Linux).
-
+2126 Assets categorization
+2127 The current multi search query will be used as an asset categorization crtieria.
+2128 Вы уверены?
+2129 Назад к множественному поиску
+2130 Assets categories
+2131 Количество машин в категории
+2132 Assets category
+2133 You haven't created an asset category
+2134 You haven't created a software category
+2135 No machine has been inventoried
+2136 Обновить
+2137 Выберите файл, которым вы хотите заменить старый
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1450,7 +1518,7 @@
 5018 [DEBUG]comparison =>[DEBUG]
 5019 [DEBUG]значение для поиска  =>[DEBUG]
 5020 [DEBUG]complementary field =>[DEBUG]
-5021 [DEBUG]AND_OR =>[DEBUG]
+5021 [DEBUG]И_ИЛИ =>[DEBUG]
 5022 [DEBUG]NORMAL CONDITION REQUEST[DEBUG]
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
@@ -1458,29 +1526,70 @@
 6001 Выберите колонки для отображения / скрытия
 6003 Плагин
 6004 Всего доступно
-6005 Power on/off
+6005 Вкл/Выкл питание
 6006 ВНИМАНИЕ : Пожалуйста установите php-soap, система плагинов не работает без него
 6007 Пожалуйста установите следующие модули, чтобы эта функция заработала&nbsp;:&nbsp;
-6008 Can't write in the following directory&nbsp;:&nbsp;
+6008 Невозможно записать в нужный каталог&nbsp;:&nbsp;
 6009 Вы не можете устанавливать плагины, исправьте ошибки выше.
 6010 Коммуникационный сервер столкнулся со следующей ошибкой при установке&nbsp;:&nbsp;
 6011 Щелкните здесь, чтобы решить Вашу проблему
 6012 Выбрать все
 
-7000 Плагины
-7001 Менеджер плагинов
-7002 Название плагина
+7000 Расширения
+7001 Управление расширениями
+7002 Имя расширения
 7003 Версия
 7004 Лицензия
 7005 Автор
 7006 Последнее обновление
 7007 Вы действительно хотите удалить этот плагин
-7008 Установка плагинов
-7009 Установленные плагины
-7010 Этот плагин уже был установлен
-7011 is an invalid plugin, check your sources.
+7008 Установка расширения
+7009 Установленные расширения
+7010 Это расширение уже было установлено
+7011 не является верным расширением, проверьте источник.
 7012 Установка прервана !
 7013 установлено
-7014 Нет плагинов доступных для установки
+7014 На данный момент нет расширений, доступных для установки
 7015 Выберите по крайней мере один компьютер !
 7016 MTU
+
+8000 Уведомления
+8001 Включить отслеживание уведомлений
+8002 E-mail администратора
+8003 Имя администратора
+8004 Адрес для ответа
+8005 Имя для ответа
+8006 Сервер SMTP
+8007 SMTP идентификатор
+8008 SMTP пароль
+8009 Решим отправки почты
+8010 (Опционально)
+8011 Настройка
+8012 Изменить шаблон
+8013 Here is the default OCS Inventory summary, it contains a report of the software categories and assets categories :
+8014 Успешная загрузка
+8015 Загрузка не удалась
+8016 Здесь вы можете скачать пользовательский шаблон уведомлений:</br>• Это длжен быть файл html.</br></br>Информация:</br>• Для подгрузки перевода вставьте {{g.(номер перевода)}} в ваш код html - Например: {{g.49}} = Name</br>• На данный момент у Вас есть две альтернативы отчета инвентаря: </br> {{Report.Software}} - Число по категории ПО </br> {{Report.Asset}} - Число машин по категории ASSET
+8017 Этот файл не является html
+8018 Тема
+8019 Уведомления OCSInventory
+8020 Внимание : Файл почтового шаблона не найден
+8021 Загружаемый файл должен иметь расширение .html
+8022 Смотреть новости
+8023 ... Подробнее
+8024 Закрыть новости
+8025 Назад в меню новостей
+8026 Включить Новости OCS Inventory на панели управления
+8027 Промзошла проблема восстановления данных новостей OCS
+8028 У Вас есть свежие новости
+8029 недоступно на запись
+
+8100 SAAS Inventory
+8101 Список SAAS
+8102 Добавить SAAS
+8103 Ассоциированные DNS
+8104 Вхождение
+8105 Данные
+8106 Время жизни
+8107 Этот SAAS уже существует
+8108 Включить Software as a Service Inventory
