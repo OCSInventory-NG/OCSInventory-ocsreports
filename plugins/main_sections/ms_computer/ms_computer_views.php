@@ -111,6 +111,7 @@ function show_computer_summary($computer) {
 
     foreach ($labels as $cat) {
         foreach ($cat as $key => $lbl) {
+            $computer_info = addslashes($computer->$key);
             if ($key == "MEMORY") {
                 $sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";
                 $argMem = $computer->ID;
@@ -120,11 +121,11 @@ function show_computer_summary($computer) {
                 if ($valMem["capa"] > 0) {
                     $memory = $valMem["capa"];
                 } else {
-                    $memory = $computer->$key;
+                    $memory = $computer_info;
                 }
                 $data[$key] = $memory;
             } elseif ($key == "LASTDATE" || $key == "LASTCOME") {
-                $data[$key] = dateTimeFromMysql($computer->$key);
+                $data[$key] = dateTimeFromMysql($computer_info);
             } elseif ($key == "NAME_RZ") {
                 $data[$key] = "";
                 $data_RZ = subnet_name($computer->ID);
@@ -150,10 +151,10 @@ function show_computer_summary($computer) {
                     msg_info($l->g(1266) . "<br>" . $l->g(1269) . ': ' . $link_vm);
                 }
             } elseif ($key == "IPADDR" && $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
-                $data[$key] = $computer->$key . " <a href=# OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"" . $l->g(1283) . "\");'><i>WOL</i></a>";
+                $data[$key] = $computer_info . " <a href=# OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"" . $l->g(1283) . "\");'><i>WOL</i></a>";
                 $link[$key] = true;
-            } elseif ($computer->$key != '') {
-                $data[$key] = $computer->$key;
+            } elseif ($computer_info != '') {
+                $data[$key] = $computer_info;
             } elseif ($key == "ASSET") {
                 $sqlAsset = "SELECT CATEGORY_NAME FROM assets_categories LEFT JOIN hardware AS h ON h.CATEGORY_ID = assets_categories.ID WHERE h.ID = %s";
                 $argAsset = array($computer->ID);
