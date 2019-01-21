@@ -310,7 +310,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     </div>
 
     <script>
-        //Check all the checkbox
+	 // Check all the checkboxes
         function checkall()
         {
             var table_id = "table#<?php echo $option['table_name']; ?>";
@@ -1435,34 +1435,82 @@ function ajaxfiltre($queryDetails,$tab_options){
 				return $queryDetails;
 			}
 		}
-		//REQUET SELECT FROM
+
+		// Find columns that are full-text indexed.
+		$ft_idx = [];
+		$sql_ft='show index from softwares;';
+		$resultDetails = mysql2_query_secure($sql_ft, $_SESSION['OCS']["readServer"]);
+                while($row = mysqli_fetch_object($resultDetails)){
+			if ( $row->Index_type == 'FULLTEXT') {
+				$ft_idx[ $row->Column_name ] = $row->Column_name;
+			}
+                }
+
+		// Find the correct place where to do the full-text search in the query
+		if (count($sqlword['GROUPBY'])>1) {
+			$ft_queryDetails1 = $sqlword['GROUPBY'][0];
+			$ft_queryDetails2 = $sqlword['GROUPBY'][1];
+		}
+
+		// Search in full-text indexed columns
+		$index = 0;
+		foreach ($tab_options['visible_col'] as $column) {
+			$cname = $tab_options['columns'][$column]['name'];
+
+			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+				$tab_options['columns'][$column]['searchable'] = false;
+			}
+
+			// If column is searchable and has a full-text index
+			if ($searchable && !empty($ft_idx[$cname])) {
+				if ($index==0) {
+					$ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search')";
+				} else {
+					$ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search')";
+				}
+				$index++;
+			}
+		}
+		// Close the full-text search clause if we added any
+		if ($index>0) {
+			$queryDetails = $ft_queryDetails1 . ") GROUP BY " . $ft_queryDetails2;
+		}
+
+		// REQUEST SELECT FROM
 		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
+			$cname = $tab_options['columns'][$column]['name'];
+			// (Cyrille: Shouldn't the following 2 tests be reversed: 1st test the 'searchable' field, then look into the "NO_SEARCH" array?)
+			// (Cyrille: The following 2 tests are used at least 3 times in this file. Wouldn't it be a good time to create a function?)
 			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
 				$tab_options['columns'][$column]['searchable'] = false;
 			}
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+
+			// (Cyrille: What the hell is the purpose of this "HAVING" array?)
 			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
 				$searchable =true;
 			}
 
-			if ($searchable){
-				$name = $tab_options['columns'][$column]['name'];
+			// If column is searchable and doesn't have a full-text index 
+			if ($searchable && empty($ft_idx[$cname])) {
 				if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $index == 0) {
 						$name_col = $tab_options['COL_SEARCH'];
 						$filter =  " (( ".$name_col." LIKE '%%".$search."%%' ) ";
-				} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+				// (Cyrille: What is this 'c' column?)
+				} else if ($cname != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 						if ($index == 0){
-							$filter =  " (( ".$name." LIKE '%%".$search."%%' ) ";
+							$filter =  " (( ".$cname." LIKE '%%".$search."%%' ) ";
 						} else {
-							$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+							$filter .= " OR  ( ".$cname." LIKE '%%".$search."%%' ) ";
 						}
 				} else if (empty($tab_options["COL_SEARCH"])) {
 						if ($index == 0){
-							$filter =  " (( ".$name." LIKE '%%".$search."%%' ) ";
+							$filter =  " (( ".$cname." LIKE '%%".$search."%%' ) ";
 						} else {
-							$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+							$filter .= " OR  ( ".$cname." LIKE '%%".$search."%%' ) ";
 						}
 				}
 				$index++;
