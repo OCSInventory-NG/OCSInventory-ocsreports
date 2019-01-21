@@ -1447,35 +1447,74 @@ function ajaxfiltre($queryDetails,$tab_options){
                 }
 
 		// Find the correct place where to do the full-text search in the query
-		if (count($sqlword['GROUPBY'])>1) {
-			$ft_queryDetails1 = $sqlword['GROUPBY'][0];
-			$ft_queryDetails2 = $sqlword['GROUPBY'][1];
-		}
+                if (count($sqlword['WHERE'])>1) {
+                        $ft_queryDetails1 = $sqlword['WHERE'][0];
+                        $ft_queryDetails2 = $sqlword['WHERE'][1];
+                        $ft_place = 'WHERE';
+                } elseif (count($sqlword['GROUPBY'])>1) {
+                        $ft_queryDetails1 = $sqlword['GROUPBY'][0];
+                        $ft_queryDetails2 = $sqlword['GROUPBY'][1];
+                        $ft_place = 'GROUP BY';
+                }
 
-		// Search in full-text indexed columns
-		$index = 0;
-		foreach ($tab_options['visible_col'] as $column) {
-			$cname = $tab_options['columns'][$column]['name'];
+                // Check if one of the column used in the query if full-text indexed
+                $ft_search = 0;
+                foreach ($tab_options['visible_col'] as $column) {
+                        $cname = $tab_options['columns'][$column]['name'];
+                        if (!empty($ft_idx[$cname])) {
+                                $ft_search = 1;
+                                break;
+                        }
+                }
 
-			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
-			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
-				$tab_options['columns'][$column]['searchable'] = false;
-			}
+                // Add filtering criteria
+                if ($ft_search == 1) {
 
-			// If column is searchable and has a full-text index
-			if ($searchable && !empty($ft_idx[$cname])) {
-				if ($index==0) {
-					$ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search')";
-				} else {
-					$ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search')";
-				}
-				$index++;
-			}
-		}
-		// Close the full-text search clause if we added any
-		if ($index>0) {
-			$queryDetails = $ft_queryDetails1 . ") GROUP BY " . $ft_queryDetails2;
-		}
+                        // Search with at least 1 full-text indexed columns
+                        error_log("BEFORE FT SEARCH: $queryDetails");
+                        $index = 0;
+
+                        foreach ($tab_options['visible_col'] as $column) {
+                                $cname = $tab_options['columns'][$column]['name'];
+
+                                // Find out if the column is searchable
+                                // (Cyrille: For me the following 2 tests should be in this order. But they are elsewhere usually in the reverse order. To be verified pleased)
+                                $searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+                                if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+                                        $tab_options['columns'][$column]['searchable'] = false;
+                                }
+
+                                if ($searchable && !empty($ft_idx[$cname])) {
+                                        // Column is searchable and is full-text indexed
+                                        if ($index==0) {
+                                                $ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search')";
+                                        } else {
+                                                $ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search')";
+                                        }
+                                        $index++;
+                                } elseif ($searchable && !empty($ft_idx[$cname])) {
+                                        // Column is searchable but isn't full-text indexed
+                                        if ($index==0) {
+                                                $ft_queryDetails1 .= " WHERE ( $cname LIKE '%%$search%%')";
+                                        } else {
+                                                $ft_queryDetails1 .= " OR $cname LIKE '%%$search%%')";
+                                        }
+                                        $index++;
+                                }
+                        }
+
+                        // Close the full-text search clause if we added any
+                        if ($index>0) {
+                                if ($ft_place == 'WHERE') {
+                                        $queryDetails = $ft_queryDetails1 . ") AND " . $ft_queryDetails2;
+                                } else {
+                                        $queryDetails = $ft_queryDetails1 . ") GROUP BY " . $ft_queryDetails2;
+                                }
+                        }
+
+                        error_log("AFTER FT SEARCH: $queryDetails");
+                        return $queryDetails;
+                }
 
 		// REQUEST SELECT FROM
 		$queryDetails .= " HAVING ";
