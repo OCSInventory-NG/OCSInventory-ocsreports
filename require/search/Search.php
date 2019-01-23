@@ -107,6 +107,14 @@
     ];
 
     /**
+     * Operator list
+     */
+    private $operatorAccountCheckbox = [
+        "HAVINGCHECK",
+        "NOTHAVINGCHECK",
+    ];
+
+    /**
      * Comparator list
      */
     private $comparatorList = [
@@ -502,6 +510,14 @@
             case 'NOTHAVING' :
                 $valueArray[self::SESS_OPERATOR] = "!=";
                 break;
+            case 'NOTHAVINGCHECK' :
+                $valueArray[self::SESS_OPERATOR] = "NOT LIKE";
+                $valueArray[self::SESS_VALUES] = "%".$valueArray[self::SESS_VALUES]."%";
+                break;
+            case 'HAVINGCHECK' :
+                $valueArray[self::SESS_OPERATOR] = "LIKE";
+                $valueArray[self::SESS_VALUES] = "%".$valueArray[self::SESS_VALUES]."%";
+                break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
                 break;
@@ -528,6 +544,8 @@
             $operatorList = $this->operatorGroup;
         } elseif($accounttype == '2' || $accounttype == '11') {
             $operatorList = $this->operatorAccount;
+        } elseif($accounttype == '5') {
+            $operatorList = $this->operatorAccountCheckbox;
         } else {
             $operatorList = $this->operatorList;
         }
@@ -633,7 +651,7 @@
 
         if($tableName == self::GROUP_TABLE || $field == 'CATEGORY_ID' || $field == 'CATEGORY') {
             $this->type = self::HTML_SELECT;
-        } elseif($accounttype == '2' || $accounttype == '11') {
+        } elseif($accounttype == '2' || $accounttype == '11' || $accounttype =='5') {
             $this->type = self::HTML_SELECT;
         } else {
             $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
@@ -674,7 +692,7 @@
 
                 $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
                 if($accounttype != null) {
-                  $fieldSelect = $accountInfos->find_accountinfo_values($field);
+                  $fieldSelect = $accountInfos->find_accountinfo_values($field, $accounttype);
                 } elseif($field == 'CATEGORY_ID') {
                    $fieldSelect = $this->asset_categories();
                 } elseif($field == 'CATEGORY'){

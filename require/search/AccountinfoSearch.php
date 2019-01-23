@@ -141,8 +141,7 @@ require 'require/function_admininfo.php';
      * @param  string $field
      * @return array $values
      */
-    public function find_accountinfo_values($field){
-
+    public function find_accountinfo_values($field, $typeInfo = null){
         $id = explode("_", $field);
         $sql = "SELECT `NAME` FROM accountinfo_config WHERE ID = %s";
         $arg = array($id[1]);
@@ -152,7 +151,7 @@ require 'require/function_admininfo.php';
           $info = 'ACCOUNT_VALUE_'.$type['NAME'];
         }
 
-        $values = find_value_field($info);
+        $values = find_value_field($info, $typeInfo);
 
         return $values;
     }
