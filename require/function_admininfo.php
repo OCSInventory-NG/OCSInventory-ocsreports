@@ -171,12 +171,16 @@ function find_all_account_tab($tab_value, $onlyactiv = '', $first = '') {
     return $array_tab_account;
 }
 
-function find_value_field($name) {
+function find_value_field($name, $type = null) {
     $array_tab_account = array();
     $data = look_config_default_values($name . '\_%', true);
     if (isset($data['name'])) {
         foreach ($data['name'] as $field => $value) {
+          if($type == '5'){
+            $array_tab_account[$data['tvalue'][$field]] = $data['tvalue'][$field];
+          }else{
             $array_tab_account[$data['ivalue'][$field]] = $data['tvalue'][$field];
+          }
         }
     }
     return $array_tab_account;

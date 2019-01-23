@@ -222,6 +222,8 @@
         "DONTBELONG" => 968,
         "HAVING" => 507,
         "NOTHAVING" => 508,
+        "HAVINGCHECK" => 507,
+        "NOTHAVINGCHECK" => 508,
     ];
 
     private $comparatorsArray = [
