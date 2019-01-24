@@ -20,27 +20,21 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
+
 $values = look_config_default_values(array('EXPORT_SEP'));
 if (is_defined($values['tvalue']['EXPORT_SEP'])) {
     $separator = $values['tvalue']['EXPORT_SEP'];
 } else {
     $separator = ';';
 }
+
 $link = $_SESSION['OCS']["readServer"];
 $toBeWritten = "";
-//log directory
-if (isset($protectedGet['log']) && !preg_match("/([^A-Za-z0-9.])/", $protectedGet['log'])) {
-    $Directory = $_SESSION['OCS']['LOG_DIR'] . "/";
-}
-if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
-    $tab = file($Directory . $protectedGet['log']);
-    while (list($cle, $val) = each($tab)) {
-        $toBeWritten .= $val . "\r\n";
-    }
-    $filename = $protectedGet['log'];
-} elseif (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
-    $toBeWritten = "";
-    //gestion des entetes
+
+// Export DB data
+if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
+
+    // Gestion des entetes
     foreach ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']] as $name => $nothing) {
         if ($name != 'SUP' && $name != 'CHECK' && $name != 'NAME' && $name != 'ACTIONS') {
             if ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name]{1} == ".") {
@@ -56,7 +50,8 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
             $toBeWritten .= $l->g(23) . $separator;
         }
     }
-    //data fixe
+
+    // Data fixe
     if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']])) {
         $i = 0;
         while ($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]) {
@@ -71,16 +66,19 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
             $i++;
         }
     }
+
     if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']]) {
         $arg = $_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
     } else {
         $arg = '';
     }
+
     if (isset($protectedGet['nolimit'])) {
         $result = mysql2_query_secure($_SESSION['OCS']['csv']['SQLNOLIMIT'][$protectedGet['tablename']], $link, $arg);
     } else {
         $result = mysql2_query_secure($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']], $link, $arg);
     }
+
     $i = 0;
     require_once('require/function_admininfo.php');
     $inter = interprete_accountinfo($col, array());
@@ -130,6 +128,7 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
         }
         $i++;
     }
+
     $i = 0;
     while ($data[$i]) {
         $toBeWritten .= "\r\n";
@@ -145,27 +144,52 @@ if (isset($Directory) && file_exists($Directory . $protectedGet['log'])) {
         }
         $i++;
     }
-    $filename = "export.csv";
 }
-if ($toBeWritten != "") {
-    // iexplorer problem
+
+
+// Get directory of log file
+if (isset($protectedGet['log']) && !preg_match("/([^A-Za-z0-9.])/", $protectedGet['log'])) {
+    $Directory = $_SESSION['OCS']['LOG_DIR'] . "/";
+}
+
+// Generate output page
+if ($toBeWritten != "" || (isset($Directory) && file_exists($Directory . $protectedGet['log'])) ) {
+
+    // Work around iexplorer problem
     if (ini_get("zlib.output-compression")) {
         ini_set("zlib.output-compression", "Off");
     }
+
+    // Static headers
     header("Pragma: public");
     header("Expires: 0");
     header("Cache-control: must-revalidate, post-check=0, pre-check=0");
     header("Cache-control: private", false);
     header("Content-type: application/force-download");
-    header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
     header("Content-Transfer-Encoding: binary");
-    header("Content-Length: " . strlen($toBeWritten));
-    echo $toBeWritten,
-    die();
+
+    if ($toBeWritten != "") {
+	// Generate output page for DB data export
+        header("Content-Disposition: attachment; filename=\"export.csv\"");
+        header("Content-Length: " . strlen($toBeWritten));
+        echo $toBeWritten;
+    } else {
+	// Generate output page for log export
+	$filename = $Directory . $protectedGet['log'];
+        header("Content-Disposition: attachment; filename=\"" . $protectedGet['log'] . "\"");
+        header("Content-Length: " . filesize($filename));
+        readfile($filename);
+    }
+
 } else {
+
+    // Nothing to export
     require_once (HEADER_HTML);
     msg_error($l->g(920));
     require_once(FOOTER_HTML);
-    die();
+
 }
+
+die();
+
 ?>
