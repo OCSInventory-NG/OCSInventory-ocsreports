@@ -1436,55 +1436,39 @@ function ajaxfiltre($queryDetails,$tab_options){
 			}
 		}
 
-		// Find columns that are full-text indexed.
-		$ft_idx = [];
-		$sql_ft='show index from softwares;';
-		$resultDetails = mysql2_query_secure($sql_ft, $_SESSION['OCS']["readServer"]);
-                while($row = mysqli_fetch_object($resultDetails)){
-			if ( $row->Index_type == 'FULLTEXT') {
-				$ft_idx[ $row->Column_name ] = $row->Column_name;
-			}
-                }
-
-		// Find the correct place where to do the full-text search in the query
-                if (count($sqlword['WHERE'])>1) {
-                        $ft_queryDetails1 = $sqlword['WHERE'][0];
-                        $ft_queryDetails2 = $sqlword['WHERE'][1];
-                        $ft_place = 'WHERE';
-                } elseif (count($sqlword['GROUPBY'])>1) {
-                        $ft_queryDetails1 = $sqlword['GROUPBY'][0];
-                        $ft_queryDetails2 = $sqlword['GROUPBY'][1];
-                        $ft_place = 'GROUP BY';
-                }
-
-                // Check if one of the column used in the query if full-text indexed
-                $ft_search = 0;
+                // Check if at least one of the column used in the query if full-text indexed
                 foreach ($tab_options['visible_col'] as $column) {
-                        $cname = $tab_options['columns'][$column]['name'];
-                        if (!empty($ft_idx[$cname])) {
-                                $ft_search = 1;
+                        if ($tab_options['columns'][$column]['ft_index'] == 'true') {
+                                // Find the correct place where to do the full-text search in the query
+                                if (count($sqlword['WHERE'])>1) {
+                                        $ft_queryDetails1 = $sqlword['WHERE'][0];
+                                        $ft_queryDetails2 = $sqlword['WHERE'][1];
+                                        $ft_place = 'WHERE';
+                                } elseif (count($sqlword['GROUPBY'])>1) {
+                                        $ft_queryDetails1 = $sqlword['GROUPBY'][0];
+                                        $ft_queryDetails2 = $sqlword['GROUPBY'][1];
+                                        $ft_place = 'GROUP BY';
+                                }
                                 break;
                         }
                 }
 
                 // Add filtering criteria
-                if ($ft_search == 1) {
+                if (!empty($ft_place)) {
 
                         // Search with at least 1 full-text indexed columns
-                        error_log("BEFORE FT SEARCH: $queryDetails");
                         $index = 0;
 
                         foreach ($tab_options['visible_col'] as $column) {
                                 $cname = $tab_options['columns'][$column]['name'];
 
                                 // Find out if the column is searchable
-                                // (Cyrille: For me the following 2 tests should be in this order. But they are elsewhere usually in the reverse order. To be verified pleased)
-                                $searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
                                 if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
                                         $tab_options['columns'][$column]['searchable'] = false;
                                 }
+                                $searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 
-                                if ($searchable && !empty($ft_idx[$cname])) {
+                                if ($searchable && $tab_options['columns'][$column]['ft_index'] == 'true') {
                                         // Column is searchable and is full-text indexed
                                         if ($index==0) {
                                                 $ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search')";
@@ -1492,7 +1476,7 @@ function ajaxfiltre($queryDetails,$tab_options){
                                                 $ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search')";
                                         }
                                         $index++;
-                                } elseif ($searchable && !empty($ft_idx[$cname])) {
+                                } elseif ($searchable && $tab_options['columns'][$column]['ft_index'] == 'false') {
                                         // Column is searchable but isn't full-text indexed
                                         if ($index==0) {
                                                 $ft_queryDetails1 .= " WHERE ( $cname LIKE '%%$search%%')";
@@ -1512,7 +1496,6 @@ function ajaxfiltre($queryDetails,$tab_options){
                                 }
                         }
 
-                        error_log("AFTER FT SEARCH: $queryDetails");
                         return $queryDetails;
                 }
 
@@ -1521,7 +1504,6 @@ function ajaxfiltre($queryDetails,$tab_options){
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
 			$cname = $tab_options['columns'][$column]['name'];
-			// (Cyrille: Shouldn't the following 2 tests be reversed: 1st test the 'searchable' field, then look into the "NO_SEARCH" array?)
 			// (Cyrille: The following 2 tests are used at least 3 times in this file. Wouldn't it be a good time to create a function?)
 			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
 				$tab_options['columns'][$column]['searchable'] = false;
@@ -1534,7 +1516,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 			}
 
 			// If column is searchable and doesn't have a full-text index 
-			if ($searchable && empty($ft_idx[$cname])) {
+			if ($searchable && (empty($tab_options['columns'][$column]['ft_index']) || $tab_options['columns'][$column]['ft_index'] == 'false')) {
 				if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $index == 0) {
 						$name_col = $tab_options['COL_SEARCH'];
 						$filter =  " (( ".$name_col." LIKE '%%".$search."%%' ) ";

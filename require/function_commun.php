@@ -175,6 +175,24 @@ function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME) {
     return $link;
 }
 
+// Function to retrieve the columns that are full-text indexed within a table
+// Arguments:
+//   $tableName : The name of the SQL table to query
+//   $tableAlias: The alias of the SQL table in the query
+function dbGetFTIndex($tableName, $tableAlias) {
+
+     $ft_idx = [];
+     $sql_ft='show index from ' . $tableName . ';';
+     $resultDetails = mysql2_query_secure($sql_ft, $_SESSION['OCS']["readServer"]);
+     while($row = mysqli_fetch_object($resultDetails)){
+           if ( $row->Index_type == 'FULLTEXT') {
+                $ft_idx[ $row->Column_name ] = "$tableAlias.$row->Column_name";
+           }
+     }
+
+     return $ft_idx;
+}
+
 /* * *********************************END SQL FUNCTION***************************************** */
 
 function addLog($type, $value = "", $lbl_sql = '') {
