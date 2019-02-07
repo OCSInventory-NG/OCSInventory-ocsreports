@@ -1468,12 +1468,20 @@ function ajaxfiltre($queryDetails,$tab_options){
                                 }
                                 $searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 
+				// Find out if the column is searchable and is full-text indexed
                                 if ($searchable && $tab_options['columns'][$column]['ft_index'] == 'true') {
-                                        // Column is searchable and is full-text indexed
-                                        if ($index==0) {
-                                                $ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search')";
+                                        // Add a '+' in front of each word when $search contains several words
+                                        if (stripos($search, ' ') !== false) {
+                                                $search1 = '+'.implode(' +', explode(' ',$search));
+                                                error_log("SEARCH $search");
                                         } else {
-                                                $ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search')";
+                                                $search1 = $search;
+                                        }
+                                        // Append the search term
+                                        if ($index==0) {
+                                                $ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search1' IN BOOLEAN MODE)";
+                                        } else {
+                                                $ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search1' IN BOOLEAN MODE)";
                                         }
                                         $index++;
                                 } elseif ($searchable && $tab_options['columns'][$column]['ft_index'] == 'false') {
