@@ -61,9 +61,16 @@
         -moz-border-radius: 6px 0 6px 6px;
         border-radius: 6px 0 6px 6px;
     }
-
-
 }
+
+@media (max-width: 960px) {
+    .affix {
+      position: static;
+      margin-top:10px;
+      width:240px;
+    }
+}
+
 .glyphicon-trash{
     color: gray;
     font-size: x-large;
