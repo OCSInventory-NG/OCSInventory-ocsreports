@@ -180,7 +180,8 @@ if (is_defined($protectedPost['MODIF'])) {
                             AND (ns.macaddr IS NULL)
                             AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
             $tab_options['ARG_SQL'] = array($value_preg);
-            $list_fields = array($l->g(34) => 'ip', 'MAC' => 'mac',
+            $list_fields = array($l->g(34) => 'ip',
+                $l->g(95) => 'mac',
                 $l->g(208) => 'mask',
                 $l->g(232) => 'date',
                 $l->g(318) => 'name');
