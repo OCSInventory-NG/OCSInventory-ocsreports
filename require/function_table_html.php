@@ -1470,12 +1470,13 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 				// Find out if the column is searchable and is full-text indexed
                                 if ($searchable && $tab_options['columns'][$column]['ft_index'] == 'true') {
-                                        // Add a '+' in front of each word when $search contains several words
+                                        // Add a '+' in front of, and a '*' at the end of, each work  when $search contains several words
+                                        $search = trim($search);
                                         if (stripos($search, ' ') !== false) {
                                                 $search1 = '+'.implode(' +', explode(' ',$search));
-                                                error_log("SEARCH $search");
+                                                $search1  = implode(explode(' ',$search1),'* ')."*";
                                         } else {
-                                                $search1 = $search;
+                                                $search1 = $search . "*";
                                         }
                                         // Append the search term
                                         if ($index==0) {
