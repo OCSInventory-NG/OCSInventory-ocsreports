@@ -310,7 +310,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     </div>
 
     <script>
-        //Check all the checkbox
+	 // Check all the checkboxes
         function checkall()
         {
             var table_id = "table#<?php echo $option['table_name']; ?>";
@@ -1435,34 +1435,112 @@ function ajaxfiltre($queryDetails,$tab_options){
 				return $queryDetails;
 			}
 		}
-		//REQUET SELECT FROM
+
+                // Check if at least one of the column used in the query if full-text indexed
+                foreach ($tab_options['visible_col'] as $column) {
+                        if ($tab_options['columns'][$column]['ft_index'] == 'true') {
+                                // Find the correct place where to do the full-text search in the query
+                                if (count($sqlword['WHERE'])>1) {
+                                        $ft_queryDetails1 = $sqlword['WHERE'][0];
+                                        $ft_queryDetails2 = $sqlword['WHERE'][1];
+                                        $ft_place = 'WHERE';
+                                } elseif (count($sqlword['GROUPBY'])>1) {
+                                        $ft_queryDetails1 = $sqlword['GROUPBY'][0];
+                                        $ft_queryDetails2 = $sqlword['GROUPBY'][1];
+                                        $ft_place = 'GROUP BY';
+                                }
+                                break;
+                        }
+                }
+
+                // Add filtering criteria
+                if (!empty($ft_place)) {
+
+                        // Search with at least 1 full-text indexed columns
+                        $index = 0;
+
+                        foreach ($tab_options['visible_col'] as $column) {
+                                $cname = $tab_options['columns'][$column]['name'];
+
+                                // Find out if the column is searchable
+                                if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+                                        $tab_options['columns'][$column]['searchable'] = false;
+                                }
+                                $searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+
+				// Find out if the column is searchable and is full-text indexed
+                                if ($searchable && $tab_options['columns'][$column]['ft_index'] == 'true') {
+                                        // Add a '+' in front of, and a '*' at the end of, each work  when $search contains several words
+                                        $search = trim($search);
+                                        if (stripos($search, ' ') !== false) {
+                                                $search1 = '+'.implode(' +', explode(' ',$search));
+                                                $search1  = implode(explode(' ',$search1),'* ')."*";
+                                        } else {
+                                                $search1 = $search . "*";
+                                        }
+                                        // Append the search term
+                                        if ($index==0) {
+                                                $ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search1' IN BOOLEAN MODE)";
+                                        } else {
+                                                $ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search1' IN BOOLEAN MODE)";
+                                        }
+                                        $index++;
+                                } elseif ($searchable && $tab_options['columns'][$column]['ft_index'] == 'false') {
+                                        // Column is searchable but isn't full-text indexed
+                                        if ($index==0) {
+                                                $ft_queryDetails1 .= " WHERE ( $cname LIKE '%%$search%%')";
+                                        } else {
+                                                $ft_queryDetails1 .= " OR $cname LIKE '%%$search%%')";
+                                        }
+                                        $index++;
+                                }
+                        }
+
+                        // Close the full-text search clause if we added any
+                        if ($index>0) {
+                                if ($ft_place == 'WHERE') {
+                                        $queryDetails = $ft_queryDetails1 . ") AND " . $ft_queryDetails2;
+                                } else {
+                                        $queryDetails = $ft_queryDetails1 . ") GROUP BY " . $ft_queryDetails2;
+                                }
+                        }
+
+                        return $queryDetails;
+                }
+
+		// REQUEST SELECT FROM
 		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
+			$cname = $tab_options['columns'][$column]['name'];
+			// (Cyrille: The following 2 tests are used at least 3 times in this file. Wouldn't it be a good time to create a function?)
 			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
 				$tab_options['columns'][$column]['searchable'] = false;
 			}
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+
+			// (Cyrille: What the hell is the purpose of this "HAVING" array?)
 			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
 				$searchable =true;
 			}
 
-			if ($searchable){
-				$name = $tab_options['columns'][$column]['name'];
+			// If column is searchable and doesn't have a full-text index 
+			if ($searchable && (empty($tab_options['columns'][$column]['ft_index']) || $tab_options['columns'][$column]['ft_index'] == 'false')) {
 				if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $index == 0) {
 						$name_col = $tab_options['COL_SEARCH'];
 						$filter =  " (( ".$name_col." LIKE '%%".$search."%%' ) ";
-				} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+				// (Cyrille: What is this 'c' column?)
+				} else if ($cname != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 						if ($index == 0){
-							$filter =  " (( ".$name." LIKE '%%".$search."%%' ) ";
+							$filter =  " (( ".$cname." LIKE '%%".$search."%%' ) ";
 						} else {
-							$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+							$filter .= " OR  ( ".$cname." LIKE '%%".$search."%%' ) ";
 						}
 				} else if (empty($tab_options["COL_SEARCH"])) {
 						if ($index == 0){
-							$filter =  " (( ".$name." LIKE '%%".$search."%%' ) ";
+							$filter =  " (( ".$cname." LIKE '%%".$search."%%' ) ";
 						} else {
-							$filter .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+							$filter .= " OR  ( ".$cname." LIKE '%%".$search."%%' ) ";
 						}
 				}
 				$index++;

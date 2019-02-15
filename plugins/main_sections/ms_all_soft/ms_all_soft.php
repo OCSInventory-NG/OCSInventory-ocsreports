@@ -305,8 +305,21 @@ echo "</div>";
 echo "</div>";
 echo close_form();
 
-// Prevents searching in 'Count' columns
+// Prevents searching in some columns (Allows using full-text search by default)
 $tab_options['NO_SEARCH']['nb'] = 'nb';
+$tab_options['NO_SEARCH']['sc.CATEGORY_NAME'] = 'sc.CATEGORY_NAME';
+$tab_options['NO_SEARCH']['VERSION'] = 'VERSION';
+
+// Find out which visible columns are full-text indexed in the DB, and add this information to $tab_options
+$ft_idx = dbGetFTIndex('softwares', 's');
+foreach($tab_options['visible_col'] as $column) {
+        $cname = $tab_options['columns'][$column]['name'];
+        if (!empty($ft_idx[$cname])) {
+                $tab_options['columns'][$column]['ft_index'] = 'true';
+        } else {
+                $tab_options['columns'][$column]['ft_index'] = 'false';
+        }
+}
 
 if (AJAX) {
     ob_end_clean();
