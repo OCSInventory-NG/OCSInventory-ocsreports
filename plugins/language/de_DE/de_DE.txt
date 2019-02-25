@@ -1483,11 +1483,17 @@
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
 6000 Plugins
-6001 Office-Lizenzen
-6002 Verteilung der Office-Lizenzen
-6003 Anzahl der Lizenzen
+6001 Spalten zum Auswählen / Verstecken wählen
+6003 Plugin
 6004 Insgesamt verfügbar
 6005 Ein-/Ausschalten
+6006 WARNUNG : Bitte installieren Sie php-soap, die Plugins funktionieren sonst nicht.
+6007 Bitte installieren Sie folgende Module damit die Features funktionieren&nbsp;:&nbsp;
+6008 Kann in folgendes Verzeichnis nicht schreiben&nbsp;:&nbsp;
+6009 Sie können Plugins nicht installieren. Bitte überprüfen Sie die obigen Fehlermeldungen.
+6010 Folgender Fehler trat beim Installieren auf&nbsp;:&nbsp;
+6011 Klicken Sie hier um das Problem zu lösen
+6012 Alle auswählen
 
 7000 Plugin-Verwaltung
 7001 Plugin-Manager
@@ -1496,7 +1502,18 @@
 7004 Lizenz
 7005 Autor
 7006 Zuletzt aktualisiert
+7007 Sind Sie sicher, dass Sie das Plugin löschen möchten
+7009 Installierte Erweiterungen
+7010 Diese Erweiterung ist bereits installiert
+7011 ist eine ungültige Erweiterung, bitte Quellen übeprüfen.
+7012 Installation abgebrochen!
+7013 Installiert
+7014 Es sind keine Erweiterungen für die Installation verfügbar
+7015 Wählen Sie zumindest einen Computer aus !
+7016 MTU
 
 7008 Plugin Installation
 7009 Installierte Plugins
 7014 Es wurden keine Plugins gefunden
+
+8000 Benachrichtigungen
