@@ -32,53 +32,53 @@ echo "<div class='col col-md-10' >";
 if ($protectedPost['onglet'] == 'FILE'){
 	?>
 	<script language='javascript'>
-	    
+
 	    function getext(filename){
 	    	 var parts = filename.split('.');
-	   		return(parts[(parts.length-1)]);    
+	   		return(parts[(parts.length-1)]);
 	    }
-	    
+
 	    function namefile(filename){
 	     	var parts = filename.split('.');
-	    	return(parts[0]);    
-	    }    
-	
+	    	return(parts[0]);
+	    }
+
 	    function verif_file_format(champ){
 	        var ExtList=['ocs','OCS','xml','XML'];
 			filename = document.getElementById(champ).value.toLowerCase();
 			fileExt = getext(filename);
 			for (i=0; i<ExtList.length; i++)
 			{
-				if ( fileExt == ExtList[i] ) 
+				if ( fileExt == ExtList[i] )
 				{
 					return (true);
 				}
 			}
-			alert('<?php mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(559)) ?>');
+			alert('<?php echo mysqli_real_escape_string($_SESSION['OCS']["readServer"],$l->g(559)) ?>');
 			return (false);
 	     }
-	          
+
 	</script>
 	<?php
-	//   
+	//
 	$form_name1="SEND_FILE";
 	$data_config=look_config_default_values(array('LOCAL_URI_SERVER'),'',
 											array('TVALUE'=>array('LOCAL_URI_SERVER'=>'http://localhost:80/ocsinventory')));
-											
+
 	$server = $data_config['tvalue']['LOCAL_URI_SERVER'];
 	$array_port=explode(':',$server);
 	$port_trait=array_pop($array_port);
 	$array_port=explode('/',$port_trait);
 	$port=$array_port[0];
 	if(is_uploaded_file($_FILES['file_upload']['tmp_name'])) {
-		
+
 			$fd = fopen($_FILES['file_upload']['tmp_name'], "r");
 			if ($_FILES['file_upload']['size'] != 0){
 				$contents = fread($fd, filesize ($_FILES['file_upload']['tmp_name']));
 				fclose($fd);
-		
+
 				$result = post_ocs_file_to_server($contents, $server, $port);
-				
+
 				if (isset($result["errno"])) {
 					$errno = $result["errno"];
 					$errstr = $result["errstr"];
@@ -103,31 +103,31 @@ if ($protectedPost['onglet'] == 'FILE'){
 	echo close_form();
 }else{
 	require_once('require/function_computers.php');
-	require_once('require/function_admininfo.php');	
+	require_once('require/function_admininfo.php');
 	//list fields for form
 	$form_fields_typeinput=array('COMPUTER_NAME_GENERIC'=>$l->g(35),
 					   'SERIAL_GENERIC'=>$l->g(36),
 					   'ADDR_MAC_GENERIC'=>$l->g(95));
-	
-	
+
+
 	if (isset($protectedPost['Valid_modif'])){
 		$error='';
 		if (!is_numeric($protectedPost['NB_COMPUTERS']))
 			$error.=$l->g(28).',';
-			
+
 		foreach ($form_fields_typeinput as $key=>$value){
 			if (trim($protectedPost[$key]) == '')
 				$error.=$value.',';
-			
+
 		}
-		
+
 		if ($error == ""){
 			$check_trait=array();
 			foreach ($protectedPost as $key=>$value){
 				if ($value != ''){
 					if (substr($key,0,7) == 'fields_' or $key == 'TAG'){
 						$temp_field=explode('_',$key);
-						
+
 						//checkbox cas
 						if (isset($temp_field[2])){
 							$check_trait[$temp_field[0].'_'.$temp_field[1]].=$temp_field[2]."&&&";
@@ -135,15 +135,15 @@ if ($protectedPost['onglet'] == 'FILE'){
 							$fields[]=$key;
 							$values_fields[]=$value;
 						}
-					}			
-				}	
+					}
+				}
 			}
 			//cas of checkbox
-			if ($check_trait != array()){				
+			if ($check_trait != array()){
 				foreach ($check_trait as $key=>$value){
 					$fields[]=$key;
-					$values_fields[]=$value;					
-				}							
+					$values_fields[]=$value;
+				}
 			}
 			/*if ($protectedPost['NB_COMPUTERS'] === 1)
 				$protectedPost['NB_COMPUTERS']='';*/
@@ -155,7 +155,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 					$values_fields[]='';
 				}
 				insertinfo_computer($id_computer,$fields,$values_fields);
-				$i++;			
+				$i++;
 			}
 			msg_success($l->g(881));
 		}else
@@ -171,7 +171,7 @@ if ($protectedPost['onglet'] == 'FILE'){
 	$config[$i]['CONFIG']['MAXLENGTH']=4	;
 	$other_data['COMMENT_AFTER'][$i]='';
 	$config[$i]['CONFIG']['JAVASCRIPT']=$chiffres;
-	
+
 	foreach ($form_fields_typeinput as $key=>$value){
 		$i++;
 		$info_form['FIELDS']['name_field'][$i]=$key;
@@ -182,11 +182,11 @@ if ($protectedPost['onglet'] == 'FILE'){
 			$info_form['FIELDS']['value_field'][$i]=(isset($protectedPost[$key])? $protectedPost[$key]:rand()) ;
 		$info_form['FIELDS']['tab_name'][$i]=$value."*";
 		$config[$i]['CONFIG']['SIZE']=30;
-		$other_data['COMMENT_AFTER'][$i]='_M';		
+		$other_data['COMMENT_AFTER'][$i]='_M';
 	}
-		
-	$accountinfo_form=show_accountinfo('','COMPUTERS','5'); 
-	
+
+	$accountinfo_form=show_accountinfo('','COMPUTERS','5');
+
 	//merge data
 	$info_form['FIELDS']['name_field']=array_merge ($info_form['FIELDS']['name_field'],$accountinfo_form['FIELDS']['name_field']);
 	$info_form['FIELDS']['type_field']=array_merge ($info_form['FIELDS']['type_field'],$accountinfo_form['FIELDS']['type_field']);
@@ -195,14 +195,14 @@ if ($protectedPost['onglet'] == 'FILE'){
 	$config=array_merge ($config,$accountinfo_form['CONFIG']);
 	$other_data['COMMENT_AFTER']=array_merge ($other_data['COMMENT_AFTER'],$accountinfo_form['COMMENT_AFTER']);
 
-	
+
 	$tab_typ_champ=show_field($info_form['FIELDS']['name_field'],$info_form['FIELDS']['type_field'],$info_form['FIELDS']['value_field']);
 	foreach ($config as $key=>$value){
 		$tab_typ_champ[$key]['CONFIG']=$value['CONFIG'];
-		$tab_typ_champ[$key]['COMMENT_AFTER']=$other_data['COMMENT_AFTER'][$key];		
+		$tab_typ_champ[$key]['COMMENT_AFTER']=$other_data['COMMENT_AFTER'][$key];
 	}
-	
-	
+
+
 	if (isset($tab_typ_champ)){
 		modif_values($info_form['FIELDS']['tab_name'],$tab_typ_champ,$tab_hidden, array(
 			'show_frame' => false
