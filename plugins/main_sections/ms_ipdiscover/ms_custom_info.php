@@ -268,7 +268,7 @@ if (is_defined($protectedPost['MODIF'])) {
         $tab_options['LBL']['MAC'] = $l->g(95);
 
         $list_col_cant_del = array($l->g(66) => $l->g(66), 'SUP' => 'SUP', 'CHECK' => 'CHECK', 'MODIF' => 'MODIF');
-        $table_name = "IPDISCOVER_" . $protectedGet['prov'];
+        $table_name = "IPDISCOVER_" . $protectedGet['prov'] . "_" . str_replace(" ", "",str_replace(".", "",$protectedGet['value']));
         $tab_options['table_name'] = $table_name;
         $form_name = $table_name;
         $tab_options['form_name'] = $form_name;
