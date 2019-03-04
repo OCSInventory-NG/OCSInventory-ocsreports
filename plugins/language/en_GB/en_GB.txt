@@ -1252,7 +1252,7 @@
 1373 Distribution
 1374 Access the website
 1375 Old Forums
-1376 Q&amp;A
+1376 Q&A
 1377 Question and answers
 1378 Free RAM
 1379 RAM installed

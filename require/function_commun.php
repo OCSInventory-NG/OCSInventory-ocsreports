@@ -61,6 +61,7 @@ function look_config_default_values($field_name, $like = '', $default_values = '
 /* * ****************************************************SQL FUNCTION*************************************************** */
 
 function generate_secure_sql($sql, $arg = '') {
+
     if (is_array($arg)) {
         foreach ($arg as $value) {
             $arg_array_escape_string[] = mysqli_real_escape_string($_SESSION['OCS']["readServer"], $value);
@@ -396,7 +397,13 @@ function strip_tags_array($value = '') {
         $value = "Objet de la classe " . $value;
         return $value;
     }
+
     $value = is_array($value) ? array_map('strip_tags_array', $value) : strip_tags($value, "<p><b><i><font><br><center>");
+
+    if(!is_array($value)){
+      $value = htmlspecialchars($value, ENT_QUOTES);
+    }
+
     return $value;
 }
 
