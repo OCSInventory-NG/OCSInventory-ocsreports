@@ -140,7 +140,7 @@ if($protectedPost['onglet'] == "ALL"){
     }
 
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME";
+        $sql['SQL'] .= " GROUP BY s.NAME,s.VERSION";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] =  $sql_fin['ARG'];
@@ -188,7 +188,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
     $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME";
+        $sql['SQL'] .= " GROUP BY s.NAME,s.VERSION";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
@@ -233,7 +233,7 @@ else {
 
     $sql['ARG'] = array($protectedPost['onglet']);
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME";
+        $sql['SQL'] .= " GROUP BY s.NAME,s.VERSION";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
