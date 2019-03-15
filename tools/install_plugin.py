@@ -104,5 +104,6 @@ else:
 	#Copy Files
 	shutil.copyfile(directory + plugins[selection] + "/APACHE/Map.pm", location + "/perl/Apache/Ocsinventory/Plugins/" + plugins[selection].title() + "/Map.pm")
 	shutil.copyfile(directory + plugins[selection] + "/APACHE/" + plugins[selection] + ".conf", location + "/plugins/" + plugins[selection] + ".conf")
+	print(plugins[selection] + "has been successfully installed ! Don't forget to restart your Apache server")
 
 exit()
