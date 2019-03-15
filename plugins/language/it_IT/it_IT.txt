@@ -1252,7 +1252,7 @@
 1373 Distribuzione
 1374 Accedi al sito web
 1375 Vecchio Forum
-1376 Q&amp;A
+1376 Q&A
 1377 Domande e risposte
 1378 RAM libera
 1379 RAM installata

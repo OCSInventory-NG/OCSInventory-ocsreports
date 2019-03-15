@@ -1253,7 +1253,7 @@
 1373 Distribution
 1374 Accéder au site
 1375 Anciens Forums
-1376 Q &amp; R
+1376 Q&R
 1377 Questions et réponses
 1378 RAM disponible
 1379 RAM totale
