@@ -2044,6 +2044,31 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	echo json_encode($res);
 }
 
+function del_selection($form_name){
+	global $l;
+?>
+	<script language=javascript>
+			function garde_check(image,id)
+			 {
+				var idchecked = '';
+				for(i=0; i<document.<?php echo $form_name ?>.elements.length; i++)
+				{
+					if(document.<?php echo $form_name ?>.elements[i].name.substring(0,5) == 'check'){
+				        if (document.<?php echo $form_name ?>.elements[i].checked)
+							idchecked = idchecked + document.<?php echo $form_name ?>.elements[i].name.substring(5) + ',';
+					}
+				}
+				idchecked = idchecked.substr(0,(idchecked.length -1));
+				confirme('',idchecked,"<?php echo $form_name ?>","del_check","<?php echo $l->g(900) ?>");
+			}
+	</script>
+<?php
+		//foreach ($img as $key=>$value){
+			echo "<a href=# onclick=garde_check()><span class='glyphicon glyphicon-remove delete-span' title='".$l->g(162)."' ></span></a>";
+		//}
+	 echo "<input type='hidden' id='del_check' name='del_check' value=''>";
+}
+
 function js_tooltip() {
     echo "<script language='javascript' type='text/javascript' src='js/tooltip.js'></script>";
     echo "<div id='mouse_pointer' class='tooltip'></div>";
