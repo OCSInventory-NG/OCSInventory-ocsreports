@@ -145,22 +145,12 @@ if($protectedPost['onglet'] == "ALL"){
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] =  $sql_fin['ARG'];
         }
-        $list_fields = array($l->g(69) => 'PUBLISHER',
-             'name' => 'NAME',
-             $l->g(277) => 'VERSION',
+        $list_fields = array('name' => 'NAME',
              $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
-        $list_fields[$l->g(51)] = 'COMMENTS';
-        $list_fields[$l->g(1248)] = 'FOLDER';
-        $list_fields[$l->g(446)] = 'FILENAME';
-        $list_fields[ucfirst(strtolower($l->g(953)))] = 'FILESIZE';
-        $list_fields['GUID'] = 'GUID';
-        $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
-        $list_fields[$l->g(1238)] = 'INSTALLDATE';
-        $list_fields[$l->g(1247)] = 'BITSWIDTH';
         $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
         $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
@@ -193,22 +183,12 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array($l->g(69) => 'PUBLISHER',
-             'name' => 'NAME',
-             $l->g(277) => 'VERSION',
+        $list_fields = array('name' => 'NAME',
              $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
-        $list_fields[$l->g(51)] = 'COMMENTS';
-        $list_fields[$l->g(1248)] = 'FOLDER';
-        $list_fields[$l->g(446)] = 'FILENAME';
-        $list_fields[ucfirst(strtolower($l->g(953)))] = 'FILESIZE';
-        $list_fields['GUID'] = 'GUID';
-        $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
-        $list_fields[$l->g(1238)] = 'INSTALLDATE';
-        $list_fields[$l->g(1247)] = 'BITSWIDTH';
         $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
         $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
@@ -238,22 +218,12 @@ else {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array($l->g(69) => 'PUBLISHER',
-             'name' => 'NAME',
-             $l->g(277) => 'VERSION',
+        $list_fields = array('name' => 'NAME',
              $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
-        $list_fields[$l->g(51)] = 'COMMENTS';
-        $list_fields[$l->g(1248)] = 'FOLDER';
-        $list_fields[$l->g(446)] = 'FILENAME';
-        $list_fields[ucfirst(strtolower($l->g(953)))] = 'FILESIZE';
-        $list_fields['GUID'] = 'GUID';
-        $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
-        $list_fields[$l->g(1238)] = 'INSTALLDATE';
-        $list_fields[$l->g(1247)] = 'BITSWIDTH';
         $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
         $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
