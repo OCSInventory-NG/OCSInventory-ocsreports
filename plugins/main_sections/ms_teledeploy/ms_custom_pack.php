@@ -50,6 +50,7 @@ if(isset($protectedPost['Valid_package'])) {
 }
 
 if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protectedPost['DWL_OPT'] == "YES") {
+    // Show form
     $tab_hidden['SELECT'] = $protectedPost['MODIF'];
     $tab_hidden['onglet'] = $protectedPost['onglet'];
     $tab_hidden['rule_choise'] = $protectedPost['rule_choise'];
@@ -66,7 +67,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
     if ($protectedGet['origine'] != 'group') {
         array_push($tab_name, $l->g(1293));
         array_push($name_field, "TELE_FORCE");
-        array_push($type_field, 5);
+        array_push($type_field, 5); // field is a checkbox
         array_push($value_field, array(''));
     }
     $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
@@ -75,12 +76,14 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         'title' => $l->g(1309)
     ));
 } else {
+    // Submit form
+    $tab_hidden['SELECT'] = $protectedPost['MODIF'];
     if (isset($protectedPost['MODIF'])) {
         $protectedPost['SELECT'] = $protectedPost['MODIF'];
         $protectedPost['Valid_modif'] = true;
     }
     if ($protectedPost['SELECT'] != '' && isset($protectedPost['Valid_modif'])) {
-        if (isset($protectedPost['TELE_FORCE_0'])) {
+        if (isset($protectedPost['TELE_FORCE_'])) {
             active_option('DOWNLOAD_FORCE', $list_id, $protectedPost['SELECT'], '1');
         }
         if (is_defined($protectedPost['INSTALL_DATE'])) {
