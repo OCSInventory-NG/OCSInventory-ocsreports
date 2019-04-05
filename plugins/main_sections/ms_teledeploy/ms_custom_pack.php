@@ -77,7 +77,6 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
     ));
 } else {
     // Submit form
-    $tab_hidden['SELECT'] = $protectedPost['MODIF'];
     if (isset($protectedPost['MODIF'])) {
         $protectedPost['SELECT'] = $protectedPost['MODIF'];
         $protectedPost['Valid_modif'] = true;
