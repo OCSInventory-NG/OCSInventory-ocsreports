@@ -61,18 +61,14 @@ class language {
     }
 
     function addExternalLangFile($path){
-        try{
-            $externalFile = fopen($path, "r");
-            while (!feof($externalFile)) {
-                $val = fgets($externalFile, 1024);
-                $tok1 = rtrim(strtok($val, " "));
-                $tok2 = rtrim(strtok(""));
-                $this->tableauMots[$tok1] = $tok2;
-            }
-            fclose($externalFile);
-        } catch (Exception $ex) {
-            error_log("Plugin lang file does not exist, aborting plugin initilisation due to : ".$ex->getMessage() );
+        $externalFile = fopen($path, "r");
+        while (!feof($externalFile)) {
+            $val = fgets($externalFile, 1024);
+            $tok1 = rtrim(strtok($val, " "));
+            $tok2 = rtrim(strtok(""));
+            $this->tableauMots[$tok1] = $tok2;
         }
+        fclose($externalFile);
     }
 
     function g($i) {
