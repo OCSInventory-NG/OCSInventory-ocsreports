@@ -61,7 +61,7 @@ class language {
     }
 
     function addExternalLangFile($path){
-        try{
+        if(file_exists($path)){
             $externalFile = fopen($path, "r");
             while (!feof($externalFile)) {
                 $val = fgets($externalFile, 1024);
@@ -70,8 +70,6 @@ class language {
                 $this->tableauMots[$tok1] = $tok2;
             }
             fclose($externalFile);
-        } catch (Exception $ex) {
-            error_log("Plugin lang file does not exist, aborting plugin initilisation due to : ".$ex->getMessage() );
         }
     }
 
