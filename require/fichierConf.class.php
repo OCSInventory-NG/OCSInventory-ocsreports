@@ -61,14 +61,16 @@ class language {
     }
 
     function addExternalLangFile($path){
-        $externalFile = fopen($path, "r");
-        while (!feof($externalFile)) {
-            $val = fgets($externalFile, 1024);
-            $tok1 = rtrim(strtok($val, " "));
-            $tok2 = rtrim(strtok(""));
-            $this->tableauMots[$tok1] = $tok2;
+        if(file_exists($path)){
+            $externalFile = fopen($path, "r");
+            while (!feof($externalFile)) {
+                $val = fgets($externalFile, 1024);
+                $tok1 = rtrim(strtok($val, " "));
+                $tok2 = rtrim(strtok(""));
+                $this->tableauMots[$tok1] = $tok2;
+            }
+            fclose($externalFile);
         }
-        fclose($externalFile);
     }
 
     function g($i) {
