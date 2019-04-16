@@ -52,8 +52,6 @@ $sql_fin['ARG'] = array();
 
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
     $info_name_soft = array("table" => "type_softwares_name", "field" => "name", "field_name_soft" => 'name_id');
-} elseif ($_SESSION['OCS']["usecache"] == 1) {
-    $info_name_soft = array("table" => "softwares_name_cache", "field" => "name", "field_name_soft" => 'name');
 } else {
     $info_name_soft = array("table" => "s", "field" => "name", "field_name_soft" => 'name');
 }
