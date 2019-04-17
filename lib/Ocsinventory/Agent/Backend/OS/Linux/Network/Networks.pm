@@ -347,10 +347,11 @@ sub run {
                     }
                 }
                 $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $ipaddress6 = $ipgateway6 = $ipmask6 = $ipsubnet6 = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = $mtu = undef;
+                @secondary();
             }
             $description = $1 if ($line =~ /^\d+:\s+([^:@]+)/); # Interface name
             if ($description && $description eq "lo" ) { next; } # loopback interface is not inventoried
-            if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i){
+            if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i && $line != /secondary/i){
                 $ipaddress=$1;
                 $ipmask=getIPNetmask($2);
                 $ipsubnet=getSubnetAddressIPv4($ipaddress,$ipmask);
