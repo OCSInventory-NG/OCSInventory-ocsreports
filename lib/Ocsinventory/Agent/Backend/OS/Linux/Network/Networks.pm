@@ -116,6 +116,8 @@ sub run {
     my $basedev;
     my $slave;
     my %gateway;
+    my @secondary;
+    my $ipsecond;
 
     if ($common->can_run("ip")){
         my @netsum = `ip addr show`;
@@ -132,18 +134,6 @@ sub run {
                     close UEVENT;
                 }
 
-                # Retrieve speed from /sys/class/net/$description/speed
-                $speed=getSpeed($description);
-
-                # Retrieve duplex from /sys/class/net/$description/duplex
-                $duplex=getDuplex($description);
-
-                # Retrieve mtu from /sys/class/net/$description/mtu
-                $mtu=getMTU($description);
-
-                # Retrieve status from /sys/class/net/$description/status
-                $status=getStatus($description);
-
                 if (-d "/sys/class/net/$description/wireless"){
                     my @wifistatus = `iwconfig $description 2>/dev/null`;
                     foreach my $line (@wifistatus){
@@ -157,6 +147,8 @@ sub run {
                     $status=1;
                 } elsif (-f "/sys/class/net/$description/mode") {
                     $type="infiniband";
+                } else {
+                    $type="ethernet";
                 }
 
                 if (defined ($ipgateway)) {
@@ -169,50 +161,17 @@ sub run {
                     });
                 }
 
-                # Virtual devices
-                # Reliable way to get the info
-                if (-d "/sys/devices/virtual/net/") {
-                    $virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
-                } elsif ($common->can_run("brctl")) {
-                    # Let's guess
-                    my %bridge;
-                    foreach (`brctl show`) {
-                        next if /^bridge name/;
-                        $bridge{$1} = 1 if /^(\w+)\s/;
-                    }
-                    if ($pcislot) {
-                        $virtualdev = "1";
-                    } elsif ($bridge{$description}) {
-                        $virtualdev = "0";
-                    }
-                    $type = "bridge";
-                }
+                # Retrieve speed from /sys/class/net/$description/speed
+                $speed=getSpeed($description);
 
-                # Check if this is dialup interface
-                if ($description =~ m/^ppp$/) {
-                    $type="dialup";
-                    $virtualdev=1;
-                }
+                # Retrieve duplex from /sys/class/net/$description/duplex
+                $duplex=getDuplex($description);
 
-                # Check if this is an alias or tagged interface
-                if ($description =~ m/^([\w\d]+)[:.]\d+$/) {
-                    $basedev=$1;
-                    $type="alias";
-                    $virtualdev=1;
-                }
+                # Retrieve mtu from /sys/class/net/$description/mtu
+                $mtu=getMTU($description);
 
-                # Check if this is a bonding slave
-                if (-d "/sys/class/net/$description/bonding"){
-                    $slave=getslaves($description);
-                    $type="aggregate";
-                    $virtualdev=1;
-                }
-
-                # Check if this is a vlan
-                if (-f "/proc/net/vlan/$description"){
-                    $type="vlan";
-                    $virtualdev=1;
-                }
+                # Retrieve status from /sys/class/net/$description/status
+                $status=getStatus($description);
 
                 if ($description && $ipaddress) {
                     if ($type eq "Wifi") {
@@ -236,7 +195,6 @@ sub run {
                         });
                     } else {
                         $common->addNetwork({
-                            BASE => $basedev?$basedev : undef,
                             DESCRIPTION => $description,
                             DRIVER => $driver,
                             IPADDRESS => $ipaddress,
@@ -252,63 +210,164 @@ sub run {
                             DUPLEX => $duplex?"Full":"Half",
                             SPEED => $speed,
                             MTU => $mtu,
-                            SLAVE => $slave?$slave : undef,
                         });
                     }
                 } elsif ($description && $ipaddress6) {
+                    if ($type eq "Wifi") {
+                          $common->addNetwork({
+                              DESCRIPTION => $description,
+                              DRIVER => $driver,
+                              IPADDRESS => $ipaddress,
+                              IPDHCP => _ipdhcp($description),
+                              IPGATEWAY => $ipgateway,
+                              IPMASK => $ipmask,
+                              IPSUBNET => $ipsubnet,
+                              MACADDR => $macaddr,
+                              PCISLOT => $pcislot,
+                              STATUS => $status?"Up":"Down",
+                              TYPE => $type,
+                              SPEED => $bitrate,
+                              SSID => $ssid,
+                              BSSID => $bssid,
+                              IEEE => $version,
+                              MODE => $mode,
+                        });
+                    } else {
+                        $common->addNetwork({
+                            DESCRIPTION => $description,
+                            DRIVER => $driver,
+                            IPADDRESS => $ipaddress6,
+                            IPDHCP => _ipdhcp($description),
+                            IPGATEWAY => $ipgateway6,
+                            IPMASK => $ipmask6,
+                            IPSUBNET => $ipsubnet6,
+                            MACADDR => $macaddr,
+                            PCISLOT => $pcislot,
+                            STATUS => $status?"Up":"Down",
+                            TYPE => $type,
+                            DUPLEX => $duplex?"Full":"Half",
+                            SPEED => $speed,
+                            MTU => $mtu,
+                            VIRTUALDEV => $virtualdev,
+                        });
+                    }
+                }
+
+                # Virtual devices
+                # Reliable way to get the info
+                if (-d "/sys/devices/virtual/net/") {
+                    $virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
+                } elsif ($common->can_run("brctl")) {
+                    # Let's guess
+                    my %bridge;
+                    foreach (`brctl show`) {
+                        next if /^bridge name/;
+                        $bridge{$1} = 1 if /^(\w+)\s/;
+                    }
+                    if ($pcislot) {
+                        $virtualdev = "1";
+                    } elsif ($bridge{$description}) {
+                        $virtualdev = "0";
+                    }
+                    $type = "bridge";
                     $common->addNetwork({
-                        BASE => $basedev?$basedev : undef,
                         DESCRIPTION => $description,
-                        DRIVER => $driver,
-                        IPADDRESS => $ipaddress6,
-                        IPDHCP => _ipdhcp($description),
-                        IPGATEWAY => $ipgateway6,
-                        IPMASK => $ipmask6,
-                        IPSUBNET => $ipsubnet6,
-                        MACADDR => $macaddr,
-                        PCISLOT => $pcislot,
-                        STATUS => $status?"Up":"Down",
                         TYPE => $type,
                         VIRTUALDEV => $virtualdev,
-                        DUPLEX => $duplex?"Full":"Half",
-                        SPEED => $speed,
-                        MTU => $mtu,
-                        SLAVE => $slave?$slave : undef,
-                    });
-                } else {
-                    $common->addNetwork({
-                        DESCRIPTION => $description,
-                        DRIVER => $driver,
-                        MACADDR => $macaddr,
-                        PCISLOT => $pcislot,
-                        STATUS => $status?"Up":"Down",
-                        TYPE => $type,
-                        VIRTUALDEV => $virtualdev,
-                        DUPLEX => $duplex?"Full":"Half",
-                        SPEED => $speed,
-                        MTU => $mtu,
                     });
                 }
+
+                # Check if this is dialup interface
+                if ($description =~ m/^ppp$/) {
+                    $type="dialup";
+                    $virtualdev=1;
+                    $common->addNetwork({
+                        DESCRIPTION => $description,
+                        TYPE => $type,
+                        VIRTUALDEV => $virtualdev,
+                    });
+                }
+
+                # Check if this is a bonding slave
+                if (-d "/sys/class/net/$description/bonding"){
+                    $slave=getslaves($description);
+                    $type="aggregate";
+                    $virtualdev=1;
+                    $common->addNetwork({
+                        SLAVE => $slave,
+                        TYPE => $type,
+                        VIRTUALDEV => $virtualdev,
+                    });
+                }
+
+                # Check if this is an alias or tagged interface
+                if ($description =~ m/^([\w\d]+)[:.]\d+$/) {
+                    $basedev=$1;
+                    $type="alias";
+                    $virtualdev=1;
+                    $common->addNetwork({
+                        BASE => $basedev,
+                        DESCRIPTION => $description,
+                        TYPE => $type,
+                        VIRTUALDEV => $virtualdev,
+                    });
+                    
+                }
+
+                # Check if this is a vlan
+                if (-f "/proc/net/vlan/$description"){
+                    $type="vlan";
+                    $virtualdev=1;
+                    $common->addNetwork({
+                        BASE => $basedev,
+                        DESCRIPTION => $description,
+                        TYPE => $type,
+                        VIRTUALDEV => $virtualdev,
+                    });
+                }
+
+                # Check if this is a secondary ip address 
+                if (@secondary) {
+                    foreach my $info (@secondary) {
+                        $ipsecond=$1 if ($info =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/);
+                        $basedev=$description;
+                        $type="secondary";
+                        $virtualdev=1;
+                        $common->addNetwork({
+                            BASE => $basedev?$basedev : undef,
+                            DESCRIPTION => $description,
+                            IPADDRESS => $ipsecond,
+                            IPGATEWAY => $ipgateway,
+                            IPMASK => $ipmask,
+                            IPSUBNET => $ipsubnet,
+                            MACADDR => $macaddr,
+                            TYPE => $type,
+                            VIRTUALDEV => $virtualdev?"Virtual":"Physical",
+                        });
+                    }
+                }
                 $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $ipaddress6 = $ipgateway6 = $ipmask6 = $ipsubnet6 = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = $mtu = undef;
+                @secondary();
             }
             $description = $1 if ($line =~ /^\d+:\s+([^:@]+)/); # Interface name
             if ($description && $description eq "lo" ) { next; } # loopback interface is not inventoried
-            if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i){
+            if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i && $line != /secondary/i){
                 $ipaddress=$1;
                 $ipmask=getIPNetmask($2);
                 $ipsubnet=getSubnetAddressIPv4($ipaddress,$ipmask);
                 $ipgateway=getIPRoute($ipaddress);
             } elsif ($line =~ /\s+link\/(\S+)/){
                 $type=$1;
-                if ($type eq "ether"){
-                    $type="ethernet";
-                }
                 $macaddr=getMAC($description);
             } elsif ($line =~ /inet6 (\S+)\/(d{1,2})/i){
                 $ipaddress6=$1;
                 $ipmask6=getIPNetmaskV6($2);
                 $ipsubnet6=getSubnetAddressIPv6($ipaddress6,$ipmask6);
                 $ipgateway6=getIPRoute($ipaddress6);
+            }
+            # Retrieve secondary ip addresses if defined
+            if ($line =~ /secondary/i){
+                push @secondary, $line;
             }
         }
     }  elsif ($common->can_run("ifconfig")){
