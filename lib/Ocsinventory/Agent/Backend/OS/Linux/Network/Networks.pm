@@ -347,7 +347,7 @@ sub run {
                     }
                 }
                 $description = $driver = $ipaddress = $ipgateway = $ipmask = $ipsubnet = $ipaddress6 = $ipgateway6 = $ipmask6 = $ipsubnet6 = $macaddr = $pcislot = $status = $type = $virtualdev = $speed = $duplex = $mtu = undef;
-                @secondary();
+                @secondary=();
             }
             $description = $1 if ($line =~ /^\d+:\s+([^:@]+)/); # Interface name
             if ($description && $description eq "lo" ) { next; } # loopback interface is not inventoried
