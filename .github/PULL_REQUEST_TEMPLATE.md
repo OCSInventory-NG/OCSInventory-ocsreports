@@ -4,37 +4,17 @@ There's some simple rules that will help us to speed up the review process and a
 
 [Contributors GuideLines](https://github.com/OCSInventory-NG/OCSInventory-ocsreports/blob/master/.github/Contributing.md)
 
-## Status
-**READY/IN DEVELOPMENT/HOLD**
+### Status
+**READY/IN DEVELOPMENT/HOLD** (remove the irrevelant words)
 
-## Description
-A few sentences describing the overall goals of the pull request's commits.
-
-## Related Issues
+### Related Issues
 Put here all the related issues link
 
-## Todos
-- [ ] Tests
-- [ ] Documentation
+### Documentation
+In the case, your pull request need the documentation to be modified, please say it here.
+You can also directly create a pull request for the documentation here : https://github.com/OCSInventory-NG/Wiki
 
-## Test environment
-If some tests has been already made, please give us your test environment' specs
+Note : Merge process will be faster is the documentation is already written
 
-#### General informations
-Operating system :
-
-#### Server informations
-Php version :
-Mysql / Mariadb / Percona version :
-Apache version :
-
-## Deploy Notes
-Notes regarding deployment the contained body of work.  These should note any
-db migrations, logical changes, etc.
-
-1.
-
-## Impacted Areas in Application
-List general components of the application that this PR will affect:
-
-*
+### Addtional comments
+A few sentences describing the overall goals of the pull request's commits.
