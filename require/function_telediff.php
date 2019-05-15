@@ -402,40 +402,47 @@ function create_pack($sql_details, $info_details, $modif = true) {
         return;
     }
 
-    $info_details = xml_escape_string($info_details);
+    // Convert packages details in a properly UTF-8 encoded HTML string.
+    foreach ($info_details as $key => $value) {
+        if (mb_detect_encoding($value)!== 'UTF-8') {
+          $info_details[$key] = mb_convert_encoding($value, 'UTF-8');
+        }
+        $info_details[$key] = htmlspecialchars($value, ENT_QUOTES);
+    }
 
-		if($modif == true){
-				//get temp file
-		    $fname = $sql_details['document_root'] . $sql_details['timestamp'] . "/tmp";
-		    //cut this package
-		    if ($size = @filesize($fname)) {
-		        $handle = fopen($fname, "rb");
-		        $read = 0;
-		        for ($i = 1; $i < $sql_details['nbfrags']; $i++) {
-		            $contents = fread($handle, $size / $sql_details['nbfrags']);
-		            $read += strlen($contents);
-		            $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
-		            fwrite($handfrag, $contents);
-		            fclose($handfrag);
-		        }
+    if($modif == true){
+	//get temp file
+        $fname = $sql_details['document_root'] . $sql_details['timestamp'] . "/tmp";
+        //cut this package
+        if ($size = @filesize($fname)) {
+            $handle = fopen($fname, "rb");
+            $read = 0;
+            for ($i = 1; $i < $sql_details['nbfrags']; $i++) {
+                $contents = fread($handle, $size / $sql_details['nbfrags']);
+                $read += strlen($contents);
+                $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
+                fwrite($handfrag, $contents);
+                fclose($handfrag);
+            }
 
-		        $contents = fread($handle, $size - $read);
-		        $read += strlen($contents);
-		        $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
-		        fwrite($handfrag, $contents);
-		        fclose($handfrag);
-		        fclose($handle);
+            $contents = fread($handle, $size - $read);
+            $read += strlen($contents);
+            $handfrag = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/" . $sql_details['timestamp'] . "-" . $i, "w+b");
+            fwrite($handfrag, $contents);
+            fclose($handfrag);
+            fclose($handle);
 
-		        unlink($sql_details['document_root'] . $sql_details['timestamp'] . "/tmp");
-		    } else {
-		        if (!file_exists($sql_details['document_root'] . $sql_details['timestamp'])) {
-		            mkdir($sql_details['document_root'] . $sql_details['timestamp']);
-		        }
-		    }
-		    if (!is_defined($info_details['DIGEST'])) {
-		        $sql_details['nbfrags'] = 0;
-		    }
-		}
+            unlink($sql_details['document_root'] . $sql_details['timestamp'] . "/tmp");
+        } else {
+            if (!file_exists($sql_details['document_root'] . $sql_details['timestamp'])) {
+                mkdir($sql_details['document_root'] . $sql_details['timestamp']);
+            }
+        }
+
+        if (!is_defined($info_details['DIGEST'])) {
+            $sql_details['nbfrags'] = 0;
+        }
+    }
 
 
     //create info
@@ -475,7 +482,7 @@ function create_pack($sql_details, $info_details, $modif = true) {
             "GARDEFOU=\"" . $info_details['GARDEFOU'] . "\" />\n";
 
     $handinfo = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/info", "w+");
-    fwrite($handinfo, utf8_decode($info));
+    fwrite($handinfo, $info);
     fclose($handinfo);
 
     //delete all package with the same id
