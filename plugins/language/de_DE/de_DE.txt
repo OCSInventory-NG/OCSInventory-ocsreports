@@ -622,7 +622,7 @@
 659 Rechner haben dieses Paket bereits installiert. Der Status des Pakets auf diesen Rechnern ist jetzt
 660 SERVERGRUPPE EXISTIERT NICHT
 661 PAKETE FÜR WEITERVERTEILUNGSSERVER
-662 Auswahlregeln
+662 Verteilungsregeln
 663 INTERNES PROBLEM
 664 Aktion ausgeführt
 665 KEINE RECHNER AUSGEWÄHLT, GRUPPE NICHT ERSTELLT.
@@ -970,7 +970,7 @@
 1009 Server Ablage-Verzeichnis
 1010 NORMAL
 1011 DEBUG
-1012 ÜBERSETZUNG
+1012 SPRACHE
 1013 WARTUNG
 1014 Wechseln zu
 1015 Nutzer-Modus
@@ -1342,6 +1342,23 @@
 1418 Land
 1417 IMEI/Geräte-ID
 
+1419 Suche in Spalte
+
+1449 Generelle Einstellungen
+
+1500 Software Kategorie
+1501 Neue Kategorie
+1502 Liste der Kategorien
+1503 Software hinzufügen
+
+1506 Keine Kategorie erstellt
+
+1509 Erweiterte Einstellungen
+
+1517 Es wurde keine Kategorie ausgewählt
+
+1600 Mein Dashboard
+1601 Dynamische Gruppen
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1457,6 +1474,13 @@
 2123 Verfügbare Pakete
 2124 Gelöschte Pakete
 
+2130 Assets Kategorien
+2131 Zahl der Maschinen je Kategorie
+2132 Asset Kategorie
+
+2133 Es wurde noch keine Asset Kategorie angelegt
+2134 Es wurde noch keine Software Kategorie angelegt
+
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
@@ -1517,3 +1541,8 @@
 7014 Es wurden keine Plugins gefunden
 
 8000 Benachrichtigungen
+
+8011 Konfiguration
+8012 Template anpassen
+
+8018 Betreff
