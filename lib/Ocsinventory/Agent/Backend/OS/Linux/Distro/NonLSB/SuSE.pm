@@ -7,26 +7,26 @@ sub check {
     $common->can_read ("/etc/SuSE-release") 
 }
 
-#####
-sub findRelease {
-    my $v;
-  
-    open V, "</etc/SuSE-release" or warn;
-    chomp ($v=<V>);
-    close V;
-    $v;
-}
-
 sub run {
+    my $v;
+    my $version;
+    my $patchlevel;
+  
     my $params = shift;
     my $common = $params->{common};
   
-    my $OSComment;
-    chomp($OSComment =`uname -v`);
-  
+    open V, "</etc/SuSE-release" or warn;
+    foreach (<V>) {
+        next if (/^#/);
+        $version=$1 if (/^VERSION = ([0-9]+)/);
+        $patchlevel=$1 if (/^PATCHLEVEL = ([0-9]+)/);
+    }
+    close V;
+
     $common->setHardware({ 
-        OSNAME => findRelease(),
-        OSCOMMENTS => "$OSComment"
+        OSNAME => "SUSE Linux Enterprise Server $version SP$patchlevel",
+        OSVERSION => $version,
+        OSCOMMENTS => $patchlevel
     });
 }
 
