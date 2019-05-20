@@ -50,12 +50,12 @@ sub new {
     $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
     $self->{ua}->agent($version);
     $self->{config}->{user}.",".
-    $self->{config}->{password}."";
+    my $password = $self->{config}->{password}."";
     $self->{ua}->credentials(
         $uaserver, # server:port, port is needed 
         $self->{config}->{realm},
         $self->{config}->{user},
-        $self->{config}->{password}
+        $password,
     );
 
     #Setting SSL configuration depending on LWP version
