@@ -351,7 +351,7 @@ sub run {
             }
             $description = $1 if ($line =~ /^\d+:\s+([^:@]+)/); # Interface name
             if ($description && $description eq "lo" ) { next; } # loopback interface is not inventoried
-            if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i && $line != /secondary/i){
+            if ($line =~ /inet ((?:\d{1,3}+\.){3}\d{1,3})\/(\d+)/i && $line !~ /secondary/i){
                 $ipaddress=$1;
                 $ipmask=getIPNetmask($2);
                 $ipsubnet=getSubnetAddressIPv4($ipaddress,$ipmask);
