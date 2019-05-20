@@ -1,4 +1,8 @@
 Revision history for Ocsinventory::Agent
+2.6.0
+       * Fix issue Service-Pack wrong info on Linux Clients (reports on https://github.com/OCSInventory-NG/OCSInventory-ocsreports/issues/741)
+       * Fix issues #181, #187, #194, #197
+       * Merge PR #175, #178, #190, #191, #193, #196, #199, #201
 
 2.4.2
        * Fix warning argument freebsd isn't numeric
