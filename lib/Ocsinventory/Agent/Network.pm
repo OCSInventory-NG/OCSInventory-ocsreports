@@ -49,7 +49,6 @@ sub new {
     my $version = 'OCS-NG_unified_unix_agent_v';
     $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
     $self->{ua}->agent($version);
-    $self->{config}->{user}.",".
     my $password = $self->{config}->{password}."";
     $self->{ua}->credentials(
         $uaserver, # server:port, port is needed 
