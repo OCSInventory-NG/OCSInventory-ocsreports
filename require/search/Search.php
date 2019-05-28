@@ -360,20 +360,37 @@
 
                 if(!empty($isSameColumn)){
                   if($value[self::SESS_OPERATOR] != "IS NULL"){
-                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $value[self::SESS_FIELDS];
-                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                    if ($tableName != 'hardware') {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    }else{
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    }
                   }else{
-                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $value[self::SESS_FIELDS];
-                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    if ($tableName != 'hardware') {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    }else{
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s)$close ";
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    }
                   }
                 }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && empty($isSameColumn)){
                   $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
@@ -838,9 +855,17 @@
              $p++;
              if(!empty($isSameColumn)){
                if($values['operator'] != "IS NULL"){
-                 $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
+                 if ($table != 'hardware'){
+                   $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
+                 }else{
+                   $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
+                 }
                }else{
-                 $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator'].")$close ";
+                 if ($table != 'hardware') {
+                   $cache_sql .= $values['comparator'] . " $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND " . $table . "." . $values['fields'] . " " . $values['operator'] . ")$close ";
+                 }else{
+                   $cache_sql .= $values['comparator'] . " $open EXISTS (SELECT 1 FROM $table WHERE " . $table . "." . $values['fields'] . " " . $values['operator'] . ")$close ";
+                 }
                }
              }elseif($values['operator'] == 'IS NULL' && empty($isSameColumn)){
                $cache_sql .= $values['comparator']." $open ".$table.".".$values['fields']." ".$values['operator']."$close ";
