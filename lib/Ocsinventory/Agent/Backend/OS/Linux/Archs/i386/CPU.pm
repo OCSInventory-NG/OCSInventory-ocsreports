@@ -50,15 +50,25 @@ sub run {
             }
         }
     }
+   
+    # Total Threads = number of cores x number of threads per core
+    $cpu->{THREADS}=$cpu->{CORES}*$cpu->{THREADS};
+
+    # Set LOGICAL_CPUS with THREADS value
+    $cpu->{LOGICAL_CPUS}=$cpu->{THREADS};
+
+    # set CURRENT_ADDRESS_WIDTH with DATA_WIDTH value
+    $cpu->{CURRENT_ADDRESS_WIDTH}=$cpu->{DATA_WIDTH};
 
     my $infos=$common->getDmidecodeInfos();
     foreach my $info (@{$infos->{4}}) {
         next if $info->{Status} && $info->{Status} =~ /Unpopulated|Disabled/i;
-        $cpu->{SERIAL}=$info->{'Serial Number'};
+        $cpu->{SERIALNUMBER}=$info->{'Serial Number'};
         $cpu->{VOLTAGE}=$info->{'Voltage'};
+        $cpu->{SOCKET}=$info->{'Socket Designation'};
     }
 
-    for (my $i=0;$i<$cpu->{NBCPUS};$i++) {
+    for (my $i=0;$i<$cpu->{NBSOCKET};$i++) {
         $common->addCPU($cpu);
     }
 
