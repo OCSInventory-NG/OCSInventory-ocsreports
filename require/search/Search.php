@@ -360,7 +360,7 @@
 
                 if(!empty($isSameColumn)){
                   if($value[self::SESS_OPERATOR] != "IS NULL"){
-                    if ($tableName != 'hardware') {
+                    if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
                       $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
                       $this->queryArgs[] = $tableName;
                       $this->queryArgs[] = $tableName;
@@ -377,7 +377,7 @@
                       $this->queryArgs[] = $value[self::SESS_VALUES];
                     }
                   }else{
-                    if ($tableName != 'hardware') {
+                    if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
                       $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
                       $this->queryArgs[] = $tableName;
                       $this->queryArgs[] = $tableName;
@@ -855,13 +855,13 @@
              $p++;
              if(!empty($isSameColumn)){
                if($values['operator'] != "IS NULL"){
-                 if ($table != 'hardware'){
+                 if ($table != DatabaseSearch::COMPUTER_DEF_TABLE){
                    $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
                  }else{
                    $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
                  }
                }else{
-                 if ($table != 'hardware') {
+                 if ($table != DatabaseSearch::COMPUTER_DEF_TABLE) {
                    $cache_sql .= $values['comparator'] . " $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND " . $table . "." . $values['fields'] . " " . $values['operator'] . ")$close ";
                  }else{
                    $cache_sql .= $values['comparator'] . " $open EXISTS (SELECT 1 FROM $table WHERE " . $table . "." . $values['fields'] . " " . $values['operator'] . ")$close ";
