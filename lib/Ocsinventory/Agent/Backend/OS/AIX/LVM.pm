@@ -37,7 +37,7 @@ sub run {
     # We retrieve the disk list
     foreach my $line (`lspv`) {
         chomp;
-        my $name = split(/\s+/, $line);
+        my ($name) = split(/\s+/, $line);
         push @physvol, $name;
     }
 
@@ -114,7 +114,7 @@ sub run {
     # We retrieve the disk list
     foreach my $line (`lsvg`) {
         chomp;
-        my $name = split(/\s+/, $line);
+        my ($name) = split(/\s+/, $line);
         push @volgrp, $name;
     }
 
