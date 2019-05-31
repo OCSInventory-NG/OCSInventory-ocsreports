@@ -87,8 +87,8 @@ if (isset($protectedPost['VALID_GROUP'])) {
                 $nb_mach = "ERROR";
             } else {
                 $nb_mach = $result['LBL'];
+                $msg_success = $l->g(880);
             }
-            $msg_success = $l->g(880);
         }
         //ecrasement d'un groupe
         if ($protectedPost['NEW_RAZ'] == "RAZ") {
@@ -102,11 +102,10 @@ if (isset($protectedPost['VALID_GROUP'])) {
         }
     }
 
-    if (is_defined($msg_success)) {
-        msg_success($msg_success);
-    }
     if (is_defined($msg_error)) {
         msg_error($msg_error);
+    }elseif (is_defined($msg_success)) {
+        msg_success($msg_success);
     }
     echo "</div>";
 }
