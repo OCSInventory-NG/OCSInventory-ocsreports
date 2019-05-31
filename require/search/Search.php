@@ -835,30 +835,31 @@
              }if($p != 0 && $operator[$in] !='OR' && $operator[$in+1] =='OR'){
                  $open = "(";
              }
-             $p++;
+
              if(!empty($isSameColumn)){
                if($values['operator'] != "IS NULL"){
-                 $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
+                 $cache_sql .= $operator[$p]." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
                }else{
-                 $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator'].")$close ";
+                 $cache_sql .= $operator[$p]." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator'].")$close ";
                }
              }elseif($values['operator'] == 'IS NULL' && empty($isSameColumn)){
-               $cache_sql .= $values['comparator']." $open ".$table.".".$values['fields']." ".$values['operator']."$close ";
+               $cache_sql .= $operator[$p]." $open ".$table.".".$values['fields']." ".$values['operator']."$close ";
              } elseif($table == self::GROUP_TABLE){
                $group_id = $this->groupSearch->get_all_id($values['value']);
-               $cache_sql .= $values['comparator']." $open hardware.ID ".$values['operator']." ($group_id)$close ";
+               $cache_sql .= $operator[$p]." $open hardware.ID ".$values['operator']." ($group_id)$close ";
              }elseif($values['fields'] == 'CATEGORY_ID' || $values['fields'] == 'CATEGORY'){
-               $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." (".$values['value'].")$close ";
+               $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." (".$values['value'].")$close ";
              }else if($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE'){
                global $l;
-               $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." str_to_date('".$values['value']."', '".$l->g(269)."')$close ";
+               $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." str_to_date('".$values['value']."', '".$l->g(269)."')$close ";
              }else{
                if($table == "download_history" && $values['fields'] == "PKG_NAME"){
-                 $cache_sql .= $values['comparator']." $open download_available.NAME ".$values['operator']." '".$values['value']."'$close ";
+                 $cache_sql .= $operator[$p]." $open download_available.NAME ".$values['operator']." '".$values['value']."'$close ";
                }else{
-                 $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." '".$values['value']."'$close ";
+                 $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." '".$values['value']."'$close ";
                }
              }
+             $p++;
            }
         }
 
