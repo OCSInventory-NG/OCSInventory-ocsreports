@@ -130,7 +130,7 @@ if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NB
 
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
-    $sql['SQL'] = 'SELECT *, count(s.name) as nb, s.name id, sc.CATEGORY_NAME FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.name, s.HARDWARE_ID)) as nb, s.name id, sc.CATEGORY_NAME FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
