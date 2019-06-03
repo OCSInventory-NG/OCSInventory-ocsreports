@@ -1,5 +1,4 @@
 #!/usr/bin/php
-
 <?php
 require_once('../dbconfig.inc.php');
 require_once('../var.php');
