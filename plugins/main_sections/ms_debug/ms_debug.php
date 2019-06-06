@@ -23,6 +23,11 @@
 //$header_html = 'NO';
 $form_name = 'debug';
 
+
+if ($protectedPost["MODE"] == 5 && !isset($_SESSION['OCS']['TRUE_USER'])){
+    msg_info($_SESSION['OCS']['loggeduser'] . " " . $l->g(889) . " " . $protectedPost["FUSER"]);
+}
+
 //liste des modes de fonctionnement
 $list_mode[1] = $l->g(1010);
 $list_mode[2] = $l->g(1011);
@@ -45,15 +50,19 @@ $tab_typ_champ[0]['INPUT_NAME'] = "MODE";
 $tab_typ_champ[0]['INPUT_TYPE'] = 2;
 $tab_name[0] = $l->g(1014) . ":";
 $tab_typ_champ[0]['RELOAD'] = "CHANGE";
-if ($protectedPost['MODE'] == 5 && $list_mode[$protectedPost['MODE']] == 'FUSER') {
-    $tab_typ_champ[1]['DEFAULT_VALUE'] = $protectedPost['FUSER'];
-    $tab_typ_champ[1]['INPUT_NAME'] = "FUSER";
-    $tab_typ_champ[1]['INPUT_TYPE'] = 0;
-    $tab_name[1] = $l->g(926) . " ";
-}
+$tab_typ_champ[0]['CONFIG']['JAVASCRIPT'] = "onChange='fuser_change(this.value)'";
+$tab_field_name[0] = "form-group form-group-debug";
+
+//VALUE FOR FUSER INPUT
+$tab_typ_champ[1]['DEFAULT_VALUE'] = $protectedPost['FUSER'];
+$tab_typ_champ[1]['INPUT_NAME'] = "FUSER";
+$tab_typ_champ[1]['INPUT_TYPE'] = 0;
+$tab_name[1] = $l->g(926) . " ";
+$tab_field_name[1] = "form-group form-group-hidden hidden";
+
 modif_values($tab_name, $tab_typ_champ, '', array(
     'title' => $l->g(1015)
-));
+), $tab_field_name);
 
 
 if (isset($protectedPost['Reset_modif'])) {
