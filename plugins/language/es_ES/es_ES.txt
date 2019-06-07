@@ -78,7 +78,7 @@
 129 Igual
 130 Diferente
 134 Añadir un nuevo archivo al sistema
-135 Tenga cuidado, ¡está a punto de borrar este archivde forma definitiva!
+135 Tenga cuidado, ¡está a punto de borrar este archivo de forma definitiva!
 136 Descargar
 137 Archivo
 140 Super administradores
@@ -105,7 +105,7 @@
 187 Archivo zip no válido
 188 Volver
 189 Debe seleccionar al menos 2 dispositivos
-190 Información Cuenta:
+190 Información de la cuenta:
 191 borrado
 192 Resumen redundancia
 193 Nombre del dispositivo + Número de serie
@@ -127,8 +127,8 @@
 209 Versión BIOS
 210 Fecha BIOS
 211 Registro
-212 Nombre clave (KEY)
-213 Valor clave (KEY)
+212 Nombre clave
+213 Valor clave
 214 Imprimir esta página
 215 Mostrar todo
 216 Error de contraseña
@@ -149,7 +149,7 @@
 231 Real
 232 Fecha
 233 Datos existentes:
-234 se añadió con éxito
+234 se añadió correctamente
 235 Usuarios
 236 Cambiar contraseña
 237 Nueva contraseña
@@ -167,7 +167,7 @@
 249 No se puede conectar a MySQL. Por favor introduzca un usuario/contraseña válidos.
 250 Nombre del servidor MySQL
 251 SALIR
-252 Nombre (Usted elije)
+252 Nombre (Lo puede elegir)
 253 La rama del registro
 254 Ubicación de la clave (Ej: SOFTWAREMozilla)
 255 Nombre de la clave que se leerá (* para todos)
@@ -184,7 +184,7 @@
 266 Fecha inválida
 267 dd/mm/AAAA
 268 Velocidad
-269 %d/%m/%Y
+269 %d/%m/%Y %H:%i
 270 Módem(s)
 271 Ranura(s)
 272 Puerto(s)
@@ -215,7 +215,7 @@
 297 No se puede escribir en el directorio
 298 Se deben rellenar todos los campos
 299 Dirección IP no válida (Formato: x.x.x.x)
-300 Máscara no válida (Formato: x.x.x.x)
+300 Máscara de red no válida (Formato: x.x.x.x)
 301 Red insertada
 302 Red borrada
 303 Añadir una subred
@@ -226,18 +226,18 @@
 308 Nombre del tipo
 309 Tipo de dispositivos de red
 310 IpDiscover menor de
-311 Equipos
+311 Dispositivos
 312 Descubrimiento IP
-313 Equipos punto de enlace
-314 Equipos Ipdiscover punto de enlace
-315 Equipos sin inventariar
+313 Equipos Puerta de enlace
+314 Dispositivos IpDiscover Puerta de enlace
+315 Dispositivos sin inventariar
 316 Subred
 317 ANALIZAR
 318 Nombre DNS
 319 Resultados del análisis de red
 320 Este análisis ya se hizo el
-321 ¿Desea mirar los datos del caché?
-322 Datos del caché
+321 ¿Desea ver los datos en caché?
+322 Datos en caché
 323 generado el
 324 MÁQUINAS EVALUADAS COMO
 325 Vacío
@@ -577,9 +577,9 @@
 679 NOMBRE
 680 DOMINIO
 681 USUARIO
-682 para Añadir una condición adicional 
+682 para Añadir una condición adicional
 683 Validar la regla
-684 Se debe cambiar el tamaño de los siguientes campos 
+684 Se debe cambiar el tamaño de los siguientes campos
 685 Añadir una regla
 686 La condición
 687 Usted no puede borrarlo.
