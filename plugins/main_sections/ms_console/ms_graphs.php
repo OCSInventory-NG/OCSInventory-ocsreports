@@ -75,9 +75,39 @@ while($item = mysqli_fetch_array($result_mem)){
 $mem = "['".implode("','",$mem_name)."']";
 $quants_mem = "['".implode("','",$mem_quant)."']";
 
+
+
+//last seen since
+
+$date = date("y-m-d",strtotime("-15 day")); 
+
+$sql_seen = "SELECT DATE_FORMAT(lastcome, '%Y-%m') AS contact, count(lastcome) AS conta 
+FROM `hardware` 
+WHERE LASTCOME < '".$date."'
+group by contact 
+ORDER BY `contact` ASC";
+
+$result_seen = mysql2_query_secure($sql_seen, $_SESSION['OCS']["readServer"]);
+
+$seen = array();
+$seen_name = array();
+$seen_quant = array();
+
+while($item = mysqli_fetch_array($result_seen)){
+	$seen_name[] = $item['contact'];
+	$seen_quant[] = $item['conta'];	
+}	
+
+$seen = "['".implode("','",$seen_name)."']";
+$quants_seen = "['".implode("','",$seen_quant)."']";
+
 ?>
 
-<div class="col-md-12 col-sm-12" style="height: 200px;">
+<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:30px; margin-bottom: 0px;">
+	<canvas id="seen" width="400" height="140" class="col-md-6 col-sm-6"></canvas>
+</div>
+
+<div class="col-md-12 col-sm-12" style="height: 200px; margin-top:210px;">
 	<div class="col-md-6 col-sm-6 row" style="margin-top: 30px; float: left;">
 		<canvas id="manufac" height="180"></canvas>
 	</div>
@@ -90,9 +120,10 @@ $quants_mem = "['".implode("','",$mem_quant)."']";
 	<canvas id="memory" width="400" height="140" class=" col-md-12 col-sm-12"></canvas>
 </div>
 
-<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:230px; margin-bottom: 170px;">
-	<canvas id="ages" width="400" height="140" class="col-md-6 col-sm-6"></canvas>
+<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:240px; margin-bottom: 170px;">
+	<canvas id="ages" width="400" height="140" class="col-md-12 col-sm-12"></canvas>
 </div>
+
 
 <script>
 var ctxy = document.getElementById('ages').getContext('2d');
@@ -115,7 +146,7 @@ var myChart = new Chart(ctxy, {
          },
          title: {
              display: true,
-             text: "Computers Age - BIOS release date"
+             text: "<?php echo $l->g(210).' - '.$l->g(729); ?>"
          },
          animation: {
              animateScale: true,
@@ -134,8 +165,7 @@ var myChart = new Chart(ctxm, {
             label: '',
             data: <?php echo $quants_man; ?>,
 				backgroundColor: ['#1941A5' ,'#AFD8F8' ,'#F6BD0F' ,'#8BBA00' ,'#A66EDD' ,'#F984A1' ,'#CCCC00' ,'#999999' ,'#0099CC' ,'#FF0000' ,'#006F00' ,'#0099FF', '#3e95cd', '#2a6bcf','#78867a','#e8c3b9','#c45850','#7eec72','#a36640','#c22a2c','#fad97b','#c40244' ],				
-				//borderColor: 'rgba(75, 192, 192, 1)',
-            //borderWidth: 1
+
         }]
     },
 		options: {
@@ -149,7 +179,7 @@ var myChart = new Chart(ctxm, {
          },
          title: {
              display: true,
-             text: "Manufacturers - Top 10"
+             text: "<?php echo $l->g(851).' - Top 10'; ?>"
          },
          animation: {
              animateScale: true,
@@ -169,8 +199,7 @@ var myChart = new Chart(ctxm, {
             label: '',
             data: <?php echo $quants_type; ?>,
 				backgroundColor: ['#1941A5' ,'#AFD8F8' ,'#F6BD0F' ,'#8BBA00' ,'#A66EDD' ,'#F984A1' ,'#CCCC00' ,'#999999' ,'#0099CC' ,'#FF0000' ,'#006F00' ,'#0099FF', '#3e95cd', '#2a6bcf','#78867a','#e8c3b9','#c45850','#7eec72','#a36640','#c22a2c','#fad97b','#c40244' ],				
-				//borderColor: 'rgba(75, 192, 192, 1)',
-            //borderWidth: 1
+
         }]
     },
 		options: {
@@ -184,7 +213,7 @@ var myChart = new Chart(ctxm, {
          },
          title: {
              display: true,
-             text: "Computers Types"
+             text: "<?php echo $l->g(854); ?>"
          },
          animation: {
              animateScale: true,
@@ -205,8 +234,6 @@ var myChart = new Chart(ctx, {
             label: '',
             data: <?php echo $quants_mem; ?>,
 				backgroundColor: ['#1941A5' ,'#AFD8F8' ,'#F6BD0F' ,'#8BBA00' ,'#A66EDD' ,'#F984A1' ,'#CCCC00' ,'#999999' ,'#0099CC' ,'#FF0000' ,'#006F00' ,'#0099FF', '#3e95cd', '#2a6bcf','#78867a','#e8c3b9','#c45850','#7eec72','#a36640','#c22a2c','#fad97b','#c40244' ],				
-				//borderColor: 'rgba(75, 192, 192, 1)',
-            //borderWidth: 1
         }]
     },
 		options: {
@@ -216,7 +243,38 @@ var myChart = new Chart(ctx, {
          },
          title: {
              display: true,
-             text: "Memory Capacity - MB"
+             text: "<?php echo $l->g(26). ' - MB'; ?>"
+         },
+         animation: {
+             animateScale: true,
+             animateRotate: true
+         }
+       }
+});
+
+
+//last seen
+var ctx= document.getElementById('seen').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: <?php echo $seen; ?>,
+        datasets: [{
+            label: '',
+            data: <?php echo $quants_seen; ?>,
+				fill: true,
+				borderWidth: 6,
+				backgroundColor: 'rgba(75, 192, 192, 0.6)'							
+        }]
+    },
+		options: {
+         responsive: true,
+         legend: {
+             display: false,
+         },
+         title: {
+             display: true,
+             text: "<?php echo $l->g(820).' > 15 '.$l->g(496); ?>"
          },
          animation: {
              animateScale: true,
