@@ -41,7 +41,7 @@ $console = new Console();
 $soft = new SoftwareCategory();
 $news = new News();
 
-PrintEnTete($l->g(1600));
+//PrintEnTete($l->g(1600));
 echo "<div class='col-md-10 col-xs-offset-0 col-md-offset-1'>";
 
 /*********************************************** NEWS ************************************************/
@@ -115,7 +115,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 
 $table = $console->html_table_machine();
 
-echo "<br><h4>".$l->g(795)."</h4><br>";
+echo "<br><h4 style='margin-bottom:-5px; margin-top:-18px;'>".$l->g(795)."</h4><br>";
 echo $table;
 
 echo "<hr>";
@@ -127,7 +127,7 @@ $form_name = "stat";
 echo open_form($form_name, '', '', 'form-horizontal');
 
 echo "<br><h4>".$l->g(1251)."</h4><br>";
-echo "<div class='row'  style='margin-top:55px;'>";
+echo "<div class='row'  style='margin-top:20px;'>";
 $form = [
   'NB_AGENT' => 'Agent',
   'NB_OS' => 'OS'
