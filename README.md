@@ -2,6 +2,22 @@
   <img src="https://repository-images.githubusercontent.com/191017101/a1c93380-8aa7-11e9-9d96-f62021232e0b">
 </p>
 
+## To apply the new stats your just copy these files/folders to your server:
+
+- require -> console -> Console.php
+
+- plugins -> main_sections -> ms_console -> ms_console.php
+
+- plugins -> main_sections -> ms_console -> ms_graphs.php
+
+## To apply new color theme, copy this folder to your server:
+
+- themes -> Dark
+
+Change theme in Configuration -> General Configuration -> Interface -> Custom Theme
+
+--------------------------------------------------------------------------------------------------------------------
+
 <h1 align="center">OCS Inventory</h1>
 <p align="center">
   <b>Some Links:</b><br>
