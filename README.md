@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://repository-images.githubusercontent.com/191017101/a1c93380-8aa7-11e9-9d96-f62021232e0b">
+  <img src="https://repository-images.githubusercontent.com/191017101/d34df900-8abf-11e9-8f1d-ee75c26116a2">
 </p>
 
 ## To apply the new stats your just copy these files/folders to your server:
