@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.ocsinventory-ng.org/common/banners/banner660px.png" height=300 width=660 alt="Banner">
+  <img src="https://repository-images.githubusercontent.com/191017101/a1c93380-8aa7-11e9-9d96-f62021232e0b">
 </p>
 
 <h1 align="center">OCS Inventory</h1>
