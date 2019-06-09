@@ -111,12 +111,12 @@
 	      <div class="tableContainer">
 	      <table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-top:20px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
 		  	<tr>
-		      <td style="border-right: 1px solid #ddd; padding: 5px;"><span>' . $machines['all'] . '</span> </p><span style="color:#333; font-size:14pt;">'.$l->g(652).'</span></td>
-		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['windows']. '</span> </p><span style="color:#333; font-size:14pt;">Windows</span></td>
-		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['unix'] . '</span> </p><span style="color:#333; font-size:14pt;"> Unix </span></td>
-		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['android']. '</span> </p><span style="color:#333; font-size:14pt;">Android</span></td>
-		      <td style="border-right: 1px solid #ddd;"><span>' . $oss . '</span> </p><span style="color:#333; font-size:14pt;">'.$l->g(25).'</span></td>
-		      <td style="border-right: 1px solid #ddd;"><span>' . $softs. '</span> </p><span style="color:#333; font-size:14pt;">'.$l->g(20).'</span></td>
+		      <td style="border-right: 1px solid #ddd; padding: 5px;"><span>' . $machines['all'] . '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(652).'</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['windows']. '</span> </p><span style="color:#333; font-size:13pt;">Windows</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['unix'] . '</span> </p><span style="color:#333; font-size:13pt;"> Unix </span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['android']. '</span> </p><span style="color:#333; font-size:13pt;">Android</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $oss . '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(25).'</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $softs. '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(20).'</span></td>
 		      
 		  </tr>';
        $table .= "</table></div>\n";
@@ -192,10 +192,10 @@
 		 $table = '<div class="tableContainer">
 	      <table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-bottom:0px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
 		  	<tr>
-		      <td style="border-right: 1px solid #ddd; padding: 5px;"><span>' . $machine['all'] . '</span> </p><span style="color:#333; font-size:14pt;">'.$l->g(87).'</span></td>
-		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['windows']. '</span> </p><span style="color:#333; font-size:14pt;">Windows</span></td>
-		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['unix'] . '</span> </p><span style="color:#333; font-size:14pt;"> Unix </span></td>
-		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['android']. '</span> </p><span style="color:#333; font-size:14pt;">Android</span></td>
+		      <td style="border-right: 1px solid #ddd; padding: 5px;"><span>' . $machine['all'] . '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(87).'</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['windows']. '</span> </p><span style="color:#333; font-size:13pt;">Windows</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['unix'] . '</span> </p><span style="color:#333; font-size:13pt;"> Unix </span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['android']. '</span> </p><span style="color:#333; font-size:13pt;">Android</span></td>
 		      
 		  </tr>';
        $table .= "</table></div>\n";
