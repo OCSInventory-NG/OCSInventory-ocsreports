@@ -26,6 +26,108 @@
   */
  class Console
  {
+ 	
+//stevenes donato
+
+   /**
+    * Get all machine contacted today and sort by Agent
+    * @return array $machine
+    */
+   public function get_machines(){
+      $machines = array("windows" => 0, "unix" => 0, "android" => 0, 'all' => 0);
+
+      foreach($machines as $key => $value){
+          $sql = "SELECT name, count(id) as nb, USERAGENT FROM hardware WHERE USERAGENT LIKE '%$key%'";
+          $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+
+          while($item = mysqli_fetch_array($result)){
+            if(strpos($item['USERAGENT'], 'unix') !== false){
+                $machines['unix'] = intval($item['nb']);
+                $machines['all'] = $machines['all'] + intval($item['nb']);
+            }elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false){
+                $machines['windows'] = intval($item['nb']);
+                $machines['all'] = $machines['all'] + intval($item['nb']);
+            }elseif(strpos($item['USERAGENT'], 'Android') !== false){
+                $machines['android'] = intval($item['nb']);
+                $machines['all'] = $machines['all'] + intval($item['nb']);
+            }
+          }
+      }
+
+      return $machines;
+   }
+
+
+
+   /**
+    * Get multisearch url for machine contacted today
+    * @param  array $machine [description]
+    * @return array          [description]
+    */
+   public function get_urls($machines){
+      global $l;
+
+     // $_SESSION['DATE']['HARDWARE-LASTDATE-TALL'] = date($l->g(1242));
+      foreach($machines as $key => $value) {
+        if($machines[$key] != 0){
+          //$machines[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?" . PAG_INDEX . "=visu_search&&values2=".$key."&type_field='>".$value."</a>";
+          $machines[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=&values2=".$key."&type_field='>".$value."</a>";
+        } else {
+          $machines[$key] = "<a style='font-size:32px; font-weight:bold;' href='#'>".$value."</a>";        	
+        }
+      }
+
+      return $machines;
+   } 
+
+
+   /**
+    * Construct table for machine contacted today
+    * @return string [description]
+    */
+   public function html_table_machines(){
+       global $l;
+      
+      //get OS's 
+      $sql_os = "SELECT osname, count(osname) FROM `hardware` group by osname";
+      $result_os = mysql2_query_secure($sql_os, $_SESSION['OCS']["readServer"]);
+      $oss = "<a style='font-size:32px; font-weight:bold;' href='#'>".mysqli_num_rows($result_os)."</a>";
+
+
+      //get softwares
+      $sql = "SELECT name, count(name) FROM `softwares` group by name";
+      $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+      $softs = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_all_soft'>".mysqli_num_rows($result)."</a>";
+
+       $machines = $this->get_urls(
+         $this->get_machines()
+       );
+
+       $table = '
+			<style type="text/css">			
+				a:focus, a:hover {color: #961b7e !important; text-decoration: none !important; font-weight:normal !important; }			
+			</style>       
+			
+	      <div class="tableContainer">
+	      <table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-top:20px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
+		  	<tr>
+		      <td style="border-right: 1px solid #ddd; padding: 5px;"><span>' . $machines['all'] . '</span> </p><span style="color:#333; font-size:14pt;">'.$l->g(652).'</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['windows']. '</span> </p><span style="color:#333; font-size:14pt;">Windows</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['unix'] . '</span> </p><span style="color:#333; font-size:14pt;"> Unix </span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machines['android']. '</span> </p><span style="color:#333; font-size:14pt;">Android</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $oss . '</span> </p><span style="color:#333; font-size:14pt;">'.$l->g(25).'</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $softs. '</span> </p><span style="color:#333; font-size:14pt;">'.$l->g(20).'</span></td>
+		      
+		  </tr>';
+       $table .= "</table></div>\n";
+       //$table .= "</tbody></table></div></div></div></div></div><br><br>';
+
+       return $table;
+   }
+ 	
+//stevenes donato 	
+ 	
+
 
    /**
     * Get all machine contacted today and sort by Agent
@@ -35,7 +137,7 @@
       $machine = array("windows" => 0, "unix" => 0, "android" => 0, 'all' => 0);
 
       foreach($machine as $key => $value){
-          $sql = "SELECT name, count(id) as nb, USERAGENT FROM hardware WHERE lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND USERAGENT LIKE '%$key%'";
+          $sql = "SELECT DISTINCT name, count(id) as nb, USERAGENT FROM hardware WHERE lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND USERAGENT LIKE '%$key%'";
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
           while($item = mysqli_fetch_array($result)){
@@ -66,12 +168,15 @@
       $_SESSION['DATE']['HARDWARE-LASTDATE-TALL'] = date($l->g(1242));
       foreach($machine as $key => $value) {
         if($machine[$key] != 0){
-          $machine[$key] = "<a href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTCOME-TALL']."&values2=".$key."&type_field='>".$value."</a>";
+          $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTCOME-TALL']."&values2=".$key."&type_field='>".$value."</a>";
+        } else {
+          $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='#'>".$value."</a>";        	
         }
       }
 
       return $machine;
-   }
+   }    
+   
 
    /**
     * Construct table for machine contacted today
@@ -84,33 +189,17 @@
          $this->get_machine_contacted_td()
        );
 
-       $table = "<div class='tableContainer'>
-                 <div id='affich_regex_wrapper' class='dataTables_wrapper form-inline no-footer'>
-                   <div>
-                     <div class='dataTables_scroll'>
-                       <div class='dataTables_scrollHead' style='overflow: hidden; position: relative; border: 0px; width: 100%;'>
-                         <div class='dataTables_scrollHeadInner' style='box-sizing: content-box; width: 100%; padding-left: 0px;'>
-                           <table width='100%' class='table table-striped table-condensed table-hover cell-border dataTable no-footer' role='grid' style='width: 100%;'>
-                             <thead>
-                               <tr role='row'>
-                                 <th class='CONSOLE' tabindex='0' aria-controls='affich_regex' rowspan='1' colspan='1' style='width: 25%;' aria-label='Regular expression or Software name: activate to sort column ascending'><font> All </font></th>
-                                 <th class='CONSOLE' tabindex='0' aria-controls='affich_version' rowspan='1' colspan='1' style='width: 25%;' aria-label='Version'><font> Windows </font></th>
-                                 <th class='CONSOLE' tabindex='0' aria-controls='affich_version' rowspan='1' colspan='1' style='width: 25%;' aria-label='Version'><font> Unix </font></th>
-                                 <th class='CONSOLE' tabindex='0' aria-controls='affich_publisher' rowspan='1' colspan='1' style='width: 25%;' aria-label='Publisher'><font> Android </font></th>
-                               </tr>
-                             </thead>
-                           </table>
-                         </div>
-                       </div>
-                       <div class='dataTables_scrollBody' style='overflow: auto; width: 100%;'>
-                         <table id='affich_regex' class='table table-striped table-condensed table-hover cell-border dataTable no-footer' role='grid' aria-describedby='affich_regex_info' style='width: 100%; text-align:center;'>
-                         <tbody>
-                           <tr class='odd'><td valign='top' colspan='1' style='width: 25%;' class='machine_all'>".$machine['all']."</td>
-                           <td valign='top' colspan='1' style='width: 25%;' class='machine_windows'>".$machine['windows']."</td>
-                           <td valign='top' colspan='1' style='width: 25%;' class='machine_unix'>".$machine['unix']."</td>
-                           <td valign='top' colspan='1' style='width: 25%;' class='machine_android'>".$machine['android']."</td>";
-
-       $table .= "</tbody></table></div></div></div></div></div><br><br>";
+		 $table = '<div class="tableContainer">
+	      <table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-bottom:0px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
+		  	<tr>
+		      <td style="border-right: 1px solid #ddd; padding: 5px;"><span>' . $machine['all'] . '</span> </p><span style="color:#333; font-size:14pt;">'.$l->g(87).'</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['windows']. '</span> </p><span style="color:#333; font-size:14pt;">Windows</span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['unix'] . '</span> </p><span style="color:#333; font-size:14pt;"> Unix </span></td>
+		      <td style="border-right: 1px solid #ddd;"><span>' . $machine['android']. '</span> </p><span style="color:#333; font-size:14pt;">Android</span></td>
+		      
+		  </tr>';
+       $table .= "</table></div>\n";
+       //$table .= "</tbody></table></div></div></div></div></div><br><br>';
 
        return $table;
    }

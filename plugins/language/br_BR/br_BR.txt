@@ -530,7 +530,7 @@
 640 Deseja realmente apagar
 641 Gestão de servidores de redistribuição
 642 o grupo
-643 Todas máquinas
+643 Todas as máquinas
 644 esta máquina
 645 DETALHE DO GRUPO
 646 URL

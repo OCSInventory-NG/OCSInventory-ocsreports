@@ -92,6 +92,22 @@ if($values['ivalue']['ACTIVE_NEWS'] == 1){
 
 }
 
+//stevenes donato
+/************************************** MACHINES **************************************/
+
+$form_name = "console";
+echo open_form($form_name, '', '', 'form-horizontal');
+
+$table = $console->html_table_machines();
+
+//echo "<br><h4>".$l->g(2)."</h4><br>";
+echo $table;
+
+echo "<hr>";
+echo close_form();
+//stevenes donato
+
+
 /************************************** MACHINE CONTACTED TODAY **************************************/
 
 $form_name = "console";
@@ -111,7 +127,7 @@ $form_name = "stat";
 echo open_form($form_name, '', '', 'form-horizontal');
 
 echo "<br><h4>".$l->g(1251)."</h4><br>";
-echo "<div class='row'>";
+echo "<div class='row'  style='margin-top:55px;'>";
 $form = [
   'NB_AGENT' => 'Agent',
   'NB_OS' => 'OS'
@@ -122,6 +138,10 @@ $result = $stats->showForm($form);
 if($result == false){
   msg_info($l->g(2135));
 }
+
+echo "<div>";
+include 'ms_graphs.php';
+echo "</div>";
 
 echo "</div>";
 echo "<hr>";

@@ -1,0 +1,358 @@
+/*
+ * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * See the Contributors file for more details about them.
+ *
+ * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * OCSInventory-NG/OCSInventory-ocsreports is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/OCSInventory-ocsreports. if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
+@media ( min-width : 768px) {
+    .dropdown-submenu {
+        position: relative;
+    }
+    .dropdown-submenu>.dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+    .dropdown-submenu:hover>.dropdown-menu {
+        display: block;
+    }
+    .dropdown-submenu>a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #cccccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+    .dropdown-submenu:hover>a:after {
+        border-left-color: #ffffff;
+    }
+    .dropdown-submenu.pull-left {
+        float: none;
+    }
+    .dropdown-submenu.pull-left>.dropdown-menu {
+        left: -100%;
+        margin-left: 10px;
+        -webkit-border-radius: 6px 0 6px 6px;
+        -moz-border-radius: 6px 0 6px 6px;
+        border-radius: 6px 0 6px 6px;
+    }
+
+
+}
+.glyphicon-trash{
+    color: gray;
+    font-size: x-large;
+}
+.alert{
+    width : 80%;
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover{
+    background-image: none !important;
+}
+.dropdown-menu{
+    border-radius: 0 !important;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a{
+    background-image: none !important;
+    box-shadow: none !important;
+}
+.btn-success,  .btn-danger{
+    border: none !important;
+    background-image: none !important;
+}
+
+#btn-logon{
+    background-color: #961b7e;
+}
+
+.input-group{
+    width: 100% !important;
+}
+
+.alert{
+    background-image: none;
+    border: none;
+    font-size: larger;
+    text-align: center;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+	background-color: #961b7e;
+}
+
+.navbar-left li a{
+    color: #777;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #777;
+}
+
+font {
+    font-size: small;
+}
+
+/*
+Open menus on mouse hover
+*/
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.text-success{
+    color: #5cb85c;
+    font-weight: bold;
+}
+
+.btn-default {
+    text-shadow: none;
+
+    background: #e0e0e0;
+    filter: none;
+
+    border: none !important;
+    background-image: none !important;
+
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.btn-default:hover{
+    background: #e0e0e0;
+    border: none;
+}
+
+input[type=checkbox], input[type=radio] {
+    margin: 4px 4px 0;
+}
+
+.profile-img {
+    width: auto;
+    height: 256px;
+    margin: 0 auto 10px;
+    display: block;
+}
+
+table.dataTable .glyphicon-stats {
+    color: #337ab7  !important;
+    font-weight: bold;
+}
+
+table.dataTable .glyphicon-remove {
+    color:#C12E2A  !important;
+    font-weight: bold;
+}
+
+table.dataTable .glyphicon-share {
+    color:#5cb85c  !important;
+    font-weight: bold;
+}
+
+table.dataTable .glyphicon-download-alt {
+    color:#6c757d  !important;
+    font-weight: bold;
+}
+
+table.dataTable a {
+    color: #961b7e  !important;
+    font-weight: bold;
+}
+
+.pagination > li > span {
+    color: #961b7e;
+}
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+        background-color: #961b7e;
+        border-color: #961b7e;
+}
+
+.pagination>li>a:focus,
+.pagination>li>a:hover,
+.pagination>li>span:focus,
+.pagination>li>span:hover {
+    color:  #71145F;
+}
+
+.btn-info.disabled,
+.btn-info.disabled.active,
+.btn-info.disabled.focus,
+.btn-info.disabled:active,
+.btn-info.disabled:focus,
+.btn-info.disabled:hover,
+.btn-info,
+.btn-info.active,
+.btn-info.focus,
+.btn-info:active,
+.btn-info:focus,
+.btn-info:hover {
+    background: #961b7e;
+    background-color: #961b7e;
+    background-image: none;
+    border-color: #961b7e;
+}
+
+.panel {
+    background: transparent;
+    background-color:#efefef;
+}
+
+a {
+    color: #961b7e;
+}
+
+div.progress {
+    margin-bottom: 0;
+    margin-right : 3px;
+}
+
+.navbar-left {
+   background:#f0f0f0 !important;
+}
+
+
+.navbar-default {
+	
+	background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%) !important;
+}
+
+.navbar-default {
+ background-color:#222;
+ border-color:#080808
+}
+.navbar-default .navbar-brand {
+ color:#9d9d9d
+}
+.navbar-default .navbar-brand:focus,.navbar-default .navbar-brand:hover {
+ color:#fff;
+ background-color:transparent
+}
+.navbar-default .navbar-text {
+ color:#9d9d9d
+}
+.navbar-default .navbar-nav>li>a {
+ color:#9d9d9d
+}
+.navbar-default .navbar-nav>li>a:focus,.navbar-default .navbar-nav>li>a:hover {
+ color:#fff;
+ background-color:transparent
+}
+.navbar-default .navbar-nav>.active>a,.navbar-default .navbar-nav>.active>a:focus,.navbar-default .navbar-nav>.active>a:hover {
+ color:#fff;
+ background-color:#080808
+}
+.navbar-default .navbar-nav>.disabled>a,.navbar-default .navbar-nav>.disabled>a:focus,.navbar-default .navbar-nav>.disabled>a:hover {
+ color:#444;
+ background-color:transparent
+}
+.navbar-default .navbar-toggle {
+ border-color:#333
+}
+.navbar-default .navbar-toggle:focus,.navbar-default .navbar-toggle:hover {
+ background-color:#333
+}
+.navbar-default .navbar-toggle .icon-bar {
+ background-color:#fff
+}
+.navbar-default .navbar-collapse,.navbar-default .navbar-form {
+ border-color:#101010
+}
+.navbar-default .navbar-nav>.open>a,.navbar-default .navbar-nav>.open>a:focus,.navbar-default .navbar-nav>.open>a:hover {
+ color:#fff;
+ background-color:#080808
+}
+@media (max-width:767px) {
+ .navbar-default .navbar-nav .open .dropdown-menu>.dropdown-header {
+  border-color:#080808
+ }
+ .navbar-default .navbar-nav .open .dropdown-menu .divider {
+  background-color:#080808
+ }
+ .navbar-default .navbar-nav .open .dropdown-menu>li>a {
+  color:#9d9d9d
+ }
+ .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus,.navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {
+  color:#fff;
+  background-color:transparent
+ }
+ .navbar-default .navbar-nav .open .dropdown-menu>.active>a,.navbar-default .navbar-nav .open .dropdown-menu>.active>a:focus,.navbar-default .navbar-nav .open .dropdown-menu>.active>a:hover {
+  color:#fff;
+  background-color:#080808
+ }
+ .navbar-default .navbar-nav .open .dropdown-menu>.disabled>a,.navbar-default .navbar-nav .open .dropdown-menu>.disabled>a:focus,.navbar-default .navbar-nav .open .dropdown-menu>.disabled>a:hover {
+  color:#444;
+  background-color:transparent
+ }
+}
+.navbar-default .navbar-link {
+ color:#9d9d9d
+}
+.navbar-default .navbar-link:hover {
+ color:#fff
+}
+.navbar-default .btn-link {
+ color:#9d9d9d
+}
+.navbar-default .btn-link:focus,.navbar-default .btn-link:hover {
+ color:#fff
+}
+.navbar-default .btn-link[disabled]:focus,.navbar-default .btn-link[disabled]:hover,fieldset[disabled] .navbar-default .btn-link:focus,fieldset[disabled] .navbar-default .btn-link:hover {
+ color:#444
+}
+
+body {
+	background-color: #fbfbfb;
+}
+
+.tab_first {
+	max-width: 50%;
+}
+
+.duplicados {
+	margin-top: 15px;
+	margin-bottom: 25px;
+/*	float: none;
+	margin: auto;*/
+}
+
+.dupli {
+	font-size: 11pt;
+	text-align: left;
+}
+
+.dupliconta a {
+	font-size: 11pt;
+}
+
+.admin-title {
+	font-weight: bold !important;
+}
+
