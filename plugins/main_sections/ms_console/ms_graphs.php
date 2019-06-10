@@ -104,34 +104,32 @@ $quants_seen = "['".implode("','",$seen_quant)."']";
 ?>
 
 <div id="container" class="container col-md-12 col-sm-12 col-lg-12" style="margin-bottom: 120px; min-heightx: 2000px;">
-
-<div class="row">
-	<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:30px; margin-bottomx: 100px;">
-		<canvas id="seen" width="400" height="140" class="col-md-12 col-sm-12"></canvas>
-	</div>
-</div>	
-<div class="row">
-	<div class="col-md-12 col-sm-12" style="height: 200px; margin-top:350px;">
-		<div class="col-md-6 col-sm-6 row" style="margin-top: 30px; float: left;">
-			<canvas id="manufac" height="180"></canvas>
+	<div class="row">
+		<div class="col-md-12 col-sm-12" style="height: 120px; margin-top:30px; margin-bottomx: 100px;">
+			<canvas id="seen" width="400" height="110" class="col-md-12 col-sm-12"></canvas>
 		</div>
-		<div class="col-md-6 col-sm-6" style="margin-top: 30px; float: right;">
-			<canvas id="type" height="180"></canvas>
+	</div>	
+	<div class="row">
+		<div class="col-md-12 col-sm-12" style="height: 200px; margin-top:320px;">
+			<div class="col-md-6 col-sm-6 row" style="margin-top: 30px; float: left;">
+				<canvas id="manufac" height="160"></canvas>
+			</div>
+			<div class="col-md-6 col-sm-6" style="margin-top: 30px; float: right;">
+				<canvas id="type" height="160"></canvas>
+			</div>
+		</div>
+	</div>
+	<div class="row">	
+		<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:280px;">
+			<canvas id="memory" width="400" height="120" class=" col-md-12 col-sm-12"></canvas>
+		</div>
+	</div>
+	<div class="row">	
+		<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:340px; margin-bottom: 210px;">
+			<canvas id="ages" width="400" height="120" class="col-md-12 col-sm-12"></canvas>
 		</div>
 	</div>
 </div>
-<div class="row">	
-	<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:280px;">
-		<canvas id="memory" width="400" height="140" class=" col-md-12 col-sm-12"></canvas>
-	</div>
-</div>
-<div class="row">	
-	<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:370px; margin-bottom: 210px;">
-		<canvas id="ages" width="400" height="140" class="col-md-12 col-sm-12"></canvas>
-	</div>
-</div>
-</div>
-
 
 <script>
 var ctxy = document.getElementById('ages').getContext('2d');
