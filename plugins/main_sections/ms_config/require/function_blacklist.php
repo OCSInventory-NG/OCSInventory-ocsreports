@@ -58,6 +58,7 @@ $MASKseparat = ".";
 $MASKtable = "blacklist_subnet";
 $MASKfield = "MASK";
 
+/* Function to add a MAC address to the blacklist */
 function add_mac_add($mac_value) {
     global $l, $MACnb_field, $MACfield_name, $MACseparat, $MACtable, $MACfield, $MACnb_field;
 
@@ -68,6 +69,7 @@ function add_mac_add($mac_value) {
     insert_blacklist_table($MACtable, $MACfield, $field_value);
 }
 
+/* Function to add a serial number to the blacklist */
 function add_serial_add($serial_value) {
     global $SERIALnb_field, $SERIALfield_name, $SERIALseparat, $SERIALtable, $SERIALfield, $SERIALnb_field;
 
@@ -79,9 +81,11 @@ function add_serial_add($serial_value) {
     insert_blacklist_table($SERIALtable, $SERIALfield, $field_value);
 }
 
+/* Function to add a subnet to the blacklist */
 function add_subnet_add($subnet_value) {
     global $l, $SUBnb_field, $SUBfield_name, $SUBseparat, $SUBtable, $SUBfield, $SUBnb_field,
     $MASKnb_field, $MASKfield_name, $MASKseparat, $MASKfield, $MASKnb_field;
+
     $field_value_SUB = generate_value($subnet_value, $SUBfield_name, $SUBseparat, $SUBnb_field, array('DOWN' => 0, 'UP' => 255));
     if (!$field_value_SUB) {
         return $l->g(299);
@@ -89,6 +93,7 @@ function add_subnet_add($subnet_value) {
     if (is_array($field_value_SUB)) {
         return $l->g(1145) . ' ' . implode(',', $field_value_SUB);
     }
+
     $field_value_MASK = generate_value($subnet_value, $MASKfield_name, $MASKseparat, $MASKnb_field, array('DOWN' => 0, 'UP' => 255));
     if (!$field_value_MASK) {
         return $l->g(300);
@@ -113,6 +118,10 @@ function show_blacklist_fields($nb_field, $default_values, $field_name, $nb_valu
     return $aff;
 }
 
+/* 
+ * Returns a single string (or 'false' in case of error).
+ * The string returned is the concatenation of several fields' value 
+*/
 function generate_value($values, $field_name, $separat, $nb_field, $limit = array()) {
     $field_value = '';
     $i = 1;
@@ -122,7 +131,7 @@ function generate_value($values, $field_name, $separat, $nb_field, $limit = arra
         }
         if ($values[$field_name . $i] != '') {
             if ((isset($limit['DOWN']) && $values[$field_name . $i] < $limit['DOWN']) || (isset($limit['UP']) && $values[$field_name . $i] > $limit['UP'])) {
-                return $limit;
+                return false;
             }
             $field_value .= $values[$field_name . $i];
         } else {
