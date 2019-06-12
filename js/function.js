@@ -246,3 +246,12 @@ function checkrequire(statut){
     }
 
 }
+
+function fuser_change(value) {
+    var $fuserinput = $('.form-group-hidden');
+    var $fuserinputtext = $('.form-group-debug option:selected').text();
+    console.log($fuserinputtext);
+    if (value === "5" && $fuserinputtext === "FUSER"){
+        $fuserinput.removeClass("hidden");
+    }
+}

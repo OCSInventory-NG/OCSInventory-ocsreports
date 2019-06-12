@@ -201,7 +201,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     }
 }
 
-if (isset($_SESSION['OCS']['TRUE_USER'])) {
+if (isset($_SESSION['OCS']['TRUE_USER']) && !$protectedPost['MODE'] == 5 ) {
     msg_info($_SESSION['OCS']['TRUE_USER'] . " " . $l->g(889) . " " . $_SESSION['OCS']["loggeduser"]);
 }
 

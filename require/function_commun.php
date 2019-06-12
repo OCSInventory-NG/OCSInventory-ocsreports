@@ -495,7 +495,7 @@ function calendars($NameInputField,$DateFormat)
 
 
 
-function modif_values($field_labels, $fields, $hidden_fields, $options = array()) {
+function modif_values($field_labels, $fields, $hidden_fields, $options = array(), $field_name="form-group") {
 	global $l;
 
 	$options = array_merge(array(
@@ -516,6 +516,12 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 		foreach ($field_labels as $key => $label) {
 
                     $field = $fields[$key];
+
+                    if (is_array($field_name)){
+                        $name = $field_name[$key];
+                    } else {
+                        $name = $field_name;
+                    }
 
                     /**
                      * 0 = text
@@ -563,7 +569,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                             $inputType = 'hidden';
                     }
 
-                    echo "<div class='form-group'>";
+                    echo "<div class='$name'>";
                         echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
                         echo "<div class='col-sm-10'>";
 
