@@ -86,7 +86,7 @@ else{
 if (isset($sql)) {
     $list_fields = array($l->g(69) => 'vendor',
         'soft' => 'soft',
-        'version' => 'version',
+        'Version' => 'version',
         'CVSS' => 'cvss',
         'CVE' => 'cve',
         'link' => 'link'
