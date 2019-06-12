@@ -34,6 +34,10 @@
         var toto = autorisation;
         return autorisation;
     }
+
+    $(document).ready(function() {
+        $('.option-auto').select2();
+    });
 </script>
 
 
@@ -215,7 +219,20 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
             echo ">" . $value . "</option>";
         }
         echo "</select>";
-    } elseif ($type == 'long_text') {
+    } elseif ($type == 'select2') {
+        $data["VALUE"] = explode(",", $data["VALUE"]);
+        $data["VALUE"] = array_flip($data["VALUE"]);
+
+        echo "<select class='form-control option-auto' name='" . $name . "' multiple='multiple'>";
+        foreach ($data['SELECT_VALUE'] as $key => $value) {
+            echo "<option value='" . $key . "'";
+            if (array_key_exists($key, $data['VALUE'])) {
+                echo " selected";
+            }
+            echo ">" . $value . "</option>";
+        }
+        echo "</select>";
+    }elseif ($type == 'long_text') {
         echo "<textarea name='" . $name . "' id='" . $name . "' cols='" . $data['COLS'] . "' rows='" . $data['ROWS'] . "'  class='down' " . $data['JAVASCRIPT'] . ">" . $data['VALUE'] . "</textarea>" . $data['END'];
     }elseif($type == 'password'){
         echo "<input class='form-control input-sm' type='password' name='" . $name . "' id='" . $name . "' value='" . $data['VALUE'] . "' maxlength=" . $data['MAXLENGTH'] . " " . $data['JAVASCRIPT'] . ">";
@@ -306,6 +323,10 @@ function fin_tab($disable = '') {
 function insert_update($name, $value, $default_value, $field) {
     global $l;
 
+    if(is_array($value)){
+        $value = implode(',', $value);
+    }
+
     if ($default_value != $value) {
         $arg = array($field, $value, $name);
 
@@ -350,6 +371,7 @@ function update_default_value($POST) {
         'CONEX_LDAP_CHECK_FIELD1_ROLE',
         'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
         'CONEX_LDAP_CHECK_FIELD2_ROLE',
+        'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT', 'OCS_SERVER_ADDRESS',
         'CUSTOM_THEME');
@@ -362,7 +384,7 @@ function update_default_value($POST) {
         'REGISTRY', 'GENERATE_OCS_FILES', 'OCS_FILES_OVERWRITE', 'PROLOG_FILTER_ON', 'INVENTORY_FILTER_ENABLED',
         'INVENTORY_FILTER_FLOOD_IP', 'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME', 'INVENTORY_FILTER_ON',
         'LOG_GUI', 'DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_FRAG_LATENCY', 'DOWNLOAD_GROUPS_TRACE_EVENTS',
-        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
+        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL', 'VULN_CVESEARCH_ENABLE',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
         'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS');
@@ -873,6 +895,27 @@ function pagewebservice() {
     ligne('WEB_SERVICE_ENABLED', $l->g(761), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WEB_SERVICE_ENABLED']), '', "readonly");
     ligne('WEB_SERVICE_RESULTS_LIMIT', $l->g(762), 'input', array('VALUE' => $values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'], 'END' => $l->g(511), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly", $sup1);
     ligne('WEB_SERVICE_PRIV_MODS_CONF', $l->g(763), 'input', array('VALUE' => $values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "readonly");
+}
+
+function pageVulnerability() {
+    global $l, $numeric, $sup1;
+
+    // Which lines do we need?
+    $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
+        'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST',
+        'VULN_BAN_LIST' => 'VULN_BAN_LIST');
+    // Get configuration values from DB
+    $values = look_config_default_values($champs);
+
+    // Get all software categories
+    require 'require/softwares/SoftwareCategory.php';
+    $category = new SoftwareCategory();
+    $list_cat = $category->search_all_cat();
+
+    // Display configuration items
+    ligne('VULN_CVESEARCH_ENABLE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE']));
+    ligne('VULN_CVESEARCH_HOST', $l->g(1462), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'], 'SELECT_VALUE' => $list_cat));
 }
 
 function pageConnexion() {
