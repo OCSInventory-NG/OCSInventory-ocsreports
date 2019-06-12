@@ -109,10 +109,10 @@ $quants_seen = "['".implode("','",$seen_quant)."']";
 	</div>	
 	<div class="col-md-12 col-sm-12 row"  style="padding-top: 45px;">
 		<div>
-			<div class="col-md-6 col-sm-6" style="float: left;">
+			<div class="col-md-6 col-sm-6">
 				<canvas id="manufac" height="160"></canvas>
 			</div>
-			<div class="col-md-6 col-sm-6" style="float: right;">
+			<div class="col-md-6 col-sm-6">
 				<canvas id="type" height="160"></canvas>
 			</div>
 		</div>
