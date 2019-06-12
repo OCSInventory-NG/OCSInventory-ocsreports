@@ -78,7 +78,6 @@ $quants_mem = "['".implode("','",$mem_quant)."']";
 
 
 //last seen since
-
 $date = date("y-m-d",strtotime("-15 day")); 
 
 $sql_seen = "SELECT DATE_FORMAT(lastcome, '%Y-%m') AS contact, count(lastcome) AS conta 
@@ -100,35 +99,37 @@ while($item = mysqli_fetch_array($result_seen)){
 
 $seen = "['".implode("','",$seen_name)."']";
 $quants_seen = "['".implode("','",$seen_quant)."']";
+
 ?>
 
-<div id="container" class="container col-md-12 col-sm-12 col-lg-12" style="margin-bottom: 120px; min-heightx: 2000px;">
-	<div class="row">
-		<div class="col-md-12 col-sm-12" style="height: 100px; margin-top:30px; margin-bottomx: 100px;">
-			<canvas id="seen" width="400" height="90" class="col-md-12 col-sm-12"></canvas>
+<div id="container" class="container col-md-12 col-sm-12 col-lg-12" style="">
+	<div class="col-md-12 col-sm-12 row"  style="heightx: 100px; margin-top:45px;">
+		<div>
+			<canvas id="seen" width="400" height="100"></canvas>
 		</div>
 	</div>	
-	<div class="row">
-		<div class="col-md-12 col-sm-12" style="height: 200px; margin-top:240px;">
-			<div class="col-md-6 col-sm-6 row" style="margin-top: 30px; float: left;">
+	<div class="col-md-12 col-sm-12 row"  style="padding-top: 30px;">
+		<div>
+			<div class="col-md-6 col-sm-6" style="float: left;">
 				<canvas id="manufac" height="160"></canvas>
 			</div>
-			<div class="col-md-6 col-sm-6" style="margin-top: 30px; float: right;">
+			<div class="col-md-6 col-sm-6" style="float: right;">
 				<canvas id="type" height="160"></canvas>
 			</div>
 		</div>
 	</div>
-	<div class="row">	
-		<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:280px;">
-			<canvas id="memory" width="400" height="120" class=" col-md-12 col-sm-12"></canvas>
+	<div class="col-md-12 col-sm-12 row" style="padding-top: 30px;">	
+		<div>
+			<canvas id="memory" width="400" height="120"></canvas>
 		</div>
 	</div>
-	<div class="row">	
-		<div class="col-md-12 col-sm-12" style="height: 160px; margin-top:340px; margin-bottom: 210px;">
-			<canvas id="ages" width="400" height="120" class="col-md-12 col-sm-12"></canvas>
+	<div class="col-md-12 col-sm-12 row" style="padding-top: 30px; margin-bottom: 5px;">	
+		<div>
+			<canvas id="ages" width="400" height="120"></canvas>
 		</div>
 	</div>
 </div>
+
 
 <script>
 var ctxy = document.getElementById('ages').getContext('2d');
@@ -190,7 +191,8 @@ var myChart = new Chart(ctxm, {
              animateScale: true,
              animateRotate: true
          }
-       }
+       }     
+             
 });
 
 
