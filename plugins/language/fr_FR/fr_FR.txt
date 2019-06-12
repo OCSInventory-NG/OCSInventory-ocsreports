@@ -1340,10 +1340,10 @@
 1463 Rapport de CVE
 1464 Le Rapport de CVE n'est pas activé.
 1465 Tous les CVE
-1466 ATTENTION : Rapport de CVE est une fonctionnalité informative. OCS Inventory ne garantit pas l'exactitude des informations fournies.
+1466 Veuillez consulter la documentation pour configurer le Rapport de CVE :
 1467 Lien
 1468 Vulnérabilité
-1469 Sélectionnez les catégories de logicielles que vous ne souhaitez pas traiter
+1469 Sélectionnez les catégories de logicielles que vous ne souhaitez pas traiter.
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie

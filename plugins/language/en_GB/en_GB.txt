@@ -1333,16 +1333,16 @@
 1454 Source
 1455 Virtual interface
 
-1460 Cve-search management
+1460 CVE-search management
 1461 Enable CVE Reporting
 1462 URL of the cve-search host to use for the reporting
 1463 CVE Reporting
-1464 CVE Reporting is not enable.
+1464 CVE Reporting is not enabled.
 1465 All CVE
-1466 WARNING : CVE Reporting is a feature for informational purposes. OCS Inventory does not guarantee the accuracy of the informations provided.
+1466 Please, see the documentation to configure CVE Reporting : 
 1467 Link
 1468 Vulnerability
-1469 Select software categories that you do not want to process
+1469 Select software categories that you do not want to process.
 
 1500 Software category
 1501 New category
