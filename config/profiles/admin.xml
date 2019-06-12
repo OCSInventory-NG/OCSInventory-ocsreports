@@ -57,5 +57,6 @@
     <page>ms_snmp</page>
     <page>ms_snmp_detail</page>
     <page>ms_server_infos</page>
+    <page>ms_cve_search</page>
   </pages>
 </profile>

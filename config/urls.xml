@@ -328,4 +328,8 @@
         <value>notification</value>
         <directory>ms_config</directory>
     </url>
+    <url key="ms_cve_search">
+        <value>cve_search</value>
+        <directory>ms_cve_search</directory>
+    </url>
 </urls>
