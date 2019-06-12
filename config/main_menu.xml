@@ -24,6 +24,10 @@
         <label>g(9)</label>
         <url>ms_multi_search</url>
       </menu-elem>
+      <menu-elem id="ms_cve_search">
+        <label>g(1463)</label>
+        <url>ms_cve_search</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="deployment">

@@ -82,11 +82,15 @@ if($values['ivalue']['ADVANCE_CONFIGURATION']){
   $def_onglets['FILTER'] = $l->g(735); //Filter
   $def_onglets['WEBSERVICES'] = $l->g(760); //Webservice
   $def_onglets['CNX'] = $l->g(1108); //connexion
+  $def_onglets['VULN'] = $l->g(1460); //cve-search integration
 }
 
 show_tabs($def_onglets,$form_name,"onglet",true);
 echo '<div class="col col-md-10">';
 switch ($protectedPost['onglet']) {
+    case 'VULN':
+        pageVulnerability();
+        break;
     case 'CNX':
         pageConnexion();
         break;
