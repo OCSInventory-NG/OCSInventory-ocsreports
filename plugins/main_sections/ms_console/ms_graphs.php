@@ -101,14 +101,13 @@ $seen = "['".implode("','",$seen_name)."']";
 $quants_seen = "['".implode("','",$seen_quant)."']";
 
 ?>
-
 <div id="container" class="container col-md-12 col-sm-12 col-lg-12" style="">
 	<div class="col-md-12 col-sm-12 row"  style="heightx: 100px; margin-top:45px;">
 		<div>
 			<canvas id="seen" width="400" height="100"></canvas>
 		</div>
 	</div>	
-	<div class="col-md-12 col-sm-12 row"  style="padding-top: 30px;">
+	<div class="col-md-12 col-sm-12 row"  style="padding-top: 45px;">
 		<div>
 			<div class="col-md-6 col-sm-6" style="float: left;">
 				<canvas id="manufac" height="160"></canvas>
@@ -118,12 +117,12 @@ $quants_seen = "['".implode("','",$seen_quant)."']";
 			</div>
 		</div>
 	</div>
-	<div class="col-md-12 col-sm-12 row" style="padding-top: 30px;">	
+	<div class="col-md-12 col-sm-12 row" style="padding-top: 45px;">	
 		<div>
 			<canvas id="memory" width="400" height="120"></canvas>
 		</div>
 	</div>
-	<div class="col-md-12 col-sm-12 row" style="padding-top: 30px; margin-bottom: 5px;">	
+	<div class="col-md-12 col-sm-12 row" style="padding-top: 45px; margin-bottom: 5px;">	
 		<div>
 			<canvas id="ages" width="400" height="120"></canvas>
 		</div>
