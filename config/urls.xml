@@ -332,4 +332,8 @@
         <value>cve_search</value>
         <directory>ms_cve_search</directory>
     </url>
+    <url key="ms_saas_soft">
+        <value>saas_soft</value>
+        <directory>ms_saas_soft</directory>
+    </url>
 </urls>
