@@ -180,7 +180,7 @@ class Cve
   }  
 
   /**
-   *  Clean CVE 
+   *  Clean CVE and ban software
    */
   public function clean_cve(){
     $sql = 'SELECT DISTINCT cve FROM cve_search';
@@ -203,6 +203,20 @@ class Cve
     }
 
     curl_close ($curl);
+
+    if($this->CVE_BAN != ""){
+      $sql_ban = "SELECT DISTINCT c.soft FROM cve_search c LEFT JOIN softwares as s ON c.soft = s.name WHERE s.category IN (%s)";
+      $sql_ban_arg = array($this->CVE_BAN);
+      $result_ban = mysql2_query_secure($sql_ban, $_SESSION['OCS']["readServer"], $sql_ban_arg);
+
+      while ($item_ban = mysqli_fetch_array($result_ban)) {
+        if($item_ban != null){
+          $sql_remove = "DELETE FROM cve_search WHERE soft = '%s'";
+          $sql_remove_arg = array($item_ban["soft"]);
+          $result = mysql2_query_secure($sql_remove, $_SESSION['OCS']["writeServer"], $sql_remove_arg);
+        }
+      }
+    }
   }
 }
 
