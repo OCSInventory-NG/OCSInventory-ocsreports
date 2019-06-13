@@ -191,7 +191,7 @@ $queryDetails .= "LEFT JOIN videos v ON v.hardware_id=h.id ";
 $queryDetails .= "where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
 
 // STATUS NETWORK INTERFACE UP
-$queryDetails .= " AND n.STATUS = 'up' ";
+$queryDetails .= " AND n.STATUS<>'down' ";
 
 // TAG RESTRICTIONS
 if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
