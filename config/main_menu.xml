@@ -28,6 +28,10 @@
         <label>g(1463)</label>
         <url>ms_cve_search</url>
       </menu-elem>
+      <menu-elem id="ms_saas_soft">
+        <label>g(8100)</label>
+        <url>ms_saas_soft</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="deployment">

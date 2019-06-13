@@ -58,5 +58,6 @@
     <page>ms_snmp_detail</page>
     <page>ms_server_infos</page>
     <page>ms_cve_search</page>
+    <page>ms_saas_soft</page>
   </pages>
 </profile>
