@@ -255,3 +255,17 @@ function fuser_change(value) {
         $fuserinput.removeClass("hidden");
     }
 }
+
+function show_hide_wol(id, check, button){
+    checkbox = document.getElementById(check);
+    wol = document.getElementById(id);
+    send = document.getElementById(button)
+
+    if(checkbox.checked){
+        wol.style.display = '';
+        send.style.display = 'none';
+    } else {
+        wol.style.display = 'none';
+        send.style.display = '';
+    }
+}

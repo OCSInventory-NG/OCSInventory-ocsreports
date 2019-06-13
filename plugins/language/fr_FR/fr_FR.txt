@@ -1599,3 +1599,8 @@
 8106 Temps de vie
 8107 Ce SAAS existe déjà
 8108 Activer l'inventaire de Logiciel en tant que Service
+
+8200 Programmer un Wake On Lan
+8201 Sauvegarder
+8202 WOL date/heure
+8203 WOL sauvegardé !
