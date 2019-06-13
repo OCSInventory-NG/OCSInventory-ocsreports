@@ -1603,3 +1603,8 @@
 8106 Time to live
 8107 This SAAS already exists
 8108 Enable Software as a Service Inventory
+
+8200 Schedule a Wake On Lan
+8201 Save
+8202 WOL date/time
+8203 WOL saved !

@@ -336,3 +336,8 @@ div.progress {
     background-color:#f2dede;
     padding-top: 5px;
 }
+
+.btn-action{
+    background-color: #961b7e;
+    color: white;
+}
