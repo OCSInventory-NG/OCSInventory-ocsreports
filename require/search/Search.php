@@ -339,98 +339,98 @@
             }
 
             foreach ($searchInfos as $index => $value) {
-                $open="";
-                $close="";
-                // Generate condition
-                $this->getOperatorSign($value);
+              $open="";
+              $close="";
+              // Generate condition
+              $this->getOperatorSign($value);
 
-                foreach(array_count_values($columnName) as $name => $nb){
-                  if($nb > 1){
-                    $isSameColumn[$tableName] = $name;
-                  }
+              foreach(array_count_values($columnName) as $name => $nb){
+                if($nb > 1){
+                  $isSameColumn[$tableName] = $name;
                 }
+              }
 
-                if($p == 0 && $operator[$p+1] == 'OR'){
-                    $open = "(";
-                }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
-                    $close=")";
-                }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
-                    $open = "(";
-                }
+              if($p == 0 && $operator[$p+1] == 'OR'){
+                  $open = "(";
+              }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
+                  $close=")";
+              }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
+                  $open = "(";
+              }
 
-                if(!empty($isSameColumn)){
-                  if($value[self::SESS_OPERATOR] != "IS NULL"){
-                    if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
-                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $value[self::SESS_FIELDS];
-                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                      $this->queryArgs[] = $value[self::SESS_VALUES];
-                    }else{
-                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $value[self::SESS_FIELDS];
-                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                      $this->queryArgs[] = $value[self::SESS_VALUES];
-                    }
-                  }else{
-                    if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
-                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $value[self::SESS_FIELDS];
-                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                    }else{
-                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s)$close ";
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $tableName;
-                      $this->queryArgs[] = $value[self::SESS_FIELDS];
-                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                    }
-                  }
-                }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && empty($isSameColumn)){
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
-                  $this->queryArgs[] = $tableName;
-                  $this->queryArgs[] = $value[self::SESS_FIELDS];
-                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY'){
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
-                  if($tableName == self::GROUP_TABLE){
-                    $this->queryArgs[] = 'hardware';
-                    $this->queryArgs[] = 'ID';
+              if(!empty($isSameColumn) && $isSameColumn[$tableName] == $value[self::SESS_FIELDS]){
+                if($value[self::SESS_OPERATOR] != "IS NULL"){
+                  if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
                     $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                    $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                    $this->queryArgs[] = $value[self::SESS_VALUES];
                   }else{
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
+                    $this->queryArgs[] = $tableName;
                     $this->queryArgs[] = $tableName;
                     $this->queryArgs[] = $value[self::SESS_FIELDS];
                     $this->queryArgs[] = $value[self::SESS_OPERATOR];
                     $this->queryArgs[] = $value[self::SESS_VALUES];
                   }
-                }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
+                }else{
+                  if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  }else{
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s)$close ";
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  }
+                }
+              }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && empty($isSameColumn)){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
+                $this->queryArgs[] = $tableName;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+              } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY'){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
+                if($tableName == self::GROUP_TABLE){
+                  $this->queryArgs[] = 'hardware';
+                  $this->queryArgs[] = 'ID';
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                }else{
                   $this->queryArgs[] = $tableName;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
                   $this->queryArgs[] = $value[self::SESS_VALUES];
-                  global $l;
-                  $this->queryArgs[] = $l->g(269);
-                }else{
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
-                  if($tableName == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
-                    $this->queryArgs[] = 'download_available';
-                    $this->queryArgs[] = 'NAME';
-                  }else{
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $value[self::SESS_FIELDS];
-                  }
-                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
-                $p++;
+              }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
+                $this->queryArgs[] = $tableName;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+                global $l;
+                $this->queryArgs[] = $l->g(269);
+              }else{
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
+                if($tableName == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
+                  $this->queryArgs[] = 'download_available';
+                  $this->queryArgs[] = 'NAME';
+                }else{
+                  $this->queryArgs[] = $tableName;
+                  $this->queryArgs[] = $value[self::SESS_FIELDS];
+                }
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+              }
+              $p++;
             }
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
