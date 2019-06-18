@@ -341,3 +341,7 @@ div.progress {
     background-color: #961b7e;
     color: white;
 }
+
+.background-pic{
+    opacity: 0.5;
+}
