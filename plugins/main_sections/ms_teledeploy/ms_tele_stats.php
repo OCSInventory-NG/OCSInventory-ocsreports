@@ -134,7 +134,7 @@ $stats->createChartCanvas($name);
 $chart["teledeploy_stats"] = ["name" => [0 => "teledeploy_stats"],
                               "count" => $count_value,
                               "name_value" => $legend];
-$stats->createPieChart($chart);
+$stats->createChart($chart);
 echo "</div>";
 echo "</br>";
 

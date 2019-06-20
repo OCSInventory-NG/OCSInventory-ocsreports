@@ -73,7 +73,7 @@ class StatsChartsRenderer {
 
             ?>
             <div>
-            <?php if($legend && ($key == 'NB_AGENT' || $key == 'NB_OS')){ ?>
+            <?php if($legend && ($key == 'NB_AGENT' || $key == 'NB_OS' || $key == 'teledeploy_stats')){ ?>
                 <div class='<?php echo $mainClass ?>'>
                     <canvas id="<?php echo $key?>" height="150"/>
                 </div>
@@ -99,10 +99,10 @@ class StatsChartsRenderer {
      * @param array $labels Labals array
      * @param array $data Data arrays
      */
-    public function createChart($chart, $seen, $quants_seen, $man, $quants_man, $type, $quants_type){
+    public function createChart($chart, $seen = null, $quants_seen = null, $man = null, $quants_man = null, $type = null, $quants_type = null){
         $i = 0;
         foreach($chart as $key => $value){
-            if($key == 'NB_AGENT' || $key == 'NB_OS'){
+            if($key == 'NB_AGENT' || $key == 'NB_OS' || $key == 'teledeploy_stats'){
                 ?>
                 <script>
                 var config<?php echo $i ?> = {
@@ -233,7 +233,7 @@ class StatsChartsRenderer {
           <?php for($p = 0; $name[$p] != null; $p++){ ?>
             var ctx<?php echo $p ?> = document.getElementById("<?php echo $name[$p] ?>").getContext("2d");
             window.myDoughnut = new Chart(ctx<?php echo $p ?>, config<?php echo $p ?>);
-            <?php if($name[$p] == 'NB_AGENT' || $name[$p] == 'NB_OS'){ ?>
+            <?php if($name[$p] == 'NB_AGENT' || $name[$p] == 'NB_OS' || $name[$p] == 'teledeploy_stats'){ ?>
                 document.getElementById("<?php echo $name[$p] ?>legend").innerHTML = window.myDoughnut.generateLegend();
                 <?php } ?>
           <?php } ?>
