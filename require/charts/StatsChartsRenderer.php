@@ -56,10 +56,13 @@ class StatsChartsRenderer {
     public function createChartCanvas($name, $legend = true, $offset = true){
 
         foreach($name as $key => $value){
-            if($legend){
+
+            if($legend && $key != 'SEEN' && $key != "MANUFAC" && $key != "TYPE"){
                 $mainClass = "col-md-4";
-            }else{
+            }elseif($key == 'SEEN'){
                 $mainClass = "col-md-12";
+            }else{
+                $mainClass = "col-md-6 col-sm-6";
             }
 
             if($offset){
@@ -70,14 +73,22 @@ class StatsChartsRenderer {
 
             ?>
             <div>
+            <?php if($legend && ($key == 'NB_AGENT' || $key == 'NB_OS' || $key == 'teledeploy_stats')){ ?>
                 <div class='<?php echo $mainClass ?>'>
                     <canvas id="<?php echo $key?>" height="150"/>
                 </div>
-                <?php if($legend){ ?>
                 <div class='col-md-2 text-left'>
                     <div id="<?php echo $key ?>legend" class="span-charts">&nbsp;</div>
                 </div>
-                <?php } ?>
+            <?php }elseif($key == 'SEEN'){ ?>
+                <div class='<?php echo $mainClass ?>' style='margin-top: 5%;'>
+                    <canvas id="<?php echo $key?>" width="400" height="100"/>
+                </div>
+            <?php }elseif($key == 'MANUFAC' || $key == "TYPE"){ ?>
+                <div class="<?php echo $mainClass ?>" style='margin-top: 5%;'>
+				    <canvas id="<?php echo $key?>" height="160"></canvas>
+			    </div>
+            <?php } ?>
             </div>
             <?php
         }
@@ -88,54 +99,129 @@ class StatsChartsRenderer {
      * @param array $labels Labals array
      * @param array $data Data arrays
      */
-    public function createPieChart($chart){
+    public function createChart($chart, $seen = null, $quants_seen = null, $man = null, $quants_man = null, $type = null, $quants_type = null){
         $i = 0;
         foreach($chart as $key => $value){
-          ?>
-          <script>
-          var config<?php echo $i ?> = {
-              type: 'doughnut',
-              data: {
-                  datasets: [{
-                      data: [
-                          <?php
-                          foreach ($value['count'] as $data) {
-                              echo "$data ,";
-                          }
-                          ?>
-                      ],
-                      backgroundColor: [
-                          <?php
-                          self::generateColorList(count($value['name_value']));
-                          ?>
-                      ],
-                      label: 'Stats'
-                  }],
-                  labels: [
-                      <?php
-                      foreach ($value['name_value'] as $label) {
-                         echo "'$label' ,";
-                      }
-                      ?>
-                  ]
-              },
-              options: {
-                  responsive: true,
-                  legend: {
-                      display: false,
-                  },
-                  title: {
-                      display: true,
-                      text: "<?php echo $value['title'] ?>"
-                  },
-                  animation: {
-                      animateScale: true,
-                      animateRotate: true
-                  }
-              }
-          };
-          </script>
-          <?php
+            if($key == 'NB_AGENT' || $key == 'NB_OS' || $key == 'teledeploy_stats'){
+                ?>
+                <script>
+                var config<?php echo $i ?> = {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [
+                                <?php
+                                foreach ($value['count'] as $data) {
+                                    echo "$data ,";
+                                }
+                                ?>
+                            ],
+                            backgroundColor: [
+                                <?php
+                                self::generateColorList(count($value['name_value']));
+                                ?>
+                            ],
+                            label: 'Stats'
+                        }],
+                        labels: [
+                            <?php
+                            foreach ($value['name_value'] as $label) {
+                                echo "'$label' ,";
+                            }
+                            ?>
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: "<?php echo $value['title'] ?>"
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                };
+                </script>
+                <?php
+            }elseif($key == 'SEEN'){
+                ?>
+                <script>
+                var config<?php echo $i ?> = {
+                    type: 'line',
+                    data: {
+                        labels: <?php echo $seen; ?>,
+                        datasets: [{
+                            label: '',
+                            data: <?php echo $quants_seen; ?>,
+                                fill: true,
+                                borderWidth: 6,
+                                backgroundColor: 'rgba(150, 27, 126, 0.6)'
+                        }]
+                    },
+                        options: {
+                        responsive: true,
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: "<?php echo $value['title'] ?>"
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                };
+                </script>
+                <?php
+            }elseif($key == 'TYPE' || $key == 'MANUFAC'){
+                ?>
+                <script>
+                var config<?php echo $i ?> = {
+                    type: 'horizontalBar',
+                    data: {
+                        labels: <?php if($key == 'MANUFAC'){ echo $man; }else{ echo $type; } ?>,
+                        datasets: [{
+                            label: '',
+                            data: <?php if($key == 'MANUFAC'){ echo $quants_man; }else{ echo $quants_type; }  ?>,
+                            backgroundColor: ['#1941A5' ,'#AFD8F8' ,'#F6BD0F' ,'#8BBA00' ,'#A66EDD' ,'#F984A1' ,'#CCCC00' ,'#999999' ,'#0099CC' ,'#FF0000' ,'#006F00' ,'#0099FF', '#3e95cd', '#2a6bcf','#78867a','#e8c3b9','#c45850','#7eec72','#a36640','#c22a2c','#fad97b','#c40244' ],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: false,
+                            position: 'bottom',
+                        labels: {
+                            fontColor: "#000080",
+                        }
+                        },
+                        title: {
+                            display: true,
+                            text: "<?php echo $value['title'] ?>"
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        },
+                        scales: {
+                            xAxes: [{
+                                ticks:{
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                }
+                </script>
+                <?php
+            }
 
           $name[$i] = $value['name'][0];
           $i++;
@@ -147,7 +233,9 @@ class StatsChartsRenderer {
           <?php for($p = 0; $name[$p] != null; $p++){ ?>
             var ctx<?php echo $p ?> = document.getElementById("<?php echo $name[$p] ?>").getContext("2d");
             window.myDoughnut = new Chart(ctx<?php echo $p ?>, config<?php echo $p ?>);
-            document.getElementById("<?php echo $name[$p] ?>legend").innerHTML = window.myDoughnut.generateLegend();
+            <?php if($name[$p] == 'NB_AGENT' || $name[$p] == 'NB_OS' || $name[$p] == 'teledeploy_stats'){ ?>
+                document.getElementById("<?php echo $name[$p] ?>legend").innerHTML = window.myDoughnut.generateLegend();
+                <?php } ?>
           <?php } ?>
         };
         </script>

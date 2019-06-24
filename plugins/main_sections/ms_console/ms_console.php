@@ -92,12 +92,23 @@ if($values['ivalue']['ACTIVE_NEWS'] == 1){
 
 }
 
+/************************************** MACHINES *****************************************************/
+
+$form_name = "all_machines";
+echo open_form($form_name, '', '', 'form-horizontal');
+
+$table = $console->html_table_machine("ALL COMPUTER");
+
+echo $table;
+echo "<hr>";
+echo close_form();
+
 /************************************** MACHINE CONTACTED TODAY **************************************/
 
 $form_name = "console";
 echo open_form($form_name, '', '', 'form-horizontal');
 
-$table = $console->html_table_machine();
+$table = $console->html_table_machine("CONTACTED");
 
 echo "<br><h4>".$l->g(795)."</h4><br>";
 echo $table;
@@ -114,7 +125,10 @@ echo "<br><h4>".$l->g(1251)."</h4><br>";
 echo "<div class='row'>";
 $form = [
   'NB_AGENT' => 'Agent',
-  'NB_OS' => 'OS'
+  'NB_OS' => 'OS',
+  'SEEN' => 'Last seen',
+  'MANUFAC' => 'Manufacturer',
+  'TYPE' => 'Type'
 ];
 
 $result = $stats->showForm($form);
