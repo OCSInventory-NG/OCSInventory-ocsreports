@@ -455,7 +455,7 @@ if ($url_name) {
     } else if ($profile->hasPage('ms_console')) {
         require ($default_first_page);
     } else {
-        echo "<img src='image/fond.png'>";
+        echo "<img src='image/fond.png' class='background-pic'>";
     }
 }
 ?>
