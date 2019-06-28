@@ -94,8 +94,8 @@ function input_pack_taille($name, $other_field, $size, $input_size, $input_value
     } elseif($modif == false) {
         $champ = " disabled='disabled' ";
     } else {
-				$champ = " value=1 disabled='disabled' ";
-		}
+		$champ = " value=1 disabled='disabled' ";
+	}
     formGroup('text', $name, $label, $input_size, '', $input_value, '', '', '', $champ, ($addon != '' ? $addon : ''));
 }
 
@@ -447,7 +447,7 @@ function create_pack($sql_details, $info_details, $modif = true) {
 
     //create info
     if($sql_details['nbfrags'] == null){
-			$sql_details['nbfrags'] = '1';
+			$sql_details['nbfrags'] = '0';
 		}
 
     $info = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
