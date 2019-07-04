@@ -27,9 +27,6 @@
  use PHPMailer\PHPMailer\Exception;
 
  //Load libraries
- require PHPMAILER.'/Exception.php';
- require PHPMAILER.'/PHPMailer.php';
- require PHPMAILER.'/SMTP.php';
  require __DIR__.'/../softwares/SoftwareCategory.php';
  require __DIR__.'/../assets/AssetsCategory.php';
 
@@ -200,7 +197,7 @@
                $this->notif->send();
                error_log('Message has been sent');
            } catch (Exception $e) {
-               $msg = 'Message could not be sent. Mailer Error: '. $mail->ErrorInfo;
+               $msg = 'Message could not be sent. Mailer Error: '. $e->errorMessage();
                error_log($msg);
            }
       }

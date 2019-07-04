@@ -69,7 +69,7 @@ if ($_POST['RELOAD_CONF'] == 'RELOAD') {
 /* * ***************************************************LOGOUT******************************************** */
 if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON') {
     if ($_SESSION['OCS']['cnx_origine'] == "CAS") {
-        require_once(PHPCAS);
+       // require_once(PHPCAS);
         require_once(BACKEND . 'require/cas.config.php');
         $cas = new phpCas();
         $cas->client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_uri);

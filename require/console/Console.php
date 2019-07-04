@@ -161,13 +161,19 @@
           }
 
           $html = "<table class='cell-border' style='width:100%;'>";
-          foreach($category as $id => $array){
-            foreach($array as $name => $nb){
-              if($nb != '0'){
-                  $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_all_soft&onglet=".$id."'>".$nb."</a></th></tr>";
-              }else{
-                  $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+          if($category != null){
+            foreach($category as $id => $array){
+              foreach($array as $name => $nb){
+                if($nb != '0'){
+                    $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_all_soft&onglet=".$id."'>".$nb."</a></th></tr>";
+                }else{
+                    $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+                }
               }
+            }
+          }else{
+            foreach($cat as $key => $value){
+              $html .= "<tr class='soft-table'><td class='soft-table-td'>".$value."</td><td style='width: 50%;  text-align: center;'>0</td></tr>";
             }
           }
           $html .= "</table>";

@@ -20,11 +20,11 @@ foreach ($values as $key => $value){
   }
 }
 
-if($values['NOTIF_FOLLOW'] == 'ON' && $values['NOTIF_PROG_TIME'] == date('H:i') && array_key_exists(date('l'), $day)){
+//if($values['NOTIF_FOLLOW'] == 'ON' && $values['NOTIF_PROG_TIME'] == date('H:i') && array_key_exists(date('l'), $day)){
     $mail->config_mailer();
     $selected = $mail->get_notif_selected();
     $body_mail = $mail->get_all_information($selected);
     $mail->send_notification($body_mail[$selected]['SUBJECT'], $body_mail[$selected]['FILE'], $body_mail[$selected]['ALTBODY'], $selected);
-}
+//}
 
 ?>

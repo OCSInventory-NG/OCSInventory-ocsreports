@@ -150,14 +150,24 @@ class SoftwareCategory
           while ($computer = mysqli_fetch_array($result)) {
               $nb[$value][] = $computer['NAME'];
           }
-          $nb_computer[$value] = count($nb[$value]);
+          if($nb[$value] != null){
+            $nb_computer[$value] = count($nb[$value]);
+          }
         }
-
-        foreach($nb_computer as $name => $nb){
-            $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
-                              <td style="padding: 0 15px 0 0;">'.$name.'</td>
-                              <td style="padding: 0 0 0 15px;">'.$nb.'</td>
-                            </tr>';
+        if($nb_computer != null){
+            foreach($nb_computer as $name => $nb){
+                $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
+                                <td style="padding: 0 15px 0 0;">'.$name.'</td>
+                                <td style="padding: 0 0 0 15px;">'.$nb.'</td>
+                                </tr>';
+            }
+        }else{
+            foreach($cat as $key => $value){
+                $this->html .= "<tr style='border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;'>
+                            <td style='padding: 0 15px 0 0;'>".$value."</td>
+                            <td style='padding: 0 0 0 15px;'>0</td>
+                        </tr>";
+            }
         }
 
         $this->html .= '</table>';

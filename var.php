@@ -56,21 +56,13 @@ define('MAC_FILE', __DIR__ . '/files/oui.txt');
  */
 define('BACKEND', __DIR__ . '/backend/');
 /**
- * Library PHPCAS
+ * Autoload composer
  */
-define('PHPCAS', __DIR__ . '/libraries/phpcas/CAS.php');
-/**
- * Library TC-LIB-BARCODE
- */
-define('TC_LIB_BARCODE', __DIR__ . '/libraries/tclib/Barcode/autoload.php');
+require __DIR__ . '/composer_vendor/autoload.php';
 /**
  * Library PASSWORD-COMPAT
  */
-define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php');
-/**
- * Library PHPMAILER
- */
-define('PHPMAILER', __DIR__ . '/libraries/PHPMailer-6.0.5/src');
+define('PASSWORD_COMPAT', __DIR__ . '/composer_vendor/ircmaxell/password_compat/lib/password.php');
 /**
  * Template Mail Directory
  */
