@@ -2,5 +2,5 @@
 /nbproject/
 .remote-sync.json
 .vscode/
-composer_vendor/
+vendor/
 composer.lock

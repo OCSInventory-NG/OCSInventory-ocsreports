@@ -58,11 +58,7 @@ define('BACKEND', __DIR__ . '/backend/');
 /**
  * Autoload composer
  */
-require __DIR__ . '/composer_vendor/autoload.php';
-/**
- * Library PASSWORD-COMPAT
- */
-define('PASSWORD_COMPAT', __DIR__ . '/composer_vendor/ircmaxell/password_compat/lib/password.php');
+define('COMPOSER_AUTOLOAD', __DIR__ . '/vendor/autoload.php');
 /**
  * Template Mail Directory
  */
