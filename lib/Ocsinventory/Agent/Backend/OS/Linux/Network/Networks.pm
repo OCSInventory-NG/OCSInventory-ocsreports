@@ -212,16 +212,17 @@ sub run {
                             MTU => $mtu,
                         });
                     }
-                } elsif ($description && $ipaddress6) {
+                } 
+                if ($description && $ipaddress6) {
                     if ($type eq "Wifi") {
                           $common->addNetwork({
                               DESCRIPTION => $description,
                               DRIVER => $driver,
-                              IPADDRESS => $ipaddress,
+                              IPADDRESS => $ipaddress6,
                               IPDHCP => _ipdhcp($description),
-                              IPGATEWAY => $ipgateway,
-                              IPMASK => $ipmask,
-                              IPSUBNET => $ipsubnet,
+                              IPGATEWAY => $ipgateway6,
+                              IPMASK => $ipmask6,
+                              IPSUBNET => $ipsubnet6,
                               MACADDR => $macaddr,
                               PCISLOT => $pcislot,
                               STATUS => $status?"Up":"Down",
@@ -359,7 +360,7 @@ sub run {
             } elsif ($line =~ /\s+link\/(\S+)/){
                 $type=$1;
                 $macaddr=getMAC($description);
-            } elsif ($line =~ /inet6 (\S+)\/(d{1,2})/i){
+            } elsif ($line =~ /inet6 (\S+)\/(\d{1,2})/i){
                 $ipaddress6=$1;
                 $ipmask6=getIPNetmaskV6($2);
                 $ipsubnet6=getSubnetAddressIPv6($ipaddress6,$ipmask6);
@@ -678,8 +679,8 @@ sub getSubnetAddressIPv6 {
 
     return undef unless $address && $mask;
 
-    my $binaddress = ip_iptobin($address, 6);
-    my $binmask    = ip_iptobin($mask, 6);
+    my $binaddress = ip_iptobin(ip_expand_address($address, 6),6);
+    my $binmask    = ip_iptobin(ip_expand_address($mask, 6),6);
     my $binsubnet  = $binaddress & $binmask;
 
     return ip_compress_address(ip_bintoip($binsubnet, 6),6);
