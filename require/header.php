@@ -28,6 +28,7 @@ unset($_SESSION['OCS']['SQL_DEBUG']);
 
 // Before session_start to allow objects to be unserialized from session
 require_once('var.php');
+require_once(COMPOSER_AUTOLOAD);
 require_once('require/extensions/include.php');
 require_once('require/menu/include.php');
 require_once('require/config/include.php');
@@ -69,7 +70,6 @@ if ($_POST['RELOAD_CONF'] == 'RELOAD') {
 /* * ***************************************************LOGOUT******************************************** */
 if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON') {
     if ($_SESSION['OCS']['cnx_origine'] == "CAS") {
-        require_once(PHPCAS);
         require_once(BACKEND . 'require/cas.config.php');
         $cas = new phpCas();
         $cas->client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_uri);
@@ -310,17 +310,11 @@ $l = $_SESSION['OCS']["LANGUAGE_FILE"];
 
 if (!isset($_SESSION['OCS']["loggeduser"])) {
     if (!AJAX && !((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))) {
-        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
-            if (version_compare(PHP_VERSION, '5.5') < 0) {
-                include_once(PASSWORD_COMPAT);
-            }
-            $values = look_config_default_values('PASSWORD_VERSION');
-            $_SESSION['OCS']['PASSWORD_VERSION'] = $values['ivalue']['PASSWORD_VERSION'];
-            $_SESSION['OCS']['PASSWORD_ENCRYPTION'] = $values['tvalue']['PASSWORD_VERSION'];
-        } else {
-            $_SESSION['OCS']['PASSWORD_VERSION'] = false;
-            $_SESSION['OCS']['PASSWORD_ENCRYPTION'] = false;
-        }
+
+        $values = look_config_default_values('PASSWORD_VERSION');
+        $_SESSION['OCS']['PASSWORD_VERSION'] = $values['ivalue']['PASSWORD_VERSION'];
+        $_SESSION['OCS']['PASSWORD_ENCRYPTION'] = $values['tvalue']['PASSWORD_VERSION'];
+
         require_once(BACKEND . 'AUTH/auth.php');
     } else {
         header($_SERVER["SERVER_PROTOCOL"] . " 401 " . utf8_decode($l->g(1359)));
