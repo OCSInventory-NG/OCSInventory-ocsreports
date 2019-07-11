@@ -254,6 +254,37 @@ sub run {
                     }
                 }
 
+                if ($description && !$ipaddress && !$ipaddress6) {
+                    if ($type eq "Wifi") {
+                          $common->addNetwork({
+                              DESCRIPTION => $description,
+                              DRIVER => $driver,
+                              MACADDR => $macaddr,
+                              PCISLOT => $pcislot,
+                              STATUS => $status?"Up":"Down",
+                              TYPE => $type,
+                              SPEED => $bitrate,
+                              SSID => $ssid,
+                              BSSID => $bssid,
+                              IEEE => $version,
+                              MODE => $mode,
+                        });
+                    } else {
+                        $common->addNetwork({
+                            DESCRIPTION => $description,
+                            DRIVER => $driver,
+                            MACADDR => $macaddr,
+                            PCISLOT => $pcislot,
+                            STATUS => $status?"Up":"Down",
+                            TYPE => $type,
+                            VIRTUALDEV => $virtualdev,
+                            DUPLEX => $duplex?"Full":"Half",
+                            SPEED => $speed,
+                            MTU => $mtu,
+                        });
+                    }
+                }
+                
                 # Virtual devices
                 # Reliable way to get the info
                 if (-d "/sys/devices/virtual/net/") {
@@ -731,4 +762,36 @@ sub getRouteIfconfig {
     }
     return $route;
 }
+
 1;
+__END__
+
+=head1 NAME
+OCSInventory::Agent::Backend::OS::Linux::Network::Networks - Network-related functions
+=head1 DESCRIPTION
+This module retrieves network informations.
+=head1 FUNCTIONS
+=head2 getSpeed
+Returns the speed of the card.
+=head2 getDuplex
+Returns duplex state of the card.
+=head2 getMTU
+Returns the mtu of the card.
+=head2 getStatus
+Returns the status of the card.
+=head2 getMAC
+Returns the mac address.
+=head2 getSubnetAddress($address, $mask)
+Returns the subnet address for IPv4.
+=head2 getSubnetAddressIPv6($address, $mask)
+Returns the subnet address for IPv6.
+=head2 getIPNetmask($prefix)
+Returns the network mask for IPv4.
+=head2 getIPNetmaskV6($prefix)
+Returns the network mask for IPv6.
+=head2 getslaves
+Returns if card has a bonding.
+=head2 getIPRoute
+Returns the gateway defined int he ip config.
+=head2 getRouteIfconfig
+Returns the gateway defined in the ip config.
