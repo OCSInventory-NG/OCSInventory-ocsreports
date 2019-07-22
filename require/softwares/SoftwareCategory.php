@@ -245,21 +245,23 @@ class SoftwareCategory
         $cat = implode(',', $id);
 
         if($id != null){
-          $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME`, `OS` FROM `software_categories` WHERE ID IN (%s)";
-          $sql_list_arg = array($cat);
+            $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME`, `OS` FROM `software_categories` WHERE ID IN (%s)";
+            $sql_list_arg = array($cat);
 
-          $result_list_cat = mysql2_query_secure($sql_list_cat, $_SESSION['OCS']["readServer"], $sql_list_arg);
-          $i = 1;
-          while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
-              if ($i == 1) {
-                  $list_cat['first_onglet'] = $i;
-              }
-              $list_cat[$i] = $item_list_cat['CATEGORY_NAME'];
-              $list_cat['category_name'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['ID'];
-              $list_cat['OS'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['OS'];
-              $i++;
-          }
-          $list_cat['i'] = $i;
+            $result_list_cat = mysql2_query_secure($sql_list_cat, $_SESSION['OCS']["readServer"], $sql_list_arg);
+            $i = 1;
+            if($result_list_cat != false){
+                while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
+                    if ($i == 1) {
+                        $list_cat['first_onglet'] = $i;
+                    }
+                    $list_cat[$i] = $item_list_cat['CATEGORY_NAME'];
+                    $list_cat['category_name'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['ID'];
+                    $list_cat['OS'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['OS'];
+                    $i++;
+                }
+            }
+            $list_cat['i'] = $i;
         }
         return ($list_cat);
     }
