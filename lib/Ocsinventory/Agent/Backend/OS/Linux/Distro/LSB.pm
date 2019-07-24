@@ -1,5 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::LSB;
 
+use vars qw($runMeIfTheseChecksFailed);
+$runMeIfTheseChecksFailed = ["Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB"];
+
 sub check {
     my $params = shift;
     my $common = $params->{common};
