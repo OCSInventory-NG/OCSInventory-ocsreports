@@ -25,13 +25,13 @@ sub run {
     for (`df -kP`) {
         next if /^Filesystem\s*1024-blocks.*/;
         if (/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/) {
-            $type = $1;
+            $volumn = $1;
             @fs=`lsfs -c $6`;
             @fstype = split /:/,$fs[1];     
             $filesystem = $fstype[2];
             $total = sprintf("%i",($2/1024));    
             $free = sprintf("%i",($4/1024));
-            $volumn = $6;      
+            $type = $6;      
         }
         next if $filesystem =~ /procfs/;
 
