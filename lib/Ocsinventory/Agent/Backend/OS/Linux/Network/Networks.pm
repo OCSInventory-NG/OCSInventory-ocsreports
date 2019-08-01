@@ -26,7 +26,7 @@ sub getLeaseFile {
         /var/lib/dhcp
         /var/lib/NetworkManager
     );
-    my @patterns = ("*$if*.lease", "*.lease", "dhclient.leases.$if");
+    my @patterns = ("*$if*.lease", "*.lease*", "dhclient.leases.$if");
     my @files;
 
     foreach my $directory (@directories) {
