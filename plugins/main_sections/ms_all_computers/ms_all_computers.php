@@ -106,7 +106,7 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(36) => "e.ssn",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
-    $l->g(34) => "ipaddress",
+    $l->g(34) => "h.ipaddr",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -147,7 +147,7 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(36) => "e.ssn",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
-    $l->g(34) => "GROUP_CONCAT(DISTINCT CASE WHEN n.ipaddress != 0x20 THEN n.ipaddress ELSE NULL END SEPARATOR 0x2D) as ipaddress",
+    $l->g(34) => "h.ipaddr",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -189,9 +189,6 @@ $queryDetails .= "LEFT JOIN assets_categories ac ON ac.ID = h.CATEGORY_ID ";
 // VIDEOS CARDS INFOS
 $queryDetails .= "LEFT JOIN videos v ON v.hardware_id=h.id ";
 $queryDetails .= "where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
-
-// STATUS NETWORK INTERFACE UP
-$queryDetails .= " AND n.STATUS<>'down' ";
 
 // TAG RESTRICTIONS
 if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
