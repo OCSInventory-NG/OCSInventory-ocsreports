@@ -714,7 +714,8 @@ $list_os = [
 	"MAC" => "MACOS"
 ];
 $list_proto = [
-    "HTTP" => "HTTP"
+    "HTTP" => "HTTP",
+    "HTTPS" => "HTTPS"
 ];
 
 $i = 0;
