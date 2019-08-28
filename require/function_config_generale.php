@@ -705,7 +705,7 @@ function pageserveur($advance) {
     if($advance){
       ligne('SECURITY_LEVEL', $l->g(739), 'input', array('VALUE' => $values['ivalue']['SECURITY_LEVEL'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly");
       ligne('LOCK_REUSE_TIME', $l->g(740), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['LOCK_REUSE_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-      ligne('SESSION_VALIDITY_TIME', $l->g(777), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SESSION_VALIDITY_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+      ligne('SESSION_VALIDITY_TIME', $l->g(777), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SESSION_VALIDITY_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     }
     ligne('TRACE_DELETED', $l->g(415), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TRACE_DELETED']));
     ligne('INVENTORY_ON_STARTUP', $l->g(2121), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_ON_STARTUP']));
