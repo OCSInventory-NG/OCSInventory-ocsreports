@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::oracle;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Oracle;
 use strict;
 
 sub check {-f "/etc/oracle-release"}
