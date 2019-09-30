@@ -88,6 +88,7 @@
         "LIKE",
         "DIFFERENT",
         "ISNULL",
+        "DOESNTCONTAIN",
     ];
 
     /**
@@ -332,10 +333,13 @@
 
             $isSameColumn = [];
             $columnName = [];
+            $doesntcontainmulti = [];
+            
 
             foreach ($searchInfos as $index => $value) {
                   $values[] = $value;
                   $columnName[$index] = $value['fields'];
+                  $containvalue[$index] = $value['operator'];
             }
 
             foreach ($searchInfos as $index => $value) {
@@ -350,6 +354,12 @@
                 }
               }
 
+              foreach(array_count_values($containvalue) as $name => $nb){
+                if($nb > 1){
+                  $doesntcontainmulti[$tableName] = $name;
+                }
+              }
+
               if($p == 0 && $operator[$p+1] == 'OR'){
                   $open = "(";
               }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
@@ -358,7 +368,33 @@
                   $open = "(";
               }
 
-              if(!empty($isSameColumn) && $isSameColumn[$tableName] == $value[self::SESS_FIELDS]){
+              unset($value['ignore']);
+
+              if($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && empty($doesntcontainmulti)){
+                $excluID = $this->contain($value, $tableName);
+                if($tableName != DatabaseSearch::COMPUTER_DEF_TABLE){
+                  $value[self::SESS_FIELDS] = "HARDWARE_ID";
+                }else{
+                  $value[self::SESS_FIELDS] = "ID";
+                }
+                
+                $value[self::SESS_VALUES] = implode(',', $excluID);
+                $value[self::SESS_OPERATOR] = "NOT IN";
+
+              }elseif($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && !empty($isSameColumn) && !empty($doesntcontainmulti)){
+                $excluID = $this->containmulti($isSameColumn, $searchInfos);
+                if($tableName != DatabaseSearch::COMPUTER_DEF_TABLE){
+                  $value[self::SESS_FIELDS] = "HARDWARE_ID";
+                }else{
+                  $value[self::SESS_FIELDS] = "ID";
+                }
+                
+                $value[self::SESS_VALUES] = implode(',', $excluID);
+                $value[self::SESS_OPERATOR] = "NOT IN";
+                $value['ignore'] = "";
+              }
+
+              if(!empty($isSameColumn) && $isSameColumn[$tableName] == $value[self::SESS_FIELDS] && !array_key_exists("ignore", $value)){
                 if($value[self::SESS_OPERATOR] != "IS NULL"){
                   if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
                     $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
@@ -397,7 +433,8 @@
                 $this->queryArgs[] = $tableName;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
                 $this->queryArgs[] = $value[self::SESS_OPERATOR];
-              } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY'){
+              } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
+                          || $value[self::SESS_OPERATOR] == "NOT IN"){
                 $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
                 if($tableName == self::GROUP_TABLE){
                   $this->queryArgs[] = 'hardware';
@@ -517,6 +554,9 @@
                 break;
             case 'ISNULL':
                 $valueArray[self::SESS_OPERATOR] = "IS NULL";
+                break;
+            case 'DOESNTCONTAIN':
+                $valueArray[self::SESS_OPERATOR] = "DOESNTCONTAIN";
                 break;
             case 'BELONG' :
                 $valueArray[self::SESS_OPERATOR] = "IN";
@@ -1127,5 +1167,85 @@
         $asset[$asset_row['ID']] = $asset_row['CATEGORY_NAME'];
       }
       return $asset;
+    }
+
+    /**
+     * Doesn't contain traitment
+     */
+    private function contain($value, $tableName){
+      if($tableName != DatabaseSearch::COMPUTER_DEF_TABLE){
+        $field = "HARDWARE_ID";
+      }else{
+        $field = "ID";
+      }
+      $sql_search = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
+      $sql_search_arg = array($field, $tableName, $value['fields'], "%".$value['value']."%");
+      $result = mysql2_query_secure($sql_search, $_SESSION['OCS']["readServer"], $sql_search_arg);
+
+      while($notcontain = mysqli_fetch_array($result)){
+        $excluID[] = $notcontain[$field];
+      }
+
+      if($excluID[0] == null){
+        $excluID[0] = 0;
+      }
+
+      return $excluID;
+    }
+
+    /**
+     * Doesn't contain traitment if multi search
+     */
+    private function containmulti($name, $value){
+      $excluID = null;
+      $allID = null;
+      foreach ($name as $table => $field){
+        $tablename = $table;
+        $column = $field;
+      }
+
+      if($tablename != DatabaseSearch::COMPUTER_DEF_TABLE){
+        $fieldname = "HARDWARE_ID";
+      }else{
+        $fieldname = "ID";
+      }
+
+      foreach ($value as $uniqID => $values){
+        if ($values['fields'] == $field && $values['operator'] == "DOESNTCONTAIN"){
+          $search[] = $values['value'];
+          if($values['comparator'] != null){
+            $comparator[] = $values['comparator'];
+          }
+        }
+      }
+
+      for($i = 0; $i != count($comparator)+1; $i++){
+
+        $sql = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
+        $sql_arg = array($fieldname, $tablename, $column, "%".$search[$i]."%");
+
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
+
+        while($notcontain = mysqli_fetch_array($result)){
+          $excluID[$notcontain[$fieldname]] = $notcontain[$fieldname];
+          $allID[$search[$i]][$notcontain[$fieldname]] = $notcontain[$fieldname];
+        }
+      }
+
+      for($i = 0; $i != count($comparator)+1; $i++){
+        foreach($excluID as $key => $values){
+          foreach($allID as $searching => $compare){
+            if(!array_key_exists($values, $compare) && $comparator[$i] == "AND"){
+              unset($excluID[$key]);
+            }
+          }
+        }
+      }
+
+      if($excluID == null){
+        $excluID[0] = 0;
+      }
+
+      return $excluID;
     }
  }
