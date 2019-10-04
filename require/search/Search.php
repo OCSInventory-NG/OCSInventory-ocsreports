@@ -394,7 +394,8 @@
                 $value['ignore'] = "";
               }
 
-              if(!empty($isSameColumn) && $isSameColumn[$tableName] == $value[self::SESS_FIELDS] && !array_key_exists("ignore", $value)){
+              if(!empty($isSameColumn) && $isSameColumn[$tableName] == $value[self::SESS_FIELDS] 
+                        && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
                 if($value[self::SESS_OPERATOR] != "IS NULL"){
                   if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
                     $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
@@ -428,7 +429,7 @@
                     $this->queryArgs[] = $value[self::SESS_OPERATOR];
                   }
                 }
-              }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && empty($isSameColumn)){
+              }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
                 $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
                 $this->queryArgs[] = $tableName;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
