@@ -1609,3 +1609,12 @@
 8201 Save
 8202 WOL date/time
 8203 WOL saved !
+
+9000 SNMP configuration
+9001 Create type
+9002 Type configuration
+9003 Create label
+9004 OID
+9005 OID string value
+9006 Label name
+9007 Type name is unique and must not contain any special characters except underscore.</br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
