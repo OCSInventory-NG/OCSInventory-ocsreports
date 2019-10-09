@@ -84,6 +84,10 @@
         <label>g(8000)</label>
         <url>ms_notification</url>
       </menu-elem>
+      <menu-elem id="ms_snmp_config">
+        <label>g(9000)</label>
+        <url>ms_snmp_config</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="networks">

@@ -336,4 +336,8 @@
         <value>saas_soft</value>
         <directory>ms_saas_soft</directory>
     </url>
+    <url key="ms_snmp_config">
+        <value>SNMP_config</value>
+        <directory>ms_config</directory>
+    </url>
 </urls>
