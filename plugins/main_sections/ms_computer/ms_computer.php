@@ -58,21 +58,40 @@ echo '<div class="col col-md-10">';
 //Wake On Lan function
 if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
     require_once('require/wol/WakeOnLan.php');
+    require_once('require/function_network.php');
     $wol = new Wol();
-    $sql = "select MACADDR,IPADDRESS from networks WHERE (hardware_id=%s) and status='Up'";
+    $sql = "select MACADDR,IPADDRESS,IPSUBNET,IPMASK from networks WHERE (hardware_id=%s) and status='Up'";
     $arg = array($item->ID);
     $resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $msg = "";
+    $done = FALSE;
 
-    while ($wol_item = mysqli_fetch_object($resultDetails)) {
-        $wol->look_config_wol($wol_item->IPADDRESS, $wol_item->MACADDR);
+	// Try sending WOL packets on all MAC addresses known for the agent
+	while ($wol_item = mysqli_fetch_object($resultDetails)) {
 
-        if ($wol->wol_send == $l->g(1282)) {
-            msg_info($wol->wol_send . "=>" . $wol_item->MACADDR . "/" . $wol_item->IPADDRESS);
-        } else {
-            msg_error($wol->wol_send . "=>" . $wol_item->MACADDR . "/" . $wol_item->IPADDRESS);
-        }
-    }
+		// Send a WOL packet only when we have an IP interface in the same subnet as the agent.
+		foreach(gethostbynamel(gethostname()) as $serverIP) {
+			// TODO: Works only for IPv4, not IPv6
+			if (ipv4_in_range($serverIP, $item->IPSUBNET . "/" . $item->IPMASK)) {
+				// TODO: Use correct broadcast address, not generic one
+				$wol->look_config_wol("255.255.255.255", $wol_item->MACADDR, $serverIP);
+				$done = TRUE;
+			} else {
+				$wol->wol_send = '';
+			}
+		}
+
+		if ($wol->wol_send == $l->g(1282)) {
+			msg_info($wol->wol_send . "=>" . $wol_item->MACADDR . "/" . $wol_item->IPADDRESS);
+		} else {
+			msg_error($wol->wol_send . "=>" . $wol_item->MACADDR . "/" . $wol_item->IPADDRESS);
+		}
+	}
+
+	// We don't have any network interface in the same subnet as the agent.
+	if (!$done) {
+		msg_error("Could not send WOL packet; Server does not have any interface in a subnet of the agent");
+	}
+
 }
 
 show_computer_title($item);

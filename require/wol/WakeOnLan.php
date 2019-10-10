@@ -31,12 +31,13 @@ class Wol
 
     /**
      * Send Wakeonlan
-     * @param  string $broadcast     [description]
-     * @param  string $macaddr       [description]
-     * @param  int $socket_number [description]
-     * @return [type]                [description]
+     * @param  string 	$broadcast     	[description]
+     * @param  string 	$macaddr       	[description]
+     * @param  int 	$port	 	[description]
+     * @param  string 	$serverIP	[The source IP address to use for sending the WOL packets]
+     * @return [type]                	[description]
      */
-    public function wake_on_lan($broadcast, $macaddr, $socket_number) {
+    public function wake_on_lan($broadcast, $macaddr, $port, $serverIP) {
 
         $addr_byte = explode(':', $macaddr);
         $hw_addr = '';
@@ -57,45 +58,60 @@ class Wol
         $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
         if ($socket == false) {
-            return FALSE;
+		return FALSE;
         } else {
-            // setting a broadcast option to socket:
-            $opt_ret = socket_set_option($socket, 1, 6, TRUE);
+		// setting a broadcast option to socket:
+		if( socket_set_option($socket, 1, 6, TRUE) < 0) {
+			return FALSE;
+		}
 
-            if($opt_ret < 0) {
-                return FALSE;
-            }
+		try {
+	    		socket_bind($socket, $serverIP);
+	            	if(socket_sendto($socket, $msg, strlen($msg), 0, $broadcast, $port)) {
+        	        	socket_close($socket);
+	        	        return TRUE;
+	        	} else {
+        	        	return FALSE;
+            		}
+		} catch (Exception $e) {
+			socket_close($socket);
+		    	return FALSE;
+	    	}
 
-            if(socket_sendto($socket, $msg, strlen($msg), 0, $broadcast, $socket_number)) {
-                socket_close($socket);
-                return TRUE;
-            } else {
-                return FALSE;
-            }
-        }
+	}
     }
 
     /**
      * Look config WOL
      * @param  string $broadcast [description]
      * @param  string $macaddr   [description]
+     * @param  string $serverIP  [The source IP address to use for sending the WOL packets]
      * @return [type]            [description]
      */
-    public function look_config_wol($broadcast, $macaddr){
+    public function look_config_wol($broadcast, $macaddr, $serverIP){
 
-        //looking for values of wol config
+        // Looking for values of WOL config
         $wol_info = look_config_default_values('WOL_PORT');
         if (!isset($wol_info['name']['WOL_PORT'])) {
             $this->wol_send = 'No port defined for WOL';
-        } else {
-            $wol_port = explode(',', $wol_info['tvalue']['WOL_PORT']);
-        }
+	    return FALSE;
+	}
+	
+	// Get ports to use for sending WOL packets
+	$wol_port = explode(',', $wol_info['tvalue']['WOL_PORT']);
 
-        foreach ($wol_port as $socket_number) {
-            if (is_numeric($socket_number)) {
-            $this->wake_on_lan($broadcast, $macaddr, $socket_number);
+	// Try sending WOL packets on every ports defined
+	$success = FALSE;
+        foreach ($wol_port as $port) {
+            if (is_numeric($port)) {
+		    if ($this->wake_on_lan($broadcast, $macaddr, $port, $serverIP)) {
+			$this->wol_send = "Wake On Lan order sent";
+			$success = TRUE;
+		    } 
             }
         }
+
+	return $success;
     }
 
     /**
