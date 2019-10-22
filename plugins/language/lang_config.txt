@@ -1,6 +1,7 @@
 <ORDER>
 fr_FR
 en_GB
+nl_NL
 cs_CZ
 de_DE
 es_ES
@@ -32,4 +33,5 @@ es_ES:spanish
 tr_TR:turkish
 uk_UA:ukrainian
 ja_JP:japanese
+nl_NL:dutch
 </LBL>
