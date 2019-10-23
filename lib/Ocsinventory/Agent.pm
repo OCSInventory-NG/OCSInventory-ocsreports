@@ -143,7 +143,10 @@ sub run {
         }
     } elsif (defined($config->{config}{local}) && $config->{config}{local}) {
         $config->{config}{vardir} = $config->{config}{basevardir}."/__LOCAL__";
+    } else {
+        $logger->error("You must set either --server or --local");
     }
+
 
     if (!recMkdir ($config->{config}{vardir})) {
         $logger->error("Failed to create ".$config->{config}{vardir}." directory: $!");
