@@ -124,10 +124,6 @@
         <value>help</value>
         <directory>ms_help</directory>
     </url>
-    <url key="ms_codes">
-        <value>admin_codes</value>
-        <directory/>
-    </url>
     <url key="ms_blacklist">
         <value>admin_black</value>
         <directory>ms_config</directory>
@@ -135,10 +131,6 @@
     <url key="ms_console">
         <value>console</value>
         <directory>ms_console</directory>
-    </url>
-    <url key="ms_components">
-        <value>components</value>
-        <directory/>
     </url>
     <url key="ms_tele_package">
         <value>tele_package</value>
@@ -172,17 +164,9 @@
         <value>opt_param</value>
         <directory>ms_config</directory>
     </url>
-    <url key="ms_opt_ipdiscover">
-        <value>opt_ipdiscover</value>
-        <directory/>
-    </url>
     <url key="ms_group_show">
         <value>group_show</value>
         <directory>ms_groups</directory>
-    </url>
-    <url key="ms_show_detail">
-        <value>show_detail</value>
-        <directory/>
     </url>
     <url key="ms_custom_info">
         <value>ipdiscover_info</value>
@@ -215,10 +199,6 @@
     <url key="ms_speed_stat">
         <value>stat_speed</value>
         <directory>ms_teledeploy</directory>
-    </url>
-    <url key="ms_admin_management">
-        <value>admin_type_manage</value>
-        <directory>ms_teledeploy_workflow</directory>
     </url>
     <url key="ms_adminvalues">
         <value>admin_values</value>
@@ -256,10 +236,6 @@
         <value>teledeploy_speed_stats</value>
         <directory>ms_stats</directory>
     </url>
-    <url key="jp_activity_stats">
-        <value>activity_stats</value>
-        <directory>ms_stats</directory>
-    </url>
     <url key="ms_ipdiscover_analyse">
         <value>ipdiscover_analyse</value>
         <directory>ms_ipdiscover</directory>
@@ -267,10 +243,6 @@
     <url key="ms_stats_connexion">
         <value>stats_connexion</value>
         <directory>ms_stats</directory>
-    </url>
-    <url key="ms_add_key">
-        <value>add_key</value>
-        <directory>ms_config</directory>
     </url>
     <url key="ms_export_ocs">
         <value>export_ocs</value>
@@ -287,10 +259,6 @@
     <url key="ms_extensionmanager">
         <value>extensionmanager</value>
         <directory>ms_extensionmanager</directory>
-    </url>
-    <url key="ms_stats_top">
-        <value>stats_top</value>
-        <directory>ms_stats</directory>
     </url>
     <url key="ms_server_infos">
         <value>server_infos</value>
