@@ -1543,7 +1543,6 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 6003 Número de licencias
 6004 Total disponible
 6005 Encender/Apagar
-6006 <b>ADVERTENCIA:</b> Instale php-soap, sin él, el motor de complementos no puede funcionar
 6007 Instale los siguientes módulos para que esta característica funcione &nbsp;:&nbsp;
 6008 No se puede escribir en el siguiente directorio &nbsp;:&nbsp;
 6009 No puede instalar complementos, verifique los mensajes de error más arriba.

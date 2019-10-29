@@ -1511,7 +1511,6 @@
 6003 Plugin
 6004 Insgesamt verfügbar
 6005 Ein-/Ausschalten
-6006 WARNUNG : Bitte installieren Sie php-soap, die Plugins funktionieren sonst nicht.
 6007 Bitte installieren Sie folgende Module damit die Features funktionieren&nbsp;:&nbsp;
 6008 Kann in folgendes Verzeichnis nicht schreiben&nbsp;:&nbsp;
 6009 Sie können Plugins nicht installieren. Bitte überprüfen Sie die obigen Fehlermeldungen.
