@@ -1527,7 +1527,6 @@
 6003 Plugin
 6004 Totaal beschikbaar
 6005 Power on/off
-6006 WAARSCHUWING: Installeer php-soap, de plugin engine kan niet zonder
 6007 Installeer de volgende modules om deze optie werkend te krijgen&nbsp;:&nbsp;
 6008 Deze map is niet schrijfbaar&nbsp;:&nbsp;
 6009 Je kan geen plugins installeren, zie de foutmeldingen hierboven.

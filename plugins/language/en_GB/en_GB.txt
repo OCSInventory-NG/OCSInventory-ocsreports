@@ -1538,7 +1538,6 @@
 6003 Plugin
 6004 Total available
 6005 Power on/off
-6006 WARNING : Please install php-soap, the plugin engine can't work without it
 6007 Please install the following modules in order to get this feature working&nbsp;:&nbsp;
 6008 Can't write in the following directory&nbsp;:&nbsp;
 6009 You can't install plugins, check error messages above.

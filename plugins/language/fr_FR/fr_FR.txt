@@ -1536,7 +1536,6 @@
 6003 Plugin
 6004 Nombre Total disponible
 6005 Eteinte/allumée
-6006 AVERTISSEMENT : Le module php-soap n'est pas installé, le moteur de plugin ne fonctionnera pas.
 6007 Les modules suivants sont requis pour utiliser cette fonctionnalitée&nbsp;:&nbsp;
 6008 Les répertoires suivants ne sont pas accessibles en écriture&nbsp;:&nbsp;
 6009 Vous ne pouvez pas installer de plugins, référez vous aux erreurs ci-dessus.
