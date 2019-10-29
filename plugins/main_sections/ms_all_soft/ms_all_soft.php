@@ -106,7 +106,7 @@ for($i=1; $list_cat[$i] != null; $i++){
 }
 
 //default => first onglet
-if (isset($protectedGet['onglet'])){
+if (isset($protectedGet['onglet']) && !isset($protectedPost['old_onglet'])){
     $protectedPost['onglet'] = $protectedGet['onglet'];
 }
 if ($protectedPost['onglet'] == "") {
