@@ -138,7 +138,7 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
                 //si un champ hidden est demandé, on gère l'affichage par javascript
                 if ($data_hidden != '' && $data_hidden['HIDDEN'] == $key) {
                     echo "OnClick=\"active('" . $name . "_div',1);\"";
-                } elseif ($data_hidden != '' && $data_hidden['HIDDEN'] != key) {
+                } elseif ($data_hidden != '' && $data_hidden['HIDDEN'] != $key) {
                     echo "OnClick=\"active('" . $name . "_div',0);\"";
                 } elseif (isset($data['JAVASCRIPT'])) {
                     echo $data['JAVASCRIPT'];
