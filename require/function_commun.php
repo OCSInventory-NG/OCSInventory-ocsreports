@@ -760,9 +760,6 @@ function check_requirements(){
     if (version_compare(phpversion(), '5.4', '<')) {
         $msg_lbl['warning'][] = $l->g(2113) . " " . phpversion() . " ) ";
     }
-    if (!class_exists('SoapClient')) {
-        $msg_lbl['warning'][] = $l->g(6006);
-    }
     if (!function_exists('xml_parser_create')) {
         $msg_lbl['warning'][] = $l->g(2036);
     }

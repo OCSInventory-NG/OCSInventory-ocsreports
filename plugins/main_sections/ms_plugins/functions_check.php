@@ -170,8 +170,7 @@ function checkDependencies() {
     $str_msg = "";
 
     $modules_to_check = array(
-        "ZipArchive",
-        "SOAPClient"
+        "ZipArchive"
     );
 
     foreach ($modules_to_check as $value) {
