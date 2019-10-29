@@ -58,10 +58,11 @@ $list_fields2 = array($l->g(949) => 'h.ID',
     $l->g(354) => 'h.FIDELITY',
     $l->g(53) => 'h.DESCRIPTION',
     $l->g(34) => 'h.IPADDR',
+    $l->g(24) => 'h.userid',
     'CHECK' => 'h.ID');
 $list_fields = array_merge($list_fields, $list_fields2);
 $list_col_cant_del = array('NAME' => 'NAME', 'CHECK' => 'CHECK');
-$default_fields2 = array('NAME' => 'NAME', $l->g(46) => $l->g(46), $l->g(820) => $l->g(820), $l->g(34) => $l->g(34));
+$default_fields2 = array('NAME' => 'NAME', $l->g(46) => $l->g(46), $l->g(820) => $l->g(820), $l->g(34) => $l->g(34), $l->g(24) => $l->g(24));
 $default_fields = array_merge($default_fields, $default_fields2);
 
 if (isset($protectedGet['systemid'])) {
