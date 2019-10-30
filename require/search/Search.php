@@ -1081,9 +1081,9 @@
 
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){
-          if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value.$value2,$_SESSION['OCS']['multi_search']['hardware'])){
+          if(!array_key_exists('HARDWARE-'.$field[1].$comp.preg_replace("/\s+/","", preg_replace("/_/","",$value)).preg_replace("/_/","",$value2),$_SESSION['OCS']['multi_search']['hardware'])){
               $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value).preg_replace("/_/","",$value2)] = [
+              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/\s+/","", preg_replace("/_/","",$value)).preg_replace("/_/","",$value2)] = [
                   'fields' => $field[1],
                   'value' => $value,
                   'operator' => $operator,
