@@ -405,8 +405,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                     data.search.search = "";
                     data.start = 0;
                 },
-								"conditionalPaging": true,
-								"lengthMenu": [ 10, 25, 50, 100, 250, 500, 1000],
+				"conditionalPaging": true,
+				"lengthMenu": [ 10, 25, 50, 100, 250, 500, 1000],
                 //Column definition
                 "columns": [
     <?php
@@ -1582,55 +1582,47 @@ function ajaxfiltre($queryDetails,$tab_options){
 * 						'Option' => value,
 * 						}
 */
-function ajaxsort(&$tab_options){
-	if ($tab_options['columns'][$tab_options['order']['0']['column']]['orderable'] == "true"){
-		$name = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
+function ajaxsort(&$tab_options) {
+	$tri = '';
+	$tab_iplike = array('H.IPADDR','IPADDRESS','IP','IPADDR','IP_MIN','IP_MAX');
 
-		if (!empty($tab_options["replace_query_arg"][$name])){
-			$name= $tab_options["replace_query_arg"][$name];
-		}
-		$tri = $name;
-		$sens = $tab_options['order']['0']['dir'];
-	} else if ($tab_options['columns']) {
-		foreach($tab_options['columns'] as $column){
-			if ($column['orderable']=="true"){
-				$tri = $column['name'];
-				$sens = "asc";
-				break;
+	if ($tab_options['columns'][$tab_options['order']['0']['column']]['orderable'] == "true") {
+		// reset
+		foreach ($tab_options['order'] as $index => $v ) {
+			// get column name
+			$name = $tab_options['columns'][$tab_options['order'][$index]['column']]['name'];
+
+			if (!empty($tab_options["replace_query_arg"][$name])) {
+				$name = $tab_options["replace_query_arg"][$name];
+			}
+			// field name is IP format alike
+			if (in_array(mb_strtoupper($name),$tab_iplike)) {
+				$tri .= " INET_ATON(".$name.") ".$v['dir'].", ";
+			} else if($tab_options['TRI']['DATE'][$name]) {
+				if(isset($tab_options['ARG_SQL'])) {
+					$tri .= " STR_TO_DATE(%s,'%s') %s";
+					$tab_options['ARG_SQL'][] = $name;
+					$tab_options['ARG_SQL'][] = $tab_options['TRI']['DATE'][$name];
+					$tab_options['ARG_SQL'][] = $v['dir'];
+				} else {
+					$tri .= " STR_TO_DATE(".$name.",'".$tab_options['TRI']['DATE'][$name]."') ".$v['dir'];
+				}
+			} else {
+				if ( strpos($name,".") === false ) {
+					$tri .= "".$name." ".$v['dir'].", ";
+				} else {
+					$tri .= $name . " ".$v['dir'].", ";
+				}
 			}
 		}
-	}
-	$sort ="";
-	if (!empty($tri) && !empty($sens)){
-	$tab_iplike=array('H.IPADDR','N.IPADDRESS','IP','IPADDR');
-
-	//@TODO : multiple values management
-	if($tri == 'ipaddress'){
-		$tri = 'n.ipaddress';
+		$tri = rtrim($tri, ", ");
 	}
 
-	if (in_array(mb_strtoupper($tri),$tab_iplike)){
-		$sort= " order by INET_ATON(".$tri.") ".$sens;
-	}elseif ($tab_options['TRI']['SIGNED'][$tri]){
-		$sort= " order by cast(".$$tri." as signed) ".$sens;
+	if($tri != "") {
+		return " order by ".$tri;
+	} else {
+		return "";
 	}
-	elseif($tab_options['TRI']['DATE'][$tri]){
-
-		if(isset($tab_options['ARG_SQL'])){
-			$sort =" order by STR_TO_DATE(%s,'%s') %s";
-			$tab_options['ARG_SQL'][]=$tri;
-			$tab_options['ARG_SQL'][]=$tab_options['TRI']['DATE'][$tri];
-			$tab_options['ARG_SQL'][]=$sens;
-		}else{
-			$sort= " order by STR_TO_DATE(".$tri.",'".$tab_options['TRI']['DATE'][$tri]."') ".$sens;
-		}
-	}else{
-		$sort= " order by ".$tri." ".$sens;
-	}
-
-	}
-	return $sort;
-
 }
 
 //fonction qui retourne un string contenant le bloc généré LIMIT de la requete
