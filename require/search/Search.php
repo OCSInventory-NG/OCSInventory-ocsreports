@@ -886,11 +886,11 @@
                }
              }
 
-             if($in == 0 && $operator[$in+1] == 'OR'){
+             if($p == 0 && $operator[$p+1] == 'OR'){
                  $open = "(";
-             }if($operator[$in] =='OR' && $operator[$in+1] !='OR'){
+             }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
                  $close=")";
-             }if($p != 0 && $operator[$in] !='OR' && $operator[$in+1] =='OR'){
+             }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
                  $open = "(";
              }
 
