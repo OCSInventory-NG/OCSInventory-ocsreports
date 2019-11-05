@@ -348,7 +348,7 @@
 453 Installation completion need user action
 454 NO
 455 YES
-456 Execute
+456 Execute / Launch
 457 Store
 458 Launch
 459 Countdown must be a number
@@ -1562,6 +1562,10 @@
 7014 There is currently no extensions available for installation
 7015 Select at least one computer !
 7016 MTU
+7017 Extension successfull installed ! <br> Please, logout and re-log to finish the console installation.
+7018 This extension is allready installed.
+7019 A PHP error occurred.
+7020 Extension successfull desinstalled !
 
 8000 Notifications
 8001 Enable notification tracking

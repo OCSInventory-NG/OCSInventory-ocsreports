@@ -348,7 +348,7 @@
 453 La fin de l'installation nécessite une intervention utilisateur
 454 NON
 455 OUI
-456 Exécuter
+456 Exécuter / Lancer
 457 Stocker
 458 Lancer
 459 Le compte à rebours doit être un nombre
@@ -1559,6 +1559,11 @@
 7013 installé
 7014 Il n'y a aucune extensions disponible
 7015 Sélectionnez au minimum un ordinateur !
+7016 MTU
+7017 L'extension a été installée avec succès ! <br> Merci de vous déconnecter et reconnecter afin de terminer l'installation.
+7018 Cette extension est déjà installée.
+7019 Une erreur PHP est survenue.
+7020 L'extension a été désinstallée avec succès !
 
 8000 Notifications
 8001 Activer le suivi par courriel
