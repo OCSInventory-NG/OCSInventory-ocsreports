@@ -143,7 +143,10 @@ function show_computer_summary($computer) {
             } elseif ($key == "NAME_RZ") {
                 $data[$key] = "";
                 $data_RZ = subnet_name($computer->ID);
-                $nb_val = count($data_RZ);
+
+                if($data_RZ != null) {
+                    $nb_val = count($data_RZ);
+                }
 
                 if ($nb_val == 1) {
                     $data[$key] = $data_RZ[0];
