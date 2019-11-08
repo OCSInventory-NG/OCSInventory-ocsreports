@@ -151,27 +151,43 @@ function reload(){
     location.reload();
 }
 
-function isnull(selectid, fieldid){
-  var selectvalue = $("#"+selectid+" :selected").val();
-  console.log(selectvalue);
-  if(selectvalue == 'ISNULL'){
-      $("#"+fieldid).prop('disabled', true);
-  }else{
-      $("#"+fieldid).prop('disabled', false);
-  }
+function isnull(selectid, fieldid, fieldtype = null) {
+    var selectvalue = $("#"+selectid+" :selected").val();
+
+    if(selectvalue == 'MORETHANXDAY' || selectvalue == 'LESSTHANXDAY') {
+        $(".form_datetime").empty();
+        $(".form_datetime").replaceWith('<input class="form-control" type="number" name="'+fieldid+'" id="'+fieldid+'" value="">');
+    } else if((selectvalue != 'MORETHANXDAY' && selectvalue != 'LESSTHANXDAY') && (fieldtype == "LASTDATE" || fieldtype == "LASTCOME")) {
+        if($(".form_datetime").length == 0) {
+            $.ajax({
+                url: "ajax/calendarfield.php",
+                type : "GET",
+                data : "fieldid="+fieldid,
+                success : function(data, status) {
+                    $("#"+fieldid).replaceWith(data);
+                }
+            });
+        }
+    }
+
+    if(selectvalue == 'ISNULL') {
+        $("#"+fieldid).prop('disabled', true);
+    } else {
+        $("#"+fieldid).prop('disabled', false);
+    }
 }
 
 /// show/hide
 function hide(id, preview, perso){
 	document.getElementById(id).style.display='none';
-  document.getElementById(preview).style.display='';
-  document.getElementById(perso).style.display='none';
+    document.getElementById(preview).style.display='';
+    document.getElementById(perso).style.display='none';
 }
 
 function show(id, preview, perso){
 	document.getElementById(id).style.display='';//'block'
-  document.getElementById(preview).style.display='none';
-  document.getElementById(perso).style.display='';
+    document.getElementById(preview).style.display='none';
+    document.getElementById(perso).style.display='';
 }
 
 /* Set the width of the sidebar to 250px (show it) */
