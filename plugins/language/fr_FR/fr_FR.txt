@@ -69,8 +69,8 @@
 116 Ajouter
 119 Voulez-vous vraiment supprimer la machine
 122 Supprimer
-129 RESSEMBLE
-130 DIFFERENT
+129 Ressemble
+130 Différent
 134 Ajout d'un nouveau fichier dans la base
 135 Attention, vous allez supprimer ce fichier définitivement !
 137 Fichier
@@ -1325,7 +1325,7 @@
 1445 Groupe
 1446 Nom du modèle
 1447 Informations de compte
-1448 EST NULL
+1448 Est nulle
 1449 Configuration générale
 1450 ID
 1451 Static ?
@@ -1366,7 +1366,9 @@
 
 1600 Mon tableau de bord
 1601 Groupes dynamiques
-1602 NE CONTIENT PAS
+1602 Ne contient pas
+1603 Plus de X jours
+1604 Moins de X jours
 
 1700 Configuration avancée
 1701 Onglet disponible
