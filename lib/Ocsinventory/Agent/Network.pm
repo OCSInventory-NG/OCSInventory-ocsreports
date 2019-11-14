@@ -53,7 +53,7 @@ sub new {
         $uaserver, # server:port, port is needed 
         $self->{config}->{realm},
         $self->{config}->{user},
-        $self->{config}->{password};
+        $self->{config}->{password}
     );
 
     #Setting SSL configuration depending on LWP version
