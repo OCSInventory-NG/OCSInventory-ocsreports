@@ -23,4 +23,4 @@
 ?>
 <h3><?php echo $l->g(1296); ?></h3>
 <?php
-iframe("https://www.ocsinventory-ng.org/en/#ocs-pro-en");
+iframe("https://ocsinventory-ng.org/?page_id=118&lang=en");
