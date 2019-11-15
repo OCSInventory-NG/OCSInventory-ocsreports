@@ -225,6 +225,8 @@
         "HAVINGCHECK" => 507,
         "NOTHAVINGCHECK" => 508,
         "DOESNTCONTAIN" => 1602,
+        "MORETHANXDAY" => 1603,
+        "LESSTHANXDAY" => 1604,
     ];
 
     private $comparatorsArray = [

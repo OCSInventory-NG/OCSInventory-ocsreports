@@ -92,6 +92,14 @@
     ];
 
     /**
+     * Delay operator list
+     */
+    private $operatorDelay = [
+      "MORETHANXDAY",
+      "LESSTHANXDAY",
+    ];
+
+    /**
      * Operator list
      */
     private $operatorGroup = [
@@ -406,12 +414,22 @@
                     $this->queryArgs[] = $value[self::SESS_OPERATOR];
                     $this->queryArgs[] = $value[self::SESS_VALUES];
                   }else{
-                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $value[self::SESS_FIELDS];
-                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                    if($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s NOW() - INTERVAL %s DAY)$close ";
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
+                      $this->queryArgs[] = $op;
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    } else {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    }
                   }
                 }else{
                   if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
@@ -448,7 +466,7 @@
                   $this->queryArgs[] = $value[self::SESS_OPERATOR];
                   $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
-              }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
+              }else if(($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE') && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ){
                 $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
                 $this->queryArgs[] = $tableName;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
@@ -456,7 +474,14 @@
                 $this->queryArgs[] = $value[self::SESS_VALUES];
                 global $l;
                 $this->queryArgs[] = $l->g(269);
-              }else{
+              } elseif($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s NOW() - INTERVAL %s DAY$close ";
+                $this->queryArgs[] = $tableName;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
+                $this->queryArgs[] = $op;
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+              } else {
                 $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
                 if($tableName == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
                   $this->queryArgs[] = 'download_available';
@@ -576,6 +601,12 @@
                 $valueArray[self::SESS_OPERATOR] = "LIKE";
                 $valueArray[self::SESS_VALUES] = "%".$valueArray[self::SESS_VALUES]."%";
                 break;
+            case 'MORETHANXDAY' :
+                $valueArray[self::SESS_OPERATOR] = "MORETHANXDAY";
+                break;
+            case 'LESSTHANXDAY' :
+                $valueArray[self::SESS_OPERATOR] = "LESSTHANXDAY";
+                break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
                 break;
@@ -592,7 +623,7 @@
     {
         $account = new AccountinfoSearch();
         $accounttype = null;
-        if($field != null){
+        if($field != null && $field != "LASTCOME" && $field != "LASTDATE"){
           $accounttype = $account->getSearchAccountInfo($field);
         }
 
@@ -604,6 +635,8 @@
             $operatorList = $this->operatorAccount;
         } elseif($accounttype == '5') {
             $operatorList = $this->operatorAccountCheckbox;
+        } elseif($field == "LASTCOME" || $field == "LASTDATE") {
+            $operatorList = array_merge($this->operatorList, $this->operatorDelay);
         } else {
             $operatorList = $this->operatorList;
         }
@@ -694,7 +727,7 @@
      * @param String $tableName
      * @return String HTML
      */
-    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName, $field = null)
+    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName, $field = null, $operator = null)
     {
         global $l;
 
@@ -703,16 +736,20 @@
 
         $accountInfos = new AccountinfoSearch();
 
-        if($field != null && $field != "CATEGORY_ID" && $field != "CATEGORY"){
+        if($field != null && $field != "CATEGORY_ID" && $field != "CATEGORY" && $operator == null){
           $accounttype = $accountInfos->getSearchAccountInfo($field);
         }
 
         if($tableName == self::GROUP_TABLE || $field == 'CATEGORY_ID' || $field == 'CATEGORY') {
-            $this->type = self::HTML_SELECT;
+          $this->type = self::HTML_SELECT;
         } elseif($accounttype == '2' || $accounttype == '11' || $accounttype =='5') {
-            $this->type = self::HTML_SELECT;
+          $this->type = self::HTML_SELECT;
         } else {
-            $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+          $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        }
+
+        if($operator == "MORETHANXDAY" || $operator == "LESSTHANXDAY") {
+          $this->type = self::DB_INT;
         }
 
         $html = "";
@@ -736,16 +773,13 @@
                 break;
 
             case self::DB_DATETIME:
-                $html = '<input class="form-control" class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
-                $html = '
-                <div class="input-group date form_datetime">
-                    <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'/>
-                    <span class="input-group-addon">
-                        '.calendars($fieldId, $l->g(1270)).'
-                    </span>
-                </div>';
+                $html = '<div class="input-group date form_datetime">
+                            <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'/>
+                            <span class="input-group-addon">
+                                '.calendars($fieldId, $l->g(1270)).'
+                            </span>
+                        </div>';
                 break;
-
             case self::HTML_SELECT:
 
                 $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
@@ -896,11 +930,20 @@
 
              if(!empty($isSameColumn)){
                if($values['operator'] != "IS NULL"){
-                 if ($table != DatabaseSearch::COMPUTER_DEF_TABLE){
-                   $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
-                 }else{
-                   $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
-                 }
+                  if ($table != DatabaseSearch::COMPUTER_DEF_TABLE){
+                    $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
+                  }else{
+                    if($values['operator'] == "MORETHANXDAY" || $values['operator'] == "LESSTHANXDAY") {
+                      if($values['operator'] == "MORETHANXDAY"){
+                        $op = "<";
+                      }else{
+                        $op = ">";
+                      }
+                      $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE ".$table.".".$values['fields']." ".$op." NOW() - INTERVAL ".$values['value']." DAY)$close ";
+                    } else {
+                    $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
+                    }
+                  }
                }else{
                  if ($table != DatabaseSearch::COMPUTER_DEF_TABLE) {
                    $cache_sql .= $values['comparator'] . " $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND " . $table . "." . $values['fields'] . " " . $values['operator'] . ")$close ";
@@ -915,14 +958,23 @@
                $cache_sql .= $operator[$p]." $open hardware.ID ".$values['operator']." ($group_id)$close ";
              }elseif($values['fields'] == 'CATEGORY_ID' || $values['fields'] == 'CATEGORY'){
                $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." (".$values['value'].")$close ";
-             }else if($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE'){
+             }else if(($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE') && $values['operator' != "MORETHANXDAY"] && $values['operator' != "LESSTHANXDAY"]){
                global $l;
                $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." str_to_date('".$values['value']."', '".$l->g(269)."')$close ";
              }else{
                if($table == "download_history" && $values['fields'] == "PKG_NAME"){
-                 $cache_sql .= $operator[$p]." $open download_available.NAME ".$values['operator']." '".$values['value']."'$close ";
+                $cache_sql .= $operator[$p]." $open download_available.NAME ".$values['operator']." '".$values['value']."'$close ";
                }else{
-                 $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." '".$values['value']."'$close ";
+                  if($values['operator'] == "MORETHANXDAY" || $values['operator'] == "LESSTHANXDAY") {
+                    if($values['operator'] == "MORETHANXDAY"){
+                      $op = "<";
+                    }else{
+                      $op = ">";
+                    }
+                    $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$op." NOW() - INTERVAL ".$values['value']." DAY$close ";
+                  } else {
+                    $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." '".$values['value']."'$close ";
+                  } 
                }
              }
              $p++;

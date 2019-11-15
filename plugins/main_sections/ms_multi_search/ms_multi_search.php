@@ -53,6 +53,7 @@ $groupSearch = new GroupSearch();
 //$legacySearch = new LegacySearch();
 
 $search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch);
+$_SESSION['OCS']['DATE_FORMAT_LANG'] = $l->g(1270);
 
 if (isset($protectedPost['table_select'])) {
 	$defaultTable = $protectedPost['table_select'];
@@ -194,22 +195,22 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 
 				<div class="col-sm-3">
 					<div class="form-group">
-						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
-							<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
-                echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
-              } else {
-                echo $search->getSelectOptionForOperators($values['operator'], $table);
-              } ?>
+						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>', '<?php echo $values['fields']; ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
+							<?php 	if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY') || ($values['fields'] == 'LASTDATE') || ($values['fields'] == 'LASTCOME')){
+										echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
+									} else {
+										echo $search->getSelectOptionForOperators($values['operator'], $table);
+									} ?>
 						</select>
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
-              echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
-            }else {
-              echo $search->returnFieldHtml($uniqid, $values, $table );
-            } ?>
+						<?php 	if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
+									echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
+								}else {
+									echo $search->returnFieldHtml($uniqid, $values, $table, null, $values['operator']);
+								} ?>
 					</div>
 				</div>
 				<div class="col-sm-3">

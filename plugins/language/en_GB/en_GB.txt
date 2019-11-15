@@ -69,8 +69,8 @@
 116 Add
 119 Do you really want to delete computer
 122 Delete
-129 LIKE
-130 DIFFERENT
+129 Like
+130 Different
 134 Add a new file in the database
 135 Be careful, you're about to delete this file permanently !
 137 File
@@ -1324,7 +1324,7 @@
 1445 Group
 1446 Model name
 1447 Account info
-1448 IS NULL
+1448 Is null
 1449 General configuration
 1450 ID
 1451 Static ?
@@ -1366,7 +1366,9 @@
 
 1600 My dashboard
 1601 Dynamic groups
-1602 DOESN'T CONTAIN
+1602 Doesn't contain
+1603 More than X days
+1604 Less than X days
 
 1700 Advanced configuration
 1701 Tab available
