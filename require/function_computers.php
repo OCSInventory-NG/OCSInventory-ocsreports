@@ -264,10 +264,10 @@ function fusionne($afus) {
             }
 
             //RESTORE PERSISTENT VALUES
-            /*$persistent_values = mysqli_fetch_row($persistent_req);
+            $persistent_values = mysqli_fetch_row($persistent_req);
             $sql = "UPDATE hardware SET QUALITY=%s,FIDELITY=%s,CHECKSUM=CHECKSUM|%s WHERE id='%s'";
             $arg = array($persistent_values[1], $persistent_values[2], $persistent_values[0], $afus[$maxInd]["id"]);
-            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);*/
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
         } else {
             errlock();
         }
