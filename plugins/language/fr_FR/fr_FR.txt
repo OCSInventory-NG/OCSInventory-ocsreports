@@ -1597,15 +1597,15 @@
 8028 Vous avez des news récentes
 8029 n'a pas les droits d'écriture
 
-8100 Inventaire SAAS
-8101 SAAS liste
-8102 Créer SAAS
+8100 Inventaire application Web
+8101 Liste application Web
+8102 Créer application Web
 8103 DNS associé
 8104 Entrée
 8105 Donnée
 8106 Temps de vie
-8107 Ce SAAS existe déjà
-8108 Activer l'inventaire de Logiciel en tant que Service
+8107 Cette application Web existe déjà
+8108 Activer l'inventaire d'application Web
 
 8200 Programmer un Wake On Lan
 8201 Sauvegarder

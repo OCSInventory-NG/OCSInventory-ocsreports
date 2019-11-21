@@ -1600,15 +1600,15 @@
 8028 You have recent news
 8029 is not writable
 
-8100 SAAS Inventory
-8101 SAAS list
-8102 Add SAAS
+8100 Web application Inventory
+8101 Web application list
+8102 Add Web application
 8103 Associated DNS
 8104 Entry
 8105 Data
 8106 Time to live
-8107 This SAAS already exists
-8108 Enable Software as a Service Inventory
+8107 This Web application already exists
+8108 Enable Web application Inventory
 
 8200 Schedule a Wake On Lan
 8201 Save
