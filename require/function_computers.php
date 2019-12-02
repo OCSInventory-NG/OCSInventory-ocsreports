@@ -218,16 +218,41 @@ function fusionne($afus) {
             $sql = "SELECT CHECKSUM,QUALITY,FIDELITY FROM hardware WHERE ID='%s'";
             $persistent_req = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $afus[$minInd]["id"]);
 
-            $reqDelAccount = "DELETE FROM accountinfo WHERE hardware_id='%s'";
-            mysql2_query_secure($reqDelAccount, $_SESSION['OCS']["writeServer"], $afus[$maxInd]["id"]);
             msg_success($l->g(190) . " " . $afus[$maxInd]["deviceid"] . " " . $l->g(191));
+            
+            $accountid = null;
 
-            $keep = array("accountinfo", "devices", "groups_cache");
+            // Check if accountinfo data exist and get ID of the more recent
+            foreach($afus as $key => $values) {
+                $sqlverif = "SELECT hardware_id FROM accountinfo WHERE hardware_id = '%s'";
+                $verif_req = mysql2_query_secure($sqlverif, $_SESSION['OCS']["readServer"], $values["id"]);
+                while($row = mysqli_fetch_array($verif_req)){
+                    if($row != null){
+                        $accountid = $row['hardware_id'];
+                    }
+                }
+            }
+
+            $keep = array("devices", "groups_cache", "itmgmt_comments", "accountinfo");
             foreach ($keep as $tableToBeKept) {
-                $reqRecupAccount = "UPDATE %s SET hardware_id='%s' WHERE hardware_id='%s'";
-                $argRecupAccount = array($tableToBeKept, $afus[$maxInd]["id"], $afus[$minInd]["id"]);
+                if($tableToBeKept == "accountinfo" && $accountid != null){
+                    $reqRecupAccount = "UPDATE %s SET hardware_id='%s' WHERE hardware_id='%s'";
+                    $argRecupAccount = array($tableToBeKept, $afus[$maxInd]["id"], $accountid);
+                } else {
+                    $reqRecupAccount = "UPDATE %s SET hardware_id='%s' WHERE hardware_id='%s'";
+                    $argRecupAccount = array($tableToBeKept, $afus[$maxInd]["id"], $afus[$minInd]["id"]);
+                }
                 mysql2_query_secure($reqRecupAccount, $_SESSION['OCS']["writeServer"], $argRecupAccount);
             }
+
+            // Delete all old accountinfo
+            foreach($afus as $key => $values) {
+                if($values["id"] != $afus[$maxInd]["id"]) {
+                    $reqDelAccount = "DELETE FROM accountinfo WHERE hardware_id='%s'";
+                    mysql2_query_secure($reqDelAccount, $_SESSION['OCS']["writeServer"], $values["id"]);
+                }
+            }
+            
             msg_success($l->g(190) . " " . $afus[$minInd]["deviceid"] . " " . $l->g(206) . " " . $afus[$maxInd]["deviceid"]);
             $i = 0;
             foreach ($afus as $a) {

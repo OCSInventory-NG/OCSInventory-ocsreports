@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * Copyright 2005-2019 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
  *
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
@@ -20,7 +20,24 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
+require_once('../require/function_commun.php');
+require_once('../var.php');
+
+if(isset($_GET['fieldid'])){
+    $html = get_html($_GET['fieldid']);
+    echo $html;
+}
+
+
+function get_html($fieldId) {
+    global $l;
+    $html = '<div class="input-group date form_datetime">
+                <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value=""/>
+                <span class="input-group-addon">
+                    '.calendars($fieldId, $_SESSION['OCS']['DATE_FORMAT_LANG']).'
+                </span>
+            </div>'; 
+
+    return $html;
+}
 ?>
-<h3><?php echo $l->g(1296); ?></h3>
-<?php
-iframe("https://ocsinventory-ng.org/?page_id=118&lang=en");

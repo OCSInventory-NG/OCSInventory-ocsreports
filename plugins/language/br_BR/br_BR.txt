@@ -1499,7 +1499,6 @@
 6003 Plugin
 6004 Total disponível
 6005 Ligar/Desligar
-6006 AVISO: Por favor, instale o php-soap, o mecanismo de plugin não pode funcionar sem ele
 6007 Por favor, instale os seguintes módulos para que este recurso funcione&nbsp;:&nbsp;
 6008 Não é possível escrever no seguinte diretório&nbsp;:&nbsp;
 6009 Você não pode instalar plugins, verifique as mensagens de erro acima.

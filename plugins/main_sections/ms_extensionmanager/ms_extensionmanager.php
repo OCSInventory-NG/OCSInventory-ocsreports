@@ -76,11 +76,23 @@ if($extMgr->checkPrerequisites()){
 
 if (!AJAX) {
     if(isset($protectedPost['extensions'])){
-        $extMgr->installExtension($protectedPost['extensions']);
+        $result = $extMgr->installExtension($protectedPost['extensions']);
+        if($result == true) {
+            msg_success($l->g(7017));
+        } elseif($result == 'isInstalled') {
+            msg_error($l->g(7018));
+        } else {
+            msg_error($l->g(7019));
+        }
     }
 
     if(isset($protectedPost['SUP_PROF'])){
-        $extMgr->deleteExtension($protectedPost['SUP_PROF']);
+        $desinstall = $extMgr->deleteExtension($protectedPost['SUP_PROF']);
+        if($desinstall) {
+            msg_success($l->g(7020));
+        } else {
+            msg_error($l->g(7019));
+        }
     }
 }
 

@@ -25,6 +25,11 @@
  // These must be at the top of your script, not inside a function
  use PHPMailer\PHPMailer\PHPMailer;
  use PHPMailer\PHPMailer\Exception;
+ use PHPMailer\PHPMailer\SMTP;
+
+ require __DIR__.'/../../vendor/phpmailer/phpmailer/src/Exception.php';
+ require __DIR__.'/../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+ require __DIR__.'/../../vendor/phpmailer/phpmailer/src/SMTP.php';
 
  //Load libraries
  require __DIR__.'/../softwares/SoftwareCategory.php';

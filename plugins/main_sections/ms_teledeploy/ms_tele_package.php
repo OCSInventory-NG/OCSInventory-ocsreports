@@ -68,13 +68,12 @@ if (isset($protectedPost["VALID_END"]) || isset($protectedPost['VALID_END_MODIF'
         'NEED_DONE_ACTION' => $protectedPost['NEED_DONE_ACTION'],
         'NEED_DONE_ACTION_TEXT' => $protectedPost['NEED_DONE_ACTION_TEXT'],
         'GARDEFOU' => "rien");
-    if(!isset($protectedPost['VALID_MODIF_END'])){
+    if(!isset($protectedPost['VALID_END_MODIF'])){
       create_pack($sql_details, $info_details);
     }else{
-      $modif = $protectedPost['MODIF_FILE'];
+      $modif = $protectedPost['VALID_END_MODIF'];
       create_pack($sql_details, $info_details, $modif);
     }
-
 
     if ($protectedPost['REDISTRIB_USE'] == 1) {
         $timestamp_redistrib = time();
@@ -374,7 +373,7 @@ if(isset($protectedPost['valid_modif'])){
             alert ('" . $l->g(1001) . "');
             return false;
           }else{
-              pag(\"END\",\"VALID_END_MODIF\",\"" . $form_name . "\");
+              pag(\"true\",\"VALID_END_MODIF\",\"" . $form_name . "\");
               return true;
             }
         }
@@ -464,7 +463,7 @@ if(isset($protectedPost['valid_modif'])){
             alert ('" . $l->g(1001) . "');
             return false;
           }else{
-              pag(\"END\",\"VALID_END_MODIF\",\"" . $form_name . "\");
+              pag(\"false\",\"VALID_END_MODIF\",\"" . $form_name . "\");
               return true;
             }
         }
@@ -729,7 +728,6 @@ $yes_no = array("0", "1");
 $list_action = [
 	"EXECUTE" => $l->g(456),
 	"STORE" => $l->g(457),
-	"LAUNCH" => $l->g(458)
 ];
 
 $arrayDisplayValue = [
@@ -743,7 +741,6 @@ $arrayDisplayValue = array(
     "ACTION" => array(
         "EXECUTE" => $l->g(456),
         "STORE" => $l->g(457),
-        "LAUNCH" => $l->g(458)
     ),
     "yes_no" => array(
         "0" => $l->g(454),
