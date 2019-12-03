@@ -221,21 +221,37 @@ function fusionne($afus) {
             msg_success($l->g(190) . " " . $afus[$maxInd]["deviceid"] . " " . $l->g(191));
             
             $accountid = null;
+            $accountTable = [];
 
             // Check if accountinfo data exist and get ID of the more recent
             foreach($afus as $key => $values) {
-                $sqlverif = "SELECT hardware_id FROM accountinfo WHERE hardware_id = '%s'";
+                $sqlverif = "SELECT * FROM accountinfo WHERE hardware_id = '%s' ORDER BY hardware_id ASC";
                 $verif_req = mysql2_query_secure($sqlverif, $_SESSION['OCS']["readServer"], $values["id"]);
                 while($row = mysqli_fetch_array($verif_req)){
                     if($row != null){
-                        $accountid = $row['hardware_id'];
+                        $accountTable[$row['HARDWARE_ID']] = $row;
                     }
                 }
             }
 
+            foreach($accountTable as $id => $table) {
+                foreach($table as $key => $value) {
+                    if(strpos($key,"fields_") !== false) {
+                        if($value != null && $value != "") {
+                            $accountid = $table['HARDWARE_ID'];
+                        }
+                    }              
+                }
+            }
+
+            if($afus[$maxInd]["id"] != $accountid) {
+                $reqDelAccount = "DELETE FROM accountinfo WHERE hardware_id='%s'";
+                mysql2_query_secure($reqDelAccount, $_SESSION['OCS']["writeServer"], $afus[$maxInd]["id"]);
+            }
+
             $keep = array("devices", "groups_cache", "itmgmt_comments", "accountinfo");
             foreach ($keep as $tableToBeKept) {
-                if($tableToBeKept == "accountinfo" && $accountid != null){
+                if(($tableToBeKept == "accountinfo" || $tableToBeKept == "itmgmt_comments") && $accountid != null){
                     $reqRecupAccount = "UPDATE %s SET hardware_id='%s' WHERE hardware_id='%s'";
                     $argRecupAccount = array($tableToBeKept, $afus[$maxInd]["id"], $accountid);
                 } else {
