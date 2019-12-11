@@ -18,7 +18,7 @@ sub run {
     my $pcislot;
     my $type;
     my $lspci_version;
-    my $command = "lspci -vvv";
+    my $command = "lspci -vvv 2>/dev/null";
    
     #We get the current lspci version 
     `lspci --version` =~ m/lspci\sversion\s(\d+.*)/ ; 
@@ -26,7 +26,7 @@ sub run {
     $lspci_version = $common->convertVersion($lspci_version,3);
   
     if ($lspci_version >= 224) {    #More informations since version 2.2.4 
-        $command = "lspci -vvv -nn";
+        $command = "lspci -vvv -nn 2>/dev/null";
     }
   
     foreach(`$command`){
