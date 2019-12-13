@@ -29,11 +29,28 @@ if (AJAX) {
 }
 
 require_once('require/snmp/Snmp.php');
-$snmp = new Snmp();
+require_once('require/commandLine/CommandLine.php');
+$snmp = new OCSSnmp();
+$command = new CommandLine();
 
 $def_onglets['SNMP_RULE'] = $l->g(9001); // Create SNMP type.
 $def_onglets['SNMP_LABEL'] = $l->g(9003); // Create SNMP label
 $def_onglets['SNMP_TYPE'] = $l->g(9002);  // Configure SNMP type
+$def_onglets['SNMP_MIB'] = $l->g(9008);  // Add MIB file
+
+
+if(isset($protectedPost['add_mib'])) {
+    $result_mib = $snmp->sort_mib($protectedPost);
+    if(!$result_mib) {
+        msg_error($l->g(573));
+        $protectedPost['onglet'] = "SNMP_MIB";
+        unset($protectedPost['add_mib']);
+    } else {
+        msg_success($l->g(572));
+        $protectedPost['onglet'] = "SNMP_TYPE";
+        unset($protectedPost['add_mib']);
+    }
+}
 
 //default => first onglet
 if ($protectedPost['onglet'] == "") {
@@ -183,18 +200,39 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
         unset($protectedPost['update_snmp']);
     }
 
+    if($protectedPost['type_filter'] != "empty" && $protectedPost['type_filter'] != null) {
+        $filter = " WHERE c.TYPE_ID ='".$protectedPost['type_filter']."'";
+    } else {
+        $filter = "";
+    }
+
     $type = $snmp->get_type();
     $label = $snmp->get_label();
+
 
     echo "<div class='row margin-top30'>
             <div class='col-sm-10'>";
 
     formGroup('select', 'type_id', 'Type :', '', '', '', '', $type, $type);
     formGroup('select', 'label_id', 'Label :', '', '', '', '', $label, $label);
-    formGroup('text', 'oid', 'OID :', '', '', '', '', '', '', "required");
+    formGroup('text', 'oid', 'OID :', '', '', '', '', '', '', "");
 
     echo "<input type='submit' name='update_snmp' id='update_snmp' class='btn btn-success' value='".$l->g(13)."'>";
-    echo "</div></div></br></br></br></br>";
+    echo "</br></br><hr></br>";
+    echo "</div></div>";
+
+    $filter_type = ["empty" => "No filter"];
+    foreach($type as $id => $name) {
+        $filter_type[$id] = $name;
+    }
+
+    echo "<div class='row margin-top30'>
+            <div class='col-sm-6'>";
+    formGroup('select', 'type_filter', $l->g(9011), '', '', $protectedPost['type_filter'], '', $filter_type, $filter_type);
+    echo "</div>";
+    echo "<div class='col-sm-2'>";
+    echo "<input type='submit' name='filter_snmp' id='filter_snmp' class='btn btn-info' value='".$l->g(1109)."'>";
+    echo "</div></div></br>";
 
     // Display table of all type configuration
     $list_fields = array(
@@ -211,13 +249,100 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
 
     $queryDetails = "SELECT DISTINCT c.ID, t.TYPE_NAME, l.LABEL_NAME, c.OID FROM snmp_configs c 
                         LEFT JOIN snmp_types t ON c.TYPE_ID = t.ID
-                        LEFT JOIN snmp_labels l ON c.LABEL_ID = l.ID";
+                        LEFT JOIN snmp_labels l ON c.LABEL_ID = l.ID". $filter;
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+}
+
+/*******************************************SNMP TYPE*****************************************************/
+
+if($protectedPost['onglet'] == 'SNMP_MIB') {
+
+    if(isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ""){
+        // Remove config
+        $result_remove = $snmp->delete_config($protectedPost['SUP_PROF']);
+        unset($protectedPost['SUP_PROF']);
+        if($result_remove == true){
+            msg_success($l->g(572));
+        }else{
+            msg_error($l->g(573));
+        }
+    }
+
+    if(isset($protectedPost['update_snmp'])) {
+        $result_oids = $command->get_mib_oid($protectedPost['mib_file']);
+
+        $protectedPost['select_mib'] = true;
+        unset($protectedPost['update_snmp']);
+    }
+
+    $mib = $snmp->get_mib();
+
+    echo "<div class='row margin-top30'>
+            <div class='col-sm-10'>";
+    msg_info($l->g(9009));
+    formGroup('select', 'mib_file', 'MIB :', '', '', '', '', $mib, $mib);
+
+    echo "<input type='submit' name='update_snmp' id='update_snmp' class='btn btn-success' value='".$l->g(13)."'>";
+    echo "</div></div></br></br></br></br>";
 }
 
 echo "</div>";
 echo close_form();
+
+if(isset($protectedPost['select_mib'])) {
+
+    $type = $snmp->get_type();
+    $label = $snmp->get_label();
+
+    echo '<div name="snmp_mib_list">';
+    echo open_form('snmp_mib_list', '', '', '');
+
+    echo '<div class="row margin-top30">
+            <div class="col-sm-6">';
+    formGroup('select', 'type_id', 'Type :', '', '', '', '', $type, $type);
+    echo "</div></div></br></br>";
+
+    echo '<div class="row" name="snmp_row">';
+    foreach($result_oids as $name => $oid) {
+        echo '<div class="col-sm-6">';
+        echo '  <div class="col-sm-1">
+                    <div class="form-group">
+                        <input type="checkbox" class="perso_checkbox" id="checkbox_'.$name.'" name="checkbox_'.$name.'" value="YES">';
+        echo '      </div>
+                </div>';
+
+        echo '  <div class="col-sm-4">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="name_'.$name.'" value="'.$name.'" disabled>';
+        echo '      </div>
+                </div>';
+
+        echo '  <div class="col-sm-2">
+                    <div class="form-group">
+                        <select class="form-control" type="text" name="label_'.$name.'">';
+                        foreach($label as $id => $lbl) {
+                            echo '<option value="'.$id.'">'.$lbl.'</option>';
+                        }
+        echo '          </select>';
+        echo '      </div>
+                </div>';
+
+        echo '  <div class="col-sm-5">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="oid_'.$name.'_txt" value="'.$oid.'" disabled>
+                        <input class="form-control" type="hidden" name="oid_'.$name.'" value="'.$oid.'">';
+        echo '      </div>
+                </div>';
+
+		echo '</div>';		
+
+    }
+    echo "<input type='submit' name='add_mib' id='add_mib' class='btn btn-success' value='".$l->g(13)."'>";
+    echo "</div></div>";
+    echo close_form();
+}
 
 if (AJAX) {
     ob_end_clean();
