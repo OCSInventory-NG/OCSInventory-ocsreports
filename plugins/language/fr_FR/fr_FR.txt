@@ -1611,3 +1611,16 @@
 8201 Sauvegarder
 8202 WOL date/heure
 8203 WOL sauvegardé !
+
+9000 Configuration SNMP
+9001 Créer un type
+9002 Configuration du type
+9003 Créer un label
+9004 OID
+9005 Valeur texte OID
+9006 Nom du label
+9007 Le nom du type est unique et ne doit contenir aucun caractère spécial excepté l'underscore.</br>Il est conseillé de ne pas utiliser les mots clés et mots réservés MySQL, merci de vous référer à : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
+9008 Ajouter un fichier MIB
+9009 Placez votre fichier MIB dans votre dossier MIBs sur votre serveur.<br> N'oubliez pas de configurer votre chemin d'accès aux fichiers MIBs dans <b>Configuration > Configuration générale > SNMP</b>
+9010 Chemin d'accès aux fichiers MIBs
+9011 Filtrer par type :

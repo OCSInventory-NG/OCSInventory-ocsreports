@@ -112,5 +112,6 @@
     <page>ms_notification</page>
     <page>ms_cve_search</page>
     <page>ms_saas_soft</page>
+    <page>ms_snmp_config</page>
   </pages>
 </profile>
