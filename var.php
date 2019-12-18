@@ -154,4 +154,10 @@ define('DFT_DB_CMPT', 'ocs');
 define('DFT_DB_PSWD', 'ocs');
 define('DFT_GUI_CMPT', 'admin');
 define('DFT_GUI_PSWD', 'admin');
+
+//====================================================================================
+// Load localconfig.inc.php if it exists
+//====================================================================================
+if (file_exists(ETC_DIR . '/localconfig.inc.php')))
+    include(ETC_DIR . '/localconfig.inc.php');
 ?>
