@@ -155,23 +155,23 @@ function prepare_sql_tab($list_fields, $explu = array(), $distinct = false) {
 
 function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME) {
     error_reporting(E_ALL & ~E_NOTICE);
-    mysqli_report(MYSQLI_REPORT_STRICT);
+
     //$link is ok?
     try {
-        $link = mysqli_connect($server, $compte_base, $pswd_base);
-    } catch (Exception $e) {
-        if (mysqli_connect_errno()) {
-            return "ERROR: MySql connection problem " . $e->getCode() . "<br>" . $e->getMessage();
-        }
+        $link = new PDO(
+            'mysql:host='.$server.';dbname='.$db,
+            $compte_base,
+            $pswd_base,
+            array(
+                PDO::MYSQL_ATTR_SSL_KEY     => PATH_SSL_KEY,
+                PDO::MYSQL_ATTR_SSL_CERT    => PATH_SSL_CERT,
+                PDO::MYSQL_ATTR_SSL_CA      => PATH_CA_CERT,
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\';SET sql_mode=\'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\''
+            )
+        );
+    } catch (PDOException $e) {
+        return "ERROR: MySql connection problem " . $e->getCode() . "<br>" . $e->getMessage();
     }
-    //database is ok?
-    if (!mysqli_select_db($link, $db)) {
-        return "NO_DATABASE";
-    }
-    //force UTF-8
-    mysqli_query($link, "SET NAMES 'utf8'");
-    //sql_mode => not strict
-    mysqli_query($link, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
     return $link;
 }

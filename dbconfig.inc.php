@@ -25,4 +25,7 @@ define("SERVER_READ", "localhost");
 define("SERVER_WRITE", "localhost");
 define("COMPTE_BASE", "ocs");
 define("PSWD_BASE", "ocs");
+define("PATH_SSL_KEY", "/path/to/client-key.pem");
+define("PATH_SSL_CERT", "/path/to/client-cert.pem");
+define("PATH_CA_CERT", "/path/to/ca.pem");
 ?>
