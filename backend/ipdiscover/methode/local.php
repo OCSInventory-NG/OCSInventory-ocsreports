@@ -25,11 +25,14 @@
 
 $base = "OCS";
 connexion_local_read();
-mysqli_select_db($link_ocs, $db_ocs);
+
+if($GLOBALS["PDO"]->getInstance() === null) {
+    $GLOBALS["PDO"]->query("use ".$db_ocs);
+}
 
 $sql_black = "select SUBNET,MASK from blacklist_subnet";
 $res_black = mysql2_query_secure($sql_black, $link_ocs);
-while ($row = mysqli_fetch_object($res_black)) {
+while ($row = $res_black->fetchObject()) {
     $subnetToBlacklist[$row->SUBNET] = $row->MASK;
 }
 $req = "select distinct ipsubnet,s.name,s.id
@@ -42,8 +45,8 @@ if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] !=
 } else {
     $req .= " union select netid,name,id from subnet";
 }
-$res = mysql2_query_secure($req, $link_ocs) or die(mysqli_error($link_ocs));
-while ($row = mysqli_fetch_object($res)) {
+$res = mysql2_query_secure($req, $link_ocs);
+while ($row = $res->fetchObject()) {
     unset($id);
     $list_subnet[] = $row->ipsubnet;
     /*

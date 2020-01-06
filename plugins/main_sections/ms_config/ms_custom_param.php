@@ -93,7 +93,7 @@ if (isset($protectedGet['origine']) && is_numeric($protectedGet['idchecked'])) {
     $sql_value_idhardware = "select NAME,IVALUE,TVALUE from devices where name != 'DOWNLOAD' and hardware_id=%s";
     $arg_value_idhardware = $protectedGet['idchecked'];
     $result_value = mysql2_query_secure($sql_value_idhardware, $_SESSION['OCS']["readServer"], $arg_value_idhardware);
-    while ($value = mysqli_fetch_array($result_value)) {
+    while ($value = $result_value->fetch(PDO::FETCH_ASSOC)) {
         $optvalue[$value["NAME"]] = $value["IVALUE"];
         $optvalueTvalue[$value["NAME"]] = $value["TVALUE"];
     }

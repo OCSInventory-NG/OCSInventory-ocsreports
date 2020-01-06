@@ -132,19 +132,18 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
         }
     }
 
+    require_once('require/pdo/PdoConnect.php');
     //defaut user already exist on databases?
     if($_SESSION['OCS']['defaultsql_checked'] == null){
         try {
             // First sql check has been done
             $_SESSION['OCS']['defaultsql_checked'] = true;
-            $link_read = mysqli_connect(SERVER_READ, DFT_DB_CMPT, DFT_DB_PSWD);
-            $link_write = mysqli_connect(SERVER_WRITE, DFT_DB_CMPT, DFT_DB_PSWD);
-            mysqli_select_db($link_read, DB_NAME);
-            mysqli_select_db($link_write, DB_NAME);
+            $link_read = new PdoConnect(SERVER_READ, DFT_DB_CMPT, DFT_DB_PSWD);
+            $link_write = new PdoConnect(SERVER_WRITE, DFT_DB_CMPT, DFT_DB_PSWD);
 
             // Can connect trigger sessions error
             $_SESSION['OCS']['defaultsql_error'] = true;
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
 
         }
     }
@@ -158,7 +157,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     $reqOp = "SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
     $arg_reqOp = array(DFT_GUI_CMPT, md5(DFT_GUI_PSWD));
     $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
-    $rowOp = mysqli_fetch_object($resOp);
+    $rowOp = $resOp->fetchObject();
     if (isset($rowOp->id)) {
         $msg_header_error[] = $l->g(2026);
         $msg_header_error_sol[] = $l->g(2027);

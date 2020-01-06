@@ -31,9 +31,9 @@ class AssetsCategory
 
     public function get_assets(){
         $sql = "SELECT * FROM assets_categories";
-        $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-        while ($item_asset = mysqli_fetch_array($result)) {
+        while ($item_asset = $result->fetch(PDO::FETCH_ASSOC)) {
             $list_asset[$item_asset['ID']]['CATEGORY_NAME'] = $item_asset['CATEGORY_NAME'];
             $list_asset[$item_asset['ID']]['SQL_QUERY'] = $item_asset['SQL_QUERY'];
             $list_asset[$item_asset['ID']]['SQL_ARGS'] = $item_asset['SQL_ARGS'];
@@ -49,7 +49,7 @@ class AssetsCategory
             $asset = explode(",", $values['SQL_ARGS']);
             $result_computer = mysql2_query_secure($values['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
 
-            while ($computer = mysqli_fetch_array($result_computer)) {
+            while ($computer = $result_computer->fetch(PDO::FETCH_ASSOC)) {
                 $nb[] = $computer['hardwareID'];
             }
             $nb_computer[][$values['CATEGORY_NAME']] = count($nb);

@@ -48,7 +48,7 @@ function all_groups($group_type) {
         }
     }
     $resGetId = mysql2_query_secure($reqGetId, $_SESSION['OCS']["readServer"]);
-    while ($valGetId = mysqli_fetch_array($resGetId)) {
+    while ($valGetId = $resGetId->fetch(PDO::FETCH_ASSOC)) {
         $list_group[$valGetId['id']] = $valGetId['name'];
     }
     return $list_group;
@@ -106,7 +106,7 @@ function creat_group($name, $descr, $list_id, $req, $group_type) {
     $reqGetId = "SELECT id FROM hardware WHERE name='%s' and deviceid = '_SYSTEMGROUP_'";
     $argGetId = $name;
     $resGetId = mysql2_query_secure($reqGetId, $_SESSION['OCS']["readServer"], $argGetId);
-    if (mysqli_fetch_array($resGetId)) {
+    if ($resGetId->fetch(PDO::FETCH_ASSOC)) {
         return array('RESULT' => 'ERROR', 'LBL' => $l->g(621));
     }
 
@@ -186,7 +186,7 @@ function delete_group($id_supp) {
     $sql_verif_group = "select id from hardware where id=%s and DEVICEID='_SYSTEMGROUP_' or DEVICEID='_DOWNLOADGROUP_'";
     $arg_verif_group = $id_supp;
     $res_verif_group = mysql2_query_secure($sql_verif_group, $_SESSION['OCS']["readServer"], $arg_verif_group);
-    if (mysqli_fetch_array($res_verif_group)) {
+    if ($res_verif_group->fetch(PDO::FETCH_ASSOC)) {
         deleteDid($arg_verif_group);
         addLog("DELETE GROUPE", $id_supp);
         return array('RESULT' => 'OK', 'LBL' => '');
@@ -206,7 +206,7 @@ function group_4_all($id_group) {
     $sql_verif = "select WORKGROUP from hardware where id=%s";
     $arg_verif = $id_group;
     $res = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
-    $item = mysqli_fetch_object($res);
+    $item = $res->fetchObject();
     if ($item->WORKGROUP != "GROUP_4_ALL") {
         $sql_update = "update hardware set workgroup= 'GROUP_4_ALL' where id=%s";
         $return_result['LBL'] = "Groupe visible pour tous";
@@ -232,7 +232,7 @@ function show_redistrib_groups_packages($systemid){
     
     $arg_query = array($systemid);
     $resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"], $arg_query);
-    if (mysqli_num_rows($resDeploy) > 0) {
+    if ($resDeploy->rowCount() > 0) {
         ?>
         <div class='row'>
             <div class='col-md-12'>
@@ -254,7 +254,7 @@ function show_redistrib_groups_packages($systemid){
                       <tbody>
 
                         <?php
-                        while ($valDeploy = mysqli_fetch_array($resDeploy)) {
+                        while ($valDeploy = $resDeploy->fetch(PDO::FETCH_ASSOC)) {
                             ?>
                           <tr>
                             <td><?php echo $valDeploy['NAME'] ?></td>

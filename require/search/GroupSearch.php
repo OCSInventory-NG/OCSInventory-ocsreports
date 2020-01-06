@@ -35,7 +35,7 @@
         $sql = 'SELECT h.NAME, h.ID FROM hardware h INNER JOIN groups g ON g.HARDWARE_ID = h.ID';
         $tableList = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-        while ($tableInfos = mysqli_fetch_array($tableList)) {
+        while ($tableInfos = $tableList->fetch(PDO::FETCH_ASSOC)) {
             $table[$tableInfos['ID']] = $tableInfos['NAME'];
         }
 
@@ -53,7 +53,7 @@
 
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg_sql);
         $list = array();
-        while ($idList = mysqli_fetch_array($result)) {
+        while ($idList = $result->fetch(PDO::FETCH_ASSOC)) {
           if($idList['HARDWARE_ID'] != null){
               $list[$idList['HARDWARE_ID']] = $idList['HARDWARE_ID'];
           }

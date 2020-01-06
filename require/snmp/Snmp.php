@@ -109,9 +109,9 @@ class OCSSnmp
 		$list_type = [];
 
 		$sql = "SELECT DISTINCT `ID`, `TYPE_NAME` FROM `snmp_types`";
-		$result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-		while ($item = mysqli_fetch_array($result)) {
+		while ($item = $result->fetch(PDO::FETCH_ASSOC)) {
 			$list_type[$item['ID']] = $item['TYPE_NAME'];
 		}
 
@@ -127,9 +127,9 @@ class OCSSnmp
 		$list_label = [];
 
 		$sql = "SELECT DISTINCT `ID`, `LABEL_NAME` FROM `snmp_labels`";
-		$result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-		while ($item = mysqli_fetch_array($result)) {
+		while ($item = $result->fetch(PDO::FETCH_ASSOC)) {
 			$list_label[$item['ID']] = $item['LABEL_NAME'];
 		}
 
@@ -294,7 +294,7 @@ class OCSSnmp
 
 		$result_label = mysql2_query_secure($sql_label, $_SESSION['OCS']["readServer"], $agr_label);
 
-		while ($item_label = mysqli_fetch_array($result_label)) {
+		while ($item_label = $result_label->fetch(PDO::FETCH_ASSOC)) {
 			$labelName = $item_label['LABEL_NAME'];
 		}
 		return $labelName;
@@ -312,7 +312,7 @@ class OCSSnmp
 
 		$result_type = mysql2_query_secure($sql_type, $_SESSION['OCS']["readServer"], $arg_type);
 
-		while ($item_type = mysqli_fetch_array($result_type)) {
+		while ($item_type = $result_type->fetch(PDO::FETCH_ASSOC)) {
 			$tableName = $item_type['TABLE_TYPE_NAME'];
 		}
 		return $tableName;
@@ -329,7 +329,7 @@ class OCSSnmp
 		$arg = array($labelID);
 
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		while ($item = mysqli_fetch_array($result)) {
+		while ($item = $result->fetch(PDO::FETCH_ASSOC)) {
 			$type[] = $item['TYPE_ID'];
 		}
 
@@ -347,7 +347,7 @@ class OCSSnmp
 		$arg = array($id);
 
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		while ($item = mysqli_fetch_array($result)) {
+		while ($item = $result->fetch(PDO::FETCH_ASSOC)) {
 			$type = $item['TYPE_ID'];
 			$label = $item['LABEL_ID'];
 		}

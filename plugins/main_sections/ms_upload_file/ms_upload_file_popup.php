@@ -42,7 +42,7 @@ $sql_show = "show fields from %s
 		or field='fields_%s')";
 $var_show = array($table, $protectedGet["n"], $protectedGet["n"]);
 $result = mysql2_query_secure($sql_show, $_SESSION['OCS']["readServer"], $var_show);
-$item = mysqli_fetch_object($result);
+$item = $result->fetchObject();
 
 $field = $item->Field;
 if (isset($field) && $field != '') {

@@ -50,7 +50,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 $sql = "SELECT name FROM download_available WHERE fileid='%s'";
 $arg = $protectedGet["stat"];
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-$row = mysqli_fetch_object($res);
+$row = $res->fetchObject();
 printEnTete($l->g(498) . " <b>" . $row->name . "</b> (" . $l->g(296) . ": " . $protectedGet["stat"] . " )");
 echo "</br></br></br>";
 
@@ -63,7 +63,7 @@ $sql_count = "SELECT COUNT(id) as nb
 				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 $arg = $protectedGet["stat"];
 $rescount = mysql2_query_secure($sql_count, $_SESSION['OCS']["readServer"], $arg);
-$row = mysqli_fetch_object($rescount);
+$row = $rescount->fetchObject();
 $total = $row->nb;
 if ($total <= 0) {
     msg_error($l->g(837));
@@ -101,7 +101,7 @@ $sqlStats = "SELECT COUNT(id) as nb, tvalue as txt
 $arg = array($arg, 'EXIT_CODE%', 'ERR%', 'ERRORS', $arg, 'EXIT_CODE%', 'ERR%', 'WAITING', $arg);
 $resStats = mysql2_query_secure($sqlStats . " ORDER BY nb DESC", $_SESSION['OCS']["readServer"], $arg);
 $i = 0;
-while ($row = mysqli_fetch_object($resStats)) {
+while ($row = $resStats->fetchObject()) {
     $txt_status = strtoupper($row->txt);
     $name_value[$i] = $txt_status;
     $link[$i] = $txt_status;

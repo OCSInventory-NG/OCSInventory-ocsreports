@@ -155,8 +155,8 @@ if ($protectedPost['onglet'] == mb_strtoupper($l->g(651)) && $list_id != '') {
 }
 //search all groups for listid selection
 if (isset($delGroups)) {
-    $resDelGroups = mysqli_query($_SESSION['OCS']["readServer"], $delGroups);
-    while ($valDelGroups = mysqli_fetch_array($resDelGroups)) {
+    $resDelGroups = mysql2_query_secure($delGroups, $_SESSION['OCS']["readServer"]);
+    while ($valDelGroups = $resDelGroups->fetch(PDO::FETCH_ASSOC)) {
         $groupDelList[$valDelGroups["id"]] = $valDelGroups["name"];
     }
 }

@@ -34,8 +34,8 @@ if (isset($protectedGet["timestamp"])) {
         $sql_document_root = "select tvalue from config where NAME='DOWNLOAD_PACK_DIR'";
     }
 
-    $res_document_root = mysqli_query($_SESSION['OCS']["readServer"], $sql_document_root);
-    while ($val_document_root = mysqli_fetch_array($res_document_root)) {
+    $res_document_root = mysql2_query_secure($sql_document_root, $_SESSION['OCS']["readServer"]);
+    while ($val_document_root = $res_document_root->fetch(PDO::FETCH_ASSOC)) {
         $document_root = $val_document_root["tvalue"] . '/download/';
     }
     //echo $document_root;

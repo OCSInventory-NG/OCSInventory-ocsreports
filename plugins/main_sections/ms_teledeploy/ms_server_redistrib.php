@@ -48,9 +48,9 @@ function show_redis_infos($systemid){
     
     if($protectedPost['Valid_modif'] != ""){
         $sql_update = "update download_servers set URL='" . $protectedPost['URL'] . "' ,ADD_REP='" . $protectedPost['REP_STORE'] . "' where hardware_id=" . $protectedPost['MODIF'];
-        mysqli_query($_SESSION['OCS']["writeServer"], $sql_update);
+        mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"]);
         $sql_update = "update download_enable set pack_loc='" . $protectedPost['URL'] . "' where SERVER_ID=" . $protectedPost['MODIF'];
-        mysqli_query($_SESSION['OCS']["writeServer"], $sql_update);
+        mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"]);
         
         unset($protectedPost['URL']);
         unset($protectedPost['REP_STORE']);
@@ -108,7 +108,7 @@ function show_redis_infos($systemid){
         
             $sql = "select URL, ADD_REP from download_servers where HARDWARE_ID = ".$protectedPost['MODIF'] ;
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-            $redis_values = mysqli_fetch_array($result);
+            $redis_values = $result->fetch(PDO::FETCH_ASSOC);
 
             echo "<div class='col col-md-8 col-md-offset-2'>";
 

@@ -38,7 +38,7 @@ if (is_defined($protectedPost['MODIF'])) {
     $sql = "select NAME,REGTREE,REGKEY,REGVALUE,ID from regconfig where id = '%s'";
     $arg = $protectedPost['MODIF'];
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $row = mysqli_fetch_object($res);
+    $row = $res->fetchObject();
     $protectedPost['NAME'] = $row->NAME;
     $protectedPost['REGTREE'] = $row->REGTREE;
     $protectedPost['REGKEY'] = $row->REGKEY;

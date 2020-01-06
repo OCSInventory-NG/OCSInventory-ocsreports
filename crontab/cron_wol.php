@@ -11,14 +11,14 @@ $wol_class = new Wol();
 
 $today = date('Y-m-d H:i');
 
-$_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME);
+//$_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME);
 
 $sql = 'SELECT * FROM schedule_WOL';
-$result_wol = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+$result_wol = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
 $wol = [];
 
-while ($list_wol = mysqli_fetch_array($result_wol)) {
+while ($list_wol = $result_wol->fetch(PDO::FETCH_ASSOC)) {
     $wol[] = ['WOL_ID' => $list_wol['MACHINE_ID'],
               'WOL_DATE' => $list_wol['WOL_DATE']
             ];
@@ -34,7 +34,7 @@ for($i = 0; $wol[$i] != null; $i++){
       $sql_arg = array($value);
       $resultDetails = mysql2_query_secure($sql_computer, $_SESSION['OCS']["readServer"], $sql_arg);
 
-      while ($wol_item = mysqli_fetch_object($resultDetails)) {
+      while ($wol_item = $resultDetails->fetchObject()) {
           $wol_class->look_config_wol($wol_item->IPADDRESS, $wol_item->MACADDR);
       }
     }

@@ -54,9 +54,9 @@ class Cve
       $sql .= 'AND category NOT IN ('. $this->CVE_BAN .')';
     }
     $sql .= ' ORDER BY publisher';
-    $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-    while ($item_soft = mysqli_fetch_array($result)) {
+    while ($item_soft = $result->fetch(PDO::FETCH_ASSOC)) {
       if(!preg_match('/[^\x00-\x7F]/', $item_soft['name']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['name'])){
         $soft = $this->cpeNormalizeName($item_soft['name']);
         $vendor = $this->cpeNormalizeVendor($item_soft['publisher'], $soft);
@@ -184,10 +184,10 @@ class Cve
    */
   public function clean_cve(){
     $sql = 'SELECT DISTINCT cve FROM cve_search';
-    $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     $curl = curl_init();
 
-    while ($item_cve = mysqli_fetch_array($result)) {
+    while ($item_cve = $result->fetch(PDO::FETCH_ASSOC)) {
       $url = $this->CVE_SEARCH_URL."/api/cve/".$item_cve["cve"];
       
       curl_setopt($curl, CURLOPT_URL, $url);
@@ -209,7 +209,7 @@ class Cve
       $sql_ban_arg = array($this->CVE_BAN);
       $result_ban = mysql2_query_secure($sql_ban, $_SESSION['OCS']["readServer"], $sql_ban_arg);
 
-      while ($item_ban = mysqli_fetch_array($result_ban)) {
+      while ($item_ban = $result_ban->fetch(PDO::FETCH_ASSOC)) {
         if($item_ban != null){
           $sql_remove = "DELETE FROM cve_search WHERE soft = '%s'";
           $sql_remove_arg = array($item_ban["soft"]);

@@ -73,6 +73,7 @@ if (!isset($protectedPost['tri_' . $table_name]) || $protectedPost['tri_' . $tab
 echo open_form($form_name, '', '', 'form-horizontal');
 //BEGIN SHOW ACCOUNTINFO
 $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+
 if (array($accountinfo_value['TAB_OPTIONS'])) {
     $tab_options = $accountinfo_value['TAB_OPTIONS'];
 }
@@ -168,6 +169,7 @@ $list_col_cant_del = array('SUP' => 'SUP', 'NAME' => 'NAME', 'CHECK' => 'CHECK')
 $default_fields2 = array($_SESSION['OCS']['TAG_LBL']['TAG'] => $_SESSION['OCS']['TAG_LBL'], $l->g(46) => $l->g(46), 'NAME' => 'NAME', $l->g(23) => $l->g(23),
     $l->g(24) => $l->g(24), $l->g(25) => $l->g(25), $l->g(568) => $l->g(568),
     $l->g(569) => $l->g(569));
+
 $default_fields = array_merge($default_fields, $default_fields2);
 $sql = prepare_sql_tab($select_fields, array('SUP', 'CHECK'));
 $tab_options['ARG_SQL'] = $sql['ARG'];

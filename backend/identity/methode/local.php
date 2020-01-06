@@ -33,13 +33,16 @@ require_once ('require/function_files.php');
 //nom de la page
 $name = "local.php";
 connexion_local_read();
-mysqli_select_db($link_ocs, $db_ocs);
+
+if($GLOBALS["PDO"]->getInstance() === null) {
+    $GLOBALS["PDO"]->query("use ".$db_ocs);
+}
 
 //recherche du niveau de droit de l'utilisateur
 $reqOp = "SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
 $argOp = array($_SESSION['OCS']["loggeduser"]);
 $resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
-$rowOp = mysqli_fetch_object($resOp);
+$rowOp = $resOp->fetchObject();
 
 if (isset($rowOp->accesslvl)) {
     $lvluser = $rowOp->accesslvl;
@@ -61,7 +64,7 @@ if (isset($rowOp->accesslvl)) {
         $sql = "select tag from tags where login='%s'";
         $arg = array($_SESSION['OCS']["loggeduser"]);
         $res = mysql2_query_secure($sql, $link_ocs, $arg);
-        while ($row = mysqli_fetch_object($res)) {
+        while ($row = $res->fetchObject()) {
             // Check for wildcard
             if (strpos($row->tag, '*') !== false || strpos($row->tag,'?') !== false) {
                 $wildcard = true;
@@ -70,7 +73,7 @@ if (isset($rowOp->accesslvl)) {
                 if($wildcard === true){
                     $sql_wildcard = "SELECT TAG FROM `accountinfo` WHERE TAG LIKE '$row->tag' GROUP BY TAG";
                     $res_wildcard = mysql2_query_secure($sql_wildcard, $link_ocs);
-                    while ($row_wildcard = mysqli_fetch_object($res_wildcard)) {
+                    while ($row_wildcard = $res_wildcard->fetchObject()) {
                         $list_tag[$row_wildcard->TAG] = $row_wildcard->TAG;
                     }
                     

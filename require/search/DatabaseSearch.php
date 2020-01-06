@@ -126,7 +126,7 @@ class DatabaseSearch
 
         $tableList = mysql2_query_secure($this->tableQuery, $this->dbObject, $this->dbName);
 
-        while ($tableInfos = mysqli_fetch_array($tableList)) {
+        while ($tableInfos = $tableList->fetch(PDO::FETCH_ASSOC)) {
             $this->tableList[] = $tableInfos[0];
             $this->retireveColumnsList($tableInfos[0]);
         }
@@ -147,7 +147,7 @@ class DatabaseSearch
         if (!in_array($tableName, $this->excludedTables)) {
             $columnsList = mysql2_query_secure($this->columnsQuery, $this->dbObject, $tableName);
 
-            while ($columnsInfos = mysqli_fetch_array($columnsList)) {
+            while ($columnsInfos = $columnsList->fetch(PDO::FETCH_ASSOC)) {
                 $columnsInfos[self::TYPE] = $this->normalizeFieldType($columnsInfos['Type']);
                 $this->columnsList[$tableName][$columnsInfos['Field']] = [
                     self::FIELD => $columnsInfos[self::FIELD],

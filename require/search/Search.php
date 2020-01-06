@@ -1214,9 +1214,9 @@
      */
     public function asset_categories(){
       $sqlAsset = "SELECT CATEGORY_NAME, ID FROM assets_categories";
-      $result = mysqli_query($_SESSION['OCS']["readServer"], $sqlAsset);
+      $result = mysql2_query_secure($sqlAsset, $_SESSION['OCS']["readServer"]);
 
-      while($asset_row = mysqli_fetch_array($result)){
+      while($asset_row = $result->fetch(PDO::FETCH_ASSOC)){
         $asset[$asset_row['ID']] = $asset_row['CATEGORY_NAME'];
       }
       return $asset;
@@ -1235,7 +1235,7 @@
       $sql_search_arg = array($field, $tableName, $value['fields'], "%".$value['value']."%");
       $result = mysql2_query_secure($sql_search, $_SESSION['OCS']["readServer"], $sql_search_arg);
 
-      while($notcontain = mysqli_fetch_array($result)){
+      while($notcontain = $result->fetch(PDO::FETCH_ASSOC)){
         $excluID[] = $notcontain[$field];
       }
 
@@ -1279,7 +1279,7 @@
 
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
 
-        while($notcontain = mysqli_fetch_array($result)){
+        while($notcontain = $result->fetch(PDO::FETCH_ASSOC)){
           $excluID[$notcontain[$fieldname]] = $notcontain[$fieldname];
           $allID[$search[$i]][$notcontain[$fieldname]] = $notcontain[$fieldname];
         }

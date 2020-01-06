@@ -95,7 +95,7 @@ if ($list_tab != '') {
 						order by SHOW_ORDER ASC";
     $arg_admin_info = array($protectedPost['onglet']);
     $res_admin_info = mysql2_query_secure($sql_admin_info, $_SESSION['OCS']["readServer"], $arg_admin_info);
-    $num_row = mysqli_num_rows($res_admin_info);
+    $num_row = $res_admin_info->rowCount();
     $name_field = array();
     $tab_name = array();
     $type_field = array();
@@ -107,7 +107,7 @@ if ($list_tab != '') {
     $config['DDE'] = array();
 
     $nb_row = 1;
-    while ($val_admin_info = mysqli_fetch_array($res_admin_info)) {
+    while ($val_admin_info = $res_admin_info->fetch(PDO::FETCH_ASSOC)) {
         array_push($config['DDE'], $systemid);
         //if name_accountinfo is not null
         //column name in accountinfo table is name_accountinfo

@@ -205,7 +205,7 @@ if (isset($protectedPost['valid'])) {
     $verifN = "SELECT fileid FROM download_available WHERE name='%s'";
     $argverifN = $protectedPost["NAME"];
     $resN = mysql2_query_secure($verifN, $_SESSION['OCS']["readServer"], $argverifN);
-    if (mysqli_num_rows($resN) != 0) {
+    if ($resN->rowCount() != 0) {
         $error = $l->g(551);
     }
 
@@ -790,7 +790,7 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     $sql = "select NAME,TVALUE from config where NAME ='DOWNLOAD_REP_CREAT'
 		  union select NAME,TVALUE from config where NAME ='DOWNLOAD_SERVER_DOCROOT'";
     $resdefaultvalues = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-    while ($item = mysqli_fetch_object($resdefaultvalues)) {
+    while ($item = $resdefaultvalues->fetchObject()) {
         $default[$item->NAME] = $item->TVALUE;
     }
     if (!$default['DOWNLOAD_REP_CREAT']) {

@@ -108,8 +108,8 @@ if (AJAX) {
     $tab_options['NO_TRI']['MOD_TAGS'] = 1;
 
     $sql_user_groups = "select IVALUE,TVALUE from config where name like 'USER_GROUP_%' ";
-    $res_user_groups = mysqli_query($_SESSION['OCS']["readServer"], $sql_user_groups);
-    while ($val_user_groups = mysqli_fetch_array($res_user_groups)) {
+    $res_user_groups = mysql2_query_secure($sql_user_groups, $_SESSION['OCS']["readServer"]);
+    while ($val_user_groups = $res_user_groups->fetch(PDO::FETCH_ASSOC)) {
         $user_groups[$val_user_groups['IVALUE']] = $val_user_groups['TVALUE'];
     }
 

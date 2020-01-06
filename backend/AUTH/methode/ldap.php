@@ -34,7 +34,7 @@ $sql = "select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
 $arg = array('%CONEX%');
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
-while ($item = mysqli_fetch_object($res)) {
+while ($item = $res->fetchObject()) {
     $config[$item->NAME] = $item->TVALUE;
     define($item->NAME, $item->TVALUE);
 }

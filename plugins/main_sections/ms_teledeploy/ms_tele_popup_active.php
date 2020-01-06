@@ -43,7 +43,7 @@ if (!isset($info_id['ERROR'])) {
     if ($_SESSION['OCS']["use_redistribution"] == 1) {
         $reqGroupsServers = "SELECT DISTINCT name,id FROM hardware WHERE deviceid='_DOWNLOADGROUP_'";
         $resGroupsServers = mysql2_query_secure($reqGroupsServers, $_SESSION['OCS']["readServer"]);
-        while ($valGroupsServers = mysqli_fetch_array($resGroupsServers)) {
+        while ($valGroupsServers = $resGroupsServers->fetch(PDO::FETCH_ASSOC)) {
             $groupListServers[$valGroupsServers["id"]] = $valGroupsServers["name"];
         }
     }
@@ -67,8 +67,8 @@ if (!isset($info_id['ERROR'])) {
 
         if ($protectedPost['choix_activ'] == "MAN") {
             $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $protectedGet["active"] . "'";
-            $resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);
-            $valFrags = mysqli_fetch_array($resFrags);
+            $resFrags = mysql2_query_secure($reqFrags, $_SESSION['OCS']["readServer"]);
+            $valFrags = $resFrags->fetch(PDO::FETCH_ASSOC);
             $fragAvail = ($valFrags["fragments"] > 0);
             if ($fragAvail) {
                 $fragOk = @fopen("http://" . $protectedPost["FILE_SERV"] . "/" . $protectedGet["active"] . "/" . $protectedGet["active"] . "-1", "r");

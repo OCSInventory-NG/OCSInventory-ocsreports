@@ -145,9 +145,9 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
 
         if ($protectedPost['onglet'] == 'SERV_GROUP') {
             $sql_rules = "select distinct rule,rule_name from download_affect_rules order by 1";
-            $res_rules = mysqli_query($_SESSION['OCS']["readServer"], $sql_rules) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+            $res_rules = mysql2_query_secure($sql_rules, $_SESSION['OCS']["readServer"]);
             $nb_rule = 0;
-            while ($val_rules = mysqli_fetch_array($res_rules)) {
+            while ($val_rules = $res_rules->fetch(PDO::FETCH_ASSOC)) {
                 $first = $val_rules['rule'];
                 $list_rules[$val_rules['rule']] = $val_rules['rule_name'];
                 $nb_rule++;

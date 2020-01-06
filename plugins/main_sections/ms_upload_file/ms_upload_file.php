@@ -130,7 +130,7 @@ if (is_defined($protectedPost['ADD_FILE'])) {
     //search max_allowed_packet value on mysql conf
     $sql = "SHOW VARIABLES LIKE 'max_allowed_packet'";
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-    $value = mysqli_fetch_array($result);
+    $value = $result->fetch(PDO::FETCH_ASSOC);
     //pass oct to Mo
     $upload_max_filesize = $value['Value'] / 1048576;
 

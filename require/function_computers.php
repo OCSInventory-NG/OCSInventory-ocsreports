@@ -70,7 +70,7 @@ function computer_list_by_tag($tag = "", $format = 'LIST') {
     }
     $res_mycomputers = mysql2_query_secure($sql_mycomputers['SQL'], $_SESSION['OCS']["readServer"], $sql_mycomputers['ARG']);
     $mycomputers = "(";
-    while ($item_mycomputers = mysqli_fetch_object($res_mycomputers)) {
+    while ($item_mycomputers = $res_mycomputers->fetchObject()) {
         $mycomputers .= $item_mycomputers->hardware_id . ",";
         $array_mycomputers[] = $item_mycomputers->hardware_id;
     }
@@ -102,7 +102,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
     if (!$checkLock || lock($id)) {
         $sql = "SELECT deviceid,name,IPADDR,OSNAME FROM hardware WHERE id='%s'";
         $resId = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $id);
-        $valId = mysqli_fetch_array($resId);
+        $valId = $resId->fetch(PDO::FETCH_ASSOC);
         $idHard = $id;
         $did = $valId["deviceid"];
         if ($did) {
@@ -110,7 +110,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
             if (strpos($did, "NETWORK_DEVICE-") === false) {
                 $sql = "SELECT macaddr FROM networks WHERE hardware_id='%s'";
                 $resNetm = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $idHard);
-                while ($valNetm = mysqli_fetch_array($resNetm)) {
+                while ($valNetm = $resNetm->fetch(PDO::FETCH_ASSOC)) {
                     $sql = "DELETE FROM netmap WHERE mac='%s'";
                     mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $valNetm["macaddr"]);
                 }
@@ -150,7 +150,8 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
             $sql = "DELETE FROM hardware WHERE id='%s'";
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $idHard);
             //Deleted computers tracking
-            if ($traceDel && mysqli_num_rows(mysql2_query_secure("SELECT IVALUE FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION['OCS']["readServer"]))) {
+            $delete = mysql2_query_secure("SELECT IVALUE FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION['OCS']["readServer"]);
+            if ($traceDel && $delete->rowCount()) {
                 $sql = "insert into deleted_equiv(DELETED,EQUIVALENT) values('%s',%s)";
                 $arg = array($idHard, 'NULL');
                 mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
@@ -203,7 +204,8 @@ function fusionne($afus) {
 
         if ($okLock) {
             //TRACE_DELETED
-            if (mysqli_num_rows(mysql2_query_secure("SELECT * FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION['OCS']["readServer"]))) {
+            $tracedel = mysql2_query_secure("SELECT * FROM config WHERE IVALUE>0 AND NAME='TRACE_DELETED'", $_SESSION['OCS']["readServer"]);
+            if ($tracedel->rowCount()) {
                 foreach ($afus as $a) {
                     if ($afus[$maxInd]["deviceid"] == $a["deviceid"]) {
                         continue;
@@ -227,7 +229,7 @@ function fusionne($afus) {
             foreach($afus as $key => $values) {
                 $sqlverif = "SELECT * FROM accountinfo WHERE hardware_id = '%s' ORDER BY hardware_id ASC";
                 $verif_req = mysql2_query_secure($sqlverif, $_SESSION['OCS']["readServer"], $values["id"]);
-                while($row = mysqli_fetch_array($verif_req)){
+                while($row = $verif_req->fetch(PDO::FETCH_ASSOC)){
                     if($row != null){
                         $accountTable[$row['HARDWARE_ID']] = $row;
                     }
@@ -280,7 +282,7 @@ function fusionne($afus) {
             }
 
             //RESTORE PERSISTENT VALUES
-            $persistent_values = mysqli_fetch_row($persistent_req);
+            $persistent_values = $persistent_req->fetch();
             $sql = "UPDATE hardware SET QUALITY=%s,FIDELITY=%s,CHECKSUM=CHECKSUM|%s WHERE id='%s'";
             $arg = array($persistent_values[1], $persistent_values[2], $persistent_values[0], $afus[$maxInd]["id"]);
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
@@ -331,7 +333,7 @@ function is_mine_computer($id) {
         $arg = array($id);
         $sql = mysql2_prepare($sql, $arg, $_SESSION['OCS']['TAGS']);
         $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
-        $item = mysqli_fetch_object($result);
+        $item = $result->fetchObject();
         if (!isset($item->hardware_id)) {
             return false;
         }

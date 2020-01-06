@@ -57,14 +57,14 @@ function redistrib_package_exists($timestamp) {
 function package_name_exists($name) {
     $query = "SELECT COUNT(*) FROM download_available WHERE NAME = '%s'";
     $res = mysql2_query_secure($query, $_SESSION['OCS']['readServer'], $name);
-    $count = mysqli_fetch_row($res);
+    $count = $res->fetch();
     return $count[0] > 0;
 }
 
 function get_package_info($timestamp) {
     $query = "SELECT FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT FROM download_available WHERE FILEID = %s";
     $res = mysql2_query_secure($query, $_SESSION['OCS']['readServer'], $timestamp);
-    return mysqli_fetch_assoc($res);
+    return $res->fetch(PDO::FETCH_ASSOC);
 }
 
 function get_redistrib_package_info($timestamp) {
@@ -72,8 +72,8 @@ function get_redistrib_package_info($timestamp) {
             . " WHERE NAME LIKE '%%_redistrib' AND COMMENT LIKE '%%[PACK REDISTRIBUTION %s]%%'";
     $res = mysql2_query_secure($query, $_SESSION['OCS']['readServer'], $timestamp);
 
-    if (mysqli_num_rows($res)) {
-        return mysqli_fetch_assoc($res);
+    if ($res->rowCount()) {
+        return $res->fetch(PDO::FETCH_ASSOC);
     } else {
         return false;
     }

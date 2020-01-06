@@ -401,7 +401,7 @@ function update_default_value($POST) {
     //recherche des valeurs par défaut
     $sql_exist = " select NAME,ivalue,tvalue from config ";
     $result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
-    while ($value_exist = mysqli_fetch_array($result_exist)) {
+    while ($value_exist = $result_exist->fetch(PDO::FETCH_ASSOC)) {
         if ($value_exist["ivalue"] != null) {
             $optexist[$value_exist["NAME"]] = $value_exist["ivalue"];
         } elseif ($value_exist["tvalue"] != null) {

@@ -63,8 +63,8 @@
        */
       public function get_notif_selected(){
           $sql = "SELECT `FILE` FROM notification WHERE `TYPE`= 'SELECTED'";
-          $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
-          $item_notif = mysqli_fetch_array($result);
+          $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+          $item_notif = $result->fetch(PDO::FETCH_ASSOC);
 
           return $item_notif['FILE'];
       }
@@ -88,7 +88,7 @@
         $infos['NOTIF_PROG_DAY'] = $this->number_day($infos);
         $sql="SELECT * FROM notification_config";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-        while($row = mysqli_fetch_array($result)){
+        while($row = $result->fetch(PDO::FETCH_ASSOC)){
            $verif[$row['NAME']]= $row['NAME'];
         }
         foreach($infos as $key => $value){
@@ -125,7 +125,7 @@
       public function get_info_smtp(){
           $sql = "SELECT * FROM notification_config";
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-          while($row = mysqli_fetch_array($result)){
+          while($row = $result->fetch(PDO::FETCH_ASSOC)){
               if($row['NAME'] == 'NOTIF_PROG_DAY'){
                 $day[] = explode(",", $row['TVALUE']);
                 foreach($day as $key => $value){
@@ -328,7 +328,7 @@
       public function get_template_perso(){
           $sql = "SELECT FILE FROM `notification` WHERE TYPE='PERSO'";
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-          $row = mysqli_fetch_array($result);
+          $row = $result->fetch(PDO::FETCH_ASSOC);
 
           return $row['FILE'];
       }
@@ -342,7 +342,7 @@
         $sql = "SELECT * FROM `notification` WHERE TYPE='%s'";
         $arg = array($value);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($notif = mysqli_fetch_array($result)) {
+        while ($notif = $result->fetch(PDO::FETCH_ASSOC)) {
             $info[$notif['TYPE']]['SUBJECT'] = $notif['SUBJECT'];
             $info[$notif['TYPE']]['FILE'] = $notif['FILE'];
             $info[$notif['TYPE']]['ALTBODY'] = $notif['ALTBODY'];

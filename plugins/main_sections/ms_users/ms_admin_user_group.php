@@ -48,11 +48,11 @@ if ($protectedPost['onglet'] == 1) {
     if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
         $list = $protectedPost['del_check'];
         $sql_delete = "DELETE FROM config WHERE name like 'USER_GROUP_%' and ivalue in (" . $list . ")";
-        mysqli_query($_SESSION['OCS']["writeServer"], $sql_delete) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+        mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"]);
     }
 
     if (isset($protectedPost['SUP_PROF'])) {
-        mysqli_query($_SESSION['OCS']["writeServer"], "DELETE FROM config WHERE name='USER_GROUP_" . $protectedPost['SUP_PROF'] . "'");
+        mysql2_query_secure("DELETE FROM config WHERE name='USER_GROUP_" . $protectedPost['SUP_PROF'] . "'", $_SESSION['OCS']["writeServer"]);
     }
     $queryDetails = "select IVALUE,TVALUE from config where name like 'USER_GROUP_%'";
 
@@ -79,8 +79,8 @@ if ($protectedPost['onglet'] == 1) {
         //vérification que le nom du champ n'existe pas pour les nouveaux champs
         if (trim($protectedPost['newfield']) != '') {
             $sql_verif = "SELECT count(*) c FROM config WHERE TVALUE = '" . $protectedPost['newfield'] . "' and NAME like 'USER_GROUP%'";
-            $res_verif = mysqli_query($_SESSION['OCS']["readServer"], $sql_verif);
-            $val_verif = mysqli_fetch_array($res_verif);
+            $res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"]);
+            $val_verif = $res_verif->fetch(PDO::FETCH_ASSOC);
             if ($val_verif['c'] > 0) {
                 //Ce nom de groupe est déjà utilisé
                 $ERROR = $l->g(621);
@@ -92,13 +92,13 @@ if ($protectedPost['onglet'] == 1) {
 
         if (!isset($ERROR)) {
             $sql_new_value = "SELECT max(ivalue) max FROM config WHERE  NAME like 'USER_GROUP%'";
-            $res_new_value = mysqli_query($_SESSION['OCS']["readServer"], $sql_new_value);
-            $val_new_value = mysqli_fetch_array($res_new_value);
+            $res_new_value = mysql2_query_secure($sql_new_value, $_SESSION['OCS']["readServer"]);
+            $val_new_value = $res_new_value->fetch(PDO::FETCH_ASSOC);
             if ($val_new_value['max'] == "") {
                 $val_new_value['max'] = 0;
             }
             $val_new_value['max'] ++;
-            mysqli_query($_SESSION['OCS']["writeServer"], "INSERT INTO config (NAME,TVALUE,IVALUE) VALUES('USER_GROUP_" . $val_new_value['max'] . "','" . $protectedPost['newfield'] . "','" . $val_new_value['max'] . "')") or mysqli_error($_SESSION['OCS']["writeServer"]);
+            mysql2_query_secure("INSERT INTO config (NAME,TVALUE,IVALUE) VALUES('USER_GROUP_" . $val_new_value['max'] . "','" . $protectedPost['newfield'] . "','" . $val_new_value['max'] . "')", $_SESSION['OCS']["writeServer"]);
             //si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
             msg_success($l->g(1069));
         } else {

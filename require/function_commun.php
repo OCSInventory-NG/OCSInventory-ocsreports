@@ -34,12 +34,13 @@ function look_config_default_values($field_name, $like = '', $default_values = '
         $arg['SQL'] = "select NAME,IVALUE,TVALUE,COMMENTS from config where NAME like '%s'";
         $arg['ARG'] = $field_name;
     }
-    $resdefaultvalues = mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["readServer"], $arg['ARG']);
-    while ($item = mysqli_fetch_object($resdefaultvalues)) {
-        $result['name'][$item->NAME] = $item->NAME;
-        $result['ivalue'][$item->NAME] = $item->IVALUE;
-        $result['tvalue'][$item->NAME] = $item->TVALUE;
-        $result['comments'][$item->NAME] = $item->COMMENTS;
+    $query_result = mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["readServer"], $arg['ARG']);
+    
+    foreach ($query_result as $item) {
+        $result['name'][$item['NAME']] = $item['NAME'];
+        $result['ivalue'][$item['NAME']] = $item['IVALUE'];
+        $result['tvalue'][$item['NAME']] = $item['TVALUE'];
+        $result['comments'][$item['NAME']] = $item['COMMENTS'];
     }
 
     if (is_array($default_values)) {
@@ -59,53 +60,73 @@ function look_config_default_values($field_name, $like = '', $default_values = '
 }
 
 /* * ****************************************************SQL FUNCTION*************************************************** */
-
-function generate_secure_sql($sql, $arg = '') {
-
-    if (is_array($arg)) {
-        foreach ($arg as $value) {
-            $arg_array_escape_string[] = mysqli_real_escape_string($_SESSION['OCS']["readServer"], $value);
+function parms($string,$data) {
+    if(is_array($data)) {
+        foreach($data as $k => $v) {
+            $string=preg_replace('/\?/',$v,$string,1);
         }
-        $arg_escape_string = $arg_array_escape_string;
-    } elseif ($arg != '') {
-        $arg_escape_string = mysqli_real_escape_string($_SESSION['OCS']["readServer"], $arg);
-    }
-    if (isset($arg_escape_string)) {
-        if (is_array($arg_escape_string)) {
-            $sql = vsprintf($sql, $arg_escape_string);
-        } else {
-            $sql = sprintf($sql, $arg_escape_string);
-        }
-    }
-    return $sql;
+    } else {
+        $string=preg_replace('/\?/',$data,$string,1);
+    }  
+    
+    return $string;
 }
 
 function mysql2_query_secure($sql, $link, $arg = '', $log = false) {
     global $l, $lbl_log;
-    $query = generate_secure_sql($sql, $arg);
-    if ($log) {
-        addLog($log, $query, $lbl_log);
-    }
 
-    if ($_SESSION['OCS']['DEBUG'] == 'ON') {
-        $_SESSION['OCS']['SQL_DEBUG'][] = html_entity_decode($query, ENT_QUOTES);
-    }
+    $sql = preg_replace('/"%s"/', '?', $sql);
+    $sql = preg_replace('/\'%s\'/', '?', $sql);
+    $sql = preg_replace('/%s/', '?', $sql);
 
-    if (DEMO) {
-        $rest = mb_strtoupper(substr($query, 0, 6));
-        if ($rest == 'UPDATE' || $rest == 'INSERT' || $rest == 'DELETE') {
-            if (DEMO_MSG != 'show') {
-                msg_info($l->g(2103));
-                define('DEMO_MSG', 'show');
-            }
-            return false;
+    try {
+
+        $dbh = $GLOBALS['PDO'];
+        $query = $dbh->getInstance()->prepare($sql);
+       // var_dump($arg);
+        if($arg != '') {
+            if(is_array($arg)) {
+                foreach($arg as $key => $value) {
+                    $query->bindValue($key+1, $value);
+                }
+            } else {
+                $query->bindValue(1, $arg);
+            }  
         }
+
+        $queryStr = parms($query->queryString, $arg);
+
+        if ($log) {
+            addLog($log, $queryStr, $lbl_log);
+        }
+
+        if ($_SESSION['OCS']['DEBUG'] == 'ON') {
+            $_SESSION['OCS']['SQL_DEBUG'][] = html_entity_decode($queryStr, ENT_QUOTES);
+        }
+
+        if (DEMO) {
+            $rest = mb_strtoupper(substr($queryStr, 0, 6));
+            if ($rest == 'UPDATE' || $rest == 'INSERT' || $rest == 'DELETE') {
+                if (DEMO_MSG != 'show') {
+                    msg_info($l->g(2103));
+                    define('DEMO_MSG', 'show');
+                }
+                return false;
+            }
+        }
+        $query->execute();
+        
+        $result = $query;
+
+        if ($_SESSION['OCS']['DEBUG'] == 'ON' && !$result) {
+            msg_error(mysqli_error($link));
+        }
+
+        return $result;
+    } catch(PDOException $e) {
+        return "ERROR: MySql connection problem " . $e->getCode() . "<br>" . $e->getMessage();
     }
-    $result = mysqli_query($link, $query);
-    if ($_SESSION['OCS']['DEBUG'] == 'ON' && !$result) {
-        msg_error(mysqli_error($link));
-    }
-    return $result;
+    
 }
 
 /*
@@ -155,7 +176,7 @@ function prepare_sql_tab($list_fields, $explu = array(), $distinct = false) {
 
 function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME) {
     error_reporting(E_ALL & ~E_NOTICE);
-
+    
     //$link is ok?
     try {
         $link = new PDO(
@@ -169,6 +190,7 @@ function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME) {
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\';SET sql_mode=\'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\''
             )
         );
+        
     } catch (PDOException $e) {
         return "ERROR: MySql connection problem " . $e->getCode() . "<br>" . $e->getMessage();
     }
@@ -185,7 +207,7 @@ function dbGetFTIndex($tableName, $tableAlias) {
      $ft_idx = [];
      $sql_ft='show index from ' . $tableName . ';';
      $resultDetails = mysql2_query_secure($sql_ft, $_SESSION['OCS']["readServer"]);
-     while($row = mysqli_fetch_object($resultDetails)){
+     while($row = $resultDetails->fetchObject()){
            if ( $row->Index_type == 'FULLTEXT') {
                 $ft_idx[ $row->Column_name ] = "$tableAlias.$row->Column_name";
            }

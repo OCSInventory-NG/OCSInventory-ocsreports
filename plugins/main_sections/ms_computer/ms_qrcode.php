@@ -35,7 +35,7 @@ if (is_numeric($protectedGet['systemid']) && array_key_exists($protectedGet['def
         $sql = "select %s from %s where %s='%s'";
         $arg = array($fields_info[1], $fields_info[0], $hardware_id, $protectedGet['systemid']);
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        $val = mysqli_fetch_array($res);
+        $val = $res->fetch(PDO::FETCH_ASSOC);
         $msg = $val[$fields_info[1]];
     }
 

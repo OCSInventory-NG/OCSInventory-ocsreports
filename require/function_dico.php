@@ -22,8 +22,8 @@
  */
 
 function search_all_item() {
-    $result_search_soft = mysqli_query($_SESSION['OCS']["readServer"], $_SESSION['OCS']['query_dico']);
-    while ($item_search_soft = mysqli_fetch_object($result_search_soft)) {
+    $result_search_soft = mysql2_query_secure($_SESSION['OCS']['query_dico'], $_SESSION['OCS']["readServer"]);
+    while ($item_search_soft = $result_search_soft->fetchObject()) {
         $list[] = $item_search_soft->ID;
     }
     return $list;
@@ -37,8 +37,8 @@ function del_soft($onglet, $list_soft) {
     }
 
     $sql_soft_name = "select distinct NAME from " . $table . " where ID in (" . implode(",", $list_soft) . ")";
-    $result_soft_name = mysqli_query($_SESSION['OCS']["readServer"], $sql_soft_name);
-    while ($item_soft_name = mysqli_fetch_object($result_soft_name)) {
+    $result_soft_name = mysql2_query_secure($sql_soft_name, $_SESSION['OCS']["readServer"]);
+    while ($item_soft_name = $result_soft_name->fetchObject()) {
         $list_soft_name[] = str_replace('"', '\"', $item_soft_name->NAME);
     }
     if ($onglet == "CAT" || $onglet == "UNCHANGED") {
@@ -47,7 +47,7 @@ function del_soft($onglet, $list_soft) {
     if ($onglet == "IGNORED") {
         $sql_delete = "delete from dico_ignored where extracted in (\"" . implode("\",\"", $list_soft_name) . "\")";
     }
-    mysqli_query($_SESSION['OCS']["writeServer"], $sql_delete);
+    mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"]);
 }
 
 function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
@@ -67,8 +67,8 @@ function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
     //verif is this cat exist
     if ($new_cat != '') {
         $sql_verif = "select extracted from dico_soft where formatted ='" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $new_cat) . "'";
-        $result_search_soft = mysqli_query($_SESSION['OCS']["readServer"], $sql_verif);
-        $item_search_soft = mysqli_fetch_object($result_search_soft);
+        $result_search_soft = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"]);
+        $item_search_soft = $result_search_soft->fetchObject();
         if (isset($item_search_soft->extracted) || $new_cat == "IGNORED" || $new_cat == "UNCHANGED") {
             $already_exist = true;
         }
@@ -101,7 +101,7 @@ function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
             }
         }
         if ($sql != '') {
-            mysqli_query($_SESSION['OCS']["writeServer"], $sql);
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
         }
     }
 }

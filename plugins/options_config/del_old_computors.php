@@ -25,8 +25,8 @@ $max_computer_delete = 50;
 
 
 $sql = "select IVALUE,TVALUE from config where NAME='INVENTORY_VALIDITY'";
-$result = mysqli_query($_SESSION['OCS']["readServer"], $sql) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-$value = mysqli_fetch_array($result);
+$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+$value = $result->fetch(PDO::FETCH_ASSOC);
 if (isset($value['IVALUE']) && $value['IVALUE'] != 0) {
     $timestamp_now = mktime(0, date("i"), 0, date("m"), date("d"), date("Y"));
     echo $timestamp_now;
@@ -34,10 +34,10 @@ if (isset($value['IVALUE']) && $value['IVALUE'] != 0) {
     if ($value['TVALUE'] < $timestamp_now || $value['TVALUE'] == null) {
         $timestamp_limit = mktime(0, date("i"), 0, date("m"), date("d") - $value['IVALUE'], date("Y"));
         $sql = "update config set TVALUE='" . mktime(0, date("i") + $time_to_delete, 0, date("m"), date("d"), date("Y")) . "' where NAME='INVENTORY_VALIDITY'";
-        mysqli_query($_SESSION['OCS']["writeServer"], $sql);
+        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
         $sql = "select id,lastdate,name from hardware where UNIX_TIMESTAMP(lastdate) < " . $timestamp_limit . " limit " . $max_computer_delete;
-        $res = mysqli_query($_SESSION['OCS']["readServer"], $sql) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-        while ($val = mysqli_fetch_array($res)) {
+        $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        while ($val = $res->fetch(PDO::FETCH_ASSOC)) {
             addLog("DELETE " . $val['name'], $l->g(820) . " => " . $val['lastdate'] . " DATE < " . date("d/m/y H:i:s", $timestamp_limit));
         }
     }

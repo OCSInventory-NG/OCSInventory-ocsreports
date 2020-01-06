@@ -55,7 +55,7 @@ function find_ivalues($packid) {
     $sql = "SELECT id FROM download_enable WHERE fileid='%s'";
     $arg = $packid;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    while ($row = mysqli_fetch_array($res)) {
+    while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
         $result[] = $row['id'];
     }
     return $result;
@@ -83,7 +83,7 @@ function find_device_line($status, $packid) {
                 "AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
 
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($row = mysqli_fetch_object($res)) {
+        while ($row = $res->fetchObject()) {
             $result[$value][] = $row->hardware_id;
         }
     }

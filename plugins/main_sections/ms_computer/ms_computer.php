@@ -64,7 +64,7 @@ if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION[
     $resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $msg = "";
 
-    while ($wol_item = mysqli_fetch_object($resultDetails)) {
+    while ($wol_item = $resultDetails->fetchObject()) {
         $wol->look_config_wol($wol_item->IPADDRESS, $wol_item->MACADDR);
 
         if ($wol->wol_send == $l->g(1282)) {

@@ -91,7 +91,7 @@ function add_user($data_user, $list_profil = '') {
         $sql = "select id from operators where id= '%s'";
         $arg = $data_user['ID'];
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        $row = mysqli_fetch_object($res);
+        $row = $res->fetchObject();
         if (isset($row->id)) {
             if ($data_user['MODIF'] != $row->id) {
                 return $l->g(999);
@@ -200,7 +200,7 @@ function admin_user($id_user = null, $is_my_account = false) {
     $sql="select ID,NEW_ACCESSLVL,USER_GROUP,FIRSTNAME,LASTNAME,EMAIL,COMMENTS from operators where id= '%s'";
     $arg=$id_user;
     $res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
-    $row=mysqli_fetch_object($res);
+    $row=$res->fetchObject();
     if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
             $protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
             $protectedPost['USER_GROUP']=$row->USER_GROUP;
@@ -294,7 +294,7 @@ function updatePassword($id_user, $password) {
     $sql = "select id from operators where id= '%s'";
     $arg = $id_user;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $row = mysqli_fetch_object($res);
+    $row = $res->fetchObject();
     if (isset($row->id)) {
         if (is_defined($password)) {
             $sql_update = "update operators set passwd ='%s', PASSWORD_VERSION ='%s' ";

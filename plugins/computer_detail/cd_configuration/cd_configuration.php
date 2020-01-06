@@ -32,7 +32,7 @@ if (isset($protectedGet["actgrp"])) {
         $reqGroups .= " and h.workgroup = 'GROUP_4_ALL'";
     }
     $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
-    $valGroups = mysqli_fetch_array($resGroups);
+    $valGroups = $resGroups->fetch(PDO::FETCH_ASSOC);
     if (isset($valGroups['id'])) {
         $reqDelete = "DELETE FROM groups_cache WHERE hardware_id=%s AND group_id=%s";
 
@@ -82,7 +82,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
         }
         $reqGroups .= " order by h.name";
         $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
-        while ($valGroups = mysqli_fetch_array($resGroups)) {
+        while ($valGroups = $resGroups->fetch(PDO::FETCH_ASSOC)) {
             echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
         }
         ?>
@@ -99,7 +99,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 </div></br></br>
 
 <?php
-while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
+while ($item = $resultDetails->fetch(PDO::FETCH_ASSOC)) {
     $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
     $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
 }
@@ -183,8 +183,8 @@ $arg_groups = $systemid;
 $resGroups = mysql2_query_secure($sql_groups, $_SESSION['OCS']["readServer"], $arg_groups);
 
 
-if (mysqli_num_rows($resGroups) > 0) {
-    while ($valGroups = mysqli_fetch_array($resGroups)) {
+if ($resGroups->rowCount() > 0) {
+    while ($valGroups = $resGroups->fetch(PDO::FETCH_ASSOC)) {
 
 ?>
 

@@ -55,8 +55,8 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     if (isset($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']])) {
         $i = 0;
         while ($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]) {
-            $result = mysqli_query($link, $_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i]) or die(mysqli_error($link));
-            while ($cont = mysqli_fetch_array($result)) {
+            $result = mysql2_query_secure($_SESSION['OCS']['SQL_DATA_FIXE'][$protectedGet['tablename']][$i], $link);
+            while ($cont = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($col as $field => $lbl) {
                     if (array_key_exists($lbl, $cont)) {
                         $data_fixe[$cont['HARDWARE_ID']][$field] = $cont[$lbl];
@@ -82,7 +82,7 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     $i = 0;
     require_once('require/function_admininfo.php');
     $inter = interprete_accountinfo($col, array());
-    while ($cont = mysqli_fetch_array($result)) {
+    while ($cont = $result->fetch(PDO::FETCH_ASSOC)) {
         unset($cont['MODIF']);
         foreach ($inter as $field => $lbl) {
             if ($lbl == "name_of_machine" && !isset($cont[$field])) {

@@ -71,7 +71,7 @@ class Stats{
 
             $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
             $i = 0;
-            while ($row = mysqli_fetch_object($res)) {
+            while ($row = $res->fetchObject()) {
                 if($i <= 10){
                     $chart[$key]['count'][$i] = $row->c;
                     $chart[$key]['name_value'][$i] = addslashes($row->name);
@@ -93,7 +93,7 @@ class Stats{
                 $seen = array();
                 $seen_name = array();
                 $seen_quant = array();
-                while($item = mysqli_fetch_array($result_seen)){
+                while($item = $result_seen->fetch(PDO::FETCH_ASSOC)){
                     $seen_name[] = $item['contact'];
                     $seen_quant[] = $item['conta'];	
                 }	
@@ -108,7 +108,7 @@ class Stats{
                 $man = array();
                 $man_name = array();
                 $man_quant = array();
-                while($item = mysqli_fetch_array($result_man)){
+                while($item = $result_man->fetch(PDO::FETCH_ASSOC)){
                     $man_name[] = $item['man'];
                     $man_quant[] = $item['c_man'];	
                 }	
@@ -123,7 +123,7 @@ class Stats{
                 $type = array();
                 $type_name = array();
                 $type_quant = array();
-                while($item = mysqli_fetch_array($result_type)){
+                while($item = $result_type->fetch(PDO::FETCH_ASSOC)){
                     $type_name[] = $item['type'];
                     $type_quant[] = $item['conta'];	
                 }	
@@ -159,7 +159,7 @@ class Stats{
         $seen = array();
         $seen_name = array();
         $seen_quant = array();
-        while($item = mysqli_fetch_array($result_seen)){
+        while($item = $result_seen->fetch(PDO::FETCH_ASSOC)){
             $seen_name[] = $item['contact'];
             $seen_quant[] = $item['conta'];	
         }	
@@ -180,7 +180,7 @@ class Stats{
         $sql = "SELECT id FROM download_enable WHERE fileid='%s'";
         $arg = $packid;
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($row = mysqli_fetch_array($res)) {
+        while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
             $result[] = $row['id'];
         }
         return $result;
@@ -207,7 +207,7 @@ class Stats{
                     "AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_')";
 
             $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-            while ($row = mysqli_fetch_object($res)) {
+            while ($row = $res->fetchObject()) {
                 $result[$value][] = $row->hardware_id;
             }
         }

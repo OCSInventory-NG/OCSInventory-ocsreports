@@ -35,9 +35,9 @@ class SoftwareCategory
      */
     public function onglet_cat(){
         $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME`, `OS` FROM `software_categories`";
-        $result_list_cat = mysqli_query($_SESSION['OCS']["readServer"], $sql_list_cat);
+        $result_list_cat = mysql2_query_secure($sql_list_cat, $_SESSION['OCS']["readServer"]);
         $i = 1;
-        while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
+        while ($item_list_cat = $result_list_cat->fetch(PDO::FETCH_ASSOC)) {
             if ($i == 1) {
                 $list_cat['first_onglet'] = $i;
             }
@@ -60,7 +60,7 @@ class SoftwareCategory
         $arg_verif = array($catName);
         $result_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
 
-        $item = mysqli_fetch_array($result_verif);
+        $item = $result_verif->fetch(PDO::FETCH_ASSOC);
 
         if($item != null){
             return(false);
@@ -79,10 +79,10 @@ class SoftwareCategory
      */
     public function search_all_cat(){
         $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME` FROM `software_categories`";
-        $result_list_cat = mysqli_query($_SESSION['OCS']["readServer"], $sql_list_cat);
+        $result_list_cat = mysql2_query_secure($sql_list_cat, $_SESSION['OCS']["readServer"]);
 
         $list_cat[0] = " ";
-        while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
+        while ($item_list_cat = $result_list_cat->fetch(PDO::FETCH_ASSOC)) {
             $list_cat[$item_list_cat['ID']] = $item_list_cat['CATEGORY_NAME'];
         }
         return ($list_cat);
@@ -121,7 +121,7 @@ class SoftwareCategory
         $arg_sql = array($onglet_active);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg_sql);
 
-        while ($item = mysqli_fetch_array($result)) {
+        while ($item = $result->fetch(PDO::FETCH_ASSOC)) {
             $list[] = ['ID' => $item['ID'],
                       'NAME' => $item['SOFTWARE_EXP'],
                       'SIGN' => $item['SIGN_VERSION'],
@@ -147,7 +147,7 @@ class SoftwareCategory
           $arg = array($key);
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
-          while ($computer = mysqli_fetch_array($result)) {
+          while ($computer = $result->fetch(PDO::FETCH_ASSOC)) {
               $nb[$value][] = $computer['NAME'];
           }
           if($nb[$value] != null){
@@ -190,7 +190,7 @@ class SoftwareCategory
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
         $version[0] = " ";
-        while ($soft = mysqli_fetch_array($result)) {
+        while ($soft = $result->fetch(PDO::FETCH_ASSOC)) {
             $version[$soft['VERSION']] = $soft['VERSION'];
         }
         return $version;
@@ -211,7 +211,7 @@ class SoftwareCategory
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
         $vendor[0] = " ";
-        while ($soft = mysqli_fetch_array($result)) {
+        while ($soft = $result->fetch(PDO::FETCH_ASSOC)) {
             $vendor[$soft['PUBLISHER']] = $soft['PUBLISHER'];
         }
         return $vendor;
@@ -239,7 +239,7 @@ class SoftwareCategory
         $sql = "SELECT CATEGORY FROM softwares WHERE hardware_id = %s GROUP BY CATEGORY";
         $sql_arg = array($computerID);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
-        while ($idCat = mysqli_fetch_array($result)) {
+        while ($idCat = $result->fetch(PDO::FETCH_ASSOC)) {
             $id[$idCat['CATEGORY']] = $idCat['CATEGORY'];
         }
         $cat = implode(',', $id);
@@ -251,7 +251,7 @@ class SoftwareCategory
             $result_list_cat = mysql2_query_secure($sql_list_cat, $_SESSION['OCS']["readServer"], $sql_list_arg);
             $i = 1;
             if($result_list_cat != false){
-                while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
+                while ($item_list_cat = $result_list_cat->fetch(PDO::FETCH_ASSOC)) {
                     if ($i == 1) {
                         $list_cat['first_onglet'] = $i;
                     }

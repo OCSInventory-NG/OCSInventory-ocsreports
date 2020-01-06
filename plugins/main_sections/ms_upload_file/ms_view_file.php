@@ -41,7 +41,7 @@ if ($protectedGet['prov'] == "ssl") {
 
 if (is_defined($sql)) {
     $res_document_root = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $val_document_root = mysqli_fetch_array($res_document_root);
+    $val_document_root = $res_document_root->fetch(PDO::FETCH_ASSOC);
     if (!isset($val_document_root['FILE_TYPE']) || $val_document_root['FILE_TYPE'] != '') {
         $val_document_root['FILE_TYPE'] = "application/force-download";
     }

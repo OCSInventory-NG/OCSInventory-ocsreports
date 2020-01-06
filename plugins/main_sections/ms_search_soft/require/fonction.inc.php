@@ -26,10 +26,10 @@ function remplirListe($input_name, $label = '') {
     //requete SQL avec filtre sur les logiciels des pc linux et Correctifs, mise a jour windows
     $sql = "SELECT DISTINCT softwares.NAME FROM softwares_name_cache softwares  WHERE  softwares.NAME NOT LIKE '%Correctif%' AND softwares.NAME NOT LIKE '%Mise a jour%' ORDER BY softwares.NAME";
 
-    $query = mysqli_query($_SESSION['OCS']["readServer"], $sql) or die("erreur" . mysqli_error($_SESSION['OCS']["readServer"]));
+    $query = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     //remplit la liste deroulante
     $name[""] = "";
-    while ($row = mysqli_fetch_array($query)) {
+    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
         $name[$row['NAME']] = $row['NAME'];
     }
     formGroup('select', $input_name, $label, '', '', $protectedPost[$input_name], '', $name, $name);
@@ -39,10 +39,10 @@ function remplirListe($input_name, $label = '') {
 function creerTableau($var) {  //$var est le $_post de mon script.php
     echo "<br /><b><i>Vous avez choisi :<br />" . $var . "</i></b>";
     $sql_version = "SELECT hardware.NAME AS 'hnom',hardware.IPADDR AS 'ip',hardware.WORKGROUP AS 'domaine', softwares.NAME AS 'snom', softwares.VERSION AS 'sversion',softwares.FOLDER as 'sfold' FROM hardware INNER JOIN softwares ON softwares.HARDWARE_ID =hardware.ID WHERE softwares.NAME='$var' ORDER BY softwares.VERSION";
-    $query_version = mysqli_query($_SESSION['OCS']["readServer"], $sql_version);
+    $query_version = mysql2_query_secure($sql_version, $_SESSION['OCS']["readServer"]);
     $html_data .= "<table>\n";
     $html_data .= "<tr><th>Nom du PC   </th><th>Nom du logiciel   </th><th>Version du logiciel </th><th>Repertoire</th><th>Adresse IP</th><th>Domaine</th></tr> ";
-    while ($row = mysqli_fetch_array($query_version, MYSQLI_ASSOC)) {
+    while ($row = $query_version->fetch(PDO::FETCH_ASSOC)) {
         if ($row['sfold'] == "") {
             $row['sfold'] = "&nbsp";
         }
@@ -57,9 +57,9 @@ function creerTableau($var) {  //$var est le $_post de mon script.php
 
 function csv($var) {
     $sql_version = "SELECT hardware.NAME AS 'hnom',softwares.NAME AS 'snom',softwares.VERSION AS 'sversion', softwares.FOLDER as 'sfold', hardware.IPADDR AS 'ip',hardware.WORKGROUP AS 'domaine' FROM hardware INNER JOIN softwares ON softwares.HARDWARE_ID =hardware.ID WHERE softwares.NAME='$var' ORDER BY softwares.VERSION";
-    $query_version = mysqli_query($_SESSION['OCS']["readServer"], $sql_version);
+    $query_version = mysql2_query_secure($sql_version, $_SESSION['OCS']["readServer"]);
     print "nom du PC;" . "Nom du logiciel;" . "Version du logiciel;" . "Repertoire;" . "Adresse IP;" . "Domaine;" . "\n\n\n";
-    while ($row = mysqli_fetch_row($query_version)) {
+    while ($row = $query_version->fetch()) {
         print '"' . stripslashes(implode('";"', $row)) . "\"\n";
     }
     exit;

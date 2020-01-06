@@ -218,7 +218,7 @@ class ExtensionManager{
         $selectResult = mysql2_query_secure($this->selectQuery, $this->dbObject);
         $installedExt = [];
 
-        while($installedExtRows = $selectResult->fetch_array())
+        while($installedExtRows = $selectResult->fetch(PDO::FETCH_ASSOC))
         {
             $installedExt[] = $installedExtRows['id'];
         }

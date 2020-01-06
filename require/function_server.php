@@ -35,7 +35,7 @@ function found_id_pack_serv($packid) {
     $sql_id_pack = "select ID from download_enable where fileid=%s and ( group_id != '' and group_id is not null)";
     $arg = $packid;
     $result = mysql2_query_secure($sql_id_pack, $_SESSION['OCS']["readServer"], $arg);
-    while ($id_pack = mysqli_fetch_array($result)) {
+    while ($id_pack = $result->fetch(PDO::FETCH_ASSOC)) {
         $id_paquets[] = $id_pack['ID'];
     }
     return $id_paquets;
@@ -54,7 +54,7 @@ function exist_server($list_id) {
     $arg = mysql2_prepare($sql, array(), $list_id);
     $res = mysql2_query_secure($arg['SQL'] . " group by group_id ", $_SESSION['OCS']["readServer"], $arg['ARG']);
     $msg = "";
-    while ($val = mysqli_fetch_array($res)) {
+    while ($val = $res->fetch(PDO::FETCH_ASSOC)) {
         $msg .= $val['c'] . " " . $l->g(1135) . " " . $val['name'] . "<br>";
     }
     if ($msg != "") {
@@ -119,7 +119,7 @@ function admin_serveur($action, $name_server, $descr, $mach) {
         $reqGetId = "SELECT id FROM hardware WHERE name='%s'";
         $arg = $name_server;
         $resGetId = mysql2_query_secure($reqGetId, $_SESSION['OCS']["readServer"], $arg);
-        if ($valGetId = mysqli_fetch_array($resGetId)) {
+        if ($valGetId = $resGetId->fetch(PDO::FETCH_ASSOC)) {
             $idGroupServer = $valGetId['id'];
         }
     }
@@ -170,13 +170,13 @@ function insert_with_rules($list_id, $rule_detail, $fileid) {
         $sql_is_group = "select HARDWARE_ID from %s where HARDWARE_ID = %s";
         $arg_is_group = array("groups", $list_id_hardware);
         $res_is_group = mysql2_query_secure($sql_is_group, $_SESSION['OCS']["readServer"], $arg_is_group);
-        if(mysqli_num_rows($res_is_group) == 1){
+        if($res_is_group->rowCount() == 1){
           // then it's a group so get all machines in group
           $sql_group_mach = "select HARDWARE_ID, GROUP_ID from %s where GROUP_ID = %s";
           $arg_group_mach = array("groups_cache",$list_id_hardware);
           $res_group_mach = mysql2_query_secure($sql_group_mach, $_SESSION['OCS']["readServer"], $arg_group_mach);
           $list_id_array = array();
-          while ($val_group_mach = mysqli_fetch_array($res_group_mach)){
+          while ($val_group_mach = $res_group_mach->fetch(PDO::FETCH_ASSOC)){
             $list_id_array[] = $val_group_mach['HARDWARE_ID'];
           }
           $list_id_hardware = implode(',', $list_id_array);
@@ -193,7 +193,7 @@ function insert_with_rules($list_id, $rule_detail, $fileid) {
     $arg_infoServ = $fileid;
     $res_infoServ = mysql2_query_secure($sql_infoServ, $_SESSION['OCS']["readServer"], $arg_infoServ);
     //création de la liste des id_hardware des servers et d'un tableau de l'id de download_enable en fonction de l'hardware_id
-    while ($val_infoServ = mysqli_fetch_array($res_infoServ)) {
+    while ($val_infoServ = $res_infoServ->fetch(PDO::FETCH_ASSOC)) {
         $list_serverId[$val_infoServ['server_id']] = $val_infoServ['server_id'];
     }
 
@@ -218,7 +218,7 @@ function insert_with_rules($list_id, $rule_detail, $fileid) {
     array_push($arg['ARG'], $fileid);
     $res_servValues = mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["readServer"], $arg['ARG']);
 
-    while ($val_servValues = mysqli_fetch_array($res_servValues)) {
+    while ($val_servValues = $res_servValues->fetch(PDO::FETCH_ASSOC)) {
         $tab_serValues[$val_servValues[$rule_detail['compto']]] = $val_servValues[$id_server];
         $correspond_servers[$val_servValues[$id_server]] = $val_servValues['id_download_enable'];
     }
@@ -238,7 +238,7 @@ function insert_with_rules($list_id, $rule_detail, $fileid) {
     $arg = mysql2_prepare($sql_machValue, $arg_machValue, $list_id_hardware);
     $res_machValue = mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["readServer"], $arg['ARG']);
 
-    while ($val_machValue = mysqli_fetch_array($res_machValue)) {
+    while ($val_machValue = $res_machValue->fetch(PDO::FETCH_ASSOC)) {
         if ($rule_detail['op'] == "EGAL") {
             //cas of egal
             if (isset($tab_serValues[$val_machValue[$rule_detail['cfield']]])) {
@@ -270,7 +270,7 @@ function insert_with_rules($list_id, $rule_detail, $fileid) {
         $arg['SQL'] .= " and d.name='DOWNLOAD'";
         $res_verif = mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["readServer"], $arg['ARG']);
         //recupération des machines en doublon
-        while ($val_verif = mysqli_fetch_array($res_verif)) {
+        while ($val_verif = $res_verif->fetch(PDO::FETCH_ASSOC)) {
             //création du tableau de doublon
             $exist[$val_verif['hardware_id']] = $val_verif['hardware_id'];
 

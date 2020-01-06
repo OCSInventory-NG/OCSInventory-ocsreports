@@ -97,8 +97,8 @@ printEnTete($l->g(1360));
                     <li><?php echo $_SERVER['SERVER_SOFTWARE']; ?></li>
                     <li><?php
                         $sql = "SELECT @@sql_mode as mode, @@version AS vers, @@version_comment AS stype";
-                        $res = mysqli_query($_SESSION['OCS']["readServer"], $sql);
-                        $info = mysqli_fetch_object($res);
+                        $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+                        $info = $res->fetchObject();
                         echo $info->stype . ' version ' . $info->vers;
                         ?></li>
                     <li><?php echo GUI_VER_SHOW; ?></li>

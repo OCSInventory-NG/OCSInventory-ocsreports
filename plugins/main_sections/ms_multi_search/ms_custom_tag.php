@@ -73,7 +73,7 @@
          $sql = "select ID from download_enable where fileid='%s'";
          $arg = $protectedPost['pack_list'];
          $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-         $item = mysqli_fetch_object($result);
+         $item = $result->fetchObject();
          require_once('require/function_telediff.php');
          $nb_line_affected = desactive_packet($list_id, $item->ID);
          msg_success($nb_line_affected . " " . $l->g(1026));
@@ -89,7 +89,7 @@
          $tab_result = mysql2_prepare($sql, $arg, $list_id);
          $resultDetails = mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"], $tab_result['ARG']);
          $msg = "";
-         while ($item = mysqli_fetch_object($resultDetails)) {
+         while ($item = $resultDetails->fetchObject()) {
             $wol->look_config_wol($item->IPADDRESS, $item->MACADDR);
              $msg .= "<br>" . $wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS;
          }
@@ -152,7 +152,7 @@
                          $sql = "select ivalue as ID,tvalue as NAME from config where name like 'ACCOUNT_VALUE_%s' order by 2";
                          $arg = $field_of_accountinfo['LIST_NAME'][$id] . "%";
                          $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-                         while ($val = mysqli_fetch_array($result)) {
+                         while ($val = $result->fetch(PDO::FETCH_ASSOC)) {
                              $tab_typ_champ[$i]['DEFAULT_VALUE'][$val['ID']] = $val['NAME'];
                          }
                          $tab_typ_champ[$i]['COMMENT_AFTER'] = "</td><td><input type='checkbox' name='check" . $truename . "' id='check" . $truename . "' " . (isset($protectedPost['check' . $truename]) ? " checked " : "") . ">";
@@ -177,7 +177,7 @@
  									from download_available d_a, download_enable d_e
  									where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
              $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
-             while ($val = mysqli_fetch_array($resultDetails)) {
+             while ($val = $resultDetails->fetch(PDO::FETCH_ASSOC)) {
                  $List[$val["fileid"]] = $val["name"];
              }
              $select = show_modif($List, 'pack_list', 2, $form_name);
@@ -194,7 +194,7 @@
                  $tab_result = mysql2_prepare($sql, $arg, $list_id);
                  $sql = $tab_result['SQL'] . " group by tvalue";
                  $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $tab_result['ARG']);
-                 while ($item = mysqli_fetch_object($result)) {
+                 while ($item = $result->fetchObject()) {
                      if ($item->tvalue == "") {
                          $value = $l->g(482);
                      } else {

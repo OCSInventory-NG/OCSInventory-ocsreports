@@ -146,7 +146,7 @@ foreach ($list_avail as $key => $value) {
     $sql = "select count(*) c from %s where SNMP_ID=%s";
     $arg = array($value, $systemid);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $valavail = mysqli_fetch_array($result);
+    $valavail = $result->fetch(PDO::FETCH_ASSOC);
     if ($valavail['c'] == 0) {
         unset($list_lbl[$key]);
     }

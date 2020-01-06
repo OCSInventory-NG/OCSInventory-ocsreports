@@ -112,11 +112,11 @@ if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']
     //vérification que le nom du champ n'existe pas pour les nouveaux champs
     if (trim($protectedPost['newfield']) != '') {
         $sql_verif = "SELECT count(*) c FROM config WHERE TVALUE = '%s' and NAME like '%s'";
-        //echo $sql_verif;
+
         $arg_verif = array($protectedPost['newfield'], "TAB_ACCOUNTAG_%");
         $res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
-        //echo $val_verif = mysqli_fetch_array( $res_verif );
-        $val_verif = mysqli_fetch_array($res_verif);
+
+        $val_verif = $res_verif->fetch(PDO::FETCH_ASSOC);
         if ($val_verif['c'] > 0) {
             $ERROR = $l->g(656);
         }
@@ -128,7 +128,7 @@ if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']
         $sql_new_value = "SELECT max(ivalue) max FROM config WHERE  NAME like '%s'";
         $arg_new_value = array("TAB_ACCOUNTAG_%");
         $res_new_value = mysql2_query_secure($sql_new_value, $_SESSION['OCS']["readServer"], $arg_new_value);
-        $val_new_value = mysqli_fetch_array($res_new_value);
+        $val_new_value = $res_new_value->fetch(PDO::FETCH_ASSOC);
         if ($val_new_value['max'] == "") {
             $val_new_value['max'] = 0;
         }

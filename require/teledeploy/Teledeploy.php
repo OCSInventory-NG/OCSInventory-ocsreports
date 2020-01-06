@@ -32,8 +32,8 @@ class Teledeploy
 
       $sql_document_root = "SELECT tvalue FROM config WHERE NAME='DOWNLOAD_PACK_DIR'";
 
-      $res_document_root = mysqli_query($_SESSION['OCS']["readServer"], $sql_document_root);
-      while ($val_document_root = mysqli_fetch_array($res_document_root)) {
+      $res_document_root = mysql2_query_secure($sql_document_root, $_SESSION['OCS']["readServer"]);
+      while ($val_document_root = $res_document_root->fetch(PDO::FETCH_ASSOC)) {
           $document_root = $val_document_root["tvalue"] . '/download/';
       }
       //echo $document_root;
@@ -55,7 +55,7 @@ class Teledeploy
       $arg_download = array($timestamp);
       $result = mysql2_query_secure($sql_download, $_SESSION['OCS']["readServer"], $arg_download);
 
-      while($val = mysqli_fetch_array($result)){
+      while($val = $result->fetch(PDO::FETCH_ASSOC)){
         $info_data['NAME_PACK'] = $val['NAME'];
         $info_data['OS'] = $val['OSNAME'];
         $info_data['COMMENT'] = $val['COMMENT'];

@@ -80,7 +80,7 @@ if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON') {
     unset($_GET);
 }
 /* * *************************************************** First installation checking ******************************************************** */
-if ((!is_readable(CONF_MYSQL)) || (!function_exists('session_start')) || (!function_exists('mysqli_connect'))) {
+if ((!is_readable(CONF_MYSQL)) || (!function_exists('session_start'))) {
     require('install.php');
     die();
 } else {
@@ -93,15 +93,15 @@ if (!defined("SERVER_READ") || !defined("DB_NAME") || !defined("SERVER_WRITE") |
     die();
 }
 
+require_once('require/pdo/PdoConnect.php');
+
 //connect to databases
-$link_write = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE);
-$link_read = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE);
-//p($link_write);
-if (is_object($link_write) && is_object($link_read)) {
-    $_SESSION['OCS']["writeServer"] = $link_write;
-    $_SESSION['OCS']["readServer"] = $link_read;
+$link_write = new PdoConnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE, DB_NAME);
+
+if (is_object($link_write)) {
+    $GLOBALS['PDO'] = $link_write;
 } else {
-    if ($link_write == "NO_DATABASE" || $link_read == "NO_DATABASE") {
+    if ($link_write->getInstance() === null) {
         require('install.php');
         die();
     }
@@ -109,9 +109,9 @@ if (is_object($link_write) && is_object($link_read)) {
     if (!is_object($link_write)) {
         $msg .= $link_write . "<br>";
     }
-    if (!is_object($link_read)) {
+    /*if (!is_object($link_read)) {
         $msg .= $link_read;
-    }
+    }*/
     html_header(true);
     msg_error($msg);
     require_once(FOOTER_HTML);
@@ -195,11 +195,12 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])) {
     $sql = "show tables from %s";
     $arg = DB_NAME;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    while ($item = mysqli_fetch_row($res)) {
+
+    foreach ($res as $item) {
         $sql = "SHOW COLUMNS FROM %s";
         $arg = $item[0];
         $res_column = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($item_column = mysqli_fetch_row($res_column)) {
+        foreach ($res_column as $item_column) {
 
             if ($item_column[0] == "HARDWARE_ID" && !isset($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]])) {
                 $_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]] = $item[0];

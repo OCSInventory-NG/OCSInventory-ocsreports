@@ -7,8 +7,8 @@ require_once('../require/cve/Cve.php');
 require_once('../require/config/include.php');
 require_once('../require/fichierConf.class.php');
 
-$_SESSION['OCS']["writeServer"] = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE, DB_NAME);
-$_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME);
+/*$_SESSION['OCS']["writeServer"] = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE, DB_NAME);
+$_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME);*/
 
 $cve = new Cve();
 

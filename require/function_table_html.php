@@ -777,7 +777,7 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 				$entete2[$i++] = $colname->name;
 
 			$i = 0;
-			while ($item = mysqli_fetch_object($result)) {
+			while ($item = $result->fetchObject()) {
 				$j = 0;
 				while ($entete2[$j]) {
 					$data2[$i][$entete2[$j]] = $item->$entete2[$j];
@@ -1674,8 +1674,8 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 		}else{
 			$javascript="";
 		}
-
-		while($row = mysqli_fetch_assoc($resultDetails))
+		//error_log(print_r($resultDetails->fetch(PDO::FETCH_ASSOC),true));
+		while($row = $resultDetails->fetch(PDO::FETCH_ASSOC))
 		{
 			if (isset($tab_options['AS'])){
 				foreach($tab_options['AS'] as $k=>$v){
@@ -1939,9 +1939,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	if (isset($tab_options['REQUEST'])){
 		foreach ($tab_options['REQUEST'] as $field_name => $value){
 			$resultDetails = mysql2_query_secure($value, $_SESSION['OCS']["readServer"],$tab_options['ARG'][$field_name]);
-			while($item = mysqli_fetch_object($resultDetails)){
-				if ($item -> FIRST != "")
-				$tab_options['SHOW_ONLY'][$field_name][$item -> FIRST]=$item -> FIRST;
+			while($item = $resultDetails->fetchObject()){
+				if ($item->FIRST != "")
+				$tab_options['SHOW_ONLY'][$field_name][$item->FIRST]=$item->FIRST;
 			}
 		}
 	}
@@ -1968,7 +1968,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				$sql.= $limit;
 				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			}
-			while($item = mysqli_fetch_object($result)){
+			while($item = $result->fetchObject()){
 				if ($item->HARDWARE_ID != "")
 					$champs_index=$item->HARDWARE_ID;
 				elseif($item->FILEID != "")
@@ -2016,14 +2016,16 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		$_SESSION['OCS']['csv']['ARG'][$tab_options['table_name']]=$tab_options['ARG_SQL'];
 
 	$queryDetails=substr_replace(ltrim($queryDetails),"SELECT SQL_CALC_FOUND_ROWS ", 0 , 6);
-	if (isset($tab_options['ARG_SQL']))
+	//error_log(print_r($queryDetails,true));
+	if (isset($tab_options['ARG_SQL'])){
 		$resultDetails = mysql2_query_secure($queryDetails, $link,$tab_options['ARG_SQL']);
-	else
+		error_log(print_r($resultDetails->fetch(),true));
+	} else {
 		$resultDetails = mysql2_query_secure($queryDetails, $link);
-
-
+	}
+		
 	$rows = ajaxgestionresults($resultDetails,$list_fields,$tab_options);
-
+	
 	if (is_null($rows)){
 		$rows=0;
 	}
@@ -2033,7 +2035,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 	// Data set length after filtering
 	$resFilterLength = mysql2_query_secure("SELECT FOUND_ROWS()",$link);
-	$recordsFiltered = mysqli_fetch_row($resFilterLength);
+	$recordsFiltered = $resFilterLength->fetch();
 	$recordsFiltered=intval($recordsFiltered[0]);
 	if($rows === 0){
 		$recordsFiltered = 0;

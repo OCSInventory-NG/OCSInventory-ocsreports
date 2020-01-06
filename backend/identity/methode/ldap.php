@@ -70,7 +70,7 @@ mysqli_select_db($link_ocs, $db_ocs);
 $sql = "select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
 $arg = array("%CONEX%");
 $res = mysql2_query_secure($sql, $link_ocs, $arg);
-while ($item = mysqli_fetch_object($res)) {
+while ($item = $res->fetchObject()) {
     $config[$item->NAME] = $item->TVALUE;
 }
 
@@ -134,7 +134,7 @@ if ($f2_value != '') {
 //if defaultRole is define
 if (isset($defaultRole) && $defaultRole != '') {
     // if it doesn't exist, create the user record
-    if (!mysqli_fetch_object($resOp)) {
+    if (!$resOp->fetchObject()) {
 
         $reqInsert = "INSERT INTO operators (
             ID,
@@ -181,7 +181,7 @@ if (isset($defaultRole) && $defaultRole != '') {
     // select the main database
     mysqli_select_db($link_ocs, $db_ocs);
     $resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
-    $rowOp = mysqli_fetch_object($resOp);
+    $rowOp = $resOp->fetchObject();
     if (isset($rowOp->accesslvl)) {
         $lvluser = $rowOp->accesslvl;
 
@@ -202,7 +202,7 @@ if (isset($defaultRole) && $defaultRole != '') {
             $sql = "select tag from tags where login='%s'";
             $arg = array($_SESSION['OCS']["loggeduser"]);
             $res = mysql2_query_secure($sql, $link_ocs, $arg);
-            while ($row = mysqli_fetch_object($res)) {
+            while ($row = $res->fetchObject()) {
                 // Check for wildcard
                 if (strpos($row->tag, '*') !== false || strpos($row->tag,'?') !== false) {
                     $wildcard = true;
@@ -211,7 +211,7 @@ if (isset($defaultRole) && $defaultRole != '') {
                     if($wildcard === true){
                         $sql_wildcard = "SELECT TAG FROM `accountinfo` WHERE TAG LIKE '$row->tag' GROUP BY TAG";
                         $res_wildcard = mysql2_query_secure($sql_wildcard, $link_ocs);
-                        while ($row_wildcard = mysqli_fetch_object($res_wildcard)) {
+                        while ($row_wildcard = $res_wildcard->fetchObject()) {
                             $list_tag[$row_wildcard->TAG] = $row_wildcard->TAG;
                         }
 

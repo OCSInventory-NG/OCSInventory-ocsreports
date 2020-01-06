@@ -87,7 +87,7 @@ require 'require/function_admininfo.php';
     private function retrieveAccountInfosConfig(){
         $accountInfosConfig = mysql2_query_secure($this->accountInfoConfigQuery, $this->dbObject);
 
-        while ($accountInfos = mysqli_fetch_array($accountInfosConfig)) {
+        while ($accountInfos = $accountInfosConfig->fetch(PDO::FETCH_ASSOC)) {
 
             // Management for specific acc infos (TAG)
             if(in_array($accountInfos[$this->accountInfosStruct->nameacc], $this->specificAccountInfos)){
@@ -129,7 +129,7 @@ require 'require/function_admininfo.php';
         $arg = array($id[1]);
         $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
-        while ($type = mysqli_fetch_array($result)){
+        while ($type = $result->fetch(PDO::FETCH_ASSOC)){
           $info = $type['TYPE'];
         }
 
@@ -147,7 +147,7 @@ require 'require/function_admininfo.php';
         $arg = array($id[1]);
         $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
-        while ($type = mysqli_fetch_array($result)){
+        while ($type = $result->fetch(PDO::FETCH_ASSOC)){
           $info = 'ACCOUNT_VALUE_'.$type['NAME'];
         }
 

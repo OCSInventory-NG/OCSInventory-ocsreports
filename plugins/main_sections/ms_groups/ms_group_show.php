@@ -79,7 +79,7 @@ if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
     $sql_verif = "select workgroup from hardware where workgroup='GROUP_4_ALL' and ID='%s'";
     $arg = $systemid;
     $res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg);
-    $item_verif = mysqli_fetch_object($res_verif);
+    $item_verif = $res_verif->fetchObject();
     if ($item_verif == "") {
         die("FORBIDDEN");
     }
@@ -125,7 +125,7 @@ $queryMachine = "SELECT REQUEST,
 				  WHERE ID=%s AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 $arg = $systemid;
 $result = mysql2_query_secure($queryMachine, $_SESSION['OCS']["readServer"], $arg);
-$item = mysqli_fetch_object($result);
+$item = $result->fetchObject();
 
 if (!$item) {
     echo "<script language='javascript'>wait(0);</script>";
@@ -301,7 +301,7 @@ function form_action_group($systemid) {
     global $l;
     $reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=%s";
     $resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"], $systemid);
-    $valGrpStat = mysqli_fetch_array($resGrpStat);
+    $valGrpStat = $resGrpStat->fetch(PDO::FETCH_ASSOC);
     if (($valGrpStat['REQUEST'] == "" || $valGrpStat['REQUEST'] == null) && ($valGrpStat['XMLDEF'] == "" || $valGrpStat['XMLDEF'] == null)) {
         $arrayData = array(
             '0' => $l->g(818)
@@ -345,18 +345,18 @@ function print_computers_real($systemid) {
     $sql_group = "SELECT xmldef FROM groups WHERE hardware_id='%s'";
     $arg = $systemid;
     $resGroup = mysql2_query_secure($sql_group, $_SESSION['OCS']["readServer"], $arg);
-    $valGroup = mysqli_fetch_array($resGroup); //group old version
+    $valGroup = $resGroup->fetch(PDO::FETCH_ASSOC); //group old version
 
     if (!$valGroup["xmldef"]) {
         $sql_group = "SELECT request FROM groups WHERE hardware_id='%s'";
         $arg = $systemid;
         $resGroup = mysql2_query_secure($sql_group, $_SESSION['OCS']["readServer"], $arg);
-        $valGroup = mysqli_fetch_array($resGroup);
+        $valGroup = $resGroup->fetch(PDO::FETCH_ASSOC);
         $request = $valGroup["request"];
         $tab_id = array();
-        $result_value = mysqli_query($_SESSION['OCS']["readServer"], $request) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+        $result_value = mysql2_query_secure($request, $_SESSION['OCS']["readServer"]);
         $fied_id_name = mysqli_field_name($result_value, 0);
-        while ($value = mysqli_fetch_array($result_value)) {
+        while ($value = $result_value->fetch(PDO::FETCH_ASSOC)) {
             $tab_id[] = $value[$fied_id_name];
         }
     } else {
@@ -372,9 +372,9 @@ function print_computers_real($systemid) {
                 }
                 unset($tab_id);
             }
-            $result_value = mysqli_query($_SESSION['OCS']["readServer"], xml_decode($tab_list_sql[$i])) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+            $result_value = mysql2_query_secure(xml_decode($tab_list_sql[$i]), $_SESSION['OCS']["readServer"]);
 
-            while ($value = mysqli_fetch_array($result_value)) {
+            while ($value = $result_value->fetch(PDO::FETCH_ASSOC)) {
                 $tab_id[] = $value["ID"];
             }
             $i++;
@@ -428,7 +428,7 @@ function print_computers_cached($systemid) {
         $sql_mesMachines = "select hardware_id from accountinfo a where " . $_SESSION['OCS']["mesmachines"];
         $res_mesMachines = mysql2_query_secure($sql_mesMachines, $_SESSION['OCS']["readServer"]);
         $mesmachines = "(";
-        while ($item_mesMachines = mysqli_fetch_object($res_mesMachines)) {
+        while ($item_mesMachines = $res_mesMachines->fetchObject()) {
             $mesmachines .= $item_mesMachines->hardware_id . ",";
         }
         $mesmachines = "and e.hardware_id IN " . substr($mesmachines, 0, -1) . ")";
@@ -469,11 +469,11 @@ function print_perso($systemid) {
 
     $i = 0;
     $queryDetails = "SELECT * FROM devices WHERE hardware_id=$systemid";
-    $resultDetails = mysqli_query($_SESSION['OCS']["readServer"], $queryDetails) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+    $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
     $form_name = 'config_group';
     echo open_form($form_name, '', '', 'form-horizontal');
 
-    while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
+    while ($item = $resultDetails->fetch(PDO::FETCH_ASSOC)) {
         $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
         $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
     }

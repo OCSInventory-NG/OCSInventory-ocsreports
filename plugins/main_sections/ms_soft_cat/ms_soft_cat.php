@@ -98,9 +98,9 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
             $first_onglet = 2;
          }
          $reqDcatall = "DELETE FROM software_category_exp WHERE CATEGORY_ID = (SELECT ID FROM software_categories WHERE CATEGORY_NAME = '" . $list_cat[$protectedPost['SUP_CAT']] . "')";
-         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+         mysql2_query_secure($reqDcatall, $_SESSION['OCS']["writeServer"]);
         $reqDcat = "DELETE FROM software_categories WHERE CATEGORY_NAME ='" . $list_cat[$protectedPost['SUP_CAT']] . "'";
-        mysqli_query($_SESSION['OCS']["writeServer"], $reqDcat) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+        mysql2_query_secure($reqDcat, $_SESSION['OCS']["writeServer"]);
         unset($list_cat[$protectedPost['SUP_CAT']]);
         unset($protectedPost['SUP_CAT']);
      }
@@ -120,7 +120,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
     //delete regex
     if (is_defined($protectedPost['SUP_PROF'])) {
         $reqDreg = "DELETE FROM software_category_exp WHERE CATEGORY_ID ='" . $categorie_id[$list_cat[$protectedPost['onglet_soft']]] . "' AND ID = ".$protectedPost['SUP_PROF'];
-        mysqli_query($_SESSION['OCS']["writeServer"], $reqDreg) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+        mysql2_query_secure($reqDreg, $_SESSION['OCS']["writeServer"]);
         unset($list_cat[$protectedPost['SUP_PROF']]);
     }
 

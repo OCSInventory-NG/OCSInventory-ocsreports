@@ -36,7 +36,7 @@ class Saas
       $sql_verif = "SELECT * FROM saas_exp WHERE NAME = '%s' OR DNS_EXP = '%s'";
       $arg_verif = array($saasName, $dnsName);
       $result_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
-      $verif = mysqli_fetch_array($result_verif);
+      $verif = $result_verif->fetch(PDO::FETCH_ASSOC);
 
       if($verif == null) {
         $sql = "INSERT INTO `saas_exp` (`NAME`, `DNS_EXP`) VALUES ('%s', '%s')";

@@ -52,7 +52,7 @@ if (!is_array($info_account_id)) {
 
             $res_admin_info = mysql2_query_secure($sql_admin_info, $_SESSION['OCS']["readServer"], $arg_admin_info);
 
-            while ($val_admin_info = mysqli_fetch_array($res_admin_info)) {
+            while ($val_admin_info = $res_admin_info->fetch(PDO::FETCH_ASSOC)) {
                 if ($val_admin_info['NAME_ACCOUNTINFO']) {
                     $data_fields_account[$val_admin_info['NAME_ACCOUNTINFO']] = "";
                 } else {
@@ -119,7 +119,7 @@ if (!is_array($info_account_id)) {
         }
 
         $res_admin_info = mysql2_query_secure($sql_admin_info, $_SESSION['OCS']["readServer"], $arg_admin_info);
-        $num_row = mysqli_num_rows($res_admin_info);
+        $num_row = $res_admin_info->rowCount();
         $name_field = array();
         $tab_name = array();
         $type_field = array();
@@ -131,7 +131,7 @@ if (!is_array($info_account_id)) {
         $config['DDE'] = array();
 
         $nb_row = 1;
-        while ($val_admin_info = mysqli_fetch_array($res_admin_info)) {
+        while ($val_admin_info = $res_admin_info->fetch(PDO::FETCH_ASSOC)) {
             array_push($config['DDE'], $systemid);
             //if name_accountinfo is not null
             //column name in accountinfo table is name_accountinfo
@@ -259,7 +259,7 @@ if (!is_array($info_account_id)) {
             if($config['SELECT_DEFAULT'][$key] == 'YES'){
                 $sql_selected_data = "SELECT ".$value." FROM `accountinfo` WHERE `HARDWARE_ID` = ".$protectedGet['systemid'];
                 $result = mysql2_query_secure($sql_selected_data, $_SESSION['OCS']["readServer"]);
-                while ($admininfo_default_data = mysqli_fetch_array($result)) {
+                while ($admininfo_default_data = $result->fetch(PDO::FETCH_ASSOC)) {
                     $config['SELECTED_VALUE'][$key] = $admininfo_default_data[$value];
                 }
             }

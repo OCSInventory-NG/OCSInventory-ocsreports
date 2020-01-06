@@ -39,7 +39,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 $sql = "select id from cpus where hardware_id=%s";
 $arg = $systemid;
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-$val = mysqli_fetch_array($res);
+$val = $res->fetch(PDO::FETCH_ASSOC);
 if (isset($val['id'])) {
     $list_fields = array($l->g(64) => 'MANUFACTURER',
         $l->g(66) => 'TYPE',

@@ -43,7 +43,7 @@
           }
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-          while($item = mysqli_fetch_array($result)){
+          while($item = $result->fetch(PDO::FETCH_ASSOC)){
             if(strpos($item['USERAGENT'], 'unix') !== false){
                 $machine['unix'] = intval($item['nb']);
                 $machine['all'] = $machine['all'] + intval($item['nb']);
@@ -117,11 +117,11 @@
         //get OS's 
         $sql_os = "SELECT osname, count(osname) FROM `hardware` group by osname";
         $result_os = mysql2_query_secure($sql_os, $_SESSION['OCS']["readServer"]);
-        $oss = "<p style='font-size:32px; font-weight:bold;'>".mysqli_num_rows($result_os)."</p>";
+        $oss = "<p style='font-size:32px; font-weight:bold;'>".$result_os->rowCount()."</p>";
         //get softwares
         $sql = "SELECT name, count(name) FROM `softwares` group by name";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-        $softs = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_all_soft'>".mysqli_num_rows($result)."</a>";
+        $softs = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_all_soft'>".$result->rowCount()."</a>";
 
         $table .= '<table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-top:20px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
                     <tr>
@@ -155,7 +155,7 @@
             $arg = array($key);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
-            while($item = mysqli_fetch_array($result)){
+            while($item = $result->fetch(PDO::FETCH_ASSOC)){
               $category[$key][$value] = $item['nb'];
             }
           }
@@ -192,9 +192,9 @@
        global $l;
 
        $sql = "SELECT * FROM assets_categories";
-       $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+       $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-       while ($item_asset = mysqli_fetch_array($result)) {
+       while ($item_asset = $result->fetch(PDO::FETCH_ASSOC)) {
            $list_asset[$item_asset['ID']]['CATEGORY_NAME'] = $item_asset['CATEGORY_NAME'];
            $list_asset[$item_asset['ID']]['SQL_QUERY'] = $item_asset['SQL_QUERY'];
            $list_asset[$item_asset['ID']]['SQL_ARGS'] = $item_asset['SQL_ARGS'];
@@ -205,7 +205,7 @@
              $nb = [];
              $asset = explode(",", $list_asset[$key]['SQL_ARGS']);
              $result_computer = mysql2_query_secure($list_asset[$key]['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
-             while ($computer = mysqli_fetch_array($result_computer)) {
+             while ($computer = $result_computer->fetch(PDO::FETCH_ASSOC)) {
                  $nb[] = $computer['hardwareID'];
              }
              $nb_computer[$key][$list_asset[$key]['CATEGORY_NAME']] = count($nb);

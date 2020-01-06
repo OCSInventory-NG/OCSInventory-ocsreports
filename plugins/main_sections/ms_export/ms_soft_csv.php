@@ -104,7 +104,7 @@ if (isset($protectedGet['all_computers']) && isset($protectedGet['nb']) && is_nu
     $arg_liste_soft = $protectedGet['nb'];
     $result_liste_soft = mysql2_query_secure($sql_liste_soft, $_SESSION['OCS']["readServer"], $arg_liste_soft);
     $list_soft = "";
-    while ($item_liste_soft = mysqli_fetch_object($result_liste_soft)) {
+    while ($item_liste_soft = $result_liste_soft->fetchObject()) {
         $list_soft[] = $item_liste_soft->$info_name_soft["field_name_soft"];
     }
     $fields = array("a.tag" => $_SESSION['OCS']['TAG_LBL']['TAG'],
@@ -146,7 +146,7 @@ header("Content-Disposition: attachment; filename=\"export.csv\"");
 header("Content-Transfer-Encoding: binary");
 $result_search_soft = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
 
-while ($item_search_soft = mysqli_fetch_object($result_search_soft)) {
+while ($item_search_soft = $result_search_soft->fetchObject()) {
     foreach ($fields as $key => $values) {
         $trait = explode('.', $key);
         if (isset($trait[1])) {

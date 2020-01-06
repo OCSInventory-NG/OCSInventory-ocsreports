@@ -64,7 +64,7 @@ function max_order($table, $field) {
     $sql = "SELECT max(%s) as max_id FROM %s";
     $arg = array($field, $table);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $val = mysqli_fetch_array($result);
+    $val = $result->fetch(PDO::FETCH_ASSOC);
     return $val['max_id'] + 1;
 }
 
@@ -119,7 +119,7 @@ function del_accountinfo($id) {
     $sql_found_account_type = "SELECT account_type FROM accountinfo_config WHERE id = '%s'";
     $arg_found_account_type = $id;
     $result = mysql2_query_secure($sql_found_account_type, $_SESSION['OCS']["readServer"], $arg_found_account_type);
-    $val = mysqli_fetch_array($result);
+    $val = $result->fetch(PDO::FETCH_ASSOC);
     if ($val['account_type'] == "SNMP") {
         $table = "snmp_accountinfo";
     } elseif ($val['account_type'] == "COMPUTERS") {
@@ -162,7 +162,7 @@ function find_all_account_tab($tab_value, $onlyactiv = '', $first = '') {
     $arg_tab_account = $tab_value . '%';
 
     $result_tab_account = mysql2_query_secure($sql_tab_account, $_SESSION['OCS']["readServer"], $arg_tab_account);
-    while ($val_tab_account = mysqli_fetch_array($result_tab_account)) {
+    while ($val_tab_account = $result_tab_account->fetch(PDO::FETCH_ASSOC)) {
         if (!isset($array_tab_account['FIRST']) && $first != '') {
             $array_tab_account['FIRST'] = $val_tab_account['IVALUE'];
         }
@@ -221,9 +221,11 @@ function find_info_accountinfo($id = '', $type = '', $exclu_type = '') {
     }
 
     $result_info_account = mysql2_query_secure($sql_info_account, $_SESSION['OCS']["readServer"], $arg_info_account);
-    while ($val_info_account = mysqli_fetch_array($result_info_account)) {
+    while ($val_info_account = $result_info_account->fetch(PDO::FETCH_ASSOC)) {
         $array_info_account[$val_info_account['id']] = $val_info_account;
     }
+    //echo '<pre>' , var_dump($array_info_account) , '</pre>';
+
     return $array_info_account;
 }
 
@@ -238,7 +240,7 @@ function witch_field_more($account_type = '') {
     }
     $result_accountinfo = mysql2_query_secure($sql_accountinfo, $_SESSION['OCS']["readServer"]);
 
-    while ($item = mysqli_fetch_object($result_accountinfo)) {
+    while ($item = $result_accountinfo->fetchObject()) {
         $list_fields[$item->ID] = $item->COMMENT;
         $list_name[$item->ID] = $item->NAME;
         $list_type[$item->ID] = $item->TYPE;
@@ -287,7 +289,7 @@ function find_new_order($updown, $id, $type, $onglet) {
     $sql = "select ID,SHOW_ORDER from accountinfo_config where account_type='%s' and id_tab=%s order by show_order";
     $arg = array($type, $onglet);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    while ($item = mysqli_fetch_object($result)) {
+    while ($item = $result->fetchObject()) {
         $array_id[] = $item->ID;
         $array_order[] = $item->SHOW_ORDER;
     }
@@ -345,7 +347,7 @@ function dde_exist($name, $id = '', $type) {
             array_push($arg_verif, $id);
         }
         $res_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
-        $val_verif = mysqli_fetch_array($res_verif);
+        $val_verif = $res_verif->fetch(PDO::FETCH_ASSOC);
         //this name is already exist
         if ($val_verif['c'] > 0) {
             return $l->g(1067);
@@ -378,7 +380,7 @@ function admininfo_computer($id = "") {
     }
 
     $res_account_data = mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
-    $val_account_data = mysqli_fetch_array($res_account_data);
+    $val_account_data = $res_account_data->fetch(PDO::FETCH_ASSOC);
     if (is_array($val_account_data)) {
         return $val_account_data;
     } else {

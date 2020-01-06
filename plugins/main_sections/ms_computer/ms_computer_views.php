@@ -130,7 +130,7 @@ function show_computer_summary($computer) {
                 $sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";
                 $argMem = $computer->ID;
                 $resMem = mysql2_query_secure($sqlMem, $_SESSION['OCS']["readServer"], $argMem);
-                $valMem = mysqli_fetch_array($resMem);
+                $valMem = $resMem->fetch(PDO::FETCH_ASSOC);
 
                 if ($valMem["capa"] > 0) {
                     $memory = $valMem["capa"];
@@ -159,7 +159,7 @@ function show_computer_summary($computer) {
                 $sqlVM = "select vm.hardware_id,vm.vmtype, h.name from virtualmachines vm left join hardware h on vm.hardware_id=h.id where vm.uuid='%s' order by h.name DESC";
                 $argVM = $computer->UUID;
                 $resVM = mysql2_query_secure($sqlVM, $_SESSION['OCS']["readServer"], $argVM);
-                $valVM = mysqli_fetch_array($resVM);
+                $valVM = $resVM->fetch(PDO::FETCH_ASSOC);
                 $data[$key] = $valVM['vmtype'];
                 $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . $valVM['hardware_id'] . "'  target='_blank'><font color=red>" . $valVM['name'] . "</font></a>";
                 $link[$key] = true;
@@ -176,7 +176,7 @@ function show_computer_summary($computer) {
                 $sqlAsset = "SELECT CATEGORY_NAME FROM assets_categories LEFT JOIN hardware AS h ON h.CATEGORY_ID = assets_categories.ID WHERE h.ID = %s";
                 $argAsset = array($computer->ID);
                 $resAsset = mysql2_query_secure($sqlAsset, $_SESSION['OCS']["readServer"], $argAsset);
-                $asset = mysqli_fetch_array($resAsset);
+                $asset = $resAsset->fetch(PDO::FETCH_ASSOC);
                 $data[$key] = $asset['CATEGORY_NAME'];
             }
         }

@@ -40,7 +40,7 @@ function info_snmp($snmp_id) {
     $sql = "select * from snmp where id=%s";
     $arg = $snmp_id;
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $array['data']['snmp'] = mysqli_fetch_object($result);
+    $array['data']['snmp'] = $result->fetchObject();
     if ($array['data']['snmp']->ID == "") {
         return $l->g(837);
     } else {
@@ -48,7 +48,7 @@ function info_snmp($snmp_id) {
             $sql = "select * from %s where snmp_id=%s";
             $arg = array(strtolower($table), $snmp_id);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-            $array['data'][$table] = mysqli_fetch_object($result);
+            $array['data'][$table] = $result->fetchObject();
             if ($array['data'][$table] != '')
                 $array['lbl'] = $lbl;
         }
@@ -61,8 +61,8 @@ function subnet_name($systemid) {
         return false;
     $reqSub = "select NAME,NETID from subnet left join networks on networks.ipsubnet = subnet.netid
 				where  networks.status='Up' and hardware_id=" . $systemid;
-    $resSub = mysqli_query($_SESSION['OCS']["readServer"], $reqSub) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-    while ($valSub = mysqli_fetch_object($resSub)) {
+    $resSub = mysql2_query_secure($reqSub, $_SESSION['OCS']["readServer"]);
+    while ($valSub = $resSub->fetchObject()) {
 
         $returnVal[] = $valSub->NAME . "  (" . $valSub->NETID . ")";
     }
@@ -156,7 +156,7 @@ function admininfo_snmp($id = "") {
     }
 
     $res_account_data = mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
-    $val_account_data = mysqli_fetch_array($res_account_data);
+    $val_account_data = $res_account_data->fetch(PDO::FETCH_ASSOC);
     return $val_account_data;
 }
 

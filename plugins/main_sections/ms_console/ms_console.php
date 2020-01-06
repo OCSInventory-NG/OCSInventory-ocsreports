@@ -205,7 +205,7 @@ $sql_nb_mach .= " group by group_id";
 
 $querygroup .= " group by h.ID";
 $result = mysql2_query_secure($sql_nb_mach, $_SESSION['OCS']["readServer"]);
-while ($item = mysqli_fetch_object($result)) {
+while ($item = $result->fetchObject()) {
     //on force les valeurs du champ "nombre" à l'affichage
     $tab_options['VALUE']['NBRE'][$item->group_id] = $item->nb;
     $_SESSION['OCS']['VALUE_FIXED'][$tab_options['table_name']]['NBRE'][$item->group_id] = $item->nb;

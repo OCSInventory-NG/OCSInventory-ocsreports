@@ -41,7 +41,7 @@ if ($protectedPost['Valid_modif']) {
 $reqL = "SELECT content FROM deploy WHERE name='%s'";
 $arg = "label";
 $resL = mysql2_query_secure($reqL, $_SESSION['OCS']["readServer"], $arg);
-$val = mysqli_fetch_object($resL);
+$val = $resL->fetchObject();
 printEntete($l->g(263));
 $form_name = 'admin_info';
 echo open_form($form_name);

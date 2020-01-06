@@ -38,7 +38,7 @@ function info($GET, $post_systemid) {
         $querydeviceid = "SELECT ID FROM hardware WHERE deviceid='%s'";
         $argdevicedid = mb_strtoupper($GET['deviceid']);
         $resultdeviceid = mysql2_query_secure($querydeviceid, $_SESSION['OCS']["readServer"], $argdevicedid);
-        $item = mysqli_fetch_object($resultdeviceid);
+        $item = $resultdeviceid->fetchObject();
         $GET['systemid'] = $item->ID;
         //echo $GET['systemid'];
         if ($GET['systemid'] == "") {
@@ -51,7 +51,7 @@ function info($GET, $post_systemid) {
         $querydeviceid = "SELECT ID FROM hardware WHERE md5(deviceid)='%s'";
         $argdevicedid = ($GET['crypt']);
         $resultdeviceid = mysql2_query_secure($querydeviceid, $_SESSION['OCS']["readServer"], $argdevicedid);
-        $item = mysqli_fetch_object($resultdeviceid);
+        $item = $resultdeviceid->fetchObject();
         $GET['systemid'] = $item->ID;
         //echo $GET['systemid'];
         if ($GET['systemid'] == "") {
@@ -76,8 +76,8 @@ function info($GET, $post_systemid) {
             and ! isset($GET['crypt'])) {
         $querydeviceid .= " and (" . $_SESSION['OCS']['mesmachines'] . " or a.tag is null or a.tag='')";
     }
-    $resultdeviceid = mysqli_query($_SESSION['OCS']["readServer"], $querydeviceid) or mysqli_error($_SESSION['OCS']["readServer"]);
-    $item = mysqli_fetch_object($resultdeviceid);
+    $resultdeviceid = mysql2_query_secure($querydeviceid, $_SESSION['OCS']["readServer"]);
+    $item = $resultdeviceid->fetchObject();
     if ($item->ID == "") {
         return $l->g(837);
     }
@@ -90,8 +90,8 @@ function subnet_name($systemid) {
     }
     $reqSub = "select NAME,NETID from subnet left join networks on networks.ipsubnet = subnet.netid
 				where  networks.status='Up' and hardware_id=" . $systemid;
-    $resSub = mysqli_query($_SESSION['OCS']["readServer"], $reqSub) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-    while ($valSub = mysqli_fetch_object($resSub)) {
+    $resSub = sql_verif($_SESSION['OCS']["readServer"], $reqSub) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+    while ($valSub = $resSub->fetchObject()) {
 
         $returnVal[] = $valSub->NAME . "  (" . $valSub->NETID . ")";
     }
@@ -154,7 +154,7 @@ function show_packages($systemid, $page = "ms_computer") {
 
     $arg_query = array($systemid, $l->g(1129), $l->g(1129), $systemid);
     $resDeploy = mysql2_query_secure($query, $_SESSION['OCS']["readServer"], $arg_query);
-    if (mysqli_num_rows($resDeploy) > 0) {
+    if ($resDeploy->rowCount() > 0) {
         
     print_item_header($l->g(481));
 
@@ -174,7 +174,7 @@ function show_packages($systemid, $page = "ms_computer") {
                       <tbody>
         <?php 
         
-        while ($valDeploy = mysqli_fetch_array($resDeploy)) {
+        while ($valDeploy = $resDeploy->fetch(PDO::FETCH_ASSOC)) {
             $ii++;
             $td3 = $ii % 2 == 0 ? $td2 : $td4;
             if ((strpos($valDeploy["comment"], "[VISIBLE=1]")
@@ -299,7 +299,7 @@ function checkForComputerPackagesAction(){
                             and (tvalue like '%s' or tvalue like '%s') ";
         $arg = array($id_pack_affect, $protectedGet['systemid'], "DOWNLOAD", "ERR_%", "EXIT_CODE%");
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        $val = mysqli_fetch_array($res);
+        $val = $res->fetch(PDO::FETCH_ASSOC);
         if (isset($val['name'])) {
             $tab_typ_champ[0]['INPUT_NAME'] = "MOTIF";
             $tab_typ_champ[0]['INPUT_TYPE'] = 1;
