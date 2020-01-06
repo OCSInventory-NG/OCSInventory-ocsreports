@@ -80,7 +80,7 @@ if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON') {
     unset($_GET);
 }
 /* * *************************************************** First installation checking ******************************************************** */
-if ((!is_readable(CONF_MYSQL)) || (!function_exists('session_start')) || (!function_exists('mysqli_connect'))) {
+if ((!is_readable(CONF_MYSQL)) || (!function_exists('session_start')) || (!function_exists('mysqli_real_connect'))) {
     require('install.php');
     die();
 } else {
@@ -94,9 +94,10 @@ if (!defined("SERVER_READ") || !defined("DB_NAME") || !defined("SERVER_WRITE") |
 }
 
 //connect to databases
-$link_write = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE);
-$link_read = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE);
+$link_write = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT);
+$link_read = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT);
 //p($link_write);
+
 if (is_object($link_write) && is_object($link_read)) {
     $_SESSION['OCS']["writeServer"] = $link_write;
     $_SESSION['OCS']["readServer"] = $link_read;

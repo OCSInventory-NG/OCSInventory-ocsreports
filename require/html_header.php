@@ -137,10 +137,32 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
         try {
             // First sql check has been done
             $_SESSION['OCS']['defaultsql_checked'] = true;
-            $link_read = mysqli_connect(SERVER_READ, DFT_DB_CMPT, DFT_DB_PSWD);
-            $link_write = mysqli_connect(SERVER_WRITE, DFT_DB_CMPT, DFT_DB_PSWD);
-            mysqli_select_db($link_read, DB_NAME);
-            mysqli_select_db($link_write, DB_NAME);
+
+            $dbc = mysqli_init();
+            if(ENABLE_SSL == "1") {
+                $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+                $dbc->ssl_set(SSL_KEY, SSL_CERT, CA_CERT, NULL, NULL);
+                if(SSL_MODE == "MYSQLI_CLIENT_SSL") {
+                    $connect = MYSQLI_CLIENT_SSL;
+                } elseif(SSL_MODE == "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT") {
+                    $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+                }
+            } else {
+                $connect = NULL;
+            }
+            $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
+            $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+
+            $link = mysqli_real_connect($dbc, SERVER_READ, COMPTE_BASE, PSWD_BASE, NULL, 3306, NULL, $connect);
+
+            if($link) {
+                $link = $dbc;
+            }
+
+            $link_read = $link;
+            $link_write = $link;
+            $link_read->select_db(DB_NAME);
+            $link_write->select_db(DB_NAME);
 
             // Can connect trigger sessions error
             $_SESSION['OCS']['defaultsql_error'] = true;

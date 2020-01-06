@@ -153,25 +153,41 @@ function prepare_sql_tab($list_fields, $explu = array(), $distinct = false) {
     return array('SQL' => substr($begin_sql, 0, -2) . " ", 'ARG' => $begin_arg);
 }
 
-function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME) {
+function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME, $sslkey = SSL_KEY, $sslcert = SSL_CERT, $cacert = CA_CERT, $sslmode = SSL_MODE, $enablessl = ENABLE_SSL) {
     error_reporting(E_ALL & ~E_NOTICE);
     mysqli_report(MYSQLI_REPORT_STRICT);
     //$link is ok?
     try {
-        $link = mysqli_connect($server, $compte_base, $pswd_base);
+        $dbc = mysqli_init();
+        if($enablessl == "1") {
+            $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+            $dbc->ssl_set($sslkey, $sslcert, $cacert, NULL, NULL);
+            if($sslmode == "MYSQLI_CLIENT_SSL") {
+                $connect = MYSQLI_CLIENT_SSL;
+            } elseif($sslmode == "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT") {
+                $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+            }
+        } else {
+            $connect = NULL;
+        }
+
+        $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
+        $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+
+        $link = mysqli_real_connect($dbc, $server, $compte_base, $pswd_base, NULL, 3306, NULL, $connect);
+
+        if($link) {
+            $link = $dbc;
+        }
     } catch (Exception $e) {
         if (mysqli_connect_errno()) {
             return "ERROR: MySql connection problem " . $e->getCode() . "<br>" . $e->getMessage();
         }
     }
     //database is ok?
-    if (!mysqli_select_db($link, $db)) {
+    if (!$link->select_db($db)) {
         return "NO_DATABASE";
     }
-    //force UTF-8
-    mysqli_query($link, "SET NAMES 'utf8'");
-    //sql_mode => not strict
-    mysqli_query($link, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
     return $link;
 }
@@ -750,7 +766,7 @@ function check_requirements(){
         $msg_lbl['error'][] = $l->g(2035);
     }
     //msg= no mysqli_connect function
-    if (!function_exists('mysqli_connect')) {
+    if (!function_exists('mysqli_real_connect')) {
         $msg_lbl['error'][] = $l->g(2037);
     }
     if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL_DIR))) {
