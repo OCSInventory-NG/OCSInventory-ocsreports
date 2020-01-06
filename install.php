@@ -292,7 +292,7 @@ if (is_readable(CONF_MYSQL)) {
 //show first form
 $form_name = 'fsub';
 $name_field = array("name", "pass", "database", "host", "enablessl", "sslmode", "sslkey", "sslcert", "cacert");
-$tab_name = array($l->g(247) . ": ", $l->g(248) . ": ", $l->g(1233) . ":", $l->g(250) . ":", "Enable SSL:", "SSL Mode:", "SSL Key:", "SSL cert:", "CA cert:");
+$tab_name = array($l->g(247) . ": ", $l->g(248) . ": ", $l->g(1233) . ":", $l->g(250) . ":", $l->g(9102) . ":", $l->g(9103) . ":", $l->g(9100) . ":", $l->g(9101) . ":", $l->g(9104) . ":");
 $type_field = array(0, 4, 0, 0, 2, 2, 0, 0, 0);
 if (isset($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"])) {
     $value_field = array($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"], $valenablessl, $valsslmode, $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"]);
