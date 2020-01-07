@@ -1498,7 +1498,7 @@
 2124 Deleted packages
 2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
 2126 Assets categorization
-2127 The current multi search query will be used as an asset categorization crtieria.
+2127 The current multi search query will be used as an asset categorization criteria.
 2128 Are you sure ?
 2129 Back to multi search
 2130 Assets categories
@@ -1509,6 +1509,11 @@
 2135 No machine has been inventoried
 2136 Update
 2137 Choose a new file if you want to modify the old one
+2138 Save my search
+2139 The current multi search query will be saved. You will can retrieve
+2140 Use a saved search
+2141 Saved search
+2142 Create search
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

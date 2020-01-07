@@ -143,8 +143,9 @@ if($protectedPost['onglet'] == "ALL"){
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] =  $sql_fin['ARG'];
         }
-        $list_fields = array('name' => 'NAME',
-             $l->g(388) => 'sc.CATEGORY_NAME',
+	$list_fields = array('name' => 'NAME',
+		'TEST' => "VERSION",
+         	$l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
