@@ -79,7 +79,6 @@ if($values['ivalue']['ADVANCE_CONFIGURATION']){
   $def_onglets['REDISTRIB'] = $l->g(628); //redistribution servers
   $def_onglets['INV_FILE'] = $l->g(734); //Inventory file
   $def_onglets['FILTER'] = $l->g(735); //Filter
-  $def_onglets['WEBSERVICES'] = $l->g(760); //Webservice
   $def_onglets['CNX'] = $l->g(1108); //connexion
   $def_onglets['VULN'] = $l->g(1460); //cve-search integration
 }
@@ -122,9 +121,6 @@ switch ($protectedPost['onglet']) {
         break;
     case 'FILTER':
         pagefilter();
-        break;
-    case 'WEBSERVICES':
-        pagewebservice();
         break;
     case 'SNMP':
         pagesnmp();

@@ -884,19 +884,6 @@ function pagefilter() {
     ligne('INVENTORY_FILTER_ON', $l->g(757), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_FILTER_ON']));
 }
 
-function pagewebservice() {
-    global $l, $numeric, $sup1;
-    //what ligne we need?
-    $champs = array('WEB_SERVICE_ENABLED' => 'WEB_SERVICE_ENABLED',
-        'WEB_SERVICE_RESULTS_LIMIT' => 'WEB_SERVICE_RESULTS_LIMIT',
-        'WEB_SERVICE_PRIV_MODS_CONF' => 'WEB_SERVICE_PRIV_MODS_CONF');
-    $values = look_config_default_values($champs);
-    //TODO Remove size
-    ligne('WEB_SERVICE_ENABLED', $l->g(761), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WEB_SERVICE_ENABLED']), '', "readonly");
-    ligne('WEB_SERVICE_RESULTS_LIMIT', $l->g(762), 'input', array('VALUE' => $values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'], 'END' => $l->g(511), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly", $sup1);
-    ligne('WEB_SERVICE_PRIV_MODS_CONF', $l->g(763), 'input', array('VALUE' => $values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "readonly");
-}
-
 function pageVulnerability() {
     global $l, $numeric, $sup1;
 
