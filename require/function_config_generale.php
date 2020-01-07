@@ -373,7 +373,7 @@ function update_default_value($POST) {
         'CONEX_LDAP_CHECK_FIELD2_ROLE',
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
-        'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT', 'OCS_SERVER_ADDRESS',
+        'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
         'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY');
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
@@ -973,14 +973,6 @@ function pagesnmp() {
     ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP']));
     ligne('SNMP_INVENTORY_DIFF', $l->g(1214), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP_INVENTORY_DIFF']));
     ligne('SNMP_MIB_DIRECTORY', $l->g(9010), 'input', array('VALUE' => $values['tvalue']['SNMP_MIB_DIRECTORY'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-}
-
-function pagesplugin() {
-    $champs = array('OCS_SERVER_ADDRESS' => 'OCS_SERVER_ADDRESS');
-    $values = look_config_default_values($champs);
-
-    ligne('OCS_SERVER_ADDRESS', 'Give your ocs server ip address', 'input', array('VALUE' => $values['tvalue']['OCS_SERVER_ADDRESS'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-
 }
 
 function pageswol() {

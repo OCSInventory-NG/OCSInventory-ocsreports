@@ -34,7 +34,6 @@ $def_onglets['REGISTRY'] = $l->g(211); //Registry
 $def_onglets['GUI'] = $l->g(84); //GUI
 $def_onglets['SNMP'] = $l->g(1136); //SNMP
 $def_onglets['WOL'] = $l->g(1279); //WOL
-$def_onglets['PLUGINSCONF'] = $l->g(6000); //Plugins Configuration
 
 if (DEV_OPTION) {
     $def_onglets['DEV'] = $l->g(1302);
@@ -132,9 +131,6 @@ switch ($protectedPost['onglet']) {
         break;
     case 'DEV':
         pagesdev();
-        break;
-    case 'PLUGINSCONF':
-        pagesplugin();
         break;
     case 'WOL':
         pageswol();
