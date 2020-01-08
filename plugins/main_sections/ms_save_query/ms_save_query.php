@@ -20,11 +20,15 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
+require_once('require/saveQuery/SaveQuery.php');
+
+$saveQuery = new SaveQuery();
+
+if(isset($protectedPost['saved_search']) && $protectedPost['saved_search'] != "0") {
+    $search_info = $saveQuery->get_search_info($protectedPost['saved_search']);
+}
 
 if(isset($protectedPost['query_name'])){
-
-    $sqlQuery = "INSERT INTO `save_query`(`QUERY_NAME`, `DESCRIPTION`, `PARAMETERS`) VALUES ('%s','%s','%s')";
-    $sqlArgs = [];
 
     $multiSearchParameters = serialize($_SESSION['OCS']['multi_search']);
 
@@ -32,9 +36,20 @@ if(isset($protectedPost['query_name'])){
     $sqlArgs[] = addslashes($protectedPost['query_description']);
     $sqlArgs[] = $multiSearchParameters;
 
-    mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArgs);
+    if($protectedPost['id_search'] == "") {
+        $verif = $saveQuery->create_search($sqlArgs);
+    } else {
+        $sqlArgs[] = $protectedPost['id_search'];
+        $verif = $saveQuery->update_search($sqlArgs);
+    }
+    
 
-    msg_success($l->g(2143));
+    if(!$verif) {
+        msg_error($l->g(344));
+    } else {
+        msg_success($l->g(2143));
+    }
+    
     ?>
     <div class="row">
         <div class="col-sm-12">
@@ -48,6 +63,8 @@ if(isset($protectedPost['query_name'])){
     <?php
 
 } else {
+    $query = $saveQuery->get_search_name();
+
     echo open_form('save_query', '', '', '');
     ?>
     <div class="row">
@@ -60,18 +77,42 @@ if(isset($protectedPost['query_name'])){
         <div class="col-sm-12">
             <div class="container">
                 <div class="row">
-                    <?php   formGroup('text','query_name',$l->g(49),'','','','','','','',''); ?>
+                    <?php   formGroup('text','query_name',$l->g(49),'','',$search_info['NAME'],'','','','',''); ?>
                 </div>
                 <br/>
                 <div class="row">
-                    <?php   formGroup('text','query_description',$l->g(53),'','','','','','','',''); ?>
+                    <?php   formGroup('text','query_description',$l->g(53),'','',$search_info['DESCRIPTION'],'','','','',''); ?>
                 </div>
+                <input type="hidden" id="id_search" name= "id_search" value="<?php echo $search_info['ID'] ?>">
                 <br/>
-                <a onClick="$('#save_query').submit();">
+                <a onClick="verif_champ_name('save_query', 'query_name');">
                     <button type="button" class="btn btn-success"><?php echo $l->g(455) ?></button>
                 </a>
                 <a href="?function=visu_search">
                     <button type="button" class="btn btn-danger"><?php echo $l->g(454) ?></button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <?php
+    echo close_form();
+
+    echo open_form('update_query', '', '', '');
+    ?>
+    <br/><hr><br/>
+    <div class="row">
+        <div class="col-md-12">
+            <h2><?php echo $l->g(2144) ?></h2>
+        </div>
+        <div class="col-sm-12">
+            <div class="container">
+                <br/>
+                <div class="row">
+                    <?php   formGroup('select','saved_search',$l->g(2141),'','',$protectedPost['saved_search'],'',$query,$query,'',''); ?>
+                </div>
+                <br/>
+                <a onClick="$('#update_query').submit();">
+                    <button type="button" class="btn btn-success"><?php echo $l->g(455) ?></button>
                 </a>
             </div>
         </div>
