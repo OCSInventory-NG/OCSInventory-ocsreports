@@ -34,7 +34,7 @@ if(isset($protectedPost['query_name'])){
 
     mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArgs);
 
-    msg_success($l->g(388)." ".$l->g(234));
+    msg_success($l->g(2143));
     ?>
     <div class="row">
         <div class="col-sm-12">
@@ -42,28 +42,29 @@ if(isset($protectedPost['query_name'])){
                 <a href="?function=visu_search">
                     <button type="button" class="btn btn-info"><?php echo $l->g(2129) ?></button>
                 </a>
+            </div>
         </div>
     </div>
     <?php
 
-}else{
-
-    msg_info($l->g(901));
+} else {
     echo open_form('save_query', '', '', '');
     ?>
     <div class="row">
         <div class="col-md-12">
-            <h2><?php echo $l->g(2126) ?></h2>
-            <div class="panel panel-info">
-                <div class="panel-heading"><?php echo $l->g(2138) ?></div>
+            <h2><?php echo $l->g(2138) ?></h2>
+            <div class="panel panel-default col-md-6 col-md-offset-3" style="width:50%;">
                 <div class="panel-body"><?php echo $l->g(2139) ?></div>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="container">
                 <div class="row">
-                    <?php   formGroup('text','query_name',$l->g(49),'','','','','','','','');
-                            formGroup('text','query_description',$l->g(53),'','','','','','','',''); ?>
+                    <?php   formGroup('text','query_name',$l->g(49),'','','','','','','',''); ?>
+                </div>
+                <br/>
+                <div class="row">
+                    <?php   formGroup('text','query_description',$l->g(53),'','','','','','','',''); ?>
                 </div>
                 <br/>
                 <a onClick="$('#save_query').submit();">
