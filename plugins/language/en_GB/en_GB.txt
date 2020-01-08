@@ -1515,6 +1515,7 @@
 2141 Saved searches
 2142 Create a search
 2143 Search was successfully saved
+2144 Update an existing saved search
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]

@@ -1513,6 +1513,7 @@
 2141 Recherches sauvegardées
 2142 Créer une recherche
 2143 La recherche a été sauvegardée
+2144 Mettre à jour une recherche existante
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
