@@ -994,12 +994,18 @@
     public function link_multi($fields, $value, $option = ""){
         switch($fields){
           case 'allsoft':
-                $_SESSION['OCS']['multi_search'] = array();
-                $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
-                    'fields' => 'NAME',
-                    'value' => $value,
-                    'operator' => 'EQUAL',
-                ];
+            $value = explode(";", $value);
+            $_SESSION['OCS']['multi_search'] = array();
+            $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
+                'fields' => 'NAME',
+                'value' => $value[0],
+                'operator' => 'EQUAL',
+            ];
+            $_SESSION['OCS']['multi_search']['softwares']['allsoftversion'] = [
+              'fields' => 'VERSION',
+              'value' => $value[1],
+              'operator' => 'EQUAL',
+            ];
             break;
 
           case 'ipdiscover1':
