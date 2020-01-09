@@ -130,7 +130,7 @@ if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NB
 
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
-    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.HARDWARE_ID)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -166,7 +166,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $champs = array('DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     $values = look_config_default_values($champs);
 
-    $sql['SQL'] = 'SELECT *, count(CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -202,7 +202,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
 /****************************************** SOFTWARE PER CATEGORY ******************************************/
 else {
-    $sql['SQL'] = 'SELECT *, count(CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
