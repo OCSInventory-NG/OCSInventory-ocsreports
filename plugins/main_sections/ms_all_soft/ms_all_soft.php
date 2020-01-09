@@ -130,7 +130,7 @@ if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NB
 
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
-    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.name, s.HARDWARE_ID)) as nb, s.name id, sc.CATEGORY_NAME FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -138,13 +138,14 @@ if($protectedPost['onglet'] == "ALL"){
     }
 
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME";
+        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME, s.VERSION)";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] =  $sql_fin['ARG'];
         }
         $list_fields = array('name' => 'NAME',
-             $l->g(388) => 'sc.CATEGORY_NAME',
+            $l->g(7003) => 's.VERSION',
+            $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
@@ -165,7 +166,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $champs = array('DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     $values = look_config_default_values($champs);
 
-    $sql['SQL'] = 'SELECT *, count(s.name) as nb, s.name id, sc.CATEGORY_NAME FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -176,13 +177,14 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
     $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME";
+        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME, s.VERSION)";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
         $list_fields = array('name' => 'NAME',
-             $l->g(388) => 'sc.CATEGORY_NAME',
+            $l->g(7003) => 's.VERSION',
+            $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
@@ -200,7 +202,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
 /****************************************** SOFTWARE PER CATEGORY ******************************************/
 else {
-    $sql['SQL'] = 'SELECT *, count(s.name) as nb, s.name id, sc.CATEGORY_NAME FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -211,13 +213,14 @@ else {
 
     $sql['ARG'] = array($protectedPost['onglet']);
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME";
+        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME, s.VERSION)";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
         $list_fields = array('name' => 'NAME',
-             $l->g(388) => 'sc.CATEGORY_NAME',
+            $l->g(7003) => 's.VERSION',
+            $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
         $default_fields = $list_fields;
