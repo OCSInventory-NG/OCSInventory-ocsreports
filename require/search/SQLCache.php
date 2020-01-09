@@ -49,7 +49,8 @@
      * @return string
      */
     public function generateCacheSql($sessData){
-
+        global $l;
+        
         $i = 0;
         $p = 0;
 
