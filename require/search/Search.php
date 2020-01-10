@@ -151,6 +151,7 @@
      * @param DatabaseSearch $databaseSearch
      * @param AccountinfoSearch $accountinfoSearch
      * @param GroupSearch $groupSearch
+     * @param SQLCache $sqlCache
      */
     function __construct($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch)
     {
@@ -845,146 +846,6 @@
     }
 
     /**
-     * Create sql for dynamic group
-     * @param  Array $values
-     * @return String
-     */
-    public function create_sql_cache($values){
-
-        $cache_sql = "SELECT DISTINCT hardware.ID FROM hardware ";
-        $i =0;
-        $belong = [];
-        foreach ($values as $key=>$value){
-
-            if($key == self::GROUP_TABLE){
-                $belong['table'] = 'hardware';
-                $belong['field'] = 'ID';
-            }
-           foreach ($value as $table => $field) {
-               $i++;
-               $this->values_cache_sql[$key][$table] = $field;
-               if($key != 'hardware'){
-                 if(!array_key_exists($key, $this->multipleFieldsSearchCache)){
-                     $this->multipleFieldsSearchCache[$key] = 1;
-                 }else{
-                     $this->multipleFieldsSearchCache[$key] += 1;
-                 }
-                 if( $this->multipleFieldsSearchCache[$key] == 1 ){
-                     $cache_sql .= "INNER JOIN ".$key." on hardware.id = ".$key.".hardware_id ";
-                 }
-                 if($key == "download_history") {
-                     // Generate union
-                     $cache_sql .= "INNER JOIN download_available on download_available.FILEID = $key.PKG_ID ";
-                 }
-
-               }
-           }
-        }
-
-        $cache_sql .= "WHERE";
-
-        $ind=0;
-        foreach ($values as $index => $value) {
-          foreach($value as $key => $compar){
-            if($compar['comparator'] != null){
-                $operator[] = $compar['comparator'];
-            }elseif($ind != 0 && $compar['comparator'] == null){
-                $operator[] = "AND";
-            }else{
-                $operator[] = "";
-            }
-            $ind++;
-          }
-        }
-
-        $p=0;
-        foreach ($this->values_cache_sql as $table => $value){
-
-            $isSameColumn = [];
-            $columnName = [];
-
-            foreach ($value as $id => $field) {
-                $columnName[$id] = $field['fields'];
-            }
-
-           foreach ($value as $key => $values) {
-
-             $open="";
-             $close="";
-
-             $this->getOperatorSign($values);
-
-             foreach(array_count_values($columnName) as $name => $nb){
-               if($nb > 1){
-                 $isSameColumn[$tableName] = $name;
-               }
-             }
-
-             if($p == 0 && $operator[$p+1] == 'OR'){
-                 $open = "(";
-             }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
-                 $close=")";
-             }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
-                 $open = "(";
-             }
-
-             if(!empty($isSameColumn)){
-               if($values['operator'] != "IS NULL"){
-                  if ($table != DatabaseSearch::COMPUTER_DEF_TABLE){
-                    $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
-                  }else{
-                    if($values['operator'] == "MORETHANXDAY" || $values['operator'] == "LESSTHANXDAY") {
-                      if($values['operator'] == "MORETHANXDAY"){
-                        $op = "<";
-                      }else{
-                        $op = ">";
-                      }
-                      $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE ".$table.".".$values['fields']." ".$op." NOW() - INTERVAL ".$values['value']." DAY)$close ";
-                    } else {
-                    $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
-                    }
-                  }
-               }else{
-                 if ($table != DatabaseSearch::COMPUTER_DEF_TABLE) {
-                   $cache_sql .= $values['comparator'] . " $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND " . $table . "." . $values['fields'] . " " . $values['operator'] . ")$close ";
-                 }else{
-                   $cache_sql .= $values['comparator'] . " $open EXISTS (SELECT 1 FROM $table WHERE " . $table . "." . $values['fields'] . " " . $values['operator'] . ")$close ";
-                 }
-               }
-             }elseif($values['operator'] == 'IS NULL' && empty($isSameColumn)){
-               $cache_sql .= $operator[$p]." $open ".$table.".".$values['fields']." ".$values['operator']."$close ";
-             } elseif($table == self::GROUP_TABLE){
-               $group_id = $this->groupSearch->get_all_id($values['value']);
-               $cache_sql .= $operator[$p]." $open hardware.ID ".$values['operator']." ($group_id)$close ";
-             }elseif($values['fields'] == 'CATEGORY_ID' || $values['fields'] == 'CATEGORY'){
-               $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." (".$values['value'].")$close ";
-             }else if(($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE') && $values['operator' != "MORETHANXDAY"] && $values['operator' != "LESSTHANXDAY"]){
-               global $l;
-               $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." str_to_date('".$values['value']."', '".$l->g(269)."')$close ";
-             }else{
-               if($table == "download_history" && $values['fields'] == "PKG_NAME"){
-                $cache_sql .= $operator[$p]." $open download_available.NAME ".$values['operator']." '".$values['value']."'$close ";
-               }else{
-                  if($values['operator'] == "MORETHANXDAY" || $values['operator'] == "LESSTHANXDAY") {
-                    if($values['operator'] == "MORETHANXDAY"){
-                      $op = "<";
-                    }else{
-                      $op = ">";
-                    }
-                    $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$op." NOW() - INTERVAL ".$values['value']." DAY$close ";
-                  } else {
-                    $cache_sql .= $operator[$p]." $open $table.".$values['fields']." ".$values['operator']." '".$values['value']."'$close ";
-                  } 
-               }
-             }
-             $p++;
-           }
-        }
-
-        return $cache_sql;
-    }
-
-    /**
      * [link_multi description]
      * @param  string $fields [description]
      * @param  string $value  [description]
@@ -1231,7 +1092,7 @@
     /**
      * Doesn't contain traitment
      */
-    private function contain($value, $tableName){
+    public function contain($value, $tableName){
       if($tableName != DatabaseSearch::COMPUTER_DEF_TABLE){
         $field = "HARDWARE_ID";
       }else{
@@ -1255,7 +1116,7 @@
     /**
      * Doesn't contain traitment if multi search
      */
-    private function containmulti($name, $value){
+    public function containmulti($name, $value){
       $excluID = null;
       $allID = null;
       foreach ($name as $table => $field){
