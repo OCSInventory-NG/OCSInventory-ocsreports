@@ -145,11 +145,26 @@
                 if(!empty($isSameColumn) && $isSameColumn[$tableName] == $value[Search::SESS_FIELDS] 
                             && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
                     if($value[Search::SESS_OPERATOR] != "IS NULL"){
-                        if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
+                        if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE&& $tableName != self::GROUP_TABLE && $value[Search::SESS_FIELDS] != 'CATEGORY_ID' && $value[Search::SESS_FIELDS] != 'CATEGORY' 
+                        && $value[Search::SESS_OPERATOR] != "NOT IN") {
                             $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
                                     SELECT 1 FROM $tableName 
                                     WHERE hardware.ID = $tableName.HARDWARE_ID 
                                     AND $tableName.$argFields $argOperators '$argValues')$close ";
+                        }elseif($tableName == self::GROUP_TABLE || $value[Search::SESS_FIELDS] == 'CATEGORY_ID' || $value[Search::SESS_FIELDS] == 'CATEGORY' 
+                        || $value[Search::SESS_OPERATOR] == "NOT IN"){
+                            if($tableName == self::GROUP_TABLE){
+                                $argValues = $this->search->groupSearch->get_all_id($value[Search::SESS_VALUES]);
+                                $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
+                                        SELECT 1 FROM $tableName 
+                                        WHERE hardware.ID = $tableName.HARDWARE_ID 
+                                        AND hardware.ID $argOperators ($argValues))$close ";
+                            }else{
+                                $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
+                                    SELECT 1 FROM $tableName 
+                                    WHERE hardware.ID = $tableName.HARDWARE_ID 
+                                    AND $tableName.$argFields $argOperators ($argValues))$close ";
+                            }    
                         }else{
                             if($value[Search::SESS_OPERATOR] == "MORETHANXDAY" || $value[Search::SESS_OPERATOR] == "LESSTHANXDAY") {
                                 if($value[Search::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
