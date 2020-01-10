@@ -35,6 +35,7 @@ require("require/search/TranslationSearch.php");
 require("require/search/GroupSearch.php");
 require("require/search/LegacySearch.php");
 require("require/search/Search.php");
+require("require/search/SQLCache.php");
 require_once('require/function_admininfo.php');
 
 // Get tables and columns infos
@@ -53,6 +54,8 @@ $groupSearch = new GroupSearch();
 //$legacySearch = new LegacySearch();
 
 $search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch);
+$sqlCache = new SQLCache($search);
+
 $_SESSION['OCS']['DATE_FORMAT_LANG'] = $l->g(1270);
 
 if (isset($protectedPost['table_select'])) {
@@ -274,7 +277,8 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$list_col_cant_del = $search->defaultFields;
 	$default_fields = $search->defaultFields;
 
-  	$_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $search->create_sql_cache($_SESSION['OCS']['multi_search']);
+  $_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $sqlCache->generateCacheSql($_SESSION['OCS']['multi_search']);
+
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';
 
