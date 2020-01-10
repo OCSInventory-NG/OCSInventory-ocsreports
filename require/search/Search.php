@@ -68,7 +68,7 @@
     private $translationSearch;
     private $databaseSearch;
     private $accountinfoSearch;
-    private $groupSearch;
+    public $groupSearch;
 
     /**
      * Excluded columns that won't be visible
@@ -406,7 +406,8 @@
               if(!empty($isSameColumn) && $isSameColumn[$tableName] == $value[self::SESS_FIELDS] 
                         && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
                 if($value[self::SESS_OPERATOR] != "IS NULL"){
-                  if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
+                  if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE && $tableName != self::GROUP_TABLE && $value[self::SESS_FIELDS] != 'CATEGORY_ID' && $value[self::SESS_FIELDS] != 'CATEGORY' 
+                  && $value[self::SESS_OPERATOR] != "NOT IN") {
                     $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
                     $this->queryArgs[] = $tableName;
                     $this->queryArgs[] = $tableName;
@@ -414,6 +415,24 @@
                     $this->queryArgs[] = $value[self::SESS_FIELDS];
                     $this->queryArgs[] = $value[self::SESS_OPERATOR];
                     $this->queryArgs[] = $value[self::SESS_VALUES];
+                  }elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
+                  || $value[self::SESS_OPERATOR] == "NOT IN"){
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s (%s))$close ";
+                    if($tableName == self::GROUP_TABLE){
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = 'hardware';
+                      $this->queryArgs[] = 'ID';
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                    }else{
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $tableName;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    }    
                   }else{
                     if($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
                       $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s NOW() - INTERVAL %s DAY)$close ";
