@@ -102,9 +102,8 @@ if (isset($protectedPost['table_select'])) {
 			</div>
 
 			<input name="old_table" type="hidden" value="<?php echo $defaultTable ?>">
-
-			<?php echo close_form(); ?>
-
+			<div><a href="?function=save_query_list"><?php echo $l->g(2140) ?></a></div>
+			<?php echo close_form();?>
 		</div>
 	</div>
 </div>
@@ -153,6 +152,8 @@ if(isset($protectedGet['prov'])){
     $options['stat'] = $protectedGet['stat'];
     $search->link_multi($protectedGet['prov'], $protectedGet['value'], $options);
   }elseif($protectedGet['prov'] == 'saas'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
+  }elseif($protectedGet['prov'] == 'querysave'){
     $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }
 }
@@ -254,7 +255,7 @@ echo close_form();
 <?php
 
 if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields']){
-  unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
+  	unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 	/**
 	 * Generate Search fields
 	 */
@@ -276,7 +277,8 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$list_col_cant_del = $search->defaultFields;
 	$default_fields = $search->defaultFields;
 
-  	$_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $sqlCache->generateCacheSql($_SESSION['OCS']['multi_search']);
+  $_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $sqlCache->generateCacheSql($_SESSION['OCS']['multi_search']);
+
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';
 
@@ -314,8 +316,11 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$list_fonct["asset_cat"]=$l->g(2126);
 	$list_pag["asset_cat"]=$pages_refs["ms_asset_cat"];
 
+	$list_fonct["save_query"]=$l->g(2138);
+	$list_pag["save_query"]=$pages_refs["ms_save_query"];
+
 	$list_id = $databaseSearch->getIdList($search);
-  $_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
+  	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 
 	?>
 	<div class='row' style='margin: 0'>

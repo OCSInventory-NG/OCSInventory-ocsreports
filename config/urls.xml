@@ -308,4 +308,12 @@
         <value>SNMP_config</value>
         <directory>ms_config</directory>
     </url>
+    <url key="ms_save_query">
+        <value>save_query</value>
+        <directory>ms_save_query</directory>
+    </url>
+    <url key="ms_save_query_list">
+        <value>save_query_list</value>
+        <directory>ms_save_query</directory>
+    </url>
 </urls>

@@ -285,3 +285,12 @@ function show_hide_wol(id, check, button){
         send.style.display = '';
     }
 }
+
+function verif_champ_name(form, name){
+    var champ = $('#'+name).val();
+    if($.trim(champ) == ""){
+        alert("Name can't be empty");
+    }else{
+        $('#'+form).submit();
+    }
+}

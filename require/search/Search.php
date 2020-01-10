@@ -975,9 +975,30 @@
             }
             break;
 
+          case 'querysave':
+            $parameters = $this->query_save($value);
+
+            $_SESSION['OCS']['multi_search'] = array();
+            $_SESSION['OCS']['multi_search'] = $parameters;
+
+            break;
+
           default :
             break;
         }
+    }
+
+    public function query_save($id) {
+      $sql = "SELECT PARAMETERS FROM save_query WHERE ID = %s";
+      $sql_arg = array($id);
+
+      $result = mysql2_query_secure($sql, $_SESSION['OCS']['readServer'], $sql_arg);
+
+      while($item = mysqli_fetch_array($result)){
+        $parameters = $item['PARAMETERS'];
+      }
+
+      return unserialize($parameters);
     }
 
     /**

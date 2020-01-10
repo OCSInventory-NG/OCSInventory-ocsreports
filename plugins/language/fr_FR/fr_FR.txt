@@ -1507,6 +1507,13 @@
 2135 Aucune machine n'a été inventoriée
 2136 Modifier
 2137 Choississez un nouveau fichier si vous souhaitez modifier l'ancien
+2138 Sauvegarder ma recherche
+2139 La requête actuelle va être sauvegardée. Vous pouvez retrouver toutes vos recherches sauvegardées dans <i><b>Gestion > Recherches sauvegardées</b></i> ou en utilisant <i><b>Utiliser une recherche sauvegardée</b></i> dans la multicritère.
+2140 Utiliser une recherche sauvegardée
+2141 Recherches sauvegardées
+2142 Créer une recherche
+2143 La recherche a été sauvegardée
+2144 Mettre à jour une recherche existante
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
