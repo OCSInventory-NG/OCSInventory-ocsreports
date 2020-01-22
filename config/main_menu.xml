@@ -32,6 +32,10 @@
         <label>g(8100)</label>
         <url>ms_saas_soft</url>
       </menu-elem>
+      <menu-elem id="ms_ipdiscover">
+        <label>g(1204)</label>
+        <url>ms_ipdiscover</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="deployment">
@@ -94,10 +98,6 @@
     <label>g(82)</label>
     <url>ms_ipdiscover</url>
     <submenu>
-      <menu-elem id="ms_ipdiscover">
-        <label>g(1204)</label>
-        <url>ms_ipdiscover</url>
-      </menu-elem>
       <menu-elem id="ms_snmp">
         <label>g(1136)</label>
         <url>ms_snmp</url>
