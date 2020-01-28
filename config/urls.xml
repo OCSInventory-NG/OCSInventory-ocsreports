@@ -44,10 +44,6 @@
         <value>tag_seach</value>
         <directory>ms_multi_search</directory>
     </url>
-    <url key="ms_dict">
-        <value>admin_dico</value>
-        <directory>ms_dict</directory>
-    </url>
     <url key="ms_upload_file">
         <value>admin_upload</value>
         <directory>ms_upload_file</directory>
