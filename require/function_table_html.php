@@ -253,34 +253,6 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 </div>
             </div>
 
-			<!-- Display search in column bar-->
-			<div class="row">
-				<div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
-					<div class="form-group">
-						<label class="control-label col-sm-4" for="select_col<?php echo $option['table_name']; ?>"> <?php echo $l->g(1419); ?> : </label>
-							<div class="col-sm-8">
-								<select class="form-control" id="select_search_col<?php echo $option['table_name']; ?>" name="COL_SEARCH">
-									<option value="default"><?php echo $l->g(6012); ?></option>
-										<?php
-											foreach ($list_col_can_del as $key => $col) {
-												$name = explode('.', $col);
-												$name = explode(' as ', end($name));
-												$value = end($name);
-												if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
-														$value = $option['REPLACE_COLUMN_KEY'][$key];
-												}
-												if (array_key_exists($key, $lbl_column)) {
-														echo "<option value='$value'>$lbl_column[$key]</option>";
-												} else {
-														echo "<option value='$value'>$key</option>";
-												}
-											}
-										?>
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
             <?php
         }
         ?>
@@ -1390,11 +1362,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 							
 							if ($searchable){
 
-								// if search in column selected
-								if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $rang == 0) {
-									$name_col = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['COL_SEARCH']);
-									$filtertxt =  " HAVING (( ".$name_col." LIKE '%%".$search."%%' ) ";
-								} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+								if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 									if ($rang == 0){
 										$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
 									} else {
@@ -1548,11 +1516,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 			// If column is searchable and doesn't have a full-text index 
 			if ($searchable && (empty($tab_options['columns'][$column]['ft_index']) || $tab_options['columns'][$column]['ft_index'] == 'false')) {
-				if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $index == 0) {
-						$name_col = $tab_options['COL_SEARCH'];
-						$filter =  " (( ".$name_col." ".$search_arg." ) ";
-				// (Cyrille: What is this 'c' column?)
-				} else if ($cname != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+				if ($cname != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 						if ($index == 0){
 							$filter =  " (( ".$cname." ".$search_arg." ) ";
 						} else {
