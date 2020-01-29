@@ -65,10 +65,6 @@ use Getopt::Long;
 use CPAN;
 use LWP::Simple qw/getstore/;
 
-my $libwww_tarball = "G/GA/GAAS/libwww-perl-6.05.tar.gz";
-my $xmlentities_tarball = "S/SI/SIXTEASE/XML-Entities-1.0002.tar.gz";
-
-
 my %args;
 my %deps;
 GetOptions(
@@ -92,7 +88,6 @@ $args{$_} = $default{$_} foreach grep !exists $args{$_}, keys %default;
 #
 
 $deps{'CORE'} = [ text_to_hash( << ".") ];
-$libwww_tarball
 XML::SAX
 XML::Parser
 XML::Simple
@@ -106,6 +101,10 @@ IO::Zlib
 Mac::SysProfile
 Mac::PropertyList
 Parse::EDID
+LWP
+LWP::UserAgent
+LWP::Protocol::https
+XML::Entities
 .
 
 # push all the dep's into a @missing array
@@ -122,8 +121,6 @@ if ( $args{'install'} ) {
 	while( @missing ) {
 		resolve_dep(shift @missing, shift @missing);
 	}
-	#We install XML::Etities manually because of writing rights in /usr/local/bin directory
-	&install_tarball("http://search.cpan.org/CPAN/authors/id",$xmlentities_tarball,"XML-Entities"); 
 }
 
 # convert the dep text list to a hash
@@ -152,7 +149,7 @@ sub resolve_dep {
                 unshift @INC, "$ENV{'HOME'}/.cpan";
 	}
 
-	#unshift @INC, "/Users/$user/~darwin-perl-lib";
+	unshift @INC, "/Users/$user/~darwin-perl-lib";
 
     print "\nInstall module $module\n";
     my $cfg = (eval { require CPAN::MyConfig });
