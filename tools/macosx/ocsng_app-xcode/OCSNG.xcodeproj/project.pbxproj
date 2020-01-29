@@ -22,6 +22,7 @@
 		0B6A94161F83D4E600D02E57 /* ocsinventory-agent in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A94111F83D4E600D02E57 /* ocsinventory-agent */; };
 		0B6A94171F83D4E600D02E57 /* AUTHORS in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A94121F83D4E600D02E57 /* AUTHORS */; };
 		0B6A943E1F83DB3F00D02E57 /* uninstaller.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0B6A943D1F83DB3F00D02E57 /* uninstaller.sh */; };
+		438B3A6123E0D16500631B54 /* lib in Resources */ = {isa = PBXBuildFile; fileRef = 438B3A6023E0D16500631B54 /* lib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -30,8 +31,6 @@
 
 /* Begin PBXFileReference section */
 		0625C76E13CAC89000D6EB7C /* ocs_logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ocs_logo.icns; path = icons/ocs_logo.icns; sourceTree = "<group>"; };
-		0649FB3114D9E191001EC640 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		0649FB3514D9E1AA001EC640 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		06C39B361394ADB20047198A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		06C39B391394ADDF0047198A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		06C39BCD1394B5600047198A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -39,7 +38,6 @@
 		06D657A7134FD97A00981FE3 /* ocscontact */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ocscontact; sourceTree = BUILT_PRODUCTS_DIR; };
 		06D657B2134FDBFF00981FE3 /* ocscontact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocscontact.h; sourceTree = "<group>"; };
 		06D657B3134FDBFF00981FE3 /* ocscontact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ocscontact.m; sourceTree = "<group>"; };
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0B6A940E1F83D4E500D02E57 /* THANKS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = THANKS; path = ../../../THANKS; sourceTree = "<group>"; };
 		0B6A940F1F83D4E600D02E57 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../../../LICENSE; sourceTree = "<group>"; };
 		0B6A94101F83D4E600D02E57 /* Changes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Changes; path = ../../../Changes; sourceTree = "<group>"; };
@@ -50,6 +48,10 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* OCSNG_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCSNG_Prefix.pch; sourceTree = "<group>"; };
+		438B3A5D23E0D10A00631B54 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		438B3A5E23E0D10B00631B54 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		438B3A5F23E0D10F00631B54 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		438B3A6023E0D16500631B54 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = ../../../lib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* OCSNG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCSNG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE2C4E590DF1CA5800171780 /* GetPID.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GetPID.c; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				438B3A6023E0D16500631B54 /* lib */,
 				0B6A943D1F83DB3F00D02E57 /* uninstaller.sh */,
 				0B6A94121F83D4E600D02E57 /* AUTHORS */,
 				0B6A94101F83D4E600D02E57 /* Changes */,
@@ -211,17 +214,18 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1110;
+				LastUpgradeCheck = 1130;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "OCSNG" */;
 			compatibilityVersion = "Xcode 3.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				Base,
+				en,
+				de,
+				fr,
+				ja,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* OCSNG */;
 			projectDirPath = "";
@@ -244,6 +248,7 @@
 				0B6A94161F83D4E600D02E57 /* ocsinventory-agent in Resources */,
 				0649FB3414D9E198001EC640 /* Localizable.strings in Resources */,
 				0B6A94171F83D4E600D02E57 /* AUTHORS in Resources */,
+				438B3A6123E0D16500631B54 /* lib in Resources */,
 				0B6A943E1F83DB3F00D02E57 /* uninstaller.sh in Resources */,
 				0B6A94131F83D4E600D02E57 /* THANKS in Resources */,
 				0B6A94141F83D4E600D02E57 /* LICENSE in Resources */,
@@ -276,8 +281,8 @@
 		0649FB3314D9E198001EC640 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0649FB3114D9E191001EC640 /* English */,
-				0649FB3514D9E1AA001EC640 /* French */,
+				438B3A5E23E0D10B00631B54 /* en */,
+				438B3A5F23E0D10F00631B54 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -285,7 +290,7 @@
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C165DFE840E0CC02AAC07 /* English */,
+				438B3A5D23E0D10A00631B54 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -299,7 +304,8 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 7BMX2XTTS6;
+				DEVELOPMENT_TEAM = KHDBNPH65U;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
@@ -328,7 +334,8 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = 7BMX2XTTS6;
+				DEVELOPMENT_TEAM = KHDBNPH65U;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -357,10 +364,11 @@
 				ADDITIONAL_SDKS = "";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 2.6.0;
-				DEVELOPMENT_TEAM = 7BMX2XTTS6;
+				DEVELOPMENT_TEAM = KHDBNPH65U;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -389,10 +397,11 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2.6.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7BMX2XTTS6;
+				DEVELOPMENT_TEAM = KHDBNPH65U;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OCSNG_Prefix.pch;
