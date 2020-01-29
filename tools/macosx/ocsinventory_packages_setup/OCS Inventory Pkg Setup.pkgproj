@@ -38,9 +38,9 @@
 									<key>GID</key>
 									<integer>80</integer>
 									<key>PATH</key>
-									<string>/Users/ocsinventory/Documents/UnixAgentMacOS/OCSNG-UnixAgent-Trunk/tools/macosx/OCS Inventory Pkg Setup/app/OCSNG.app</string>
+									<string>app/OCSNG.app</string>
 									<key>PATH_TYPE</key>
-									<integer>0</integer>
+									<integer>1</integer>
 									<key>PERMISSIONS</key>
 									<integer>493</integer>
 									<key>TYPE</key>
@@ -464,9 +464,9 @@
 				<key>POSTINSTALL_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>/Users/ocsinventory/Documents/UnixAgentMacOS/OCSNG-UnixAgent-Trunk/tools/macosx/OCS Inventory Pkg Setup/scripts/postinstall</string>
+					<string>scripts/postinstall</string>
 					<key>PATH_TYPE</key>
-					<integer>0</integer>
+					<integer>1</integer>
 				</dict>
 				<key>PREINSTALL_PATH</key>
 				<dict>
@@ -474,24 +474,7 @@
 					<integer>0</integer>
 				</dict>
 				<key>RESOURCES</key>
-				<array>
-					<dict>
-						<key>CHILDREN</key>
-						<array/>
-						<key>GID</key>
-						<integer>0</integer>
-						<key>PATH</key>
-						<string>/Users/ocsinventory/Documents/UnixAgentMacOS/OCSNG-UnixAgent-Trunk/tools/macosx/OCS Inventory Pkg Setup/OCSNG 21-01-2020 16.01.xcarchive</string>
-						<key>PATH_TYPE</key>
-						<integer>0</integer>
-						<key>PERMISSIONS</key>
-						<integer>493</integer>
-						<key>TYPE</key>
-						<integer>3</integer>
-						<key>UID</key>
-						<integer>0</integer>
-					</dict>
-				</array>
+				<array/>
 			</dict>
 			<key>PACKAGE_SETTINGS</key>
 			<dict>
@@ -629,28 +612,6 @@
 				</dict>
 				<dict>
 					<key>ICPRESENTATION_CHAPTER_VIEW_CONTROLLER_CLASS</key>
-					<string>ICPresentationViewInstallerPluginController</string>
-					<key>ICPRESENTATION_CHAPTER_VIEW_CONTROLLER_INSTALLERPLUGIN_PATH</key>
-					<dict>
-						<key>PATH</key>
-						<string>ocs_agent_config.bundle</string>
-						<key>PATH_TYPE</key>
-						<integer>1</integer>
-					</dict>
-				</dict>
-				<dict>
-					<key>ICPRESENTATION_CHAPTER_VIEW_CONTROLLER_CLASS</key>
-					<string>ICPresentationViewInstallerPluginController</string>
-					<key>ICPRESENTATION_CHAPTER_VIEW_CONTROLLER_INSTALLERPLUGIN_PATH</key>
-					<dict>
-						<key>PATH</key>
-						<string>ocs_agent_daemon_options.bundle</string>
-						<key>PATH_TYPE</key>
-						<integer>1</integer>
-					</dict>
-				</dict>
-				<dict>
-					<key>ICPRESENTATION_CHAPTER_VIEW_CONTROLLER_CLASS</key>
 					<string>ICPresentationViewInstallationController</string>
 					<key>INSTALLER_PLUGIN</key>
 					<string>Install</string>
@@ -706,6 +667,11 @@
 				<key>LOCALIZATIONS</key>
 				<array/>
 			</dict>
+			<key>SUMMARY</key>
+			<dict>
+				<key>LOCALIZATIONS</key>
+				<array/>
+			</dict>
 			<key>TITLE</key>
 			<dict>
 				<key>LOCALIZATIONS</key>
@@ -731,7 +697,7 @@
 		<key>PROJECT_SETTINGS</key>
 		<dict>
 			<key>BUILD_FORMAT</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>BUILD_PATH</key>
 			<dict>
 				<key>PATH</key>
