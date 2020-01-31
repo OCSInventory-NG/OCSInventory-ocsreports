@@ -115,7 +115,8 @@ class Cve
     $curl = curl_init();
 
     foreach($cve_attr as $key => $values){
-      $url = $this->CVE_SEARCH_URL."/api/search/".$values['VENDOR']."/".$values['NAME'];   
+      $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME']; 
+      curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
       curl_setopt($curl, CURLOPT_URL, $url);
       curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
       $result = curl_exec ($curl);
@@ -162,9 +163,11 @@ class Cve
       }
     }   
     foreach($vars as $key => $values){
-      foreach($values["vulnerable_configuration"] as $keys => $vuln){
-        if($vuln == $vuln_conf){
-          $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0], $software["REAL_VENDOR"], $software["REAL_NAME"], $software["VERSION"]);
+      if(isset($values["vulnerable_configuration"])) {
+        foreach($values["vulnerable_configuration"] as $keys => $vuln){
+          if($vuln == $vuln_conf){
+            $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0], $software["REAL_VENDOR"], $software["REAL_NAME"], $software["VERSION"]);
+          }
         }
       }
     }
