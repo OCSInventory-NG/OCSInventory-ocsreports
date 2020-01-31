@@ -1690,7 +1690,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						}
 						break;
 					case "GROUP_NAME":
-						$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
+						$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."'>".$value_of_field."</a>";
 						break;
 					case "NULL":
 						$row[$key]="&nbsp";

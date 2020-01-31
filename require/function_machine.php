@@ -219,7 +219,7 @@ function show_packages($systemid, $page = "ms_computer") {
                         }
                         } else {
                             if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
-                                echo " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&popup=1&suppack=" . $valDeploy["ivalue"] . "&systemid=" .
+                                echo " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs[$page] . "&suppack=" . $valDeploy["ivalue"] . "&systemid=" .
                                 urlencode($systemid) . "&option=" . urlencode($l->g(500)) . "'>" . $l->g(122) . "</a>";
                             }
                             show_stat($valDeploy["fileid"]);
