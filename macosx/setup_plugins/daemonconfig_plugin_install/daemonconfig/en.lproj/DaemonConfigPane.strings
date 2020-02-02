@@ -1,0 +1,15 @@
+
+/* Class = "NSTextFieldCell"; title = "Launch OCS agent every"; ObjectID = "CR7-Av-TyG"; */
+"CR7-Av-TyG.title" = "Launch OCS agent every";
+
+/* Class = "NSTextFieldCell"; title = "5"; ObjectID = "Kd5-vS-SZ8"; */
+"Kd5-vS-SZ8.title" = "5";
+
+/* Class = "NSTextFieldCell"; title = "hour(s)"; ObjectID = "L5X-oH-TrN"; */
+"L5X-oH-TrN.title" = "hour(s)";
+
+/* Class = "NSButtonCell"; title = "Launch OCS Agent at daemon start"; ObjectID = "dlF-LS-rTI"; */
+"dlF-LS-rTI.title" = "Launch OCS Agent at daemon start";
+
+/* Class = "NSButtonCell"; title = "Launch daemon after install"; ObjectID = "kI2-ox-p1X"; */
+"kI2-ox-p1X.title" = "Launch daemon after install";

@@ -1,0 +1,8 @@
+/* Localized versions of Info.plist keys */
+"PaneTitle" = "OCS agent daemon options";
+
+//Peridocity warn
+"Periodicity_warn"="Invalid periodicity value";
+
+//Periodicity warn comment
+"Periodicity_warn_comment"="Please enter a valid number value";

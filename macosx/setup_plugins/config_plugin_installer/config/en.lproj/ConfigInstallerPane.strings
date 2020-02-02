@@ -1,0 +1,36 @@
+
+/* Class = "NSButtonCell"; title = "SSL check"; ObjectID = "0JY-Jz-90N"; */
+"0JY-Jz-90N.title" = "SSL check";
+
+/* Class = "NSTextFieldCell"; title = "ocsinventory-ng"; ObjectID = "0Sw-Bb-gYo"; */
+"0Sw-Bb-gYo.title" = "ocsinventory-ng";
+
+/* Class = "NSButtonCell"; title = "Debug mode"; ObjectID = "31X-X1-h1b"; */
+"31X-X1-h1b.title" = "Debug mode";
+
+/* Class = "NSMenuItem"; title = "http://"; ObjectID = "3w5-Xc-SgN"; */
+"3w5-Xc-SgN.title" = "http://";
+
+/* Class = "NSTextFieldCell"; title = "Log File path :"; ObjectID = "Bqz-yE-1gz"; */
+"Bqz-yE-1gz.title" = "Log File path :";
+
+/* Class = "NSTextFieldCell"; title = "TAG Value (optional) :"; ObjectID = "CJY-Du-ySH"; */
+"CJY-Du-ySH.title" = "TAG Value (optional) :";
+
+/* Class = "NSTextFieldCell"; title = "/ocsinventory"; ObjectID = "DIf-zY-Upa"; */
+"DIf-zY-Upa.title" = "/ocsinventory";
+
+/* Class = "NSButtonCell"; title = "Deployment feature"; ObjectID = "Fz6-ny-C1b"; */
+"Fz6-ny-C1b.title" = "Deployment feature";
+
+/* Class = "NSButtonCell"; title = "Browse"; ObjectID = "MAB-ch-ni8"; */
+"MAB-ch-ni8.title" = "Browse";
+
+/* Class = "NSTextFieldCell"; title = "Certificate File (needed by 'Deployment feature')"; ObjectID = "UvL-Ff-Y6G"; */
+"UvL-Ff-Y6G.title" = "Certificate File (needed by 'Deployment feature')";
+
+/* Class = "NSButtonCell"; title = "Lazy mode"; ObjectID = "gFK-QK-e24"; */
+"gFK-QK-e24.title" = "Lazy mode";
+
+/* Class = "NSTextFieldCell"; title = "OCS Server URL"; ObjectID = "w48-wL-2Wx"; */
+"w48-wL-2Wx.title" = "OCS Server URL";∂
