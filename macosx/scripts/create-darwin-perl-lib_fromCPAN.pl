@@ -105,6 +105,7 @@ LWP
 LWP::UserAgent
 LWP::Protocol::https
 XML::Entities
+Mac::SysProfile
 .
 
 # push all the dep's into a @missing array
