@@ -151,7 +151,7 @@
         if(!empty($cat)){
 
           foreach($cat as $key => $value){
-            $sql = "SELECT count(ID) as nb FROM softwares WHERE CATEGORY = %s GROUP BY NAME";
+            $sql = "SELECT count(DISTINCT CONCAT(name, version)) as nb FROM softwares WHERE CATEGORY = %s GROUP BY CATEGORY";
             $arg = array($key);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
@@ -184,49 +184,48 @@
         return $html;
    }
 
-   /**
-    * Get assets category and construct table
-    * @return [type] [description]
-    */
-   public function get_assets(){
-       global $l;
+	/**
+		* Get assets category and construct table
+		* @return [type] [description]
+		*/
+	public function get_assets(){
+		global $l;
 
-       $sql = "SELECT * FROM assets_categories";
-       $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+		$sql = "SELECT * FROM assets_categories";
+		$result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
 
-       while ($item_asset = mysqli_fetch_array($result)) {
-           $list_asset[$item_asset['ID']]['CATEGORY_NAME'] = $item_asset['CATEGORY_NAME'];
-           $list_asset[$item_asset['ID']]['SQL_QUERY'] = $item_asset['SQL_QUERY'];
-           $list_asset[$item_asset['ID']]['SQL_ARGS'] = $item_asset['SQL_ARGS'];
-       }
+		while ($item_asset = mysqli_fetch_array($result)) {
+			$list_asset[$item_asset['ID']]['CATEGORY_NAME'] = $item_asset['CATEGORY_NAME'];
+			$list_asset_id[$item_asset['ID']] = $item_asset['ID'];
+		}
 
-       if(is_array($list_asset)){
-         foreach($list_asset as $key => $values){
-             $nb = [];
-             $asset = explode(",", $list_asset[$key]['SQL_ARGS']);
-             $result_computer = mysql2_query_secure($list_asset[$key]['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
-             while ($computer = mysqli_fetch_array($result_computer)) {
-                 $nb[] = $computer['hardwareID'];
-             }
-             $nb_computer[$key][$list_asset[$key]['CATEGORY_NAME']] = count($nb);
-         }
+		if(is_array($list_asset_id)){
+			foreach($list_asset_id as $key => $values){
+				$sql_assets = "SELECT ID as hardwareID FROM hardware WHERE CATEGORY_ID = %s";
+				$nb = [];
+				$result_computer = mysql2_query_secure($sql_assets, $_SESSION['OCS']["readServer"], $values);
+				while ($computer = mysqli_fetch_array($result_computer)) {
+					$nb[] = $computer['hardwareID'];
+				}
+				$nb_computer[$key][$list_asset[$key]['CATEGORY_NAME']] = count($nb);
+			}
 
-         $html = "<table class='cell-border' style='width:100%;'>";
-         foreach($nb_computer as $key => $cat){
-           foreach($cat as $name => $nb){
-             if($nb != 0){
-                 $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_search&fields=ASSETS&comp=&values=".$key."&values2=&type_field='>".$nb."</a></th></tr>";
-             }else{
-                 $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
-             }
-           }
-         }
-         $html .= "</table>";
-       }else{
-         $html = $l->g(2133);
-       }
-       
-       return $html;
-   }
+			$html = "<table class='cell-border' style='width:100%;'>";
+			foreach($nb_computer as $key => $cat){
+				foreach($cat as $name => $nb){
+					if($nb != 0){
+						$html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_search&fields=ASSETS&comp=&values=".$key."&values2=&type_field='>".$nb."</a></th></tr>";
+					}else{
+						$html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+					}
+				}
+			}
+			$html .= "</table>";
+		}else{
+			$html = $l->g(2133);
+		}
+
+		return $html;
+   	}
 
  }
