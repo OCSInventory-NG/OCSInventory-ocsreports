@@ -121,7 +121,7 @@ class Cve
       curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
       $result = curl_exec ($curl);
       $vars = json_decode($result, true);
-      if(!empty($vars)){
+      if($vars['total'] != 0){
         $this->search_by_version($vars, $values);
       }
     }
@@ -154,6 +154,8 @@ class Cve
       }
     }
     $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$software["VERSION_MODIF"];
+    $vuln_conf_all = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":*:*:";
+
     if($software["NAME"] == "jre" && preg_match("/Update/", $software["REAL_NAME"])){
       $jre = explode(" ", $software["REAL_NAME"]);
       foreach($jre as $keys => $word){
@@ -161,12 +163,17 @@ class Cve
           $vuln_conf .= ":".strtolower($word)."_".$jre[$keys+1];
         }
       }
-    }   
-    foreach($vars as $key => $values){
-      if(isset($values["vulnerable_configuration"])) {
-        foreach($values["vulnerable_configuration"] as $keys => $vuln){
-          if($vuln == $vuln_conf){
-            $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0], $software["REAL_VENDOR"], $software["REAL_NAME"], $software["VERSION"]);
+    }
+
+    foreach($vars as $key => $array){
+      if(is_array($array)){
+        foreach($array as $keys => $values) {
+          if(isset($values["vulnerable_configuration"])) {
+            foreach($values["vulnerable_configuration"] as $keys => $vuln){
+              if((strpos($vuln, $vuln_conf) !== false) || (strpos($vuln, $vuln_conf_all) !== false)){
+                $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0], $software["REAL_VENDOR"], $software["REAL_NAME"], $software["VERSION"]);
+              }
+            }
           }
         }
       }
