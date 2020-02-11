@@ -69,16 +69,16 @@ if($cve->CVE_ACTIVE != 1){
 
     /******************************* ALL CVE *******************************/
     if($protectedPost['onglet'] == "ALL_CVE"){
-        $sql['SQL'] = 'SELECT *, link as id FROM cve_search GROUP BY link, cvss, soft, cve';
+        $sql['SQL'] = 'SELECT *, CONCAT(soft,";",version) as search, link as id FROM cve_search GROUP BY link, cvss, soft, cve';
     }
 
     /******************************* PER VULNERABILITIES *******************************/
     else{
         if($protectedPost['onglet'] != '10'){
             $vulnerability = explode('-', $protectedPost['onglet']);
-            $sql['SQL'] = 'SELECT *, link as id FROM cve_search WHERE cvss >= '. doubleval($vulnerability[0]) .' AND cvss < '. doubleval($vulnerability[1]) .' GROUP BY link, cvss, soft, cve';  
+            $sql['SQL'] = 'SELECT *, CONCAT(soft,";",version) as search, link as id FROM cve_search WHERE cvss >= '. doubleval($vulnerability[0]) .' AND cvss < '. doubleval($vulnerability[1]) .' GROUP BY link, cvss, soft, cve';  
         }else{
-            $sql['SQL'] = 'SELECT *, link as id FROM cve_search WHERE cvss = '. addslashes($protectedPost['onglet']) .' GROUP BY link, cvss, soft, cve';
+            $sql['SQL'] = 'SELECT *, CONCAT(soft,";",version) as search, link as id FROM cve_search WHERE cvss = '. addslashes($protectedPost['onglet']) .' GROUP BY link, cvss, soft, cve';
         }
     }
 
@@ -93,7 +93,7 @@ if($cve->CVE_ACTIVE != 1){
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
         $tab_options['LIEN_LBL']['soft'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-        $tab_options['LIEN_CHAMP']['soft'] = 'soft';
+        $tab_options['LIEN_CHAMP']['soft'] = 'search';
         $tab_options['LBL']['soft'] = $l->g(847);
         $tab_options['LIEN_LBL']['link'] = ' ';
         $tab_options['LIEN_CHAMP']['link'] = 'link';
