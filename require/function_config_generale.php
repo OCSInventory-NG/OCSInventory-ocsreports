@@ -384,7 +384,7 @@ function update_default_value($POST) {
         'REGISTRY', 'GENERATE_OCS_FILES', 'OCS_FILES_OVERWRITE', 'PROLOG_FILTER_ON', 'INVENTORY_FILTER_ENABLED',
         'INVENTORY_FILTER_FLOOD_IP', 'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME', 'INVENTORY_FILTER_ON',
         'LOG_GUI', 'DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_FRAG_LATENCY', 'DOWNLOAD_GROUPS_TRACE_EVENTS',
-        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL', 'VULN_CVESEARCH_ENABLE',
+        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
         'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS');
@@ -890,7 +890,8 @@ function pageVulnerability() {
     // Which lines do we need?
     $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
         'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST',
-        'VULN_BAN_LIST' => 'VULN_BAN_LIST');
+        'VULN_BAN_LIST' => 'VULN_BAN_LIST',
+        'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE');
     // Get configuration values from DB
     $values = look_config_default_values($champs);
 
@@ -903,6 +904,7 @@ function pageVulnerability() {
     ligne('VULN_CVESEARCH_ENABLE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE']));
     ligne('VULN_CVESEARCH_HOST', $l->g(1462), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'], 'SELECT_VALUE' => $list_cat));
+    ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE']));
 }
 
 function pageConnexion() {

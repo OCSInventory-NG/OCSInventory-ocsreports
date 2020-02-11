@@ -1343,7 +1343,8 @@
 1466 Veuillez consulter la documentation pour configurer le Rapport de CVE : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Managing CVE-search reporting </a>
 1467 Lien
 1468 Vulnérabilité
-1469 Sélectionnez les catégories de logicielles que vous ne souhaitez pas traiter.
+1469 Sélectionnez les catégories de logicielles que vous ne souhaitez pas traiter
+1470 Activer la verbose pour CVE-search
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie
