@@ -21,13 +21,24 @@ if($cve->CVE_ACTIVE == 1) {
     // Check if any error occured on cve-search server
     if(curl_errno($curl)) {
         $info = curl_getinfo($curl);
-        error_log(print_r($cve->CVE_SEARCH_URL." is not reachable.", true));
+        if($cve->CVE_VERBOSE == 1) {
+            error_log(print_r($cve->CVE_SEARCH_URL." is not reachable.", true));
+        }
         curl_close($curl);
         exit();
     } else {
         curl_close($curl);
+        if($cve->CVE_VERBOSE == 1) {
+            error_log(print_r("CVE's Data processing ...", true));
+        }
         $soft = $cve->getSoftwareInformations();
+        if($cve->CVE_VERBOSE == 1) {
+            error_log(print_r($soft." CVE has been added to database", true));
+        }
     }
 } else {
+    if($cve->CVE_VERBOSE == 1) {
+        error_log(print_r("CVE feature isn't enabled", true));
+    }
     exit();
 }?>
