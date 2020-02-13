@@ -43,7 +43,7 @@ if($extMgr->checkPrerequisites()){
     $extMgr->checkInstallableExtensions();
     
     if(empty($extMgr->installableExtensionsList)){
-        msg_warning($l->g(7014));
+        msg_warning($l->g(7014).' ('.EXT_DL_DIR.').');
     }else{   
         echo open_form("PluginInstall", '', '', 'form-horizontal');
         ?>
