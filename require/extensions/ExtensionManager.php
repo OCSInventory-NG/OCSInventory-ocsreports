@@ -28,7 +28,7 @@ class ExtensionManager{
      */
     public $installedExtensionsList = null;
     public $installableExtensionsList = null;
-	public $installableExtensions_errors = array();
+    public $installableExtensions_errors = array();
     public $errorMessage = null;
 
     /**
