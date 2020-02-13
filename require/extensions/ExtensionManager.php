@@ -28,6 +28,7 @@ class ExtensionManager{
      */
     public $installedExtensionsList = null;
     public $installableExtensionsList = null;
+	public $installableExtensions_errors = array();
     public $errorMessage = null;
 
     /**
@@ -91,7 +92,12 @@ class ExtensionManager{
      * Will set an array of valid extensions
      */
     public function checkInstallableExtensions(){
-
+		// reset error list
+		$this->installableExtensions_errors = array();
+		// check if directory exists
+		if (!is_dir(EXT_DL_DIR)) {
+			$this->installableExtensions_errors[] = 'Extension directory ('.EXT_DL_DIR.') does not exist!';
+		}		
         // Scan dir and get all sub directory in extensions directory
         $items = scandir(EXT_DL_DIR);
         $installableExtList = [];
@@ -112,20 +118,34 @@ class ExtensionManager{
      * Check if extensions is compliant to OCS Inventory Model
      */
     private function isExtensionCompliant($name){
+		global $l;
         try{
             require EXT_DL_DIR.$name."/install.php";
 
-            if(
-                function_exists(self::EXTENSION_INSTALL_METHD.$name) &&
-                function_exists(self::EXTENSION_DELETE_METHD.$name) &&
-                function_exists(self::EXTENSION_UPGRADE_METHD.$name) &&
-                function_exists(self::EXTENSION_HOOK_METHD.$name)
-            ){
-                return true;
-            }
+			if (!function_exists(self::EXTENSION_INSTALL_METHD.$name)) {
+				$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.sprintf($l->g(7018), self::EXTENSION_INSTALL_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				return false;
+			}
+			
+			if (!function_exists(self::EXTENSION_DELETE_METHD.$name)) {
+				$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.sprintf($l->g(7018), self::EXTENSION_DELETE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				return false;
+			}
+			
+			if (!function_exists(self::EXTENSION_UPGRADE_METHD.$name)) {
+				$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.sprintf($l->g(7018), self::EXTENSION_UPGRADE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				return false;
+			}
+			
+			if (!function_exists(self::EXTENSION_HOOK_METHD.$name)) {
+				$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.sprintf($l->g(7018), self::EXTENSION_HOOK_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				return false;
+			}
+
 
             return true;
         } catch (Exception $ex) {
+			$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.$l->g(7019);
             return false;
         }
     }
