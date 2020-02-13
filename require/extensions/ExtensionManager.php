@@ -123,29 +123,29 @@ class ExtensionManager{
             require EXT_DL_DIR.$name."/install.php";
 
 			if (!function_exists(self::EXTENSION_INSTALL_METHD.$name)) {
-				$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.sprintf($l->g(7018), self::EXTENSION_INSTALL_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_INSTALL_METHD.$name, EXT_DL_DIR.$name.'/install.php');
 				return false;
 			}
 			
 			if (!function_exists(self::EXTENSION_DELETE_METHD.$name)) {
-				$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.sprintf($l->g(7018), self::EXTENSION_DELETE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_DELETE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
 				return false;
 			}
 			
 			if (!function_exists(self::EXTENSION_UPGRADE_METHD.$name)) {
-				$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.sprintf($l->g(7018), self::EXTENSION_UPGRADE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_UPGRADE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
 				return false;
 			}
 			
 			if (!function_exists(self::EXTENSION_HOOK_METHD.$name)) {
-				$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.sprintf($l->g(7018), self::EXTENSION_HOOK_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_HOOK_METHD.$name, EXT_DL_DIR.$name.'/install.php');
 				return false;
 			}
 
 
             return true;
         } catch (Exception $ex) {
-			$this->installableExtensions_errors[] = sprintf($l->g(7017), $name).': '.$l->g(7019);
+			$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.$l->g(7023);
             return false;
         }
     }
