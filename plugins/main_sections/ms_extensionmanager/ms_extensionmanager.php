@@ -89,7 +89,12 @@ if (!AJAX) {
     }
 
     if(isset($protectedPost['SUP_PROF'])){
-        $extMgr->deleteExtension($protectedPost['SUP_PROF']);
+        $desinstall = $extMgr->deleteExtension($protectedPost['SUP_PROF']);
+        if($desinstall) {
+            msg_success($l->g(7020));
+        } else {
+            msg_error($l->g(7019));
+        }
     }
 }
 
