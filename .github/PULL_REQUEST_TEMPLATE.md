@@ -14,7 +14,7 @@ Put here all the related issues link
 In the case, your pull request need the documentation to be modified, please say it here.
 You can also directly create a pull request for the documentation here : https://github.com/OCSInventory-NG/Wiki
 
-Note : Merge process will be faster is the documentation is already written
+Note : Merge process will be faster if the documentation is already written
 
 ### Addtional comments
 A few sentences describing the overall goals of the pull request's commits.
