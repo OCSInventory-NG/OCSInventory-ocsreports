@@ -280,7 +280,8 @@ echo close_form();
 // Prevents searching in some columns (Allows using full-text search by default)
 $tab_options['NO_SEARCH']['nb'] = 'nb';
 $tab_options['NO_SEARCH']['sc.CATEGORY_NAME'] = 'sc.CATEGORY_NAME';
-$tab_options['NO_SEARCH']['VERSION'] = 'VERSION';
+$tab_options['NO_SEARCH']['s.VERSION'] = 's.VERSION';
+$tab_options['NO_SEARCH']['id'] = 'id';
 
 // Find out which visible columns are full-text indexed in the DB, and add this information to $tab_options
 $ft_idx = dbGetFTIndex('softwares', 's');

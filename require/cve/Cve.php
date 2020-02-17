@@ -35,7 +35,8 @@ class Cve
   function __construct(){
     $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
         'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST',
-        'VULN_BAN_LIST' => 'VULN_BAN_LIST');
+        'VULN_BAN_LIST' => 'VULN_BAN_LIST',
+        'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE');
 
     // Get configuration values from DB
     $values = look_config_default_values($champs);
@@ -43,6 +44,7 @@ class Cve
     $this->CVE_ACTIVE = $values['ivalue']["VULN_CVESEARCH_ENABLE"];
     $this->CVE_SEARCH_URL = $values['tvalue']['VULN_CVESEARCH_HOST'];
     $this->CVE_BAN = $values['tvalue']["VULN_BAN_LIST"];
+    $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"];
   }
 
   /**
@@ -66,6 +68,7 @@ class Cve
     }
 
     $getcve = $this->get_cve($this->cve_attr);
+    return $getcve;
   }
 
   /**
@@ -113,6 +116,7 @@ class Cve
    */
   public function get_cve($cve_attr){
     $curl = curl_init();
+    $count_soft = 0;
 
     foreach($cve_attr as $key => $values){
       $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME']; 
@@ -121,18 +125,19 @@ class Cve
       curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
       $result = curl_exec ($curl);
       $vars = json_decode($result, true);
-      if(!empty($vars)){
-        $this->search_by_version($vars, $values);
+      if($vars['total'] != 0){
+        $count_soft = $this->search_by_version($vars, $values, $count_soft);
       }
     }
 
     curl_close ($curl) ;
+    return $count_soft;
   }
 
   /**
    *  Clean soft version and verif if CVE is for this version or not
    */
-  private function search_by_version($vars, $software){
+  private function search_by_version($vars, $software, $count_soft){
     $software["VERSION_MODIF"] = $software["VERSION"];
     if(preg_match("/[^0-9,.:-]/", $software["VERSION_MODIF"])){
       $software["VERSION_MODIF"] = preg_replace("/[^0-9,.:-]/", "", $software["VERSION_MODIF"]);
@@ -154,6 +159,8 @@ class Cve
       }
     }
     $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$software["VERSION_MODIF"];
+    $vuln_conf_all = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":*:*:";
+
     if($software["NAME"] == "jre" && preg_match("/Update/", $software["REAL_NAME"])){
       $jre = explode(" ", $software["REAL_NAME"]);
       foreach($jre as $keys => $word){
@@ -161,16 +168,27 @@ class Cve
           $vuln_conf .= ":".strtolower($word)."_".$jre[$keys+1];
         }
       }
-    }   
-    foreach($vars as $key => $values){
-      if(isset($values["vulnerable_configuration"])) {
-        foreach($values["vulnerable_configuration"] as $keys => $vuln){
-          if($vuln == $vuln_conf){
-            $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0], $software["REAL_VENDOR"], $software["REAL_NAME"], $software["VERSION"]);
+    }
+
+    foreach($vars as $key => $array){
+      if(is_array($array)){
+        foreach($array as $keys => $values) {
+          if(isset($values["vulnerable_configuration"])) {
+            foreach($values["vulnerable_configuration"] as $keys => $vuln){
+              if((strpos($vuln, $vuln_conf) !== false) || (strpos($vuln, $vuln_conf_all) !== false)){
+                if($this->CVE_VERBOSE == 1) {
+                  error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
+                }
+                $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0], $software["REAL_VENDOR"], $software["REAL_NAME"], $software["VERSION"]);
+                $count_soft ++;
+              }
+            }
           }
         }
       }
     }
+
+    return $count_soft;
   }
 
   /**
