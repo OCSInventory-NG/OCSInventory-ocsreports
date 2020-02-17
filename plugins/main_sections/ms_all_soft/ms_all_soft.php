@@ -285,13 +285,15 @@ $tab_options['NO_SEARCH']['id'] = 'id';
 
 // Find out which visible columns are full-text indexed in the DB, and add this information to $tab_options
 $ft_idx = dbGetFTIndex('softwares', 's');
-foreach($tab_options['visible_col'] as $column) {
-        $cname = $tab_options['columns'][$column]['name'];
-        if (!empty($ft_idx[$cname])) {
-                $tab_options['columns'][$column]['ft_index'] = 'true';
-        } else {
-                $tab_options['columns'][$column]['ft_index'] = 'false';
-        }
+if(is_array($tab_options['visible_col'])) {
+    foreach($tab_options['visible_col'] as $column) {
+            $cname = $tab_options['columns'][$column]['name'];
+            if (!empty($ft_idx[$cname])) {
+                    $tab_options['columns'][$column]['ft_index'] = 'true';
+            } else {
+                    $tab_options['columns'][$column]['ft_index'] = 'false';
+            }
+    }
 }
 
 if (AJAX) {
