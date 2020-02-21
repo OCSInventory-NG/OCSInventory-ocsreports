@@ -136,12 +136,6 @@ class ExtensionManager{
 				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_UPGRADE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
 				return false;
 			}
-			
-			if (!function_exists(self::EXTENSION_HOOK_METHD.$name)) {
-				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_HOOK_METHD.$name, EXT_DL_DIR.$name.'/install.php');
-				return false;
-			}
-
 
             return true;
         } catch (Exception $ex) {
