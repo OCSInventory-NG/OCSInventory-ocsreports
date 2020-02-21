@@ -1576,6 +1576,9 @@
 7018 This extension is allready installed.
 7019 A PHP error occurred.
 7020 Extension successfull desinstalled !
+7021 Extension "%s" not compliant
+7022 Missing function "%s" in "%s"!
+7023 Unable to include install.php
 
 8000 Notifications
 8001 Enable notification tracking

@@ -42,8 +42,17 @@ $extMgr = new ExtensionManager();
 if($extMgr->checkPrerequisites()){
     $extMgr->checkInstallableExtensions();
     
+	if (!empty($extMgr->installableExtensions_errors)) {
+		$extensions_errors .= '<ul>';
+		foreach($extMgr->installableExtensions_errors as $error_msg) {
+			$extensions_errors .= '<li>'.$error_msg.'</li>';
+		}
+		$extensions_errors .= '</ul>';
+		msg_error($extensions_errors);
+	}
+	
     if(empty($extMgr->installableExtensionsList)){
-        msg_warning($l->g(7014));
+        msg_warning($l->g(7014).' ('.EXT_DL_DIR.').');
     }else{   
         echo open_form("PluginInstall", '', '', 'form-horizontal');
         ?>
