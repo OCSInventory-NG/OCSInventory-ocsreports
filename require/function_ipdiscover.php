@@ -251,7 +251,7 @@ function find_community_info($id) {
 }
 
 function runCommand($command = "", $fname) {
-    $command = "perl ipdiscover-util.pl $command -xml -h=" . SERVER_READ . " -u=" . COMPTE_BASE . " -p=" . PSWD_BASE . " -d=" . DB_NAME . " -path=" . $fname;
+    $command = "perl ipdiscover-util.pl $command -xml -h=" . SERVER_READ . " -P=" . SERVER_PORT . " -u=" . COMPTE_BASE . " -p=" . PSWD_BASE . " -d=" . DB_NAME . " -path=" . $fname;
     exec($command);
 }
 

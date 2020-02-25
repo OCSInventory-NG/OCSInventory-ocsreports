@@ -94,8 +94,8 @@ if (!defined("SERVER_READ") || !defined("DB_NAME") || !defined("SERVER_WRITE") |
 }
 
 //connect to databases
-$link_write = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT);
-$link_read = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT);
+$link_write = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
+$link_read = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
 //p($link_write);
 
 if (is_object($link_write) && is_object($link_read)) {
