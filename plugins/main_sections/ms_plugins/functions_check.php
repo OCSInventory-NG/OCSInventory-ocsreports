@@ -47,7 +47,7 @@ function install($archiveName) {
  */
 function check($plugarray) {
 
-    $conn = new PDO('mysql:host=' . SERVER_WRITE . ';dbname=' . DB_NAME . ';charset=utf8', COMPTE_BASE, PSWD_BASE);
+    $conn = new PDO('mysql:host=' . SERVER_WRITE . ';port=' . SERVER_PORT . ';dbname=' . DB_NAME . ';charset=utf8', COMPTE_BASE, PSWD_BASE);
 
     foreach ($plugarray as $value) {
 

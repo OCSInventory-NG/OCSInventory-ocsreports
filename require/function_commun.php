@@ -153,7 +153,7 @@ function prepare_sql_tab($list_fields, $explu = array(), $distinct = false) {
     return array('SQL' => substr($begin_sql, 0, -2) . " ", 'ARG' => $begin_arg);
 }
 
-function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME, $sslkey = SSL_KEY, $sslcert = SSL_CERT, $cacert = CA_CERT, $sslmode = SSL_MODE, $enablessl = ENABLE_SSL) {
+function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME, $sslkey = SSL_KEY, $sslcert = SSL_CERT, $cacert = CA_CERT, $sslmode = SSL_MODE, $enablessl = ENABLE_SSL, $port = 3306) {
     error_reporting(E_ALL & ~E_NOTICE);
     mysqli_report(MYSQLI_REPORT_STRICT);
     //$link is ok?
@@ -174,7 +174,7 @@ function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME, $sslkey = S
         $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
         $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
-        $link = mysqli_real_connect($dbc, $server, $compte_base, $pswd_base, NULL, 3306, NULL, $connect);
+        $link = mysqli_real_connect($dbc, $server, $compte_base, $pswd_base, NULL, $port, NULL, $connect);
 
         if($link) {
             $link = $dbc;

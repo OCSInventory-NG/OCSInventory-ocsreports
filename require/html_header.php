@@ -153,7 +153,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
             $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
             $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
-            $link = mysqli_real_connect($dbc, SERVER_READ, DFT_DB_CMPT, DFT_DB_PSWD, NULL, 3306, NULL, $connect);
+            $link = mysqli_real_connect($dbc, SERVER_READ, DFT_DB_CMPT, DFT_DB_PSWD, NULL, SERVER_PORT, NULL, $connect);
 
             if($link) {
                 $link = $dbc;
