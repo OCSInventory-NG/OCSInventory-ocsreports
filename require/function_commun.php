@@ -555,6 +555,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                      * 12 = QRCode
                      * 13 = Disabled
                      * 14 = Date
+                     * 15 = number
                      **/
                     if($field['INPUT_TYPE'] == 0 ||
                             $field['INPUT_TYPE'] == 1 ||
@@ -581,6 +582,8 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                         $inputType = 'qrcode';
                     } elseif($field['INPUT_TYPE'] == 11){
                         $inputType = 'radio';
+                    } elseif($field['INPUT_TYPE'] == 15){
+                        $inputType = 'number';
                     } else {
                             $inputType = 'hidden';
                     }
@@ -597,6 +600,12 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                         echo "<div class='input-group'>";
                                     }
                                     echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                    if($field['COMMENT_AFTER'] == ""){
+                                      echo "</div>";
+                                    }
+                                }else if($inputType == 'number'){
+                                    echo "<div class='input-group'>";
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' min='1' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
                                     if($field['COMMENT_AFTER'] == ""){
                                       echo "</div>";
                                     }
