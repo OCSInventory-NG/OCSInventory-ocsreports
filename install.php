@@ -88,13 +88,14 @@ check_requirements();
 //post the first form
 if (isset($_POST["name"])) {
 
-    $link = dbconnect($_POST["host"], $_POST["name"], $_POST["pass"], $_POST["database"], $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], $_POST["sslmode"], $_POST["enablessl"]);
+    $link = dbconnect($_POST["host"], $_POST["name"], $_POST["pass"], $_POST["database"], $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], $_POST["sslmode"], $_POST["enablessl"], $_POST["port"] );
     if (mysqli_connect_errno()) {
         $firstAttempt = false;
         msg_error($l->g(2001) . " " . $l->g(249) .
                 " (" . $l->g(2010) . "=" . $_POST["host"] .
                 " " . $l->g(2011) . "=" . $_POST["name"] .
                 " " . $l->g(2014) . "=" . $_POST["pass"] .
+                " " . $l->g(2014) . "=" . $_POST["port"] .
                 " " . $l->g(2014) . "=" . $_POST["enablessl"] .
                 " " . $l->g(2014) . "=" . $_POST["sslmode"] .
                 " " . $l->g(2014) . "=" . $_POST["sslkey"] .
@@ -119,7 +120,7 @@ if (isset($_POST["name"])) {
             $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
             $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
-            $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, 3306, NULL, $connect);
+            $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, $_POST["port"], NULL, $connect);
 
             if($link) {
                 $link = $dbc;
@@ -146,6 +147,7 @@ if (isset($_POST["name"])) {
                 fwrite($ch, "define(\"DB_NAME\", \"" . $_POST['database'] . "\");\n");
                 fwrite($ch, "define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
                 fwrite($ch, "define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");
+                fwrite($ch, "define(\"SERVER_PORT\",\"" . $_POST["port"] . "\");\n");
                 fwrite($ch, "define(\"COMPTE_BASE\",\"" . $_POST["name"] . "\");\n");
                 fwrite($ch, "define(\"PSWD_BASE\",\"" . $_POST["pass"] . "\");\n");
                 fwrite($ch, "define(\"ENABLE_SSL\",\"" . $_POST["enablessl"] . "\");\n");
@@ -171,6 +173,7 @@ if (isset($_POST["name"])) {
             fwrite($ch, "define(\"DB_NAME\", \"" . $_POST['database'] . "\");\n");
             fwrite($ch, "define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
             fwrite($ch, "define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");
+            fwrite($ch, "define(\"SERVER_PORT\",\"" . $_POST["port"] . "\");\n");
             fwrite($ch, "define(\"COMPTE_BASE\",\"" . $name_connect . "\");\n");
             fwrite($ch, "define(\"PSWD_BASE\",\"" . $pass_connect . "\");\n");
             fwrite($ch, "define(\"ENABLE_SSL\",\"" . $_POST["enablessl"] . "\");\n");
@@ -196,7 +199,7 @@ if (isset($_POST["name"])) {
             $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
             $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
-            $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, 3306, NULL, $connect);
+            $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, $_POST["port"], NULL, $connect);
 
             if (!$link) {
                 if (mysqli_connect_errno() == 0) {
@@ -246,6 +249,11 @@ if (is_readable(CONF_MYSQL)) {
     } else {
         $valServ = '';
     }
+    if (defined('SERVER_PORT')) {
+        $valPort = SERVER_PORT;
+    } else {
+        $valPort = 3306;
+    }
     if (defined('DB_NAME')) {
         $valdatabase = DB_NAME;
     } else {
@@ -291,13 +299,13 @@ if (is_readable(CONF_MYSQL)) {
 }
 //show first form
 $form_name = 'fsub';
-$name_field = array("name", "pass", "database", "host", "enablessl", "sslmode", "sslkey", "sslcert", "cacert");
-$tab_name = array($l->g(247) . ": ", $l->g(248) . ": ", $l->g(1233) . ":", $l->g(250) . ":", $l->g(9102) . ":", $l->g(9103) . ":", $l->g(9100) . ":", $l->g(9101) . ":", $l->g(9104) . ":");
-$type_field = array(0, 4, 0, 0, 2, 2, 0, 0, 0);
+$name_field = array("name", "pass", "database", "host", "port", "enablessl", "sslmode", "sslkey", "sslcert", "cacert");
+$tab_name = array($l->g(247) . ": ", $l->g(248) . ": ", $l->g(1233) . ":", $l->g(250) . ":", $l->g(9105) . " :", $l->g(9102) . ":", $l->g(9103) . ":", $l->g(9100) . ":", $l->g(9101) . ":", $l->g(9104) . ":");
+$type_field = array(0, 4, 0, 0, 15, 2, 2, 0, 0, 0);
 if (isset($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"])) {
-    $value_field = array($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"], $valenablessl, $valsslmode, $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"]);
+    $value_field = array($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"], $_POST["port"], $valenablessl, $valsslmode, $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"]);
 } else {
-    $value_field = array($valNme, $valPass, $valdatabase, $valServ, $valenablessl, $valsslmode, $valsslkey, $valsslcert, $valcacert);
+    $value_field = array($valNme, $valPass, $valdatabase, $valServ, $valPort, $valenablessl, $valsslmode, $valsslkey, $valsslcert, $valcacert);
 }
 $tab_typ_champ = show_field($name_field, $type_field, $value_field);
 modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
