@@ -180,9 +180,6 @@ if ($show_mac_addr) {
 // BIOS INFOS
 $queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id ";
 
-//MEMORIES INFOS
-$queryDetails .= "LEFT JOIN memories m ON m.hardware_id=h.id ";
-
 //ASSETS CATEGORY
 $queryDetails .= "LEFT JOIN assets_categories ac ON ac.ID = h.CATEGORY_ID ";
 
