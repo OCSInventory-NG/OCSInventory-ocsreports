@@ -1644,3 +1644,4 @@
 9102 Enable SSL
 9103 SSL mode
 9104 CA certificat path
+9105 MySQL Port
