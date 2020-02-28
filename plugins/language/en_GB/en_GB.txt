@@ -1332,6 +1332,7 @@
 1453 GUID
 1454 Source
 1455 Virtual interface
+1456 Phone number
 
 1460 CVE-search management
 1461 Enable CVE Reporting

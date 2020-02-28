@@ -1333,6 +1333,7 @@
 1453 GUID
 1454 Source
 1455 Interface virtuelle
+1456 Numéro de téléphone
 
 1460 Cve-search management
 1461 Activer Rapport de CVE
