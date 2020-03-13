@@ -72,8 +72,8 @@ class DatabaseSearch
     /**
      * Default query
      */
-    private $tableQuery = "SHOW TABLES FROM %s";
-    private $columnsQuery = "SHOW COLUMNS FROM %s";
+    private $tableQuery = "SHOW TABLES FROM `%s`";
+    private $columnsQuery = "SHOW COLUMNS FROM `%s`";
 
     /**
      * Objects
