@@ -1,4 +1,26 @@
 Revision history for ocsreports
+2.7
+		* Add CVE reporting
+		* Add Web Application inventory
+		* Add Schedule Wake On lan
+		* Add saved searches on multicriteria
+		* Improve MySQL connection to add SSL connection and set alternative port
+		* Improve multicriteria to search by delay
+		* Bugs fix
+
+2.6
+		* Improve translations
+		* Plugin engine rework (see. http://wiki.ocsinventory-ng.org/10.Plugin-engine/Using-plugins-installer/)
+		* You can now edit deployment package without re-creating one from "inventory > activate"
+		* Improve software categorization to have more detailed criterias
+		* Add notifications system to have latest OCS Inventory News
+		* Rework login dashboard (better informations, dynamic group from the welcome page)
+		* Improve multi search engine introduced in 2.5
+		* Fix CSV problems on hostname export
+		* Migrate all tables to InnoDB
+		* Improve accountinfo display and edit
+		* Remove useless column in all software page
+		* Bugs fix
 
 2.6 RC
 		* Plugin engine rework (see. http://wiki.ocsinventory-ng.org/10.Plugin-engine/Using-plugins-installer/)
