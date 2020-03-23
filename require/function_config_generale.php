@@ -913,7 +913,7 @@ function pageVulnerability() {
     ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'], 'SELECT_VALUE' => $list_cat));
     ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE']));
     //ligne('VULN_CVESEARCH_DATE', 'penser à mettre une description', 'select', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_DATE'], 'SELECT_VALUE' => $years));
-    ligne('VULN_CVESEARCH_ALL', 'penser à mettre une description', 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL']));
+    ligne('VULN_CVESEARCH_ALL', $l->g(1471), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL']));
 }
 
 function pageConnexion() {
