@@ -28,12 +28,10 @@ if($cve->CVE_ACTIVE == 1) {
         exit();
     } else {
         curl_close($curl);
+        $cve->getSoftwareInformations($argv[1]);
+        $cve->insertFlag();
         if($cve->CVE_VERBOSE == 1) {
-            error_log(print_r("CVE's Data processing ...", true));
-        }
-        $soft = $cve->getSoftwareInformations();
-        if($cve->CVE_VERBOSE == 1) {
-            error_log(print_r($soft." CVE has been added to database", true));
+            error_log(print_r($cve->cve_history['CVE_NB']." CVE has been added to database", true));
         }
     }
 } else {
