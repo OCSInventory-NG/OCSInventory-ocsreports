@@ -1345,6 +1345,7 @@
 1468 Vulnerability
 1469 Select software categories that you do not want to process
 1470 Enable CVE-search verbose
+1471 Enable to get CVE corresponding to all software version
 
 1500 Software category
 1501 New category
