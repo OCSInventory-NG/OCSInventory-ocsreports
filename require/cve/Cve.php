@@ -89,8 +89,10 @@ class Cve
   }
 
   public function insertFlag() {
+    $date = date('Y-m-d H:i:s');
+
     $sql = "INSERT INTO cve_search_history(FLAG_DATE, CVE_NB, TYPE) VALUES('%s', %s, '%s')";
-    $sqlarg = array($this->cve_history['FLAG'], $this->cve_history['CVE_NB'], $this->cve_history['TYPE']);
+    $sqlarg = array($date, $this->cve_history['CVE_NB'], $this->cve_history['TYPE']);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sqlarg);
   }
 
