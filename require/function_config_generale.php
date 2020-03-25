@@ -374,7 +374,7 @@ function update_default_value($POST) {
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
-        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY','VULN_CVESEARCH_DATE');
+        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY');
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
@@ -892,7 +892,6 @@ function pageVulnerability() {
         'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST',
         'VULN_BAN_LIST' => 'VULN_BAN_LIST',
         'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE',
-        'VULN_CVESEARCH_DATE' => 'VULN_CVESEARCH_DATE',
         'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL');
     // Get configuration values from DB
     $values = look_config_default_values($champs);
@@ -902,17 +901,11 @@ function pageVulnerability() {
     $category = new SoftwareCategory();
     $list_cat = $category->search_all_cat();
 
-    $earliest_cve = '2006';
-    foreach (range(date('Y'), $earliest_cve) as $x) {
-        $years[$x] = $x;
-    }
-
     // Display configuration items
     ligne('VULN_CVESEARCH_ENABLE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE']));
     ligne('VULN_CVESEARCH_HOST', $l->g(1462), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'], 'SELECT_VALUE' => $list_cat));
     ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE']));
-    //ligne('VULN_CVESEARCH_DATE', 'penser à mettre une description', 'select', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_DATE'], 'SELECT_VALUE' => $years));
     ligne('VULN_CVESEARCH_ALL', $l->g(1471), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL']));
 }
 
