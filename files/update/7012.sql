@@ -1,4 +1,4 @@
--- Create snmpmibs if not already exists
+-- Create repository if not already exists
 CREATE TABLE IF NOT EXISTS `repository` (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `HARDWARE_ID` INT(11) NOT NULL,
