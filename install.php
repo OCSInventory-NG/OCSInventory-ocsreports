@@ -88,7 +88,7 @@ check_requirements();
 //post the first form
 if (isset($_POST["name"])) {
 
-    $link = dbconnect($_POST["host"], $_POST["name"], $_POST["pass"], $_POST["database"], $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], $_POST["sslmode"], $_POST["enablessl"], $_POST["port"] );
+    $link = dbconnect($_POST["host"], $_POST["name"], $_POST["pass"], $_POST["database"], $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], $_POST["port"], $_POST["sslmode"], $_POST["enablessl"] );
     if (mysqli_connect_errno()) {
         $firstAttempt = false;
         msg_error($l->g(2001) . " " . $l->g(249) .
