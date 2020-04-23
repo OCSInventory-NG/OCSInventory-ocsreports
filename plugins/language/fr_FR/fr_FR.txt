@@ -1372,6 +1372,7 @@
 1602 Ne contient pas
 1603 Plus de X jours
 1604 Moins de X jours
+1605 Autres
 
 1700 Configuration avancée
 1701 Onglet disponible

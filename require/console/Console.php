@@ -33,30 +33,47 @@
     * @return array $machine
     */
    public function get_machine_contacted_td($title){
-      $machine = array("windows" => 0, "unix" => 0, "android" => 0, 'all' => 0);
+      $machine = array("windows" => 0, "unix" => 0, "android" => 0, 'others' => 0, 'all' => 0);
 
-      foreach($machine as $key => $value){
-          if($title == "CONTACTED"){
-            $sql = "SELECT DISTINCT name, count(id) as nb, USERAGENT FROM hardware WHERE lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND USERAGENT LIKE '%$key%'";
-          }elseif($title == "ALL COMPUTER"){
-            $sql = "SELECT name, count(id) as nb, USERAGENT FROM hardware WHERE USERAGENT LIKE '%$key%'";
-          }
+      if($title == "CONTACTED"){
+        foreach($machine as $key => $value){
+          $sql = "SELECT DISTINCT name, count(id) as nb, USERAGENT FROM hardware WHERE lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND USERAGENT LIKE '%$key%'";
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-
-          while($item = mysqli_fetch_array($result)){
-            if(strpos($item['USERAGENT'], 'unix') !== false){
-                $machine['unix'] = intval($item['nb']);
-                $machine['all'] = $machine['all'] + intval($item['nb']);
-            }elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false){
-                $machine['windows'] = intval($item['nb']);
-                $machine['all'] = $machine['all'] + intval($item['nb']);
-            }elseif(strpos($item['USERAGENT'], 'Android') !== false){
-                $machine['android'] = intval($item['nb']);
-                $machine['all'] = $machine['all'] + intval($item['nb']);
+          
+          while($item = mysqli_fetch_array($result)) {
+            if(strpos($item['USERAGENT'], 'unix') !== false) {
+              $machine['unix'] = intval($item['nb']);
+              $machine['all'] = $machine['all'] + intval($item['nb']);
+            } elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false) {
+              $machine['windows'] = intval($item['nb']);
+              $machine['all'] = $machine['all'] + intval($item['nb']);
+            } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
+              $machine['android'] = intval($item['nb']);
+              $machine['all'] = $machine['all'] + intval($item['nb']);
             }
           }
+        }
       }
-
+      if($title == "ALL COMPUTER"){
+        $sql = "SELECT DISTINCT ID, count(ID) as nb, USERAGENT FROM hardware WHERE USERAGENT IS NOT NULL GROUP BY USERAGENT";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        while($item = mysqli_fetch_array($result)){
+          if(strpos($item['USERAGENT'], 'unix') !== false) {
+            $machine['unix'] = $machine['unix'] + intval($item['nb']);
+            $machine['all'] = $machine['all'] + intval($item['nb']);
+          } elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false) {
+            $machine['windows'] = $machine['windows'] + intval($item['nb']);
+            $machine['all'] = $machine['all'] + intval($item['nb']);
+          } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
+            $machine['android'] = $machine['android'] + intval($item['nb']);
+            $machine['all'] = $machine['all'] + intval($item['nb']);
+          }else{
+            $machine['others'] = $machine['others'] + intval($item['nb']);
+            $machine['all'] = $machine['all'] + intval($item['nb']);
+          }
+        }
+      }  
+      
       return $machine;
    }
 
@@ -75,7 +92,11 @@
           if($title == "CONTACTED"){
             $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTCOME-TALL']."&values2=".$key."&type_field='>".$value."</a>";
           }elseif($title == "ALL COMPUTER"){
-            $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=&values2=".$key."&type_field='>".$value."</a>";
+            if($key == 'others') {
+              $machine[$key] = "<p style='font-size:32px; font-weight:bold;'>".$value."</p>";
+            } else {
+              $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=&values2=".$key."&type_field='>".$value."</a>";
+            }
           }
         } else {
           $machine[$key] = "<p style='font-size:32px; font-weight:bold;'>".$value."</p>";
@@ -129,6 +150,7 @@
                       <td style="border-right: 1px solid #ddd;"><span>' . $machine['windows']. '</span> </p><span style="color:#333; font-size:13pt;">Windows</span></td>
                       <td style="border-right: 1px solid #ddd;"><span>' . $machine['unix'] . '</span> </p><span style="color:#333; font-size:13pt;"> Unix </span></td>
                       <td style="border-right: 1px solid #ddd;"><span>' . $machine['android']. '</span> </p><span style="color:#333; font-size:13pt;">Android</span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $machine['others']. '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(1605).'</span></td>
                       <td style="border-right: 1px solid #ddd;"><span>' . $oss . '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(25).'</span></td>
                       <td style="border-right: 1px solid #ddd;"><span>' . $softs. '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(20).'</span></td>                   
                     </tr>';
