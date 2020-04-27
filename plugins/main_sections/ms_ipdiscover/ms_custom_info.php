@@ -190,6 +190,7 @@ if (is_defined($protectedPost['MODIF'])) {
             $list_fields['SUP'] = 'mac';
             $list_fields['CHECK'] = 'mac';
             $list_fields['MODIF'] = 'mac';
+            if(isset($tab_options['MODIF']) && !is_array($tab_options['MODIF'])) $tab_options['MODIF'] = array();
             $tab_options['MODIF']['IMG'] = "image/prec16.png";
             $tab_options['LBL']['MODIF'] = $l->g(114);
             $default_fields = $list_fields;
