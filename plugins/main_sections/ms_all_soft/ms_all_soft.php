@@ -223,7 +223,7 @@ else {
     } else {
       $sql['SQL'] .= ' WHERE n.CATEGORY_ID = %s';
     }
-var_dump($sql);
+
     $sql['ARG'] = array($protectedPost['onglet']);
     if (isset($sql)) {
         $sql['SQL'] .= " GROUP BY CONCAT(s.NAME_ID,'_', s.VERSION_ID)";
