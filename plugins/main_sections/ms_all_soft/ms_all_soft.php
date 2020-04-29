@@ -53,7 +53,7 @@ $sql_fin['ARG'] = array();
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
     $info_name_soft = array("table" => "type_softwares_name", "field" => "name", "field_name_soft" => 'name_id');
 } else {
-    $info_name_soft = array("table" => "s", "field" => "name", "field_name_soft" => 'name');
+    $info_name_soft = array("table" => "n", "field" => "name", "field_name_soft" => 'name');
 }
 
 $field_name_soft = $info_name_soft['table'] . "." . $info_name_soft['field'];
