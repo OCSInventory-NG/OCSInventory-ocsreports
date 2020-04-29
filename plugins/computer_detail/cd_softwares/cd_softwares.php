@@ -69,20 +69,23 @@ $list_fields[$l->g(69)] = 'PUBLISHER';
 if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
         and $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
     $queryDetails = "SELECT s.PUBLISHER,
-									 s_name.NAME as NAME,
-									 s_version.NAME as VERSION,
-									 s.COMMENTS,s.FOLDER,s.FILENAME,s.FILESIZE,s.GUID,
-									 s.LANGUAGE,s.INSTALLDATE,s.BITSWIDTH, c.CATEGORY_NAME as CATEGORY
-							   FROM softwares s
-								left join type_softwares_name s_name on s_name.id= s.name_id
-								left join type_softwares_version s_version on s_version.id=s.version_id
-                left join software_categories c on c.id = s.category
-								WHERE (hardware_id=$systemid)";
+                            s_name.NAME AS NAME,
+                            s_version.NAME AS VERSION,
+                            s.COMMENTS,s.FOLDER,s.FILENAME,s.FILESIZE,s.GUID,
+                            s.LANGUAGE,s.INSTALLDATE,s.BITSWIDTH, c.CATEGORY_NAME AS CATEGORY
+                    FROM software s
+                    LEFT JOIN type_softwares_name s_name ON s_name.id= s.name_id
+                    LEFT JOIN type_softwares_version s_version ON s_version.id=s.version_id
+                    LEFT JOIN software_categories c ON c.id = s.category
+                    WHERE (hardware_id=$systemid)";
     $list_fields[$l->g(49)] = 's_name.NAME';
 } else {
-    $queryDetails = "SELECT *, c.CATEGORY_NAME as CATEGORY FROM softwares s
-                 left join software_categories c on c.id=s.category
-								 WHERE (hardware_id=$systemid)";
+    $queryDetails = "SELECT *, c.CATEGORY_NAME as CATEGORY, n.NAME, p.PUBLISHER, v.VERSION 
+                    FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
+                    LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
+                    LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
+                    LEFT JOIN software_categories c ON n.CATEGORY_ID = c.ID
+					WHERE (hardware_id=$systemid)";
     $list_fields[$l->g(49)] = 'NAME';
 }
 
