@@ -130,7 +130,11 @@ if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NB
 
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
-    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s LEFT JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
+                FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
+                LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
+                LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
+                LEFT JOIN software_categories sc ON n.CATEGORY_ID = sc.ID';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -138,14 +142,14 @@ if($protectedPost['onglet'] == "ALL"){
     }
 
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME, s.VERSION)";
+        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME_ID,'_', s.VERSION_ID)";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] =  $sql_fin['ARG'];
         }
 
-        $list_fields = array('name' => 'NAME',
-            $l->g(7003) => 's.VERSION',
+        $list_fields = array('name' => 'n.NAME',
+            $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
@@ -167,24 +171,28 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $champs = array('DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     $values = look_config_default_values($champs);
 
-    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
+                    FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
+                    LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
+                    LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
+                    LEFT JOIN software_categories sc ON n.CATEGORY_ID = sc.ID';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
-      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND s.CATEGORY != %s AND s.CATEGORY IS NOT NULL";
+      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND n.CATEGORY_ID != %s AND n.CATEGORY_ID IS NOT NULL";
     } else {
-      $sql['SQL'] .= ' WHERE s.CATEGORY != %s AND s.CATEGORY IS NOT NULL';
+      $sql['SQL'] .= ' WHERE n.CATEGORY_ID != %s AND n.CATEGORY_ID IS NOT NULL';
     }
 
     $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME, s.VERSION)";
+        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME_ID,'_', s.VERSION_ID)";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array('name' => 'NAME',
-            $l->g(7003) => 's.VERSION',
+        $list_fields = array('name' => 'n.NAME',
+            $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
             'nbre' => 'nb',
         );
@@ -203,18 +211,22 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
 /****************************************** SOFTWARE PER CATEGORY ******************************************/
 else {
-    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME, s.VERSION)) as nb, CONCAT(s.NAME,";", s.VERSION) id, sc.CATEGORY_NAME, s.VERSION FROM softwares s INNER JOIN software_categories AS sc ON sc.ID = s.CATEGORY';
+    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
+                FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
+                LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
+                LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
+                LEFT JOIN software_categories sc ON n.CATEGORY_ID = sc.ID';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
-      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND s.CATEGORY = %s";
+      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND n.CATEGORY_ID = %s";
     } else {
-      $sql['SQL'] .= ' WHERE s.CATEGORY = %s';
+      $sql['SQL'] .= ' WHERE n.CATEGORY_ID = %s';
     }
-
+var_dump($sql);
     $sql['ARG'] = array($protectedPost['onglet']);
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME, s.VERSION)";
+        $sql['SQL'] .= " GROUP BY CONCAT(s.NAME_ID,'_', s.VERSION_ID)";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
@@ -280,11 +292,11 @@ echo close_form();
 // Prevents searching in some columns (Allows using full-text search by default)
 $tab_options['NO_SEARCH']['nb'] = 'nb';
 $tab_options['NO_SEARCH']['sc.CATEGORY_NAME'] = 'sc.CATEGORY_NAME';
-$tab_options['NO_SEARCH']['s.VERSION'] = 's.VERSION';
+$tab_options['NO_SEARCH']['s.VERSION'] = 'v.VERSION';
 $tab_options['NO_SEARCH']['id'] = 'id';
 
 // Find out which visible columns are full-text indexed in the DB, and add this information to $tab_options
-$ft_idx = dbGetFTIndex('softwares', 's');
+$ft_idx = dbGetFTIndex('software', 's');
 if(is_array($tab_options['visible_col'])) {
     foreach($tab_options['visible_col'] as $column) {
             $cname = $tab_options['columns'][$column]['name'];
