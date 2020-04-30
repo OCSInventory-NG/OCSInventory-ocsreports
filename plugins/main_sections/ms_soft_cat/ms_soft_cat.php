@@ -190,7 +190,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
                         LEFT JOIN software_name n ON n.ID = s.NAME_ID
                         LEFT JOIN software_publisher p ON p.ID = s.PUBLISHER_ID 
                         LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
-                        WHERE n.CATEGORY_ID =".$categorie_id[$list_cat[$protectedPost['onglet_soft']]]." GROUP BY n.NAME, v.VERSION";
+                        WHERE n.CATEGORY =".$categorie_id[$list_cat[$protectedPost['onglet_soft']]]." GROUP BY n.NAME, v.VERSION";
         $default_fields = $list_fields;
         $list_col_cant_del = $list_fields;
         $list_fields[$l->g(51)] = 'COMMENTS';

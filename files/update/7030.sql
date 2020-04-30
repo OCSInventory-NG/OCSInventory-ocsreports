@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS `software_name` (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `NAME` VARCHAR(255) NOT NULL UNIQUE,
-    `CATEGORY_ID` INTEGER DEFAULT NULL,
+    `CATEGORY` INTEGER DEFAULT NULL,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -49,6 +49,6 @@ CREATE TABLE IF NOT EXISTS `software` (
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 -- Insert default value
-INSERT INTO sofwtare_name (`NAME`) VALUES ("Unavailable");
-INSERT INTO sofwtare_publisher (`PUBLISHER`) VALUES ("Unavailable");
-INSERT INTO sofwtare_version (`VERSION`) VALUES ("Unavailable");
+INSERT INTO software_name (`NAME`) VALUES ("Unavailable");
+INSERT INTO software_publisher (`PUBLISHER`) VALUES ("Unavailable");
+INSERT INTO software_version (`VERSION`) VALUES ("Unavailable");

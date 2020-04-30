@@ -134,7 +134,7 @@ if($protectedPost['onglet'] == "ALL"){
                 FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                 LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                 LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
-                LEFT JOIN software_categories sc ON n.CATEGORY_ID = sc.ID';
+                LEFT JOIN software_categories sc ON n.CATEGORY = sc.ID';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -175,13 +175,13 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
                     FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                     LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                     LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
-                    LEFT JOIN software_categories sc ON n.CATEGORY_ID = sc.ID';
+                    LEFT JOIN software_categories sc ON n.CATEGORY = sc.ID';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
-      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND n.CATEGORY_ID != %s AND n.CATEGORY_ID IS NOT NULL";
+      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND n.CATEGORY != %s AND n.CATEGORY IS NOT NULL";
     } else {
-      $sql['SQL'] .= ' WHERE n.CATEGORY_ID != %s AND n.CATEGORY_ID IS NOT NULL';
+      $sql['SQL'] .= ' WHERE n.CATEGORY != %s AND n.CATEGORY IS NOT NULL';
     }
 
     $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
@@ -215,13 +215,13 @@ else {
                 FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                 LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                 LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
-                LEFT JOIN software_categories sc ON n.CATEGORY_ID = sc.ID';
+                LEFT JOIN software_categories sc ON n.CATEGORY = sc.ID';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
-      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND n.CATEGORY_ID = %s";
+      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND n.CATEGORY = %s";
     } else {
-      $sql['SQL'] .= ' WHERE n.CATEGORY_ID = %s';
+      $sql['SQL'] .= ' WHERE n.CATEGORY = %s';
     }
 
     $sql['ARG'] = array($protectedPost['onglet']);

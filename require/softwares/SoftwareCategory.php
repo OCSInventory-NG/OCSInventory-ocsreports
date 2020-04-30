@@ -143,7 +143,7 @@ class SoftwareCategory
                         </tr>';
 
         foreach ($cat as $key => $value){
-          $sql = "SELECT `NAME` FROM software_name WHERE CATEGORY_ID = %s";
+          $sql = "SELECT `NAME` FROM software_name WHERE CATEGORY = %s";
           $arg = array($key);
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
@@ -242,13 +242,13 @@ class SoftwareCategory
      * @return array
      */
     public function onglet_cat_cd($computerID){
-        $sql = "SELECT n.CATEGORY_ID FROM software_name n 
+        $sql = "SELECT n.CATEGORY FROM software_name n 
                 LEFT JOIN software s ON n.ID = s.NAME_ID 
-                WHERE hardware_id = %s GROUP BY CATEGORY_ID";
+                WHERE hardware_id = %s GROUP BY n.CATEGORY";
         $sql_arg = array($computerID);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
         while ($idCat = mysqli_fetch_array($result)) {
-            $id[$idCat['CATEGORY_ID']] = $idCat['CATEGORY_ID'];
+            $id[$idCat['CATEGORY']] = $idCat['CATEGORY'];
         }
         $cat = implode(',', $id);
 
