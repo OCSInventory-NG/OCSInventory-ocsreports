@@ -140,7 +140,7 @@
         $result_os = mysql2_query_secure($sql_os, $_SESSION['OCS']["readServer"]);
         $oss = "<p style='font-size:32px; font-weight:bold;'>".mysqli_num_rows($result_os)."</p>";
         //get softwares
-        $sql = "SELECT name, count(name) FROM `softwares` group by name";
+        $sql = "SELECT ID, count(ID) FROM `software` group by ID";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         $softs = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_all_soft'>".mysqli_num_rows($result)."</a>";
 
