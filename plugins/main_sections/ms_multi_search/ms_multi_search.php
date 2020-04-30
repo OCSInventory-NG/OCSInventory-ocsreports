@@ -58,7 +58,7 @@ $groupSearch = new GroupSearch();
 //$legacySearch = new LegacySearch();
 
 $search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch, $softwareSearch);
-$sqlCache = new SQLCache($search);
+$sqlCache = new SQLCache($search, $softwareSearch);
 
 $_SESSION['OCS']['DATE_FORMAT_LANG'] = $l->g(1270);
 

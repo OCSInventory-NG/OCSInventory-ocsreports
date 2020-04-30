@@ -31,14 +31,16 @@
     const GROUP_TABLE = "groups_cache";
 
     private $search;
+    private $software;
     private $searchQuery;
     private $columnsQueryConditions;
 
     /**
      * @param Search $search
      */
-    function __construct($search) {
+    function __construct($search, $software) {
         $this->search = $search;
+        $this->software = $software;
         $this->searchQuery = "SELECT DISTINCT hardware.ID FROM hardware ";
     }
 
@@ -61,8 +63,15 @@
                 $this->searchQuery .= "INNER JOIN $tableName on hardware.id = $tableName.hardware_id ";
             }
 
+            if($tableName == SoftwareSearch::SOFTWARE_TABLE) {
+				$this->searchQuery .= "LEFT JOIN software_name on software_name.id = $tableName.name_id ";
+				$this->searchQuery .= "LEFT JOIN software_publisher on software_publisher.id = $tableName.publisher_id ";
+				$this->searchQuery .= "LEFT JOIN software_version on software_version.id = $tableName.version_id ";
+            }
+
             foreach ($searchInfos as $index => $value) {
-                if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
+                $nameTable = $tableName;
+                if($nameTable == "download_history" && $value['fields'] == "PKG_NAME") {
                     // Generate union
                     $this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
                 }
@@ -91,16 +100,20 @@
                 $close="";
                 // Generate condition
                 $this->search->getOperatorSign($value);
+                if($nameTable == SoftwareSearch::SOFTWARE_TABLE) {
+					$nameTable = $this->software->getTableName($value['fields']);
+					$value[Search::SESS_FIELDS] = $this->software->getColumnName($value['fields']);
+				}
 
                 foreach(array_count_values($columnName) as $name => $nb){
                     if($nb > 1){
-                    $isSameColumn[$tableName] = $name;
+                    $isSameColumn[$nameTable] = $name;
                     }
                 }
 
                 foreach(array_count_values($containvalue) as $name => $nb){
                     if($nb > 1){
-                        $doesntcontainmulti[$tableName] = $name;
+                        $doesntcontainmulti[$nameTable] = $name;
                     }
                 }
 
@@ -115,8 +128,8 @@
                 unset($value['ignore']);
 
                 if($value[Search::SESS_OPERATOR] == "DOESNTCONTAIN" && empty($doesntcontainmulti)){
-                    $excluID = $this->search->contain($value, $tableName);
-                    if($tableName != DatabaseSearch::COMPUTER_DEF_TABLE){
+                    $excluID = $this->search->contain($value, $nameTable);
+                    if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
                         $value[Search::SESS_FIELDS] = "HARDWARE_ID";
                     }else{
                         $value[Search::SESS_FIELDS] = "ID";
@@ -127,7 +140,7 @@
 
                 }elseif($value[Search::SESS_OPERATOR] == "DOESNTCONTAIN" && !empty($isSameColumn) && !empty($doesntcontainmulti)){
                     $excluID = $this->search->containmulti($isSameColumn, $searchInfos);
-                    if($tableName != DatabaseSearch::COMPUTER_DEF_TABLE){
+                    if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
                         $value[Search::SESS_FIELDS] = "HARDWARE_ID";
                     }else{
                         $value[Search::SESS_FIELDS] = "ID";
@@ -142,74 +155,74 @@
                 $argOperators = $value[Search::SESS_OPERATOR];
                 $argValues = $value[Search::SESS_VALUES];
 
-                if(!empty($isSameColumn) && $isSameColumn[$tableName] == $value[Search::SESS_FIELDS] 
+                if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[Search::SESS_FIELDS] 
                             && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
                     if($value[Search::SESS_OPERATOR] != "IS NULL"){
-                        if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE&& $tableName != self::GROUP_TABLE && $value[Search::SESS_FIELDS] != 'CATEGORY_ID' && $value[Search::SESS_FIELDS] != 'CATEGORY' 
+                        if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE&& $nameTable != self::GROUP_TABLE && $value[Search::SESS_FIELDS] != 'CATEGORY_ID' && $value[Search::SESS_FIELDS] != 'CATEGORY' 
                         && $value[Search::SESS_OPERATOR] != "NOT IN") {
                             $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
-                                    SELECT 1 FROM $tableName 
-                                    WHERE hardware.ID = $tableName.HARDWARE_ID 
-                                    AND $tableName.$argFields $argOperators '$argValues')$close ";
-                        }elseif($tableName == self::GROUP_TABLE || $value[Search::SESS_FIELDS] == 'CATEGORY_ID' || $value[Search::SESS_FIELDS] == 'CATEGORY' 
+                                    SELECT 1 FROM $nameTable 
+                                    WHERE hardware.ID = $nameTable.HARDWARE_ID 
+                                    AND $nameTable.$argFields $argOperators '$argValues')$close ";
+                        }elseif($nameTable == self::GROUP_TABLE || $value[Search::SESS_FIELDS] == 'CATEGORY_ID' || $value[Search::SESS_FIELDS] == 'CATEGORY' 
                         || $value[Search::SESS_OPERATOR] == "NOT IN"){
-                            if($tableName == self::GROUP_TABLE){
+                            if($nameTable == self::GROUP_TABLE){
                                 $argValues = $this->search->groupSearch->get_all_id($value[Search::SESS_VALUES]);
                                 $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
-                                        SELECT 1 FROM $tableName 
-                                        WHERE hardware.ID = $tableName.HARDWARE_ID 
+                                        SELECT 1 FROM $nameTable 
+                                        WHERE hardware.ID = $nameTable.HARDWARE_ID 
                                         AND hardware.ID $argOperators ($argValues))$close ";
                             }else{
                                 $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
-                                    SELECT 1 FROM $tableName 
-                                    WHERE hardware.ID = $tableName.HARDWARE_ID 
-                                    AND $tableName.$argFields $argOperators ($argValues))$close ";
+                                    SELECT 1 FROM $nameTable 
+                                    WHERE hardware.ID = $nameTable.HARDWARE_ID 
+                                    AND $nameTable.$argFields $argOperators ($argValues))$close ";
                             }    
                         }else{
                             if($value[Search::SESS_OPERATOR] == "MORETHANXDAY" || $value[Search::SESS_OPERATOR] == "LESSTHANXDAY") {
                                 if($value[Search::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
                                 $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
-                                        SELECT 1 FROM $tableName 
-                                        WHERE $tableName.$argFields $op NOW() - INTERVAL $argValues DAY)$close ";
+                                        SELECT 1 FROM $nameTable 
+                                        WHERE $nameTable.$argFields $op NOW() - INTERVAL $argValues DAY)$close ";
                             } else {
                                 $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
-                                        SELECT 1 FROM $tableName 
-                                        WHERE $tableName.$argFields $argOperators '$argValues')$close ";
+                                        SELECT 1 FROM $nameTable 
+                                        WHERE $nameTable.$argFields $argOperators '$argValues')$close ";
                             }
                         }
                     }else{
-                        if ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
+                        if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE) {
                             $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
-                                    SELECT 1 FROM $tableName 
-                                    WHERE hardware.ID = $tableName.HARDWARE_ID 
-                                    AND $tableName.$argFields $argOperators)$close ";
+                                    SELECT 1 FROM $nameTable 
+                                    WHERE hardware.ID = $nameTable.HARDWARE_ID 
+                                    AND $nameTable.$argFields $argOperators)$close ";
                         }else{
                             $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
-                                    SELECT 1 FROM $tableName 
-                                    WHERE $tableName.$argFields $argOperators)$close ";
+                                    SELECT 1 FROM $nameTable 
+                                    WHERE $nameTable.$argFields $argOperators)$close ";
                         }
                     }
                 }elseif($value[Search::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
-                    $this->columnsQueryConditions .= "$operator[$p] $open $tableName.$argFields $argOperators $close ";
-                }elseif($tableName == Search::GROUP_TABLE || $value[Search::SESS_FIELDS] == 'CATEGORY_ID' || $value[Search::SESS_FIELDS] == 'CATEGORY' 
+                    $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $argOperators $close ";
+                }elseif($nameTable == Search::GROUP_TABLE || $value[Search::SESS_FIELDS] == 'CATEGORY_ID' || $value[Search::SESS_FIELDS] == 'CATEGORY' 
                             || $value[Search::SESS_OPERATOR] == "NOT IN"){
-                    if($tableName == Search::GROUP_TABLE){
+                    if($nameTable == Search::GROUP_TABLE){
                         $groupid = $this->search->groupSearch->get_all_id($value[Search::SESS_VALUES]);
                         $this->columnsQueryConditions .= "$operator[$p] $open hardware.ID $argOperators ($groupid)$close ";
                     }else{
-                        $this->columnsQueryConditions .= "$operator[$p] $open $tableName.$argFields $argOperators ($argValues)$close ";
+                        $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $argOperators ($argValues)$close ";
                     }
                 }else if(($value[Search::SESS_FIELDS] == 'LASTCOME' || $value[Search::SESS_FIELDS] == 'LASTDATE') && $value[Search::SESS_OPERATOR] != "MORETHANXDAY" && $value[Search::SESS_OPERATOR] != "LESSTHANXDAY" ){
                     $trad = $l->g(269);
-                    $this->columnsQueryConditions .= "$operator[$p] $open $tableName.$argFields $argOperators str_to_date('$argValues', '$trad')$close ";
+                    $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $argOperators str_to_date('$argValues', '$trad')$close ";
                 }elseif($value[Search::SESS_OPERATOR] == "MORETHANXDAY" || $value[Search::SESS_OPERATOR] == "LESSTHANXDAY") {
                     if($value[Search::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
-                    $this->columnsQueryConditions .= "$operator[$p] $open $tableName.$argFields $op NOW() - INTERVAL $argValues DAY $close ";
+                    $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $op NOW() - INTERVAL $argValues DAY $close ";
                 }else{
-                    if($tableName == "download_history" && $value[Search::SESS_FIELDS] == "PKG_NAME"){
+                    if($nameTable == "download_history" && $value[Search::SESS_FIELDS] == "PKG_NAME"){
                         $this->columnsQueryConditions .= "$operator[$p] $open download_available.NAME $argOperators '$argValues' $close ";
                     }else{
-                        $this->columnsQueryConditions .= "$operator[$p] $open $tableName.$argFields $argOperators '$argValues' $close ";
+                        $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $argOperators '$argValues' $close ";
                     }
                 }
                 $p++;
