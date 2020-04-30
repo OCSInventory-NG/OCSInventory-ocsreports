@@ -143,7 +143,7 @@ class SoftwareCategory
                         </tr>';
 
         foreach ($cat as $key => $value){
-          $sql = "SELECT DISTINCT `NAME` FROM softwares WHERE CATEGORY = %s";
+          $sql = "SELECT `NAME` FROM software_name WHERE CATEGORY_ID = %s";
           $arg = array($key);
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
@@ -186,7 +186,10 @@ class SoftwareCategory
         $softName = str_replace("*", "", $softName);
         $softName = str_replace("?", "", $softName);
 
-        $sql = "SELECT DISTINCT `VERSION` FROM softwares WHERE NAME LIKE '%$softName%' ORDER BY softwares.VERSION";
+        $sql = "SELECT DISTINCT s.VERSION_ID, v.VERSION FROM software s 
+                LEFT JOIN software_version v ON v.ID = s.VERSION_ID
+                LEFT JOIN software_name n ON n.ID = s.NAME_ID 
+                WHERE n.NAME LIKE '%$softName%' ORDER BY v.VERSION";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
         $version[0] = " ";
@@ -207,7 +210,10 @@ class SoftwareCategory
         $softName = str_replace("*", "", $softName);
         $softName = str_replace("?", "", $softName);
 
-        $sql = "SELECT DISTINCT `PUBLISHER` FROM softwares WHERE NAME LIKE '%$softName%' ORDER BY softwares.PUBLISHER";
+        $sql = "SELECT DISTINCT s.PUBLISHER_ID, p.PUBLISHER FROM software s 
+                LEFT JOIN software_publisher p ON p.ID = s.PUBLISHER_ID
+                LEFT JOIN software_name n ON n.ID = s.NAME_ID 
+                WHERE n.NAME LIKE '%$softName%' ORDER BY p.PUBLISHER";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
         $vendor[0] = " ";
@@ -236,11 +242,13 @@ class SoftwareCategory
      * @return array
      */
     public function onglet_cat_cd($computerID){
-        $sql = "SELECT CATEGORY FROM softwares WHERE hardware_id = %s GROUP BY CATEGORY";
+        $sql = "SELECT n.CATEGORY_ID FROM software_name n 
+                LEFT JOIN software s ON n.ID = s.NAME_ID 
+                WHERE hardware_id = %s GROUP BY CATEGORY_ID";
         $sql_arg = array($computerID);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
         while ($idCat = mysqli_fetch_array($result)) {
-            $id[$idCat['CATEGORY']] = $idCat['CATEGORY'];
+            $id[$idCat['CATEGORY_ID']] = $idCat['CATEGORY_ID'];
         }
         $cat = implode(',', $id);
 
