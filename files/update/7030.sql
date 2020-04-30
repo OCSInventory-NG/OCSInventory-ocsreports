@@ -1,3 +1,6 @@
+-- Drop the old software table
+DROP TABLE `softwares`;
+
 -- Create software_name table
 CREATE TABLE IF NOT EXISTS `software_name` (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
@@ -49,5 +52,5 @@ CREATE TABLE IF NOT EXISTS `software` (
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 -- Insert default value
-INSERT INTO software_publisher (`PUBLISHER`) VALUES ("Unavailable");
-INSERT INTO software_version (`VERSION`) VALUES ("Unavailable");
+INSERT INTO software_publisher (`ID`,`PUBLISHER`) VALUES (1,"Unavailable");
+INSERT INTO software_version (`ID`,`VERSION`) VALUES (1,"Unavailable");
