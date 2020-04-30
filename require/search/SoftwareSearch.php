@@ -49,6 +49,9 @@
         $this->dbName = DB_NAME;
     }
 
+    /**
+     * Retrieve software columns
+     */
     public function retrieveSoftwareColumns() {
         foreach ($this->tables as $table) {
             $columnsList = mysql2_query_secure("SHOW COLUMNS FROM %s", $this->dbObject, $table);
@@ -83,6 +86,9 @@
         return $splittedType;
     }
 
+    /**
+     *  Get Software table name
+     */
     public function getTableName($field) {
         switch ($field) {
             case "NAME_ID":
@@ -102,6 +108,9 @@
         }
     }
 
+    /**
+     * Get software column name
+     */
     public function getColumnName($field) {
         switch ($field) {
             case "NAME_ID":
