@@ -47,3 +47,8 @@ CREATE TABLE IF NOT EXISTS `software` (
     FOREIGN KEY (`VERSION_ID`)
         REFERENCES `software_version`(`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- Insert default value
+INSERT INTO sofwtare_name (`NAME`) VALUES ("Unavailable");
+INSERT INTO sofwtare_publisher (`PUBLISHER`) VALUES ("Unavailable");
+INSERT INTO sofwtare_version (`VERSION`) VALUES ("Unavailable");
