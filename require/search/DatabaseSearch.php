@@ -80,14 +80,16 @@ class DatabaseSearch
      */
     private $dbObject = null;
     private $dbName = null;
+    private $softwareSearch = null;
 
     /**
      * Constructor
      */
-    function __construct()
+    function __construct($softwareSearch)
     {
         $this->dbObject = $_SESSION['OCS']["readServer"];
         $this->dbName = DB_NAME;
+        $this->softwareSearch = $softwareSearch;
         $this->retrieveTablesList();
     }
 
@@ -119,7 +121,6 @@ class DatabaseSearch
      */
     private function retrieveTablesList()
     {
-
         if (empty($this->dbObject) || empty($this->dbName)) {
             return;
         }
@@ -143,32 +144,32 @@ class DatabaseSearch
      */
     private function retireveColumnsList($tableName)
     {
-
         if (!in_array($tableName, $this->excludedTables)) {
-            $columnsList = mysql2_query_secure($this->columnsQuery, $this->dbObject, $tableName);
-
-            while ($columnsInfos = mysqli_fetch_array($columnsList)) {
-                $columnsInfos[self::TYPE] = $this->normalizeFieldType($columnsInfos['Type']);
-                $this->columnsList[$tableName][$columnsInfos['Field']] = [
-                    self::FIELD => $columnsInfos[self::FIELD],
-                    self::TYPE => $columnsInfos[self::TYPE],
-                    self::NULLABLE => $columnsInfos[self::NULLABLE],
-                    self::KEY => $columnsInfos[self::KEY],
-                    self::DEFAULT_VAL => $columnsInfos[self::DEFAULT_VAL],
-                    self::EXTRA => $columnsInfos[self::EXTRA],
-                ];
-            }
-            // Remove tables that doesn't reference a computer or an snmp device
-            if (!array_key_exists(self::COMPUTER_COL_RED, $this->columnsList[$tableName])
-                && $tableName !== self::COMPUTER_DEF_TABLE
-            ) {
-                unset($this->columnsList[$tableName]);
-                $this->removeValueFromTableList($tableName);
+            if($tableName != SoftwareSearch::SOFTWARE_TABLE) {
+                $columnsList = mysql2_query_secure($this->columnsQuery, $this->dbObject, $tableName);
+                while ($columnsInfos = mysqli_fetch_array($columnsList)) {
+                    $columnsInfos[self::TYPE] = $this->normalizeFieldType($columnsInfos['Type']);
+                    $this->columnsList[$tableName][$columnsInfos['Field']] = [
+                        self::FIELD => $columnsInfos[self::FIELD],
+                        self::TYPE => $columnsInfos[self::TYPE],
+                        self::NULLABLE => $columnsInfos[self::NULLABLE],
+                        self::KEY => $columnsInfos[self::KEY],
+                        self::DEFAULT_VAL => $columnsInfos[self::DEFAULT_VAL],
+                        self::EXTRA => $columnsInfos[self::EXTRA],
+                    ];
+                }
+                // Remove tables that doesn't reference a computer or an snmp device
+                if (!array_key_exists(self::COMPUTER_COL_RED, $this->columnsList[$tableName])
+                    && $tableName !== self::COMPUTER_DEF_TABLE) {
+                    unset($this->columnsList[$tableName]);
+                    $this->removeValueFromTableList($tableName);
+                }
+            } else {
+                $this->columnsList = array_merge($this->columnsList, $this->softwareSearch->retrieveSoftwareColumns());
             }
         } else {
             $this->removeValueFromTableList($tableName);
         }
-
     }
 
     /**
@@ -216,12 +217,12 @@ class DatabaseSearch
     }
 
     public function get_package_id($fileid){
-      $sql= "SELECT id FROM download_enable d_e LEFT JOIN download_available d_a ON d_a.fileid=d_e.fileid
-             WHERE 1=1 AND d_a.comment NOT LIKE '%[VISIBLE=0]%' AND d_e.fileid='".$fileid."'";
-      $idPackage = mysql2_query_secure($sql, $this->dbObject);
-      foreach ($idPackage as $index => $fields) {
-          $idArray[] = $fields['id'];
-      }
-      return $idArray;
+        $sql= "SELECT id FROM download_enable d_e LEFT JOIN download_available d_a ON d_a.fileid=d_e.fileid
+                WHERE 1=1 AND d_a.comment NOT LIKE '%[VISIBLE=0]%' AND d_e.fileid='".$fileid."'";
+        $idPackage = mysql2_query_secure($sql, $this->dbObject);
+        foreach ($idPackage as $index => $fields) {
+            $idArray[] = $fields['id'];
+        }
+        return $idArray;
     }
 }
