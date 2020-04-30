@@ -173,7 +173,9 @@
         if(!empty($cat)){
 
           foreach($cat as $key => $value){
-            $sql = "SELECT count(DISTINCT CONCAT(name, version)) as nb FROM softwares WHERE CATEGORY = %s GROUP BY CATEGORY";
+            $sql = "SELECT count(DISTINCT CONCAT(n.name, v.version)) as nb FROM software s 
+                    LEFT JOIN software_name n ON n.ID = s.NAME_ID LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
+                    WHERE n.CATEGORY = %s GROUP BY n.CATEGORY";
             $arg = array($key);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 

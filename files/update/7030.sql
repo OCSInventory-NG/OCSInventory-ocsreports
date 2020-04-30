@@ -49,6 +49,5 @@ CREATE TABLE IF NOT EXISTS `software` (
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 -- Insert default value
-INSERT INTO software_name (`NAME`) VALUES ("Unavailable");
 INSERT INTO software_publisher (`PUBLISHER`) VALUES ("Unavailable");
 INSERT INTO software_version (`VERSION`) VALUES ("Unavailable");
