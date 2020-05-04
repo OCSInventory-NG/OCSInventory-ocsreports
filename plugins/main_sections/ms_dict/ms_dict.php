@@ -34,7 +34,7 @@ require_once('require/function_dico.php');
 if ($_SESSION['OCS']['usecache']) {
     $table = "softwares_name_cache";
 } else {
-    $table = "softwares";
+    $table = "software_name";
 }
 
 //form name
@@ -233,7 +233,7 @@ if ($protectedPost['onglet'] == 'NEW') {
         }
     }
     $querydico = substr($querydico, 0, -1);
-    $querydico .= " from softwares
+    $querydico .= " from software_name
 			where name in (" . $list_soft . ") and name != ''
 			group by name ";
 }
