@@ -83,19 +83,18 @@ function time_deploy($label = '') {
 }
 
 function input_pack_taille($name, $other_field, $size, $input_size, $input_value, $label = '', $addon = '', $modif = true) {
-    javascript_pack();
     if ($size > 1024 && $modif == true) {
-        $champ = '	onKeyPress="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-		 			onkeydown="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-		 			onkeyup="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-		  			onblur="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-		  			onclick="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-				';
+        $champ = ' onKeyPress="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   onkeydown="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   onkeyup="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   onblur="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   onclick="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   ';
     } elseif($modif == false) {
-        $champ = " disabled='disabled' ";
+        $champ = " style='pointer-events:none; background:lightgrey;' ";
     } else {
-		$champ = " value=1 disabled='disabled' ";
-	}
+        $champ = " style='pointer-events:none; background:lightgrey;' ";
+    }
     formGroup('text', $name, $label, $input_size, '', $input_value, '', '', '', $champ, ($addon != '' ? $addon : ''));
 }
 
