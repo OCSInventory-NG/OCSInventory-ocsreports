@@ -340,10 +340,9 @@
             }
 
             foreach ($searchInfos as $index => $value) {
-				$nameTable = $tableName;
-				if($nameTable == "download_history" && $value['fields'] == "PKG_NAME") {
+				if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
 					// Generate union
-					$this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $nameTable.PKG_ID ";
+					$this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
 				}
 
                 if($value['comparator'] != null){
@@ -368,6 +367,7 @@
             }
 
             foreach ($searchInfos as $index => $value) {
+				$nameTable = $tableName;
 				$open="";
 				$close="";
 				// Generate condition
@@ -375,6 +375,7 @@
 				if($nameTable == SoftwareSearch::SOFTWARE_TABLE) {
 					$nameTable = $this->softwareSearch->getTableName($value['fields']);
 					$value[self::SESS_FIELDS] = $this->softwareSearch->getColumnName($value['fields']);
+					//var_dump()
 				}
 
 				foreach(array_count_values($columnName) as $name => $nb){

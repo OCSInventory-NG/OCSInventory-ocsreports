@@ -70,8 +70,7 @@
             }
 
             foreach ($searchInfos as $index => $value) {
-                $nameTable = $tableName;
-                if($nameTable == "download_history" && $value['fields'] == "PKG_NAME") {
+                if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
                     // Generate union
                     $this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
                 }
@@ -96,6 +95,7 @@
             }
 
             foreach ($searchInfos as $index => $value) {
+                $nameTable = $tableName;
                 $open="";
                 $close="";
                 // Generate condition
