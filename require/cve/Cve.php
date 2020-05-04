@@ -32,6 +32,7 @@ class Cve
   private $CVE_BAN;
   private $CVE_DATE = null;
   private $CVE_ALL = null;
+  private $publisherName = null;
   public $cve_attr = [];
   public $cve_history = [
     'FLAG'    => null,
@@ -75,19 +76,6 @@ class Cve
     }
   }
 
-  private function getHardwareID() {
-    $id = [];
-    $sql = 'SELECT DISTINCT ID FROM hardware WHERE LASTDATE > "%s"';
-    $sqlarg = array($this->cve_history['FLAG']);
-    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sqlarg);
-
-    while($item = mysqli_fetch_array($result)) {
-      $id[] = $item['ID'];
-    }
-    $id = implode(",", $id);
-    return $id;
-  }
-
   public function insertFlag() {
     $date = date('Y-m-d H:i:s');
 
@@ -100,60 +88,45 @@ class Cve
    *  Get distinct all software name and publisher
    */
   public function getSoftwareInformations($commandlineArg = null){
-    $hID = null;
     $date = date('Y-m-d H:i:s');
 
     $this->get_flag($date);
 
-    if($commandlineArg != null && $commandlineArg == "--incremental") {
-      $hID = $this->getHardwareID();
-      $this->cve_history['TYPE'] = "Incremental";
-      if($this->CVE_VERBOSE == 1) {
-        error_log(print_r("Partial CVE Inventory, latest execution : ".$this->cve_history['FLAG'], true));
-      }
-    } elseif($commandlineArg != null && $commandlineArg != "--incremental") {
-      error_log(print_r("Argument not recognized \nFor full CVE inventory don't set argument \nFor incremental CVE inventory set --incremental", true));
-      exit();
-    } else {
-      $this->cve_history['TYPE'] = "Full";
-      if($this->CVE_VERBOSE == 1) {
-        error_log(print_r("Full CVE inventory", true));
-      }
-    }
-
     $this->cve_history['FLAG'] = $date;
-    if($this->CVE_VERBOSE == 1) {
-      error_log(print_r("Get software list ...", true));
-    }
-    $sql = 'SELECT DISTINCT CONCAT(name,version), name, publisher, version FROM softwares WHERE name != "" AND publisher != "" AND publisher != "(none)" ';
-    if($this->CVE_BAN != ""){
-      $sql .= 'AND category NOT IN ('. $this->CVE_BAN .')';
-    }
-    if($hID != "") {
-      $sql .= 'AND hardware_id IN ('. $hID .')';
-    } elseif($this->cve_history['TYPE'] == "Partial" && $hID == "") {
-      if($this->CVE_VERBOSE == 1) {
-        error_log(print_r("No machine has been inventoried since ".$this->cve_history['FLAG'], true));
-      }
-      exit();
-    }
-    $sql .= ' ORDER BY publisher';
+
+    $this->verbose($this->CVE_VERBOSE, 4);
+
+    $sql = 'SELECT ID, PUBLISHER FROM software_publisher WHERE ID != 1 ORDER BY PUBLISHER';
     $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+    $this->verbose($this->CVE_VERBOSE, 5);
 
-    if($this->CVE_VERBOSE == 1) {
-      error_log(print_r("Software list OK ... \nCVE treatment started ... \nPlease wait, CVE processing is in progress. It could take a few hours", true));
-    }
+    while ($item_publisher = mysqli_fetch_array($result)) {
+      $this->cve_attr = null;
+      $this->publisherName = $item_publisher['PUBLISHER'];
+      $this->verbose($this->CVE_VERBOSE, 6);
+      $sql_soft = "SELECT n.NAME, v.VERSION FROM software_name n 
+                  LEFT JOIN software s ON s.NAME_ID = n.ID 
+                  LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
+                  WHERE s.PUBLISHER_ID = %s AND s.VERSION_ID != 1";
+      if($this->CVE_BAN != ""){
+        $sql_soft .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
+      }
+      $sql_soft .= " ORDER BY n.NAME";
+      $arg_soft = array($item_publisher['ID']);
+      $result_soft = mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
 
-    while ($item_soft = mysqli_fetch_array($result)) {
-      if(!preg_match('/[^\x00-\x7F]/', $item_soft['name']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['name'])){
-        $soft = $this->cpeNormalizeName($item_soft['name']);
-        $vendor = $this->cpeNormalizeVendor($item_soft['publisher'], $soft);
-
-        $this->cve_attr[] = ["NAME" => $soft, "VENDOR" => $vendor, "VERSION" => $item_soft['version'], "REAL_NAME" => $item_soft['name'], "REAL_VENDOR" => $item_soft['publisher']];
+      while ($item_soft = mysqli_fetch_array($result_soft)) {
+        if(!preg_match('/[^\x00-\x7F]/', $item_soft['NAME']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['NAME'])){
+          $soft = $this->cpeNormalizeName($item_soft['NAME']);
+          $vendor = $this->cpeNormalizeVendor($item_publisher['PUBLISHER'], $soft);
+  
+          $this->cve_attr[] = ["NAME" => $soft, "VENDOR" => $vendor, "VERSION" => $item_soft['VERSION'], "REAL_NAME" => $item_soft['NAME'], "REAL_VENDOR" => $item_publisher['PUBLISHER']];
+        }
+      }
+      if($this->cve_attr != null) {
+        $this->get_cve($this->cve_attr);
       }
     }
-
-    $this->get_cve($this->cve_attr);
   }
 
   /**
@@ -321,6 +294,34 @@ class Cve
           $sql_remove_arg = array($item_ban["soft"]);
           $result = mysql2_query_secure($sql_remove, $_SESSION['OCS']["writeServer"], $sql_remove_arg);
         }
+      }
+    }
+  }
+
+  public function verbose($config, $code) {
+    if($config == 1) {
+      switch($code) {
+        case 1:
+          error_log(print_r($this->CVE_SEARCH_URL." is not reachable.",true));
+        break;
+        case 2:
+          error_log(print_r($this->cve_history['CVE_NB']." CVE has been added to database",true));
+        break;
+        case 3:
+          error_log(print_r("CVE feature isn't enabled", true));
+        break;
+        case 4:
+          error_log(print_r("Get software publisher ...", true));
+        break;
+        case 5:
+          error_log(print_r("Software publisher OK ... \nCVE treatment started ... \nPlease wait, CVE processing is in progress. It could take a few hours", true));
+        break;
+        case 6:
+          error_log(print_r("Processing ".$this->publisherName." softwares ...", true));
+        break;
+        case 7:
+          error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
+        break;
       }
     }
   }
