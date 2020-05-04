@@ -34,7 +34,7 @@ require_once('require/softwares/SoftwareCategory.php');
 if ($_SESSION['OCS']['usecache']) {
     $table = "softwares_name_cache";
 } else {
-    $table = "softwares";
+    $table = "software";
 }
 
 //form name
@@ -186,7 +186,11 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
           $l->g(277) => 'VERSION',
         );
 
-        $queryDetails = "SELECT * FROM softwares WHERE category=".$categorie_id[$list_cat[$protectedPost['onglet_soft']]]." GROUP BY NAME, VERSION";
+        $queryDetails = "SELECT *, n.NAME, p.PUBLISHER, v.VERSION FROM software s
+                        LEFT JOIN software_name n ON n.ID = s.NAME_ID
+                        LEFT JOIN software_publisher p ON p.ID = s.PUBLISHER_ID 
+                        LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
+                        WHERE n.CATEGORY =".$categorie_id[$list_cat[$protectedPost['onglet_soft']]]." GROUP BY n.NAME, v.VERSION";
         $default_fields = $list_fields;
         $list_col_cant_del = $list_fields;
         $list_fields[$l->g(51)] = 'COMMENTS';

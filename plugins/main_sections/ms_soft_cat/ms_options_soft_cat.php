@@ -25,7 +25,7 @@
 header('Content-Type: text/xml;charset=utf-8');
 echo utf8_encode("<?xml version='1.0' encoding='UTF-8' ?><options>");
 
-$sql = "SELECT DISTINCT softwares.NAME FROM softwares WHERE softwares.NAME NOT LIKE '%Correctif%' AND softwares.NAME NOT LIKE '%Mise a jour%' ORDER BY softwares.NAME";
+$sql = "SELECT DISTINCT NAME FROM software_name WHERE NAME NOT LIKE '%Correctif%' AND NAME NOT LIKE '%Mise a jour%' ORDER BY NAME";
 $query = mysqli_query($_SESSION['OCS']["readServer"], $sql);
 while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
     $liste[] = $row;

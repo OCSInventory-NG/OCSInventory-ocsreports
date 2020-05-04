@@ -57,7 +57,10 @@
         "repository" => 1421,
         "sim" => 1429,
         "slots" => 271,
-        "softwares" => 765,
+        "software" => 765,
+        "software_name" => 765,
+        "software_publisher" => 765,
+        "software_version" => 765,
         "sounds" => 96,
         "storages" => 63,
         "usbdevices" => 1444,
@@ -209,6 +212,9 @@
         "warantybegin" => 1452,
         "capacity" => 83,
         "category_id" => 2132,
+        "name_id" => 49,
+        "publisher_id" => 69,
+        "version_id" => 277
     ];
 
     private $operatorsArray = [

@@ -29,6 +29,7 @@ if (AJAX) {
 
 require('require/function_search.php');
 require('require/function_computers.php');
+require("require/search/SoftwareSearch.php");
 require("require/search/DatabaseSearch.php");
 require("require/search/AccountinfoSearch.php");
 require("require/search/TranslationSearch.php");
@@ -39,7 +40,10 @@ require("require/search/SQLCache.php");
 require_once('require/function_admininfo.php');
 
 // Get tables and columns infos
-$databaseSearch = new DatabaseSearch();
+$softwareSearch = new SoftwareSearch();
+
+// Get tables and columns infos
+$databaseSearch = new DatabaseSearch($softwareSearch);
 
 // Get columns infos datamap structure
 $accountInfoSearch = new AccountinfoSearch();
@@ -53,8 +57,8 @@ $groupSearch = new GroupSearch();
 // Get search object to perform action and show result
 //$legacySearch = new LegacySearch();
 
-$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch);
-$sqlCache = new SQLCache($search);
+$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch, $softwareSearch);
+$sqlCache = new SQLCache($search, $softwareSearch);
 
 $_SESSION['OCS']['DATE_FORMAT_LANG'] = $l->g(1270);
 
@@ -210,7 +214,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<?php 	if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
+						<?php 	if((strpos($values['fields'], 'fields_') !== false) || array_key_exists($values['fields'], $search->correspondance)){
 									echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
 								}else {
 									echo $search->returnFieldHtml($uniqid, $values, $table, null, $values['operator']);
