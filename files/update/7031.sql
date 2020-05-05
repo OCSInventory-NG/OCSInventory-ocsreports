@@ -1,0 +1,24 @@
+-- Drop cve_search table
+DROP TABLE cve_search;
+
+-- Create cve_search table with new structure
+CREATE TABLE IF NOT EXISTS `cve_search` (
+  `PUBLISHER_ID` INTEGER NOT NULL,
+  `NAME_ID` INTEGER NOT NULL,
+  `VERSION_ID` INTERGER NOT NULL,
+  `CVSS` DOUBLE(4,2) NOT NULL,
+  `CVE` VARCHAR(255) DEFAULT NULL,
+  `LINK` VARCHAR(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- Drop cve_history table
+DROP TABLE cve_history;
+
+-- Create cve_history table with new structure
+CREATE TABLE IF NOT EXISTS `cve_search_history` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `FLAG_DATE` DATETIME NOT NULL,
+    `CVE_NB` INTEGER DEFAULT 0,
+    `PUBLISHER_ID` INTEGER NOT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
