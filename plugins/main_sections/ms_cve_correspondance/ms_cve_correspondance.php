@@ -73,10 +73,10 @@ if($protectedPost['onglet'] == "NEW_CORR") {
 /******************************* LIST CORRESPONDANCE ******************************/
 if($protectedPost['onglet'] == "LIST_CORR") {
     //delete regex
-    if (is_defined($protectedPost['SUP'])) {
-        $reqDcatall = "DELETE FROM cve_search_correspondance WHERE ID = ".$protectedPost['SUP'];
+    if (is_defined($protectedPost['SUP_PROF'])) {
+        $reqDcatall = "DELETE FROM cve_search_correspondance WHERE ID = ".$protectedPost['SUP_PROF'];
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
-        unset($protectedPost['SUP']);
+        unset($protectedPost['SUP_PROF']);
     }
 
     $sql['SQL'] = 'SELECT * FROM cve_search_correspondance';
