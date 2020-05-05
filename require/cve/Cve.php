@@ -38,6 +38,8 @@ class Cve
     'FLAG'    => null,
     'CVE_NB'  => 0,
     'PUBLISHER_ID' => null,
+    'NAME_ID' => null,
+    'VERSION_ID'  => null
   ];
 
   function __construct(){
@@ -117,10 +119,10 @@ class Cve
       # Reset CVE NB
       $this->cve_history['NB'] = 0;
       $this->cve_history['PUBLISHER_ID'] = $item_publisher['ID'];
-      $this->cve_attr = null;
+      
       $this->publisherName = $item_publisher['PUBLISHER'];
 
-      $sql_soft = "SELECT n.NAME, v.VERSION FROM software_name n 
+      $sql_soft = "SELECT n.NAME, v.VERSION, s.NAME_ID, s.VERSION_ID FROM software_name n 
                   LEFT JOIN software s ON s.NAME_ID = n.ID 
                   LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
                   WHERE s.PUBLISHER_ID = %s AND s.VERSION_ID != 1";
@@ -131,19 +133,24 @@ class Cve
       $arg_soft = array($item_publisher['ID']);
       $result_soft = mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
 
+      $this->verbose($this->CVE_VERBOSE, 6);
+
       while ($item_soft = mysqli_fetch_array($result_soft)) {
+        $this->cve_attr = null;
         if(!preg_match('/[^\x00-\x7F]/', $item_soft['NAME']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['NAME'])){
           $soft = $this->cpeNormalizeName($item_soft['NAME']);
           $vendor = $this->cpeNormalizeVendor($item_publisher['PUBLISHER'], $soft);
-  
+          $this->cve_history['NAME_ID'] = $item_soft['NAME_ID'];
+          $this->cve_history['VERSION_ID'] = $item_soft['VERSION_ID'];
           $this->cve_attr[] = ["NAME" => $soft, "VENDOR" => $vendor, "VERSION" => $item_soft['VERSION'], "REAL_NAME" => $item_soft['NAME'], "REAL_VENDOR" => $item_publisher['PUBLISHER']];
+          if($this->cve_attr != null) {
+            $this->get_cve($this->cve_attr);
+          }
         }
       }
-      if($this->cve_attr != null) {
-        $this->verbose($this->CVE_VERBOSE, 6);
-        $this->get_cve($this->cve_attr);
-        $this->insertFlag();
-      }
+
+      $this->insertFlag();
+
     }
   }
 
@@ -257,7 +264,7 @@ class Cve
                 if($this->CVE_VERBOSE == 1) {
                   error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
                 }
-                $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0], $software["REAL_VENDOR"], $software["REAL_NAME"], $software["VERSION"]);
+                $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0]);
                 $this->cve_history['CVE_NB'] ++;
               }
             }
@@ -270,9 +277,9 @@ class Cve
   /**
    *  Insert CVE on BDD
    */
-  private function get_infos_cve($cvss, $id, $reference, $vendor, $soft, $version){
-    $sql = 'INSERT INTO cve_search VALUES("%s", "%s", "%s", %s, "%s", "%s")';
-    $arg_sql = array($vendor,$soft, $version, $cvss, $id, $reference);
+  private function get_infos_cve($cvss, $id, $reference){
+    $sql = 'INSERT INTO cve_search VALUES(%s, %s, %s, %s, "%s", "%s")';
+    $arg_sql = array($this->cve_history['PUBLISHER_ID'], $this->cve_history['NAME_ID'], $this->cve_history['VERSION_ID'], $cvss, $id, $reference);
     $result_verif = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
   }  
 
@@ -302,14 +309,14 @@ class Cve
     curl_close ($curl);
 
     if($this->CVE_BAN != ""){
-      $sql_ban = "SELECT DISTINCT c.soft FROM cve_search c LEFT JOIN softwares as s ON c.soft = s.name WHERE s.category IN (%s)";
+      $sql_ban = "SELECT DISTINCT c.NAME_ID FROM cve_search c LEFT JOIN software_name as s ON c.NAME_ID = s.ID WHERE s.category IN (%s)";
       $sql_ban_arg = array($this->CVE_BAN);
       $result_ban = mysql2_query_secure($sql_ban, $_SESSION['OCS']["readServer"], $sql_ban_arg);
 
       while ($item_ban = mysqli_fetch_array($result_ban)) {
         if($item_ban != null){
-          $sql_remove = "DELETE FROM cve_search WHERE soft = '%s'";
-          $sql_remove_arg = array($item_ban["soft"]);
+          $sql_remove = "DELETE FROM cve_search WHERE NAME_ID = %s";
+          $sql_remove_arg = array($item_ban["NAME_ID"]);
           $result = mysql2_query_secure($sql_remove, $_SESSION['OCS']["writeServer"], $sql_remove_arg);
         }
       }
