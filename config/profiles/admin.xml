@@ -59,5 +59,6 @@
     <page>ms_server_infos</page>
     <page>ms_cve_search</page>
     <page>ms_saas_soft</page>
+    <page>ms_cve_correspondance</page>
   </pages>
 </profile>

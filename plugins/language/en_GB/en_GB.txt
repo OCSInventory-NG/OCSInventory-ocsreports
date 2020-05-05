@@ -1346,6 +1346,12 @@
 1469 Select software categories that you do not want to process
 1470 Enable CVE-search verbose
 1471 Enable to get CVE corresponding to all software version
+1472 CVE correspondance
+1473 New correspondance
+1474 Correspondance list
+1475 Name or Regex
+1476 Publisher result
+1477 Name result
 
 1500 Software category
 1501 New category
