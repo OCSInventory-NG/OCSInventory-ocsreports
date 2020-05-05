@@ -353,6 +353,17 @@ class Cve
       }
     }
   }
+
+  /**
+   *  Add regex correspondance
+   */
+  public function add_regex($regex, $publish = null, $name = null) {
+    $sql = "INSERT INTO cve_search_correspondance (NAME_REG, PUBLISH_RESULT, NAME_RESULT) VALUES ('%s','%s','%s')";
+    $arg = array($regex, $publish, $name);
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+
+    return $result;
+  }
 }
 
 ?>
