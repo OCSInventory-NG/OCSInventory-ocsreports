@@ -37,7 +37,7 @@ class Cve
   public $cve_history = [
     'FLAG'    => null,
     'CVE_NB'  => 0,
-    'TYPE'    => null,
+    'PUBLISHER_ID' => null,
   ];
 
   function __construct(){
@@ -76,11 +76,27 @@ class Cve
     }
   }
 
-  public function insertFlag() {
-    $date = date('Y-m-d H:i:s');
+  /**
+   * History cve history
+   */
+  private function verif_history(){
+    $sql = "SELECT ID FROM cve_search_history WHERE PUBLISHER_ID = %s";
+    $arg = array($this->cve_history['PUBLISHER_ID']);
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+    return $result->num_rows;
+  }
 
-    $sql = "INSERT INTO cve_search_history(FLAG_DATE, CVE_NB, TYPE) VALUES('%s', %s, '%s')";
-    $sqlarg = array($date, $this->cve_history['CVE_NB'], $this->cve_history['TYPE']);
+  /**
+   * Insert FLAG on cve_history per Publisher
+   */
+  private function insertFlag() {
+    $verif = $this->verif_history();
+    if($verif >= 1) {
+      $sql = "UPDATE cve_search_history SET FLAG_DATE = '%s', CVE_NB = %s WHERE PUBLISHER_ID = %s";
+    } else {
+      $sql = "INSERT INTO cve_search_history(FLAG_DATE, CVE_NB, PUBLISHER_ID) VALUES('%s', %s, %s)";
+    }
+    $sqlarg = array($this->cve_history['FLAG'], $this->cve_history['CVE_NB'], $this->cve_history['PUBLISHER_ID']);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sqlarg);
   }
 
@@ -88,11 +104,6 @@ class Cve
    *  Get distinct all software name and publisher
    */
   public function getSoftwareInformations($commandlineArg = null){
-    $date = date('Y-m-d H:i:s');
-
-    $this->get_flag($date);
-
-    $this->cve_history['FLAG'] = $date;
 
     $this->verbose($this->CVE_VERBOSE, 4);
 
@@ -101,9 +112,14 @@ class Cve
     $this->verbose($this->CVE_VERBOSE, 5);
 
     while ($item_publisher = mysqli_fetch_array($result)) {
+      # Reset date
+      $this->cve_history['FLAG'] = date('Y-m-d H:i:s');
+      # Reset CVE NB
+      $this->cve_history['NB'] = 0;
+      $this->cve_history['PUBLISHER_ID'] = $item_publisher['ID'];
       $this->cve_attr = null;
       $this->publisherName = $item_publisher['PUBLISHER'];
-      $this->verbose($this->CVE_VERBOSE, 6);
+
       $sql_soft = "SELECT n.NAME, v.VERSION FROM software_name n 
                   LEFT JOIN software s ON s.NAME_ID = n.ID 
                   LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
@@ -124,7 +140,9 @@ class Cve
         }
       }
       if($this->cve_attr != null) {
+        $this->verbose($this->CVE_VERBOSE, 6);
         $this->get_cve($this->cve_attr);
+        $this->insertFlag();
       }
     }
   }
@@ -298,6 +316,9 @@ class Cve
     }
   }
 
+  /**
+   * Print verbose
+   */
   public function verbose($config, $code) {
     if($config == 1) {
       switch($code) {
