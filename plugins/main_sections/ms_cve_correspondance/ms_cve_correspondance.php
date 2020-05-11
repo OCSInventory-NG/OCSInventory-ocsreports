@@ -62,12 +62,32 @@ if($protectedPost['onglet'] == "NEW_CORR") {
         }
     }
 
+    if(isset($protectedPost['valid_csv'])){
+        $result = $cve->csv_treatment($_FILES);
+        if($result == false){
+          msg_error($l->g(573));
+        }else{
+          msg_success($l->g(572));
+        }
+    }
+
     echo "<div class='row margin-top30'>
             <div class='col-sm-10'>";
     formGroup('text', 'regex', $l->g(1475).' :', '', '', '', '', '', '', "required");
     formGroup('text', 'publish_result', $l->g(1476).' :', '', '', '', '', '', '', '');
-    formGroup('text', 'name_result', $l->g(1477).' :', '', '', '', '', '', '', "required");
+    formGroup('text', 'name_result', $l->g(1477).' :', '', '', '', '', '', '', "");
     echo "<input type='submit' name='valid' id='valid' class='btn btn-success' value='".$l->g(13)."'>";
+    echo "</div></div>";
+
+    echo close_form();
+
+    // Open new form for csv file
+    echo open_form('cve_csv', '', 'enctype="multipart/form-data"', 'form-horizontal');
+    echo "<div class='row margin-top30'>
+            <div class='col-sm-10'>";
+    echo "<br><br>";
+    formGroup('file', 'csv_file', $l->g(1478).' :', '', '', $protectedPost['csv_file'], '', '', '', "accept='.csv'");
+    echo "<input type='submit' name='valid_csv' id='valid_csv' class='btn btn-success' value='".$l->g(1479)."'>";
     echo "</div></div>";
 }
 /******************************* LIST CORRESPONDANCE ******************************/
