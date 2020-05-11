@@ -237,7 +237,6 @@ class Cve
       }
     }
     $values['NAME'] = $this->cpeNormalizeName($values['NAME']);
-    var_dump($reg['NAME_REG']);
     $values['VENDOR'] = $this->cpeNormalizeVendor($values['VENDOR'], $values['NAME']);
     return $values;
   }
