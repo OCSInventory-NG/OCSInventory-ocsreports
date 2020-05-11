@@ -1353,7 +1353,7 @@
 1475 Nom ou Regex
 1476 Résultat éditeur
 1477 Résultat Nom
-1478 Fichier CSV
+1478 Ou importer un fichier CSV
 1479 Importer
 
 1500 Catégorie de logiciels
