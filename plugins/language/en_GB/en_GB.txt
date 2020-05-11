@@ -1352,6 +1352,8 @@
 1475 Name or Regex
 1476 Publisher result
 1477 Name result
+1478 CSV File
+1479 Import
 
 1500 Software category
 1501 New category
