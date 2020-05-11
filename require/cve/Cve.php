@@ -109,7 +109,14 @@ class Cve
 
     $this->verbose($this->CVE_VERBOSE, 4);
 
-    $sql = 'SELECT ID, PUBLISHER FROM software_publisher WHERE ID != 1 ORDER BY PUBLISHER';
+    $sql = 'SELECT DISTINCT p.ID, p.PUBLISHER FROM software_publisher p
+            LEFT JOIN software s ON p.ID = s.PUBLISHER_ID 
+            LEFT JOIN software_name n ON n.ID = s.NAME_ID WHERE p.ID != 1';
+    if($this->CVE_BAN != ""){
+      $sql .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
+    }
+    $sql .= " ORDER BY p.PUBLISHER";
+
     $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
     $this->verbose($this->CVE_VERBOSE, 5);
 
@@ -134,15 +141,14 @@ class Cve
       $result_soft = mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
 
       $this->verbose($this->CVE_VERBOSE, 6);
+      $i = 0;
 
       while ($item_soft = mysqli_fetch_array($result_soft)) {
         $this->cve_attr = null;
         if(!preg_match('/[^\x00-\x7F]/', $item_soft['NAME']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['NAME'])){
-          $soft = $this->cpeNormalizeName($item_soft['NAME']);
-          $vendor = $this->cpeNormalizeVendor($item_publisher['PUBLISHER'], $soft);
           $this->cve_history['NAME_ID'] = $item_soft['NAME_ID'];
           $this->cve_history['VERSION_ID'] = $item_soft['VERSION_ID'];
-          $this->cve_attr[] = ["NAME" => $soft, "VENDOR" => $vendor, "VERSION" => $item_soft['VERSION'], "REAL_NAME" => $item_soft['NAME'], "REAL_VENDOR" => $item_publisher['PUBLISHER']];
+          $this->cve_attr[] = ["NAME" => $item_soft['NAME'], "VENDOR" => $item_publisher['PUBLISHER'], "VERSION" => $item_soft['VERSION'], "REAL_NAME" => $item_soft['NAME'], "REAL_VENDOR" => $item_publisher['PUBLISHER']];
           if($this->cve_attr != null) {
             $this->get_cve($this->cve_attr);
           }
@@ -199,8 +205,8 @@ class Cve
    */
   public function get_cve($cve_attr){
     $curl = curl_init();
-
     foreach($cve_attr as $key => $values){
+      $values = $this->match($values);
       $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME']; 
       curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
       curl_setopt($curl, CURLOPT_URL, $url);
@@ -213,6 +219,41 @@ class Cve
     }
 
     curl_close ($curl) ;
+  }
+
+  private function match($values) {
+    $regs = $this->get_regex();
+    
+    foreach($regs as $key => $reg) {
+      $reg['NAME_REG'] = str_replace("*", "", $reg['NAME_REG']);
+
+      if((strpos(trim($values['NAME']), $reg['NAME_REG']) !== false) || (strpos(trim($values['VENDOR']), $reg['NAME_REG']) !== false)) {
+        if($reg['NAME_RESULT'] != "") {
+          $values['NAME'] = $reg['NAME_RESULT'];
+        }
+        if($reg['PUBLISH_RESULT'] != "") {
+          $values['VENDOR'] = $reg['PUBLISH_RESULT'];
+        }
+      }
+    }
+    $values['NAME'] = $this->cpeNormalizeName($values['NAME']);
+    var_dump($reg['NAME_REG']);
+    $values['VENDOR'] = $this->cpeNormalizeVendor($values['VENDOR'], $values['NAME']);
+    return $values;
+  }
+
+  private function get_regex() {
+    $reg = [];
+    $i = 0;
+    $sql = "SELECT * FROM cve_search_correspondance";
+    $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+    while($item = mysqli_fetch_array($result)) {
+      $reg[$i]['NAME_REG'] = $item['NAME_REG'];
+      $reg[$i]['PUBLISH_RESULT'] = $item['PUBLISH_RESULT'];
+      $reg[$i]['NAME_RESULT'] = $item['NAME_RESULT'];
+      $i++;
+    }
+    return $reg;
   }
 
   /**
@@ -363,6 +404,33 @@ class Cve
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 
     return $result;
+  }
+
+  public function csv_treatment($file) {
+    $mimes = array('application/vnd.ms-excel','text/plain','text/csv','text/tsv');
+    $csv_data = [];
+    $sql = "INSERT INTO cve_search_correspondance(NAME_REG, PUBLISH_RESULT, NAME_RESULT) VALUES('%s', '%s', '%s')";
+
+    if (in_array($_FILES["csv_file"]["type"], $mimes)) {
+      if (($handle = fopen($file['csv_file']['tmp_name'], 'r')) !== FALSE) { // Check the resource is valid
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) { // Check opening the file is OK!
+          $arg = null;
+          if(trim($data[0]) != "" && $data[1] != "PUBLISH_RESULT"){
+            $arg = array(trim(addslashes($data[0])), addslashes($data[1]), addslashes($data[2]));
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+            if($result == false) {
+              return false;
+            }
+          }
+        }
+        fclose($handle);
+        if($result) {
+          return true;
+        }
+      }
+    } else {
+      return false;
+    }
   }
 }
 
