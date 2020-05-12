@@ -115,5 +115,6 @@
     <page>ms_snmp_config</page>
     <page>ms_save_query</page>
     <page>ms_save_query_list</page>
+    <page>ms_snmp_inventory</page>
   </pages>
 </profile>

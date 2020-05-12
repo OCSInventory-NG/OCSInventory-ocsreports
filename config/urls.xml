@@ -316,4 +316,8 @@
         <value>save_query_list</value>
         <directory>ms_save_query</directory>
     </url>
+    <url key="ms_snmp_inventory">
+        <value>snmp_inventory</value>
+        <directory>ms_snmp_inventory</directory>
+    </url>
 </urls>

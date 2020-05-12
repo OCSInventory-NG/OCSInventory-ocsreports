@@ -62,5 +62,6 @@
     <page>ms_repart_tag</page>
     <page>ms_multi_search</page>
     <page>ms_wiki</page>
+    <page>ms_snmp_inventory</page>
   </pages>
 </profile>

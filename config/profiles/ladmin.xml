@@ -55,5 +55,6 @@
     <page>ms_offers</page>
     <page>ms_ask</page>
     <page>ms_cve_search</page>
+    <page>ms_snmp_inventory</page>
   </pages>
 </profile>
