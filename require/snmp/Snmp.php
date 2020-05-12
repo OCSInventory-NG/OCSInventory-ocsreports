@@ -422,4 +422,33 @@ class OCSSnmp
 		return true;
 	}
 
+	public function get_all_type() {
+		$list = [];
+
+		$sql = 'SELECT * FROM snmp_types';
+		$result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+
+		while($item = mysqli_fetch_array($result)) {
+			$list[$item['ID']]['TABLENAME'] = $item['TABLE_TYPE_NAME'];
+			$list[$item['ID']]['TYPENAME'] = $item['TYPE_NAME'];
+		}
+
+		return $list;
+	}
+
+	public function show_columns($table) {
+		$sql = 'SHOW COLUMNS FROM %s';
+		$arg = array($table);
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+
+		$columns = [];
+		while($item = mysqli_fetch_array($result)) {
+			if($item['Field'] != 'ID') {
+				$columns[$item['Field']] = $item['Field'];
+			}
+		}
+
+		return $columns;
+	}
+
 }
