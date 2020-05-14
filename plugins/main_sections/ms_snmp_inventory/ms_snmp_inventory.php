@@ -40,6 +40,8 @@ foreach($typeList as $key => $value) {
 
     print_item_header($typeList[$key]['TYPENAME']);
 
+    $tab_options['computersectionrequest'] = $typeList[$key]['TABLENAME'];
+
     $form_name = $typeList[$key]['TABLENAME'];
     $table_name = $form_name;
 
@@ -53,7 +55,6 @@ foreach($typeList as $key => $value) {
     $default_fields = $list_fields;
     $tab_options['FILTRE'] = array_flip($list_fields);
     $queryDetails = "SELECT * FROM ".$typeList[$key]['TABLENAME'];
-
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     echo close_form();
 
