@@ -41,6 +41,7 @@ class Cve
     'NAME_ID' => null,
     'VERSION_ID'  => null
   ];
+  private $cveNB = 0;
 
   function __construct(){
     $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
@@ -225,9 +226,10 @@ class Cve
     $regs = $this->get_regex();
     
     foreach($regs as $key => $reg) {
-      $reg['NAME_REG'] = str_replace("*", "", $reg['NAME_REG']);
+      $reg_publish = $this->stringMatchWithWildcard(trim($values['VENDOR']), $reg['NAME_REG']);
+      $reg_name = $this->stringMatchWithWildcard($reg['NAME_REG'], trim($values['NAME']));
 
-      if((strpos(trim($values['NAME']), $reg['NAME_REG']) !== false) || (strpos(trim($values['VENDOR']), $reg['NAME_REG']) !== false)) {
+      if($reg_name || $reg_publish) {
         if($reg['NAME_RESULT'] != "") {
           $values['NAME'] = $reg['NAME_RESULT'];
         }
@@ -253,6 +255,16 @@ class Cve
       $i++;
     }
     return $reg;
+  }
+
+  private function stringMatchWithWildcard($source,$pattern) {
+    $regex = str_replace(
+      array("\*", "\?"), // wildcard chars
+      array('.*','.'),   // regexp chars
+      preg_quote($pattern)
+    );
+
+    return preg_match('/^'.$regex.'$/is', $source);
   }
 
   /**
@@ -301,11 +313,14 @@ class Cve
           if(isset($values["vulnerable_configuration"])) {
             foreach($values["vulnerable_configuration"] as $keys => $vuln){
               if((strpos($vuln, $vuln_conf) !== false) || (strpos($vuln, $vuln_conf_all) !== false)){
-                if($this->CVE_VERBOSE == 1) {
-                  error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
+                $result = $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0]);
+                if($result != null) {
+                  if($this->CVE_VERBOSE == 1) {
+                    error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
+                  }
+                  $this->cve_history['CVE_NB'] ++;
+                  $this->cveNB ++;
                 }
-                $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0]);
-                $this->cve_history['CVE_NB'] ++;
               }
             }
           }
@@ -318,9 +333,17 @@ class Cve
    *  Insert CVE on BDD
    */
   private function get_infos_cve($cvss, $id, $reference){
-    $sql = 'INSERT INTO cve_search VALUES(%s, %s, %s, %s, "%s", "%s")';
-    $arg_sql = array($this->cve_history['PUBLISHER_ID'], $this->cve_history['NAME_ID'], $this->cve_history['VERSION_ID'], $cvss, $id, $reference);
-    $result_verif = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
+    $sql_verif = "SELECT * FROM cve_search WHERE PUBLISHER_ID = %s AND NAME_ID = %s AND CVE = '%s' AND VERSION_ID = %s";
+    $arg_verif = array($this->cve_history['PUBLISHER_ID'], $this->cve_history['NAME_ID'], $id, $this->cve_history['VERSION_ID']);
+    $result_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
+    $result = null;
+
+    if($result_verif->num_rows == 0) {
+      $sql = 'INSERT INTO cve_search VALUES(%s, %s, %s, %s, "%s", "%s")';
+      $arg_sql = array($this->cve_history['PUBLISHER_ID'], $this->cve_history['NAME_ID'], $this->cve_history['VERSION_ID'], $cvss, $id, $reference);
+      $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
+    }
+    return $result;
   }  
 
   /**
@@ -373,7 +396,7 @@ class Cve
           error_log(print_r($this->CVE_SEARCH_URL." is not reachable.",true));
         break;
         case 2:
-          error_log(print_r($this->cve_history['CVE_NB']." CVE has been added to database",true));
+          error_log(print_r($this->cveNB." CVE has been added to database",true));
         break;
         case 3:
           error_log(print_r("CVE feature isn't enabled", true));
@@ -431,6 +454,15 @@ class Cve
       return false;
     }
   }
+
+  public function getUrl(){
+    return sprintf(
+      "%s://%s",
+      isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+      $_SERVER['SERVER_NAME']
+    );
+  }
+
 }
 
 ?>
