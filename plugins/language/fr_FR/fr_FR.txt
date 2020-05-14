@@ -1357,6 +1357,9 @@
 1479 Importer
 1480 Télécharger le fichier CSV exemple
 1481 Historiques des CVEs
+1482 Dernière date d'exécution
+1483 Nombre de CVE
+1484 Temps de validité des CVE après le scan OCS Inventory
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie

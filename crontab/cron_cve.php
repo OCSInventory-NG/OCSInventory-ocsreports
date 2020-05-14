@@ -11,9 +11,17 @@ $_SESSION['OCS']["writeServer"] = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE
 $_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
 
 $cve = new Cve();
+$date = null;
+$clean = false;
 
 //Check if CVE is activate
 if($cve->CVE_ACTIVE == 1) {
+
+    if($cve->CVE_EXPIRE_TIME != null && $cve->CVE_EXPIRE_TIME != "") {
+        $date = date('Y/m/d H:i:s', time() - (3600 * $cve->CVE_EXPIRE_TIME));
+        $clean = true;
+    }
+
     $curl = curl_init($cve->CVE_SEARCH_URL);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_exec($curl);
@@ -26,7 +34,7 @@ if($cve->CVE_ACTIVE == 1) {
         exit();
     } else {
         curl_close($curl);
-        $cve->getSoftwareInformations($argv[1]);
+        $cve->getSoftwareInformations($date, $clean);
         //$cve->insertFlag();
         $cve->verbose($cve->CVE_VERBOSE, 2);
     }

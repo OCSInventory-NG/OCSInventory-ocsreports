@@ -1358,6 +1358,7 @@
 1481 CVE history
 1482 Lastest execution date
 1483 CVE count
+1484 Time of validity of a CVE after OCS Inventory scan
 
 1500 Software category
 1501 New category

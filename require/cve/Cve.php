@@ -30,8 +30,8 @@ class Cve
   public $CVE_SEARCH_URL = '';
   public $CVE_ACTIVE = null;
   private $CVE_BAN;
-  private $CVE_DATE = null;
   private $CVE_ALL = null;
+  public $CVE_EXPIRE_TIME = null;
   private $publisherName = null;
   public $cve_attr = [];
   public $cve_history = [
@@ -48,8 +48,8 @@ class Cve
         'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST',
         'VULN_BAN_LIST' => 'VULN_BAN_LIST',
         'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE',
-        'VULN_CVESEARCH_DATE' => 'VULN_CVESEARCH_DATE',
-        'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL');
+        'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL',
+        'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME');
 
     // Get configuration values from DB
     $values = look_config_default_values($champs);
@@ -59,7 +59,8 @@ class Cve
     $this->CVE_BAN = $values['tvalue']["VULN_BAN_LIST"];
     $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"];
     $this->CVE_ALL = $values['ivalue']["VULN_CVESEARCH_ALL"];
-    $this->CVE_DATE = $values['tvalue']["VULN_CVESEARCH_DATE"];
+    $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"];
+
   }
 
   /**
@@ -89,15 +90,19 @@ class Cve
   /**
    *  Get distinct all software name and publisher
    */
-  public function getSoftwareInformations($commandlineArg = null){
+  public function getSoftwareInformations($date = null, $clean = false){
 
     $this->verbose($this->CVE_VERBOSE, 4);
 
     $sql = 'SELECT DISTINCT p.ID, p.PUBLISHER FROM software_publisher p
             LEFT JOIN software s ON p.ID = s.PUBLISHER_ID 
-            LEFT JOIN software_name n ON n.ID = s.NAME_ID WHERE p.ID != 1';
+            LEFT JOIN software_name n ON n.ID = s.NAME_ID 
+            LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID WHERE p.ID != 1';
     if($this->CVE_BAN != ""){
       $sql .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
+    }
+    if($date != null) {
+      $sql .= ' AND h.FLAG_DATE <= "'.$date.'"';
     }
     $sql .= " ORDER BY p.PUBLISHER";
 
@@ -110,6 +115,7 @@ class Cve
       # Reset CVE NB
       $this->cve_history['CVE_NB'] = 0;
       $this->cve_history['PUBLISHER_ID'] = $item_publisher['ID'];
+      $this->clean_cve($item_publisher['ID']);
       
       $this->publisherName = $item_publisher['PUBLISHER'];
 
@@ -332,14 +338,14 @@ class Cve
   /**
    *  Clean CVE and ban software
    */
-  public function clean_cve(){
-    $sql = 'SELECT DISTINCT cve FROM cve_search';
-    $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+  public function clean_cve($publisher){
+    $sql = 'SELECT DISTINCT cve FROM cve_search WHERE PUBLISHER_ID = %s';
+    $arg = array($publisher);
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $curl = curl_init();
 
     while ($item_cve = mysqli_fetch_array($result)) {
       $url = $this->CVE_SEARCH_URL."/api/cve/".$item_cve["cve"];
-      
       curl_setopt($curl, CURLOPT_URL, $url);
       curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
       $result = curl_exec ($curl);
@@ -352,7 +358,7 @@ class Cve
       }
     }
 
-    curl_close ($curl);
+    if(gettype($this->curlSession) == 'resource') curl_close($this->curlSession);
 
     if($this->CVE_BAN != ""){
       $sql_ban = "SELECT DISTINCT c.NAME_ID FROM cve_search c LEFT JOIN software_name as s ON c.NAME_ID = s.ID WHERE s.category IN (%s)";
