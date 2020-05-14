@@ -1356,6 +1356,7 @@
 1478 Ou importer un fichier CSV
 1479 Importer
 1480 Télécharger le fichier CSV exemple
+1481 Historiques des CVEs
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie

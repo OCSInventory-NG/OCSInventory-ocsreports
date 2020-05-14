@@ -172,6 +172,10 @@
         <label>g(1360)</label>
         <url>ms_server_infos</url>
       </menu-elem>
+      <menu-elem id="ms_cve_history">
+        <label>g(1481)</label>
+        <url>ms_cve_history</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="ms_help">

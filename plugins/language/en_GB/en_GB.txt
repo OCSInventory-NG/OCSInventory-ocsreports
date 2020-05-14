@@ -1355,6 +1355,9 @@
 1478 Or import CSV file
 1479 Import
 1480 Download CSV file example
+1481 CVE history
+1482 Lastest execution date
+1483 CVE count
 
 1500 Software category
 1501 New category

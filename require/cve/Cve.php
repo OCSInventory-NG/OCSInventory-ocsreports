@@ -63,23 +63,6 @@ class Cve
   }
 
   /**
-   * Return latest flag date
-   *
-   * @param string $date
-   * @return string
-   */
-  private function get_flag($date) {
-    $sql = 'SELECT FLAG_DATE FROM cve_search_history ORDER BY ID ASC LIMIT 1';
-    $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
-
-    if($result != null) {
-      while($item = mysqli_fetch_array($result)) {
-        $this->cve_history['FLAG'] = $item['FLAG_DATE'];
-      }
-    }
-  }
-
-  /**
    * History cve history
    */
   private function verif_history(){
@@ -125,7 +108,7 @@ class Cve
       # Reset date
       $this->cve_history['FLAG'] = date('Y-m-d H:i:s');
       # Reset CVE NB
-      $this->cve_history['NB'] = 0;
+      $this->cve_history['CVE_NB'] = 0;
       $this->cve_history['PUBLISHER_ID'] = $item_publisher['ID'];
       
       $this->publisherName = $item_publisher['PUBLISHER'];
