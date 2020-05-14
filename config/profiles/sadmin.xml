@@ -111,9 +111,11 @@
     <page>ms_asset_cat_list</page>
     <page>ms_notification</page>
     <page>ms_cve_search</page>
+    <page>ms_cve_correspondance</page>
     <page>ms_saas_soft</page>
     <page>ms_snmp_config</page>
     <page>ms_save_query</page>
     <page>ms_save_query_list</page>
+    <page>ms_cve_history</page>
   </pages>
 </profile>

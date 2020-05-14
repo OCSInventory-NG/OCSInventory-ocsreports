@@ -140,6 +140,10 @@
         <label>g(2141)</label>
         <url>ms_save_query_list</url>
       </menu-elem>
+      <menu-elem id="ms_cve_correspondance">
+        <label>g(1472)</label>
+        <url>ms_cve_correspondance</url>
+      </menu-elem>
       <menu-elem id="ms_local">
         <label>g(287)</label>
         <url>ms_local</url>
@@ -167,6 +171,10 @@
        <menu-elem id="ms_server_infos">
         <label>g(1360)</label>
         <url>ms_server_infos</url>
+      </menu-elem>
+      <menu-elem id="ms_cve_history">
+        <label>g(1481)</label>
+        <url>ms_cve_history</url>
       </menu-elem>
     </submenu>
   </menu-elem>

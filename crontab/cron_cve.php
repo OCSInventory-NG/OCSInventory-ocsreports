@@ -11,9 +11,17 @@ $_SESSION['OCS']["writeServer"] = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE
 $_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
 
 $cve = new Cve();
+$date = null;
+$clean = false;
 
 //Check if CVE is activate
 if($cve->CVE_ACTIVE == 1) {
+
+    if($cve->CVE_EXPIRE_TIME != null && $cve->CVE_EXPIRE_TIME != "") {
+        $date = date('Y/m/d H:i:s', time() - (3600 * $cve->CVE_EXPIRE_TIME));
+        $clean = true;
+    }
+
     $curl = curl_init($cve->CVE_SEARCH_URL);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_exec($curl);
@@ -21,22 +29,16 @@ if($cve->CVE_ACTIVE == 1) {
     // Check if any error occured on cve-search server
     if(curl_errno($curl)) {
         $info = curl_getinfo($curl);
-        if($cve->CVE_VERBOSE == 1) {
-            error_log(print_r($cve->CVE_SEARCH_URL." is not reachable.", true));
-        }
+        $cve->verbose($cve->CVE_VERBOSE, 1);
         curl_close($curl);
         exit();
     } else {
         curl_close($curl);
-        $cve->getSoftwareInformations($argv[1]);
-        $cve->insertFlag();
-        if($cve->CVE_VERBOSE == 1) {
-            error_log(print_r($cve->cve_history['CVE_NB']." CVE has been added to database", true));
-        }
+        $cve->getSoftwareInformations($date, $clean);
+        //$cve->insertFlag();
+        $cve->verbose($cve->CVE_VERBOSE, 2);
     }
 } else {
-    if($cve->CVE_VERBOSE == 1) {
-        error_log(print_r("CVE feature isn't enabled", true));
-    }
+    $cve->verbose($cve->CVE_VERBOSE, 3);
     exit();
 }?>
