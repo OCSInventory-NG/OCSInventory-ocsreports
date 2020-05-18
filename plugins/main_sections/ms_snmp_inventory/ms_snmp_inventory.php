@@ -33,36 +33,55 @@ $snmp = new OCSSnmp();
 
 $typeList = $snmp->get_all_type();
 
-foreach($typeList as $key => $value) {
+//definition of onglet
+foreach($typeList as $id => $values) {
+    $def_onglets[$id] = $values['TYPENAME'];
+    if ($protectedPost['onglet'] == "") {
+        $protectedPost['onglet'] = $id;
+    }
+}
 
-    $list_fields = [];
-    $tab_options = [];
+$count = count($def_onglets);
+$form_name = "snmp_inventory";
 
-    print_item_header($typeList[$key]['TYPENAME']);
+$table_name = $form_name;
 
-    $tab_options['computersectionrequest'] = $typeList[$key]['TABLENAME'];
+echo open_form($form_name, '', '', 'form-horizontal');
 
-    $form_name = $typeList[$key]['TABLENAME'];
-    $table_name = $form_name;
+//show first lign of onglet
+if($count < 15){
+  show_tabs($def_onglets,$form_name,"onglet",true, $i);
+}
 
-    echo open_form($form_name, '', '', 'form-horizontal');
+if ($count >= 15) {
+    echo "<div class='col col-md-2'>";
+    echo show_modif($def_onglets, 'onglet', 2, $form_name) . "</div>";
+}
+echo '<div class="col col-md-10" >';
+
+if($protectedPost['onglet'] != "") {
+    print_item_header($typeList[$protectedPost['onglet']]['TYPENAME']);
 
     $tab_options = $protectedPost;
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $table_name;
-    $list_fields = $snmp->show_columns($typeList[$key]['TABLENAME']);
+    $list_fields = $snmp->show_columns($typeList[$protectedPost['onglet']]['TABLENAME']);
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
     $tab_options['FILTRE'] = array_flip($list_fields);
-    $queryDetails = "SELECT * FROM ".$typeList[$key]['TABLENAME'];
-    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-    echo close_form();
+    $queryDetails = "SELECT * FROM ".$typeList[$protectedPost['onglet']]['TABLENAME'];
 
-    if (AJAX) {
-        ob_end_clean();
-        tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
-        ob_start();
-    }
+    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
+
+echo '</div>';
+echo close_form();
+
+if (AJAX) {
+    ob_end_clean();
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+    ob_start();
+}
+
 
 
