@@ -61,6 +61,15 @@ if ($count >= 15) {
 echo '<div class="col col-md-10" >';
 
 if($protectedPost['onglet'] != "") {
+    $protectedPost['TABLENAME'] = $typeList[$protectedPost['onglet']]['TABLENAME'];
+
+    if(isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != "") {
+        $sql_sup = "DELETE FROM %s WHERE ID = %s";
+        $arg_sup = array($protectedPost['TABLENAME'], $protectedPost['SUP_PROF']);
+        $result = mysql2_query_secure($sql_sup, $_SESSION['OCS']["writeServer"], $arg_sup);
+        unset($protectedPost['SUP_PROF']);
+    }
+
     print_item_header($typeList[$protectedPost['onglet']]['TYPENAME']);
     $columns = $snmp->show_columns($typeList[$protectedPost['onglet']]['TABLENAME']);
 
@@ -96,10 +105,17 @@ if($protectedPost['onglet'] != "") {
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
+                            <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-7">
                             <h3 class="modal-title" id="detailLabel"><b>'.$l->g(9012).'</b></h3>
+                            </div>
+                            <div class="col-md-1 ml-auto">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
+                            </div>
+                            </div>
                         </div>
                         <div class="modal-body" style="text-align:justify;">';
                             foreach($columns as $column) {
