@@ -1346,6 +1346,19 @@
 1469 Select software categories that you do not want to process
 1470 Enable CVE-search verbose
 1471 Enable to get CVE corresponding to all software version
+1472 CVE Inventory
+1473 New matching regex
+1474 Match list
+1475 Name or Regex
+1476 Publisher result
+1477 Name result
+1478 Or import CSV file
+1479 Import
+1480 Download CSV file example
+1481 CVE history
+1482 Latest execution date
+1483 CVE count
+1484 Time of validity of a CVE after OCS Inventory scan
 
 1500 Software category
 1501 New category

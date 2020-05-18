@@ -64,6 +64,10 @@
         <value>admin_logs</value>
         <directory>ms_logs</directory>
     </url>
+    <url key="ms_cve_history">
+        <value>cve_history</value>
+        <directory>ms_cve_history</directory>
+    </url>
     <url key="ms_admininfo">
         <value>admin_info</value>
         <directory>ms_admininfo</directory>
@@ -299,6 +303,10 @@
     <url key="ms_cve_search">
         <value>cve_search</value>
         <directory>ms_cve_search</directory>
+    </url>
+    <url key="ms_cve_correspondance">
+        <value>cve_correspondance</value>
+        <directory>ms_cve_correspondance</directory>
     </url>
     <url key="ms_saas_soft">
         <value>saas_soft</value>

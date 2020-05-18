@@ -69,26 +69,35 @@ if($cve->CVE_ACTIVE != 1){
 
     /******************************* ALL CVE *******************************/
     if($protectedPost['onglet'] == "ALL_CVE"){
-        $sql['SQL'] = 'SELECT *, CONCAT(soft,";",version) as search, link as id FROM cve_search GROUP BY link, cvss, soft, cve';
+        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME,";",v.VERSION) as search, c.LINK as id 
+                    FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
+                    LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
+                    LEFT JOIN software_version v ON v.ID = c.VERSION_ID
+                    GROUP BY c.LINK, c.CVSS, c.NAME_ID, c.CVE';
     }
 
     /******************************* PER VULNERABILITIES *******************************/
     else{
+        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME,";",v.VERSION) as search, c.LINK as id 
+                        FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
+                        LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
+                        LEFT JOIN software_version v ON v.ID = c.VERSION_ID ';
         if($protectedPost['onglet'] != '10'){
             $vulnerability = explode('-', $protectedPost['onglet']);
-            $sql['SQL'] = 'SELECT *, CONCAT(soft,";",version) as search, link as id FROM cve_search WHERE cvss >= '. doubleval($vulnerability[0]) .' AND cvss < '. doubleval($vulnerability[1]) .' GROUP BY link, cvss, soft, cve';  
+            $sql['SQL'] .= 'WHERE c.CVSS >= '. doubleval($vulnerability[0]) .' AND c.CVSS < '. doubleval($vulnerability[1]);  
         }else{
-            $sql['SQL'] = 'SELECT *, CONCAT(soft,";",version) as search, link as id FROM cve_search WHERE cvss = '. addslashes($protectedPost['onglet']) .' GROUP BY link, cvss, soft, cve';
+            $sql['SQL'] .= 'WHERE cvss = '. addslashes($protectedPost['onglet']);
         }
+        $sql['SQL'] .= ' GROUP BY c.LINK, c.CVSS, c.NAME_ID, c.CVE';
     }
 
     if (isset($sql)) {
-        $list_fields = array($l->g(69) => 'vendor',
-            'soft' => 'soft',
-            'Version' => 'version',
-            'CVSS' => 'cvss',
-            'CVE' => 'cve',
-            'link' => 'link'
+        $list_fields = array($l->g(69) => 'PUBLISHER',
+            'soft' => 'NAME',
+            'Version' => 'VERSION',
+            'CVSS' => 'CVSS',
+            'CVE' => 'CVE',
+            'Link' => 'LINK'
         );
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
