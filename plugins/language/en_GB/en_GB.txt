@@ -1654,6 +1654,8 @@
 9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
 9010 Server SNMP MIBs directory
 9011 Filter by type :
+9012 SNMP details
+9013 Show details
 
 9100 SSL key path
 9101 SSL certificat path

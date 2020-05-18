@@ -1648,6 +1648,8 @@
 9009 Placez votre fichier MIB dans votre dossier MIBs sur votre serveur.<br> N'oubliez pas de configurer votre chemin d'accès aux fichiers MIBs dans <b>Configuration > Configuration générale > SNMP</b>
 9010 Chemin d'accès aux fichiers MIBs
 9011 Filtrer par type :
+9012 Détails SNMP
+9013 Afficher les détails
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
