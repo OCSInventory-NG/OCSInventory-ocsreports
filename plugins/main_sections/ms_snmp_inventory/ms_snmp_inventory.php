@@ -32,6 +32,7 @@ require_once('require/function_machine.php');
 $snmp = new OCSSnmp();
 
 $typeList = $snmp->get_all_type();
+$columns = [];
 
 //definition of onglet
 foreach($typeList as $id => $values) {
@@ -61,17 +62,59 @@ echo '<div class="col col-md-10" >';
 
 if($protectedPost['onglet'] != "") {
     print_item_header($typeList[$protectedPost['onglet']]['TYPENAME']);
+    $columns = $snmp->show_columns($typeList[$protectedPost['onglet']]['TABLENAME']);
 
     $tab_options = $protectedPost;
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $table_name;
-    $list_fields = $snmp->show_columns($typeList[$protectedPost['onglet']]['TABLENAME']);
+
+    for($i = 0; $columns[$i] != null; $i++) {
+        if($i <= 3) {
+            $list_fields[$columns[$i]] = $columns[$i];
+        } else {
+            $list_fields2[$columns[$i]] = $columns[$i];
+        }
+    }
+    $list_fields['SHOW_DETAILS'] = 'ID';
+    $list_fields['SUP'] = 'ID';
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
+
+    if($list_fields2 != null) {
+        $list_fields = array_merge($list_fields,$list_fields2);
+    }
+    
     $tab_options['FILTRE'] = array_flip($list_fields);
     $queryDetails = "SELECT * FROM ".$typeList[$protectedPost['onglet']]['TABLENAME'];
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+    $infos = $snmp->get_infos($typeList[$protectedPost['onglet']]['TABLENAME'], $columns);
+
+    foreach ($infos as $key => $values) {
+        echo '<div class="modal fade" id="'.$key.'" tabindex="-1" role="dialog" aria-labelledby="detailLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="detailLabel"><b>'.$l->g(9012).'</b></h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align:justify;">';
+                            foreach($columns as $column) {
+                                echo '<div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-6">';
+                                echo '<b>'.$column.'</b> : '.$values[$column];
+                                echo '</div></div>';
+                            }
+        echo '          </div>
+                    </div>
+                </div>
+            </div>';
+    }
+    
 }
 
 echo '</div>';

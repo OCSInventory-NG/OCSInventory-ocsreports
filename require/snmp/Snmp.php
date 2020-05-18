@@ -442,13 +442,29 @@ class OCSSnmp
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 
 		$columns = [];
+		$i = 0;
 		while($item = mysqli_fetch_array($result)) {
 			if($item['Field'] != 'ID') {
-				$columns[$item['Field']] = $item['Field'];
+				$columns[$i] = $item['Field'];
+				$i++;
 			}
 		}
 
 		return $columns;
+	}
+
+	public function get_infos($tablename, $columns) {
+		$column = implode(",",$columns);
+		$sql = "SELECT ID,".$column." FROM %s";
+		$arg = array($tablename);
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+
+		$infos = [];
+		while($item = mysqli_fetch_array($result)) {
+			$infos[$item['ID']] = $item;
+		}
+
+		return $infos;
 	}
 
 }
