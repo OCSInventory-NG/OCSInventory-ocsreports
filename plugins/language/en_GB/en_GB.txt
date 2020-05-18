@@ -1656,6 +1656,7 @@
 9011 Filter by type :
 9012 SNMP details
 9013 Show details
+9014 SNMP configuration is empty. Check the documentation to know how to configure SNMP : <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
 
 9100 SSL key path
 9101 SSL certificat path
