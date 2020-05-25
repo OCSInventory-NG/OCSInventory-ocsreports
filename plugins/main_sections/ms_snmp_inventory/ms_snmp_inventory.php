@@ -114,18 +114,18 @@ if(empty($typeList)) {
                                 <div class="col-md-7">
                                 <h3 class="modal-title" id="detailLabel"><b>'.$l->g(9012).'</b></h3>
                                 </div>
-                                <div class="col-md-1 ml-auto">
+                                <div class="col-md-3 ml-auto">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 </div>
                             </div>
-                            <div class="modal-body" style="text-align:justify;">';
+                            <div class="modal-body" style="text-align:left;">';
                                 foreach($columns as $column) {
                                     echo '<div class="row">
                                         <div class="col-md-2"></div>
-                                        <div class="col-md-6">';
+                                        <div class="col-md-8">';
                                     echo '<b>'.$column.'</b> : '.$values[$column];
                                     echo '</div></div>';
                                 }
