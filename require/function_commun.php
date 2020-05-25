@@ -480,9 +480,12 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 			echo "<option value='".$option."' ".($inputValue == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
 		}
 		echo "</select>";
-	}
-	else{
-		echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='form-control ".$class."' ".$attrBalise.">";
+	} else {
+        if($inputType == "checkbox") {
+            echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='".$class."' ".$attrBalise.">";
+        } else {
+            echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='form-control ".$class."' ".$attrBalise.">";
+        }
   }
   if($groupAddon != ""){
   	echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";

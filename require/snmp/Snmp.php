@@ -144,13 +144,19 @@ class OCSSnmp
 	 * @param string $oid
 	 * @return boolean
 	 */
-	public function snmp_config($typeID, $labelID, $oid) {
-		$result_alter_table  = $this->add_label_column($typeID, $labelID);
+	public function snmp_config($typeID, $labelID, $oid, $reconciliation) {
+		global $l;
+		$result_alter_table  = $this->add_label_column($typeID, $labelID, $reconciliation);
 
 		if($result_alter_table){
-			$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
-			$sql_arg = array($typeID, $labelID, addslashes($oid));
-		
+			if($reconciliation != null) {
+				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`) VALUES (%s,%s,'%s', '%s')";
+				$sql_arg = array($typeID, $labelID, addslashes($oid), $l->g(9015));
+			} else {
+				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
+				$sql_arg = array($typeID, $labelID, addslashes($oid));
+			}
+			
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
 			if($result) {
 				return true;
@@ -169,14 +175,20 @@ class OCSSnmp
 	 * @param int $labelID
 	 * @return boolean
 	 */
-	private function add_label_column($typeID, $labelID) {
+	private function add_label_column($typeID, $labelID, $reconciliation) {
 		$tableName = $this->get_table_type_drop($typeID);
 		$labelName = $this->get_label_drop($labelID);
 
 		$sql_alter = "ALTER TABLE `%s` ADD `%s` VARCHAR(255) NOT NULL";
+		
 		$arg_alter = array($tableName, $labelName);
 		$result_alter = mysql2_query_secure($sql_alter, $_SESSION['OCS']["writeServer"], $arg_alter);
 
+		if($reconciliation != null) {
+			$sql_unique = "ALTER TABLE `%s` ADD UNIQUE (`%s`)";
+			$arg_unique = array($tableName, $labelName);
+			$result_unique = mysql2_query_secure($sql_unique, $_SESSION['OCS']["writeServer"], $arg_unique);
+		}
 		if($result_alter){
 			return true;
 		}else{

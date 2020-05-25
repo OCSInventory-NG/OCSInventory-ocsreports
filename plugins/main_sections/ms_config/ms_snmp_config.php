@@ -191,7 +191,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid']);
+        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation']);
         if($result == true){
           msg_success($l->g(572));
         }else{
@@ -209,13 +209,13 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     $type = $snmp->get_type();
     $label = $snmp->get_label();
 
-
     echo "<div class='row margin-top30'>
             <div class='col-sm-10'>";
 
     formGroup('select', 'type_id', 'Type :', '', '', '', '', $type, $type);
     formGroup('select', 'label_id', 'Label :', '', '', '', '', $label, $label);
     formGroup('text', 'oid', 'OID :', '', '', '', '', '', '', "");
+    formGroup('checkbox', 'reconciliation', $l->g(9015).' :', '', '', 'YES', '', '', '');
 
     echo "<input type='submit' name='update_snmp' id='update_snmp' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</br></br><hr></br>";
@@ -239,6 +239,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
         "Type" => 't.TYPE_NAME',
         "Label" => 'l.LABEL_NAME',
         "OID" => "c.OID",
+        "RECONCILIATION" => "c.RECONCILIATION"
     );
 
     $list_fields['SUP'] = 'c.ID';
@@ -247,7 +248,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     $default_fields = $list_fields;
     $list_col_cant_del = $list_fields;
 
-    $queryDetails = "SELECT DISTINCT c.ID, t.TYPE_NAME, l.LABEL_NAME, c.OID FROM snmp_configs c 
+    $queryDetails = "SELECT DISTINCT c.ID, t.TYPE_NAME, l.LABEL_NAME, c.OID, c.RECONCILIATION FROM snmp_configs c 
                         LEFT JOIN snmp_types t ON c.TYPE_ID = t.ID
                         LEFT JOIN snmp_labels l ON c.LABEL_ID = l.ID". $filter;
 
