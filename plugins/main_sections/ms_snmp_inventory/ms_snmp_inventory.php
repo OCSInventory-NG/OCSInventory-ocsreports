@@ -127,7 +127,7 @@ if(empty($typeList)) {
                                         <div class="col-md-2"></div>
                                         <div class="col-md-8">';
                                     echo '<b>'.$column.'</b> : '.$values[$column];
-                                    echo '</div></div>';
+                                    echo '<br><br></div></div>';
                                 }
             echo '          </div>
                         </div>

@@ -150,8 +150,8 @@ class OCSSnmp
 
 		if($result_alter_table){
 			if($reconciliation != null) {
-				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`) VALUES (%s,%s,'%s', '%s')";
-				$sql_arg = array($typeID, $labelID, addslashes($oid), $l->g(9015));
+				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`) VALUES (%s,%s,'%s','%s')";
+				$sql_arg = array($typeID, $labelID, 'Yes');
 			} else {
 				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
 				$sql_arg = array($typeID, $labelID, addslashes($oid));
