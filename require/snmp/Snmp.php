@@ -144,14 +144,14 @@ class OCSSnmp
 	 * @param string $oid
 	 * @return boolean
 	 */
-	public function snmp_config($typeID, $labelID, $oid, $reconciliation) {
+	public function snmp_config($typeID, $labelID, $oid, $reconciliation = null) {
 		global $l;
 		$result_alter_table  = $this->add_label_column($typeID, $labelID, $reconciliation);
 
 		if($result_alter_table){
 			if($reconciliation != null) {
 				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`) VALUES (%s,%s,'%s','%s')";
-				$sql_arg = array($typeID, $labelID, 'Yes');
+				$sql_arg = array($typeID, $labelID, addslashes($oid), 'Yes');
 			} else {
 				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
 				$sql_arg = array($typeID, $labelID, addslashes($oid));
@@ -411,22 +411,26 @@ class OCSSnmp
 			if(strpos($key, "checkbox_") !== false) {
 				$mib_check = explode("_", $key);
 			}
-			if($mib_check != null) {
-				if($key == "label_".$mib_check[1]) {
-					$config[$mib_check[1]]['label'] = $value;
-				}
-				if($key == "oid_".$mib_check[1]) {
-					$config[$mib_check[1]]['oid'] = $value;
-				}
+			
+			if($key == "label_".$mib_check[1]) {
+				$config[$mib_check[1]]['label'] = $value;
 			}
+			if($key == "oid_".$mib_check[1]) {
+				$config[$mib_check[1]]['oid'] = $value;
+			}
+			if($key == "reconciliation_".$mib_check[1]) {
+				$config[$mib_check[1]]['reconciliation'] = $value;
+			}
+		}
 
-			if(!empty($config) && $config[$mib_check[1]]['label'] != null && $config[$mib_check[1]]['oid'] != null) {
-				$result = $this->snmp_config($post['type_id'], $config[$mib_check[1]]['label'], $config[$mib_check[1]]['oid']);
-				$mib_check = null;
-				$config = null;
+		if(!empty($config)) {
+			foreach($config as $key => $value) {
+				if($config[$key]['label'] != null && $config[$key]['oid'] != null) {
+					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation']);
 
-				if(!$result) {
-					return false;
+					if(!$result) {
+						return false;
+					}
 				}
 			}
 		}

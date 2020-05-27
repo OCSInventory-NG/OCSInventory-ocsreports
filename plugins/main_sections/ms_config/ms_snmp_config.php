@@ -330,10 +330,16 @@ if(isset($protectedPost['select_mib'])) {
         echo '      </div>
                 </div>';
 
-        echo '  <div class="col-sm-5">
+        echo '  <div class="col-sm-4">
                     <div class="form-group">
                         <input class="form-control" type="text" name="oid_'.$name.'_txt" value="'.$oid.'" disabled>
                         <input class="form-control" type="hidden" name="oid_'.$name.'" value="'.$oid.'">';
+        echo '      </div>
+                </div>';
+
+        echo '  <div class="col-sm-1">
+                    <div class="form-group">
+                        <input type="checkbox" class="perso_checkbox" id="reconciliation_'.$name.'" name="reconciliation_'.$name.'" value="YES">';
         echo '      </div>
                 </div>';
 
