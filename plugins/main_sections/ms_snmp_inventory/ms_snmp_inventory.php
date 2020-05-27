@@ -106,7 +106,7 @@ if(empty($typeList)) {
 
         foreach ($infos as $key => $values) {
             echo '<div class="modal fade" id="'.$key.'" tabindex="-1" role="dialog" aria-labelledby="detailLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <div class="row">
@@ -121,15 +121,26 @@ if(empty($typeList)) {
                                 </div>
                                 </div>
                             </div>
-                            <div class="modal-body" style="text-align:left;">';
+                            <div class="modal-body" style="text-align:left;">
+                                <table style="width:100%" class="table table-striped table-condensed table-hover cell-border dataTable" role="grid">';
                                 foreach($columns as $column) {
-                                    echo '<div class="row">
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-8">';
-                                    echo '<b>'.$column.'</b> : '.$values[$column];
-                                    echo '<br><br></div></div>';
+                                    echo '<tr role="row">';
+                                    echo '<th>'.$column.'</th>';
+                                    echo '<td>';
+                                    if(strpos($values[$column], " - ") !== false) {
+                                        $list = explode(" - ", $values[$column]);
+                                        natsort($list);
+                                        foreach($list as $lists) {
+                                            echo $lists.'<br>';
+                                        }
+                                    } else {
+                                        echo $values[$column];
+                                    }
+                                    echo '</td>';
+                                    echo '</tr>';
                                 }
-            echo '          </div>
+            echo '              </table>
+                            </div>
                         </div>
                     </div>
                 </div>';
