@@ -298,12 +298,12 @@ if(isset($protectedPost['select_mib'])) {
     $label = $snmp->get_label();
 
     echo '<div name="snmp_mib_list">';
-    echo open_form('snmp_mib_list', '', '', '');
+    echo open_form('snmp_mib_list', '', '', 'form-horizontal');
     echo '<div class="col col-md-2" ></div>
           <div class="col col-md-10"><hr>';
-    msg_info($l->g(9016));
     echo '<div class="row margin-top30" style="margin-bottom:30px;">
             <div class="col-sm-10">';
+    msg_info($l->g(9016));
     formGroup('select', 'type_id', 'Type :', '', '', '', '', $type, $type);
     echo "</div></div></br>";
     echo '</div>';
@@ -311,11 +311,9 @@ if(isset($protectedPost['select_mib'])) {
     echo '<div class="row" name="snmp_row">';
     echo '<div class="col-sm-1"></div>';
     echo '<div class="col-sm-10">';
-    echo '<div class="col-sm-5">';
-    echo '<div class="input-group">';
-    echo '<span class="input-group-addon glyphicon glyphicon-search"></span>';
+    echo '<div class="col-md-3" style="padding-left:0;">';
     echo '<input type="text" id="myInput" class="form-control" onkeyup="searchInMIB()" placeholder="'.$l->g(9021).' ..">';
-    echo '</div></div>';
+    echo '</div>';
     echo '<div class="tableContainer">
             <div id="affich_regex_wrapper" class="dataTables_wrapper form-inline no-footer">
                 <div>
