@@ -1657,7 +1657,13 @@
 9012 SNMP details
 9013 Show details
 9014 SNMP configuration is empty. Check the documentation to know how to configure SNMP : <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
-9015 Reconciliation's field
+9015 Use for reconciliation
+9016 Select the type that you want to configure.
+9017 Numeric OID
+9018 Custom label
+9019 OID name string
+9020 Add in configuration
+9021 Search for specific row
 
 9100 SSL key path
 9101 SSL certificat path
