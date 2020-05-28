@@ -1654,9 +1654,9 @@
 9015 Utiliser comme réconciliation
 9016 Sélectionnez le type que vous souhaitez configurer.
 9017 OID numérique
-9018 Label personnalisé
+9018 Nom du champ d'inventaire
 9019 OID name string
-9020 Ajouter à la configuration
+9020 Ajouter au model SNMP
 9021 Rechercher un ligne spécifique
 
 9100 Chemin de la clé SSL

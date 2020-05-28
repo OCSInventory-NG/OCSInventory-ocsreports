@@ -1660,9 +1660,9 @@
 9015 Use for reconciliation
 9016 Select the type that you want to configure.
 9017 Numeric OID
-9018 Custom label
+9018 Inventory field name
 9019 OID name string
-9020 Add in configuration
+9020 Add to SNMP Model
 9021 Search for specific row
 
 9100 SSL key path
