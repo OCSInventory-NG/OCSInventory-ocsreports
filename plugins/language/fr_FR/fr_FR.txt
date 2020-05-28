@@ -1657,7 +1657,7 @@
 9018 Nom du champ d'inventaire
 9019 OID name string
 9020 Ajouter au model SNMP
-9021 Rechercher un ligne spécifique
+9021 Rechercher une ligne spécifique
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
