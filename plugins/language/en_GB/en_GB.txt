@@ -1,7 +1,7 @@
 2 All computers
 9 Search with various criteria
 13 Send
-17 Agent
+17 Store agents
 18 Revision
 19 Software version
 20 Software
@@ -1022,7 +1022,7 @@
 1136 SNMP
 1137 Enable/Disable the snmp service
 1138 Show all subnets
-1139 Network configuration
+1139 Network scan
 1140 Administer subnet
 1141 Subnet added
 1142 Enter a new subnet for blacklist

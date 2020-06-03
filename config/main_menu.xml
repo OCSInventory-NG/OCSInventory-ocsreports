@@ -8,21 +8,25 @@
     <label>g(728)</label>
     <url>ms_all_computers</url>
     <submenu>
-      <menu-elem id="ms_groups">
-        <label>g(583)</label>
-        <url>ms_groups</url>
-      </menu-elem>
-      <menu-elem id="ms_repart_tag">
-        <label>g(178)</label>
-        <url>ms_repart_tag</url>
+      <menu-elem id="ms_multi_search">
+        <label>g(9)</label>
+        <url>ms_multi_search</url>
       </menu-elem>
       <menu-elem id="ms_all_soft">
         <label>g(765)</label>
         <url>ms_all_soft</url>
       </menu-elem>
-      <menu-elem id="ms_multi_search">
-        <label>g(9)</label>
-        <url>ms_multi_search</url>
+      <menu-elem id="ms_ipdiscover">
+        <label>g(1204)</label>
+        <url>ms_ipdiscover</url>
+      </menu-elem>
+      <menu-elem id="ms_snmp_inventory">
+        <label>g(1136)</label>
+        <url>ms_snmp_inventory</url>
+      </menu-elem>
+      <menu-elem id="ms_groups">
+        <label>g(583)</label>
+        <url>ms_groups</url>
       </menu-elem>
       <menu-elem id="ms_cve_search">
         <label>g(1463)</label>
@@ -32,13 +36,9 @@
         <label>g(8100)</label>
         <url>ms_saas_soft</url>
       </menu-elem>
-      <menu-elem id="ms_ipdiscover">
-        <label>g(1204)</label>
-        <url>ms_ipdiscover</url>
-      </menu-elem>
-      <menu-elem id="ms_snmp_inventory">
-        <label>g(1136)</label>
-        <url>ms_snmp_inventory</url>
+      <menu-elem id="ms_repart_tag">
+        <label>g(178)</label>
+        <url>ms_repart_tag</url>
       </menu-elem>
     </submenu>
   </menu-elem>
@@ -72,6 +72,14 @@
         <label>g(1449)</label>
         <url>ms_config</url>
       </menu-elem>
+      <menu-elem id="ms_snmp_config">
+        <label>g(9000)</label>
+        <url>ms_snmp_config</url>
+      </menu-elem>
+      <menu-elem id="ms_notification">
+        <label>g(8000)</label>
+        <url>ms_notification</url>
+      </menu-elem>
       <menu-elem id="ms_users">
         <label>g(1410)</label>
         <url>ms_users</url>
@@ -88,55 +96,47 @@
         <label>g(17)</label>
         <url>ms_upload_file</url>
       </menu-elem>
-      <menu-elem id="ms_notification">
-        <label>g(8000)</label>
-        <url>ms_notification</url>
-      </menu-elem>
-      <menu-elem id="ms_snmp_config">
-        <label>g(9000)</label>
-        <url>ms_snmp_config</url>
-      </menu-elem>
-      <menu-elem id="ms_admin_ipdiscover">
-        <label>g(1139)</label>
-        <url>ms_admin_ipdiscover</url>
-      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="manage">
     <label>g(1328)</label>
     <url>ms_regconfig</url>
     <submenu>
-      <menu-elem id="ms_regconfig">
-        <label>g(211)</label>
-        <url>ms_regconfig</url>
-      </menu-elem>
-      <menu-elem id="ms_admininfo">
-        <label>g(56)</label>
-        <url>ms_admininfo</url>
-      </menu-elem>
-      <menu-elem id="ms_doubles">
-        <label>g(175)</label>
-        <url>ms_doubles</url>
-      </menu-elem>
-      <menu-elem id="ms_dict">
-        <label>g(380)</label>
-        <url>ms_dict</url>
+      <menu-elem id="ms_asset_cat_list">
+        <label>g(2130)</label>
+        <url>ms_asset_cat_list</url>
       </menu-elem>
       <menu-elem id="ms_soft_cat">
         <label>g(1500)</label>
         <url>ms_soft_cat</url>
       </menu-elem>
-      <menu-elem id="ms_asset_cat_list">
-        <label>g(2130)</label>
-        <url>ms_asset_cat_list</url>
+      <menu-elem id="ms_dict">
+        <label>g(380)</label>
+        <url>ms_dict</url>
+      </menu-elem>
+      <menu-elem id="ms_admininfo">
+        <label>g(56)</label>
+        <url>ms_admininfo</url>
+      </menu-elem>
+      <menu-elem id="ms_admin_ipdiscover">
+        <label>g(1139)</label>
+        <url>ms_admin_ipdiscover</url>
+      </menu-elem>
+      <menu-elem id="ms_cve_correspondance">
+        <label>g(1472)</label>
+        <url>ms_cve_correspondance</url>
+      </menu-elem>
+      <menu-elem id="ms_regconfig">
+        <label>g(211)</label>
+        <url>ms_regconfig</url>
       </menu-elem>
       <menu-elem id="ms_save_query_list">
         <label>g(2141)</label>
         <url>ms_save_query_list</url>
       </menu-elem>
-      <menu-elem id="ms_cve_correspondance">
-        <label>g(1472)</label>
-        <url>ms_cve_correspondance</url>
+      <menu-elem id="ms_doubles">
+        <label>g(175)</label>
+        <url>ms_doubles</url>
       </menu-elem>
       <menu-elem id="ms_local">
         <label>g(287)</label>
