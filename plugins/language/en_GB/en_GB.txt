@@ -1654,6 +1654,16 @@
 9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
 9010 Server SNMP MIBs directory
 9011 Filter by type :
+9012 SNMP details
+9013 Show details
+9014 SNMP configuration is empty. Check the documentation to know how to configure SNMP : <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+9015 Use for reconciliation
+9016 Select the type that you want to configure.
+9017 Numeric OID
+9018 Inventory field name
+9019 OID name string
+9020 Add to SNMP Model
+9021 Search for specific row
 
 9100 SSL key path
 9101 SSL certificat path

@@ -144,13 +144,19 @@ class OCSSnmp
 	 * @param string $oid
 	 * @return boolean
 	 */
-	public function snmp_config($typeID, $labelID, $oid) {
-		$result_alter_table  = $this->add_label_column($typeID, $labelID);
+	public function snmp_config($typeID, $labelID, $oid, $reconciliation = null) {
+		global $l;
+		$result_alter_table  = $this->add_label_column($typeID, $labelID, $reconciliation);
 
 		if($result_alter_table){
-			$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
-			$sql_arg = array($typeID, $labelID, addslashes($oid));
-		
+			if($reconciliation != null) {
+				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`) VALUES (%s,%s,'%s','%s')";
+				$sql_arg = array($typeID, $labelID, addslashes($oid), 'Yes');
+			} else {
+				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
+				$sql_arg = array($typeID, $labelID, addslashes($oid));
+			}
+			
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
 			if($result) {
 				return true;
@@ -169,14 +175,20 @@ class OCSSnmp
 	 * @param int $labelID
 	 * @return boolean
 	 */
-	private function add_label_column($typeID, $labelID) {
+	private function add_label_column($typeID, $labelID, $reconciliation) {
 		$tableName = $this->get_table_type_drop($typeID);
 		$labelName = $this->get_label_drop($labelID);
 
 		$sql_alter = "ALTER TABLE `%s` ADD `%s` VARCHAR(255) NOT NULL";
+		
 		$arg_alter = array($tableName, $labelName);
 		$result_alter = mysql2_query_secure($sql_alter, $_SESSION['OCS']["writeServer"], $arg_alter);
 
+		if($reconciliation != null) {
+			$sql_unique = "ALTER TABLE `%s` ADD UNIQUE (`%s`)";
+			$arg_unique = array($tableName, $labelName);
+			$result_unique = mysql2_query_secure($sql_unique, $_SESSION['OCS']["writeServer"], $arg_unique);
+		}
 		if($result_alter){
 			return true;
 		}else{
@@ -399,27 +411,76 @@ class OCSSnmp
 			if(strpos($key, "checkbox_") !== false) {
 				$mib_check = explode("_", $key);
 			}
-			if($mib_check != null) {
-				if($key == "label_".$mib_check[1]) {
-					$config[$mib_check[1]]['label'] = $value;
-				}
-				if($key == "oid_".$mib_check[1]) {
-					$config[$mib_check[1]]['oid'] = $value;
-				}
+			
+			if($key == "label_".$mib_check[1]) {
+				$config[$mib_check[1]]['label'] = $value;
 			}
+			if($key == "oid_".$mib_check[1]) {
+				$config[$mib_check[1]]['oid'] = $value;
+			}
+			if($key == "reconciliation_".$mib_check[1]) {
+				$config[$mib_check[1]]['reconciliation'] = $value;
+			}
+		}
 
-			if(!empty($config) && $config[$mib_check[1]]['label'] != null && $config[$mib_check[1]]['oid'] != null) {
-				$result = $this->snmp_config($post['type_id'], $config[$mib_check[1]]['label'], $config[$mib_check[1]]['oid']);
-				$mib_check = null;
-				$config = null;
+		if(!empty($config)) {
+			foreach($config as $key => $value) {
+				if($config[$key]['label'] != null && $config[$key]['oid'] != null) {
+					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation']);
 
-				if(!$result) {
-					return false;
+					if(!$result) {
+						return false;
+					}
 				}
 			}
 		}
 
 		return true;
+	}
+
+	public function get_all_type() {
+		$list = [];
+
+		$sql = 'SELECT * FROM snmp_types';
+		$result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+
+		while($item = mysqli_fetch_array($result)) {
+			$list[$item['ID']]['TABLENAME'] = $item['TABLE_TYPE_NAME'];
+			$list[$item['ID']]['TYPENAME'] = $item['TYPE_NAME'];
+		}
+
+		return $list;
+	}
+
+	public function show_columns($table) {
+		$sql = 'SHOW COLUMNS FROM %s';
+		$arg = array($table);
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+
+		$columns = [];
+		$i = 0;
+		while($item = mysqli_fetch_array($result)) {
+			if($item['Field'] != 'ID') {
+				$columns[$i] = $item['Field'];
+				$i++;
+			}
+		}
+
+		return $columns;
+	}
+
+	public function get_infos($tablename, $columns) {
+		$column = implode(",",$columns);
+		$sql = "SELECT ID,".$column." FROM %s";
+		$arg = array($tablename);
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+
+		$infos = [];
+		while($item = mysqli_fetch_array($result)) {
+			$infos[$item['ID']] = $item;
+		}
+
+		return $infos;
 	}
 
 }

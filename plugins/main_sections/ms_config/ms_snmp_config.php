@@ -191,7 +191,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid']);
+        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation']);
         if($result == true){
           msg_success($l->g(572));
         }else{
@@ -209,13 +209,13 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     $type = $snmp->get_type();
     $label = $snmp->get_label();
 
-
     echo "<div class='row margin-top30'>
             <div class='col-sm-10'>";
 
     formGroup('select', 'type_id', 'Type :', '', '', '', '', $type, $type);
     formGroup('select', 'label_id', 'Label :', '', '', '', '', $label, $label);
     formGroup('text', 'oid', 'OID :', '', '', '', '', '', '', "");
+    formGroup('checkbox', 'reconciliation', $l->g(9015).' :', '', '', 'YES', '', '', '');
 
     echo "<input type='submit' name='update_snmp' id='update_snmp' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</br></br><hr></br>";
@@ -239,6 +239,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
         "Type" => 't.TYPE_NAME',
         "Label" => 'l.LABEL_NAME',
         "OID" => "c.OID",
+        "RECONCILIATION" => "c.RECONCILIATION"
     );
 
     $list_fields['SUP'] = 'c.ID';
@@ -247,7 +248,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     $default_fields = $list_fields;
     $list_col_cant_del = $list_fields;
 
-    $queryDetails = "SELECT DISTINCT c.ID, t.TYPE_NAME, l.LABEL_NAME, c.OID FROM snmp_configs c 
+    $queryDetails = "SELECT DISTINCT c.ID, t.TYPE_NAME, l.LABEL_NAME, c.OID, c.RECONCILIATION FROM snmp_configs c 
                         LEFT JOIN snmp_types t ON c.TYPE_ID = t.ID
                         LEFT JOIN snmp_labels l ON c.LABEL_ID = l.ID". $filter;
 
@@ -285,7 +286,7 @@ if($protectedPost['onglet'] == 'SNMP_MIB') {
     formGroup('select', 'mib_file', 'MIB :', '', '', '', '', $mib, $mib);
 
     echo "<input type='submit' name='update_snmp' id='update_snmp' class='btn btn-success' value='".$l->g(13)."'>";
-    echo "</div></div></br></br></br></br>";
+    echo "</div></div></br></br>";
 }
 
 echo "</div>";
@@ -297,48 +298,67 @@ if(isset($protectedPost['select_mib'])) {
     $label = $snmp->get_label();
 
     echo '<div name="snmp_mib_list">';
-    echo open_form('snmp_mib_list', '', '', '');
-
-    echo '<div class="row margin-top30">
-            <div class="col-sm-6">';
+    echo open_form('snmp_mib_list', '', '', 'form-horizontal');
+    echo '<div class="col col-md-2" ></div>
+          <div class="col col-md-10"><hr>';
+    echo '<div class="row margin-top30" style="margin-bottom:30px;">
+            <div class="col-sm-10">';
+    msg_info($l->g(9016));
     formGroup('select', 'type_id', 'Type :', '', '', '', '', $type, $type);
-    echo "</div></div></br></br>";
+    echo "</div></div></br>";
+    echo '</div>';
 
     echo '<div class="row" name="snmp_row">';
+    echo '<div class="col-sm-1"></div>';
+    echo '<div class="col-sm-10">';
+    echo '<div class="col-md-3" style="padding-left:0;">';
+    echo '<input type="text" id="myInput" class="form-control" onkeyup="searchInMIB()" placeholder="'.$l->g(9021).' ..">';
+    echo '</div>';
+    echo '<div class="tableContainer">
+            <div id="affich_regex_wrapper" class="dataTables_wrapper form-inline no-footer">
+                <div>
+                    <div class="dataTables_scroll">
+                        <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                            <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 100%; padding-left: 0px;">
+                                <table width="100%" class="table table-striped table-condensed table-hover cell-border dataTable no-footer" role="grid" style="margin-left: 0px; width: 100%;">
+                                    <thead>
+                                        <tr role="row">
+                                            <th tabindex="0" aria-controls="affich_regex" rowspan="1" colspan="1" style="width: 12%;" aria-label="Use"><font>'.$l->g(9020).'</font></th>
+                                            <th tabindex="0" aria-controls="affich_version" rowspan="1" colspan="1" style="width: 22%;" aria-label="Description"><font>'.$l->g(9019).'</font></th>
+                                            <th tabindex="0" aria-controls="affich_version" rowspan="1" colspan="1" style="width: 22%;" aria-label="Label"><font>'.$l->g(9018).'</font></th>
+                                            <th tabindex="0" aria-controls="affich_publisher" rowspan="1" colspan="1" style="width: 22%;" aria-label="Numeric OID"><font>'.$l->g(9017).'</font></th>
+                                            <th tabindex="0" aria-controls="affich_version" rowspan="1" colspan="1" style="width: 12%;" aria-label="Reconciliation"><font>'.$l->g(9015).'</font></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>';
+    echo '              <div class="dataTables_scrollBody" style="overflow: auto; width: 100%;">
+                        <table id="mib_info" class="table table-striped table-condensed table-hover cell-border dataTable" role="grid" aria-describedby="affich_regex_info" style="width: 100%;">
+                            <tbody>';
+    
     foreach($result_oids as $name => $oid) {
-        echo '<div class="col-sm-6">';
-        echo '  <div class="col-sm-1">
-                    <div class="form-group">
-                        <input type="checkbox" class="perso_checkbox" id="checkbox_'.$name.'" name="checkbox_'.$name.'" value="YES">';
-        echo '      </div>
-                </div>';
-
-        echo '  <div class="col-sm-4">
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="name_'.$name.'" value="'.$name.'" disabled>';
-        echo '      </div>
-                </div>';
-
-        echo '  <div class="col-sm-2">
-                    <div class="form-group">
-                        <select class="form-control" type="text" name="label_'.$name.'">';
-                        foreach($label as $id => $lbl) {
-                            echo '<option value="'.$id.'">'.$lbl.'</option>';
-                        }
-        echo '          </select>';
-        echo '      </div>
-                </div>';
-
-        echo '  <div class="col-sm-5">
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="oid_'.$name.'_txt" value="'.$oid.'" disabled>
-                        <input class="form-control" type="hidden" name="oid_'.$name.'" value="'.$oid.'">';
-        echo '      </div>
-                </div>';
-
-		echo '</div>';		
-
+        echo '                  <tr class="odd">';
+        echo '                      <td valign="top" colspan="1" style="width: 12%; text-align:center;"><input type="checkbox" class="perso_checkbox" id="checkbox_'.$name.'" name="checkbox_'.$name.'" value="YES"></td>';
+        echo '                      <td valign="top" colspan="1" style="width: 22%; text-align:center;">'.$name.'</td>';
+        echo '                      <td valign="top" colspan="1" style="width: 22%; text-align:center;"><select style="width: 100%;" class="form-control" type="text" name="label_'.$name.'">';
+                                    foreach($label as $id => $lbl) {
+                                        echo '<option value="'.$id.'">'.$lbl.'</option>';
+                                    }
+        echo '                      </td>';
+        echo '                      <td valign="top" colspan="1" style="width: 22%; text-align:center;" class="affich_publisher">'.$oid.'<input class="form-control" type="hidden" name="oid_'.$name.'" value="'.$oid.'"></td>';
+        echo '                      <td valign="top" colspan="1" style="width: 12%; text-align:center;" class="affich_publisher"><input type="checkbox" class="perso_checkbox" id="reconciliation_'.$name.'" name="reconciliation_'.$name.'" value="YES"></td>';
+        echo '                  </tr>';
     }
+
+    echo '                  </tbody>';
+    echo '              </table>';
+    echo '              </div>
+                    </div>
+                </div>
+            </div>
+        </div>';
+
     echo "<input type='submit' name='add_mib' id='add_mib' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</div></div>";
     echo close_form();
@@ -347,4 +367,5 @@ if(isset($protectedPost['select_mib'])) {
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
-} 
+}
+

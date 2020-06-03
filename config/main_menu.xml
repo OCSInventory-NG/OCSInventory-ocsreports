@@ -36,6 +36,10 @@
         <label>g(1204)</label>
         <url>ms_ipdiscover</url>
       </menu-elem>
+      <menu-elem id="ms_snmp_inventory">
+        <label>g(1136)</label>
+        <url>ms_snmp_inventory</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="deployment">
