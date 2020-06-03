@@ -96,16 +96,6 @@
         <label>g(9000)</label>
         <url>ms_snmp_config</url>
       </menu-elem>
-    </submenu>
-  </menu-elem>
-  <menu-elem id="networks">
-    <label>g(82)</label>
-    <url>ms_ipdiscover</url>
-    <submenu>
-      <menu-elem id="ms_snmp">
-        <label>g(1136)</label>
-        <url>ms_snmp</url>
-      </menu-elem>
       <menu-elem id="ms_admin_ipdiscover">
         <label>g(1139)</label>
         <url>ms_admin_ipdiscover</url>

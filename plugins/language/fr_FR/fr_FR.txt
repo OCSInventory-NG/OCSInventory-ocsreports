@@ -1023,7 +1023,7 @@
 1136 Snmp
 1137 Activer/désactiver le snmp
 1138 Afficher tous mes réseaux
-1139 Administrer
+1139 Configuration réseaux
 1140 Administrer les sous-réseaux
 1141 Sous-réseau ajouté
 1142 Ajouter un sous-réseau à blacklister

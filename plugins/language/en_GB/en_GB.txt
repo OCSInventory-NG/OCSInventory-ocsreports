@@ -1022,7 +1022,7 @@
 1136 SNMP
 1137 Enable/Disable the snmp service
 1138 Show all subnets
-1139 Administer
+1139 Network configuration
 1140 Administer subnet
 1141 Subnet added
 1142 Enter a new subnet for blacklist
