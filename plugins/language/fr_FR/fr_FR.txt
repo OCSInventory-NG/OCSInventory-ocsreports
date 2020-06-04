@@ -1,7 +1,7 @@
 2 Toutes les machines
 9 Recherche multicritères
 13 Envoyer
-17 Client
+17 Import des agents
 18 Révision
 19 Version du logiciel
 20 Logiciel
@@ -1023,7 +1023,7 @@
 1136 Snmp
 1137 Activer/désactiver le snmp
 1138 Afficher tous mes réseaux
-1139 Administrer
+1139 Scan réseaux
 1140 Administrer les sous-réseaux
 1141 Sous-réseau ajouté
 1142 Ajouter un sous-réseau à blacklister
