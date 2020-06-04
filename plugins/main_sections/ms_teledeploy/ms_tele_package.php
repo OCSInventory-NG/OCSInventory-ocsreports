@@ -285,11 +285,11 @@ if (isset($protectedPost['valid'])) {
         input_pack_taille("nbfrags", "tailleFrag", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
         time_deploy($l->g(1002));
         $java_script = "verif2();";
+        javascript_pack();
 
         if ($protectedPost['REDISTRIB_USE'] == 1) {
             echo "<br />";
             echo "<h4>" . $l->g(1003) . "</h4>";
-            javascript_pack();
             input_pack_taille("tailleFrag_redistrib", "nbfrags_redistrib", round($size), '8', round($size / 1024), $l->g(463), $l->g(516));
             input_pack_taille("nbfrags_redistrib", "tailleFrag_redistrib", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
             $java_script = "verif_redistributor();";
