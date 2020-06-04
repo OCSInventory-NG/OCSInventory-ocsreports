@@ -956,7 +956,7 @@ function pageConnexion() {
 function pagesnmp() {
     global $l;
     //which line we need?
-    $champs = array('SNMP' => 'SNMP', 'SNMP_INVENTORY_DIFF' => 'SNMP_INVENTORY_DIFF', 'SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
+    $champs = array('SNMP' => 'SNMP', 'SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
     $values = look_config_default_values($champs);
     if (isset($values['tvalue']['SNMP_DIR'])) {
         $select_rep_creat = 'CUSTOM';
@@ -964,7 +964,6 @@ function pagesnmp() {
         $select_rep_creat = 'DEFAULT';
     }
     ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP']));
-    ligne('SNMP_INVENTORY_DIFF', $l->g(1214), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP_INVENTORY_DIFF']));
     ligne('SNMP_MIB_DIRECTORY', $l->g(9010), 'input', array('VALUE' => $values['tvalue']['SNMP_MIB_DIRECTORY'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
 }
 
