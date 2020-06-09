@@ -452,6 +452,26 @@ class Cve
     );
   }
 
+  public function get_software_infos() {
+    $sql = "SELECT c.NAME_ID, c.VERSION_ID, c.CVSS, c.CVE, c.LINK, n.NAME, v.VERSION
+            FROM cve_search c 
+            LEFT JOIN software_name n ON n.ID = c.NAME_ID 
+            LEFT JOIN software_version v ON v.ID = c.VERSION_ID";
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+
+    $list = [];
+
+    while ($item = mysqli_fetch_array($result)) {
+      $list[$item['NAME_ID']]['NAME'] = $item['NAME'];
+      $list[$item['NAME_ID']][$item['VERSION_ID']]['VERSION'] = $item['VERSION'];
+      $list[$item['NAME_ID']][$item['VERSION_ID']]['CVSS'] = $item['CVSS'];
+      $list[$item['NAME_ID']][$item['VERSION_ID']]['CVE'] = $item['CVE'];
+      $list[$item['NAME_ID']][$item['VERSION_ID']]['LINK'] = $item['LINK'];
+    }
+
+    return $list;
+  }
+
 }
 
 ?>
