@@ -1339,10 +1339,10 @@
 1462 URL of the cve-search host to use for the reporting
 1463 CVE Reporting
 1464 CVE Reporting is not enabled.
-1465 All CVE
+1465 By CVSS
 1466 Please, see the documentation to configure CVE Reporting : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Managing CVE-search reporting </a>
 1467 Link
-1468 Vulnerability
+1468 Vulnerability score between
 1469 Select software categories that you do not want to process
 1470 Enable CVE-search verbose
 1471 Enable to get CVE corresponding to all software version
@@ -1359,6 +1359,8 @@
 1482 Latest execution date
 1483 CVE count
 1484 Time of validity of a CVE after OCS Inventory scan
+1485 By software
+1486 By computer
 
 1500 Software category
 1501 New category
