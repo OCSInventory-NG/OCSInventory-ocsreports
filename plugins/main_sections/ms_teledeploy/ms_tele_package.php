@@ -403,6 +403,7 @@ if(isset($protectedPost['valid_modif'])){
           input_pack_taille("nbfrags", "tailleFrag", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
           time_deploy($l->g(1002));
           $java_script = "verif2();";
+          javascript_pack();
 
           if ($protectedPost['REDISTRIB_USE'] == 1) {
               echo "<br />";
