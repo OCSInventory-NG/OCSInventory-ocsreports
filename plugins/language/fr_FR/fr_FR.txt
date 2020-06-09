@@ -1340,10 +1340,10 @@
 1462 URL de l'hôte cve-search à utiliser pour le rapport
 1463 Rapport de CVE
 1464 Le Rapport de CVE n'est pas activé.
-1465 Tous les CVE
+1465 Par CVSS
 1466 Veuillez consulter la documentation pour configurer le Rapport de CVE : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Managing CVE-search reporting </a>
 1467 Lien
-1468 Vulnérabilité
+1468 Score de vulnérabilité entre
 1469 Sélectionnez les catégories de logicielles que vous ne souhaitez pas traiter
 1470 Activer la verbose pour CVE-search
 1471 Activer la récupération des CVE correspondant à toutes les versions d'un logiciel
@@ -1360,6 +1360,8 @@
 1482 Dernière date d'exécution
 1483 Nombre de CVE
 1484 Temps de validité des CVE après le scan OCS Inventory
+1485 Par logiciel
+1486 Par ordinateur
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie
