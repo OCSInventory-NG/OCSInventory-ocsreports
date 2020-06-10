@@ -17,7 +17,7 @@ $clean = false;
 //Check if CVE is activate
 if($cve->CVE_ACTIVE == 1) {
 
-    if($cve->CVE_EXPIRE_TIME != null && $cve->CVE_EXPIRE_TIME != "") {
+    if($cve->CVE_EXPIRE_TIME != null && $cve->CVE_EXPIRE_TIME != "" && $cve->CVE_EXPIRE_TIME != "0") {
         $date = date('Y/m/d H:i:s', time() - (3600 * $cve->CVE_EXPIRE_TIME));
         $clean = true;
     }
