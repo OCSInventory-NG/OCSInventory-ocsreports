@@ -96,7 +96,7 @@ if($cve->CVE_ACTIVE != 1){
 
     /******************************* BY SOFTWARE *******************************/
     if($protectedPost['onglet'] == "BY_SOFT"){
-        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME) as search, c.LINK as id 
+        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME) as search, c.LINK as id, c.NAME_ID as nameid
                     FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                     LEFT JOIN software_version v ON v.ID = c.VERSION_ID
@@ -107,7 +107,7 @@ if($cve->CVE_ACTIVE != 1){
             'soft' => 'NAME'
         );
 
-        $list_fields['SHOW_DETAILS'] = 'n.ID';
+        $list_fields['SHOW_DETAILS'] = 'nameid';
     }
 
     /******************************* BY COMPUTER *******************************/
