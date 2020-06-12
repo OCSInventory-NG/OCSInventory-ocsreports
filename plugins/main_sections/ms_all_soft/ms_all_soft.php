@@ -130,7 +130,7 @@ if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NB
 
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
-    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
+    $sql['SQL'] = 'SELECT *, count(CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
                 FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                 LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                 LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
@@ -171,7 +171,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $champs = array('DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     $values = look_config_default_values($champs);
 
-    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
+    $sql['SQL'] = 'SELECT *, count(CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
                     FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                     LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                     LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
@@ -211,7 +211,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
 /****************************************** SOFTWARE PER CATEGORY ******************************************/
 else {
-    $sql['SQL'] = 'SELECT *, count(DISTINCT CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
+    $sql['SQL'] = 'SELECT *, count(CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
                 FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                 LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                 LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
