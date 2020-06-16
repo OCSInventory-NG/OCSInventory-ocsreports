@@ -345,13 +345,16 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                         });
                         var ocs = [];
                         //Add the actual $_POST to the $_POST of the ajax request
-    <?php
-    foreach ($protectedPost as $key => $value) {
-        if (!is_array($value)) {
-            echo "d['" . $key . "'] = '" . $value . "'; \n";
-        }
-    }
-    ?>
+						<?php
+						foreach ($protectedPost as $key => $value) {
+							if (!is_array($value)) {
+								echo "d['" . $key . "'] = '" . $value . "'; \n";
+							}
+							if($key == "visible_col") {
+								$visible_col = $value;
+							}
+						}
+						?>
                         ocs.push($(form_name).serialize());
                         d.visible_col = visible;
                         d.ocs = ocs;
@@ -390,7 +393,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     // Unset visible columns session var
     unset($_SESSION['OCS']['visible_col'][$option['table_name']]);
 
-//Visibility handling
+	//Visibility handling
     foreach ($columns as $key => $column) {
         if (!empty($visible_col)) {
             if ((in_array($index, $visible_col))) {
@@ -402,8 +405,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             }
             $index ++;
         } else {
-            if (( (in_array($key, $default_fields)) || (in_array($key, $list_col_cant_del)) || array_key_exists($key, $default_fields) || ($key == "ACTIONS" )) && !(in_array($key, $actions))
-            ) {
+            if (( (in_array($key, $default_fields)) || (in_array($key, $list_col_cant_del)) || array_key_exists($key, $default_fields) || ($key == "ACTIONS" )) && !(in_array($key, $actions))) {
                 // add visibles columns
                 $_SESSION['OCS']['visible_col'][$option['table_name']][$key] = $column;
                 $visible = 'true';
@@ -472,8 +474,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             $("#select_col" + table_name).change(function () {
                 var col = "." + $(this).val();
                 $(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
-                $(table_id).DataTable().ajax.reload();
-                $("#select_col" + table_name).val('default');
+				$(table_id).DataTable().ajax.reload();
+				$("#select_col" + table_name).val('default');
             });
 
             //$("<span id='" + table_name + "_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#" + table_name + "_filter label");
