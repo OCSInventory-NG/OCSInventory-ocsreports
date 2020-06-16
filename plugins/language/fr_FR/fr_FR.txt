@@ -1334,6 +1334,7 @@
 1454 Source
 1455 Interface virtuelle
 1456 Numéro de téléphone
+1457 Lier les réseaux Ipdiscover aux TAG ordinateurs
 
 1460 Cve-search management
 1461 Activer Rapport de CVE

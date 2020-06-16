@@ -387,7 +387,8 @@ function update_default_value($POST) {
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
-        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME');
+        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME',
+        'IPDISCOVER_LINK_TAG_NETWORK');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -789,15 +790,18 @@ function pageregistry() {
 function pageipdiscover($advance) {
     global $l, $numeric, $sup1, $sup10;
     //what ligne we need?
-    if($advance){
-      $champs = array('IPDISCOVER' => 'IPDISCOVER',
-          'IPDISCOVER_BETTER_THRESHOLD' => 'IPDISCOVER_BETTER_THRESHOLD',
-          'IPDISCOVER_LATENCY' => 'IPDISCOVER_LATENCY',
-          'IPDISCOVER_MAX_ALIVE' => 'IPDISCOVER_MAX_ALIVE',
-          'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
-          'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS');
-    }else{
-      $champs = array('IPDISCOVER' => 'IPDISCOVER',);
+    if($advance) {
+        $champs = array(
+            'IPDISCOVER' => 'IPDISCOVER',
+            'IPDISCOVER_BETTER_THRESHOLD' => 'IPDISCOVER_BETTER_THRESHOLD',
+            'IPDISCOVER_LATENCY' => 'IPDISCOVER_LATENCY',
+            'IPDISCOVER_MAX_ALIVE' => 'IPDISCOVER_MAX_ALIVE',
+            'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
+            'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS',
+            'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK'   
+        );
+    } else {
+        $champs = array('IPDISCOVER' => 'IPDISCOVER');
     }
 
     $values = look_config_default_values($champs);
@@ -811,15 +815,16 @@ function pageipdiscover($advance) {
         }
     }
 
-    if($advance){
-      ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
-      ligne('IPDISCOVER_BETTER_THRESHOLD', $l->g(746), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-      ligne('IPDISCOVER_LATENCY', $l->g(567), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_LATENCY'], 'END' => $l->g(732), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup10);
-      ligne('IPDISCOVER_MAX_ALIVE', $l->g(419), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_MAX_ALIVE'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-      ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
-      ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
-    }else{
-      ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
+    if($advance) {
+        ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
+        ligne('IPDISCOVER_BETTER_THRESHOLD', $l->g(746), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+        ligne('IPDISCOVER_LATENCY', $l->g(567), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_LATENCY'], 'END' => $l->g(732), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup10);
+        ligne('IPDISCOVER_MAX_ALIVE', $l->g(419), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_MAX_ALIVE'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+        ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
+        ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
+        ligne('IPDISCOVER_LINK_TAG_NETWORK', $l->g(1457), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_LINK_TAG_NETWORK']));
+    } else {
+        ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
     }
 }
 
