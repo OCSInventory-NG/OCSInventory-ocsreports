@@ -35,10 +35,6 @@
    public function get_machine_contacted_td($title){
       $machine = array("windows" => 0, "unix" => 0, "android" => 0, 'others' => 0, 'all' => 0);
 
-      /*if (is_defined($_SESSION['OCS']["mesmachines"])) {
-        $queryDetails .= "AND " . $_SESSION['OCS']["mesmachines"];
-      }*/
-
       if($title == "CONTACTED"){
         foreach($machine as $key => $value){
           $sql = "SELECT DISTINCT h.name, count(h.id) as nb, h.USERAGENT FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id WHERE h.lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND h.USERAGENT LIKE '%$key%'";
