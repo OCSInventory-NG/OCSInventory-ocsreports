@@ -62,10 +62,18 @@ class Stats{
 
         foreach($form as $key => $value){
             if ($key == 'NB_OS') {
-                $sql = "select count(osname) c,osname as name from hardware where osname != '' group by osname order by count(osname) DESC ";
+                $sql = "select count(h.osname) c,h.osname as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.osname != ''";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql .= " group by h.osname order by count(h.osname) DESC ";
                 $height_legend = 300;
             } else {
-                $sql = "select count(useragent) c,useragent as name from hardware where useragent != '' group by useragent order by count(useragent) DESC ";
+                $sql = "select count(h.useragent) c,h.useragent as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.useragent != ''";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql .= " group by h.useragent order by count(h.useragent) DESC ";
                 $height_legend = 300;
             }
 
@@ -88,7 +96,12 @@ class Stats{
             if($key == 'SEEN'){
                 //last seen since
                 $date = date("y-m-d",strtotime("-15 day")); 
-                $sql_seen = "SELECT DATE_FORMAT(lastcome, '%Y-%m') AS contact, count(lastcome) AS conta FROM `hardware` WHERE LASTCOME < '".$date."' GROUP BY contact ORDER BY `contact` ASC";
+                $sql_seen = "SELECT DATE_FORMAT(h.lastcome, '%Y-%m') AS contact, count(h.lastcome) AS conta FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.LASTCOME < '".$date."'";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql_seen .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql_seen .= " GROUP BY contact ORDER BY contact ASC";
+
                 $result_seen = mysql2_query_secure($sql_seen, $_SESSION['OCS']["readServer"]);
                 $seen = array();
                 $seen_name = array();
@@ -103,7 +116,11 @@ class Stats{
             }
 
             if($key == 'MANUFAC'){
-                $sql_man = "SELECT `SMANUFACTURER` AS man, count(`SMANUFACTURER`) AS c_man FROM `bios` group by `SMANUFACTURER` ORDER BY count(`SMANUFACTURER`)  DESC LIMIT 10";
+                $sql_man = "SELECT b.SMANUFACTURER AS man, count(b.SMANUFACTURER) AS c_man FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql_man .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql_man .= " group by b.SMANUFACTURER ORDER BY count(b.SMANUFACTURER)  DESC LIMIT 10";
                 $result_man = mysql2_query_secure($sql_man, $_SESSION['OCS']["readServer"]);
                 $man = array();
                 $man_name = array();
@@ -118,7 +135,11 @@ class Stats{
             }
 
             if($key == 'TYPE'){
-                $sql_type = "SELECT CASE WHEN TRIM(type) ='' THEN 'Unknow' ELSE type END as type, count(type) AS conta FROM `bios` GROUP BY type";
+                $sql_type = "SELECT CASE WHEN TRIM(b.type) ='' THEN 'Unknow' ELSE b.type END as type, count(b.type) AS conta FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql_type .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql_type .= " GROUP BY type";
                 $result_type = mysql2_query_secure($sql_type, $_SESSION['OCS']["readServer"]);
                 $type = array();
                 $type_name = array();

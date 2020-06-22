@@ -37,7 +37,10 @@
 
       if($title == "CONTACTED"){
         foreach($machine as $key => $value){
-          $sql = "SELECT DISTINCT name, count(id) as nb, USERAGENT FROM hardware WHERE lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND USERAGENT LIKE '%$key%'";
+          $sql = "SELECT DISTINCT h.name, count(h.id) as nb, h.USERAGENT FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id WHERE h.lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND h.USERAGENT LIKE '%$key%'";
+          if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+          }
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
           
           while($item = mysqli_fetch_array($result)) {
@@ -55,7 +58,11 @@
         }
       }
       if($title == "ALL COMPUTER"){
-        $sql = "SELECT DISTINCT ID, count(ID) as nb, USERAGENT FROM hardware WHERE USERAGENT IS NOT NULL GROUP BY USERAGENT";
+        $sql = "SELECT DISTINCT h.ID, count(h.ID) as nb, h.USERAGENT FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id WHERE h.USERAGENT IS NOT NULL";
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+          $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+        }
+        $sql .= " GROUP BY h.USERAGENT";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         while($item = mysqli_fetch_array($result)){
           if(strpos($item['USERAGENT'], 'unix') !== false) {
@@ -136,11 +143,19 @@
       }elseif($title == "ALL COMPUTER"){
 
         //get OS's 
-        $sql_os = "SELECT osname, count(osname) FROM `hardware` group by osname";
+        $sql_os = "SELECT h.osname, count(h.osname) FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id";
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+          $sql_os .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+        }
+        $sql_os .= "group by osname";
         $result_os = mysql2_query_secure($sql_os, $_SESSION['OCS']["readServer"]);
         $oss = "<p style='font-size:32px; font-weight:bold;'>".mysqli_num_rows($result_os)."</p>";
         //get softwares
-        $sql = "SELECT ID, count(CONCAT(NAME_ID,'_',VERSION_ID)) FROM `software` GROUP BY CONCAT(NAME_ID,'_', VERSION_ID)";
+        $sql = "SELECT s.ID, count(CONCAT(s.NAME_ID,'_',s.VERSION_ID)) FROM `software` s LEFT JOIN accountinfo a ON a.HARDWARE_ID = s.HARDWARE_ID";
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+          $sql .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+        }
+        $sql .= " GROUP BY CONCAT(s.NAME_ID,'_', s.VERSION_ID)";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         $softs = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_all_soft'>".mysqli_num_rows($result)."</a>";
 
@@ -174,8 +189,14 @@
 
           foreach($cat as $key => $value){
             $sql = "SELECT count(DISTINCT CONCAT(n.name, v.version)) as nb FROM software s 
-                    LEFT JOIN software_name n ON n.ID = s.NAME_ID LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
-                    WHERE n.CATEGORY = %s GROUP BY n.CATEGORY";
+                    LEFT JOIN software_name n ON n.ID = s.NAME_ID 
+                    LEFT JOIN software_version v ON v.ID = s.VERSION_ID
+                    LEFT JOIN accountinfo a ON a.HARDWARE_ID = s.HARDWARE_ID
+                    WHERE n.CATEGORY = %s";
+            if (is_defined($_SESSION['OCS']["mesmachines"])) {
+              $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+            }
+            $sql .= " GROUP BY n.CATEGORY";
             $arg = array($key);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
@@ -225,7 +246,10 @@
 
 		if(is_array($list_asset_id)){
 			foreach($list_asset_id as $key => $values){
-				$sql_assets = "SELECT ID as hardwareID FROM hardware WHERE CATEGORY_ID = %s";
+        $sql_assets = "SELECT h.ID as hardwareID FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.CATEGORY_ID = %s";
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+          $sql_assets .= " AND " . $_SESSION['OCS']["mesmachines"];
+        }
 				$nb = [];
 				$result_computer = mysql2_query_secure($sql_assets, $_SESSION['OCS']["readServer"], $values);
 				while ($computer = mysqli_fetch_array($result_computer)) {
