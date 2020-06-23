@@ -129,7 +129,7 @@ define('DEFAULT_THEME', "OCS");
 /**
  * DEV Options
  */
-define('DEV_OPTION', true);
+define('DEV_OPTION', false);
 
 //====================================================================================
 // Authentication Configuration
