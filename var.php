@@ -73,7 +73,7 @@ define('GUI_VER', '7031');
 /**
  * GUI Version
  */
-define('GUI_VER_SHOW', '2.7-nightly-2020-06-22');
+define('GUI_VER_SHOW', '2.7');
 /**
  * Default GUI language
  */
@@ -145,7 +145,7 @@ define('DEV_OPTION', true);
  * 
  * If LDAP / SSO Basic auth is configured, please configure the LDAP Authentication
  */
-define('AUTH_TYPE', 2);
+define('AUTH_TYPE', 1);
 
 /**
  * Auth Insecure LDAP, skip SSL Cert (not recommended)
