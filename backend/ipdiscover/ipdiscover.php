@@ -21,6 +21,7 @@
  * MA 02110-1301, USA.
  */
 require_once(BACKEND . 'require/connexion.php');
+require_once(BACKEND . 'require/auth.manager.php');
 
 $list_methode = array(0 => "local.php");
 

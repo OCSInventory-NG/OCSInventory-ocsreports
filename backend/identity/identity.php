@@ -21,8 +21,11 @@
  * MA 02110-1301, USA.
  */
 require_once(BACKEND . 'require/connexion.php');
-$list_methode = array(0 => "local.php");
-//$list_methode=array(0=>"ldap.php");
+require_once(BACKEND . 'require/auth.manager.php');
+
+// You don't have to change these variables anymore, see var.php
+$list_methode = get_list_methode(true);
+
 if (!isset($_SESSION['OCS']["lvluser"])) {
     $i = 0;
     //methode pour le calcul des droits

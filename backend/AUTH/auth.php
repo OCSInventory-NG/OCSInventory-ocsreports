@@ -31,25 +31,12 @@
  *
  */
 require_once(BACKEND . 'require/connexion.php');
-//If you want a html form for the connexion
-//put $affich_method='HTML'
-$affich_method = 'HTML';
-//If you use an SSO connexion
-//use this configuration
-//$affich_method='SSO';
-//$list_methode=array(0=>"always_ok.php");
-// Author: FranciX
-// http://forums.ocsinventory-ng.org/viewtopic.php?pid=30974
-//If you use an CAS connexion
-//use this configuration
-//$affich_method='CAS';
-//$list_methode=array(0=>"always_ok.php");
-//list of the identification method
-//3 pages by default: ldap.php => LDAP Connexion
-//					   local.php => Local connexion on ocs base
-//					   always_ok.php => connexion always ok
-$list_methode = array(0 => "local.php");
-// $list_methode=array(0=>"ldap.php");
+require_once(BACKEND . 'require/auth.manager.php');
+
+
+// You don't have to change these variables anymore, see var.php
+$affich_method = get_affiche_methode();
+$list_methode = get_list_methode();
 
 if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($protectedPost['LOGIN']) != "") {
     $login = $protectedPost['LOGIN'];
