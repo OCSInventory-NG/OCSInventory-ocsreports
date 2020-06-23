@@ -73,7 +73,7 @@ define('GUI_VER', '7031');
 /**
  * GUI Version
  */
-define('GUI_VER_SHOW', '2.7');
+define('GUI_VER_SHOW', '2.7-nightly-2020-06-22');
 /**
  * Default GUI language
  */
@@ -129,15 +129,39 @@ define('DEFAULT_THEME', "OCS");
 /**
  * DEV Options
  */
-define('DEV_OPTION', false);
+define('DEV_OPTION', true);
+
+//====================================================================================
+// Authentication Configuration
+//====================================================================================
+
+/**
+ * Define the auth type :
+ * - 1 : Local Only
+ * - 2 : Local and LDAP
+ * - 3 : LDAP Only
+ * - 4 : LDAP with SSO
+ * - 5 : Always OK, won't ask for user and password
+ * 
+ * If LDAP / SSO Basic auth is configured, please configure the LDAP Authentication
+ */
+define('AUTH_TYPE', 2);
+
+/**
+ * Auth Insecure LDAP, skip SSL Cert (not recommended)
+ * Note : OCS doesn't manage certificate for Ldaps, please edit "/etc/ldap/ldap.conf" to set proper certificate
+ */
+define('AUTH_LDAP_SKIP_CERT', false);
 
 //====================================================================================
 // Plugins Configuration
 //====================================================================================
+
 /**
  * Directory where you put extensions sources
  */
 define('EXT_DL_DIR', __DIR__ . '/extensions/');
+
 //====================================================================================
 // Misc Options
 //====================================================================================
