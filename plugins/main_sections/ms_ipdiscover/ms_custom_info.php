@@ -29,6 +29,8 @@ if (AJAX) {
 
 require_once('require/function_ipdiscover.php');
 
+echo "<a class='btn btn-info' onClick='history.back();'>".$l->g(188)."</a>";
+
 $form_name = 'info_ipdiscover';
 $tab_options = $protectedPost;
 
@@ -69,15 +71,15 @@ if (isset($protectedPost['Valid_modif'])) {
 
     if (!isset($ERROR)) {
         if ($protectedPost['USER_ENTER'] != '') {
-            $sql = "update network_devices
-					set DESCRIPTION = '%s',
+            $sql = "UPDATE network_devices
+					SET DESCRIPTION = '%s',
 					TYPE = '%s',
 					MACADDR = '%s',
 					USER = '%s' where MACADDR='%s'";
             $arg = array($protectedPost['COMMENT'], $protectedPost['TYPE'], $protectedPost['mac'], $user, $protectedPost['MODIF_ID']);
         } else {
             if(!check_if_inv_mac_already_exist($protectedPost['mac'])){
-                $sql = "insert into network_devices (DESCRIPTION,TYPE,MACADDR,USER)
+                $sql = "INSERT INTO network_devices (DESCRIPTION,TYPE,MACADDR,USER)
                     VALUES('%s','%s','%s','%s')";
                 $arg = array($protectedPost['COMMENT'], $protectedPost['TYPE'], $protectedPost['mac'], $user);
             }
@@ -113,7 +115,7 @@ if ($protectedPost['DEL_ALL'] != '') {
 if (is_defined($protectedPost['MODIF'])) {
     //cas d'une modification de la donnée déjà saisie
     if ($protectedGet['prov'] == "ident" && !isset($protectedPost['COMMENT'])) {
-        $sql = "select DESCRIPTION,TYPE,MACADDR,USER from network_devices where id ='%s'";
+        $sql = "SELECT DESCRIPTION,TYPE,MACADDR,USER FROM network_devices WHERE id ='%s'";
         $arg = $protectedPost['MODIF'];
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
         $val = mysqli_fetch_array($res);
@@ -149,7 +151,7 @@ if (is_defined($protectedPost['MODIF'])) {
     $tab_typ_champ[1]['CONFIG']['MAXLENGTH'] = 255;
     $tab_name[1] = $l->g(53) . ": ";
 
-    $sql = "select distinct NAME from devicetype ";
+    $sql = "SELECT DISTINCT NAME FROM devicetype ";
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     while ($row = mysqli_fetch_object($res)) {
         $list_type[$row->NAME] = $row->NAME;
@@ -171,22 +173,34 @@ if (is_defined($protectedPost['MODIF'])) {
         $protectedPost["pcparpage"] = 5;
     }
     if (isset($protectedGet['value'])) {
-        $value_preg = preg_replace("/[^A-zA-Z0-9\._]/", "", $protectedGet['value']);
+        $explode = explode(";", $protectedGet['value']);
+        $value_preg = preg_replace("/[^A-zA-Z0-9\._]/", "", $explode[0]);
+        $tag = addslashes($explode[1]);
+
         if ($protectedGet['prov'] == "no_inv") {
             $title = $l->g(947);
-            $sql = "SELECT ip, mac, mask, date, name FROM netmap n
-                            LEFT JOIN networks ns ON ns.macaddr=n.mac
-                            WHERE n.netid='%s'
-                            AND (ns.macaddr IS NULL)
-                            AND mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices)";
-            $tab_options['ARG_SQL'] = array($value_preg);
+            $sql = "SELECT 
+                    ip, mac, mask, date, name, n.TAG
+                    FROM netmap n 
+                    LEFT JOIN networks ns ON ns.macaddr=n.mac
+                    WHERE n.mac NOT IN ( 
+                        SELECT DISTINCT(macaddr) FROM network_devices 
+                    ) 
+                    AND (ns.macaddr IS NULL) 
+                    AND n.netid IN ('%s')";
+            if($tag != "") {
+                $sql .= " AND n.TAG = '%s'";
+            }
+
+            $tab_options['ARG_SQL'] = array($value_preg, $tag);
             $list_fields = array($l->g(34) => 'ip',
                 $l->g(95) => 'mac',
                 $l->g(208) => 'mask',
                 $l->g(232) => 'date',
-                $l->g(318) => 'name');
+                $l->g(318) => 'name',
+                'TAG' => 'TAG');
             $tab_options['FILTRE'] = array_flip($list_fields);
-            $tab_options['ARG_SQL_COUNT'] = array($value_preg);
+            $tab_options['ARG_SQL_COUNT'] = array($value_preg, $tag);
             $list_fields['SUP'] = 'mac';
             $list_fields['CHECK'] = 'mac';
             $list_fields['MODIF'] = 'mac';
@@ -196,10 +210,13 @@ if (is_defined($protectedPost['MODIF'])) {
 
         } elseif ($protectedGet['prov'] == "ident") {
             $title = $l->g(948);
-            $sql = "select n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
-				 from network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
-				 where netid='%s'";
-            $tab_options['ARG_SQL'] = array($value_preg);
+            $sql = "SELECT n.ID,n.TYPE,n.DESCRIPTION,a.IP,a.MAC,a.MASK,a.NETID,a.NAME,a.date,n.USER
+                    FROM network_devices n LEFT JOIN netmap a ON a.mac=n.macaddr
+                    WHERE netid = '%s'";
+            if($tag != "") {
+                $sql .= " AND TAG = '%s'";
+            }
+            $tab_options['ARG_SQL'] = array($value_preg, $tag);
             $list_fields = array($l->g(66) => 'TYPE', $l->g(53) => 'DESCRIPTION',
                 $l->g(34) => 'IP',
                 $l->g(95) => 'MAC',
@@ -207,9 +224,10 @@ if (is_defined($protectedPost['MODIF'])) {
                 $l->g(316) => 'NETID',
                 $l->g(318) => 'NAME',
                 $l->g(232) => 'date',
-                $l->g(369) => 'USER');
+                $l->g(369) => 'USER',
+                'TAG' => 'TAG');
             $tab_options['FILTRE'] = array_flip($list_fields);
-            $tab_options['ARG_SQL_COUNT'] = array($value_preg);
+            $tab_options['ARG_SQL_COUNT'] = array($value_preg, $tag);
             $list_fields['SUP'] = 'MAC';
             $list_fields['MODIF'] = 'ID';
             $default_fields = array($l->g(34) => $l->g(34), $l->g(66) => $l->g(66), $l->g(53) => $l->g(53),
@@ -243,14 +261,17 @@ if (is_defined($protectedPost['MODIF'])) {
             if ($protectedGet['prov'] == "inv") {
                 $title = $l->g(1271);
                 $sql = $sql['SQL'] . ",md5(deviceid) as MD5_DEVICEID from accountinfo a,hardware h LEFT JOIN networks n ON n.hardware_id=h.id";
-                $sql .= " where ipsubnet='%s' and status='Up' and a.hardware_id=h.id ";
+                $sql .= " where ipsubnet='%s' and status='Up' and a.hardware_id=h.id";
+                if($tag != "") {
+                    $sql .= " AND TAG = '%s'";
+                }
             } else {
                 $title = $l->g(492);
                 $sql = $sql['SQL'] . " from accountinfo a,hardware h left join devices d on d.hardware_id=h.id";
                 $sql .= " where a.hardware_id=h.id and (d.ivalue=1 or d.ivalue=2) and d.name='IPDISCOVER' and d.tvalue='%s'";
             }
 
-            array_push($tab_options['ARG_SQL'], $value_preg);
+            array_push($tab_options['ARG_SQL'], $value_preg, $tag);
             $default_fields['NAME'] = 'NAME';
             $default_fields[$l->g(34)] = $l->g(34);
             $default_fields[$l->g(24)] = $l->g(24);
@@ -268,7 +289,7 @@ if (is_defined($protectedPost['MODIF'])) {
         $tab_options['LBL']['MAC'] = $l->g(95);
 
         $list_col_cant_del = array($l->g(66) => $l->g(66), 'SUP' => 'SUP', 'CHECK' => 'CHECK', 'MODIF' => 'MODIF');
-        $table_name = "IPDISCOVER_" . $protectedGet['prov'] . "_" . str_replace(" ", "",str_replace(".", "",$protectedGet['value']));
+        $table_name = "IPDISCOVER_" . $protectedGet['prov'] . "_" . str_replace(" ", "",str_replace(".", "",$value_preg));
         $tab_options['table_name'] = $table_name;
         $form_name = $table_name;
         $tab_options['form_name'] = $form_name;
