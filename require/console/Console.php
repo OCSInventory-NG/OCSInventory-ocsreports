@@ -147,7 +147,8 @@
         if (is_defined($_SESSION['OCS']["mesmachines"])) {
           $sql_os .= " WHERE " . $_SESSION['OCS']["mesmachines"];
         }
-        $sql_os .= "group by osname";
+        $sql_os .= " group by h.osname";
+
         $result_os = mysql2_query_secure($sql_os, $_SESSION['OCS']["readServer"]);
         $oss = "<p style='font-size:32px; font-weight:bold;'>".mysqli_num_rows($result_os)."</p>";
         //get softwares
