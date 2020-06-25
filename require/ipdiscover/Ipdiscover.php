@@ -176,7 +176,7 @@ class Ipdiscover
 		if (trim($name) == '') {
 			return $l->g(936);
 		} else {
-			$row = find_info_type($name, '', $update);
+			$row = $this->find_info_type($name, '', $update);
 			if (isset($row->ID)) {
 				return $l->g(937);
 			}
@@ -269,7 +269,7 @@ class Ipdiscover
 		}
 
 		if (isset($ID) && is_numeric($ID)) {
-			del_community($ID);
+			$this->del_community($ID);
 			$SUCCESS = $l->g(1209);
 		} else {
 			$SUCCESS = $l->g(1208);
@@ -320,7 +320,7 @@ class Ipdiscover
 	}
 
 	public function count_noinv_network_devices($dpt_choise = '') {
-		$array_sub = find_all_subnet($dpt_choise);
+		$array_sub = $this->find_all_subnet($dpt_choise);
 		$arg_count = array();
 		$sql_count = "SELECT COUNT(DISTINCT mac) as c
 						FROM netmap n

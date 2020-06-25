@@ -35,15 +35,29 @@ $res_black = mysql2_query_secure($sql_black, $link_ocs);
 while ($row = mysqli_fetch_object($res_black)) {
     $subnetToBlacklist[$row->SUBNET] = $row->MASK;
 }
-$req = "SELECT DISTINCT ipsubnet,s.name,s.id,CONCAT(ipsubnet,';',ifnull(s.tag,'')) as pass
-			FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
-		WHERE a.hardware_id=n.HARDWARE_ID
-			AND n.status='Up'";
-if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-    $req .= "	and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+
+if($ipdiscover->IPDISCOVER_TAG == "1") {
+    $req = "SELECT DISTINCT ipsubnet,s.name,s.id,CONCAT(ipsubnet,';',ifnull(s.tag,'')) as pass
+            FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
+            WHERE a.hardware_id=n.HARDWARE_ID
+            AND n.status='Up'";
+    if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
+        $req .= "	and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+    } else {
+        $req .= " union select netid,name,id,CONCAT(netid,';',ifnull(tag,'')) from subnet";
+    }
 } else {
-    $req .= " union select netid,name,id,CONCAT(netid,';',ifnull(tag,'')) from subnet";
+    $req = "SELECT DISTINCT ipsubnet,s.name,s.id
+			FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
+		    WHERE a.hardware_id=n.HARDWARE_ID
+			AND n.status='Up' AND (s.TAG IS NULL OR s.TAG = '')";
+    if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
+        $req .= " and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+    } else {
+        $req .= " union select netid,name,id from subnet WHERE TAG IS NULL OR TAG = ''";
+    }
 }
+
 
 $res = mysql2_query_secure($req, $link_ocs) or die(mysqli_error($link_ocs));
 while ($row = mysqli_fetch_object($res)) {
