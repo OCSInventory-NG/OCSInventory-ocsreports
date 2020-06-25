@@ -30,6 +30,20 @@ require_once('require/ipdiscover/Ipdiscover.php');
 
 $ipdiscover = new Ipdiscover();
 
+if($ipdiscover->IPDISCOVER_TAG == "1") {
+    $groupby1 = "PASS";
+    $groupby2 = "PASS";
+    $groupby3 = "PASS";
+    $identifiant = "PASS";
+    $on = "PASS";
+} else {
+    $groupby1 = "d.tvalue";
+    $groupby2 = "n.ipsubnet";
+    $groupby3 = "netid";
+    $identifiant = "ID";
+    $on = "RSX";
+}
+
 $form_name = 'ipdiscover';
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
@@ -97,7 +111,7 @@ if (isset($protectedPost['onglet'])) {
 
     $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
 
-    $arg['SQL'] .= " GROUP BY PASS
+    $arg['SQL'] .= " GROUP BY $groupby1
                 )
 				ipdiscover RIGHT JOIN
 				(
@@ -110,14 +124,14 @@ if (isset($protectedPost['onglet'])) {
                     LEFT JOIN hardware h ON h.ID = n.HARDWARE_ID
                     LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID
                     LEFT JOIN subnet s ON a.TAG = s.TAG AND s.NETID = n.IPSUBNET
-                    WHERE ipsubnet IN ";
+                    WHERE n.ipsubnet IN ";
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
-    $arg['SQL'] .= " AND status='Up' 
-                    GROUP BY PASS
+    $arg['SQL'] .= " AND n.status='Up' 
+                    GROUP BY $groupby2
                 )
-				inv ON ipdiscover.PASS=inv.PASS LEFT JOIN
+				inv ON ipdiscover.$on=inv.$on LEFT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT mac) AS c,
@@ -136,9 +150,9 @@ if (isset($protectedPost['onglet'])) {
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
-    $arg['SQL'] .= " GROUP BY PASS
+    $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				ident ON ipdiscover.PASS=ident.PASS LEFT JOIN
+				ident ON ipdiscover.$on=ident.$on LEFT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT n.mac) AS c, 
@@ -157,9 +171,9 @@ if (isset($protectedPost['onglet'])) {
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
-    $arg['SQL'] .= " GROUP BY PASS
+    $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				non_ident on non_ident.PASS=inv.PASS
+				non_ident on non_ident.$on=inv.$on
             ) 
             toto";
 
@@ -172,8 +186,11 @@ if (isset($protectedPost['onglet'])) {
         'NON_INVENTORIE' => 'NON_INVENTORIE',
         'IPDISCOVER' => 'IPDISCOVER',
         'IDENTIFIE' => 'IDENTIFIE',
-        'TAG' => 'TAG',
     );
+
+    if($ipdiscover->IPDISCOVER_TAG == "1") {
+        $list_fields['TAG'] = "TAG";
+    }
 
     $table_name = "IPDISCOVER";
     $tab_options['table_name'] = $table_name;
@@ -181,19 +198,19 @@ if (isset($protectedPost['onglet'])) {
     $list_col_cant_del = array('RSX' => 'RSX', 'SUP' => 'SUP');
 
     $tab_options['LIEN_LBL']['INVENTORIE'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_custom_info'] . '&head=1&prov=inv&value=';
-    $tab_options['LIEN_CHAMP']['INVENTORIE'] = 'PASS';
+    $tab_options['LIEN_CHAMP']['INVENTORIE'] = $identifiant;
     $tab_options['NO_LIEN_CHAMP']['INVENTORIE'] = array(0);
 
     $tab_options['LIEN_LBL']['IPDISCOVER'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=ipdiscover1&value=';
-    $tab_options['LIEN_CHAMP']['IPDISCOVER'] = 'PASS';
+    $tab_options['LIEN_CHAMP']['IPDISCOVER'] = $identifiant;
     $tab_options['NO_LIEN_CHAMP']['IPDISCOVER'] = array(0);
 
     $tab_options['LIEN_LBL']['NON_INVENTORIE'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_custom_info'] . '&prov=no_inv&head=1&value=';
-    $tab_options['LIEN_CHAMP']['NON_INVENTORIE'] = 'PASS';
+    $tab_options['LIEN_CHAMP']['NON_INVENTORIE'] = $identifiant;
     $tab_options['NO_LIEN_CHAMP']['NON_INVENTORIE'] = array(0);
 
     $tab_options['LIEN_LBL']['IDENTIFIE'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_custom_info'] . '&prov=ident&head=1&value=';
-    $tab_options['LIEN_CHAMP']['IDENTIFIE'] = 'PASS';
+    $tab_options['LIEN_CHAMP']['IDENTIFIE'] = $identifiant;
 
     $tab_options['REPLACE_WITH_CONDITION']['INVENTORIE']['&nbsp'] = '0';
     $tab_options['REPLACE_WITH_CONDITION']['IPDISCOVER']['&nbsp'] = '0';
@@ -210,7 +227,7 @@ if (isset($protectedPost['onglet'])) {
     //you can modify your subnet if ipdiscover is local define
     if ($_SESSION['OCS']["ipdiscover_methode"] == "OCS" && $_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES") {
         $tab_options['LIEN_LBL']['LBL_RSX'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_admin_ipdiscover'] . '&head=1&value=';
-        $tab_options['LIEN_CHAMP']['LBL_RSX'] = 'PASS';
+        $tab_options['LIEN_CHAMP']['LBL_RSX'] = $identifiant;
     }
 
     $tab_options['NO_LIEN_CHAMP']['IDENTIFIE'] = array(0);

@@ -28,6 +28,17 @@
 class Ipdiscover
 {
 
+	public $IPDISCOVER_TAG = null;
+
+	function __construct() {
+		$champs = array('IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK');
+
+		// Get configuration values from DB
+		$values = look_config_default_values($champs);
+
+		$this->IPDISCOVER_TAG = $values['ivalue']["IPDISCOVER_LINK_TAG_NETWORK"];
+	}
+
   	public function verif_base_methode($base) {
 		global $l;
 
