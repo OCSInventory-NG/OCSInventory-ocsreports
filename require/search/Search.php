@@ -936,7 +936,11 @@
                 if(strpos($value, ";") !== false) {
                   $explode = explode(";", $value);
                   $value = $explode[0];
-                  $tag = $explode[1];
+                  if(count($explode) == 2) {
+                    $tag = $explode[1];
+                  } else {
+                    $tag = null;
+                  }
                 }
                 $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
                     'fields' => 'IPSUBNET',
