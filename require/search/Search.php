@@ -931,8 +931,17 @@
             break;
 
           case 'ipdiscover1':
+            $_SESSION['OCS']['multi_search'] = array();
             if(!isset($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
-                $_SESSION['OCS']['multi_search'] = array();
+                if(strpos($value, ";") !== false) {
+                  $explode = explode(";", $value);
+                  $value = $explode[0];
+                  if(count($explode) == 2) {
+                    $tag = $explode[1];
+                  } else {
+                    $tag = null;
+                  }
+                }
                 $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
                     'fields' => 'IPSUBNET',
                     'value' => $value,
@@ -960,6 +969,13 @@
                     'value' => $value,
                     'operator' => 'EQUAL',
                 ];
+                if($tag != null && $tag != "") {
+                  $_SESSION['OCS']['multi_search']['accountinfo']['ipdiscover5'] = [
+                    'fields' => 'TAG',
+                    'value' => $tag,
+                    'operator' => 'EQUAL',
+                ];
+                }
             }
             break;
 
