@@ -30,6 +30,7 @@
     private $translationArray = [
         "accesslog" => 995,
         "accountinfo" => 1447,
+        "archive" => 1558,
         "batteries" => 1428,
         "bios" => 273,
         "controllers" => 93,

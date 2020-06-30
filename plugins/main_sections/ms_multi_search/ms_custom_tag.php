@@ -105,6 +105,26 @@
             msg_success($l->g(8203));
         }
      }
+
+     //CAS ARCHIVE
+     require_once('require/archive/ArchiveComputer.php');
+     $archive = new ArchiveComputer();
+
+     if (is_defined($protectedPost['ARCHIVER'])) {
+        $result = $archive->archive($protectedGet['idchecked']);
+        unset($protectedPost['ARCHIVER']);
+        if($result){
+            msg_success($l->g(572));
+        }
+     }
+
+     if (is_defined($protectedPost['RESTORE'])) {
+        $result = $archive->restore($protectedGet['idchecked']);
+        unset($protectedPost['RESTORE']);
+        if($result){
+            msg_success($l->g(572));
+        }
+     }
      echo "</div>";
 
      //tab definition
@@ -117,6 +137,10 @@
 
      if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
          $def_onglets['WOL'] = $l->g(1280);
+     }
+
+     if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
+        $def_onglets['ARCHIVE'] = $l->g(1556);
      }
 
      if ($protectedPost['onglet'] == "") {
@@ -222,6 +246,11 @@
             modif_values($tab_name, $tab_typ_champ, $tab_hidden, array('show_button' => false));
             echo "<input type='submit' name='WOL_PROGRAM' value='" . $l->g(8201) . "' class='btn'>";
             echo "</div></div></div>";
+         } elseif ($protectedPost['onglet'] == "ARCHIVE") {
+            echo "<div class='col-md-8 col-xs-offset-0 col-md-offset-2'>";
+            echo "<input type='submit' name='ARCHIVER' value='" . $l->g(1551) . "' class='btn'>";
+            echo "<input type='submit' name='RESTORE' value='" . $l->g(1552) . "' class='btn' style='margin-left:10px;'>";
+            echo "</div>";
          }
      }
      echo "</div>";
