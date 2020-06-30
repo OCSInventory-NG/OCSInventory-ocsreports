@@ -1383,6 +1383,16 @@
 1516 Tous les logiciels (sauf défaut)
 1517 Aucune catégorie n'a été sélectionnée
 
+1550 Voulez-vous vraiment archiver  
+1551 Archiver
+1552 Restaurer
+1553 Voulez-vous vraiment restaurer 
+1554 ORDINATEURS ARCHIVÉS
+1555 ORDINATEURS ACTIFS
+1556 Archiver / Restaurer
+1557 TOUS LES ORDINATEURS
+1558 Archive
+
 1600 Mon tableau de bord
 1601 Groupes dynamiques
 1602 Ne contient pas
