@@ -234,6 +234,7 @@
         "DOESNTCONTAIN" => 1602,
         "MORETHANXDAY" => 1603,
         "LESSTHANXDAY" => 1604,
+        "ISNOTEMPTY" => 1606,
     ];
 
     private $comparatorsArray = [
