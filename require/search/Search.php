@@ -456,7 +456,7 @@
               $this->queryArgs[] = $value[self::SESS_VALUES];
               }
             } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
-              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s IS NOT NULL AND %s.%s != '')$close ";
+              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s IS NOT NULL AND TRIM(%s.%s) != '')$close ";
               $this->queryArgs[] = $nameTable;
               $this->queryArgs[] = $nameTable;
               $this->queryArgs[] = $nameTable;
@@ -503,7 +503,7 @@
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
           $this->queryArgs[] = $value[self::SESS_OPERATOR];
         } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
-          $this->columnsQueryConditions .= "$operator[$p] $open%s.%s IS NOT NULL AND %s.%s != ''$close ";
+          $this->columnsQueryConditions .= "$operator[$p] $open%s.%s IS NOT NULL AND TRIM(%s.%s) != ''$close ";
 					$this->queryArgs[] = $nameTable;
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
           $this->queryArgs[] = $nameTable;
