@@ -98,6 +98,7 @@
         "DIFFERENT",
         "ISNULL",
         "DOESNTCONTAIN",
+        "ISNOTEMPTY",
     ];
 
     /**
@@ -427,72 +428,86 @@
 				if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[self::SESS_FIELDS] 
 							&& !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
 					if($value[self::SESS_OPERATOR] != "IS NULL"){
-					if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE && $nameTable != self::GROUP_TABLE && $value[self::SESS_FIELDS] != 'CATEGORY_ID' && $value[self::SESS_FIELDS] != 'CATEGORY' 
-					&& $value[self::SESS_OPERATOR] != "NOT IN") {
-						$this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $value[self::SESS_FIELDS];
-						$this->queryArgs[] = $value[self::SESS_OPERATOR];
-						$this->queryArgs[] = $value[self::SESS_VALUES];
-					}elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
-					|| $value[self::SESS_OPERATOR] == "NOT IN"){
-						$this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s (%s))$close ";
-						if($nameTable == self::GROUP_TABLE){
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = 'hardware';
-						$this->queryArgs[] = 'ID';
-						$this->queryArgs[] = $value[self::SESS_OPERATOR];
-						$this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
-						}else{
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $value[self::SESS_FIELDS];
-						$this->queryArgs[] = $value[self::SESS_OPERATOR];
-						$this->queryArgs[] = $value[self::SESS_VALUES];
-						}    
+            if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE && $nameTable != self::GROUP_TABLE && $value[self::SESS_FIELDS] != 'CATEGORY_ID' && $value[self::SESS_FIELDS] != 'CATEGORY' 
+            && $value[self::SESS_OPERATOR] != "NOT IN") {
+              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $value[self::SESS_FIELDS];
+              $this->queryArgs[] = $value[self::SESS_OPERATOR];
+              $this->queryArgs[] = $value[self::SESS_VALUES];
+            }elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
+            || $value[self::SESS_OPERATOR] == "NOT IN"){
+              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s (%s))$close ";
+              if($nameTable == self::GROUP_TABLE){
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = 'hardware';
+              $this->queryArgs[] = 'ID';
+              $this->queryArgs[] = $value[self::SESS_OPERATOR];
+              $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+              }else{
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $value[self::SESS_FIELDS];
+              $this->queryArgs[] = $value[self::SESS_OPERATOR];
+              $this->queryArgs[] = $value[self::SESS_VALUES];
+              }
+            } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
+              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s IS NOT NULL AND %s.%s != '')$close ";
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $value[self::SESS_FIELDS];
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $value[self::SESS_FIELDS];
+            }else{
+              if($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
+              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s NOW() - INTERVAL %s DAY)$close ";
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $value[self::SESS_FIELDS];
+              if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
+              $this->queryArgs[] = $op;
+              $this->queryArgs[] = $value[self::SESS_VALUES];
+              } else {
+              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $value[self::SESS_FIELDS];
+              $this->queryArgs[] = $value[self::SESS_OPERATOR];
+              $this->queryArgs[] = $value[self::SESS_VALUES];
+              }
+            }
 					}else{
-						if($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
-						$this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s NOW() - INTERVAL %s DAY)$close ";
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $value[self::SESS_FIELDS];
-						if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
-						$this->queryArgs[] = $op;
-						$this->queryArgs[] = $value[self::SESS_VALUES];
-						} else {
-						$this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $value[self::SESS_FIELDS];
-						$this->queryArgs[] = $value[self::SESS_OPERATOR];
-						$this->queryArgs[] = $value[self::SESS_VALUES];
-						}
-					}
-					}else{
-					if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE) {
-						$this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $value[self::SESS_FIELDS];
-						$this->queryArgs[] = $value[self::SESS_OPERATOR];
-					}else{
-						$this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s)$close ";
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $value[self::SESS_FIELDS];
-						$this->queryArgs[] = $value[self::SESS_OPERATOR];
-					}
+            if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE) {
+              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $value[self::SESS_FIELDS];
+              $this->queryArgs[] = $value[self::SESS_OPERATOR];
+            }else{
+              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s)$close ";
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $nameTable;
+              $this->queryArgs[] = $value[self::SESS_FIELDS];
+              $this->queryArgs[] = $value[self::SESS_OPERATOR];
+            }
 					}
 				}elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
 					$this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
 					$this->queryArgs[] = $nameTable;
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
-					$this->queryArgs[] = $value[self::SESS_OPERATOR];
+          $this->queryArgs[] = $value[self::SESS_OPERATOR];
+        } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
+          $this->columnsQueryConditions .= "$operator[$p] $open%s.%s IS NOT NULL AND %s.%s != ''$close ";
+					$this->queryArgs[] = $nameTable;
+					$this->queryArgs[] = $value[self::SESS_FIELDS];
+          $this->queryArgs[] = $nameTable;
+					$this->queryArgs[] = $value[self::SESS_FIELDS];
 				} elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
 							|| $value[self::SESS_OPERATOR] == "NOT IN"){
 					$this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
@@ -640,6 +655,9 @@
                 break;
             case 'ISNULL':
                 $valueArray[self::SESS_OPERATOR] = "IS NULL";
+                break;
+            case 'ISNOTEMPTY':
+                $valueArray[self::SESS_OPERATOR] = "ISNOTEMPTY";
                 break;
             case 'DOESNTCONTAIN':
                 $valueArray[self::SESS_OPERATOR] = "DOESNTCONTAIN";
@@ -815,7 +833,7 @@
         }
 
         $html = "";
-        if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL'){
+        if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL' || $fieldsInfos[self::SESS_OPERATOR]== 'ISNOTEMPTY'){
           $attr = 'disabled';
         }else{
           $attr = '';

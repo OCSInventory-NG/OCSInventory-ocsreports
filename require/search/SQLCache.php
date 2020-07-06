@@ -177,7 +177,12 @@
                                     SELECT 1 FROM $nameTable 
                                     WHERE hardware.ID = $nameTable.HARDWARE_ID 
                                     AND $nameTable.$argFields $argOperators ($argValues))$close ";
-                            }    
+                            }
+                        }elseif($value[Search::SESS_OPERATOR] == "ISNOTEMPTY") {
+                            $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
+                                SELECT 1 FROM $nameTable 
+                                WHERE hardware.ID = $nameTable.HARDWARE_ID 
+                                AND $nameTable.$argFields IS NOT NULL AND $nameTable.$argFields != '')$close ";
                         }else{
                             if($value[Search::SESS_OPERATOR] == "MORETHANXDAY" || $value[Search::SESS_OPERATOR] == "LESSTHANXDAY") {
                                 if($value[Search::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
@@ -212,6 +217,8 @@
                     }else{
                         $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $argOperators ($argValues)$close ";
                     }
+                } elseif($value[Search::SESS_OPERATOR] == "ISNOTEMPTY") {
+                    $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields IS NOT NULL AND $nameTable.$argFields != ''$close ";
                 }else if(($value[Search::SESS_FIELDS] == 'LASTCOME' || $value[Search::SESS_FIELDS] == 'LASTDATE') && $value[Search::SESS_OPERATOR] != "MORETHANXDAY" && $value[Search::SESS_OPERATOR] != "LESSTHANXDAY" ){
                     $trad = $l->g(269);
                     $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $argOperators str_to_date('$argValues', '$trad')$close ";
