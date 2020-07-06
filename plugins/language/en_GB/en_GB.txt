@@ -1398,6 +1398,7 @@
 1603 More than X days
 1604 Less than X days
 1605 Others
+1606 Is not empty
 
 1700 Advanced configuration
 1701 Tab available
