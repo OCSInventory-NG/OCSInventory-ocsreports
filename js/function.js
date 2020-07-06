@@ -170,7 +170,7 @@ function isnull(selectid, fieldid, fieldtype = null) {
         }
     }
 
-    if(selectvalue == 'ISNULL') {
+    if(selectvalue == 'ISNULL' || selectvalue == 'ISNOTEMPTY') {
         $("#"+fieldid).prop('disabled', true);
     } else {
         $("#"+fieldid).prop('disabled', false);
