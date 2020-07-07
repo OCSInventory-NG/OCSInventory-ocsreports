@@ -44,7 +44,7 @@
              if (substr($field, 0, 5) == "check") {
                  $temp = substr($field, 5);
                  if (array_key_exists($temp, $info_account_id)) {
-                     //cas of checkboxtag_seach
+                     //cas of checkboxtag_search
                      foreach ($protectedPost as $field2 => $value2) {
                          $casofcheck = explode('_', $field2);
                          if ($casofcheck[0] . '_' . $casofcheck[1] == $temp) {
