@@ -41,7 +41,7 @@
         <directory>ms_multi_search</directory>
     </url>
     <url key="ms_custom_tag">
-        <value>tag_seach</value>
+        <value>tag_search</value>
         <directory>ms_multi_search</directory>
     </url>
     <url key="ms_dict">
