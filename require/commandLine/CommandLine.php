@@ -32,7 +32,7 @@ class CommandLine
         $champs = array('SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
         $values = look_config_default_values($champs);
         $cmd = "snmptranslate -Tz -m ".$values['tvalue']['SNMP_MIB_DIRECTORY']."/".$file;
-        $result_cmd = shell_exec($cmd);
+        $result_cmd = shell_exec(escapeshellcmd($cmd));
         $result_cmd = preg_split("/\r\n|\n|\r/", $result_cmd);
         $result_cmd = str_replace('"', "", $result_cmd);
 
