@@ -143,9 +143,9 @@
       }elseif($title == "ALL COMPUTER"){
 
         //get OS's 
-        $sql_os = "SELECT h.osname, count(h.osname) FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id";
+        $sql_os = "SELECT h.osname, count(h.osname) FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id WHERE h.OSNAME IS NOT NULL";
         if (is_defined($_SESSION['OCS']["mesmachines"])) {
-          $sql_os .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+          $sql_os .= " AND " . $_SESSION['OCS']["mesmachines"];
         }
         $sql_os .= " group by h.osname";
 
