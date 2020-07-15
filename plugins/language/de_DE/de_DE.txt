@@ -100,7 +100,7 @@
 100 Parameter initialisieren
 101 Sortieren
 102 Neue Suche
-103 Aktualisierung
+103 Aktualisieren
 104 direkt betroffen
 105 in Einheiten
 106 Konfigurationsoptionen
@@ -274,7 +274,7 @@
 292 Hinzufügen / Löschen von Netzwerkgeräten
 293 Netzwerkgeräte-Typen
 294 Subnetz-Namen
-295 Lokalisierung
+295 Standort
 296 UID
 297 Kann nicht in Verzeichnis schreiben
 298 Alle Felder müssen ausgefüllt werden
@@ -330,7 +330,7 @@
 349 Hinzufügen einer Spalte
 350 CPU-Typ
 351 CPU-Anzahl
-352 Letzer
+352 Zuletzt gesehen
 353 Qualität
 354 Genauigkeit
 355 Firma
@@ -435,7 +435,7 @@
 468 Wollen Sie dieses Paket wirklich aktivieren?
 469 Paket aktiviert, es kann jetzt verteilt werden.
 470 HTTPS-Adresse
-471 Fragment-Adresse
+471 HTTP-Adresse
 472 FEHLER: kann Verzeichnis nicht löschen!
 473 Zeitstempel muss eine Zahl sein
 474 Zeitstempel muss 10 Zeichen lang sein
@@ -447,11 +447,11 @@
 480 Fragmente
 481 Aktivierte Pakete
 482 WARTET AUF BENACHRICHTIGUNG
-483 Überprüfe ERFOLG
+483 ERFOLGREICH
 484 Eigenener Intervall
 485 Immer inventarisiert
 486 Nie inventarisiert
-487 Eigen
+487 Benutzerdefinierter Intervall
 488 Standard
 489 IP-Discover-Verhalten
 490 KEIN IP-Discover des Netzwerks
@@ -538,7 +538,7 @@
 572 Erfolgreich
 573 Fehler
 574 Statistik
-575 nicht ausgewählt, nicht benachrichtigt
+575 NICHT BENACHRICHTIGT
 576 Benutzerdefiniertes IP-Discover
 577 Gruppenname
 580 Alle Rechner (erneuern)
@@ -868,7 +868,7 @@
 907 Beschreibung um Pakete von diesem Rechner zu entfernen
 908 Mobile terminal informations
 909 ÄNDERUNG NICHT DURCHGEFÜHRT: UNGÜLTIGES NEUES PROFIL
-910 Überprüfen
+910 Auswählen
 911 Zu Profil wechseln
 912 Liste der Rechner mit dieser Software exportieren
 913 Anzahl nicht erfasster Netzwerk-Schnittstellen
@@ -1343,14 +1343,25 @@
 1417 IMEI/Geräte-ID
 
 1419 Suche in Spalte
-
+1420 Benutzerdefiniertes Thema für die Oberfläche
 1449 Generelle Einstellungen
+1460 CVE-Sucheinstellungen
+1461 CVE-Berichte aktivieren
+1462 CVE-Server auf dem nach CVEs gesucht werden soll
+1463 CVE-Berichte
+1464 CVE-Berichte sind deaktiviert.
+1465 Alle CVEs
+1466 Bitte lesen Sie die Dokumentation zur Verwaltung von CVE-Berichten : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> CVE-Berichte verwalten </a>
+1467 Link
+1468 Schwachstelle 
+
+1469 Software-Kategorien für die keine CVE-Berichte gesucht werden sollen
 
 1500 Software Kategorie
 1501 Neue Kategorie
 1502 Liste der Kategorien
 1503 Software hinzufügen
-
+1505 Standard-Kategorie für neue Software
 1506 Keine Kategorie erstellt
 
 1509 Erweiterte Einstellungen
@@ -1360,6 +1371,8 @@
 1600 Mein Dashboard
 1601 Dynamische Gruppen
 
+1700 Erweiterte Einstellungen
+1703 Ausgewählte Pakete hinzufügen
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 Fehler:
@@ -1471,6 +1484,10 @@
 2111 Update durchführen
 2112 Die folgende Datei fehlt oder kann nicht gelesen werden
 
+2117 Update-Meldung anzeigen wenn eine neue OCS-Version verfügbar ist
+
+2121 Inventur beim Start des Dienstes auf Windows-Clients durchführen
+
 2123 Verfügbare Pakete
 2124 Gelöschte Pakete
 
@@ -1545,3 +1562,15 @@
 8012 Template anpassen
 
 8018 Betreff
+
+8026 Anzeige von Neuigkeiten zu OCS Inventory im Dash
+
+8100 Web-Applikations-Verzeichnis
+8101 Web-Applikations-Verzeichnis
+8102 Web-Applikation hinzufügen
+8104 Eintrag
+8105 Daten
+
+9000 SNMP-Konfiguration
+
+9010 SNMP MIBs-Verzeichnis auf dem Server
