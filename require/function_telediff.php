@@ -466,7 +466,7 @@ function create_pack($sql_details, $info_details, $modif = "true") {
             $info .= "COMMAND=\"" . $info_details['COMMAND'] . "\" ";
         }
 
-        $notifyText = addslashes($info_details['NOTIFY_TEXT']);
+        $notifyText = htmlspecialchars($info_details['NOTIFY_TEXT'], ENT_QUOTES);
         $actionText = addslashes($info_details['NEED_DONE_ACTION_TEXT']);
 
         $info .= "NOTIFY_USER=\"" . $info_details['NOTIFY_USER'] . "\" " .
@@ -499,7 +499,7 @@ function create_pack($sql_details, $info_details, $modif = "true") {
         $xpath = new DOMXPath($dom);
         $elements = $xpath->query("//*[starts-with(local-name(), 'DOWNLOAD')]");
 
-        $notifyText = addslashes($info_details['NOTIFY_TEXT']);
+        $notifyText = $info_details['NOTIFY_TEXT'];
         $actionText = addslashes($info_details['NEED_DONE_ACTION_TEXT']);
 
         if ($elements->length >= 1) {

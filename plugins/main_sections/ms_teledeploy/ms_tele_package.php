@@ -162,7 +162,7 @@ if(isset($protectedGet['package']) && !isset($protectedPost['valid_modif']) && !
       $protectedPost['ACTION_INPUT'] = $xml['COMMAND'];
     }
     $protectedPost['NOTIFY_USER'] = $xml['NOTIFY_USER'];
-    $protectedPost['NOTIFY_TEXT'] = $xml['NOTIFY_TEXT'];
+    $protectedPost['NOTIFY_TEXT'] = htmlentities($xml['NOTIFY_TEXT'],ENT_QUOTES);
     $protectedPost['NOTIFY_COUNTDOWN'] = $xml['NOTIFY_COUNTDOWN'];
     $protectedPost['NOTIFY_CAN_ABORT'] = $xml['NOTIFY_CAN_ABORT'];
     $protectedPost['NOTIFY_CAN_DELAY'] = $xml['NOTIFY_CAN_DELAY'];
