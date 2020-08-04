@@ -80,11 +80,17 @@ class ExtensionManager{
     private $dbObject = null;
 
     /**
+     * Write server.
+     */
+    private $dbWrite = null;
+
+    /**
      * Constructor
      */
     function __construct()
     {
         $this->dbObject = $_SESSION['OCS']["readServer"];
+        $this->dbWrite = $_SESSION['OCS']["writeServer"];
         $this->getInstalledExtensionsList();
     }
 
@@ -174,7 +180,7 @@ class ExtensionManager{
         $queryArrayArgs[] = $jsonInfos['author'][0];
         $queryArrayArgs[] = $jsonInfos['author'][0];
 
-        mysql2_query_secure($this->insertQuery, $this->dbObject, $queryArrayArgs);
+        mysql2_query_secure($this->insertQuery, $this->dbWrite, $queryArrayArgs);
 
         try{
             $installMethod = self::EXTENSION_INSTALL_METHD.$name;
@@ -201,7 +207,7 @@ class ExtensionManager{
         }
 
         try{
-            mysql2_query_secure($this->deleteQuery, $this->dbObject, $name);
+            mysql2_query_secure($this->deleteQuery, $this->dbWrite, $name);
             $deleteMethod = self::EXTENSION_DELETE_METHD.$name;
             $deleteMethod();
             return true;

@@ -34,7 +34,7 @@ if(isset($protectedPost['cat_name'])){
     $sqlArgs[] = $multiSearchSqlQuery;
     $sqlArgs[] = $multiSearchSqlArgs;
 
-    mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArgs);
+    mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArgs);
 
     msg_success($l->g(388)." ".$l->g(234));
     ?>

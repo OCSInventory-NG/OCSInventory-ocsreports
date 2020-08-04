@@ -276,7 +276,7 @@ function activ_pack_server($fileid, $https_server, $id_server_group) {
         if ($valDoub['INFO_LOC'] != $https_server) {
             $sql_update_https = "UPDATE download_enable SET download_enable.INFO_LOC='%s' WHERE SERVER_ID=%s";
             $arg_update_https = array($https_server, $valDoub['SERVER_ID']);
-            mysql2_query_secure($sql_update_https, $_SESSION['OCS']["readServer"], $arg_update_https);
+            mysql2_query_secure($sql_update_https, $_SESSION['OCS']["writeServer"], $arg_update_https);
         }
     }
     //If this list is not null, we create the end of sql request

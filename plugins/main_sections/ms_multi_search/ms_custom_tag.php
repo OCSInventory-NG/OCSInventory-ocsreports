@@ -87,7 +87,7 @@
          $sql = "select IPADDRESS,MACADDR from networks WHERE status='Up' and hardware_id in ";
          $arg = array();
          $tab_result = mysql2_prepare($sql, $arg, $list_id);
-         $resultDetails = mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"], $tab_result['ARG']);
+         $resultDetails = mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["readServer"], $tab_result['ARG']);
          $msg = "";
          while ($item = mysqli_fetch_object($resultDetails)) {
             $wol->look_config_wol($item->IPADDRESS, $item->MACADDR);
