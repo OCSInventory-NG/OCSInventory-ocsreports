@@ -74,6 +74,15 @@ class Cve
   }
 
   /**
+   * Verif if hsitory is empty
+   */
+  private function history_is_empty(){
+    $sql = "SELECT ID FROM cve_search_history";
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+    return $result->num_rows;
+  }
+
+  /**
    * Insert FLAG on cve_history per Publisher
    */
   private function insertFlag() {
@@ -94,6 +103,8 @@ class Cve
 
     $this->verbose($this->CVE_VERBOSE, 4);
 
+    $check_history = $this->history_is_empty();
+    
     $sql = 'SELECT DISTINCT p.ID, p.PUBLISHER FROM software_publisher p
             LEFT JOIN software s ON p.ID = s.PUBLISHER_ID 
             LEFT JOIN software_name n ON n.ID = s.NAME_ID 
@@ -101,8 +112,8 @@ class Cve
     if($this->CVE_BAN != ""){
       $sql .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
     }
-    if($date != null) {
-      $sql .= ' AND h.FLAG_DATE <= "'.$date.'"';
+    if($date != null && $check_history != 0) {
+      $sql .= ' AND (h.FLAG_DATE <= "'.$date.'" OR p.ID NOT IN (SELECT PUBLISHER_ID FROM cve_search_history))';
     }
     $sql .= " ORDER BY p.PUBLISHER";
 

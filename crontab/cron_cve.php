@@ -35,7 +35,6 @@ if($cve->CVE_ACTIVE == 1) {
     } else {
         curl_close($curl);
         $cve->getSoftwareInformations($date, $clean);
-        //$cve->insertFlag();
         $cve->verbose($cve->CVE_VERBOSE, 2);
     }
 } else {
