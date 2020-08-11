@@ -121,7 +121,7 @@ $queryMachine = "SELECT REQUEST,
 						  CREATE_TIME,
 						  NAME,
 						  XMLDEF,
-						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join groups g on g.hardware_id=h.id
+						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join `groups` g on g.hardware_id=h.id
 				  WHERE ID=%s AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 $arg = $systemid;
 $result = mysql2_query_secure($queryMachine, $_SESSION['OCS']["readServer"], $arg);
@@ -299,7 +299,7 @@ function regeneration_sql($valGroup) {
 
 function form_action_group($systemid) {
     global $l;
-    $reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=%s";
+    $reqGrpStat = "SELECT REQUEST,XMLDEF FROM `groups` WHERE hardware_id=%s";
     $resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"], $systemid);
     $valGrpStat = mysqli_fetch_array($resGrpStat);
     if (($valGrpStat['REQUEST'] == "" || $valGrpStat['REQUEST'] == null) && ($valGrpStat['XMLDEF'] == "" || $valGrpStat['XMLDEF'] == null)) {
@@ -342,7 +342,7 @@ function print_computers_real($systemid) {
         $tab_options['CACHE'] = 'RESET';
     }
     //group 2.0 version
-    $sql_group = "SELECT xmldef FROM groups WHERE hardware_id='%s'";
+    $sql_group = "SELECT xmldef FROM `groups` WHERE hardware_id='%s'";
     $arg = $systemid;
     $resGroup = mysql2_query_secure($sql_group, $_SESSION['OCS']["readServer"], $arg);
     $valGroup = mysqli_fetch_array($resGroup); //group old version

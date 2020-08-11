@@ -40,7 +40,7 @@ function connexion_local_read() {
         $connect = NULL;
     }
     $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
-    $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+    $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
 
     $link = mysqli_real_connect($dbc, SERVER_READ, COMPTE_BASE, PSWD_BASE, NULL, SERVER_PORT, NULL, $connect);
 
@@ -75,7 +75,7 @@ function connexion_local_write() {
         $connect = NULL;
     }
     $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
-    $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+    $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
 
     $link = mysqli_real_connect($dbc, SERVER_READ, COMPTE_BASE, PSWD_BASE, NULL, SERVER_PORT, NULL, $connect);
 
