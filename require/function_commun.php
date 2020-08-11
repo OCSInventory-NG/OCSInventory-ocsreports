@@ -172,7 +172,7 @@ function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME, $sslkey = S
         }
 
         $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
-        $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+        $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
 
         $link = mysqli_real_connect($dbc, $server, $compte_base, $pswd_base, NULL, $port, NULL, $connect);
 

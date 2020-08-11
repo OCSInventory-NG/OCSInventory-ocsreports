@@ -123,7 +123,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
                 //del messages on this group
                 $sql_group_msg = "DELETE FROM config WHERE name like '%s' and ivalue='%s'";
                 mysql2_query_secure($sql_group_msg, $_SESSION['OCS']["writeServer"], array('GUI_REPORT_MSG%', $idHard));
-                $sql_group = "DELETE FROM groups WHERE hardware_id='%s'";
+                $sql_group = "DELETE FROM `groups` WHERE hardware_id='%s'";
                 mysql2_query_secure($sql_group, $_SESSION['OCS']["writeServer"], $idHard);
                 $sql_group_cache = "DELETE FROM groups_cache WHERE group_id='%s'";
                 $resDelete = mysql2_query_secure($sql_group_cache, $_SESSION['OCS']["writeServer"], $idHard);

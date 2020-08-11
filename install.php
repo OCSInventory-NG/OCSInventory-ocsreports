@@ -118,7 +118,7 @@ if (isset($_POST["name"])) {
                 $connect = NULL;
             }
             $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
-            $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+            $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
 
             $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, $_POST["port"], NULL, $connect);
 
@@ -197,7 +197,7 @@ if (isset($_POST["name"])) {
                 $connect = NULL;
             }
             $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
-            $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+            $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
 
             $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, $_POST["port"], NULL, $connect);
 

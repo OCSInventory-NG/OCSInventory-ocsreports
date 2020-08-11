@@ -31,8 +31,8 @@ function all_groups($group_type) {
 					     WHERE deviceid = '_DOWNLOADGROUP_'";
     } else {
         if ($group_type == "STATIC") {
-            $reqGetId = "SELECT id,name FROM hardware,groups
-					     WHERE groups.hardware_id=hardware.id
+            $reqGetId = "SELECT id,name FROM hardware,`groups`
+					     WHERE `groups`.hardware_id=hardware.id
 							and deviceid = '_SYSTEMGROUP_'
 							and (request is null or trim(request) = '')
 						    and (xmldef  is null or trim(xmldef) = '')";
@@ -40,8 +40,8 @@ function all_groups($group_type) {
                 $reqGetId .= " and workgroup = 'GROUP_4_ALL'";
             }
         } else {
-            $reqGetId = "SELECT id,name FROM hardware,groups
-					     WHERE groups.hardware_id=hardware.id
+            $reqGetId = "SELECT id,name FROM hardware,`groups`
+					     WHERE `groups`.hardware_id=hardware.id
 							and deviceid = '_SYSTEMGROUP_'
 							and ((request is not null and trim(request) != '')
 								or (xmldef is not null and trim(xmldef) != ''))";
@@ -79,7 +79,7 @@ function replace_group($id_group, $list_id, $req, $group_type) {
     $arg_delcache = $id_group;
     mysql2_query_secure($sql_delcache, $_SESSION['OCS']["writeServer"], $arg_delcache);
     //update group
-    $sql_updGroup = "UPDATE groups set request='', xmldef='%s' where hardware_id=%s";
+    $sql_updGroup = "UPDATE `groups` set request='', xmldef='%s' where hardware_id=%s";
     $arg_updGroup = array(generate_xml($req), $id_group);
     mysql2_query_secure($sql_updGroup, $_SESSION['OCS']["writeServer"], $arg_updGroup);
     $nb_computer = add_computers_cache($list_id, $id_group, $static);
@@ -119,7 +119,7 @@ function creat_group($name, $descr, $list_id, $req, $group_type) {
     $xml = generate_xml($req);
 
     //Creating group
-    $sql_group = "INSERT INTO groups(hardware_id, xmldef, create_time) VALUES ( %s, '%s', UNIX_TIMESTAMP() )";
+    $sql_group = "INSERT INTO `groups`(hardware_id, xmldef, create_time) VALUES ( %s, '%s', UNIX_TIMESTAMP() )";
     $arg_group = array($insertId, $xml);
     mysql2_query_secure($sql_group, $_SESSION['OCS']["writeServer"], $arg_group);
     addLog("CREATE GROUPE", $name);
