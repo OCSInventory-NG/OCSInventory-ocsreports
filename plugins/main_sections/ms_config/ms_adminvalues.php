@@ -78,7 +78,7 @@ if ($protectedPost['onglet'] == 1) {
         $list = $protectedPost['del_check'];
         $sql_delete = "DELETE FROM config WHERE name like '%s' and ivalue in (%s)";
         $arg_delete = array($protectedGet['tag'] . "_%", $list);
-        mysql2_query_secure($sql_delete, $_SESSION['OCS']["readServer"], $arg_delete);
+        mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"], $arg_delete);
         if ($protectedGet['form']) {
             reloadform_closeme($protectedGet['form']);
         }
@@ -160,7 +160,7 @@ if ($protectedPost['onglet'] == 1) {
             if (isset($protectedPost['2newfield'])) {
                 array_push($arg_insert, $protectedPost['2newfield']);
             }
-            mysql2_query_secure($sql_insert, $_SESSION['OCS']["readServer"], $arg_insert);
+            mysql2_query_secure($sql_insert, $_SESSION['OCS']["writeServer"], $arg_insert);
             //si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
             msg_success($l->g(1069));
             if ($protectedGet['form']) {

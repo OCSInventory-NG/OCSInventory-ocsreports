@@ -30,7 +30,7 @@ if (AJAX) {
 if(isset($protectedPost['SUP_PROF'])){
     $sqlQuery = "DELETE FROM `assets_categories` WHERE ID = %s";
     $sqlArg = [$protectedPost['SUP_PROF']];
-    mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArg);
+    mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 }
 
 printEnTete($l->g(2130));

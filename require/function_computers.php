@@ -112,7 +112,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
                 $resNetm = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $idHard);
                 while ($valNetm = mysqli_fetch_array($resNetm)) {
                     $sql = "DELETE FROM netmap WHERE mac='%s'";
-                    mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $valNetm["macaddr"]);
+                    mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $valNetm["macaddr"]);
                 }
             }
             //deleting a regular computer

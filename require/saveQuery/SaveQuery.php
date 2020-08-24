@@ -35,7 +35,7 @@ class SaveQuery
     public function create_search($arg) {
         $sqlQuery = "INSERT INTO `save_query`(`QUERY_NAME`, `DESCRIPTION`, `PARAMETERS`) VALUES ('%s','%s','%s')";
         $sqlArgs = $arg;
-        $result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArgs);
+        $result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArgs);
 
         if(!$result) {
             return false;
@@ -53,7 +53,7 @@ class SaveQuery
     public function update_search($arg) {
         $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s' WHERE ID = %s";
         $sqlArgs = $arg;
-        $result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArgs);
+        $result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArgs);
 
         if(!$result) {
             return false;

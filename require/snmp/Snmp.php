@@ -208,12 +208,12 @@ class OCSSnmp
 		if($result){
 			$sqlQuery = "DELETE FROM `snmp_types` WHERE ID = %s";
 			$sqlArg = [$id];
-			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArg);
+			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 
 			// Remove config associated to this type
 			$sqlQuery = "DELETE FROM `snmp_configs` WHERE TYPE_ID = %s";
 			$sqlArg = [$id];
-			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArg);
+			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 
 			return true;
 		}else{
@@ -255,12 +255,12 @@ class OCSSnmp
 		} else {
 			$sqlQuery = "DELETE FROM `snmp_labels` WHERE ID = %s";
 			$sqlArg = [$id];
-			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArg);
+			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 
 			// Remove config associated to this label
 			$sqlQuery = "DELETE FROM `snmp_configs` WHERE LABEL_ID = %s";
 			$sqlArg = [$id];
-			$result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArg);
+			$result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 			if($result){
 				return true;
 			} else {
@@ -373,7 +373,7 @@ class OCSSnmp
 		if($result_alter) {
 			$sqlQuery = "DELETE FROM `snmp_configs` WHERE ID = %s";
 			$sqlArg = [$id];
-			$result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["readServer"], $sqlArg);
+			$result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 			if($result){
 				return true;
 			}else{
