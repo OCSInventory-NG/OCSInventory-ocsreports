@@ -193,11 +193,11 @@ if (!isset($no_error)) {
 
 /* * **************************************************SQL TABLE & FIELDS********************************************** */
 if (!isset($_SESSION['OCS']['SQL_TABLE'])) {
-    $sql = "show tables from %s";
+    $sql = "show tables from `%s`";
     $arg = DB_NAME;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     while ($item = mysqli_fetch_row($res)) {
-        $sql = "SHOW COLUMNS FROM %s";
+        $sql = "SHOW COLUMNS FROM `%s`";
         $arg = $item[0];
         $res_column = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
         while ($item_column = mysqli_fetch_row($res_column)) {
