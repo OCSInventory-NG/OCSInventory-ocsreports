@@ -730,6 +730,7 @@ $yes_no = array("0", "1");
 $list_action = [
 	"EXECUTE" => $l->g(456),
 	"STORE" => $l->g(457),
+	"LAUNCH" => $l->g(458)
 ];
 
 $arrayDisplayValue = [
@@ -743,6 +744,7 @@ $arrayDisplayValue = array(
     "ACTION" => array(
         "EXECUTE" => $l->g(456),
         "STORE" => $l->g(457),
+        "LAUNCH" => $l->g(458)
     ),
     "yes_no" => array(
         "0" => $l->g(454),

@@ -348,7 +348,7 @@
 453 Installation completion need user action
 454 NO
 455 YES
-456 Execute / Launch
+456 Execute
 457 Store
 458 Launch
 459 Countdown must be a number
