@@ -368,188 +368,196 @@
             }
 
             foreach ($searchInfos as $index => $value) {
-				$nameTable = $tableName;
-				$open="";
-				$close="";
-				// Generate condition
-				$this->getOperatorSign($value);
-				if($nameTable == SoftwareSearch::SOFTWARE_TABLE) {
-					$nameTable = $this->softwareSearch->getTableName($value['fields']);
-					$value[self::SESS_FIELDS] = $this->softwareSearch->getColumnName($value['fields']);
-					//var_dump()
-				}
-
-				foreach(array_count_values($columnName) as $name => $nb){
-					if($nb > 1){
-					$isSameColumn[$nameTable] = $name;
-					}
-				}
-
-				foreach(array_count_values($containvalue) as $name => $nb){
-					if($nb > 1){
-					$doesntcontainmulti[$nameTable] = $name;
-					}
-				}
-
-				if($p == 0 && $operator[$p+1] == 'OR'){
-					$open = "(";
-				}if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
-					$close=")";
-				}if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
-					$open = "(";
-				}
-
-				unset($value['ignore']);
-
-				if($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && empty($doesntcontainmulti)){
-					$excluID = $this->contain($value, $nameTable);
-					if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
-					$value[self::SESS_FIELDS] = "HARDWARE_ID";
-					}else{
-					$value[self::SESS_FIELDS] = "ID";
-					}
-					
-					$value[self::SESS_VALUES] = implode(',', $excluID);
-					$value[self::SESS_OPERATOR] = "NOT IN";
-
-				}elseif($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && !empty($isSameColumn) && !empty($doesntcontainmulti)){
-					$excluID = $this->containmulti($isSameColumn, $searchInfos);
-					if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
-					$value[self::SESS_FIELDS] = "HARDWARE_ID";
-					}else{
-					$value[self::SESS_FIELDS] = "ID";
-					}
-					
-					$value[self::SESS_VALUES] = implode(',', $excluID);
-					$value[self::SESS_OPERATOR] = "NOT IN";
-					$value['ignore'] = "";
-				}
-
-				if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[self::SESS_FIELDS] 
-							&& !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
-					if($value[self::SESS_OPERATOR] != "IS NULL"){
-            if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE && $nameTable != self::GROUP_TABLE && $value[self::SESS_FIELDS] != 'CATEGORY_ID' && $value[self::SESS_FIELDS] != 'CATEGORY' 
-            && $value[self::SESS_OPERATOR] != "NOT IN") {
-              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $value[self::SESS_FIELDS];
-              $this->queryArgs[] = $value[self::SESS_OPERATOR];
-              $this->queryArgs[] = $value[self::SESS_VALUES];
-            }elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
-            || $value[self::SESS_OPERATOR] == "NOT IN"){
-              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s (%s))$close ";
-              if($nameTable == self::GROUP_TABLE){
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = 'hardware';
-              $this->queryArgs[] = 'ID';
-              $this->queryArgs[] = $value[self::SESS_OPERATOR];
-              $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
-              }else{
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $value[self::SESS_FIELDS];
-              $this->queryArgs[] = $value[self::SESS_OPERATOR];
-              $this->queryArgs[] = $value[self::SESS_VALUES];
+              $nameTable = $tableName;
+              $open="";
+              $close="";
+              // Generate condition
+              $this->getOperatorSign($value);
+              if($nameTable == SoftwareSearch::SOFTWARE_TABLE) {
+                $nameTable = $this->softwareSearch->getTableName($value['fields']);
+                $value[self::SESS_FIELDS] = $this->softwareSearch->getColumnName($value['fields']);
+                //var_dump()
               }
-            } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
-              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s IS NOT NULL AND TRIM(%s.%s) != '')$close ";
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $value[self::SESS_FIELDS];
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $value[self::SESS_FIELDS];
-            }else{
-              if($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
-              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s NOW() - INTERVAL %s DAY)$close ";
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $value[self::SESS_FIELDS];
-              if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
-              $this->queryArgs[] = $op;
-              $this->queryArgs[] = $value[self::SESS_VALUES];
+
+              foreach(array_count_values($columnName) as $name => $nb){
+                if($nb > 1){
+                $isSameColumn[$nameTable] = $name;
+                }
+              }
+
+              foreach(array_count_values($containvalue) as $name => $nb){
+                if($nb > 1){
+                $doesntcontainmulti[$nameTable] = $name;
+                }
+              }
+
+              if($p == 0 && $operator[$p+1] == 'OR'){
+                $open = "(";
+              }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
+                $close=")";
+              }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
+                $open = "(";
+              }
+
+              unset($value['ignore']);
+
+              if($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && empty($doesntcontainmulti)){
+                $excluID = $this->contain($value, $nameTable);
+                if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
+                $value[self::SESS_FIELDS] = "HARDWARE_ID";
+                }else{
+                $value[self::SESS_FIELDS] = "ID";
+                }
+                
+                $value[self::SESS_VALUES] = implode(',', $excluID);
+                $value[self::SESS_OPERATOR] = "NOT IN";
+
+              }elseif($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && !empty($isSameColumn) && !empty($doesntcontainmulti)){
+                $excluID = $this->containmulti($isSameColumn, $searchInfos);
+                if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
+                $value[self::SESS_FIELDS] = "HARDWARE_ID";
+                }else{
+                $value[self::SESS_FIELDS] = "ID";
+                }
+                
+                $value[self::SESS_VALUES] = implode(',', $excluID);
+                $value[self::SESS_OPERATOR] = "NOT IN";
+                $value['ignore'] = "";
+              }
+
+              if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[self::SESS_FIELDS] 
+                    && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
+                if($value[self::SESS_OPERATOR] != "IS NULL"){
+                  if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE && $nameTable != self::GROUP_TABLE && $value[self::SESS_FIELDS] != 'CATEGORY_ID' && $value[self::SESS_FIELDS] != 'CATEGORY' 
+                  && $value[self::SESS_OPERATOR] != "NOT IN") {
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                  }elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
+                  || $value[self::SESS_OPERATOR] == "NOT IN"){
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s (%s))$close ";
+                    if($nameTable == self::GROUP_TABLE){
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = 'hardware';
+                    $this->queryArgs[] = 'ID';
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                    }else{
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                    }
+                  } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s IS NOT NULL AND TRIM(%s.%s) != '')$close ";
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  }else{
+                    if($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s NOW() - INTERVAL %s DAY)$close ";
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
+                      $this->queryArgs[] = $op;
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    } else if(($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE') && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ) {
+                      $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                      global $l;
+                      $this->queryArgs[] = $l->g(269);
+                    } else {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    }
+                  }
+                }else{
+                  if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE) {
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  }else{
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s)$close ";
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  }
+                }
+              }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+              } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s IS NOT NULL AND TRIM(%s.%s) != ''$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+              } elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
+                    || $value[self::SESS_OPERATOR] == "NOT IN"){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
+                if($nameTable == self::GROUP_TABLE){
+                $this->queryArgs[] = 'hardware';
+                $this->queryArgs[] = 'ID';
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                }else{
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+                }
+              }else if(($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE') && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+                global $l;
+                $this->queryArgs[] = $l->g(269);
+              } elseif($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s NOW() - INTERVAL %s DAY$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
+                $this->queryArgs[] = $op;
+                $this->queryArgs[] = $value[self::SESS_VALUES];
               } else {
-              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $value[self::SESS_FIELDS];
-              $this->queryArgs[] = $value[self::SESS_OPERATOR];
-              $this->queryArgs[] = $value[self::SESS_VALUES];
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
+                if($nameTable == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
+                $this->queryArgs[] = 'download_available';
+                $this->queryArgs[] = 'NAME';
+                }else{
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                }
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
               }
-            }
-					}else{
-            if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE) {
-              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $value[self::SESS_FIELDS];
-              $this->queryArgs[] = $value[self::SESS_OPERATOR];
-            }else{
-              $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s)$close ";
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $nameTable;
-              $this->queryArgs[] = $value[self::SESS_FIELDS];
-              $this->queryArgs[] = $value[self::SESS_OPERATOR];
-            }
-					}
-				}elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
-					$this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
-					$this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-          $this->queryArgs[] = $value[self::SESS_OPERATOR];
-        } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
-          $this->columnsQueryConditions .= "$operator[$p] $open%s.%s IS NOT NULL AND TRIM(%s.%s) != ''$close ";
-					$this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-          $this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-				} elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
-							|| $value[self::SESS_OPERATOR] == "NOT IN"){
-					$this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
-					if($nameTable == self::GROUP_TABLE){
-					$this->queryArgs[] = 'hardware';
-					$this->queryArgs[] = 'ID';
-					$this->queryArgs[] = $value[self::SESS_OPERATOR];
-					$this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
-					}else{
-					$this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-					$this->queryArgs[] = $value[self::SESS_OPERATOR];
-					$this->queryArgs[] = $value[self::SESS_VALUES];
-					}
-				}else if(($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE') && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ){
-					$this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
-					$this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-					$this->queryArgs[] = $value[self::SESS_OPERATOR];
-					$this->queryArgs[] = $value[self::SESS_VALUES];
-					global $l;
-					$this->queryArgs[] = $l->g(269);
-				} elseif($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
-					$this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s NOW() - INTERVAL %s DAY$close ";
-					$this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-					if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
-					$this->queryArgs[] = $op;
-					$this->queryArgs[] = $value[self::SESS_VALUES];
-				} else {
-					$this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
-					if($nameTable == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
-					$this->queryArgs[] = 'download_available';
-					$this->queryArgs[] = 'NAME';
-					}else{
-					$this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-					}
-					$this->queryArgs[] = $value[self::SESS_OPERATOR];
-					$this->queryArgs[] = $value[self::SESS_VALUES];
-				}
-				$p++;
+              $p++;
             }
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
