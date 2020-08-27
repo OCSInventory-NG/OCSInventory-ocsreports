@@ -189,6 +189,9 @@
                                 $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
                                         SELECT 1 FROM $nameTable 
                                         WHERE $nameTable.$argFields $op NOW() - INTERVAL $argValues DAY)$close ";
+                            }else if(($value[Search::SESS_FIELDS] == 'LASTCOME' || $value[Search::SESS_FIELDS] == 'LASTDATE') && $value[Search::SESS_OPERATOR] != "MORETHANXDAY" && $value[Search::SESS_OPERATOR] != "LESSTHANXDAY" ){
+                                $trad = $l->g(269);
+                                $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $argOperators str_to_date('$argValues', '$trad')$close ";
                             } else {
                                 $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
                                         SELECT 1 FROM $nameTable 
