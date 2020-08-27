@@ -1124,7 +1124,7 @@
 
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){
-          if(!array_key_exists('HARDWARE-'.$field[1].$comp.preg_replace("/\s+/","", preg_replace("/_/","",$value)).preg_replace("/_/","",$value2),$_SESSION['OCS']['multi_search']['hardware'])){
+          if(!isset($_SESSION['OCS']['multi_search']['hardware']) || !array_key_exists('HARDWARE-'.$field[1].$comp.preg_replace("/\s+/","", preg_replace("/_/","",$value)).preg_replace("/_/","",$value2),$_SESSION['OCS']['multi_search']['hardware'])){
               $_SESSION['OCS']['multi_search'] = array();
               $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/\s+/","", preg_replace("/_/","",$value)).preg_replace("/_/","",$value2)] = [
                   'fields' => $field[1],
@@ -1139,7 +1139,7 @@
               ];
           }
         }elseif(strpos($field[0], 'ACCOUNTINFO') !== false){
-          if(!array_key_exists('ACCOUNTINFO-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['accountinfo'])){
+          if(!isset($_SESSION['OCS']['multi_search']['accountinfo']) || !array_key_exists('ACCOUNTINFO-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['accountinfo'])){
               $_SESSION['OCS']['multi_search'] = array();
               $_SESSION['OCS']['multi_search']['accountinfo']['ACCOUNTINFO-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
                   'fields' => $field[1],
@@ -1148,7 +1148,7 @@
               ];
           }
         }elseif(strpos($field[0], 'NETWORKS') !== false){
-          if(!array_key_exists('NETWORKS-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['networks'])){
+          if(!isset($_SESSION['OCS']['multi_search']['networks']) || !array_key_exists('NETWORKS-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['networks'])){
               $_SESSION['OCS']['multi_search'] = array();
               $_SESSION['OCS']['multi_search']['networks']['NETWORKS-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
                   'fields' => $field[1],
@@ -1157,7 +1157,7 @@
               ];
           }
         }elseif(strpos($field[0], 'VIDEOS') !== false){
-          if(!array_key_exists('VIDEOS-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['videos'])){
+          if(!isset($_SESSION['OCS']['multi_search']['videos']) || !array_key_exists('VIDEOS-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['videos'])){
               $_SESSION['OCS']['multi_search'] = array();
               $_SESSION['OCS']['multi_search']['videos']['VIDEOS-'.$field[1].$comp.preg_replace("/_/","",$value)] = [
                   'fields' => $field[1],
@@ -1166,7 +1166,7 @@
               ];
           }
         }elseif(strpos($field[0], 'ASSETS') !== false){
-          if(!array_key_exists('ASSETS'.$value,$_SESSION['OCS']['multi_search']['hardware'])){
+          if(!isset($_SESSION['OCS']['multi_search']['hardware']) || !array_key_exists('ASSETS'.$value,$_SESSION['OCS']['multi_search']['hardware'])){
               $_SESSION['OCS']['multi_search'] = array();
               $_SESSION['OCS']['multi_search']['hardware']['ASSETS'.preg_replace("/_/","",$value)] = [
                   'fields' => 'CATEGORY_ID',
