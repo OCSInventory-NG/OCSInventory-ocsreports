@@ -348,9 +348,9 @@
 453 La fin de l'installation nécessite une intervention utilisateur
 454 NON
 455 OUI
-456 Exécuter
+456 Exécuter une commande
 457 Stocker
-458 Lancer
+458 Exécuter un fichier
 459 Le compte à rebours doit être un nombre
 460 Identifiant unique
 461 Digest
