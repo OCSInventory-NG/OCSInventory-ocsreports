@@ -136,6 +136,7 @@ function show_basic_info_frame($data, $errors) {
         'options' => array(
             'STORE' => $l->g(457),
             'EXECUTE' => $l->g(456),
+            'LAUNCH' => $l->g(458)
         ),
     ));
 
