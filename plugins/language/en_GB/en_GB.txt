@@ -348,9 +348,9 @@
 453 Installation completion need user action
 454 NO
 455 YES
-456 Execute
+456 Execute a command
 457 Store
-458 Launch
+458 Execute a file
 459 Countdown must be a number
 460 Unique identifier
 461 Digest
