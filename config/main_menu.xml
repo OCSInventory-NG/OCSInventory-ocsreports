@@ -4,9 +4,9 @@
     <label>g(2)</label>
     <url>ms_all_computers</url>
   </menu-elem>
-  <menu-elem id="inventory">
+  <menu-elem id="ms_inventory">
     <label>g(728)</label>
-    <url>ms_all_computers</url>
+    <url>ms_inventory</url>
     <submenu>
       <menu-elem id="ms_multi_search">
         <label>g(9)</label>
