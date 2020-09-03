@@ -27,7 +27,6 @@ INNER JOIN `software_publisher` p ON (p.`PUBLISHER` = s.`PUBLISHER`)
 INNER JOIN `software_version` v ON (v.`VERSION` = s.`VERSION`);
 
 -- add missing indexes
-ALTER TABLE `software` ADD KEY `HARDWARE_ID` (`HARDWARE_ID`);
 ALTER TABLE `software` ADD KEY `NAME_ID` (`NAME_ID`);
 ALTER TABLE `software` ADD KEY `PUBLISHER_ID` (`PUBLISHER_ID`);
 ALTER TABLE `software` ADD KEY `VERSION_ID` (`VERSION_ID`);
