@@ -55,12 +55,12 @@ printEnTete($l->g(498) . " <b>" . $row->name . "</b> (" . $l->g(296) . ": " . $p
 echo "</br></br></br>";
 
 //count max values for stats
-$sql_count = "SELECT COUNT(id) as nb
+$sql_count = "SELECT COUNT(d.id) as nb
 			FROM devices d, download_enable e
 			WHERE e.fileid='%s'
  				AND e.id=d.ivalue
-				AND name='DOWNLOAD'
-				AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
+				AND d.name='DOWNLOAD'
+				AND d.hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 $arg = $protectedGet["stat"];
 $rescount = mysql2_query_secure($sql_count, $_SESSION['OCS']["readServer"], $arg);
 $row = mysqli_fetch_object($rescount);
@@ -70,33 +70,33 @@ if ($total <= 0) {
     require_once(FOOTER_HTML);
     die();
 }
-$sqlStats = "SELECT COUNT(id) as nb, tvalue as txt
+$sqlStats = "SELECT COUNT(d.id) as nb, d.tvalue as txt
 				FROM devices d, download_enable e
 				WHERE e.fileid='%s'
 	 				AND e.id=d.ivalue
-					AND name='DOWNLOAD'
-					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
-					and tvalue not like '%s'
-					and tvalue not like '%s'
-					and tvalue is not null
-					group by tvalue
+					AND d.name='DOWNLOAD'
+					AND d.hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
+					and d.tvalue not like '%s'
+					and d.tvalue not like '%s'
+					and d.tvalue is not null
+					group by d.tvalue
 			union
-				SELECT COUNT(id) as nb, '%s'
+				SELECT COUNT(d.id) as nb, '%s'
 				FROM devices d, download_enable e
 				WHERE e.fileid='%s'
 	 				AND e.id=d.ivalue
-					AND name='DOWNLOAD'
-					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
-					and (tvalue like '%s'
-					or tvalue  like '%s')
+					AND d.name='DOWNLOAD'
+					AND d.hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
+					and (d.tvalue like '%s'
+					or d.tvalue  like '%s')
 			union
-				SELECT COUNT(id) as nb, '%s'
+				SELECT COUNT(d.id) as nb, '%s'
 				FROM devices d, download_enable e
 				WHERE e.fileid='%s'
 	 				AND e.id=d.ivalue
-					AND name='DOWNLOAD'
-					AND hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
-					and tvalue is null";
+					AND d.name='DOWNLOAD'
+					AND d.hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')
+					and d.tvalue is null";
 
 $arg = array($arg, 'EXIT_CODE%', 'ERR%', 'ERRORS', $arg, 'EXIT_CODE%', 'ERR%', 'WAITING', $arg);
 $resStats = mysql2_query_secure($sqlStats . " ORDER BY nb DESC", $_SESSION['OCS']["readServer"], $arg);
