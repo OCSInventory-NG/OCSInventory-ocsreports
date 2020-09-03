@@ -50,7 +50,7 @@
  }
 
  $default_fields = array($l->g(49) => $l->g(49), $l->g(8104) => $l->g(8104), $l->g(8105) => $l->g(8105));
- $queryDetails = "SELECT ";
+ $queryDetails = "SELECT DISTINCT ";
  foreach ($list_fields as $lbl => $value) {
      $queryDetails .= $value . ",";
  }
