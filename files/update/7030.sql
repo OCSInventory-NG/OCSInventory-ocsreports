@@ -1,4 +1,3 @@
-
 -- Create software_name table
 CREATE TABLE IF NOT EXISTS `software_name` (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,

@@ -256,6 +256,10 @@
         <value>qrcode</value>
         <directory>ms_computer</directory>
     </url>
+    <url key="ms_inventory">
+        <value>inventory</value>
+        <directory>ms_inventory</directory>
+    </url>
     <url key="ms_extension">
         <value>extension</value>
         <directory>ms_extension</directory>

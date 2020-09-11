@@ -73,7 +73,7 @@ define('GUI_VER', '7037');
 /**
  * GUI Version
  */
-define('GUI_VER_SHOW', '2.7');
+define('GUI_VER_SHOW', '2.8');
 /**
  * Default GUI language
  */

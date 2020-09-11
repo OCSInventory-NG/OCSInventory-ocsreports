@@ -1,4 +1,3 @@
-
 -- migrate software name
 INSERT IGNORE INTO `software_name` (`NAME`)
 SELECT DISTINCT `NAME`
@@ -39,4 +38,3 @@ DROP TABLE `softwares`;
 -- add missing primary keys
 ALTER TABLE `deleted_equiv` ADD `ID` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`ID`);
 ALTER TABLE `devices` ADD `ID` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`ID`);
-
