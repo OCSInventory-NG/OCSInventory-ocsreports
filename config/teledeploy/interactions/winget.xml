@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interactiondefinition>
+    <!-- Id of the interaction -->
+    <id>winget</id>
+    <!-- Name of the interaction -->
+    <name>9218</name>
+    <!-- Linked operating system ID -->
+    <refos>windows</refos>
+    <!-- Image reference -->
+    <imgref>image/powershell.png</imgref>
+    <!-- Linked option -->
+    <linkedoptions></linkedoptions>
+</interactiondefinition>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+    <osdefinition>
+        <!-- OS Defintition ID -->
+        <id>windows</id>
+        <!-- OS Name (can be clear text or OCS translation) -->
+        <name>9205</name>
+        <!-- Link to image name -->
+        <imgref>image/windows-logo.png</imgref>
+        <!-- Available categories -->
+        <categories>
+            <category>
+                <id>installuninstallwindows</id>
+                <name>9208</name>
+            </category>
+            <category>
+                <id>scriptswindows</id>
+                <name>9207</name>
+            </category>
+            <category>
+                <id>otherswindows</id>
+                <name>9209</name>
+            </category>
+        </categories>
+        <!-- Link to linked interactions possible (use interaction id) -->
+        <linkedinteractions>
+            <interaction 
+                order="1"
+                category_id="installuninstallwindows">msiapplication</interaction>
+            <interaction 
+                order="2"
+                category_id="installuninstallwindows">winget</interaction>
+            <interaction 
+                order="3"
+                category_id="installuninstallwindows">executable</interaction>
+            <interaction 
+                order="4"
+                category_id="installuninstallwindows">uninstall</interaction>
+            <interaction 
+                order="2"
+                category_id="scriptswindows">powershellscript</interaction>
+            <interaction 
+                order="1"
+                category_id="scriptswindows">batchscript</interaction>
+            <interaction 
+                order="2"
+                category_id="otherswindows">store</interaction>
+            <interaction 
+                order="1"
+                category_id="otherswindows">updateagent</interaction>
+            <interaction 
+                order="3"
+                category_id="otherswindows">custompackage</interaction>
+        </linkedinteractions>
+    </osdefinition>
+    <osdefinition>
+        <!-- OS Defintition ID -->
+        <id>linux</id>
+        <!-- OS Name (can be clear text or OCS translation) -->
+        <name>9203</name>
+        <!-- Link to image name -->
+        <imgref>image/linux-logo.png</imgref>
+        <!-- Available categories -->
+        <categories>
+            <category>
+                <id>installuninstalllinux</id>
+                <name>9208</name>
+            </category>
+            <category>
+                <id>scriptslinux</id>
+                <name>9207</name>
+            </category>
+            <category>
+                <id>otherslinux</id>
+                <name>9209</name>
+            </category>
+        </categories>
+        <!-- Link to linked interactions possible (use interaction id) -->
+        <linkedinteractions>
+        </linkedinteractions>
+    </osdefinition>
+    <osdefinition>
+        <!-- OS Defintition ID -->
+        <id>macos</id>
+        <!-- OS Name (can be clear text or OCS translation) -->
+        <name>9204</name>
+        <!-- Link to image name -->
+        <imgref>image/apple-logo.png</imgref>
+        <!-- Available categories -->
+        <categories>
+            <category>
+                <id>installuninstallmacos</id>
+                <name>9208</name>
+            </category>
+            <category>
+                <id>scriptsmacos</id>
+                <name>9207</name>
+            </category>
+            <category>
+                <id>othersmacos</id>
+                <name>9209</name>
+            </category>
+        </categories>
+        <!-- Link to linked interactions possible (use interaction id) -->
+        <linkedinteractions>
+        </linkedinteractions>
+    </osdefinition>
+</content>

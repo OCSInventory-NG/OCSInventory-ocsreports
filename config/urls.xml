@@ -140,6 +140,10 @@
         <value>tele_package</value>
         <directory>ms_teledeploy</directory>
     </url>
+    <url key="ms_tele_build">
+        <value>build_test</value>
+        <directory>ms_teledeploy</directory>
+    </url>
     <url key="ms_tele_modify">
         <value>tele_modify</value>
         <directory>ms_teledeploy</directory>
