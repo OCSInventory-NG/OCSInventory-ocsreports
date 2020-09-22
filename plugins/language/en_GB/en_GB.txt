@@ -1684,3 +1684,24 @@
 9103 SSL mode
 9104 CA certificat path
 9105 MySQL Port
+
+9200 Interactions
+9201 Options
+9202 Service catalog
+9203 Linux
+9204 MacOS
+9205 Windows
+9206 Powershell script
+9207 Scripts
+9208 Install / Uninstall
+9209 Others
+
+9210 Batch script
+9211 Custom package
+9212 Execute an exe
+9213 Install MSI application
+9214 Powershell script
+9215 Store file/foler 
+9216 Uninstall application
+9217 Update Agent
+9218 Install ith WinGet (Powershell)

@@ -1679,3 +1679,7 @@
 9103 Mode SSL
 9104 Chemin du certificat CA
 9105 Port MySQL
+
+9200 Intéractions
+9201 Options
+9202 Catalogue de services
