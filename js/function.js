@@ -319,3 +319,16 @@ function searchInMIB() {
         }
     }
 }
+
+function loadInteractions(os) {
+    $('#interactions').removeClass("disabled ocs-disabled").addClass("active");
+    $('#operatingsystem').hide();
+
+    if(os == "windows") {
+        $('#windowsInteractions').show();
+    } else if(os == "linux") {
+        $('#linuxInteractions').show();
+    } else {
+        $('#macosInteractions').show();
+    }
+}

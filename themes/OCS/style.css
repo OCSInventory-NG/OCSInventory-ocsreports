@@ -345,3 +345,108 @@ div.progress {
 .background-pic{
     opacity: 0.5;
 }
+
+.card_deploy {
+    /* Add shadows to create the "card" effect */
+    transition: 0.3s;
+    border-radius: 5px;
+    background-color: #EAECEE;
+    margin-bottom: 20px;
+}
+  
+/* On mouse-over, add a deeper shadow */
+.card_deploy:hover {
+    background-color: rgb(32,34,46,0.2);
+}
+
+/* Add some padding inside the card container */
+.container_deploy {
+    padding: 2px 16px;
+}
+
+.ocs-disabled {
+    background-color: #F8F9F9;
+}
+
+.nav-pills-ocs>li.active>a, 
+.nav-pills-ocs>li.active>a:focus, 
+.nav-pills-ocs>li.active>a:hover {
+    background-color: #20222e!important;
+    border-radius: 0;
+}
+
+.nav-pills-ocs li.active.triangle a::after { 
+    content: ""; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    bottom: 0;
+    border-top: 17px solid transparent; /* Go big on the size, and let overflow hide */
+    border-bottom: 20px solid transparent;
+    border-left: 30px solid rgb(32,34,46);
+    border-radius: 5% 5% 5% 5%;
+    position: absolute;
+    left: 99.9%;
+    z-index: 2;
+}
+
+.container_deploy>a {
+    text-decoration: none;
+    color: #20222e;
+    font-size: 16px;
+    display: block;
+}
+
+.container_deploy>a>h4 {
+    font-size: 16px!important;
+}
+
+.radius-parent>li.radius-left>a, 
+.radius-parent>li.radius-left>a:focus, 
+.radius-parent>li.radius-left>a:hover {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.radius-parent>li.radius-right>a, 
+.radius-parent>li.radius-right>a:focus, 
+.radius-parent>li.radius-right>a:hover {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.panel-body-ocs-deploy {
+    background-color: #EAECEE;
+    border-top: none!important;
+}
+
+.panel-default-ocs-deploy {
+    border: none;
+}
+
+.panel-default>.panel-heading-ocs-deploy {
+    background-color: rgb(32,34,46,0.1);
+    background-image: none;
+}
+
+.panel-default>.panel-heading-ocs-deploy:hover {
+    background-color: rgb(32,34,46,0.2);
+    background-image: none;
+}
+
+.panel-title>a {
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 10px 15px;
+}
+
+.panel-group .panel {
+    margin-top: 5px;
+}
+
+.nav-ocs-deploy {
+    margin-bottom:50px;
+    margin-top:50px;
+}
