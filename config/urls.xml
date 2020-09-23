@@ -120,10 +120,6 @@
         <value>admin_perim</value>
         <directory>ms_users</directory>
     </url>
-    <url key="ms_local">
-        <value>admin_local_import</value>
-        <directory>ms_upload_file</directory>
-    </url>
     <url key="ms_help">
         <value>help</value>
         <directory>ms_help</directory>
