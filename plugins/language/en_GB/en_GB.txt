@@ -1392,6 +1392,9 @@
 1557 ALL COMPUTERS
 1558 Archives
 
+1560 Purge old IPDiscover data
+1561 Validity time (in days) of an IPDiscover data
+
 1600 My dashboard
 1601 Dynamic groups
 1602 Doesn't contain

@@ -1393,6 +1393,9 @@
 1557 TOUS LES ORDINATEURS
 1558 Archive
 
+1560 Purge des anciennes données IPDiscover
+1561 Période de validité d'une donnée IPDiscover
+
 1600 Mon tableau de bord
 1601 Groupes dynamiques
 1602 Ne contient pas
