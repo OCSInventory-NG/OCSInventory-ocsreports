@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<optionsdefinition>
+    <!-- Id of the option -->
+    <id>powershellscriptopt</id>
+    <!-- Name of the option (used for header) -->
+    <name>g(something)</name>
+    <!-- Linked reference id -->
+    <refint>powershellscript</refint>
+    <!-- Fragmentation node -->
+    <fragmentation>
+        <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
+        <isneeded>false</isneeded>
+    </fragmentation>
+    <!-- Form options-->
+    <formoption>
+        <!-- 
+            A formblock is constitued of the following values : 
+            - id : id used in the form
+            - label : pretty name
+            - mandatory : is mandatory ?
+            - type : (code / text / textarea / select / hidden / file)
+            - disabled : true / false
+            - defautlvalue : defautl value upon form loading
+            - description : helping hint
+            - specialcharallowed : Are special chars allowed ?
+        -->
+        <formblock>
+            <id>powershellscript</id>
+            <label>g(something)</label>
+            <mandatory>true</mandatory>
+            <type>code</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>g(something)</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>additionalfiles</id>
+            <label>g(something)</label>
+            <mandatory>false</mandatory>
+            <type>file</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>g(something)</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+    </formoption>
+    <!-- Package builder -->
+    <packagebuilder>
+        <!-- 
+            The package builder will create the archive necessary for deployment : 
+            - codeasfile : will get code formblock content and put it in a file
+            - filesinarchive : will get file typed form block and put it in the final archive
+        -->
+        <codeasfile>
+            <!-- Target formblock id-->
+            <targetid>powershellscript</targetid>
+            <!-- Force a specific file name in ouput, no action performed if empty -->
+            <filename>psscript.ps1</filename>
+        </codeasfile>
+        <filesinarchive>
+            <!-- Target formblock id-->
+            <targetid>additionalfiles</targetid>
+            <!-- Force a specific file name in ouput, no action performed if empty -->
+            <filename/>
+        </filesinarchive>
+    </packagebuilder>
+    <!-- Package definition -->
+    <packagedefinition>
+        <!--
+            Package definition will create the info file containing the instructions needed for deployment
+            variables from formoptions can be used with :formblockid 
+        -->
+        <!-- Priority -->
+        <PRI>5</PRI>
+        <!-- Action (EXECUTE / LAUNCH / STORE) -->
+        <ACT>EXECUTE</ACT>
+        <!-- PROCOTOL used either HTTP or HTTPS-->
+        <PROTO>HTTP</PROTO>
+        <!-- File command -->
+        <COMMAND>powershell.exe psscript.ps1</COMMAND> 
+        <!-- Notify user -->
+        <NOTIFY_USER>0</NOTIFY_USER>
+        <!-- Notify text -->
+        <NOTIFY_TEXT/>
+        <!-- Notify popup countdown -->
+        <NOTIFY_COUNTDOWN/>
+        <!-- Can user abort -->
+        <NOTIFY_CAN_ABORT>0</NOTIFY_CAN_ABORT>
+        <!-- Can user delay -->
+        <NOTIFY_CAN_DELAY>0</NOTIFY_CAN_DELAY>
+        <!-- Need finish action on deployment -->
+        <NEED_DONE_ACTION>0</NEED_DONE_ACTION>
+        <!-- End deployment popup -->
+        <NEED_DONE_ACTION_TEXT/>
+    </packagedefinition>
+</optionsdefinition>
