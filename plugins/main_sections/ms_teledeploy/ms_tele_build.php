@@ -31,7 +31,7 @@ require_once('require/teledeploy/PackageBuilderParseXml.php');
 $teledeploy = new Teledeploy();
 $packageBuilderParseXml = new PackageBuilderParseXml();
 $packageBuilderFormOperatingSystem = new PackageBuilderFormOperatingSystem();
-$packageBuilderFormInteractions = new PackageBuilderFormInteractions();
+$packageBuilderFormInteractions = new PackageBuilderFormInteractions($packageBuilderParseXml);
 $packageBuilderForm = new PackageBuilderForm($packageBuilderFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml);
 $packageBuilder = new PackageBuilder($packageBuilderForm, $packageBuilderParseXml);
 
