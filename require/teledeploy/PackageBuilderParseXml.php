@@ -29,12 +29,18 @@ class PackageBuilderParseXml
     const XML_OPERATING_SYSTEM  = 'config/teledeploy/operatingsystems/operatingsystems.xml';
     const XML_INTERACTION       = 'config/teledeploy/interactions/';
 
+    /**
+     *  Parse Operating System XML
+     */
     public function parseOperatingSystem() {
         return simplexml_load_file(self::XML_OPERATING_SYSTEM);
     }
 
+    /**
+     *  Parse Interactions XML
+     */
     public function parseInteractions($name) {
-
+        return simplexml_load_file(self::XML_INTERACTION.$name.'.xml');
     }
 
 }

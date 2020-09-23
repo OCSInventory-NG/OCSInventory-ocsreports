@@ -60,7 +60,6 @@ class PackageBuilderForm
 
         foreach($operatingInfos as $systemInfos) {
 
-            var_dump($systemInfos->linkedinteractions->interaction);
             $html .= '<div id="'.$systemInfos->id.'Interactions" style="display:none;"><div class="panel-group" id="accordion'.$systemInfos->id.'">';
 
             // Generate categories
@@ -68,9 +67,16 @@ class PackageBuilderForm
             $html .= $this->packageBuildeFormInteractions->generateInteractionCategories($systemInfos);
             $html .= '</div>';
 
+
             // Generate interactions
-
-
+            foreach($systemInfos->linkedinteractions->category as $interactions) {
+                $html .= '  <div class="panel panel-default panel-default-ocs-deploy">
+                                <div id="'.$interactions->attributes()->id.'" class="panel-collapse collapse">
+                                    <div class="panel-body panel-body-ocs-deploy">
+                                        <div class="row">';
+                $html .= $this->packageBuildeFormInteractions->generateInteractionCollapse($interactions);                
+                $html .= '</div></div></div></div>';
+            }
 
             $html .= '</div></div>';
         }
