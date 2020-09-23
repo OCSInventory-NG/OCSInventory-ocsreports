@@ -424,6 +424,10 @@ div.progress {
     border: none;
 }
 
+.panel-heading-ocs-deploy {
+    padding: 0;
+}
+
 .panel-default>.panel-heading-ocs-deploy {
     background-color: rgb(32,34,46,0.1);
     background-image: none;
@@ -439,7 +443,9 @@ div.progress {
     display: block;
     font-weight: bold;
     font-size: 14px;
-    margin: 10px 15px;
+    padding-top: 6%;
+    height: 55.2px;
+    width: 340px;
 }
 
 .panel-group .panel {
