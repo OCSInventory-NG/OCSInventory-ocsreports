@@ -24,33 +24,21 @@
         </categories>
         <!-- Link to linked interactions possible (use interaction id) -->
         <linkedinteractions>
-            <interaction 
-                order="1"
-                category_id="installuninstallwindows">msiapplication</interaction>
-            <interaction 
-                order="2"
-                category_id="installuninstallwindows">winget</interaction>
-            <interaction 
-                order="3"
-                category_id="installuninstallwindows">executable</interaction>
-            <interaction 
-                order="4"
-                category_id="installuninstallwindows">uninstall</interaction>
-            <interaction 
-                order="2"
-                category_id="scriptswindows">powershellscript</interaction>
-            <interaction 
-                order="1"
-                category_id="scriptswindows">batchscript</interaction>
-            <interaction 
-                order="2"
-                category_id="otherswindows">store</interaction>
-            <interaction 
-                order="1"
-                category_id="otherswindows">updateagent</interaction>
-            <interaction 
-                order="3"
-                category_id="otherswindows">custompackage</interaction>
+            <category id="installuninstallwindows">
+                <interaction order="1">msiapplication</interaction>
+                <interaction order="2">winget</interaction>
+                <interaction order="3">executable</interaction>
+                <interaction order="4">uninstall</interaction>
+            </category>
+            <category id="scriptswindows">
+                <interaction order="2">powershellscript</interaction>
+                <interaction order="1">batchscript</interaction>
+            </category>
+            <category id="otherswindows">
+                <interaction order="2">store</interaction>
+                <interaction order="1">updateagent</interaction>
+                <interaction order="3">custompackage</interaction>
+            </category>
         </linkedinteractions>
     </osdefinition>
     <osdefinition>

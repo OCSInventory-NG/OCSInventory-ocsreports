@@ -7,7 +7,7 @@
     <!-- Linked operating system ID -->
     <refos>windows</refos>
     <!-- Image reference -->
-    <imgref>image/windwos-logo.png</imgref>
+    <imgref>image/windows-logo.png</imgref>
     <!-- Linked option -->
     <linkedoptions></linkedoptions>
 </interactiondefinition>
