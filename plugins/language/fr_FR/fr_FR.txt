@@ -7,7 +7,7 @@
 20 Logiciel
 23 Machine
 24 Utilisateur connecté
-25 Système
+25 Systeme
 26 Mémoire
 27 Vitesse mémoire (MHz)
 28 Nombre de machines
@@ -1680,6 +1680,26 @@
 9104 Chemin du certificat CA
 9105 Port MySQL
 
-9200 Intéractions
+9200 Interactions
 9201 Options
 9202 Catalogue de services
+9203 Linux
+9204 MacOS
+9205 Windows
+9206 Script Powershell
+9207 Scripts
+9208 Installater / Desinstallater
+9209 Autres
+
+9210 Script Batch
+9211 Paquet personnalisé
+9212 Executer un exe
+9213 Installer une application MSI
+9214 Script Powershell
+9215 Stocker fichier/dossier 
+9216 Désinstaller une application
+9217 Mise à jour Agent
+9218 Installer avec WinGet (Powershell)
+
+9240 Text
+9241 File

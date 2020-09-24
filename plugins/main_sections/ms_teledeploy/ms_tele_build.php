@@ -26,13 +26,15 @@ require_once('require/teledeploy/PackageBuilder.php');
 require_once('require/teledeploy/PackageBuilderForm.php');
 require_once('require/teledeploy/PackageBuilderFormOperatingSystem.php');
 require_once('require/teledeploy/PackageBuilderFormInteractions.php');
+require_once('require/teledeploy/PackageBuilderFormOptions.php');
 require_once('require/teledeploy/PackageBuilderParseXml.php');
 
 $teledeploy = new Teledeploy();
 $packageBuilderParseXml = new PackageBuilderParseXml();
 $packageBuilderFormOperatingSystem = new PackageBuilderFormOperatingSystem();
 $packageBuilderFormInteractions = new PackageBuilderFormInteractions($packageBuilderParseXml);
-$packageBuilderForm = new PackageBuilderForm($packageBuilderFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml);
+$packageBuilderFormOptions = new PackageBuilderFormOptions($packageBuilderParseXml);
+$packageBuilderForm = new PackageBuilderForm($packageBuilderFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml, $packageBuilderFormOptions);
 $packageBuilder = new PackageBuilder($packageBuilderForm, $packageBuilderParseXml);
 
 echo "<div class='container'>
@@ -63,7 +65,7 @@ echo $packageBuilderForm->generateInteractions();
 /************************* OPTIONS ************************/
 echo open_form($form_name, '', "enctype='multipart/form-data'", "form-horizontal");
 echo '<div id="deployment_options">';
-
+// Generate with ajax
 echo '</div>';
 echo close_form();
 

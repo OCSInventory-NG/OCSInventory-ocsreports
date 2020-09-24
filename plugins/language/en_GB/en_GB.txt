@@ -1704,4 +1704,10 @@
 9215 Store file/foler 
 9216 Uninstall application
 9217 Update Agent
-9218 Install ith WinGet (Powershell)
+9218 Install with WinGet (Powershell)
+
+9240 Text
+9241 File
+9242 Select
+9243 Number
+9244 Description field
