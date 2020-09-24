@@ -83,7 +83,7 @@ class language {
             $word = $this->tableauMots[$i];
         }
         //language mode
-        if ($_SESSION['OCS']['MODE_LANGUAGE'] == "ON") {
+        if (isset($_SESSION['OCS']['MODE_LANGUAGE']) && $_SESSION['OCS']['MODE_LANGUAGE'] == "ON") {
             if (!in_array($i, $tab_dont_see)) {
                 $_SESSION['OCS']['EDIT_LANGUAGE'][$i] = $word;
             }
