@@ -68,7 +68,7 @@ class PackageBuilderFormInteractions
             $html .= '  <div class="col-md-4">
                             <div class="card_deploy">
                                 <div class="container_deploy">
-                                    <a onClick="loadOptions(\''.$xmlInteractionDetails->refos.'\',\''.$xmlInteractionDetails->id.'\')">
+                                    <a onClick="loadOptions(\''.$xmlInteractionDetails->refos.'\',\''.$xmlInteractionDetails->linkedoptions.'\')">
                                         <img src="'.$xmlInteractionDetails->imgref.'" style="margin-top:10px;"/>
                                         <h4><b>'.$l->g(intval($xmlInteractionDetails->name)).'</b></h4>
                                     </a>

@@ -29,11 +29,13 @@ class PackageBuilderForm
     private $packageBuildeFormInteractions;
     private $packageBuilderFormOperatingSystem;
     private $packageBuilderParseXml;
+    private $packageBuilderFormOptions;
 
-    function __construct($packageBuildeFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml) {
+    function __construct($packageBuildeFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml, $packageBuilderFormOptions) {
         $this->packageBuilderFormOperatingSystem = $packageBuilderFormOperatingSystem;
         $this->packageBuildeFormInteractions = $packageBuildeFormInteractions;
         $this->packageBuilderParseXml = $packageBuilderParseXml;
+        $this->packageBuilderFormOptions = $packageBuilderFormOptions;
     }
 
     /**
@@ -80,6 +82,21 @@ class PackageBuilderForm
 
             $html .= '</div></div>';
         }
+
+        return $html;
+    }
+
+    /**
+     *  Generate Options
+     */
+    public function generateOptions($os, $linkedOption, $language) {
+        global $l;
+        $l = new language($language);
+
+        $optionInfos = $this->packageBuilderParseXml->parseOptions($linkedOption);
+        
+        $html = '<h3 class="text-center">'.$l->g(intval($optionInfos->name)).'</h3></br>';
+        $html .= $this->packageBuilderFormOptions->generateOptions($optionInfos, $l);
 
         return $html;
     }
