@@ -332,3 +332,16 @@ function loadInteractions(os) {
         $('#macosInteractions').show();
     }
 }
+
+function loadOptions(os, linkedoptions) {
+    $.ajax({
+        url: "ajax/teledeployoptions.php",
+        type : "GET",
+        data : "os="+os+"&linkedoptions="+linkedoptions,
+        success : function(dataoptions, status) {
+            $('#options').removeClass("disabled ocs-disabled").addClass("active");
+            $('#'+os+'Interactions').hide();
+            $('#deployment_options').append(dataoptions);
+        }
+    });
+}
