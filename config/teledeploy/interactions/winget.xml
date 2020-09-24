@@ -9,5 +9,5 @@
     <!-- Image reference -->
     <imgref>image/powershell.png</imgref>
     <!-- Linked option -->
-    <linkedoptions></linkedoptions>
+    <linkedoptions>wingetopt</linkedoptions>
 </interactiondefinition>

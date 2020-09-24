@@ -3,21 +3,19 @@
     <!-- Id of the option -->
     <id>powershellscriptopt</id>
     <!-- Name of the option (used for header) -->
-    <name>g(something)</name>
+    <name>9214</name>
     <!-- Linked reference id -->
     <refint>powershellscript</refint>
     <!-- Fragmentation node -->
-    <fragmentation>
-        <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-        <isneeded>false</isneeded>
-    </fragmentation>
+    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
+    <fragmentation>false</fragmentation>
     <!-- Form options-->
     <formoption>
         <!-- 
             A formblock is constitued of the following values : 
             - id : id used in the form
             - label : pretty name
-            - mandatory : is mandatory ?
+            - mandatory : is required true / false ?
             - type : (code / text / textarea / select / hidden / file)
             - disabled : true / false
             - defautlvalue : defautl value upon form loading
@@ -26,22 +24,51 @@
         -->
         <formblock>
             <id>powershellscript</id>
-            <label>g(something)</label>
+            <label>9240</label>
             <mandatory>true</mandatory>
-            <type>code</type>
+            <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>g(something)</description>
+            <description>9244</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
             <id>additionalfiles</id>
-            <label>g(something)</label>
+            <label>9241</label>
             <mandatory>false</mandatory>
             <type>file</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>g(something)</description>
+            <description>9244</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>selectfield</id>
+            <label>9242</label>
+            <mandatory>false</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <options>
+                <option>
+                    <id>option1</id>
+                    <name>9242</name>
+                </option>
+                <option>
+                    <id>option2</id>
+                    <name>9242</name>
+                </option>
+            </options>
+            <description>9244</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>numberfield</id>
+            <label>9243</label>
+            <mandatory>false</mandatory>
+            <type>number</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>9244</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
     </formoption>

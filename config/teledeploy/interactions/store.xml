@@ -9,5 +9,5 @@
     <!-- Image reference -->
     <imgref>image/folder.png</imgref>
     <!-- Linked option -->
-    <linkedoptions></linkedoptions>
+    <linkedoptions>storeopt</linkedoptions>
 </interactiondefinition>

@@ -9,5 +9,5 @@
     <!-- Image reference -->
     <imgref>image/adjustment.png</imgref>
     <!-- Linked option -->
-    <linkedoptions></linkedoptions>
+    <linkedoptions>custompackageopt</linkedoptions>
 </interactiondefinition>

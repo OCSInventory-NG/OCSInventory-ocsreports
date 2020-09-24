@@ -9,5 +9,5 @@
     <!-- Image reference -->
     <imgref>image/windows-logo.png</imgref>
     <!-- Linked option -->
-    <linkedoptions></linkedoptions>
+    <linkedoptions>batchscriptopt</linkedoptions>
 </interactiondefinition>
