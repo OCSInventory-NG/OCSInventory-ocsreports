@@ -373,7 +373,7 @@ function html_header($noJavascript = false) {
 				<link rel="stylesheet" href="css/computer_details.css">
         <link rel="stylesheet" href="css/bootstrap-formhelpers.css">
 				<link rel="stylesheet" href="css/forms.css">
-				<link rel="stylesheet" href="themes/'.$value_theme['tvalue']['CUSTOM_THEME'].'/style.css">';
+                <link rel="stylesheet" href="themes/'.$value_theme['tvalue']['CUSTOM_THEME'].'/style.css">';
 
     if (!$noJavascript) {
         //js for graph
@@ -394,7 +394,8 @@ function html_header($noJavascript = false) {
         <script src="libraries/datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="libraries/datatable/media/js/dataTables.bootstrap.js" type="text/javascript"></script>
         <script src="js/function.js" type="text/javascript"></script>
-        <script src="js/dataTables.conditionalPaging.js" type="text/javascript"></script>';
+        <script src="js/dataTables.conditionalPaging.js" type="text/javascript"></script>
+        <script src="libraries/ace/js/ace.js" type="text/javascript"></script>';
 
         if (isset($_SESSION['OCS']['JAVASCRIPT'])) {
             foreach ($_SESSION['OCS']['JAVASCRIPT'] as $file) {
