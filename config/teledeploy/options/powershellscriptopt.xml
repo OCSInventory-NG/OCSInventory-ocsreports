@@ -23,13 +23,24 @@
             - specialcharallowed : Are special chars allowed ?
         -->
         <formblock>
-            <id>powershellscript</id>
+            <id>editorCode</id>
             <label>9240</label>
             <mandatory>true</mandatory>
-            <type>text</type>
+            <type>code</type>
+            <language>powershell</language>
             <disabled>false</disabled>
             <defaultvalue/>
             <description>9244</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>powershellscript</id>
+            <label></label>
+            <mandatory>false</mandatory>
+            <type>hidden</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description></description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -37,35 +48,6 @@
             <label>9241</label>
             <mandatory>false</mandatory>
             <type>file</type>
-            <disabled>false</disabled>
-            <defaultvalue/>
-            <description>9244</description>
-            <specialcharallowed>false</specialcharallowed>
-        </formblock>
-        <formblock>
-            <id>selectfield</id>
-            <label>9242</label>
-            <mandatory>false</mandatory>
-            <type>select</type>
-            <disabled>false</disabled>
-            <options>
-                <option>
-                    <id>option1</id>
-                    <name>9242</name>
-                </option>
-                <option>
-                    <id>option2</id>
-                    <name>9242</name>
-                </option>
-            </options>
-            <description>9244</description>
-            <specialcharallowed>false</specialcharallowed>
-        </formblock>
-        <formblock>
-            <id>numberfield</id>
-            <label>9243</label>
-            <mandatory>false</mandatory>
-            <type>number</type>
             <disabled>false</disabled>
             <defaultvalue/>
             <description>9244</description>

@@ -63,6 +63,7 @@ echo $packageBuilderForm->generateOperatingSystem();
 echo $packageBuilderForm->generateInteractions();
 
 /************************* OPTIONS ************************/
+
 echo open_form($form_name, '', "enctype='multipart/form-data'", "form-horizontal");
 echo '<div id="deployment_options">';
 // Generate with ajax

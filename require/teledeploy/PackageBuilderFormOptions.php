@@ -67,6 +67,26 @@ class PackageBuilderFormOptions
                 return $select;
             break;
 
+            case 'code':
+                return '<div class="editor__body">
+                            <div id="editorCode" class="editor__code"></div>
+                        </div>
+                        <script>
+                            let codeEditor = ace.edit("editorCode", {
+                                mode: "ace/mode/'.$formblockDetails->language.'",
+                                selectionStyle: "text"
+                            });
+                            
+                            // use setOptions method to set several options at once
+                            codeEditor.setOptions({
+                                autoScrollEditorIntoView: true,
+                                copyWithEmptySelection: true,
+                            });
+                            
+                            codeEditor.setTheme("ace/theme/solarized_dark");
+                        </script>';
+            break;
+
             default:
                 return '<input type="'.$formblockDetails->type.'" name="'.$formblockDetails->id.'" id="'.$formblockDetails->id.'" value="'.$formblockDetails->defaultvalue.'" class="form-control">';
         }
