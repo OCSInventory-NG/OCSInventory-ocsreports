@@ -85,8 +85,8 @@ $defaultRole = $config['LDAP_CHECK_DEFAULT_ROLE'];
 // Checks if the custom fields are valid
 $f1_name = $config['LDAP_CHECK_FIELD1_NAME'];
 $f2_name = $config['LDAP_CHECK_FIELD2_NAME'];
-$f1_value = $config['LDAP_CHECK_FIELD1_VALUE'];
-$f2_value = $config['LDAP_CHECK_FIELD2_VALUE'];
+$f1_value = $_SESSION['OCS']['details'][$f1_name];
+$f2_value = $_SESSION['OCS']['details'][$f2_name];
 
 if (!empty($f1_value)) {
     if (strtolower($f1_name) == "memberof") {
