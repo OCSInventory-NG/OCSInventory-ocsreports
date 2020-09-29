@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: OCS Inventory ASK
+    url: http://ask.ocsinventory-ng.org/
+    about: Ask your questions here
+  - name: OCS Inventory Professional services
+    url: https://ocsinventory-ng.org/?page_id=120&lang=en
+    about: Professional services, training courses and consulting
