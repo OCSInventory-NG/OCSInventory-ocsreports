@@ -164,4 +164,10 @@
 		<category>other</category>
 		<available>repository</available>
 	</plugin>
+	<plugin id="cd_unixusers">
+		<label>g(235)</label>
+		<system>1</system>
+		<category>other</category>
+		<available>unixusers</available>
+	</plugin>
 </plugins>
