@@ -1682,3 +1682,7 @@
 9103 Mode SSL
 9104 Chemin du certificat CA
 9105 Port MySQL
+
+9200 Deploiement de paquet pour la machine
+9201 Deploiement de paquet pour la sélection
+9202 Deploiement de paquet pour le groupe
