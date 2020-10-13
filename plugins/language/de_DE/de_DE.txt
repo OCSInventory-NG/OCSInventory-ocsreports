@@ -435,7 +435,7 @@
 468 Wollen Sie dieses Paket wirklich aktivieren?
 469 Paket aktiviert, es kann jetzt verteilt werden.
 470 HTTPS-Adresse
-471 Fragment-Adresse
+471 HTTP-Adresse
 472 FEHLER: kann Verzeichnis nicht löschen!
 473 Zeitstempel muss eine Zahl sein
 474 Zeitstempel muss 10 Zeichen lang sein
@@ -447,11 +447,11 @@
 480 Fragmente
 481 Aktivierte Pakete
 482 WARTET AUF BENACHRICHTIGUNG
-483 Überprüfe ERFOLG
+483 ERFOLGREICH
 484 Eigenener Intervall
 485 Immer inventarisiert
 486 Nie inventarisiert
-487 Eigen
+487 Benutzerdefinierter Intervall
 488 Standard
 489 IP-Discover-Verhalten
 490 KEIN IP-Discover des Netzwerks
@@ -622,7 +622,7 @@
 659 Rechner haben dieses Paket bereits installiert. Der Status des Pakets auf diesen Rechnern ist jetzt
 660 SERVERGRUPPE EXISTIERT NICHT
 661 PAKETE FÜR WEITERVERTEILUNGSSERVER
-662 Auswahlregeln
+662 Verteilungsregeln
 663 INTERNES PROBLEM
 664 Aktion ausgeführt
 665 KEINE RECHNER AUSGEWÄHLT, GRUPPE NICHT ERSTELLT.
@@ -868,7 +868,7 @@
 907 Beschreibung um Pakete von diesem Rechner zu entfernen
 908 Mobile terminal informations
 909 ÄNDERUNG NICHT DURCHGEFÜHRT: UNGÜLTIGES NEUES PROFIL
-910 Überprüfen
+910 Auswählen
 911 Zu Profil wechseln
 912 Liste der Rechner mit dieser Software exportieren
 913 Anzahl nicht erfasster Netzwerk-Schnittstellen
@@ -1301,6 +1301,8 @@
 1370 Webserver
 1371 Datenbank-Server
 1373 Distribution
+1376 FAQ
+1377 Frequently Asked Questions
 1378 Freier Speicher
 1379 Installierter Speicher
 1380 Spalten zurücksetzen
@@ -1342,7 +1344,55 @@
 1418 Land
 1417 IMEI/Geräte-ID
 
+1419 Suche in Spalte
+1420 Benutzerdefiniertes Thema für die Oberfläche
+1449 Generelle Einstellungen
+1460 CVE-Sucheinstellungen
+1461 CVE-Berichte aktivieren
+1462 CVE-Server auf dem nach CVEs gesucht werden soll
+1463 CVE-Berichte
+1464 CVE-Berichte sind deaktiviert.
+1465 Alle CVEs
+1466 Bitte lesen Sie die Dokumentation zur Verwaltung von CVE-Berichten : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> CVE-Berichte verwalten </a>
+1467 Link
+1468 Schwachstelle 
 
+1469 Software-Kategorien für die keine CVE-Berichte gesucht werden sollen
+
+1471 Aktivieren, um CVE für alle Software-Versionen zu erhalten
+
+1473 Neue Regex
+1474 Übereinstimmungen
+
+1481 CVE Historie
+
+1484 Zeitspanne wie lange ein CVE Scan nach einem OCS Inventory Scan gültig ist
+1485 Nach Software
+1486 Nach Computer
+
+1500 Software Kategorie
+1501 Neue Kategorie
+1502 Liste der Kategorien
+1503 Software hinzufügen
+1504 Regulärer Ausdruck oder Software-Name
+1505 Standard-Kategorie für neue Software
+1506 Keine Kategorie erstellt
+
+1509 Erweiterte Einstellungen
+
+1516 Gesamte Software (but default)
+1517 Es wurde keine Kategorie ausgewählt
+
+1554 ARCHIVIERTE COMPUTER
+1555 AKTIVE COMPUTER
+
+1557 ALLE COMPUTER
+
+1600 Mein Dashboard
+1601 Dynamische Gruppen
+
+1700 Erweiterte Einstellungen
+1703 Ausgewählte Pakete hinzufügen
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 Fehler:
@@ -1454,8 +1504,25 @@
 2111 Update durchführen
 2112 Die folgende Datei fehlt oder kann nicht gelesen werden
 
+2117 Update-Meldung anzeigen wenn eine neue OCS-Version verfügbar ist
+
+2121 Inventur beim Start des Dienstes auf Windows-Clients durchführen
+
 2123 Verfügbare Pakete
 2124 Gelöschte Pakete
+
+2130 Assets Kategorien
+2131 Zahl der Maschinen je Kategorie
+2132 Asset Kategorie
+
+2133 Es wurde noch keine Asset Kategorie angelegt
+2134 Es wurde noch keine Software Kategorie angelegt
+
+2140 Eine gespeicherte Suche nutzen
+2141 Gespeicherte Suche
+2142 Eine Suche generieren
+2143 Suche wurde erfolgreich gespeichert
+2144 Eine vorhandene Suche anpassen
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1517,3 +1584,22 @@
 7014 Es wurden keine Plugins gefunden
 
 8000 Benachrichtigungen
+
+8011 Konfiguration
+8012 Template anpassen
+
+8018 Betreff
+
+8026 Anzeige von Neuigkeiten zu OCS Inventory im Dash
+
+8100 Web-Applikations-Verzeichnis
+8101 Web-Applikations-Verzeichnis
+8102 Web-Applikation hinzufügen
+8104 Eintrag
+8105 Daten
+
+9000 SNMP-Konfiguration
+
+9010 SNMP MIBs-Verzeichnis auf dem Server
+
+9014 SNMP ist nicht konfiguriert. Lesen Sie die Dokumentation um zu erfahren wie SNMP eingerichtet wird: <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
