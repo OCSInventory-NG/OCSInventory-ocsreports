@@ -28,41 +28,6 @@ if (AJAX) {
 
 require_once('require/function_telediff.php');
 require_once('require/function_search.php');
-require_once('plugins/main_sections/ms_computer/ms_computer_views.php');
-require_once('require/function_machine.php');
-
-
-$ids = $protectedPost['systemid'] = $protectedGet['idchecked']; 
-
-if (strpos($ids, ',') == true) {
-    $text_selection = $l->g(9201);
-    $ids = explode(',', $ids);
-} else {
-    $ids = (array)$ids;
-    if (info($protectedGet, $ids)->DEVICEID == '_SYSTEMGROUP_') {
-        $text_selection = $l->g(9202);
-    } else {
-        $text_selection = $l->g(9200);
-    }
-}
-
-foreach ($ids as $value) {
-    $protectedPost['systemid'] = $value;
-    $item = info($protectedGet, $protectedPost['systemid']);
-    $name .= " / ".$item->NAME." / ";
-}
-
-echo "<h3> $text_selection : </h3>"; 
-
-?>
-
-<?php 
-    echo "<div class='col col-md-10 col-md-offset-1' style='overflow-y: auto; height:50px; width:80%%;'>
-            {$name}
-        </div>"
-?>
-
-<?php
 $form_name = "pack_affect";
 $table_name = "LIST_PACK_SEARCH";
 $tab_options = $protectedPost;
