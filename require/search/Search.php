@@ -331,7 +331,11 @@
 
             if($tableName != "hardware"){
                 // Generate union
-                $this->searchQuery .= "INNER JOIN $tableName on hardware.id = $tableName.hardware_id ";
+                if ($tableName == "groups_cache") {
+                  $this->searchQuery .= "LEFT JOIN $tableName on hardware.id = $tableName.hardware_id ";
+                } else {
+                  $this->searchQuery .= "INNER JOIN $tableName on hardware.id = $tableName.hardware_id ";
+                }
 			} 
 			
 			if($tableName == SoftwareSearch::SOFTWARE_TABLE) {
