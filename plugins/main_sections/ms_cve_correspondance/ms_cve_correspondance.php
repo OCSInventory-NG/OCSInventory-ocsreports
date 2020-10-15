@@ -110,7 +110,7 @@ if($protectedPost['onglet'] == "LIST_CORR") {
         $l->g(1477) => 'NAME_RESULT',
     );
 
-    $list_fields['SUP'] = 'ID';
+    $list_fields['SUP'] = 'NAME_REG';
     $list_col_cant_del = array('SUP' => 'SUP');
     $default_fields = $list_fields;
     $list_col_cant_del = $default_fields;
