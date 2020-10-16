@@ -365,6 +365,7 @@ function update_default_value($POST) {
     $array_simple_tvalue = array('DOWNLOAD_SERVER_URI', 'DOWNLOAD_SERVER_DOCROOT',
         'OCS_FILES_FORMAT', 'OCS_FILES_PATH',
         'CONEX_LDAP_SERVEUR', 'CONEX_LDAP_PORT', 'CONEX_DN_BASE_LDAP',
+        'CONEX_GROUP1_DN_BASE_LDAP', 'CONEX_GROUP2_DN_BASE_LDAP', 'CONEX_GROUP1_FIELD', 'CONEX_GROUP2_FIELD', 'CONEX_LDAP_CHECK_GROUP1_ROLE', 'CONEX_LDAP_CHECK_GROUP2_ROLE',
         'CONEX_LOGIN_FIELD', 'CONEX_LDAP_PROTOCOL_VERSION', 'CONEX_ROOT_DN',
         'CONEX_ROOT_PW', 'CONEX_LDAP_CHECK_FIELD1_NAME', 'CONEX_LDAP_CHECK_FIELD1_VALUE',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE',
@@ -932,6 +933,12 @@ function pageConnexion() {
         'CONEX_LDAP_PROTOCOL_VERSION' => 'CONEX_LDAP_PROTOCOL_VERSION',
         'CONEX_ROOT_DN' => 'CONEX_ROOT_DN',
         'CONEX_ROOT_PW' => 'CONEX_ROOT_PW',
+        'CONEX_GROUP1_DN_BASE_LDAP' => 'CONEX_GROUP1_DN_BASE_LDAP',
+        'CONEX_GROUP1_FIELD' => 'CONEX_GROUP1_FIELD',
+        'CONEX_LDAP_CHECK_GROUP1_ROLE' => 'CONEX_LDAP_CHECK_GROUP1_ROLE',
+        'CONEX_GROUP2_DN_BASE_LDAP' => 'CONEX_GROUP2_DN_BASE_LDAP',
+        'CONEX_GROUP2_FIELD' => 'CONEX_GROUP2_FIELD',
+        'CONEX_LDAP_CHECK_GROUP2_ROLE' => 'CONEX_LDAP_CHECK_GROUP2_ROLE',
         'CONEX_LDAP_CHECK_FIELD1_NAME' => 'CONEX_LDAP_CHECK_FIELD1_NAME',
         'CONEX_LDAP_CHECK_FIELD1_VALUE' => 'CONEX_LDAP_CHECK_FIELD1_VALUE',
         'CONEX_LDAP_CHECK_FIELD1_ROLE' => 'CONEX_LDAP_CHECK_FIELD1_ROLE',
@@ -952,6 +959,12 @@ function pageConnexion() {
     ligne('CONEX_DN_BASE_LDAP', $l->g(832), 'input', array('VALUE' => $values['tvalue']['CONEX_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LOGIN_FIELD', $l->g(833), 'input', array('VALUE' => $values['tvalue']['CONEX_LOGIN_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_PROTOCOL_VERSION', $l->g(834), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'], 'SIZE' => "30%", 'MAXLENGTH' => 5));
+    ligne('CONEX_GROUP1_DN_BASE_LDAP', $l->g(1704), 'input', array('VALUE' => $values['tvalue']['CONEX_GROUP1_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_GROUP1_FIELD', $l->g(1705), 'input', array('VALUE' => $values['tvalue']['CONEX_GROUP1_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LDAP_CHECK_GROUP1_ROLE', $l->g(1706), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_GROUP1_ROLE'], 'SELECT_VALUE' => $role1));
+    ligne('CONEX_GROUP2_DN_BASE_LDAP', $l->g(1704), 'input', array('VALUE' => $values['tvalue']['CONEX_GROUP2_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_GROUP2_FIELD', $l->g(1705), 'input', array('VALUE' => $values['tvalue']['CONEX_GROUP2_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LDAP_CHECK_GROUP2_ROLE', $l->g(1706), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_GROUP2_ROLE'], 'SELECT_VALUE' => $role1));
     ligne('CONEX_LDAP_CHECK_FIELD1_NAME', $l->g(1111), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_NAME'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_CHECK_FIELD1_VALUE', $l->g(1112), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_VALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_CHECK_FIELD1_ROLE', $l->g(1113), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_ROLE'], 'SELECT_VALUE' => $role1));

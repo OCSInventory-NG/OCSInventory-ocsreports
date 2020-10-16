@@ -58,6 +58,8 @@ function verif_pw_ldap($login, $pw) {
 function search_on_loginnt($login) {
     $f1_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD1_NAME'];
     $f2_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD2_NAME'];
+    $g1_name = $_SESSION['OCS']['config']['GROUP1_DN_BASE_LDAP'];
+    $g2_name = $_SESSION['OCS']['config']['GROUP2_DN_BASE_LDAP'];
 
     // default attributes for query
     $attributs = array("dn", "cn", "givenname", "sn", "mail", "title", "memberof");
@@ -76,7 +78,7 @@ function search_on_loginnt($login) {
     $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
     $lce = ldap_count_entries($ds, $sr);
     $info = ldap_get_entries($ds, $sr);
-    ldap_close($ds);
+
     $info["nbResultats"] = $lce;
 
     // save user fields in session
@@ -85,6 +87,23 @@ function search_on_loginnt($login) {
     $_SESSION['OCS']['details']['cn'] = $info[0]['cn'][0];
     $_SESSION['OCS']['details']['mail'] = $info[0]['mail'][0];
     $_SESSION['OCS']['details']['title'] = $info[0]['title'][0];
+
+    if($g1_name != '') {
+        $gsr = ldap_search($ds, $g1_name, "(".$_SESSION['OCS']['config']['GROUP1_FIELD']."=".$login.")", array($_SESSION['OCS']['config']['GROUP1_FIELD']));
+        $lce_ = ldap_count_entries($ds, $gsr);
+        if($lce_>0) {
+            $_SESSION['OCS']['details'][$g1_name] = 1;
+        }
+    }
+    if($g2_name != '') {
+        $gsr = ldap_search($ds, $g2_name, "(".$_SESSION['OCS']['config']['GROUP2_FIELD']."=".$login.")", array($_SESSION['OCS']['config']['GROUP2_FIELD']));
+        $lce_ = ldap_count_entries($ds, $gsr);
+        if($lce_>0) {
+            $_SESSION['OCS']['details'][$g2_name] = 1;
+        }
+    }
+
+    ldap_close($ds);
 
     if (strtolower($f1_name) == "memberof") {    
         $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)];

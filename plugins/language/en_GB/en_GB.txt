@@ -1407,6 +1407,9 @@
 1701 Tab available
 1702 New tab
 1703 Add selected packages
+1704 Ldap groups base name + dc
+1705 Membership field name
+1706 If the membership field name in group equal user, set this user role automatically
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

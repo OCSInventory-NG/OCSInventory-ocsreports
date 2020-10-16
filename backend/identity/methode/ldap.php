@@ -87,6 +87,8 @@ $f1_name = $config['LDAP_CHECK_FIELD1_NAME'];
 $f2_name = $config['LDAP_CHECK_FIELD2_NAME'];
 $f1_value = $_SESSION['OCS']['details'][$f1_name];
 $f2_value = $_SESSION['OCS']['details'][$f2_name];
+if(@array_key_exists($config['GROUP1_DN_BASE_LDAP'],$_SESSION['OCS']['details']) && $_SESSION['OCS']['details'][$config['GROUP1_DN_BASE_LDAP']] == 1) $defaultRole = $config['LDAP_CHECK_GROUP1_ROLE'];
+if(@array_key_exists($config['GROUP2_DN_BASE_LDAP'],$_SESSION['OCS']['details']) && $_SESSION['OCS']['details'][$config['GROUP2_DN_BASE_LDAP']] == 1) $defaultRole = $config['LDAP_CHECK_GROUP2_ROLE'];
 
 if (!empty($f1_value)) {
     if (strtolower($f1_name) == "memberof") {
