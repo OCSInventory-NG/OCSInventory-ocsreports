@@ -58,9 +58,11 @@ function verif_pw_ldap($login, $pw) {
 function search_on_loginnt($login) {
     $f1_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD1_NAME'];
     $f2_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD2_NAME'];
+    $g1_name = $_SESSION['OCS']['config']['GROUP1_DN_BASE_LDAP'];
+    $g2_name = $_SESSION['OCS']['config']['GROUP2_DN_BASE_LDAP'];
 
     // default attributes for query
-    $attributs = array("dn", "cn", "givenname", "sn", "mail", "title", "memberof");
+    $attributs = array("dn", "cn", "givenname", "sn", "mail", "title");
 
     // search for the custom user level attributes if they're defined
     if ($f1_name != '') {
@@ -76,7 +78,7 @@ function search_on_loginnt($login) {
     $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
     $lce = ldap_count_entries($ds, $sr);
     $info = ldap_get_entries($ds, $sr);
-    ldap_close($ds);
+
     $info["nbResultats"] = $lce;
 
     // save user fields in session
@@ -86,19 +88,40 @@ function search_on_loginnt($login) {
     $_SESSION['OCS']['details']['mail'] = $info[0]['mail'][0];
     $_SESSION['OCS']['details']['title'] = $info[0]['title'][0];
 
-    if (strtolower($f1_name) == "memberof") {    
-        $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)];
-    } else {
-        $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)][0];
+    if($g1_name != '') {
+        $gsr = ldap_search($ds, $g1_name, "(".$_SESSION['OCS']['config']['GROUP1_FIELD']."=".$login.")", array($_SESSION['OCS']['config']['GROUP1_FIELD']));
+        $lce_ = ldap_count_entries($ds, $gsr);
+        if($lce_>0) {
+            $_SESSION['OCS']['details'][$g1_name] = 1;
+        }
     }
-    
+    if($g2_name != '') {
+        $gsr = ldap_search($ds, $g2_name, "(".$_SESSION['OCS']['config']['GROUP2_FIELD']."=".$login.")", array($_SESSION['OCS']['config']['GROUP2_FIELD']));
+        $lce_ = ldap_count_entries($ds, $gsr);
+        if($lce_>0) {
+            $_SESSION['OCS']['details'][$g2_name] = 1;
+        }
+    }
 
-    if (strtolower($f2_name) == "memberof") {
-        $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)];
-    } else {
-        $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)][0];
+    ldap_close($ds);
+
+    // if the extra attributes are there, save them as well
+    if ($info[0][$f1_name][0] != '') {
+
+        if ($f1_name == "memberof") {    
+            $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)];
+        } else {
+            $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)][0];
+        }
     }
-    
+
+    if ($info[0][strtolower($f2_name)][0] != '') {
+        if ($f2_name == "memberof") {
+            $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)];
+        } else {
+            $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)][0];
+        }
+    }
     return $info;
 }
 

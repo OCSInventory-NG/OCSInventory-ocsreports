@@ -365,6 +365,7 @@ function update_default_value($POST) {
     $array_simple_tvalue = array('DOWNLOAD_SERVER_URI', 'DOWNLOAD_SERVER_DOCROOT',
         'OCS_FILES_FORMAT', 'OCS_FILES_PATH',
         'CONEX_LDAP_SERVEUR', 'CONEX_LDAP_PORT', 'CONEX_DN_BASE_LDAP',
+        'CONEX_GROUP1_DN_BASE_LDAP', 'CONEX_GROUP2_DN_BASE_LDAP', 'CONEX_GROUP1_FIELD', 'CONEX_GROUP2_FIELD', 'CONEX_LDAP_CHECK_GROUP1_ROLE', 'CONEX_LDAP_CHECK_GROUP2_ROLE',
         'CONEX_LOGIN_FIELD', 'CONEX_LDAP_PROTOCOL_VERSION', 'CONEX_ROOT_DN',
         'CONEX_ROOT_PW', 'CONEX_LDAP_CHECK_FIELD1_NAME', 'CONEX_LDAP_CHECK_FIELD1_VALUE',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE',
@@ -388,7 +389,7 @@ function update_default_value($POST) {
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
         'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME',
-        'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME');
+        'IPDISCOVER_LINK_TAG_NETWORK');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -798,9 +799,7 @@ function pageipdiscover($advance) {
             'IPDISCOVER_MAX_ALIVE' => 'IPDISCOVER_MAX_ALIVE',
             'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
             'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS',
-            'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK',
-            'IPDISCOVER_PURGE_OLD' => 'IPDISCOVER_PURGE_OLD',
-            'IPDISCOVER_PURGE_VALIDITY_TIME' => 'IPDISCOVER_PURGE_VALIDITY_TIME',
+            'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK'   
         );
     } else {
         $champs = array('IPDISCOVER' => 'IPDISCOVER');
@@ -825,8 +824,6 @@ function pageipdiscover($advance) {
         ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
         ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
         ligne('IPDISCOVER_LINK_TAG_NETWORK', $l->g(1457), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_LINK_TAG_NETWORK']));
-        ligne('IPDISCOVER_PURGE_OLD', $l->g(1560), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_PURGE_OLD']));
-        ligne('IPDISCOVER_PURGE_VALIDITY_TIME', $l->g(1561), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_PURGE_VALIDITY_TIME'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     } else {
         ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
     }
@@ -932,6 +929,12 @@ function pageConnexion() {
         'CONEX_LDAP_PROTOCOL_VERSION' => 'CONEX_LDAP_PROTOCOL_VERSION',
         'CONEX_ROOT_DN' => 'CONEX_ROOT_DN',
         'CONEX_ROOT_PW' => 'CONEX_ROOT_PW',
+        'CONEX_GROUP1_DN_BASE_LDAP' => 'CONEX_GROUP1_DN_BASE_LDAP',
+        'CONEX_GROUP1_FIELD' => 'CONEX_GROUP1_FIELD',
+        'CONEX_LDAP_CHECK_GROUP1_ROLE' => 'CONEX_LDAP_CHECK_GROUP1_ROLE',
+        'CONEX_GROUP2_DN_BASE_LDAP' => 'CONEX_GROUP2_DN_BASE_LDAP',
+        'CONEX_GROUP2_FIELD' => 'CONEX_GROUP2_FIELD',
+        'CONEX_LDAP_CHECK_GROUP2_ROLE' => 'CONEX_LDAP_CHECK_GROUP2_ROLE',
         'CONEX_LDAP_CHECK_FIELD1_NAME' => 'CONEX_LDAP_CHECK_FIELD1_NAME',
         'CONEX_LDAP_CHECK_FIELD1_VALUE' => 'CONEX_LDAP_CHECK_FIELD1_VALUE',
         'CONEX_LDAP_CHECK_FIELD1_ROLE' => 'CONEX_LDAP_CHECK_FIELD1_ROLE',
@@ -952,6 +955,12 @@ function pageConnexion() {
     ligne('CONEX_DN_BASE_LDAP', $l->g(832), 'input', array('VALUE' => $values['tvalue']['CONEX_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LOGIN_FIELD', $l->g(833), 'input', array('VALUE' => $values['tvalue']['CONEX_LOGIN_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_PROTOCOL_VERSION', $l->g(834), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'], 'SIZE' => "30%", 'MAXLENGTH' => 5));
+    ligne('CONEX_GROUP1_DN_BASE_LDAP', $l->g(1704), 'input', array('VALUE' => $values['tvalue']['CONEX_GROUP1_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_GROUP1_FIELD', $l->g(1705), 'input', array('VALUE' => $values['tvalue']['CONEX_GROUP1_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LDAP_CHECK_GROUP1_ROLE', $l->g(1706), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_GROUP1_ROLE'], 'SELECT_VALUE' => $role1));
+    ligne('CONEX_GROUP2_DN_BASE_LDAP', $l->g(1704), 'input', array('VALUE' => $values['tvalue']['CONEX_GROUP2_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_GROUP2_FIELD', $l->g(1705), 'input', array('VALUE' => $values['tvalue']['CONEX_GROUP2_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LDAP_CHECK_GROUP2_ROLE', $l->g(1706), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_GROUP2_ROLE'], 'SELECT_VALUE' => $role1));
     ligne('CONEX_LDAP_CHECK_FIELD1_NAME', $l->g(1111), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_NAME'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_CHECK_FIELD1_VALUE', $l->g(1112), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_VALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_CHECK_FIELD1_ROLE', $l->g(1113), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_ROLE'], 'SELECT_VALUE' => $role1));
