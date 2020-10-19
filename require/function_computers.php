@@ -26,7 +26,7 @@
  * @param id Hardware identifier to be locked
  */
 function lock($id) {
-    $reqClean = "DELETE FROM locks WHERE unix_timestamp(since)<(unix_timestamp(NOW())-3600)";
+    $reqClean = "DELETE FROM locks WHERE since<(date_sub(NOW(), interval 3600 second))";
     mysql2_query_secure($reqClean, $_SESSION['OCS']["writeServer"]);
 
     $reqLock = "INSERT INTO locks(hardware_id) VALUES ('%s')";
