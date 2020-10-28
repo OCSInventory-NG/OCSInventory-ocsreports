@@ -34,6 +34,10 @@
         var toto = autorisation;
         return autorisation;
     }
+
+    $(document).ready(function() {
+        $('.option-auto').select2();
+    });
 </script>
 
 
@@ -134,7 +138,7 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
                 //si un champ hidden est demandé, on gère l'affichage par javascript
                 if ($data_hidden != '' && $data_hidden['HIDDEN'] == $key) {
                     echo "OnClick=\"active('" . $name . "_div',1);\"";
-                } elseif ($data_hidden != '' && $data_hidden['HIDDEN'] != key) {
+                } elseif ($data_hidden != '' && $data_hidden['HIDDEN'] != $key) {
                     echo "OnClick=\"active('" . $name . "_div',0);\"";
                 } elseif (isset($data['JAVASCRIPT'])) {
                     echo $data['JAVASCRIPT'];
@@ -215,7 +219,20 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
             echo ">" . $value . "</option>";
         }
         echo "</select>";
-    } elseif ($type == 'long_text') {
+    } elseif ($type == 'select2') {
+        $data["VALUE"] = explode(",", $data["VALUE"]);
+        $data["VALUE"] = array_flip($data["VALUE"]);
+
+        echo "<select class='form-control option-auto' name='" . $name . "' multiple='multiple'>";
+        foreach ($data['SELECT_VALUE'] as $key => $value) {
+            echo "<option value='" . $key . "'";
+            if (array_key_exists($key, $data['VALUE'])) {
+                echo " selected";
+            }
+            echo ">" . $value . "</option>";
+        }
+        echo "</select>";
+    }elseif ($type == 'long_text') {
         echo "<textarea name='" . $name . "' id='" . $name . "' cols='" . $data['COLS'] . "' rows='" . $data['ROWS'] . "'  class='down' " . $data['JAVASCRIPT'] . ">" . $data['VALUE'] . "</textarea>" . $data['END'];
     }elseif($type == 'password'){
         echo "<input class='form-control input-sm' type='password' name='" . $name . "' id='" . $name . "' value='" . $data['VALUE'] . "' maxlength=" . $data['MAXLENGTH'] . " " . $data['JAVASCRIPT'] . ">";
@@ -306,6 +323,10 @@ function fin_tab($disable = '') {
 function insert_update($name, $value, $default_value, $field) {
     global $l;
 
+    if(is_array($value)){
+        $value = implode(',', $value);
+    }
+
     if ($default_value != $value) {
         $arg = array($field, $value, $name);
 
@@ -350,9 +371,10 @@ function update_default_value($POST) {
         'CONEX_LDAP_CHECK_FIELD1_ROLE',
         'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
         'CONEX_LDAP_CHECK_FIELD2_ROLE',
+        'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
-        'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT', 'OCS_SERVER_ADDRESS',
-        'CUSTOM_THEME');
+        'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
+        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY');
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
@@ -365,7 +387,8 @@ function update_default_value($POST) {
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
-        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS');
+        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME',
+        'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -683,7 +706,7 @@ function pageserveur($advance) {
     if($advance){
       ligne('SECURITY_LEVEL', $l->g(739), 'input', array('VALUE' => $values['ivalue']['SECURITY_LEVEL'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly");
       ligne('LOCK_REUSE_TIME', $l->g(740), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['LOCK_REUSE_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-      ligne('SESSION_VALIDITY_TIME', $l->g(777), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SESSION_VALIDITY_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+      ligne('SESSION_VALIDITY_TIME', $l->g(777), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SESSION_VALIDITY_TIME'], 'SIZE' => 1, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     }
     ligne('TRACE_DELETED', $l->g(415), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TRACE_DELETED']));
     ligne('INVENTORY_ON_STARTUP', $l->g(2121), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_ON_STARTUP']));
@@ -767,15 +790,20 @@ function pageregistry() {
 function pageipdiscover($advance) {
     global $l, $numeric, $sup1, $sup10;
     //what ligne we need?
-    if($advance){
-      $champs = array('IPDISCOVER' => 'IPDISCOVER',
-          'IPDISCOVER_BETTER_THRESHOLD' => 'IPDISCOVER_BETTER_THRESHOLD',
-          'IPDISCOVER_LATENCY' => 'IPDISCOVER_LATENCY',
-          'IPDISCOVER_MAX_ALIVE' => 'IPDISCOVER_MAX_ALIVE',
-          'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
-          'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS');
-    }else{
-      $champs = array('IPDISCOVER' => 'IPDISCOVER',);
+    if($advance) {
+        $champs = array(
+            'IPDISCOVER' => 'IPDISCOVER',
+            'IPDISCOVER_BETTER_THRESHOLD' => 'IPDISCOVER_BETTER_THRESHOLD',
+            'IPDISCOVER_LATENCY' => 'IPDISCOVER_LATENCY',
+            'IPDISCOVER_MAX_ALIVE' => 'IPDISCOVER_MAX_ALIVE',
+            'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
+            'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS',
+            'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK',
+            'IPDISCOVER_PURGE_OLD' => 'IPDISCOVER_PURGE_OLD',
+            'IPDISCOVER_PURGE_VALIDITY_TIME' => 'IPDISCOVER_PURGE_VALIDITY_TIME',
+        );
+    } else {
+        $champs = array('IPDISCOVER' => 'IPDISCOVER');
     }
 
     $values = look_config_default_values($champs);
@@ -789,15 +817,18 @@ function pageipdiscover($advance) {
         }
     }
 
-    if($advance){
-      ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
-      ligne('IPDISCOVER_BETTER_THRESHOLD', $l->g(746), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-      ligne('IPDISCOVER_LATENCY', $l->g(567), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_LATENCY'], 'END' => $l->g(732), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup10);
-      ligne('IPDISCOVER_MAX_ALIVE', $l->g(419), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_MAX_ALIVE'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-      ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
-      ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
-    }else{
-      ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
+    if($advance) {
+        ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
+        ligne('IPDISCOVER_BETTER_THRESHOLD', $l->g(746), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_BETTER_THRESHOLD'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+        ligne('IPDISCOVER_LATENCY', $l->g(567), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_LATENCY'], 'END' => $l->g(732), 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup10);
+        ligne('IPDISCOVER_MAX_ALIVE', $l->g(419), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_MAX_ALIVE'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+        ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
+        ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
+        ligne('IPDISCOVER_LINK_TAG_NETWORK', $l->g(1457), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_LINK_TAG_NETWORK']));
+        ligne('IPDISCOVER_PURGE_OLD', $l->g(1560), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_PURGE_OLD']));
+        ligne('IPDISCOVER_PURGE_VALIDITY_TIME', $l->g(1561), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_PURGE_VALIDITY_TIME'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+    } else {
+        ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
     }
 }
 
@@ -862,17 +893,31 @@ function pagefilter() {
     ligne('INVENTORY_FILTER_ON', $l->g(757), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_FILTER_ON']));
 }
 
-function pagewebservice() {
+function pageVulnerability() {
     global $l, $numeric, $sup1;
-    //what ligne we need?
-    $champs = array('WEB_SERVICE_ENABLED' => 'WEB_SERVICE_ENABLED',
-        'WEB_SERVICE_RESULTS_LIMIT' => 'WEB_SERVICE_RESULTS_LIMIT',
-        'WEB_SERVICE_PRIV_MODS_CONF' => 'WEB_SERVICE_PRIV_MODS_CONF');
+
+    // Which lines do we need?
+    $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
+        'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST',
+        'VULN_BAN_LIST' => 'VULN_BAN_LIST',
+        'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE',
+        'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL',
+        'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME');
+    // Get configuration values from DB
     $values = look_config_default_values($champs);
-    //TODO Remove size
-    ligne('WEB_SERVICE_ENABLED', $l->g(761), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WEB_SERVICE_ENABLED']), '', "readonly");
-    ligne('WEB_SERVICE_RESULTS_LIMIT', $l->g(762), 'input', array('VALUE' => $values['ivalue']['WEB_SERVICE_RESULTS_LIMIT'], 'END' => $l->g(511), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', "readonly", $sup1);
-    ligne('WEB_SERVICE_PRIV_MODS_CONF', $l->g(763), 'input', array('VALUE' => $values['tvalue']['WEB_SERVICE_PRIV_MODS_CONF'], 'SIZE' => "30%", 'MAXLENGTH' => 254), '', "readonly");
+
+    // Get all software categories
+    require 'require/softwares/SoftwareCategory.php';
+    $category = new SoftwareCategory();
+    $list_cat = $category->search_all_cat();
+
+    // Display configuration items
+    ligne('VULN_CVESEARCH_ENABLE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE']));
+    ligne('VULN_CVESEARCH_HOST', $l->g(1462), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'], 'SELECT_VALUE' => $list_cat));
+    ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE']));
+    ligne('VULN_CVESEARCH_ALL', $l->g(1471), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL']));
+    ligne('VULN_CVE_EXPIRE_TIME', $l->g(1484), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_EXPIRE_TIME'], 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(730)));
 }
 
 function pageConnexion() {
@@ -920,7 +965,7 @@ function pageConnexion() {
 function pagesnmp() {
     global $l;
     //which line we need?
-    $champs = array('SNMP' => 'SNMP', 'SNMP_INVENTORY_DIFF' => 'SNMP_INVENTORY_DIFF');
+    $champs = array('SNMP' => 'SNMP', 'SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
     $values = look_config_default_values($champs);
     if (isset($values['tvalue']['SNMP_DIR'])) {
         $select_rep_creat = 'CUSTOM';
@@ -928,15 +973,7 @@ function pagesnmp() {
         $select_rep_creat = 'DEFAULT';
     }
     ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP']));
-    ligne('SNMP_INVENTORY_DIFF', $l->g(1214), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP_INVENTORY_DIFF']));
-}
-
-function pagesplugin() {
-    $champs = array('OCS_SERVER_ADDRESS' => 'OCS_SERVER_ADDRESS');
-    $values = look_config_default_values($champs);
-
-    ligne('OCS_SERVER_ADDRESS', 'Give your ocs server ip address', 'input', array('VALUE' => $values['tvalue']['OCS_SERVER_ADDRESS'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-
+    ligne('SNMP_MIB_DIRECTORY', $l->g(9010), 'input', array('VALUE' => $values['tvalue']['SNMP_MIB_DIRECTORY'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
 }
 
 function pageswol() {

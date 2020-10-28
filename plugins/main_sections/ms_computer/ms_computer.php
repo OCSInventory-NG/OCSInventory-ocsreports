@@ -55,30 +55,32 @@ show_computer_menu($item->ID);
 
 echo '<div class="col col-md-10">';
 
-show_computer_title($item);
-
-if (isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
-    show_computer_summary($item);
-}
-
 //Wake On Lan function
 if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
-    require_once('require/function_wol.php');
+    require_once('require/wol/WakeOnLan.php');
     $wol = new Wol();
     $sql = "select MACADDR,IPADDRESS from networks WHERE (hardware_id=%s) and status='Up'";
     $arg = array($item->ID);
     $resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $msg = "";
 
-    while ($item = mysqli_fetch_object($resultDetails)) {
-        $wol->wake($item->MACADDR);
+    while ($wol_item = mysqli_fetch_object($resultDetails)) {
+        $wol->look_config_wol($wol_item->IPADDRESS, $wol_item->MACADDR);
 
         if ($wol->wol_send == $l->g(1282)) {
-            msg_info($wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS);
+            msg_info($wol->wol_send . "=>" . $wol_item->MACADDR . "/" . $wol_item->IPADDRESS);
         } else {
-            msg_error($wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS);
+            msg_error($wol->wol_send . "=>" . $wol_item->MACADDR . "/" . $wol_item->IPADDRESS);
         }
     }
+}
+
+show_computer_title($item);
+
+show_computer_actions($item);
+
+if (isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
+    show_computer_summary($item);
 }
 
 if (AJAX) {

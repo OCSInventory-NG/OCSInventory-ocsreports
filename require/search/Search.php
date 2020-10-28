@@ -47,6 +47,14 @@
 
     const GROUP_TABLE = "groups_cache";
 
+    public $correspondance = [
+      "NAME_ID" => self::DB_VARCHAR,
+      "PUBLISHER_ID" => self::DB_VARCHAR,
+      "VERSION_ID" => self::DB_VARCHAR,
+      "CATEGORY_ID" => self::HTML_SELECT,
+      "CATEGORY" => self::HTML_SELECT,
+    ];
+
     private $type;
 
     public $fieldsList = [];
@@ -68,7 +76,8 @@
     private $translationSearch;
     private $databaseSearch;
     private $accountinfoSearch;
-    private $groupSearch;
+    public $groupSearch;
+    private $softwareSearch;
 
     /**
      * Excluded columns that won't be visible
@@ -88,6 +97,16 @@
         "LIKE",
         "DIFFERENT",
         "ISNULL",
+        "DOESNTCONTAIN",
+        "ISNOTEMPTY",
+    ];
+
+    /**
+     * Delay operator list
+     */
+    private $operatorDelay = [
+      "MORETHANXDAY",
+      "LESSTHANXDAY",
     ];
 
     /**
@@ -142,14 +161,16 @@
      * @param DatabaseSearch $databaseSearch
      * @param AccountinfoSearch $accountinfoSearch
      * @param GroupSearch $groupSearch
+     * @param SQLCache $sqlCache
      */
-    function __construct($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch)
+    function __construct($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch, $softwareSearch)
     {
 
         $this->translationSearch = $translationSearch;
         $this->databaseSearch = $databaseSearch;
         $this->accountinfoSearch = $accountinfoSearch;
         $this->groupSearch = $groupSearch;
+        $this->softwareSearch = $softwareSearch;
 
         if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
             $this->fieldsList['CHECK'] = 'hardwareID';
@@ -310,15 +331,24 @@
 
             if($tableName != "hardware"){
                 // Generate union
-                $this->searchQuery .= "INNER JOIN $tableName on hardware.id = $tableName.hardware_id ";
+                if ($tableName == "groups_cache") {
+                  $this->searchQuery .= "LEFT JOIN $tableName on hardware.id = $tableName.hardware_id ";
+                } else {
+                  $this->searchQuery .= "INNER JOIN $tableName on hardware.id = $tableName.hardware_id ";
+                }
+			} 
+			
+			if($tableName == SoftwareSearch::SOFTWARE_TABLE) {
+				$this->searchQuery .= "LEFT JOIN software_name on software_name.id = $tableName.name_id ";
+				$this->searchQuery .= "LEFT JOIN software_publisher on software_publisher.id = $tableName.publisher_id ";
+				$this->searchQuery .= "LEFT JOIN software_version on software_version.id = $tableName.version_id ";
             }
 
             foreach ($searchInfos as $index => $value) {
-
-              if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
-                  // Generate union
-                  $this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
-              }
+				if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
+					// Generate union
+					$this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
+				}
 
                 if($value['comparator'] != null){
                     $operator[] = $value['comparator'];
@@ -332,88 +362,206 @@
 
             $isSameColumn = [];
             $columnName = [];
+            $doesntcontainmulti = [];
+            
 
             foreach ($searchInfos as $index => $value) {
                   $values[] = $value;
                   $columnName[$index] = $value['fields'];
+                  $containvalue[$index] = $value['operator'];
             }
 
             foreach ($searchInfos as $index => $value) {
-                $open="";
-                $close="";
-                // Generate condition
-                $this->getOperatorSign($value);
+              $nameTable = $tableName;
+              $open="";
+              $close="";
+              // Generate condition
+              $this->getOperatorSign($value);
+              if($nameTable == SoftwareSearch::SOFTWARE_TABLE) {
+                $nameTable = $this->softwareSearch->getTableName($value['fields']);
+                $value[self::SESS_FIELDS] = $this->softwareSearch->getColumnName($value['fields']);
+                //var_dump()
+              }
 
-                foreach(array_count_values($columnName) as $name => $nb){
-                  if($nb > 1){
-                    $isSameColumn[$tableName] = $name;
-                  }
+              foreach(array_count_values($columnName) as $name => $nb){
+                if($nb > 1){
+                $isSameColumn[$nameTable] = $name;
                 }
+              }
 
-                if($p == 0 && $operator[$p+1] == 'OR'){
-                    $open = "(";
-                }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
-                    $close=")";
-                }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
-                    $open = "(";
+              foreach(array_count_values($containvalue) as $name => $nb){
+                if($nb > 1){
+                $doesntcontainmulti[$nameTable] = $name;
                 }
+              }
 
-                if(!empty($isSameColumn)){
-                  if($value[self::SESS_OPERATOR] != "IS NULL"){
+              if($p == 0 && $operator[$p+1] == 'OR'){
+                $open = "(";
+              }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
+                $close=")";
+              }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
+                $open = "(";
+              }
+
+              unset($value['ignore']);
+
+              if($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && empty($doesntcontainmulti)){
+                $excluID = $this->contain($value, $nameTable);
+                if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
+                $value[self::SESS_FIELDS] = "HARDWARE_ID";
+                }else{
+                $value[self::SESS_FIELDS] = "ID";
+                }
+                
+                $value[self::SESS_VALUES] = implode(',', $excluID);
+                $value[self::SESS_OPERATOR] = "NOT IN";
+
+              }elseif($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && !empty($isSameColumn) && !empty($doesntcontainmulti)){
+                $excluID = $this->containmulti($isSameColumn, $searchInfos);
+                if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
+                $value[self::SESS_FIELDS] = "HARDWARE_ID";
+                }else{
+                $value[self::SESS_FIELDS] = "ID";
+                }
+                
+                $value[self::SESS_VALUES] = implode(',', $excluID);
+                $value[self::SESS_OPERATOR] = "NOT IN";
+                $value['ignore'] = "";
+              }
+
+              if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[self::SESS_FIELDS] 
+                    && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
+                if($value[self::SESS_OPERATOR] != "IS NULL"){
+                  if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE && $nameTable != self::GROUP_TABLE && $value[self::SESS_FIELDS] != 'CATEGORY_ID' && $value[self::SESS_FIELDS] != 'CATEGORY' 
+                  && $value[self::SESS_OPERATOR] != "NOT IN") {
                     $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
                     $this->queryArgs[] = $value[self::SESS_FIELDS];
                     $this->queryArgs[] = $value[self::SESS_OPERATOR];
                     $this->queryArgs[] = $value[self::SESS_VALUES];
-                  }else{
-                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $tableName;
-                    $this->queryArgs[] = $value[self::SESS_FIELDS];
-                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  }
-                }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && empty($isSameColumn)){
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
-                  $this->queryArgs[] = $tableName;
-                  $this->queryArgs[] = $value[self::SESS_FIELDS];
-                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                } elseif($tableName == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY'){
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
-                  if($tableName == self::GROUP_TABLE){
+                  }elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
+                  || $value[self::SESS_OPERATOR] == "NOT IN"){
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s (%s))$close ";
+                    if($nameTable == self::GROUP_TABLE){
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
                     $this->queryArgs[] = 'hardware';
                     $this->queryArgs[] = 'ID';
                     $this->queryArgs[] = $value[self::SESS_OPERATOR];
                     $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
-                  }else{
-                    $this->queryArgs[] = $tableName;
+                    }else{
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
                     $this->queryArgs[] = $value[self::SESS_FIELDS];
                     $this->queryArgs[] = $value[self::SESS_OPERATOR];
                     $this->queryArgs[] = $value[self::SESS_VALUES];
-                  }
-                }else if($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE'){
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
-                  $this->queryArgs[] = $tableName;
-                  $this->queryArgs[] = $value[self::SESS_FIELDS];
-                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  $this->queryArgs[] = $value[self::SESS_VALUES];
-                  global $l;
-                  $this->queryArgs[] = $l->g(269);
-                }else{
-                  $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
-                  if($tableName == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
-                    $this->queryArgs[] = 'download_available';
-                    $this->queryArgs[] = 'NAME';
-                  }else{
-                    $this->queryArgs[] = $tableName;
+                    }
+                  } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s IS NOT NULL AND TRIM(%s.%s) != '')$close ";
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
                     $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  }else{
+                    if($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s NOW() - INTERVAL %s DAY)$close ";
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
+                      $this->queryArgs[] = $op;
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    } else if(($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE') && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ) {
+                      $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                      global $l;
+                      $this->queryArgs[] = $l->g(269);
+                    } else {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    }
                   }
-                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                  $this->queryArgs[] = $value[self::SESS_VALUES];
+                }else{
+                  if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE) {
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s)$close ";
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  }else{
+                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s)$close ";
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $nameTable;
+                    $this->queryArgs[] = $value[self::SESS_FIELDS];
+                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  }
                 }
-                $p++;
+              }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+              } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s IS NOT NULL AND TRIM(%s.%s) != ''$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+              } elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
+                    || $value[self::SESS_OPERATOR] == "NOT IN"){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
+                if($nameTable == self::GROUP_TABLE){
+                $this->queryArgs[] = 'hardware';
+                $this->queryArgs[] = 'ID';
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                }else{
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+                }
+              }else if(($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE') && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ){
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+                global $l;
+                $this->queryArgs[] = $l->g(269);
+              } elseif($value[self::SESS_OPERATOR] == "MORETHANXDAY" || $value[self::SESS_OPERATOR] == "LESSTHANXDAY") {
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s NOW() - INTERVAL %s DAY$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
+                $this->queryArgs[] = $op;
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+              } else {
+                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s '%s'$close ";
+                if($nameTable == "download_history" && $value[self::SESS_FIELDS] == "PKG_NAME"){
+                $this->queryArgs[] = 'download_available';
+                $this->queryArgs[] = 'NAME';
+                }else{
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                }
+                $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                $this->queryArgs[] = $value[self::SESS_VALUES];
+              }
+              $p++;
             }
         }
         $this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
@@ -447,15 +595,34 @@
      */
     private function pushBaseQueryForTable($tableName, $sessData = null){
         foreach($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos){
+			$name = "";
             if($tableName == "download_history" && $fieldsInfos['Field'] == "PKG_NAME"){
-              $tableName = "download_available";
-              $fieldsInfos['Field'] = "NAME";
-            }
-            $generatedId = $tableName.".".$fieldsInfos['Field'];
-            $selectAs = $tableName.$fieldsInfos['Field'];
-            $this->baseQuery .= " %s.%s AS ".$selectAs." ,";
-            $this->queryArgs[] = $tableName;
-            $this->queryArgs[] = $fieldsInfos['Field'];
+				$tableName = "download_available";
+				$fieldsInfos['Field'] = "NAME";
+			}
+
+			if($tableName == "software" && array_key_exists($fieldsInfos['Field'], $this->correspondance)) {
+				if($fieldsInfos['Field'] == "CATEGORY") {
+					$table = $tableName."_name";
+					$field = "CATEGORY";
+				} else {
+					$name = explode("_", $fieldsInfos['Field']);
+					$table = $tableName."_".strtolower($name[0]);
+					$field = $name[0];
+				}
+				$generatedId = $table.".".$field;
+				$selectAs = $table.$field;
+				$this->baseQuery .= " %s.%s AS ".$selectAs." ,";
+				$this->queryArgs[] = $table;
+				$this->queryArgs[] = $field;
+			} else {
+				$generatedId = $tableName.".".$fieldsInfos['Field'];
+				$selectAs = $tableName.$fieldsInfos['Field'];
+				$this->baseQuery .= " %s.%s AS ".$selectAs." ,";
+				$this->queryArgs[] = $tableName;
+				$this->queryArgs[] = $fieldsInfos['Field'];
+			}
+            
 
             if($generatedId == 'hardware.NAME'){
                 $this->fieldsList["NAME"] = $selectAs;
@@ -501,6 +668,12 @@
             case 'ISNULL':
                 $valueArray[self::SESS_OPERATOR] = "IS NULL";
                 break;
+            case 'ISNOTEMPTY':
+                $valueArray[self::SESS_OPERATOR] = "ISNOTEMPTY";
+                break;
+            case 'DOESNTCONTAIN':
+                $valueArray[self::SESS_OPERATOR] = "DOESNTCONTAIN";
+                break;
             case 'BELONG' :
                 $valueArray[self::SESS_OPERATOR] = "IN";
                 break;
@@ -518,6 +691,12 @@
                 $valueArray[self::SESS_OPERATOR] = "LIKE";
                 $valueArray[self::SESS_VALUES] = "%".$valueArray[self::SESS_VALUES]."%";
                 break;
+            case 'MORETHANXDAY' :
+                $valueArray[self::SESS_OPERATOR] = "MORETHANXDAY";
+                break;
+            case 'LESSTHANXDAY' :
+                $valueArray[self::SESS_OPERATOR] = "LESSTHANXDAY";
+                break;
             default:
                 $valueArray[self::SESS_OPERATOR] = "=";
                 break;
@@ -534,7 +713,7 @@
     {
         $account = new AccountinfoSearch();
         $accounttype = null;
-        if($field != null){
+        if($field != null && $field != "LASTCOME" && $field != "LASTDATE"){
           $accounttype = $account->getSearchAccountInfo($field);
         }
 
@@ -546,6 +725,8 @@
             $operatorList = $this->operatorAccount;
         } elseif($accounttype == '5') {
             $operatorList = $this->operatorAccountCheckbox;
+        } elseif($field == "LASTCOME" || $field == "LASTDATE") {
+            $operatorList = array_merge($this->operatorList, $this->operatorDelay);
         } else {
             $operatorList = $this->operatorList;
         }
@@ -636,7 +817,7 @@
      * @param String $tableName
      * @return String HTML
      */
-    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName, $field = null)
+    public function returnFieldHtml($uniqid, $fieldsInfos, $tableName, $field = null, $operator = null)
     {
         global $l;
 
@@ -645,20 +826,26 @@
 
         $accountInfos = new AccountinfoSearch();
 
-        if($field != null && $field != "CATEGORY_ID" && $field != "CATEGORY"){
+        if($field != null && $field != "CATEGORY_ID" && $field != "CATEGORY" && $operator == null){
           $accounttype = $accountInfos->getSearchAccountInfo($field);
         }
 
-        if($tableName == self::GROUP_TABLE || $field == 'CATEGORY_ID' || $field == 'CATEGORY') {
-            $this->type = self::HTML_SELECT;
-        } elseif($accounttype == '2' || $accounttype == '11' || $accounttype =='5') {
-            $this->type = self::HTML_SELECT;
+        if($tableName == self::GROUP_TABLE) {
+          $this->type = self::HTML_SELECT;
+        } elseif(array_key_exists($field, $this->correspondance)) {
+          $this->type = $this->correspondance[$field];
+        }elseif($accounttype == '2' || $accounttype == '11' || $accounttype =='5') {
+          $this->type = self::HTML_SELECT;
         } else {
-            $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+          $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        }
+
+        if($operator == "MORETHANXDAY" || $operator == "LESSTHANXDAY") {
+          $this->type = self::DB_INT;
         }
 
         $html = "";
-        if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL'){
+        if($fieldsInfos[self::SESS_OPERATOR]== 'ISNULL' || $fieldsInfos[self::SESS_OPERATOR]== 'ISNOTEMPTY'){
           $attr = 'disabled';
         }else{
           $attr = '';
@@ -678,16 +865,13 @@
                 break;
 
             case self::DB_DATETIME:
-                $html = '<input class="form-control" class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
-                $html = '
-                <div class="input-group date form_datetime">
-                    <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'/>
-                    <span class="input-group-addon">
-                        '.calendars($fieldId, $l->g(1270)).'
-                    </span>
-                </div>';
+                $html = '<div class="input-group date form_datetime">
+                            <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'/>
+                            <span class="input-group-addon">
+                                '.calendars($fieldId, $l->g(1270)).'
+                            </span>
+                        </div>';
                 break;
-
             case self::HTML_SELECT:
 
                 $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
@@ -753,119 +937,6 @@
     }
 
     /**
-     * Create sql for dynamic group
-     * @param  Array $values
-     * @return String
-     */
-    public function create_sql_cache($values){
-
-        $cache_sql = "SELECT DISTINCT hardware.ID FROM hardware ";
-        $i =0;
-        $belong = [];
-        foreach ($values as $key=>$value){
-
-            if($key == self::GROUP_TABLE){
-                $belong['table'] = 'hardware';
-                $belong['field'] = 'ID';
-            }
-           foreach ($value as $table => $field) {
-               $i++;
-               $this->values_cache_sql[$key][$table] = $field;
-               if($key != 'hardware'){
-                 if(!array_key_exists($key, $this->multipleFieldsSearchCache)){
-                     $this->multipleFieldsSearchCache[$key] = 1;
-                 }else{
-                     $this->multipleFieldsSearchCache[$key] += 1;
-                 }
-                 if( $this->multipleFieldsSearchCache[$key] == 1 ){
-                     $cache_sql .= "INNER JOIN ".$key." on hardware.id = ".$key.".hardware_id ";
-                 }
-                 if($key == "download_history") {
-                     // Generate union
-                     $cache_sql .= "INNER JOIN download_available on download_available.FILEID = $key.PKG_ID ";
-                 }
-
-               }
-           }
-        }
-
-        $cache_sql .= "WHERE";
-
-        $ind=0;
-        foreach ($values as $index => $value) {
-          foreach($value as $key => $compar){
-            if($compar['comparator'] != null){
-                $operator[] = $compar['comparator'];
-            }elseif($ind != 0 && $compar['comparator'] == null){
-                $operator[] = "AND";
-            }else{
-                $operator[] = "";
-            }
-            $ind++;
-          }
-        }
-
-        $p=0;
-        foreach ($this->values_cache_sql as $table => $value){
-
-            $isSameColumn = [];
-            $columnName = [];
-
-            foreach ($value as $id => $field) {
-                $columnName[$id] = $field['fields'];
-            }
-
-           foreach ($value as $key => $values) {
-
-             $open="";
-             $close="";
-
-             $this->getOperatorSign($values);
-
-             foreach(array_count_values($columnName) as $name => $nb){
-               if($nb > 1){
-                 $isSameColumn[$tableName] = $name;
-               }
-             }
-
-             if($in == 0 && $operator[$in+1] == 'OR'){
-                 $open = "(";
-             }if($operator[$in] =='OR' && $operator[$in+1] !='OR'){
-                 $close=")";
-             }if($p != 0 && $operator[$in] !='OR' && $operator[$in+1] =='OR'){
-                 $open = "(";
-             }
-             $p++;
-             if(!empty($isSameColumn)){
-               if($values['operator'] != "IS NULL"){
-                 $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator']." '".$values['value']."')$close ";
-               }else{
-                 $cache_sql .= $values['comparator']." $open EXISTS (SELECT 1 FROM $table WHERE hardware.ID = $table.HARDWARE_ID AND ".$table.".".$values['fields']." ".$values['operator'].")$close ";
-               }
-             }elseif($values['operator'] == 'IS NULL' && empty($isSameColumn)){
-               $cache_sql .= $values['comparator']." $open ".$table.".".$values['fields']." ".$values['operator']."$close ";
-             } elseif($table == self::GROUP_TABLE){
-               $group_id = $this->groupSearch->get_all_id($values['value']);
-               $cache_sql .= $values['comparator']." $open hardware.ID ".$values['operator']." ($group_id)$close ";
-             }elseif($values['fields'] == 'CATEGORY_ID' || $values['fields'] == 'CATEGORY'){
-               $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." (".$values['value'].")$close ";
-             }else if($values['fields'] == 'LASTCOME' || $values['fields'] == 'LASTDATE'){
-               global $l;
-               $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." str_to_date('".$values['value']."', '".$l->g(269)."')$close ";
-             }else{
-               if($table == "download_history" && $values['fields'] == "PKG_NAME"){
-                 $cache_sql .= $values['comparator']." $open download_available.NAME ".$values['operator']." '".$values['value']."'$close ";
-               }else{
-                 $cache_sql .= $values['comparator']." $open $table.".$values['fields']." ".$values['operator']." '".$values['value']."'$close ";
-               }
-             }
-           }
-        }
-
-        return $cache_sql;
-    }
-
-    /**
      * [link_multi description]
      * @param  string $fields [description]
      * @param  string $value  [description]
@@ -875,17 +946,32 @@
     public function link_multi($fields, $value, $option = ""){
         switch($fields){
           case 'allsoft':
-                $_SESSION['OCS']['multi_search'] = array();
-                $_SESSION['OCS']['multi_search']['softwares']['allsoft'] = [
-                    'fields' => 'NAME',
-                    'value' => $value,
-                    'operator' => 'EQUAL',
-                ];
+            $value = explode(";", $value);
+            $_SESSION['OCS']['multi_search'] = array();
+            $_SESSION['OCS']['multi_search']['software']['allsoft'] = [
+                'fields' => 'NAME_ID',
+                'value' => $value[0],
+                'operator' => 'EQUAL',
+            ];
+            $_SESSION['OCS']['multi_search']['software']['allsoftversion'] = [
+              'fields' => 'VERSION_ID',
+              'value' => $value[1],
+              'operator' => 'EQUAL',
+            ];
             break;
 
           case 'ipdiscover1':
+            $_SESSION['OCS']['multi_search'] = array();
             if(!isset($_SESSION['OCS']['multi_search']['networks']['ipdiscover1'])){
-                $_SESSION['OCS']['multi_search'] = array();
+                if(strpos($value, ";") !== false) {
+                  $explode = explode(";", $value);
+                  $value = $explode[0];
+                  if(count($explode) == 2) {
+                    $tag = $explode[1];
+                  } else {
+                    $tag = null;
+                  }
+                }
                 $_SESSION['OCS']['multi_search']['networks']['ipdiscover1'] = [
                     'fields' => 'IPSUBNET',
                     'value' => $value,
@@ -913,6 +999,13 @@
                     'value' => $value,
                     'operator' => 'EQUAL',
                 ];
+                if($tag != null && $tag != "") {
+                  $_SESSION['OCS']['multi_search']['accountinfo']['ipdiscover5'] = [
+                    'fields' => 'TAG',
+                    'value' => $tag,
+                    'operator' => 'EQUAL',
+                ];
+                }
             }
             break;
 
@@ -989,9 +1082,30 @@
             }
             break;
 
+          case 'querysave':
+            $parameters = $this->query_save($value);
+
+            $_SESSION['OCS']['multi_search'] = array();
+            $_SESSION['OCS']['multi_search'] = $parameters;
+
+            break;
+
           default :
             break;
         }
+    }
+
+    public function query_save($id) {
+      $sql = "SELECT PARAMETERS FROM save_query WHERE ID = %s";
+      $sql_arg = array($id);
+
+      $result = mysql2_query_secure($sql, $_SESSION['OCS']['readServer'], $sql_arg);
+
+      while($item = mysqli_fetch_array($result)){
+        $parameters = $item['PARAMETERS'];
+      }
+
+      return unserialize($parameters);
     }
 
     /**
@@ -1014,9 +1128,9 @@
 
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){
-          if(!array_key_exists('HARDWARE-'.$field[1].$comp.$value.$value2,$_SESSION['OCS']['multi_search']['hardware'])){
+          if(!array_key_exists('HARDWARE-'.$field[1].$comp.preg_replace("/\s+/","", preg_replace("/_/","",$value)).preg_replace("/_/","",$value2),$_SESSION['OCS']['multi_search']['hardware'])){
               $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/_/","",$value).preg_replace("/_/","",$value2)] = [
+              $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-'.$field[1].$comp.preg_replace("/\s+/","", preg_replace("/_/","",$value)).preg_replace("/_/","",$value2)] = [
                   'fields' => $field[1],
                   'value' => $value,
                   'operator' => $operator,
@@ -1101,5 +1215,85 @@
         $asset[$asset_row['ID']] = $asset_row['CATEGORY_NAME'];
       }
       return $asset;
+    }
+
+    /**
+     * Doesn't contain traitment
+     */
+    public function contain($value, $tableName){
+      if($tableName != DatabaseSearch::COMPUTER_DEF_TABLE){
+        $field = "HARDWARE_ID";
+      }else{
+        $field = "ID";
+      }
+      $sql_search = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
+      $sql_search_arg = array($field, $tableName, $value['fields'], "%".$value['value']."%");
+      $result = mysql2_query_secure($sql_search, $_SESSION['OCS']["readServer"], $sql_search_arg);
+
+      while($notcontain = mysqli_fetch_array($result)){
+        $excluID[] = $notcontain[$field];
+      }
+
+      if($excluID[0] == null){
+        $excluID[0] = 0;
+      }
+
+      return $excluID;
+    }
+
+    /**
+     * Doesn't contain traitment if multi search
+     */
+    public function containmulti($name, $value){
+      $excluID = null;
+      $allID = null;
+      foreach ($name as $table => $field){
+        $tablename = $table;
+        $column = $field;
+      }
+
+      if($tablename != DatabaseSearch::COMPUTER_DEF_TABLE){
+        $fieldname = "HARDWARE_ID";
+      }else{
+        $fieldname = "ID";
+      }
+
+      foreach ($value as $uniqID => $values){
+        if ($values['fields'] == $field && $values['operator'] == "DOESNTCONTAIN"){
+          $search[] = $values['value'];
+          if($values['comparator'] != null){
+            $comparator[] = $values['comparator'];
+          }
+        }
+      }
+
+      for($i = 0; $i != count($comparator)+1; $i++){
+
+        $sql = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
+        $sql_arg = array($fieldname, $tablename, $column, "%".$search[$i]."%");
+
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
+
+        while($notcontain = mysqli_fetch_array($result)){
+          $excluID[$notcontain[$fieldname]] = $notcontain[$fieldname];
+          $allID[$search[$i]][$notcontain[$fieldname]] = $notcontain[$fieldname];
+        }
+      }
+
+      for($i = 0; $i != count($comparator)+1; $i++){
+        foreach($excluID as $key => $values){
+          foreach($allID as $searching => $compare){
+            if(!array_key_exists($values, $compare) && $comparator[$i] == "AND"){
+              unset($excluID[$key]);
+            }
+          }
+        }
+      }
+
+      if($excluID == null){
+        $excluID[0] = 0;
+      }
+
+      return $excluID;
     }
  }

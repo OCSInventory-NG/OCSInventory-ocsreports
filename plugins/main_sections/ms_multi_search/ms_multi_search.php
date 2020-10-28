@@ -29,16 +29,21 @@ if (AJAX) {
 
 require('require/function_search.php');
 require('require/function_computers.php');
+require("require/search/SoftwareSearch.php");
 require("require/search/DatabaseSearch.php");
 require("require/search/AccountinfoSearch.php");
 require("require/search/TranslationSearch.php");
 require("require/search/GroupSearch.php");
 require("require/search/LegacySearch.php");
 require("require/search/Search.php");
+require("require/search/SQLCache.php");
 require_once('require/function_admininfo.php');
 
 // Get tables and columns infos
-$databaseSearch = new DatabaseSearch();
+$softwareSearch = new SoftwareSearch();
+
+// Get tables and columns infos
+$databaseSearch = new DatabaseSearch($softwareSearch);
 
 // Get columns infos datamap structure
 $accountInfoSearch = new AccountinfoSearch();
@@ -52,7 +57,10 @@ $groupSearch = new GroupSearch();
 // Get search object to perform action and show result
 //$legacySearch = new LegacySearch();
 
-$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch);
+$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch, $softwareSearch);
+$sqlCache = new SQLCache($search, $softwareSearch);
+
+$_SESSION['OCS']['DATE_FORMAT_LANG'] = $l->g(1270);
 
 if (isset($protectedPost['table_select'])) {
 	$defaultTable = $protectedPost['table_select'];
@@ -98,9 +106,8 @@ if (isset($protectedPost['table_select'])) {
 			</div>
 
 			<input name="old_table" type="hidden" value="<?php echo $defaultTable ?>">
-
-			<?php echo close_form(); ?>
-
+			<div><a href="?function=save_query_list"><?php echo $l->g(2140) ?></a></div>
+			<?php echo close_form();?>
 		</div>
 	</div>
 </div>
@@ -150,6 +157,8 @@ if(isset($protectedGet['prov'])){
     $search->link_multi($protectedGet['prov'], $protectedGet['value'], $options);
   }elseif($protectedGet['prov'] == 'saas'){
     $search->link_multi($protectedGet['prov'], $protectedGet['value']);
+  }elseif($protectedGet['prov'] == 'querysave'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }
 }
 
@@ -194,22 +203,22 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 
 				<div class="col-sm-3">
 					<div class="form-group">
-						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
-							<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
-                echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
-              } else {
-                echo $search->getSelectOptionForOperators($values['operator'], $table);
-              } ?>
+						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>', '<?php echo $values['fields']; ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
+							<?php 	if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY') || ($values['fields'] == 'LASTDATE') || ($values['fields'] == 'LASTCOME')){
+										echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
+									} else {
+										echo $search->getSelectOptionForOperators($values['operator'], $table);
+									} ?>
 						</select>
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<?php if((strpos($values['fields'], 'fields_') !== false) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY')){
-              echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
-            }else {
-              echo $search->returnFieldHtml($uniqid, $values, $table );
-            } ?>
+						<?php 	if((strpos($values['fields'], 'fields_') !== false) || array_key_exists($values['fields'], $search->correspondance)){
+									echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
+								}else {
+									echo $search->returnFieldHtml($uniqid, $values, $table, null, $values['operator']);
+								} ?>
 					</div>
 				</div>
 				<div class="col-sm-3">
@@ -250,7 +259,7 @@ echo close_form();
 <?php
 
 if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields']){
-  unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
+  	unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 	/**
 	 * Generate Search fields
 	 */
@@ -272,15 +281,16 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$list_col_cant_del = $search->defaultFields;
 	$default_fields = $search->defaultFields;
 
-  $_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $search->create_sql_cache($_SESSION['OCS']['multi_search']);
+  $_SESSION['OCS']['SEARCH_SQL_GROUP'][] = $sqlCache->generateCacheSql($_SESSION['OCS']['multi_search']);
+
 	$tab_options['ARG_SQL'] = $search->queryArgs;
 	$tab_options['CACHE'] = 'RESET';
 
-  //BEGIN SHOW ACCOUNTINFO
+  	//BEGIN SHOW ACCOUNTINFO
 	$option_comment['comment_be'] = $l->g(1210)." ";
 	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
-  $tab_options['REPLACE_VALUE'][$l->g(66)] = $type_accountinfo;
-  $tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
+  	$tab_options['REPLACE_VALUE'][$l->g(66)] = $type_accountinfo;
+  	$tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
 
 
 	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
@@ -310,8 +320,11 @@ if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields
 	$list_fonct["asset_cat"]=$l->g(2126);
 	$list_pag["asset_cat"]=$pages_refs["ms_asset_cat"];
 
+	$list_fonct["save_query"]=$l->g(2138);
+	$list_pag["save_query"]=$pages_refs["ms_save_query"];
+
 	$list_id = $databaseSearch->getIdList($search);
-  $_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
+  	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
 
 	?>
 	<div class='row' style='margin: 0'>

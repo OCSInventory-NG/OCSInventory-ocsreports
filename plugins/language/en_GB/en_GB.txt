@@ -1,7 +1,7 @@
 2 All computers
 9 Search with various criteria
 13 Send
-17 Agent
+17 Store agents
 18 Revision
 19 Software version
 20 Software
@@ -69,8 +69,8 @@
 116 Add
 119 Do you really want to delete computer
 122 Delete
-129 LIKE
-130 DIFFERENT
+129 Like
+130 Different
 134 Add a new file in the database
 135 Be careful, you're about to delete this file permanently !
 137 File
@@ -348,9 +348,9 @@
 453 Installation completion need user action
 454 NO
 455 YES
-456 Execute
+456 Execute a command
 457 Store
-458 Launch
+458 Execute a file
 459 Countdown must be a number
 460 Unique identifier
 461 Digest
@@ -1022,7 +1022,7 @@
 1136 SNMP
 1137 Enable/Disable the snmp service
 1138 Show all subnets
-1139 Administer
+1139 Network scan
 1140 Administer subnet
 1141 Subnet added
 1142 Enter a new subnet for blacklist
@@ -1324,7 +1324,7 @@
 1445 Group
 1446 Model name
 1447 Account info
-1448 IS NULL
+1448 Is null
 1449 General configuration
 1450 ID
 1451 Static ?
@@ -1332,7 +1332,36 @@
 1453 GUID
 1454 Source
 1455 Virtual interface
+1456 Phone number
+1457 Link Ipdiscover network to computer TAG</br><b style="color:#d9534f;">Logout / Login after updating this configuration</b>
 
+1460 CVE-search management
+1461 Enable CVE Reporting
+1462 URL of the cve-search host to use for the reporting
+1463 CVE Reporting
+1464 CVE Reporting is not enabled.
+1465 By CVSS
+1466 Please, see the documentation to configure CVE Reporting : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Managing CVE-search reporting </a>
+1467 Link
+1468 Vulnerability score between
+1469 Select software categories that you do not want to process
+1470 Enable CVE-search verbose
+1471 Enable to get CVE corresponding to all software version
+1472 CVE Inventory
+1473 New matching regex
+1474 Match list
+1475 Name or Regex
+1476 Publisher result
+1477 Name result
+1478 Or import CSV file
+1479 Import
+1480 Download CSV file example
+1481 CVE history
+1482 Latest execution date
+1483 CVE count
+1484 Time of validity of a CVE after OCS Inventory scan
+1485 By software
+1486 By computer
 
 1500 Software category
 1501 New category
@@ -1353,9 +1382,26 @@
 1516 All software (but default)
 1517 No category have been selected
 
+1550 Do you really want to archive 
+1551 Archive
+1552 Restore
+1553 Do you really want to restore 
+1554 ARCHIVED COMPUTERS
+1555 ACTIVE COMPUTERS
+1556 Archive / Restore
+1557 ALL COMPUTERS
+1558 Archives
+
+1560 Purge old IPDiscover data
+1561 Validity time (in days) of an IPDiscover data
 
 1600 My dashboard
 1601 Dynamic groups
+1602 Doesn't contain
+1603 More than X days
+1604 Less than X days
+1605 Others
+1606 Is not empty
 
 1700 Advanced configuration
 1701 Tab available
@@ -1485,7 +1531,7 @@
 2124 Deleted packages
 2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
 2126 Assets categorization
-2127 The current multi search query will be used as an asset categorization crtieria.
+2127 The current multi search query will be used as an asset categorization criteria.
 2128 Are you sure ?
 2129 Back to multi search
 2130 Assets categories
@@ -1496,6 +1542,13 @@
 2135 No machine has been inventoried
 2136 Update
 2137 Choose a new file if you want to modify the old one
+2138 Save my search
+2139 The current multi search query will be saved. You will be able to retrieve your saved searches on <i><b>Manage > Saved search</b></i> or using <i><b>Use a saved search</b></i> on multi search.
+2140 Use a saved search
+2141 Saved searches
+2142 Create a search
+2143 Search was successfully saved
+2144 Update an existing saved search
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1527,7 +1580,6 @@
 6003 Plugin
 6004 Total available
 6005 Power on/off
-6006 WARNING : Please install php-soap, the plugin engine can't work without it
 6007 Please install the following modules in order to get this feature working&nbsp;:&nbsp;
 6008 Can't write in the following directory&nbsp;:&nbsp;
 6009 You can't install plugins, check error messages above.
@@ -1552,6 +1604,13 @@
 7014 There is currently no extensions available for installation
 7015 Select at least one computer !
 7016 MTU
+7017 Extension successfull installed ! <br> Please, logout and re-log to finish the console installation.
+7018 This extension is allready installed.
+7019 A PHP error occurred.
+7020 Extension successfull desinstalled !
+7021 Extension "%s" not compliant
+7022 Missing function "%s" in "%s"!
+7023 Unable to include install.php
 
 8000 Notifications
 8001 Enable notification tracking
@@ -1584,12 +1643,51 @@
 8028 You have recent news
 8029 is not writable
 
-8100 SAAS Inventory
-8101 SAAS list
-8102 Add SAAS
+8100 Web application Inventory
+8101 Web application list
+8102 Add Web application
 8103 Associated DNS
 8104 Entry
 8105 Data
 8106 Time to live
-8107 This SAAS already exists
-8108 Enable Software as a Service Inventory
+8107 This Web application already exists
+8108 Enable Web application Inventory
+
+8200 Schedule a Wake On Lan
+8201 Save
+8202 WOL date/time
+8203 WOL saved !
+
+9000 SNMP configuration
+9001 Create type
+9002 Type configuration
+9003 Create label
+9004 OID
+9005 OID string value
+9006 Label name
+9007 Type name is unique and must not contain any special characters except underscore.</br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
+9008 Add MIB file
+9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
+9010 Server SNMP MIBs directory
+9011 Filter by type :
+9012 SNMP details
+9013 Show details
+9014 SNMP configuration is empty. Check the documentation to know how to configure SNMP : <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+9015 Use for reconciliation
+9016 Select the type that you want to configure.
+9017 Numeric OID
+9018 Inventory field name
+9019 OID name string
+9020 Add to SNMP Model
+9021 Search for specific row
+
+9100 SSL key path
+9101 SSL certificat path
+9102 Enable SSL
+9103 SSL mode
+9104 CA certificat path
+9105 MySQL Port
+
+9200 Package deployment for computer
+9201 Package deployment for selection
+9202 Package deployment for group

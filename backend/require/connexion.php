@@ -26,16 +26,32 @@ function connexion_local_read() {
     require_once(CONF_MYSQL);
     //connection OCS
     $db_ocs = DB_NAME;
-    //lien sur le serveur OCS
-    $link_ocs = mysqli_connect(SERVER_READ, COMPTE_BASE, PSWD_BASE);
+
+    $dbc = mysqli_init();
+    if(ENABLE_SSL == "1") {
+        $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+        $dbc->ssl_set(SSL_KEY, SSL_CERT, CA_CERT, NULL, NULL);
+        if(SSL_MODE == "MYSQLI_CLIENT_SSL") {
+            $connect = MYSQLI_CLIENT_SSL;
+        } elseif(SSL_MODE == "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT") {
+            $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+        }
+    } else {
+        $connect = NULL;
+    }
+    $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
+    $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
+
+    $link = mysqli_real_connect($dbc, SERVER_READ, COMPTE_BASE, PSWD_BASE, NULL, SERVER_PORT, NULL, $connect);
+
+    if($link) {
+        $link_ocs = $dbc;
+    }
 
     if (mysqli_connect_errno()) {
         echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>" . mysqli_error($link_ocs) . "</b></font></center>";
         die();
     }
-    mysqli_query($link_ocs, "SET NAMES 'utf8'");
-    //sql_mode => not strict
-    mysqli_query($link_ocs, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
     //fin connection OCS
 }
@@ -46,15 +62,32 @@ function connexion_local_write() {
     //connection OCS
     $db_ocs = DB_NAME;
     //lien sur le serveur OCS
-    $link_ocs = mysqli_connect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE);
+    $dbc = mysqli_init();
+    if(ENABLE_SSL == "1") {
+        $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+        $dbc->ssl_set(SSL_KEY, SSL_CERT, CA_CERT, NULL, NULL);
+        if(SSL_MODE == "MYSQLI_CLIENT_SSL") {
+            $connect = MYSQLI_CLIENT_SSL;
+        } elseif(SSL_MODE == "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT") {
+            $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+        }
+    } else {
+        $connect = NULL;
+    }
+    $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
+    $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
+
+    $link = mysqli_real_connect($dbc, SERVER_READ, COMPTE_BASE, PSWD_BASE, NULL, SERVER_PORT, NULL, $connect);
+
+    if($link) {
+        $link_ocs = $dbc;
+    }
 
     if (mysqli_connect_errno()) {
         echo "<br><center><font color=red><b>ERROR: MySql connection problem<br>" . mysqli_error($link_ocs) . "</b></font></center>";
         die();
     }
-    mysqli_query($link_ocs, "SET NAMES 'utf8'");
-    //sql_mode => not strict
-    mysqli_query($link_ocs, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+
     //fin connection OCS
 }
 

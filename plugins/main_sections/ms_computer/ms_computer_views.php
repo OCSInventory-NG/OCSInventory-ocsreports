@@ -51,14 +51,28 @@ function show_computer_menu($computer_id) {
 function show_computer_title($computer) {
     global $l;
 
-    $urls = $_SESSION['OCS']['url_service'];
-
     echo '<h3>';
     echo $computer->NAME;
+    echo '</h3>';
+}
+
+function show_computer_actions($computer){
+    global $l;
+
+    $urls = $_SESSION['OCS']['url_service'];
+
+    echo '<div style="text-align: center"> ';
+
     if ($_SESSION['OCS']['profile']->getRestriction('EXPORT_XML', 'NO') == "NO") {
-        echo ' <small><a href="index.php?' . PAG_INDEX . '=' . $urls->getUrl('ms_export_ocs') . '&no_header=1&systemid=' . $computer->ID . '" target="_blank">' . $l->g(1304) . '</a></small>';
+        echo ' <button class= "btn btn-action" onclick=\'location.href="index.php?' . PAG_INDEX . '=' . $urls->getUrl('ms_export_ocs') . '&no_header=1&systemid=' . $computer->ID . '";\' target="_blank">' . $l->g(1304) . '</button>';
     }
     echo '</h3>';
+    echo "&nbsp;&nbsp;";
+
+    if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO" && isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
+        echo "<button class='btn btn-action' OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"" . $l->g(1283) . "\");'>WOL</button> ";
+    }
+    echo "</div>";
 }
 
 function show_computer_summary($computer) {
@@ -129,7 +143,10 @@ function show_computer_summary($computer) {
             } elseif ($key == "NAME_RZ") {
                 $data[$key] = "";
                 $data_RZ = subnet_name($computer->ID);
-                $nb_val = count($data_RZ);
+
+                if($data_RZ != null) {
+                    $nb_val = count($data_RZ);
+                }
 
                 if ($nb_val == 1) {
                     $data[$key] = $data_RZ[0];
@@ -151,7 +168,7 @@ function show_computer_summary($computer) {
                     msg_info($l->g(1266) . "<br>" . $l->g(1269) . ': ' . $link_vm);
                 }
             } elseif ($key == "IPADDR" && $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
-                $data[$key] = $computer_info . " <a href=# OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"" . $l->g(1283) . "\");'><i>WOL</i></a>";
+                $data[$key] = $computer->$key;
                 $link[$key] = true;
             } elseif ($computer_info != '') {
                 $data[$key] = $computer_info;

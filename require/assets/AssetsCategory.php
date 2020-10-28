@@ -43,15 +43,16 @@ class AssetsCategory
     }
 
     public function get_computer_assets($list_asset){
-        for ($i=1; $list_asset[$i] != null; $i++){
+ 
+        foreach($list_asset as $key => $values){
             $nb = [];
-            $asset = explode(",", $list_asset[$i]['SQL_ARGS']);
-            $result_computer = mysql2_query_secure($list_asset[$i]['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
+            $asset = explode(",", $values['SQL_ARGS']);
+            $result_computer = mysql2_query_secure($values['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
 
             while ($computer = mysqli_fetch_array($result_computer)) {
                 $nb[] = $computer['hardwareID'];
             }
-            $nb_computer[][$list_asset[$i]['CATEGORY_NAME']] = count($nb);
+            $nb_computer[][$values['CATEGORY_NAME']] = count($nb);
         }
 
         $this->get_table_html_asset($nb_computer);
@@ -66,13 +67,15 @@ class AssetsCategory
                       <th style="padding: 0 0 0 15px; text-align:center;">'.$l->g(2131).'</th>
                     </tr>';
 
-        foreach($nb_computer as $key => $value){
-          foreach($value as $name => $nb){
-              $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
-                                <td style="padding: 0 15px 0 0;">'.$name.'</td>
-                                <td style="padding: 0 0 0 15px;">'.$nb.'</td>
-                              </tr>';
-          }
+        if($nb_computer != null){
+            foreach($nb_computer as $key => $value){
+                foreach($value as $name => $nb){
+                    $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
+                                        <td style="padding: 0 15px 0 0;">'.$name.'</td>
+                                        <td style="padding: 0 0 0 15px;">'.$nb.'</td>
+                                    </tr>';
+                }
+            }
         }
 
         $this->html .= '</table>';

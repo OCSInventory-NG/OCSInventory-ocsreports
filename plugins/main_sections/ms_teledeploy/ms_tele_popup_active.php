@@ -79,22 +79,12 @@ if (!isset($info_id['ERROR'])) {
             $fragOk = true;
         }
 
-        if (!$fragOk) {
-            $error .= $l->g(467) . " http://" . $protectedPost['FILE_SERV'] . "/" . $protectedGet["active"] . "/<br>";
-        } elseif ($fragAvail) {
+        if ($fragAvail) {
             fclose($fragOk);
-        }
-
-        if (!$fragOk || !$httpsOk) {
-            $error .= "<br>" . $l->g(468) . "<br><br>";
-            $error .= "<input type='submit' name='YES' value='" . $l->g(455) . "'>&nbsp&nbsp&nbsp<input type='submit' name='NO' value='" . $l->g(454) . "'>";
-        }
-        if ($error != '') {
-            msg_warning($error);
         }
     }
 
-    if ($error == "" && isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
+    if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
         if ($protectedPost['choix_activ'] == "MAN") {
             activ_pack($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV']);
         }

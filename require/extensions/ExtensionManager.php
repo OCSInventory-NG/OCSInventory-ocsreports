@@ -28,6 +28,7 @@ class ExtensionManager{
      */
     public $installedExtensionsList = null;
     public $installableExtensionsList = null;
+    public $installableExtensions_errors = array();
     public $errorMessage = null;
 
     /**
@@ -79,11 +80,17 @@ class ExtensionManager{
     private $dbObject = null;
 
     /**
+     * Write server.
+     */
+    private $dbWrite = null;
+
+    /**
      * Constructor
      */
     function __construct()
     {
         $this->dbObject = $_SESSION['OCS']["readServer"];
+        $this->dbWrite = $_SESSION['OCS']["writeServer"];
         $this->getInstalledExtensionsList();
     }
 
@@ -91,7 +98,12 @@ class ExtensionManager{
      * Will set an array of valid extensions
      */
     public function checkInstallableExtensions(){
-
+		// reset error list
+		$this->installableExtensions_errors = array();
+		// check if directory exists
+		if (!is_dir(EXT_DL_DIR)) {
+			$this->installableExtensions_errors[] = 'Extension directory ('.EXT_DL_DIR.') does not exist!';
+		}		
         // Scan dir and get all sub directory in extensions directory
         $items = scandir(EXT_DL_DIR);
         $installableExtList = [];
@@ -112,20 +124,28 @@ class ExtensionManager{
      * Check if extensions is compliant to OCS Inventory Model
      */
     private function isExtensionCompliant($name){
+		global $l;
         try{
             require EXT_DL_DIR.$name."/install.php";
 
-            if(
-                function_exists(self::EXTENSION_INSTALL_METHD.$name) &&
-                function_exists(self::EXTENSION_DELETE_METHD.$name) &&
-                function_exists(self::EXTENSION_UPGRADE_METHD.$name) &&
-                function_exists(self::EXTENSION_HOOK_METHD.$name)
-            ){
-                return true;
-            }
+			if (!function_exists(self::EXTENSION_INSTALL_METHD.$name)) {
+				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_INSTALL_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				return false;
+			}
+			
+			if (!function_exists(self::EXTENSION_DELETE_METHD.$name)) {
+				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_DELETE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				return false;
+			}
+			
+			if (!function_exists(self::EXTENSION_UPGRADE_METHD.$name)) {
+				$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.sprintf($l->g(7022), self::EXTENSION_UPGRADE_METHD.$name, EXT_DL_DIR.$name.'/install.php');
+				return false;
+			}
 
             return true;
         } catch (Exception $ex) {
+			$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.$l->g(7023);
             return false;
         }
     }
@@ -160,7 +180,7 @@ class ExtensionManager{
         $queryArrayArgs[] = $jsonInfos['author'][0];
         $queryArrayArgs[] = $jsonInfos['author'][0];
 
-        mysql2_query_secure($this->insertQuery, $this->dbObject, $queryArrayArgs);
+        mysql2_query_secure($this->insertQuery, $this->dbWrite, $queryArrayArgs);
 
         try{
             $installMethod = self::EXTENSION_INSTALL_METHD.$name;
@@ -187,7 +207,7 @@ class ExtensionManager{
         }
 
         try{
-            mysql2_query_secure($this->deleteQuery, $this->dbObject, $name);
+            mysql2_query_secure($this->deleteQuery, $this->dbWrite, $name);
             $deleteMethod = self::EXTENSION_DELETE_METHD.$name;
             $deleteMethod();
             return true;

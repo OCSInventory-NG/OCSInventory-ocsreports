@@ -23,51 +23,95 @@
 //if your script not use ocsbase
 //$base = 'OTHER';
 
+require_once('require/ipdiscover/Ipdiscover.php');
+$ipdiscover = new Ipdiscover();
+
 $base = "OCS";
 connexion_local_read();
 mysqli_select_db($link_ocs, $db_ocs);
 
-$sql_black = "select SUBNET,MASK from blacklist_subnet";
+$sql_black = "SELECT SUBNET,MASK FROM blacklist_subnet";
 $res_black = mysql2_query_secure($sql_black, $link_ocs);
 while ($row = mysqli_fetch_object($res_black)) {
     $subnetToBlacklist[$row->SUBNET] = $row->MASK;
 }
-$req = "select distinct ipsubnet,s.name,s.id
-			from networks n left join subnet s on s.netid=n.ipsubnet
-			,accountinfo a
-		where a.hardware_id=n.HARDWARE_ID
-			and n.status='Up'";
-if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-    $req .= "	and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+
+if($ipdiscover->IPDISCOVER_TAG == "1") {
+    $req = "SELECT DISTINCT ipsubnet,s.name,s.id,CONCAT(ipsubnet,';',ifnull(s.tag,'')) as pass
+            FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
+            WHERE a.hardware_id=n.HARDWARE_ID
+            AND n.status='Up'";
+    if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
+        $req .= "	and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+    } else {
+        $req .= " union select netid,name,id,CONCAT(netid,';',ifnull(tag,'')) from subnet";
+    }
 } else {
-    $req .= " union select netid,name,id from subnet";
+    $req = "SELECT DISTINCT ipsubnet,s.name,s.id
+			FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
+		    WHERE a.hardware_id=n.HARDWARE_ID
+			AND n.status='Up' AND (s.TAG IS NULL OR s.TAG = '')";
+    if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
+        $req .= " and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+    } else {
+        $req .= " union select netid,name,id from subnet WHERE TAG IS NULL OR TAG = ''";
+    }
 }
+
+
 $res = mysql2_query_secure($req, $link_ocs) or die(mysqli_error($link_ocs));
 while ($row = mysqli_fetch_object($res)) {
     unset($id);
-    $list_subnet[] = $row->ipsubnet;
-    /*
-      applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
-     */
-    if (is_array($subnetToBlacklist)) {
-        foreach ($subnetToBlacklist as $key => $value) {
-            if ($key == $row->ipsubnet) {
-                $id = '--' . $l->g(703) . '--';
+    if($ipdiscover->IPDISCOVER_TAG == "1") {
+        $list_subnet[] = $row->pass;
+        /*
+          applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
+         */
+        if (is_array($subnetToBlacklist)) {
+            foreach ($subnetToBlacklist as $key => $value) {
+                if ($key == $row->ipsubnet) {
+                    $id = '--' . $l->g(703) . '--';
+                }
             }
         }
-    }
-
-    //this subnet was identify
-    if ($row->id != null && !isset($id)) {
-        $list_ip[$row->id][$row->ipsubnet] = $row->name;
-        $list_ip['---' . $l->g(1138) . '---'][$row->ipsubnet] = $row->name;
-    } elseif (!isset($id)) {
-        $no_name = '---' . $l->g(885) . '---';
-        $list_ip[$no_name][$row->ipsubnet] = $no_name;
-        $list_ip['---' . $l->g(1138) . '---'][$row->ipsubnet] = $no_name;
+    
+        //this subnet was identify
+        if ($row->id != null && !isset($id)) {
+            $list_ip[$row->id][$row->pass] = $row->name;
+            $list_ip['---' . $l->g(1138) . '---'][$row->pass] = $row->name;
+        } elseif (!isset($id)) {
+            $no_name = '---' . $l->g(885) . '---';
+            $list_ip[$no_name][$row->pass] = $no_name;
+            $list_ip['---' . $l->g(1138) . '---'][$row->pass] = $no_name;
+        } else {
+            $list_ip[$id][$row->pass] = $id;
+        }
     } else {
-        $list_ip[$id][$row->ipsubnet] = $id;
+        $list_subnet[] = $row->ipsubnet;
+        /*
+        applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
+        */
+        if (is_array($subnetToBlacklist)) {
+            foreach ($subnetToBlacklist as $key => $value) {
+                if ($key == $row->ipsubnet) {
+                    $id = '--' . $l->g(703) . '--';
+                }
+            }
+        }
+
+        //this subnet was identify
+        if ($row->id != null && !isset($id)) {
+            $list_ip[$row->id][$row->ipsubnet] = $row->name;
+            $list_ip['---' . $l->g(1138) . '---'][$row->ipsubnet] = $row->name;
+        } elseif (!isset($id)) {
+            $no_name = '---' . $l->g(885) . '---';
+            $list_ip[$no_name][$row->ipsubnet] = $no_name;
+            $list_ip['---' . $l->g(1138) . '---'][$row->ipsubnet] = $no_name;
+        } else {
+            $list_ip[$id][$row->ipsubnet] = $id;
+        }
     }
+    
 }
 $id_subnet = "ID";
 ?>

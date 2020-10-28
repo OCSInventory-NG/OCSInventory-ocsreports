@@ -62,10 +62,18 @@ class Stats{
 
         foreach($form as $key => $value){
             if ($key == 'NB_OS') {
-                $sql = "select count(osname) c,osname as name from hardware where osname != '' group by osname order by count(osname) DESC ";
+                $sql = "select count(h.osname) c,h.osname as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.osname != ''";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql .= " group by h.osname order by count(h.osname) DESC ";
                 $height_legend = 300;
             } else {
-                $sql = "select count(useragent) c,useragent as name from hardware where useragent != '' group by useragent order by count(useragent) DESC ";
+                $sql = "select count(h.useragent) c,h.useragent as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.useragent != ''";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql .= " group by h.useragent order by count(h.useragent) DESC ";
                 $height_legend = 300;
             }
 
@@ -84,12 +92,105 @@ class Stats{
                 }
                 $i++;
             }
+
+            if($key == 'SEEN'){
+                //last seen since
+                $date = date("y-m-d",strtotime("-15 day")); 
+                $sql_seen = "SELECT DATE_FORMAT(h.lastcome, '%Y-%m') AS contact, count(h.lastcome) AS conta FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.LASTCOME < '".$date."'";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql_seen .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql_seen .= " GROUP BY contact ORDER BY contact ASC";
+
+                $result_seen = mysql2_query_secure($sql_seen, $_SESSION['OCS']["readServer"]);
+                $seen = array();
+                $seen_name = array();
+                $seen_quant = array();
+                while($item = mysqli_fetch_array($result_seen)){
+                    $seen_name[] = $item['contact'];
+                    $seen_quant[] = $item['conta'];	
+                }	
+                $seen = "['".implode("','",$seen_name)."']";
+                $quants_seen = "['".implode("','",$seen_quant)."']";
+                $chart[$key]['title'] = $l->g(820).' > 15 '.$l->g(496);
+            }
+
+            if($key == 'MANUFAC'){
+                $sql_man = "SELECT b.SMANUFACTURER AS man, count(b.SMANUFACTURER) AS c_man FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql_man .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql_man .= " group by b.SMANUFACTURER ORDER BY count(b.SMANUFACTURER)  DESC LIMIT 10";
+                $result_man = mysql2_query_secure($sql_man, $_SESSION['OCS']["readServer"]);
+                $man = array();
+                $man_name = array();
+                $man_quant = array();
+                while($item = mysqli_fetch_array($result_man)){
+                    $man_name[] = $item['man'];
+                    $man_quant[] = $item['c_man'];	
+                }	
+                $man = "['".implode("','",$man_name)."']";
+                $quants_man = "['".implode("','",$man_quant)."']";
+                $chart[$key]['title'] = $l->g(851).' - Top 10';
+            }
+
+            if($key == 'TYPE'){
+                $sql_type = "SELECT CASE WHEN TRIM(b.type) ='' THEN 'Unknow' ELSE b.type END as type, count(b.type) AS conta FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
+                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                    $sql_type .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                }
+                $sql_type .= " GROUP BY type";
+                $result_type = mysql2_query_secure($sql_type, $_SESSION['OCS']["readServer"]);
+                $type = array();
+                $type_name = array();
+                $type_quant = array();
+                while($item = mysqli_fetch_array($result_type)){
+                    $type_name[] = $item['type'];
+                    $type_quant[] = $item['conta'];	
+                }	
+                $type = "['".implode("','",$type_name)."']";
+                $quants_type = "['".implode("','",$type_quant)."']";
+                $chart[$key]['title'] = $l->g(854);
+            }
         }
 
         if (isset($chart)) {
             $stats = new StatsChartsRenderer;
             $stats->createChartCanvas($form);
-            $stats->createPieChart($chart);
+            $stats->createChart($chart, $seen, $quants_seen, $man, $quants_man, $type, $quants_type);
+            return true;
+        } else {
+          return false;
+        }
+    }
+
+    public function showForm2($form){
+
+        global $l;
+        global $protectedPost;
+
+        //last seen since
+        $date = date("y-m-d",strtotime("-15 day")); 
+        $sql_seen = "SELECT DATE_FORMAT(lastcome, '%Y-%m') AS contact, count(lastcome) AS conta 
+        FROM `hardware` 
+        WHERE LASTCOME < '".$date."'
+        group by contact 
+        ORDER BY `contact` ASC";
+        $result_seen = mysql2_query_secure($sql_seen, $_SESSION['OCS']["readServer"]);
+        $seen = array();
+        $seen_name = array();
+        $seen_quant = array();
+        while($item = mysqli_fetch_array($result_seen)){
+            $seen_name[] = $item['contact'];
+            $seen_quant[] = $item['conta'];	
+        }	
+        $seen = "['".implode("','",$seen_name)."']";
+        $quants_seen = "['".implode("','",$seen_quant)."']";
+
+        if (!empty($seen)) {
+            $stats = new StatsChartsRenderer;
+            $stats->createChartCanvas2($form);
+            $stats->createLineChart($seen, $quants_seen);
             return true;
         } else {
           return false;

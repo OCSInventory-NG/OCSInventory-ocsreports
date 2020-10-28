@@ -22,51 +22,91 @@
  */
 
  /**
-  * Class for the notification mail
+  * Class for the console
   */
  class Console
  {
 
    /**
-    * Get all machine contacted today and sort by Agent
+    * Get all machine contacted todayand all machines and sort by Agent
+    * @param  string $title [table name]
     * @return array $machine
     */
-   public function get_machine_contacted_td(){
-      $machine = array("windows" => 0, "unix" => 0, "android" => 0, 'all' => 0);
+   public function get_machine_contacted_td($title){
+      $machine = array("windows" => 0, "unix" => 0, "android" => 0, 'others' => 0, 'all' => 0);
 
-      foreach($machine as $key => $value){
-          $sql = "SELECT name, count(id) as nb, USERAGENT FROM hardware WHERE lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND USERAGENT LIKE '%$key%'";
+      if($title == "CONTACTED"){
+        foreach($machine as $key => $value){
+          $sql = "SELECT DISTINCT h.name, count(h.id) as nb, h.USERAGENT FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id WHERE h.lastcome >= date_format(sysdate(),'%Y-%m-%d 00:00:00') AND h.USERAGENT LIKE '%$key%'";
+          if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+          }
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-
-          while($item = mysqli_fetch_array($result)){
-            if(strpos($item['USERAGENT'], 'unix') !== false){
-                $machine['unix'] = intval($item['nb']);
-                $machine['all'] = $machine['all'] + intval($item['nb']);
-            }elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false){
-                $machine['windows'] = intval($item['nb']);
-                $machine['all'] = $machine['all'] + intval($item['nb']);
-            }elseif(strpos($item['USERAGENT'], 'Android') !== false){
-                $machine['android'] = intval($item['nb']);
-                $machine['all'] = $machine['all'] + intval($item['nb']);
+          
+          while($item = mysqli_fetch_array($result)) {
+            if(strpos($item['USERAGENT'], 'unix') !== false) {
+              $machine['unix'] = intval($item['nb']);
+              $machine['all'] = $machine['all'] + intval($item['nb']);
+            } elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false) {
+              $machine['windows'] = intval($item['nb']);
+              $machine['all'] = $machine['all'] + intval($item['nb']);
+            } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
+              $machine['android'] = intval($item['nb']);
+              $machine['all'] = $machine['all'] + intval($item['nb']);
             }
           }
+        }
       }
-
+      if($title == "ALL COMPUTER"){
+        $sql = "SELECT DISTINCT h.ID, count(h.ID) as nb, h.USERAGENT FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id WHERE h.USERAGENT IS NOT NULL";
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+          $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+        }
+        $sql .= " GROUP BY h.USERAGENT";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        while($item = mysqli_fetch_array($result)){
+          if(strpos($item['USERAGENT'], 'unix') !== false) {
+            $machine['unix'] = $machine['unix'] + intval($item['nb']);
+            $machine['all'] = $machine['all'] + intval($item['nb']);
+          } elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false) {
+            $machine['windows'] = $machine['windows'] + intval($item['nb']);
+            $machine['all'] = $machine['all'] + intval($item['nb']);
+          } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
+            $machine['android'] = $machine['android'] + intval($item['nb']);
+            $machine['all'] = $machine['all'] + intval($item['nb']);
+          }else{
+            $machine['others'] = $machine['others'] + intval($item['nb']);
+            $machine['all'] = $machine['all'] + intval($item['nb']);
+          }
+        }
+      }  
+      
       return $machine;
    }
 
    /**
-    * Get multisearch url for machine contacted today
+    * Get multisearch url for machine tables
     * @param  array $machine [description]
-    * @return array          [description]
+    * @param  string $title [table name]
+    * @return array  [description]
     */
-   public function get_url($machine){
+   public function get_url($machine, $title){
       global $l;
 
       $_SESSION['DATE']['HARDWARE-LASTDATE-TALL'] = date($l->g(1242));
       foreach($machine as $key => $value) {
         if($machine[$key] != 0){
-          $machine[$key] = "<a href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTCOME-TALL']."&values2=".$key."&type_field='>".$value."</a>";
+          if($title == "CONTACTED"){
+            $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTCOME-TALL']."&values2=".$key."&type_field='>".$value."</a>";
+          }elseif($title == "ALL COMPUTER"){
+            if($key == 'others') {
+              $machine[$key] = "<p style='font-size:32px; font-weight:bold;'>".$value."</p>";
+            } else {
+              $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=&values2=".$key."&type_field='>".$value."</a>";
+            }
+          }
+        } else {
+          $machine[$key] = "<p style='font-size:32px; font-weight:bold;'>".$value."</p>";
         }
       }
 
@@ -74,43 +114,65 @@
    }
 
    /**
-    * Construct table for machine contacted today
+    * Construct table for machine tables
+    * @param  string $title [table name]
     * @return string [description]
     */
-   public function html_table_machine(){
-       global $l;
+   public function html_table_machine($title){
+      global $l;
 
-       $machine = $this->get_url(
-         $this->get_machine_contacted_td()
-       );
+      $machine = $this->get_url(
+        $this->get_machine_contacted_td($title), $title
+      );
 
-       $table = "<div class='tableContainer'>
-                 <div id='affich_regex_wrapper' class='dataTables_wrapper form-inline no-footer'>
-                   <div>
-                     <div class='dataTables_scroll'>
-                       <div class='dataTables_scrollHead' style='overflow: hidden; position: relative; border: 0px; width: 100%;'>
-                         <div class='dataTables_scrollHeadInner' style='box-sizing: content-box; width: 100%; padding-left: 0px;'>
-                           <table width='100%' class='table table-striped table-condensed table-hover cell-border dataTable no-footer' role='grid' style='width: 100%;'>
-                             <thead>
-                               <tr role='row'>
-                                 <th class='CONSOLE' tabindex='0' aria-controls='affich_regex' rowspan='1' colspan='1' style='width: 25%;' aria-label='Regular expression or Software name: activate to sort column ascending'><font> All </font></th>
-                                 <th class='CONSOLE' tabindex='0' aria-controls='affich_version' rowspan='1' colspan='1' style='width: 25%;' aria-label='Version'><font> Windows </font></th>
-                                 <th class='CONSOLE' tabindex='0' aria-controls='affich_version' rowspan='1' colspan='1' style='width: 25%;' aria-label='Version'><font> Unix </font></th>
-                                 <th class='CONSOLE' tabindex='0' aria-controls='affich_publisher' rowspan='1' colspan='1' style='width: 25%;' aria-label='Publisher'><font> Android </font></th>
-                               </tr>
-                             </thead>
-                           </table>
-                         </div>
-                       </div>
-                       <div class='dataTables_scrollBody' style='overflow: auto; width: 100%;'>
-                         <table id='affich_regex' class='table table-striped table-condensed table-hover cell-border dataTable no-footer' role='grid' aria-describedby='affich_regex_info' style='width: 100%; text-align:center;'>
-                         <tbody>
-                           <tr class='odd'><td valign='top' colspan='1' style='width: 25%;' class='machine_all'>".$machine['all']."</td>
-                           <td valign='top' colspan='1' style='width: 25%;' class='machine_windows'>".$machine['windows']."</td>
-                           <td valign='top' colspan='1' style='width: 25%;' class='machine_unix'>".$machine['unix']."</td>
-                           <td valign='top' colspan='1' style='width: 25%;' class='machine_android'>".$machine['android']."</td>";
+      
+      $table = '<style type="text/css">			
+                  a:focus, a:hover {color: #961b7e !important; text-decoration: none !important; font-weight:normal !important; }			
+                </style> 
+    
+      <div class="tableContainer">';
 
-       $table .= "</tbody></table></div></div></div></div></div><br><br>";
+      if($title == "CONTACTED"){
+        $table .= '<table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-bottom:0px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
+                    <tr>
+                      <td style="border-right: 1px solid #ddd; padding: 5px;"><span>' . $machine['all'] . '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(87).'</span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $machine['windows']. '</span> </p><span style="color:#333; font-size:13pt;">Windows</span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $machine['unix'] . '</span> </p><span style="color:#333; font-size:13pt;"> Unix </span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $machine['android']. '</span> </p><span style="color:#333; font-size:13pt;">Android</span></td>    
+                    </tr>';
+      }elseif($title == "ALL COMPUTER"){
+
+        //get OS's 
+        $sql_os = "SELECT h.osname, count(h.osname) FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id WHERE h.OSNAME IS NOT NULL";
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+          $sql_os .= " AND " . $_SESSION['OCS']["mesmachines"];
+        }
+        $sql_os .= " group by h.osname";
+
+        $result_os = mysql2_query_secure($sql_os, $_SESSION['OCS']["readServer"]);
+        $oss = "<p style='font-size:32px; font-weight:bold;'>".mysqli_num_rows($result_os)."</p>";
+        //get softwares
+        $sql = "SELECT s.ID, count(CONCAT(s.NAME_ID,'_',s.VERSION_ID)) FROM `software` s LEFT JOIN accountinfo a ON a.HARDWARE_ID = s.HARDWARE_ID";
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+          $sql .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+        }
+        $sql .= " GROUP BY CONCAT(s.NAME_ID,'_', s.VERSION_ID)";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        $softs = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_all_soft'>".mysqli_num_rows($result)."</a>";
+
+        $table .= '<table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-top:20px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
+                    <tr>
+                      <td style="border-right: 1px solid #ddd; padding: 5px;"><span>' . $machine['all'] . '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(652).'</span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $machine['windows']. '</span> </p><span style="color:#333; font-size:13pt;">Windows</span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $machine['unix'] . '</span> </p><span style="color:#333; font-size:13pt;"> Unix </span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $machine['android']. '</span> </p><span style="color:#333; font-size:13pt;">Android</span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $machine['others']. '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(1605).'</span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $oss . '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(25).'</span></td>
+                      <td style="border-right: 1px solid #ddd;"><span>' . $softs. '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(20).'</span></td>                   
+                    </tr>';
+      }
+        
+       $table .= "</table></div>\n";
 
        return $table;
    }
@@ -127,7 +189,15 @@
         if(!empty($cat)){
 
           foreach($cat as $key => $value){
-            $sql = "SELECT count(ID) as nb FROM softwares WHERE CATEGORY = %s";
+            $sql = "SELECT count(DISTINCT CONCAT(n.name, v.version)) as nb FROM software s 
+                    LEFT JOIN software_name n ON n.ID = s.NAME_ID 
+                    LEFT JOIN software_version v ON v.ID = s.VERSION_ID
+                    LEFT JOIN accountinfo a ON a.HARDWARE_ID = s.HARDWARE_ID
+                    WHERE n.CATEGORY = %s";
+            if (is_defined($_SESSION['OCS']["mesmachines"])) {
+              $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+            }
+            $sql .= " GROUP BY n.CATEGORY";
             $arg = array($key);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
@@ -137,13 +207,19 @@
           }
 
           $html = "<table class='cell-border' style='width:100%;'>";
-          foreach($category as $id => $array){
-            foreach($array as $name => $nb){
-              if($nb != '0'){
-                  $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_all_soft&onglet=".$id."'>".$nb."</a></th></tr>";
-              }else{
-                  $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+          if($category != null){
+            foreach($category as $id => $array){
+              foreach($array as $name => $nb){
+                if($nb != '0'){
+                    $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_all_soft&onglet=".$id."'>".$nb."</a></th></tr>";
+                }else{
+                    $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+                }
               }
+            }
+          }else{
+            foreach($cat as $key => $value){
+              $html .= "<tr class='soft-table'><td class='soft-table-td'>".$value."</td><td style='width: 50%;  text-align: center;'>0</td></tr>";
             }
           }
           $html .= "</table>";
@@ -154,49 +230,51 @@
         return $html;
    }
 
-   /**
-    * Get assets category and construct table
-    * @return [type] [description]
-    */
-   public function get_assets(){
-       global $l;
+	/**
+		* Get assets category and construct table
+		* @return [type] [description]
+		*/
+	public function get_assets(){
+		global $l;
 
-       $sql = "SELECT * FROM assets_categories";
-       $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+		$sql = "SELECT * FROM assets_categories";
+		$result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
 
-       while ($item_asset = mysqli_fetch_array($result)) {
-           $list_asset[$item_asset['ID']]['CATEGORY_NAME'] = $item_asset['CATEGORY_NAME'];
-           $list_asset[$item_asset['ID']]['SQL_QUERY'] = $item_asset['SQL_QUERY'];
-           $list_asset[$item_asset['ID']]['SQL_ARGS'] = $item_asset['SQL_ARGS'];
-       }
+		while ($item_asset = mysqli_fetch_array($result)) {
+			$list_asset[$item_asset['ID']]['CATEGORY_NAME'] = $item_asset['CATEGORY_NAME'];
+			$list_asset_id[$item_asset['ID']] = $item_asset['ID'];
+		}
 
-       if(is_array($list_asset)){
-         foreach($list_asset as $key => $values){
-             $nb = [];
-             $asset = explode(",", $list_asset[$key]['SQL_ARGS']);
-             $result_computer = mysql2_query_secure($list_asset[$key]['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
-             while ($computer = mysqli_fetch_array($result_computer)) {
-                 $nb[] = $computer['hardwareID'];
-             }
-             $nb_computer[$key][$list_asset[$key]['CATEGORY_NAME']] = count($nb);
-         }
+		if(is_array($list_asset_id)){
+			foreach($list_asset_id as $key => $values){
+        $sql_assets = "SELECT h.ID as hardwareID FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.CATEGORY_ID = %s";
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+          $sql_assets .= " AND " . $_SESSION['OCS']["mesmachines"];
+        }
+				$nb = [];
+				$result_computer = mysql2_query_secure($sql_assets, $_SESSION['OCS']["readServer"], $values);
+				while ($computer = mysqli_fetch_array($result_computer)) {
+					$nb[] = $computer['hardwareID'];
+				}
+				$nb_computer[$key][$list_asset[$key]['CATEGORY_NAME']] = count($nb);
+			}
 
-         $html = "<table class='cell-border' style='width:100%;'>";
-         foreach($nb_computer as $key => $cat){
-           foreach($cat as $name => $nb){
-             if($nb != 0){
-                 $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_search&fields=ASSETS&comp=&values=".$key."&values2=&type_field='>".$nb."</a></th></tr>";
-             }else{
-                 $html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
-             }
-           }
-         }
-         $html .= "</table>";
-       }else{
-         $html = $l->g(2133);
-       }
-       
-       return $html;
-   }
+			$html = "<table class='cell-border' style='width:100%;'>";
+			foreach($nb_computer as $key => $cat){
+				foreach($cat as $name => $nb){
+					if($nb != 0){
+						$html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><th style='width: 50%;  text-align: center;'><a href='index.php?" . PAG_INDEX . "=visu_search&fields=ASSETS&comp=&values=".$key."&values2=&type_field='>".$nb."</a></th></tr>";
+					}else{
+						$html .= "<tr class='soft-table'><td class='soft-table-td'>".$name."</td><td style='width: 50%;  text-align: center;'>".$nb."</td></tr>";
+					}
+				}
+			}
+			$html .= "</table>";
+		}else{
+			$html = $l->g(2133);
+		}
+
+		return $html;
+   	}
 
  }

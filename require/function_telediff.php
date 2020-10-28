@@ -83,19 +83,18 @@ function time_deploy($label = '') {
 }
 
 function input_pack_taille($name, $other_field, $size, $input_size, $input_value, $label = '', $addon = '', $modif = true) {
-    javascript_pack();
     if ($size > 1024 && $modif == true) {
-        $champ = '	onKeyPress="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-		 			onkeydown="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-		 			onkeyup="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-		  			onblur="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-		  			onclick="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
-				';
+        $champ = ' onKeyPress="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   onkeydown="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   onkeyup="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   onblur="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   onclick="maj(\'' . $name . '\', \'' . $other_field . '\', \'' . $size . '\');"
+                   ';
     } elseif($modif == false) {
-        $champ = " disabled='disabled' ";
+        $champ = " style='pointer-events:none; background:lightgrey;' ";
     } else {
-				$champ = " value=1 disabled='disabled' ";
-		}
+        $champ = " style='pointer-events:none; background:lightgrey;' ";
+    }
     formGroup('text', $name, $label, $input_size, '', $input_value, '', '', '', $champ, ($addon != '' ? $addon : ''));
 }
 
@@ -276,7 +275,7 @@ function activ_pack_server($fileid, $https_server, $id_server_group) {
         if ($valDoub['INFO_LOC'] != $https_server) {
             $sql_update_https = "UPDATE download_enable SET download_enable.INFO_LOC='%s' WHERE SERVER_ID=%s";
             $arg_update_https = array($https_server, $valDoub['SERVER_ID']);
-            mysql2_query_secure($sql_update_https, $_SESSION['OCS']["readServer"], $arg_update_https);
+            mysql2_query_secure($sql_update_https, $_SESSION['OCS']["writeServer"], $arg_update_https);
         }
     }
     //If this list is not null, we create the end of sql request
@@ -394,7 +393,7 @@ function recursive_remove_directory($directory, $empty = false) {
     return true;
 }
 
-function create_pack($sql_details, $info_details, $modif = true) {
+function create_pack($sql_details, $info_details, $modif = "true") {
     global $l;
 
     if (DEMO) {
@@ -410,8 +409,8 @@ function create_pack($sql_details, $info_details, $modif = true) {
         $info_details[$key] = htmlspecialchars($value, ENT_QUOTES);
     }
 
-    if($modif == true){
-	//get temp file
+    if($modif == "true"){
+	    //get temp file
         $fname = $sql_details['document_root'] . $sql_details['timestamp'] . "/tmp";
         //cut this package
         if ($size = @filesize($fname)) {
@@ -442,57 +441,96 @@ function create_pack($sql_details, $info_details, $modif = true) {
         if (!is_defined($info_details['DIGEST'])) {
             $sql_details['nbfrags'] = 0;
         }
+
+        //create info
+        if($sql_details['nbfrags'] == null) {
+            $sql_details['nbfrags'] = '0';
+        }
+
+        $info = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        $info .= "<DOWNLOAD ID=\"" . $sql_details['timestamp'] . "\" " .
+                "PRI=\"" . $info_details['PRI'] . "\" " .
+                "ACT=\"" . $info_details['ACT'] . "\" " .
+                "DIGEST=\"" . $info_details['DIGEST'] . "\" " .
+                "PROTO=\"" . $info_details['PROTO'] . "\" " .
+                "FRAGS=\"" . $sql_details['nbfrags'] . "\" " .
+                "DIGEST_ALGO=\"" . $info_details['DIGEST_ALGO'] . "\" " .
+                "DIGEST_ENCODE=\"" . $info_details['DIGEST_ENCODE'] . "\" ";
+        if ($info_details['ACT'] == 'STORE') {
+            $info .= "PATH=\"" . $info_details['PATH'] . "\" ";
+        }
+        if ($info_details['ACT'] == 'LAUNCH') {
+            $info .= "NAME=\"" . $info_details['NAME'] . "\" ";
+        }
+        if ($info_details['ACT'] == 'EXECUTE') {
+            $info .= "COMMAND=\"" . $info_details['COMMAND'] . "\" ";
+        }
+
+        $notifyText = htmlspecialchars($info_details['NOTIFY_TEXT'], ENT_QUOTES);
+        $actionText = addslashes($info_details['NEED_DONE_ACTION_TEXT']);
+
+        $info .= "NOTIFY_USER=\"" . $info_details['NOTIFY_USER'] . "\" " .
+                "NOTIFY_TEXT=\"" . $notifyText . "\" " .
+                "NOTIFY_COUNTDOWN=\"" . $info_details['NOTIFY_COUNTDOWN'] . "\" " .
+                "NOTIFY_CAN_ABORT=\"" . $info_details['NOTIFY_CAN_ABORT'] . "\" " .
+                "NOTIFY_CAN_DELAY=\"" . $info_details['NOTIFY_CAN_DELAY'] . "\" " .
+                "NEED_DONE_ACTION=\"" . $info_details['NEED_DONE_ACTION'] . "\" " .
+                "NEED_DONE_ACTION_TEXT=\"" . $actionText . "\" " .
+                "GARDEFOU=\"" . $info_details['GARDEFOU'] . "\" />\n";
+
+        $handinfo = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/info", "w+");
+        fwrite($handinfo, $info);
+        fclose($handinfo);
+
+        //delete all package with the same id
+        mysql2_query_secure("DELETE FROM download_available WHERE FILEID='%s'", $_SESSION['OCS']["writeServer"], $sql_details['timestamp']);
+        //insert new package
+        $req = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT,ID_WK) VALUES
+            ( '%s', '%s','%s', '%s','%s', '%s', '%s','%s' )";
+        $arg = array($sql_details['timestamp'], $sql_details['name'], $info_details['PRI'], $sql_details['nbfrags'],
+            $sql_details['size'], $sql_details['os'], $sql_details['description'], $sql_details['id_wk']);
+        mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
+    } else {
+        $file = $sql_details['document_root'] . $sql_details['timestamp'] . "/info";
+
+        $dom = new DOMDocument();
+        $dom->load($file);
+
+        $xpath = new DOMXPath($dom);
+        $elements = $xpath->query("//*[starts-with(local-name(), 'DOWNLOAD')]");
+
+        $notifyText = $info_details['NOTIFY_TEXT'];
+        $actionText = addslashes($info_details['NEED_DONE_ACTION_TEXT']);
+
+        if ($elements->length >= 1) {
+            $element = $elements->item(0);
+            $element->setAttribute('PRI', $info_details['PRI']);
+            $element->setAttribute('ACT', $info_details['ACT']);
+            $element->setAttribute('PROTO', $info_details['PROTO']);
+            if ($info_details['ACT'] == 'STORE') {
+                $element->setAttribute('PATH', $info_details['PATH']);
+            }
+            if ($info_details['ACT'] == 'EXECUTE') {
+                $element->setAttribute('COMMAND', $info_details['COMMAND']);
+            }
+            $element->setAttribute('NOTIFY_USER', $info_details['NOTIFY_USER']);
+            $element->setAttribute('NOTIFY_TEXT', $notifyText);
+            $element->setAttribute('NOTIFY_COUNTDOWN', $info_details['NOTIFY_COUNTDOWN']);
+            $element->setAttribute('NOTIFY_CAN_ABORT', $info_details['NOTIFY_CAN_ABORT']);
+            $element->setAttribute('NOTIFY_CAN_DELAY', $info_details['NOTIFY_CAN_DELAY']);
+            $element->setAttribute('NEED_DONE_ACTION', $info_details['NEED_DONE_ACTION']);
+            $element->setAttribute('NEED_DONE_ACTION_TEXT', $actionText);
+            $element->setAttribute('GARDEFOU', $info_details['GARDEFOU']);
+        }
+
+        $dom->save($file);
+
+        // Update package
+        $req = "UPDATE download_available SET NAME = '%s', PRIORITY = '%s', OSNAME = '%s', COMMENT = '%s' WHERE FILEID = '%s'";
+        $arg = array($sql_details['name'], $info_details['PRI'], $sql_details['os'], $sql_details['description'], $sql_details['timestamp']);
+        mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
     }
-
-
-    //create info
-    if($sql_details['nbfrags'] == null){
-			$sql_details['nbfrags'] = '1';
-		}
-
-    $info = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    $info .= "<DOWNLOAD ID=\"" . $sql_details['timestamp'] . "\" " .
-            "PRI=\"" . $info_details['PRI'] . "\" " .
-            "ACT=\"" . $info_details['ACT'] . "\" " .
-            "DIGEST=\"" . $info_details['DIGEST'] . "\" " .
-            "PROTO=\"" . $info_details['PROTO'] . "\" " .
-            "FRAGS=\"" . $sql_details['nbfrags'] . "\" " .
-            "DIGEST_ALGO=\"" . $info_details['DIGEST_ALGO'] . "\" " .
-            "DIGEST_ENCODE=\"" . $info_details['DIGEST_ENCODE'] . "\" ";
-    if ($info_details['ACT'] == 'STORE') {
-        $info .= "PATH=\"" . $info_details['PATH'] . "\" ";
-    }
-    if ($info_details['ACT'] == 'LAUNCH') {
-        $info .= "NAME=\"" . $info_details['NAME'] . "\" ";
-    }
-    if ($info_details['ACT'] == 'EXECUTE') {
-        $info .= "COMMAND=\"" . $info_details['COMMAND'] . "\" ";
-    }
-
-    $notifyText = addslashes($info_details['NOTIFY_TEXT']);
-    $actionText = addslashes($info_details['NEED_DONE_ACTION_TEXT']);
-
-    $info .= "NOTIFY_USER=\"" . $info_details['NOTIFY_USER'] . "\" " .
-            "NOTIFY_TEXT=\"" . $notifyText . "\" " .
-            "NOTIFY_COUNTDOWN=\"" . $info_details['NOTIFY_COUNTDOWN'] . "\" " .
-            "NOTIFY_CAN_ABORT=\"" . $info_details['NOTIFY_CAN_ABORT'] . "\" " .
-            "NOTIFY_CAN_DELAY=\"" . $info_details['NOTIFY_CAN_DELAY'] . "\" " .
-            "NEED_DONE_ACTION=\"" . $info_details['NEED_DONE_ACTION'] . "\" " .
-            "NEED_DONE_ACTION_TEXT=\"" . $actionText . "\" " .
-            "GARDEFOU=\"" . $info_details['GARDEFOU'] . "\" />\n";
-
-    $handinfo = fopen($sql_details['document_root'] . $sql_details['timestamp'] . "/info", "w+");
-    fwrite($handinfo, $info);
-    fclose($handinfo);
-
-    //delete all package with the same id
-    mysql2_query_secure("DELETE FROM download_available WHERE FILEID='%s'", $_SESSION['OCS']["writeServer"], $sql_details['timestamp']);
-    //insert new package
-    $req = "INSERT INTO download_available(FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT,ID_WK) VALUES
-		( '%s', '%s','%s', '%s','%s', '%s', '%s','%s' )";
-    $arg = array($sql_details['timestamp'], $sql_details['name'], $info_details['PRI'], $sql_details['nbfrags'],
-        $sql_details['size'], $sql_details['os'], $sql_details['description'], $sql_details['id_wk']);
-    mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
+  
     addLog($l->g(512), $l->g(617) . " " . $sql_details['timestamp']);
     //info message
     msg_success($l->g(437) . " " . $sql_details['document_root'] . $sql_details['timestamp']);

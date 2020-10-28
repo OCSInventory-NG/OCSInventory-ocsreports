@@ -41,7 +41,7 @@
         <directory>ms_multi_search</directory>
     </url>
     <url key="ms_custom_tag">
-        <value>tag_seach</value>
+        <value>tag_search</value>
         <directory>ms_multi_search</directory>
     </url>
     <url key="ms_dict">
@@ -63,6 +63,10 @@
     <url key="ms_logs">
         <value>admin_logs</value>
         <directory>ms_logs</directory>
+    </url>
+    <url key="ms_cve_history">
+        <value>cve_history</value>
+        <directory>ms_cve_history</directory>
     </url>
     <url key="ms_admininfo">
         <value>admin_info</value>
@@ -116,17 +120,9 @@
         <value>admin_perim</value>
         <directory>ms_users</directory>
     </url>
-    <url key="ms_local">
-        <value>admin_local_import</value>
-        <directory>ms_upload_file</directory>
-    </url>
     <url key="ms_help">
         <value>help</value>
         <directory>ms_help</directory>
-    </url>
-    <url key="ms_codes">
-        <value>admin_codes</value>
-        <directory/>
     </url>
     <url key="ms_blacklist">
         <value>admin_black</value>
@@ -135,10 +131,6 @@
     <url key="ms_console">
         <value>console</value>
         <directory>ms_console</directory>
-    </url>
-    <url key="ms_components">
-        <value>components</value>
-        <directory/>
     </url>
     <url key="ms_tele_package">
         <value>tele_package</value>
@@ -172,17 +164,9 @@
         <value>opt_param</value>
         <directory>ms_config</directory>
     </url>
-    <url key="ms_opt_ipdiscover">
-        <value>opt_ipdiscover</value>
-        <directory/>
-    </url>
     <url key="ms_group_show">
         <value>group_show</value>
         <directory>ms_groups</directory>
-    </url>
-    <url key="ms_show_detail">
-        <value>show_detail</value>
-        <directory/>
     </url>
     <url key="ms_custom_info">
         <value>ipdiscover_info</value>
@@ -215,10 +199,6 @@
     <url key="ms_speed_stat">
         <value>stat_speed</value>
         <directory>ms_teledeploy</directory>
-    </url>
-    <url key="ms_admin_management">
-        <value>admin_type_manage</value>
-        <directory>ms_teledeploy_workflow</directory>
     </url>
     <url key="ms_adminvalues">
         <value>admin_values</value>
@@ -256,10 +236,6 @@
         <value>teledeploy_speed_stats</value>
         <directory>ms_stats</directory>
     </url>
-    <url key="jp_activity_stats">
-        <value>activity_stats</value>
-        <directory>ms_stats</directory>
-    </url>
     <url key="ms_ipdiscover_analyse">
         <value>ipdiscover_analyse</value>
         <directory>ms_ipdiscover</directory>
@@ -267,10 +243,6 @@
     <url key="ms_stats_connexion">
         <value>stats_connexion</value>
         <directory>ms_stats</directory>
-    </url>
-    <url key="ms_add_key">
-        <value>add_key</value>
-        <directory>ms_config</directory>
     </url>
     <url key="ms_export_ocs">
         <value>export_ocs</value>
@@ -280,6 +252,10 @@
         <value>qrcode</value>
         <directory>ms_computer</directory>
     </url>
+    <url key="ms_inventory">
+        <value>inventory</value>
+        <directory>ms_inventory</directory>
+    </url>
     <url key="ms_extension">
         <value>extension</value>
         <directory>ms_extension</directory>
@@ -287,10 +263,6 @@
     <url key="ms_extensionmanager">
         <value>extensionmanager</value>
         <directory>ms_extensionmanager</directory>
-    </url>
-    <url key="ms_stats_top">
-        <value>stats_top</value>
-        <directory>ms_stats</directory>
     </url>
     <url key="ms_server_infos">
         <value>server_infos</value>
@@ -327,5 +299,33 @@
     <url key="ms_notification">
         <value>notification</value>
         <directory>ms_config</directory>
+    </url>
+    <url key="ms_cve_search">
+        <value>cve_search</value>
+        <directory>ms_cve_search</directory>
+    </url>
+    <url key="ms_cve_correspondance">
+        <value>cve_correspondance</value>
+        <directory>ms_cve_correspondance</directory>
+    </url>
+    <url key="ms_saas_soft">
+        <value>saas_soft</value>
+        <directory>ms_saas_soft</directory>
+    </url>
+    <url key="ms_snmp_config">
+        <value>SNMP_config</value>
+        <directory>ms_config</directory>
+    </url>
+    <url key="ms_save_query">
+        <value>save_query</value>
+        <directory>ms_save_query</directory>
+    </url>
+    <url key="ms_save_query_list">
+        <value>save_query_list</value>
+        <directory>ms_save_query</directory>
+    </url>
+    <url key="ms_snmp_inventory">
+        <value>snmp_inventory</value>
+        <directory>ms_snmp_inventory</directory>
     </url>
 </urls>

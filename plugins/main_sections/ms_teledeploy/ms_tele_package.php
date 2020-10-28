@@ -68,13 +68,12 @@ if (isset($protectedPost["VALID_END"]) || isset($protectedPost['VALID_END_MODIF'
         'NEED_DONE_ACTION' => $protectedPost['NEED_DONE_ACTION'],
         'NEED_DONE_ACTION_TEXT' => $protectedPost['NEED_DONE_ACTION_TEXT'],
         'GARDEFOU' => "rien");
-    if(!isset($protectedPost['VALID_MODIF_END'])){
+    if(!isset($protectedPost['VALID_END_MODIF'])){
       create_pack($sql_details, $info_details);
     }else{
-      $modif = $protectedPost['MODIF_FILE'];
+      $modif = $protectedPost['VALID_END_MODIF'];
       create_pack($sql_details, $info_details, $modif);
     }
-
 
     if ($protectedPost['REDISTRIB_USE'] == 1) {
         $timestamp_redistrib = time();
@@ -163,7 +162,7 @@ if(isset($protectedGet['package']) && !isset($protectedPost['valid_modif']) && !
       $protectedPost['ACTION_INPUT'] = $xml['COMMAND'];
     }
     $protectedPost['NOTIFY_USER'] = $xml['NOTIFY_USER'];
-    $protectedPost['NOTIFY_TEXT'] = $xml['NOTIFY_TEXT'];
+    $protectedPost['NOTIFY_TEXT'] = htmlentities($xml['NOTIFY_TEXT'],ENT_QUOTES);
     $protectedPost['NOTIFY_COUNTDOWN'] = $xml['NOTIFY_COUNTDOWN'];
     $protectedPost['NOTIFY_CAN_ABORT'] = $xml['NOTIFY_CAN_ABORT'];
     $protectedPost['NOTIFY_CAN_DELAY'] = $xml['NOTIFY_CAN_DELAY'];
@@ -286,6 +285,7 @@ if (isset($protectedPost['valid'])) {
         input_pack_taille("nbfrags", "tailleFrag", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
         time_deploy($l->g(1002));
         $java_script = "verif2();";
+        javascript_pack();
 
         if ($protectedPost['REDISTRIB_USE'] == 1) {
             echo "<br />";
@@ -374,7 +374,7 @@ if(isset($protectedPost['valid_modif'])){
             alert ('" . $l->g(1001) . "');
             return false;
           }else{
-              pag(\"END\",\"VALID_END_MODIF\",\"" . $form_name . "\");
+              pag(\"true\",\"VALID_END_MODIF\",\"" . $form_name . "\");
               return true;
             }
         }
@@ -403,6 +403,7 @@ if(isset($protectedPost['valid_modif'])){
           input_pack_taille("nbfrags", "tailleFrag", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
           time_deploy($l->g(1002));
           $java_script = "verif2();";
+          javascript_pack();
 
           if ($protectedPost['REDISTRIB_USE'] == 1) {
               echo "<br />";
@@ -464,7 +465,7 @@ if(isset($protectedPost['valid_modif'])){
             alert ('" . $l->g(1001) . "');
             return false;
           }else{
-              pag(\"END\",\"VALID_END_MODIF\",\"" . $form_name . "\");
+              pag(\"false\",\"VALID_END_MODIF\",\"" . $form_name . "\");
               return true;
             }
         }
@@ -714,7 +715,8 @@ $list_os = [
 	"MAC" => "MACOS"
 ];
 $list_proto = [
-    "HTTP" => "HTTP"
+    "HTTP" => "HTTP",
+    "HTTPS" => "HTTPS"
 ];
 
 $i = 0;
@@ -835,7 +837,7 @@ formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input
         formGroup('text', 'NOTIFY_TEXT', $arrayName['notify_text'], '', '', $protectedPost['NOTIFY_TEXT']);
         formGroup('text', 'NOTIFY_COUNTDOWN', $arrayName['notify_countdown'], 4, 4, $protectedPost['NOTIFY_COUNTDOWN'], '', '', '', ' onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"', $l->g(511));
         formGroup('select', 'NOTIFY_CAN_ABORT', $arrayName['user_can_abort'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
-        formGroup('select', 'NOTIFY_CAN_DELAY', $arrayName['user_can_delay'], '', '', $protectedPost['NOTIFY_CAN_ABORT'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
+        formGroup('select', 'NOTIFY_CAN_DELAY', $arrayName['user_can_delay'], '', '', $protectedPost['NOTIFY_CAN_DELAY'], '', array(0, 1), array(0 => 'No', 1 => 'Yes'));
         ?>
     </div>
     <?php

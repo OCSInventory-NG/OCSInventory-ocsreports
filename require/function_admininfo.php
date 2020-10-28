@@ -377,7 +377,7 @@ function admininfo_computer($id = "") {
         $sql_account_data .= " LIMIT 1 ";
     }
 
-    $res_account_data = mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
+    $res_account_data = mysql2_query_secure($sql_account_data, $_SESSION['OCS']["writeServer"], $arg_account_data);
     $val_account_data = mysqli_fetch_array($res_account_data);
     if (is_array($val_account_data)) {
         return $val_account_data;
@@ -423,7 +423,7 @@ function updateinfo_computer($id, $values, $list = '') {
     }
 
     array_push($arg_account_data, $id);
-    mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
+    mysql2_query_secure($sql_account_data, $_SESSION['OCS']["writeServer"], $arg_account_data);
     return $l->g(1121);
 }
 

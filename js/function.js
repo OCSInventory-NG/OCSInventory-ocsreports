@@ -151,27 +151,43 @@ function reload(){
     location.reload();
 }
 
-function isnull(selectid, fieldid){
-  var selectvalue = $("#"+selectid+" :selected").val();
-  console.log(selectvalue);
-  if(selectvalue == 'ISNULL'){
-      $("#"+fieldid).prop('disabled', true);
-  }else{
-      $("#"+fieldid).prop('disabled', false);
-  }
+function isnull(selectid, fieldid, fieldtype = null) {
+    var selectvalue = $("#"+selectid+" :selected").val();
+
+    if(selectvalue == 'MORETHANXDAY' || selectvalue == 'LESSTHANXDAY') {
+        $(".form_datetime").empty();
+        $(".form_datetime").replaceWith('<input class="form-control" type="number" name="'+fieldid+'" id="'+fieldid+'" value="">');
+    } else if((selectvalue != 'MORETHANXDAY' && selectvalue != 'LESSTHANXDAY') && (fieldtype == "LASTDATE" || fieldtype == "LASTCOME")) {
+        if($(".form_datetime").length == 0) {
+            $.ajax({
+                url: "ajax/calendarfield.php",
+                type : "GET",
+                data : "fieldid="+fieldid,
+                success : function(data, status) {
+                    $("#"+fieldid).replaceWith(data);
+                }
+            });
+        }
+    }
+
+    if(selectvalue == 'ISNULL' || selectvalue == 'ISNOTEMPTY') {
+        $("#"+fieldid).prop('disabled', true);
+    } else {
+        $("#"+fieldid).prop('disabled', false);
+    }
 }
 
 /// show/hide
 function hide(id, preview, perso){
 	document.getElementById(id).style.display='none';
-  document.getElementById(preview).style.display='';
-  document.getElementById(perso).style.display='none';
+    document.getElementById(preview).style.display='';
+    document.getElementById(perso).style.display='none';
 }
 
 function show(id, preview, perso){
 	document.getElementById(id).style.display='';//'block'
-  document.getElementById(preview).style.display='none';
-  document.getElementById(perso).style.display='';
+    document.getElementById(preview).style.display='none';
+    document.getElementById(perso).style.display='';
 }
 
 /* Set the width of the sidebar to 250px (show it) */
@@ -245,4 +261,61 @@ function checkrequire(statut){
       $('#NOTIF_PROG_TIME').prop('required',true);
     }
 
+}
+
+function fuser_change(value) {
+    var $fuserinput = $('.form-group-hidden');
+    var $fuserinputtext = $('.form-group-debug option:selected').text();
+    console.log($fuserinputtext);
+    if (value === "5" && $fuserinputtext === "FUSER"){
+        $fuserinput.removeClass("hidden");
+    }
+}
+
+function show_hide_wol(id, check, button){
+    checkbox = document.getElementById(check);
+    wol = document.getElementById(id);
+    send = document.getElementById(button)
+
+    if(checkbox.checked){
+        wol.style.display = '';
+        send.style.display = 'none';
+    } else {
+        wol.style.display = 'none';
+        send.style.display = '';
+    }
+}
+
+function verif_champ_name(form, name){
+    var champ = $('#'+name).val();
+    if($.trim(champ) == ""){
+        alert("Name can't be empty");
+    }else{
+        $('#'+form).submit();
+    }
+}
+
+function searchInMIB() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("mib_info");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        td2 = tr[i].getElementsByTagName("td")[3];
+        if (td && td2) {
+            txtValue = td.textContent || td.innerText;
+            txtValue2 = td2.textContent || td2.innerText;
+
+            if ((txtValue.toUpperCase().indexOf(filter) > -1) || (txtValue2.toUpperCase().indexOf(filter) > -1)) {
+            tr[i].style.display = "";
+            } else {
+            tr[i].style.display = "none";
+            }
+        }
+    }
 }

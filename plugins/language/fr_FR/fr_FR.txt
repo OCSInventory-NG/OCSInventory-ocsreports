@@ -1,7 +1,7 @@
 2 Toutes les machines
 9 Recherche multicritères
 13 Envoyer
-17 Client
+17 Import des agents
 18 Révision
 19 Version du logiciel
 20 Logiciel
@@ -69,8 +69,8 @@
 116 Ajouter
 119 Voulez-vous vraiment supprimer la machine
 122 Supprimer
-129 RESSEMBLE
-130 DIFFERENT
+129 Ressemble
+130 Différent
 134 Ajout d'un nouveau fichier dans la base
 135 Attention, vous allez supprimer ce fichier définitivement !
 137 Fichier
@@ -348,9 +348,9 @@
 453 La fin de l'installation nécessite une intervention utilisateur
 454 NON
 455 OUI
-456 Exécuter
+456 Exécuter une commande
 457 Stocker
-458 Lancer
+458 Exécuter un fichier
 459 Le compte à rebours doit être un nombre
 460 Identifiant unique
 461 Digest
@@ -1023,7 +1023,7 @@
 1136 Snmp
 1137 Activer/désactiver le snmp
 1138 Afficher tous mes réseaux
-1139 Administrer
+1139 Scan réseaux
 1140 Administrer les sous-réseaux
 1141 Sous-réseau ajouté
 1142 Ajouter un sous-réseau à blacklister
@@ -1325,7 +1325,7 @@
 1445 Groupe
 1446 Nom du modèle
 1447 Informations de compte
-1448 EST NULL
+1448 Est nulle
 1449 Configuration générale
 1450 ID
 1451 Static ?
@@ -1333,7 +1333,36 @@
 1453 GUID
 1454 Source
 1455 Interface virtuelle
+1456 Numéro de téléphone
+1457 Lier les réseaux Ipdiscover aux TAG ordinateurs</br><b style="color:#d9534f;">Après mise à jour de cette configuration, reconnectez-vous à l'interface</b>
 
+1460 Cve-search management
+1461 Activer Rapport de CVE
+1462 URL de l'hôte cve-search à utiliser pour le rapport
+1463 Rapport de CVE
+1464 Le Rapport de CVE n'est pas activé.
+1465 Par CVSS
+1466 Veuillez consulter la documentation pour configurer le Rapport de CVE : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Managing CVE-search reporting </a>
+1467 Lien
+1468 Score de vulnérabilité entre
+1469 Sélectionnez les catégories de logicielles que vous ne souhaitez pas traiter
+1470 Activer la verbose pour CVE-search
+1471 Activer la récupération des CVE correspondant à toutes les versions d'un logiciel
+1472 Inventaire CVE
+1473 Nouvelle regex
+1474 Liste des regex
+1475 Nom ou Regex
+1476 Résultat éditeur
+1477 Résultat Nom
+1478 Ou importer un fichier CSV
+1479 Importer
+1480 Télécharger le fichier CSV exemple
+1481 Historiques des CVEs
+1482 Dernière date d'exécution
+1483 Nombre de CVE
+1484 Temps de validité des CVE après le scan OCS Inventory
+1485 Par logiciel
+1486 Par ordinateur
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie
@@ -1354,8 +1383,26 @@
 1516 Tous les logiciels (sauf défaut)
 1517 Aucune catégorie n'a été sélectionnée
 
+1550 Voulez-vous vraiment archiver  
+1551 Archiver
+1552 Restaurer
+1553 Voulez-vous vraiment restaurer 
+1554 ORDINATEURS ARCHIVÉS
+1555 ORDINATEURS ACTIFS
+1556 Archiver / Restaurer
+1557 TOUS LES ORDINATEURS
+1558 Archive
+
+1560 Purge des anciennes données IPDiscover
+1561 Période de validité d'une donnée IPDiscover
+
 1600 Mon tableau de bord
 1601 Groupes dynamiques
+1602 Ne contient pas
+1603 Plus de X jours
+1604 Moins de X jours
+1605 Autres
+1606 N'est pas vide
 
 1700 Configuration avancée
 1701 Onglet disponible
@@ -1494,6 +1541,13 @@
 2135 Aucune machine n'a été inventoriée
 2136 Modifier
 2137 Choississez un nouveau fichier si vous souhaitez modifier l'ancien
+2138 Sauvegarder ma recherche
+2139 La requête actuelle va être sauvegardée. Vous pouvez retrouver toutes vos recherches sauvegardées dans <i><b>Gestion > Recherches sauvegardées</b></i> ou en utilisant <i><b>Utiliser une recherche sauvegardée</b></i> dans la multicritère.
+2140 Utiliser une recherche sauvegardée
+2141 Recherches sauvegardées
+2142 Créer une recherche
+2143 La recherche a été sauvegardée
+2144 Mettre à jour une recherche existante
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
@@ -1525,7 +1579,6 @@
 6003 Plugin
 6004 Nombre Total disponible
 6005 Eteinte/allumée
-6006 AVERTISSEMENT : Le module php-soap n'est pas installé, le moteur de plugin ne fonctionnera pas.
 6007 Les modules suivants sont requis pour utiliser cette fonctionnalitée&nbsp;:&nbsp;
 6008 Les répertoires suivants ne sont pas accessibles en écriture&nbsp;:&nbsp;
 6009 Vous ne pouvez pas installer de plugins, référez vous aux erreurs ci-dessus.
@@ -1549,6 +1602,11 @@
 7013 installé
 7014 Il n'y a aucune extensions disponible
 7015 Sélectionnez au minimum un ordinateur !
+7016 MTU
+7017 L'extension a été installée avec succès ! <br> Merci de vous déconnecter et reconnecter afin de terminer l'installation.
+7018 Cette extension est déjà installée.
+7019 Une erreur PHP est survenue.
+7020 L'extension a été désinstallée avec succès !
 
 8000 Notifications
 8001 Activer le suivi par courriel
@@ -1580,12 +1638,51 @@
 8028 Vous avez des news récentes
 8029 n'a pas les droits d'écriture
 
-8100 Inventaire SAAS
-8101 SAAS liste
-8102 Créer SAAS
+8100 Inventaire application Web
+8101 Liste application Web
+8102 Créer application Web
 8103 DNS associé
 8104 Entrée
 8105 Donnée
 8106 Temps de vie
-8107 Ce SAAS existe déjà
-8108 Activer l'inventaire de Logiciel en tant que Service
+8107 Cette application Web existe déjà
+8108 Activer l'inventaire d'application Web
+
+8200 Programmer un Wake On Lan
+8201 Sauvegarder
+8202 WOL date/heure
+8203 WOL sauvegardé !
+
+9000 Configuration SNMP
+9001 Créer un type
+9002 Configuration du type
+9003 Créer un label
+9004 OID
+9005 Valeur texte OID
+9006 Nom du label
+9007 Le nom du type est unique et ne doit contenir aucun caractère spécial excepté l'underscore.</br>Il est conseillé de ne pas utiliser les mots clés et mots réservés MySQL, merci de vous référer à : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
+9008 Ajouter un fichier MIB
+9009 Placez votre fichier MIB dans votre dossier MIBs sur votre serveur.<br> N'oubliez pas de configurer votre chemin d'accès aux fichiers MIBs dans <b>Configuration > Configuration générale > SNMP</b>
+9010 Chemin d'accès aux fichiers MIBs
+9011 Filtrer par type :
+9012 Détails SNMP
+9013 Afficher les détails
+9014 La configuration SNMP est vide. Lisez la documentation pour savoir comment configurer le scan SNMP : <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+9015 Utiliser comme réconciliation
+9016 Sélectionnez le type que vous souhaitez configurer.
+9017 OID numérique
+9018 Nom du champ d'inventaire
+9019 OID name string
+9020 Ajouter au model SNMP
+9021 Rechercher une ligne spécifique
+
+9100 Chemin de la clé SSL
+9101 Chemin du certificat SSL
+9102 Activer SSL
+9103 Mode SSL
+9104 Chemin du certificat CA
+9105 Port MySQL
+
+9200 Deploiement de paquet pour la machine
+9201 Deploiement de paquet pour la sélection
+9202 Deploiement de paquet pour le groupe

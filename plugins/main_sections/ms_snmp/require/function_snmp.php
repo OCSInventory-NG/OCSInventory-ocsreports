@@ -181,7 +181,7 @@ function updateinfo_snmp($id, $values, $list = '') {
     }
 
     array_push($arg_account_data, $id);
-    mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
+    mysql2_query_secure($sql_account_data, $_SESSION['OCS']["writeServer"], $arg_account_data);
     return $l->g(1121);
 }
 

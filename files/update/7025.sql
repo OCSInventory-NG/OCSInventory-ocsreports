@@ -1,0 +1,34 @@
+-- Create snmp_types table
+CREATE TABLE IF NOT EXISTS `snmp_types` (
+    `ID` INT(6) NOT NULL AUTO_INCREMENT,
+    `TYPE_NAME` varchar(255) NOT NULL,
+    `CONDITION_OID` varchar(255) NOT NULL,
+    `CONDITION_VALUE` varchar(255) NOT NULL,
+    `TABLE_TYPE_NAME` varchar(255) NOT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- Create snmp_labels table
+CREATE TABLE IF NOT EXISTS `snmp_labels` (
+    `ID` INT(6) NOT NULL AUTO_INCREMENT,
+    `LABEL_NAME` varchar(255) NOT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- Create snmp_configs table
+CREATE TABLE IF NOT EXISTS `snmp_configs` (
+    `ID` INT(6) NOT NULL AUTO_INCREMENT,
+    `TYPE_ID` INT(6) NOT NULL,
+    `LABEL_ID` INT(6)NOT NULL,
+    `OID` varchar(255) NOT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- Create snmp_links table
+CREATE TABLE IF NOT EXISTS `snmp_links` (
+    `ID` INT(6) NOT NULL AUTO_INCREMENT,
+    `TYPE_ID` INT(6) NOT NULL,
+    `DEVICE_ID` INT(6)NOT NULL,
+    `ACCOUNT_ID` INT(6)NOT NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

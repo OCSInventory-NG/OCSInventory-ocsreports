@@ -91,7 +91,6 @@ if (isset($_POST['update'])) {
     //Logout after update(s)
     //Contrib of FranciX (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
     if ($_SESSION['OCS']['cnx_origine'] == "CAS") {
-        require_once(PHPCAS);
         require_once(BACKEND . 'require/cas.config.php');
         $cas = new phpCas();
         $cas->client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_uri);

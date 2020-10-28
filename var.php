@@ -56,21 +56,9 @@ define('MAC_FILE', __DIR__ . '/files/oui.txt');
  */
 define('BACKEND', __DIR__ . '/backend/');
 /**
- * Library PHPCAS
+ * Autoload composer
  */
-define('PHPCAS', __DIR__ . '/libraries/phpcas/CAS.php');
-/**
- * Library TC-LIB-BARCODE
- */
-define('TC_LIB_BARCODE', __DIR__ . '/libraries/tclib/Barcode/autoload.php');
-/**
- * Library PASSWORD-COMPAT
- */
-define('PASSWORD_COMPAT', __DIR__ . '/libraries/password_compat/password.php');
-/**
- * Library PHPMAILER
- */
-define('PHPMAILER', __DIR__ . '/libraries/PHPMailer-6.0.5/src');
+define('COMPOSER_AUTOLOAD', __DIR__ . '/vendor/autoload.php');
 /**
  * Template Mail Directory
  */
@@ -81,11 +69,11 @@ define('TEMPLATE', __DIR__.'/templates/');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7022');
+define('GUI_VER', '7039');
 /**
  * GUI Version
  */
-define('GUI_VER_SHOW', '2.6');
+define('GUI_VER_SHOW', '2.8');
 /**
  * Default GUI language
  */
@@ -144,12 +132,36 @@ define('DEFAULT_THEME', "OCS");
 define('DEV_OPTION', false);
 
 //====================================================================================
+// Authentication Configuration
+//====================================================================================
+
+/**
+ * Define the auth type :
+ * - 1 : Local Only
+ * - 2 : Local and LDAP
+ * - 3 : LDAP Only
+ * - 4 : LDAP with SSO
+ * - 5 : Always OK, won't ask for user and password
+ * 
+ * If LDAP / SSO Basic auth is configured, please configure the LDAP Authentication
+ */
+define('AUTH_TYPE', 1);
+
+/**
+ * Auth Insecure LDAP, skip SSL Cert (not recommended)
+ * Note : OCS doesn't manage certificate for Ldaps, please edit "/etc/ldap/ldap.conf" to set proper certificate
+ */
+define('AUTH_LDAP_SKIP_CERT', false);
+
+//====================================================================================
 // Plugins Configuration
 //====================================================================================
+
 /**
  * Directory where you put extensions sources
  */
 define('EXT_DL_DIR', __DIR__ . '/extensions/');
+
 //====================================================================================
 // Misc Options
 //====================================================================================

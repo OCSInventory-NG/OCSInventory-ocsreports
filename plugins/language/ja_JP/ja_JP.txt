@@ -1527,7 +1527,6 @@
 6003 プラグイン
 6004 Total available
 6005 電源オン/オフ
-6006 警告：php-soapをインストールしてください。このプラグインの動作に必要です。
 6007 Please install the following modules in order to get this feature working :
 6008 Can't write in the following directory&nbsp;:&nbsp;
 6009 You can't install plugins, check error messages above.

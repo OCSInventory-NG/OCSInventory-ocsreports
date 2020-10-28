@@ -100,7 +100,7 @@
 100 Parameter initialisieren
 101 Sortieren
 102 Neue Suche
-103 Aktualisierung
+103 Aktualisieren
 104 direkt betroffen
 105 in Einheiten
 106 Konfigurationsoptionen
@@ -274,7 +274,7 @@
 292 Hinzufügen / Löschen von Netzwerkgeräten
 293 Netzwerkgeräte-Typen
 294 Subnetz-Namen
-295 Lokalisierung
+295 Standort
 296 UID
 297 Kann nicht in Verzeichnis schreiben
 298 Alle Felder müssen ausgefüllt werden
@@ -330,7 +330,7 @@
 349 Hinzufügen einer Spalte
 350 CPU-Typ
 351 CPU-Anzahl
-352 Letzer
+352 Zuletzt gesehen
 353 Qualität
 354 Genauigkeit
 355 Firma
@@ -538,7 +538,7 @@
 572 Erfolgreich
 573 Fehler
 574 Statistik
-575 nicht ausgewählt, nicht benachrichtigt
+575 NICHT BENACHRICHTIGT
 576 Benutzerdefiniertes IP-Discover
 577 Gruppenname
 580 Alle Rechner (erneuern)
@@ -970,7 +970,7 @@
 1009 Server Ablage-Verzeichnis
 1010 NORMAL
 1011 DEBUG
-1012 ÜBERSETZUNG
+1012 SPRACHE
 1013 WARTUNG
 1014 Wechseln zu
 1015 Nutzer-Modus
@@ -1380,6 +1380,7 @@
 
 1509 Erweiterte Einstellungen
 
+
 1516 Gesamte Software (but default)
 1517 Es wurde keine Kategorie ausgewählt
 
@@ -1423,7 +1424,6 @@
 2026 Sicherheitsproblem: Sie verwenden das Standard-Admin-Passwort für die OCS-GUI!
 2027 Ändern Sie das Admin-Kennwort in der OCS-GUI!
 2028 Authentifizierungs-Schlüssel
-
 
 2030 OCS-NG Inventory Installation
 2031 Derzeit installierte Version
@@ -1554,7 +1554,6 @@
 6003 Plugin
 6004 Insgesamt verfügbar
 6005 Ein-/Ausschalten
-6006 WARNUNG : Bitte installieren Sie php-soap, die Plugins funktionieren sonst nicht.
 6007 Bitte installieren Sie folgende Module damit die Features funktionieren&nbsp;:&nbsp;
 6008 Kann in folgendes Verzeichnis nicht schreiben&nbsp;:&nbsp;
 6009 Sie können Plugins nicht installieren. Bitte überprüfen Sie die obigen Fehlermeldungen.

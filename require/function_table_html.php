@@ -152,7 +152,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         "STAT",
         "ACTIVE",
         "MAC",
-				"EDIT_DEPLOY",
+		"EDIT_DEPLOY",
+		"SHOW_DETAILS",
+		"ARCHIVER",
+		"RESTORE",
     );
     //If the column selected are different from the default columns
     if (!empty($_COOKIE[$option['table_name'] . "_col"])) {
@@ -176,11 +179,14 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     }
     $actions = array(
         "MODIF",
-				"EDIT_DEPLOY",
+		"EDIT_DEPLOY",
         "SUP",
         "ZIP",
         "STAT",
-        "ACTIVE",
+		"ACTIVE",
+		"SHOW_DETAILS",
+		"ARCHIVER",
+		"RESTORE",
     );
     $action_visible = false;
 
@@ -211,11 +217,11 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         </div>
         <?php
 
-				if (!isset ($protectedPost['COL_SEARCH'])){
-						 $selected_col='ALL';
-				} else {
-						 $selected_col = $protectedPost['COL_SEARCH'];
-				}
+		if (!isset ($protectedPost['COL_SEARCH'])){
+			$selected_col='ALL';
+		} else {
+			$selected_col = $protectedPost['COL_SEARCH'];
+		}
 
         //Display the Column selector
         if (!empty($list_col_can_del)) {
@@ -253,34 +259,6 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 </div>
             </div>
 
-						<!-- Display search in column bar-->
-						<div class="row">
-							 <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
-									<div class="form-group">
-										<label class="control-label col-sm-4" for="select_col<?php echo $option['table_name']; ?>"> <?php echo $l->g(1419); ?> : </label>
-											<div class="col-sm-8">
-												<select class="form-control" id="select_search_col<?php echo $option['table_name']; ?>" name="COL_SEARCH">
-														<option value="default"><?php echo $l->g(6012); ?></option>
-																<?php
-																	foreach ($list_col_can_del as $key => $col) {
-																			$name = explode('.', $col);
-																			$name = explode(' as ', end($name));
-																			$value = end($name);
-																			if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
-																					$value = $option['REPLACE_COLUMN_KEY'][$key];
-																			}
-																			if (array_key_exists($key, $lbl_column)) {
-																					echo "<option value='$value'>$lbl_column[$key]</option>";
-																			} else {
-																				  echo "<option value='$value'>$key</option>";
-																			}
-																	}
-															 ?>
-												</select>
-											</div>
-										</div>
-									</div>
-								</div>
             <?php
         }
         ?>
@@ -371,13 +349,16 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                         });
                         var ocs = [];
                         //Add the actual $_POST to the $_POST of the ajax request
-    <?php
-    foreach ($protectedPost as $key => $value) {
-        if (!is_array($value)) {
-            echo "d['" . $key . "'] = '" . $value . "'; \n";
-        }
-    }
-    ?>
+						<?php
+						foreach ($protectedPost as $key => $value) {
+							if (!is_array($value)) {
+								echo "d['" . $key . "'] = '" . $value . "'; \n";
+							}
+							if($key == "visible_col") {
+								$visible_col = $value;
+							}
+						}
+						?>
                         ocs.push($(form_name).serialize());
                         d.visible_col = visible;
                         d.ocs = ocs;
@@ -405,8 +386,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                     data.search.search = "";
                     data.start = 0;
                 },
-								"conditionalPaging": true,
-								"lengthMenu": [ 10, 25, 50, 100, 250, 500, 1000],
+				"conditionalPaging": true,
+				"lengthMenu": [ 10, 25, 50, 100, 250, 500, 1000],
                 //Column definition
                 "columns": [
     <?php
@@ -416,7 +397,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     // Unset visible columns session var
     unset($_SESSION['OCS']['visible_col'][$option['table_name']]);
 
-//Visibility handling
+	//Visibility handling
     foreach ($columns as $key => $column) {
         if (!empty($visible_col)) {
             if ((in_array($index, $visible_col))) {
@@ -428,8 +409,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             }
             $index ++;
         } else {
-            if (( (in_array($key, $default_fields)) || (in_array($key, $list_col_cant_del)) || array_key_exists($key, $default_fields) || ($key == "ACTIONS" )) && !(in_array($key, $actions))
-            ) {
+            if (( (in_array($key, $default_fields)) || (in_array($key, $list_col_cant_del)) || array_key_exists($key, $default_fields) || ($key == "ACTIONS" )) && !(in_array($key, $actions))) {
                 // add visibles columns
                 $_SESSION['OCS']['visible_col'][$option['table_name']][$key] = $column;
                 $visible = 'true';
@@ -498,8 +478,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             $("#select_col" + table_name).change(function () {
                 var col = "." + $(this).val();
                 $(table_id).DataTable().column(col).visible(!($(table_id).DataTable().column(col).visible()));
-                $(table_id).DataTable().ajax.reload();
-                $("#select_col" + table_name).val('default');
+				$(table_id).DataTable().ajax.reload();
+				$("#select_col" + table_name).val('default');
             });
 
             //$("<span id='" + table_name + "_settings_toggle' class='glyphicon glyphicon-chevron-down table_settings_toggle'></span>").hide().appendTo("#" + table_name + "_filter label");
@@ -571,8 +551,11 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     echo "<input type='hidden' id='CONFIRM_CHECK' name='CONFIRM_CHECK' value=''>";
     echo "<input type='hidden' id='OTHER_BIS' name='OTHER_BIS' value=''>";
     echo "<input type='hidden' id='OTHER_TER' name='OTHER_TER' value=''>";
-		echo "<input type='hidden' id='EDIT_DEPLOY' name='EDIT_DEPLOY' value=''>";
-
+	echo "<input type='hidden' id='EDIT_DEPLOY' name='EDIT_DEPLOY' value=''>";
+	echo "<input type='hidden' id='SHOW_DETAILS' name='SHOW_DETAILS' value=''>";
+	echo "<input type='hidden' id='ARCHIVER' name='ARCHIVER' value=''>";
+	echo "<input type='hidden' id='RESTORE' name='RESTORE' value=''>";
+	
     if ($_SESSION['OCS']['DEBUG'] == 'ON') {
         ?><center>
             <div id="<?php echo $option['table_name']; ?>_debug" class="alert alert-info" role="alert">
@@ -1387,24 +1370,21 @@ function ajaxfiltre($queryDetails,$tab_options){
 							if (!empty($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
 								$searchable = false;
 							}
+							
 							if ($searchable){
 
-								// if search in column selected
-								if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $rang == 0) {
-										$name_col = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['COL_SEARCH']);
-										$filtertxt =  " HAVING (( ".$name_col." LIKE '%%".$search."%%' ) ";
-								} else if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
-										if ($rang == 0){
-											$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
-										} else {
-											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
-										}
+								if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+									if ($rang == 0){
+										$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
+									} else {
+										$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+									}
 								} else if (empty($tab_options["COL_SEARCH"])) {
-										if ($rang == 0){
-											$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
-										} else {
-											$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
-										}
+									if ($rang == 0){
+										$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
+									} else {
+										$filtertxt .= " OR  ( ".$name." LIKE '%%".$search."%%' ) ";
+									}
 								}
 								$rang++;
 							}
@@ -1417,7 +1397,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 					}
 					else {
 						if($key>1){
-						 $queryDetails.=" ".$word." ".$row;
+						 	$queryDetails.=" ".$word." ".$row;
 						}else{
 							$queryDetails = $row;
 						}
@@ -1428,83 +1408,105 @@ function ajaxfiltre($queryDetails,$tab_options){
 			}
 		}
 
-                // Check if at least one of the column used in the query if full-text indexed
-                foreach ($tab_options['visible_col'] as $column) {
-                        if ($tab_options['columns'][$column]['ft_index'] == 'true') {
-                                // Find the correct place where to do the full-text search in the query
-                                if (count($sqlword['WHERE'])>1) {
-                                        $ft_queryDetails1 = $sqlword['WHERE'][0];
-                                        $ft_queryDetails2 = $sqlword['WHERE'][1];
-                                        $ft_place = 'WHERE';
-                                } elseif (count($sqlword['GROUPBY'])>1) {
-                                        $ft_queryDetails1 = $sqlword['GROUPBY'][0];
-                                        $ft_queryDetails2 = $sqlword['GROUPBY'][1];
-                                        $ft_place = 'GROUP BY';
-                                }
-                                break;
-                        }
-                }
+		// Check if at least one of the column used in the query if full-text indexed
+		foreach ($tab_options['visible_col'] as $column) {
+			if ($tab_options['columns'][$column]['ft_index'] == 'true') {
+				// Find the correct place where to do the full-text search in the query
+				if (count($sqlword['WHERE'])>1) {
+						$ft_queryDetails1 = $sqlword['WHERE'][0];
+						$ft_queryDetails2 = $sqlword['WHERE'][1];
+						$ft_place = 'WHERE';
+				} elseif (count($sqlword['GROUPBY'])>1) {
+						$ft_queryDetails1 = $sqlword['GROUPBY'][0];
+						$ft_queryDetails2 = $sqlword['GROUPBY'][1];
+						$ft_place = 'GROUP BY';
+				}
+				break;
+			}
+		}
 
-                // Add filtering criteria
-                if (!empty($ft_place)) {
+		// Add filtering criteria
+		if (!empty($ft_place)) {
 
-                        // Search with at least 1 full-text indexed columns
-                        $index = 0;
+			// Search with at least 1 full-text indexed columns
+			$index = 0;
 
-                        foreach ($tab_options['visible_col'] as $column) {
-                                $cname = $tab_options['columns'][$column]['name'];
+			foreach ($tab_options['visible_col'] as $column) {
+				$cname = $tab_options['columns'][$column]['name'];
 
-                                // Find out if the column is searchable
-                                if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
-                                        $tab_options['columns'][$column]['searchable'] = false;
-                                }
-                                $searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
+				// Find out if the column is searchable
+				if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+					$tab_options['columns'][$column]['searchable'] = false;
+				}
+				$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 
 				// Find out if the column is searchable and is full-text indexed
-                                if ($searchable && $tab_options['columns'][$column]['ft_index'] == 'true') {
-                                        // Add a '+' in front of, and a '*' at the end of, each work  when $search contains several words
-                                        $search = trim($search);
-                                        if (stripos($search, ' ') !== false) {
-                                                $search1 = '+'.implode(' +', explode(' ',$search));
-                                                $search1  = implode(explode(' ',$search1),'* ')."*";
-                                        } else {
-                                                $search1 = $search . "*";
-                                        }
-                                        // Append the search term
-                                        if ($index==0) {
-                                                $ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search1' IN BOOLEAN MODE)";
-                                        } else {
-                                                $ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search1' IN BOOLEAN MODE)";
-                                        }
-                                        $index++;
-                                } elseif ($searchable && $tab_options['columns'][$column]['ft_index'] == 'false') {
-                                        // Column is searchable but isn't full-text indexed
-                                        if ($index==0) {
-                                                $ft_queryDetails1 .= " WHERE ( $cname LIKE '%%$search%%')";
-                                        } else {
-                                                $ft_queryDetails1 .= " OR $cname LIKE '%%$search%%')";
-                                        }
-                                        $index++;
-                                }
-                        }
+				if ($searchable && $tab_options['columns'][$column]['ft_index'] == 'true') {
+					// Add a '+' in front of, and a '*' at the end of, each work  when $search contains several words
+					$search = trim($search);
+					if (stripos($search, ' ') !== false) {
+							$search1 = '+'.implode(' +', explode(' ',$search));
+							$search1  = implode(explode(' ',$search1),'* ')."*";
+					} else {
+							$search1 = $search . "*";
+					}
+					// Append the search term
+					if ($index==0) {
+							$ft_queryDetails1 .= " WHERE (MATCH ($cname) AGAINST ('$search1' IN BOOLEAN MODE)";
+					} else {
+							$ft_queryDetails1 .= " OR MATCH ($cname) AGAINST ('$search1' IN BOOLEAN MODE)";
+					}
+					$index++;
+				} elseif ($searchable && $tab_options['columns'][$column]['ft_index'] == 'false') {
+					// Column is searchable but isn't full-text indexed
+					if ($index==0) {
+							$ft_queryDetails1 .= " WHERE ( $cname LIKE '%%$search%%')";
+					} else {
+							$ft_queryDetails1 .= " OR $cname LIKE '%%$search%%')";
+					}
+					$index++;
+				}
+			}
 
-                        // Close the full-text search clause if we added any
-                        if ($index>0) {
-                                if ($ft_place == 'WHERE') {
-                                        $queryDetails = $ft_queryDetails1 . ") AND " . $ft_queryDetails2;
-                                } else {
-                                        $queryDetails = $ft_queryDetails1 . ") GROUP BY " . $ft_queryDetails2;
-                                }
-                        }
+			// Close the full-text search clause if we added any
+			if ($index>0) {
+				if ($ft_place == 'WHERE') {
+					$queryDetails = $ft_queryDetails1 . ") AND " . $ft_queryDetails2;
+				} else {
+					$queryDetails = $ft_queryDetails1 . ") GROUP BY " . $ft_queryDetails2;
+				}
+			}
 
-                        return $queryDetails;
-                }
+			return $queryDetails;
+		}
 
 		// REQUEST SELECT FROM
 		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
 			$cname = $tab_options['columns'][$column]['name'];
+			$account_select = null;
+
+			// Special treatment if accountinfo select type
+			if (substr($cname,0,2) == 'a.'){
+				require_once('require/function_admininfo.php');
+				$id_tag=explode('_',substr($cname,2));
+				if($id_tag[0] != 'TAG') {
+					$info_tag = find_info_accountinfo($id_tag[1]);
+					if($info_tag[$id_tag[1]]['type'] == 2) {
+						$info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
+						foreach($info as $key => $value) {
+							if(strpos($value, $search) !== false) {
+								$acc_select[$key] = $key;
+							}
+						}
+						if($acc_select != null) {
+							$account_select = implode(',', $acc_select);
+						}
+					}
+				}
+			}
+
 			// (Cyrille: The following 2 tests are used at least 3 times in this file. Wouldn't it be a good time to create a function?)
 			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
 				$tab_options['columns'][$column]['searchable'] = false;
@@ -1516,23 +1518,26 @@ function ajaxfiltre($queryDetails,$tab_options){
 				$searchable =true;
 			}
 
+			// if account info select -> change comparator
+			if($account_select != null) {
+				$search_arg = "IN (".$account_select.")";
+			} else {
+				$search_arg = "LIKE '%%".$search."%%'";
+			}
+
 			// If column is searchable and doesn't have a full-text index 
 			if ($searchable && (empty($tab_options['columns'][$column]['ft_index']) || $tab_options['columns'][$column]['ft_index'] == 'false')) {
-				if (!empty($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] != 'default' && $index == 0) {
-						$name_col = $tab_options['COL_SEARCH'];
-						$filter =  " (( ".$name_col." LIKE '%%".$search."%%' ) ";
-				// (Cyrille: What is this 'c' column?)
-				} else if ($cname != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+				if ($cname != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 						if ($index == 0){
-							$filter =  " (( ".$cname." LIKE '%%".$search."%%' ) ";
+							$filter =  " (( ".$cname." ".$search_arg." ) ";
 						} else {
-							$filter .= " OR  ( ".$cname." LIKE '%%".$search."%%' ) ";
+							$filter .= " OR  ( ".$cname." ".$search_arg." ) ";
 						}
 				} else if (empty($tab_options["COL_SEARCH"])) {
 						if ($index == 0){
-							$filter =  " (( ".$cname." LIKE '%%".$search."%%' ) ";
+							$filter =  " (( ".$cname." ".$search_arg." ) ";
 						} else {
-							$filter .= " OR  ( ".$cname." LIKE '%%".$search."%%' ) ";
+							$filter .= " OR  ( ".$cname." ".$search_arg." ) ";
 						}
 				}
 				$index++;
@@ -1552,55 +1557,47 @@ function ajaxfiltre($queryDetails,$tab_options){
 * 						'Option' => value,
 * 						}
 */
-function ajaxsort(&$tab_options){
-	if ($tab_options['columns'][$tab_options['order']['0']['column']]['orderable'] == "true"){
-		$name = $tab_options['columns'][$tab_options['order']['0']['column']]['name'];
+function ajaxsort(&$tab_options) {
+	$tri = '';
+	$tab_iplike = array('H.IPADDR','IPADDRESS','IP','IPADDR','IP_MIN','IP_MAX');
 
-		if (!empty($tab_options["replace_query_arg"][$name])){
-			$name= $tab_options["replace_query_arg"][$name];
-		}
-		$tri = $name;
-		$sens = $tab_options['order']['0']['dir'];
-	} else if ($tab_options['columns']) {
-		foreach($tab_options['columns'] as $column){
-			if ($column['orderable']=="true"){
-				$tri = $column['name'];
-				$sens = "asc";
-				break;
+	if ($tab_options['columns'][$tab_options['order']['0']['column']]['orderable'] == "true") {
+		// reset
+		foreach ($tab_options['order'] as $index => $v ) {
+			// get column name
+			$name = $tab_options['columns'][$tab_options['order'][$index]['column']]['name'];
+
+			if (!empty($tab_options["replace_query_arg"][$name])) {
+				$name = $tab_options["replace_query_arg"][$name];
+			}
+			// field name is IP format alike
+			if (in_array(mb_strtoupper($name),$tab_iplike)) {
+				$tri .= " INET_ATON(".$name.") ".$v['dir'].", ";
+			} else if($tab_options['TRI']['DATE'][$name]) {
+				if(isset($tab_options['ARG_SQL'])) {
+					$tri .= " STR_TO_DATE(%s,'%s') %s";
+					$tab_options['ARG_SQL'][] = $name;
+					$tab_options['ARG_SQL'][] = $tab_options['TRI']['DATE'][$name];
+					$tab_options['ARG_SQL'][] = $v['dir'];
+				} else {
+					$tri .= " STR_TO_DATE(".$name.",'".$tab_options['TRI']['DATE'][$name]."') ".$v['dir'];
+				}
+			} else {
+				if ( strpos($name,".") === false ) {
+					$tri .= "".$name." ".$v['dir'].", ";
+				} else {
+					$tri .= $name . " ".$v['dir'].", ";
+				}
 			}
 		}
-	}
-	$sort ="";
-	if (!empty($tri) && !empty($sens)){
-	$tab_iplike=array('H.IPADDR','N.IPADDRESS','IP','IPADDR');
-
-	//@TODO : multiple values management
-	if($tri == 'ipaddress'){
-		$tri = 'n.ipaddress';
+		$tri = rtrim($tri, ", ");
 	}
 
-	if (in_array(mb_strtoupper($tri),$tab_iplike)){
-		$sort= " order by INET_ATON(".$tri.") ".$sens;
-	}elseif ($tab_options['TRI']['SIGNED'][$tri]){
-		$sort= " order by cast(".$$tri." as signed) ".$sens;
+	if($tri != "") {
+		return " order by ".$tri;
+	} else {
+		return "";
 	}
-	elseif($tab_options['TRI']['DATE'][$tri]){
-
-		if(isset($tab_options['ARG_SQL'])){
-			$sort =" order by STR_TO_DATE(%s,'%s') %s";
-			$tab_options['ARG_SQL'][]=$tri;
-			$tab_options['ARG_SQL'][]=$tab_options['TRI']['DATE'][$tri];
-			$tab_options['ARG_SQL'][]=$sens;
-		}else{
-			$sort= " order by STR_TO_DATE(".$tri.",'".$tab_options['TRI']['DATE'][$tri]."') ".$sens;
-		}
-	}else{
-		$sort= " order by ".$tri." ".$sens;
-	}
-
-	}
-	return $sort;
-
 }
 
 //fonction qui retourne un string contenant le bloc généré LIMIT de la requete
@@ -1687,7 +1684,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 									$lbl_msg=$tab_options['LBL_POPUP'][$key];
 							}else
 								$lbl_msg=$l->g(640)." ".$value_of_field;
-							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
+							$row[$key]="<a href=# OnClick='confirme(\"\",\"".$row['ID']."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
 						}
 						break;
 					case "NAME":
@@ -1704,7 +1701,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						}
 						break;
 					case "GROUP_NAME":
-						$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."' target='_blank'>".$value_of_field."</a>";
+						$row['NAME']="<a href='index.php?".PAG_INDEX."=".$pages_refs['ms_group_show']."&head=1&systemid=".$row['ID']."'>".$value_of_field."</a>";
 						break;
 					case "NULL":
 						$row[$key]="&nbsp";
@@ -1746,7 +1743,22 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						}
 						break;
 					case "EDIT_DEPLOY":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_package']."&head=1&package=".$value_of_field."\"><span class='glyphicon glyphicon-edit'></span></span></a>";
+						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_package']."&head=1&package=".$value_of_field."\"><span class='glyphicon glyphicon-edit'></span></a>";
+						break;
+					case "SHOW_DETAILS":
+						$row[$key]='<a href="#'.$value_of_field.'" data-toggle="modal" data-target="#'.$value_of_field.'" title="'.$l->g(9013).'"><span class="glyphicon glyphicon-search"></span></a>';
+						break;
+					case "ARCHIVER":
+						if ($value_of_field!= '&nbsp;'){
+							$lbl_msg=$l->g(1550)." ".$value_of_field;
+							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"ARCHIVER\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-save' title='".$l->g(1551)."'></span></a>";
+						}	
+						break;
+					case "RESTORE":
+						if ($value_of_field!= '&nbsp;'){
+							$lbl_msg=$l->g(1553)." ".$value_of_field;
+							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"RESTORE\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-open' title='".$l->g(1552)."'></span></a>";
+						}	
 						break;
 					default :
 						if (substr($key,0,11) == "PERCENT_BAR"){
@@ -1815,6 +1827,9 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 				"ZIP",
 				"STAT",
 				"ACTIVE",
+				"SHOW_DETAILS",
+				"ARCHIVER",
+				"RESTORE",
 			);
 			foreach($actions as $action){
 				$row['ACTIONS'].= " ".$row[$action];
@@ -1874,6 +1889,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"MAC",
 			"MD5_DEVICEID",
 			"EDIT_DEPLOY",
+			"SHOW_DETAILS",
+			"ARCHIVER",
+			"RESTORE",
 	);
 
 
@@ -1884,6 +1902,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				"ZIP",
 				"STAT",
 				"ACTIVE",
+				"SHOW_DETAILS",
+				"ARCHIVER",
+				"RESTORE",
 	);
 	foreach($actions as $action){
 		if(isset($list_fields[$action])){

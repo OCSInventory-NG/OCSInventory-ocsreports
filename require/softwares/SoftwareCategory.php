@@ -143,21 +143,31 @@ class SoftwareCategory
                         </tr>';
 
         foreach ($cat as $key => $value){
-          $sql = "SELECT DISTINCT `NAME` FROM softwares WHERE CATEGORY = %s";
+          $sql = "SELECT `NAME` FROM software_name WHERE CATEGORY = %s";
           $arg = array($key);
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
           while ($computer = mysqli_fetch_array($result)) {
               $nb[$value][] = $computer['NAME'];
           }
-          $nb_computer[$value] = count($nb[$value]);
+          if($nb[$value] != null){
+            $nb_computer[$value] = count($nb[$value]);
+          }
         }
-
-        foreach($nb_computer as $name => $nb){
-            $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
-                              <td style="padding: 0 15px 0 0;">'.$name.'</td>
-                              <td style="padding: 0 0 0 15px;">'.$nb.'</td>
-                            </tr>';
+        if($nb_computer != null){
+            foreach($nb_computer as $name => $nb){
+                $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
+                                <td style="padding: 0 15px 0 0;">'.$name.'</td>
+                                <td style="padding: 0 0 0 15px;">'.$nb.'</td>
+                                </tr>';
+            }
+        }else{
+            foreach($cat as $key => $value){
+                $this->html .= "<tr style='border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;'>
+                            <td style='padding: 0 15px 0 0;'>".$value."</td>
+                            <td style='padding: 0 0 0 15px;'>0</td>
+                        </tr>";
+            }
         }
 
         $this->html .= '</table>';
@@ -176,7 +186,10 @@ class SoftwareCategory
         $softName = str_replace("*", "", $softName);
         $softName = str_replace("?", "", $softName);
 
-        $sql = "SELECT DISTINCT `VERSION` FROM softwares WHERE NAME LIKE '%$softName%' ORDER BY softwares.VERSION";
+        $sql = "SELECT DISTINCT s.VERSION_ID, v.VERSION FROM software s 
+                LEFT JOIN software_version v ON v.ID = s.VERSION_ID
+                LEFT JOIN software_name n ON n.ID = s.NAME_ID 
+                WHERE n.NAME LIKE '%$softName%' ORDER BY v.VERSION";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
         $version[0] = " ";
@@ -197,7 +210,10 @@ class SoftwareCategory
         $softName = str_replace("*", "", $softName);
         $softName = str_replace("?", "", $softName);
 
-        $sql = "SELECT DISTINCT `PUBLISHER` FROM softwares WHERE NAME LIKE '%$softName%' ORDER BY softwares.PUBLISHER";
+        $sql = "SELECT DISTINCT s.PUBLISHER_ID, p.PUBLISHER FROM software s 
+                LEFT JOIN software_publisher p ON p.ID = s.PUBLISHER_ID
+                LEFT JOIN software_name n ON n.ID = s.NAME_ID 
+                WHERE n.NAME LIKE '%$softName%' ORDER BY p.PUBLISHER";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
         $vendor[0] = " ";
@@ -226,7 +242,9 @@ class SoftwareCategory
      * @return array
      */
     public function onglet_cat_cd($computerID){
-        $sql = "SELECT CATEGORY FROM softwares WHERE hardware_id = %s GROUP BY CATEGORY";
+        $sql = "SELECT n.CATEGORY FROM software_name n 
+                LEFT JOIN software s ON n.ID = s.NAME_ID 
+                WHERE hardware_id = %s GROUP BY n.CATEGORY";
         $sql_arg = array($computerID);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
         while ($idCat = mysqli_fetch_array($result)) {
@@ -235,21 +253,23 @@ class SoftwareCategory
         $cat = implode(',', $id);
 
         if($id != null){
-          $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME`, `OS` FROM `software_categories` WHERE ID IN (%s)";
-          $sql_list_arg = array($cat);
+            $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME`, `OS` FROM `software_categories` WHERE ID IN (%s)";
+            $sql_list_arg = array($cat);
 
-          $result_list_cat = mysql2_query_secure($sql_list_cat, $_SESSION['OCS']["readServer"], $sql_list_arg);
-          $i = 1;
-          while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
-              if ($i == 1) {
-                  $list_cat['first_onglet'] = $i;
-              }
-              $list_cat[$i] = $item_list_cat['CATEGORY_NAME'];
-              $list_cat['category_name'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['ID'];
-              $list_cat['OS'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['OS'];
-              $i++;
-          }
-          $list_cat['i'] = $i;
+            $result_list_cat = mysql2_query_secure($sql_list_cat, $_SESSION['OCS']["readServer"], $sql_list_arg);
+            $i = 1;
+            if($result_list_cat != false){
+                while ($item_list_cat = mysqli_fetch_array($result_list_cat)) {
+                    if ($i == 1) {
+                        $list_cat['first_onglet'] = $i;
+                    }
+                    $list_cat[$i] = $item_list_cat['CATEGORY_NAME'];
+                    $list_cat['category_name'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['ID'];
+                    $list_cat['OS'][$item_list_cat['CATEGORY_NAME']] = $item_list_cat['OS'];
+                    $i++;
+                }
+            }
+            $list_cat['i'] = $i;
         }
         return ($list_cat);
     }

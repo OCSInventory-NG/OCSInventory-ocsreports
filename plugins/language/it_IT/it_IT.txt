@@ -1434,7 +1434,6 @@
 6003 Plugin
 6004 Totale disponibile
 6005 Accensione/Spegnimento
-6006 ATTENZIONE: è necessario installare php-soap, il plugin non può funzionare senza
 7000 Plugin
 7001 Gestione plugin
 7002 Nome plugin

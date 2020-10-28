@@ -1,4 +1,58 @@
 Revision history for ocsreports
+2.8
+		* Rework SNMP Interface and configuration
+		* Rework IPDiscover manager
+		* Rework LDAP Authenticaiton
+		* Rework Auth backend
+		* Rework software inventory data structure 
+		* Add MySQL 8 compatibility
+		* Add ASCII code management on deployment messages
+		* Add "is not empty" criteria on multi search
+		* Add computer archive feature 
+		* Add IPDiscover scan split by TAG
+		* Add CVE Matching regex
+		* Add chinese translation
+		* Add perl injector related inventory on main dashboard
+		* Update German translation
+		* Improve CVE Inventory
+		* Improve translation on deployment form
+		* Move networks submenu to inventory menu for better visibility
+		* Fix date interval search on multi criteria
+		* Fix IPDiscover subnet blacklist
+		* Fix CVE-2020-14947
+		* Fix stats to match user TAG restrictions
+		* Fix CSV export to match table show / hide configuration
+		* Fix minor bugs on CVE Inventory
+		* Fix deployment estimation time when editing a packaged
+		* Fix deployment fragment bug
+		* Fix small package deployment (< 1024 bytes)
+		* Fix a bug on MySQL SSL connection
+		* Remove SNMP_INVENTORY_DIFF
+		* Typos fix
+		* Minor bug fix
+
+2.7
+		* Add CVE reporting
+		* Add Web Application inventory
+		* Add Schedule Wake On lan
+		* Add saved searches on multicriteria
+		* Improve MySQL connection to add SSL connection and set alternative port
+		* Improve multicriteria to search by delay
+		* Bugs fix
+
+2.6
+		* Improve translations
+		* Plugin engine rework (see. http://wiki.ocsinventory-ng.org/10.Plugin-engine/Using-plugins-installer/)
+		* You can now edit deployment package without re-creating one from "inventory > activate"
+		* Improve software categorization to have more detailed criterias
+		* Add notifications system to have latest OCS Inventory News
+		* Rework login dashboard (better informations, dynamic group from the welcome page)
+		* Improve multi search engine introduced in 2.5
+		* Fix CSV problems on hostname export
+		* Migrate all tables to InnoDB
+		* Improve accountinfo display and edit
+		* Remove useless column in all software page
+		* Bugs fix
 
 2.6 RC
 		* Plugin engine rework (see. http://wiki.ocsinventory-ng.org/10.Plugin-engine/Using-plugins-installer/)

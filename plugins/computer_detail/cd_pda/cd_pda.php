@@ -47,6 +47,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields=array($l->g(1415) => 'OPERATOR',
                     $l->g(1416) => 'OPNAME',
                     $l->g(1418) => 'COUNTRY',
+                    $l->g(1456) => 'PHONENUMBER',
                     $l->g(36) => 'SERIALNUMBER',
                     $l->g(1417) => 'DEVICEID');
 

@@ -25,11 +25,13 @@
  // These must be at the top of your script, not inside a function
  use PHPMailer\PHPMailer\PHPMailer;
  use PHPMailer\PHPMailer\Exception;
+ use PHPMailer\PHPMailer\SMTP;
+
+ require __DIR__.'/../../vendor/phpmailer/phpmailer/src/Exception.php';
+ require __DIR__.'/../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+ require __DIR__.'/../../vendor/phpmailer/phpmailer/src/SMTP.php';
 
  //Load libraries
- require PHPMAILER.'/Exception.php';
- require PHPMAILER.'/PHPMailer.php';
- require PHPMAILER.'/SMTP.php';
  require __DIR__.'/../softwares/SoftwareCategory.php';
  require __DIR__.'/../assets/AssetsCategory.php';
 
@@ -200,7 +202,7 @@
                $this->notif->send();
                error_log('Message has been sent');
            } catch (Exception $e) {
-               $msg = 'Message could not be sent. Mailer Error: '. $mail->ErrorInfo;
+               $msg = 'Message could not be sent. Mailer Error: '. $e->errorMessage();
                error_log($msg);
            }
       }

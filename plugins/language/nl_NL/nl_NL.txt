@@ -1,0 +1,1594 @@
+2 Alle computers
+9 Zoek met criteria
+13 Ok
+17 Agent uitrollen
+18 Revisie
+19 Software versie
+20 Software
+23 Computer
+24 Gebruiker
+25 Operating system
+26 Geheugen
+27 Geheugensnelheid (MHz)
+28 Aantal computers
+30 Zoek
+31 Kies een parameter
+32 Kies
+33 Domein
+34 IP adres
+35 Computernaam
+36 Serienummer
+41 Reset
+42 Geen resultaat
+43 Hoofdmenu
+45 Vrije ruimte
+46 Laatste inventarisatie
+48 Computerdetails
+49 Naam
+50 Swap
+51 Opmerkingen
+52 Zichtbaar
+53 Omschrijving
+54 Processor(s)
+55 Aantal
+56 Administratieve data
+61 Video kaart
+62 Resolutie
+63 Opslag
+64 Fabrikant
+65 Model
+66 Type
+67 Schijfgrootte
+69 Editor
+70 Designation
+79 Printer(s)
+80 Naam
+81 Status
+82 Netwerk
+83 Gebruik
+84 Interface
+85 Letter
+86 Bestandssysteem
+87 Totaal
+88 Vrij
+90 Regel(s)
+91 Invoerapparaten
+92 Schijven
+93 Controller(s)
+94 Slot nummer
+95 MAC adres
+96 Geluid
+97 Monitor(s)
+103 Update
+107 Configuratie
+108 Registersleutels
+111 Windows licentie
+113 Annuleren
+114 Opslaan
+115 Update
+116 Voeg toe
+119 Wil je deze computer echt verwijderen
+122 Verwijder
+129 LIKE
+130 DIFFERENT
+134 Voeg een nieuw bestand toe
+135 Pas op, je gaat dit permanent wissen !
+137 Bestand
+140 Super administrators
+141 Administrators
+142 Lokale administrators
+143 uitrol aanvragers
+162 Verwijder geselecteerde
+168 Verkeerd bestandsformaat (moet een exe zijn)
+170 Bestand bestaat al!
+171 Bestand gewist
+172 Er is een fout opgetreden, bestand
+173 is niet toegevoegd aan de databank
+174 Beveiliging
+175 Duplicaten
+176 IP
+177 Computers samenvoegen
+178 TAG filter
+180 Gebruiker onbekend
+182 Computers met als tag
+183 Download
+184 Dit bestand heeft geen "constante versie"
+185 Versie moet groter zijn dan 1
+186 Dit bestand bevat geen ver bestand
+187 Dit is geen zip bestand
+188 Terug
+189 Je moet minimaal 2 computers selecteren 
+190 Accountinfo:
+191 gewist
+192 Duplicaten overzicht
+193 Hostnaam + Serienummer
+194 Hostnaam + MAC adres
+195 MAC adres + Serienummer
+196 Alleen hostnaam
+197 Alleen serienummer
+198 Alleen MAC adres
+199 Duplicaten
+200 Corresponding relay decremented
+201 KLEINER
+202 GROTER
+203 TUSSEN
+204 BUITEN
+205 Geactiveerd
+206 opgeslagen voor
+207 Gateway
+208 Netmask
+209 BIOS Versie
+210 BIOS Datum
+211 Windows Register
+212 Sleutel
+213 Waarde
+214 Deze pagina afdrukken
+215 Toon alles
+216 ASSETTAG
+217 Wachtwoord
+218 Agent versies
+219 niet geïnventariseerde netwerk interfaces
+220 gewist
+221 IP gathering computers
+222 Waarschuwing! Alle geselecteerde computers worden samengevoegd! Weet je het zeker?
+223 Informatie
+224 Naam
+225 Admininfo
+226 is verwijderd uit de accountinfo tabel
+227 Weet je zeker dat je deze kolom wilt wissen
+228 Geef de nieuwe administratieve info
+229 Tekst (255)
+230 Integer
+231 Real
+232 Datum
+233 Huidige data
+234 is ingevoegd
+235 Gebruikers
+236 Wijzig wachtwoord
+237 Nieuw wachtwoord
+238 Bevestig
+239 Je moet elk veld invullen
+240 Wachtwoorden ongelijk
+241 Wachtwoord gewijzigd
+242 Administrator
+243 Gebruiker
+244 Nieuwe gebruiker toevoegen
+245 gewist
+246 Weet je zeker dat je deze gebruiker wilt verwijderen
+247 MySQL loginnaam
+248 MySQL wachtwoord
+249 Kan niet verbinden met MySQL. Geef een geldige loginnaam/wachtwoord.
+250 MySQL servernaam
+251 Logout
+252 Naam (kiezen)
+253 Registry hive
+254 Pad (Bijv: SOFTWARE\\Mozilla)
+255 Sleutel (* voor allemaal)
+256 Kies 
+257 Registersleutel
+258 Waarde registersleutel
+259 Fout: kon gegevens niet invoegen (speciale tekens zijn niet toegestaan)
+260 Wijzigen label bestand gelukt
+261 Label bestand verwijderd
+262 Geef een label
+263 Configuratie label bestand
+264 op dit moment geen label bestand
+265 Iets
+266 verkeerde datum
+267 dd/mm/jjjj
+268 Snelheid
+269 %m/%d/%Y %H:%i
+270 Modem(s)
+271 Slot(s)
+272 Poort(en)
+273 BIOS
+274 OS Naam
+275 OS Versie
+276 Chipset
+277 Versie
+278 Driver
+279 Poort
+280 MIB Type 
+281 DHCP IP
+282 Gateways
+283 Doel
+284 BIOS fabrikant
+285 Selecteer te wijzigen parameter
+286 Service pack
+287 Lokale import
+288 Lokaal geïmporteerd
+289 Netwerk informatie
+290 Ip bevragen
+291 Expert modus
+292 Netwerkapparaat toevoegen / verwijderen
+293 Networkapparaat types
+294 Subnet namen
+295 Localization
+296 ID
+297 Kan niet in map schrijven
+298 Alle velden moeten gevuld zijn
+299 Verkeerd IP adres (moet zijn: x.x.x.x)
+300 verkeerd subnetmask (moet zijn: x.x.x.x )
+301 Netwerk ingevoegd
+302 Netwerk verwijderd
+303 Subnet toevoegen
+304 Netwerk naam
+305 Uid
+306 Subnet lijst
+307 Type toevoegen
+308 Type naam
+309 Netwerkapparaat types
+310 IPdiscover minder als
+311 Hosts
+312 IPdiscover
+313 Gateway computers
+314 IPdiscover gateway computers
+315 Niet geïnventariseerde computers
+316 Subnet
+317 ANALYSEER
+318 DNS naam
+319 Netwerk analyse resultaten
+320 Deze analyse is al gedaan op
+321 Wil je de gecachte data zien?
+322 Gecachte data
+323 Gemaakt op
+324 HOSTS GEËVALUEERD ALS
+325 leeg
+326 geen mask ingevoerd
+327 Computer details
+328 Ontdekt
+329 Geïnventariseerd
+330 NetBIOS Naam
+331 Netwerk nummer
+332 Wachten a.u.b....
+333 Nieuw netwerkapparaat toevoegen
+334 Netwerk apparaat lijst
+335 Apparaattype
+336 Apparaat omschrijving
+337 HET PROGRAMMA ZOND GEEN GEGEVENS
+338 Beperkte modus
+339 Je hebt ipdiscover-util.pl nodig (alleen Linux) voor expert modus
+340 Toon
+341 kan niet uitgevoerd worden, zet de uitvoerrechten goed
+342 Je hebt schrijfrechten nodig op de root directory om dit te kunnen gebruiken:
+344 Fout
+345 DEZE ANALYSE LOOPT AL, PROBEER HET OVER EEN PAAR MINUTEN NOGMAALS
+346 VOOR
+347 NA
+348 Windows gebruiker
+349 kolom toevoegen
+350 CPU type
+351 Aantal CPU's
+352 Last come
+353 Kwaliteit
+354 betrouwbaarheid
+355 Bedrijf
+356 Eigenaar
+357 User agent
+358 Jokers: ? (één teken), * (meerdere tekens)
+359 Serienr monitor
+360 gemaakt op (week/jaar)
+362 Het netwerk
+363 bestaat al
+364 Geïnventariseerd
+365 Niet geïnventariseerd
+366 Geïdentificeerd
+367 apparaten van netwerk
+368 van netwerk
+369 Ingediend door
+370 Pakket uitrol
+371 Alle componenten
+372 kies componenten
+373 Geregistreerde gebruiker
+374 Gebruiker gewijzigd
+375 OCS-NG Agent Versie
+376 Computer geblokkeerd. Probeer nogmaals over een paar minuten
+377 Processor snelheid(MHz)
+380 Software lijst
+381 Aantal installaties
+382 Software naam
+383 De pagina
+384 Verplaats alles
+385 naar een nieuwe categorie
+386 OF
+387 naar een bestaande categorie
+388 Categorie
+389 Niets
+390 Software categorieën
+391 Categorie naam
+393 Zoek
+394 Zoek Categorie
+395 Zoek software OVERAL
+396 Reset
+397 Ga naar de categorie
+398 Categorie lijst
+410 EXACT
+411 Velden moeten alleen getallen bevatten!
+412 Register sleutel verzamel functie
+413 Automatische update functionaliteit
+414 Pakket installatie aan of uit
+415 Hou verwijderingen bij (nodig voor GLPI)
+416 Log functie
+417 Download functie aan of uit
+418 Bepaal inventarisatie verschillen functionaliteit
+419 Maximum aantal dagen voor een IPdiscover computer wordt vervangen
+420 Automatische software distributie: zie documentatie.
+421 Automatische software distributie: zie documentatie.
+422 Automatische software distributie: zie documentatie.
+423 Automatische software distributie: zie documentatie. (Pakketten met een hogere of gelijke prioriteit worden niet meer gedownload).
+424 Hoe lang de agent probeert een pakket te downloaden
+425 Max aantal computers per gateway die IP bepalen op het netwerk
+426 Geldigheid van inventarisaties. (ALTIJD: inventarisatie bij elke login. NOOIT: geen inventarisatie)
+427 Selecteer waar twee computers aan moeten voldoen om ze automatisch samen te voegen
+428 Uitrol
+429 Frequentie
+430 Bulk verwerking
+431 Activeer
+432 Niet gemeld
+433 Toewijzen
+434 Maak pakket
+435 Nieuw pakket
+436 Kan bestand niet openen
+437 pakket is gemaakt in de map
+438 Nieuw pakket maken
+439 Protocol
+440 Prioriteit
+441 Digest algoritme
+442 Digest encoding
+443 Actie
+444 Commando (aanwezig op PC)
+445 Pad
+446 Commando (uit zip)
+447 Meldingen aan gebruiker
+448 Waarschuw gebruiker
+449 Tekst
+450 Aftellen
+451 Gebruiker kan actie afbreken
+452 Gebruiker kan actie uitstellen
+453 Actie van gebruiker nodig na installatie
+454 NEE
+455 JA
+456 Uitvoeren
+457 Opslaan
+458 Starten
+459 Aftellen moet een getal zijn
+460 Unieke ID
+461 Digest
+462 Totale grootte
+463 Fragmentgrootte (1 KB min)
+464 Aantal fragmenten
+465 Pakket activeren
+466 WAARSCHUWING: Kan informatie bestand niet vinden bij
+467 WAARSCHUWING: Kan fragmentbestanden niet vinden bij
+468 Weet je zeker dat je dit pakket wil activeren?
+469 Pakket geactiveerd, je kan het nu toewijzen
+470 Https url
+471 Fragmenten url
+472 FOUT: kan map niet verwijderen
+473 Tijdstempel moet numeriek zijn
+474 Tijdstempel moet 10 cijfers lang zijn
+475 Tijdstempel
+476 Of activeer een pakket handmatig
+477 Pakket toewijzen
+478 Computer(s)
+479 Geen computer geselecteerd
+480 fragmenten
+481 Geactiveerde pakketten
+482 WACHT OP TERUGMELDING
+483 Valideer SUCCES
+484 Aangepaste frequentie
+485 Altijd inventariseren
+486 Nooit inventariseren
+487 Aangepast
+488 Standaard
+489 IPdiscover gedrag
+490 NOOIT IPdiscover
+491 ALTIJD IPdiscover van netwerk
+492 GEKOZEN IPdiscover van network
+493 Standaard (kan gekozen worden)
+494 Aangepaste inventarisatie frequentie
+495 Geïnventariseerd elke 
+496 dag(en)
+497 Standaard, gebruikt de 'FREQUENCY' parameter.
+498 Pakket
+499 Server
+500 Aanpassing
+501 Pakket toevoegen
+502 Gekozen
+503 Forceer gekozen
+504 Niet gekozen
+505 Verkiesbaar
+506 Niet verkiesbaar
+507 HEEFT
+508 HEEFT NIET
+509 ELKE
+510 Geen pakket
+511 seconden
+512 Pakket uitrol
+513 Maak pakket
+514 Activeer pakket
+515 Geactiveerd
+516 KB
+517 Deze optie kan alleen toegewezen worden aan één computer tegelijk.
+518 Forceer IPdiscover
+519 Computer al gekozen voor netwerk
+520 Computer al GEFORCEERD voor IPdiscover voor netwerk
+521 Computer al GEFORCEERD niet verkiesbaar
+522 Standaard computer
+523 Terug naar standaard staat
+524 NOOIT meer toewijzen
+525 WEET JE HET ZEKER?
+526 GEEN COMPUTER TOEGEWEZEN
+527 Januari
+528 Februari
+529 Maart
+530 April
+531 Mei
+532 Juni
+533 Juli
+534 Augustus
+535 September
+536 Oktober
+537 November
+538 December
+539 Zondag
+540 Maandag
+541 Dinsdag
+542 Woensdag
+543 Donderdag
+544 vrijdag
+545 Zaterdag
+546 met status
+547 alle
+548 Alle behalve SUCCES
+549 Bestand (wordt op computer geplaatst)
+550 bestand (niet verplicht, kan gebruikt worden voor het "uitvoeren" commmando)
+551 Deze pakketnaam bestaat al
+552 <i>je moet computers zoeken en dan 'uitrollen' klikken om deze geactiveerder pakketten toe te wijzen<br>Je kan ook een pakket toewijzen aan een enkele computer door middel van het maatwerk tabblad in de details van een computer</i>.
+553 Windows serienummer
+554 Monitor: serienummer
+555 Monitor: fabrikant
+556 Monitor: bijschrift
+557 Gebruikerdomein
+558 Toegewezen pakketten
+559 Dit is geen .ocs bestand
+560 Naar server
+561 Onbekend (verwijderd pakket)
+562 Toon netwerken met uid:
+563 Fabrikant
+564 Start agent om de ? uur
+565 Adres voor lokale inventarisaties
+567 IPdiscover wachttijd
+568 RAM (MB)
+569 CPU (MHz)
+570 Help
+571 Bevestig alle
+572 Succes
+573 Fout
+574 Statistieken
+575 Verwijder pakket bij PC's die<br>zich nu nog niet gemeld hebben
+576 Aangepaste IPdiscover
+577 Groepnaam
+580 Alle computers (opnieuw bepalen)
+581 Alle computers (gecached)
+582 en
+583 Groepen
+584 Voor de aanvraag
+585 Voor selectie
+586 Nieuwe groep
+587 Nieuwe statische groep
+588 groep overschrijven
+589 statisch toevoegen aan groep
+590 Reset status
+591 statisch opnemen
+592 statisch uitsluiten
+593 Datum gemaakt
+594 Cache gegenereerd op
+595 STATISCHE GROEP
+596 DYNAMISCH OPGENOMEN
+597 STATISCH UITGESLOTEN
+598 opnemen
+600 Uitsluiten
+601 Bulk toewijzing
+602 je moet een bestand sturen
+603 Geen computer gevonden, controleer je bestand
+604 computer(s) succesvol toegewezen
+605 computer(s) mislukt
+606 Computers bestand
+607 Groep
+608 gemaakt
+609 overschreven
+610 STATISCH OPGENOMEN
+611 GEEN CACHE
+612 STATISCH
+613 DYNAMISCH
+614 UITGESLOTEN
+615 Zoekopdracht
+616 Gebruikersbereik
+617 Nieuw
+618 Bereik
+619 Lokale gebruiker
+620 Geen computer in je bereik.
+621 Groep niet gemaakt, bestaat al
+622 Gecached
+623 Toegang niet mogelijk, data bestaat niet
+624 Wil je deze groep echt wissen: 
+625 Ok
+626 Annuleren
+627 Update niet gemaakt, er zijn lege velden...
+628 Herdistributie Servers
+629 Nieuwe herdistributie groep
+630 Een bestaande herdistributie groep
+631 Toevoegen aan
+632 Crush
+633 Beheer herdistributie groep
+634 Gewenste actie
+635 Nieuwe naam
+637 Vervang
+638 GROEPNAAM KAN NIET LEEG ZIJN
+639 DEZE HERDISTRIBUTIE GROEP BESTAAT NIET
+640 Weet je zeker dat je dit wilt wissen:
+641 Beheer van de herdistributie servers
+642 de groep
+643 Alle computers
+644 deze computer
+645 GROEP DETAILS
+646 URL
+647 POORT NUMMER
+648 DIRECTORY OPSLAG
+649 AUTOMATISCH
+650 HANDMATIG
+651 Herdistributie groep
+652 computer(s)
+653 Blacklist MAC adres
+654 Blacklist MAC adres
+655 Toegevoegd
+656 Deze datum bestaat al in de lijst
+657 Rode velden zijn fout!!! (Veld leeg of grootte < 2)
+658 computer heeft geen herdistributie servers. <br>Het is daardoor noodzakelijk om het pakket individueel toe te wijzen.
+659 computers hebben dit pakket al. De pakket status voor deze computers is nu 
+660 HERDISTRIBUTIE GROEP BESTAAT NIET
+661 HERDISTRIBUTIE PAKKETTEN
+662 Toewijs regels
+663 INTERN PROBLEEM
+664 Actie gemaakt
+665 GEEN COMPUTER GESELECTEERD. HERDISTRIBUTIE GROEP NIET GEMAAKT
+666 Herdistributie gemaakt
+667 VOOR HET PAKKET
+668 Toewijzen met welke regel?
+669 WAARSCHUWING: er zijn prioriteits doublures <br> Één regel blijft behouden!
+670 Er bestaat al een regel met deze naam
+672 Deze regel bestaat niet!!!
+673 Beheer van de toewijs regels
+674 NAAM VAN DE REGEL
+675 PRIORITEIT
+676 COMPUTER WAARDE
+677 OPERATOR
+678 SERVER WAARDE
+679 NAAM
+680 DOMEIN
+681 GEBRUIKER
+682 Nog een voorwaarde toevoegen
+683 Bevestig de regel
+684 De volgende velden worden aangegrepen
+685 Regel toevoegen
+686 De voorwaarde
+687 Je kan het niet wissen.
+688 Pakketten zijn toegewezen via deze groep!
+689 Pakketten zijn toegewezen via deze server!
+690 je kan niet alle computers wissen.
+691 Generieke waarden: $IP$ en $NAME$
+692 Je wijzigt ALLE waarden van de servers
+693 Je wijzigt de waarden van de volgende server:
+694 om standaardwaardes te zien, bevestig de lege velden
+695 Je wijzigt de herdistributie groep
+696 om pakketten te tonen toegewezen aan
+697 een computer
+698 een herdistributie groep
+699 Weet je zeker dat je dit pakket wilt toewijzen aan deze computers?
+700 Selecteer blacklist
+701 Blacklist een serienummer
+702 Blacklist serienummer
+703 Blacklist
+704 Weet je zeker dat je wilt blacklisten 
+705 Weet je zeker dat je wilt verwijderen van blacklist
+706 Verwijder van blacklist
+707 dit serienummer
+708 dit MAC adres
+709 Aangepaste PROLOG_FREQ 
+710 Aangepaste download
+711 Meegenomen wijzigingen
+712 Taalbestand
+713 Weet je zeker dat je dit taalbestand wilt vervangen
+714 Referentie taalbestand
+715 Selecteer te wijzigen taalbestand
+716 Update het taalbestand
+717 aangepast
+718 Negeer
+719 (per seconde)
+720 Wachttijd tussen 2 uitrol cycli
+721 Wachttijd tussen 2 gedownloade fragmenten
+722 Wachttijd tussen 2 uitrol periodes
+723 maximum prioriteit van de pakketten <br> (Pakketten met een hogere prioriteit worden genegeerd)
+724 Wachttijd tussen agent - server communicatie
+725 (per uur)
+726 URI van de herdistributie servers ($IP en NAME$ zijn de generieke waarden)
+727 Doelmap van pakketten.
+728 Inventarisatie
+729 computers
+730 uren
+731 Kenmerk wordt toegevoegd aan elke sectie van de inventarisatie.
+732 milliseconde(n)
+733 Inactief
+734 Inventarisatie bestanden
+735 Filters
+736 Computer groepen inschakelen
+737 Toevalsgetal berekend in het gedefinieerde bereik. Dit is om het berekenen van veel groepen in hetzelfde proces te ontwijken
+738 Geef de geldigheid van computergroepen (standaard: eens per dag berekenen - zie offset)
+740 Geldigheid van een computerblokkering
+741 Gebruik de CHECKSUM waarde van de agent om de inventarisatie uit te voeren (minder belasting voor de DB backend)
+742 Zie een inventarisatie als een transactie (lagere concurrency, beter schijfgebruik)
+743 Maak een differentiele inventarisatie (rij niveau). (Minder belasting van de DB backend, hoger voor de frontend)
+744 Accepteer een inventarisatie alleen indien nodig (weiger "geforceerde" inventarisaties)
+745 Geef aan wanneer de inventory cache structuur geschoond moet worden
+746 Geef het minimale verschil om een IPdiscover agent te vervangen
+747 Tijd voor de eerste verkiezing uit zetten (niet aanbevolen)
+748 Groepen voor IPdiscover aan zetten (bijvoorbeeld om IPdiscover agenten uit te zetten voor een groep)
+749 Gebruik met ocsinventory-local, multi entities instelling aan zetten
+750 Genereer een gecomprimeerd bestand of een XML tekstbestand
+751 Geef aan of je alle inventarisaties wilt bijhouden tijdens synchroniseren met hogere server
+752 Pad naar ocs map (schrijfrechten nodig)
+753 prolog filter inschakelen
+754 Filter inschakelen voor "on the fly" aanpassingen
+755 Inventarisatie overbelastingfilter inschakelen.<br>Een ip adres mag maar één nieuwe inventarisatie versturen binnen deze periode
+756 Periode definitie voor INVENTORY_FILTER_FLOOD_IP
+757 Inventarisatie filter inschakelen
+758 Pakketten toegewezen aan een groep op computerniveau volgen?
+759 Moet groter dan of gelijk zijn aan
+760 Webservice
+761 Soap service inschakelen
+762 Max wachttijd voor resultatenberekening<br>(om systeem overbelasting tegen te gaan)
+763 Bestand met eigen modules
+764 Onderstaande instellingen kunnen niet via GUI.<br>(zie ocsinventory-server.conf)
+765 Alle software
+766 GEEN RESULTAAT
+767 LET OP: RESULTATEN MET FILTER
+768 Aantal opnames
+769 Transactie gemaakt
+770 UPDATE VAN 
+771 Deze categorie bestaat al
+772 Categorienaam kan niet leeg (null) zijn
+773 Selecteer een categorienaam
+774 Je probeert een categorie om te zetten naar dezelfde categorie
+775 Map waar pakketten worden opgeslagen
+776 Map voor de cache van IPdiscover analyses
+777 Geldigheid van een sessie
+778 Aantal verschillende werkgroepen/domeinen
+779 Aantal verschillende TAGs
+780 aantal IP subnetten
+781 Computers met een lopende pakket uitrol
+782 Computers met een pakket installatie fout
+783 Aantal verschillende OS
+784 Aantal OCS-agent versies
+785 Aantal processortypes
+786 Aantal schermresoluties
+787 Computers met processorsnelheid >=
+788 Computers met processorsnelheid =<
+789 Computers met processorsnelheid tussen
+790 Computers met RAM >=
+791 Computers met RAM =<
+792 Computers met RAM tussen
+793 Aantal computers in databank
+794 Aantal computers geïnventariseerd
+795 Aantal computers vandaag gecontacteerd
+796 Aantal computers vandaag geïnventariseerd
+797 Aantal computers niet gezien in meer dan
+798 ACTIVITEIT
+799 HARDWARE
+800 ANDERS
+801 Dit veld niet tonen
+802 Label
+803 Aantal dagen sinds de computer geen contact heeft gehad met de server
+804 Minimum snelheid processor
+805 Maximum snelheid processor
+806 Minimum hoeveelheid RAM
+807 Maximum hoeveelheid RAM
+808 Herverdeling
+809 STATISCHE GROEPEN
+810 DYNAMISCHE GROEPEN
+811 Weet je zeker dat je de zichtbaarheid van de groep wilt wijzigen
+812 De software in 0 is aanwezig in de CACHE maar niet meer geïnstalleerd op computers.<br>Kan het niet toevoegen aan een dictionary categorie
+813 Aantal schijven met lege ruimte >
+814 Aantal schijven met lege ruimte <
+815 Aantal schijven met lege ruimte tussen
+816 maximum lege schijfruimte
+817 minimum lege schijfruimte
+818 verwijder uit groep
+819 computer(s) toegevoegd aan groep
+820 Laatste contact
+821 SERVER CONFIGURATIE WIJZIGING
+822 Aanpassen
+823 Standaard 
+824 GUI log inschakelen
+825 Map voor logbestanden
+826 Adres waar de pakket fragmenten zijn te vinden
+827 Adres waar het pakket INFO bestand is te vinden
+828 Verwijder computers met een inventarisatie ouder dan
+829 Herdistributie pakketten aanmaak map
+830 LDAP server adres
+831 LDAP server poort
+832 LDAP basis pad (DN)
+833 Veld met loginnaam
+834 Versie LDAP_OPT_PROTOCOL_VERSION
+835 RSX toevoegen
+836 Beheer apparaattypen
+837 je hebt geen toegang tot deze data
+838 Schijf: Schijfletter 
+839 Schijf: Type
+840 Schijf: Formaat
+841 Schijf: Capaciteit
+842 Schijf: Vrije ruimte
+843 Schijf: Volume naam
+844 Groep: Id
+845 Groep: Statisch?
+846 Software: Bedrijf
+847 Software: Naam
+848 Software: Versie
+849 Software: Installatie map
+850 Software: Opmerkingen
+851 Bios: Computer fabrikant
+852 Bios: Model
+853 Bios: Serienummer
+854 Bios: Computertype
+855 Bios: Bios fabrikant
+856 Bios: Versie
+857 Bios: Datum
+858 Monitor: Fabrikant
+859 Monitor: Naam
+860 Monitor: Omschrijving
+861 Monitor: Type
+862 Monitor: Serienummer
+863 Network: Omschrijving
+864 Network: Type
+865 Network: MibType
+866 Network: Snelheid
+867 Network: MAC Adres
+868 Network: Status
+869 Network: IP Adres
+870 Network: IP Netmask
+871 Network: Subnetwork IP
+872 Network: Gateway IP
+873 Network: DHCP IP
+874 Registry key: Naam
+875 Registry key: Waarde
+876 Eenvoudig niet meer toewijzen aan HERDISTRIBUTIE GROEP
+877 SOMMIGE COMPUTERS ZIJN NIET AAN DE GROEP TOEGEVOEGD OMDAT:
+878 Herinnering: een computer kan maar lid zijn van één herdistributie groep
+879 GROEP VERVANGEN
+880 GROEP GEMAAKT
+881 Computers toegevoegd
+882 Computers verwijderd van groep
+883 Filter op
+884 LET OP: Resultaten zijn gefilterd
+885 onbekend
+886 Eenvoudig losmaken
+887 Het is mogelijk dat dit pakket niet is toegewezen aan herdistributie servers
+888 Verwijdering
+889 Verbonden als
+890 De interface is geblokkeerd door een filter op meerdere criteria
+891 Verwijder interface blokkade
+892 verbind met een ander account
+893 GEEN TAG TOEGEWEZEN AAN JE PROFIEL
+894 GEEN RECHTEN GEDEFINIEERD IN JE PROFIEL
+895 TAG wijziging
+898 Aantekening toevoegen
+899 Auteur
+900 Selectie wissen?
+901 Uitvoeren op filterresultaat
+902 Uitvoeren op selectie
+903 Je moet het uitleg veld invullen
+904 Pakket opnieuw toewijzen
+905 uitleg over uitgevoerde acties<br>op computer om <br>pakket toe te wijzen
+906 Pakket uitrol verwijdering
+907 Uitleg over pakket verwijdering<br>op deze computer
+908 Mobiele terminal informatie
+909 WIJZIGING NIET UITGEVOERD: NIEUW PROFIEL VERKEERD
+910 Bevestig
+911 Wissel profiel van 
+912 Exporteer lijst van computers die deze software hebben
+913 Aantal niet geïnventariseerde netwerk interfaces
+914 Aantal agents die geen inventarisatie gestuurd hebben sinds
+915 berichten
+916 De waarde moet hoger zijn dan
+917 FREQUENCY waarde
+918 Verschil tussen LASTDATE en LASTCOME
+919 Weet je zeker dat je dit bericht wilt wissen
+920 FOUT: het aangevraagde bestaat niet.
+921 Wis deze categorie
+922 Om samen te voegen moet je minimaal 2 computers selecteren
+923 je hebt geen computer geselecteerd
+924 ONGEBRUIKELIJKE EXTRACTIE AANVRAAG!
+925 FUSER functionaliteit
+926 Fuser login:
+927 CACHE WORDT NIET OPNIEUW OPGEBOUWD DOOR DEZE ACTIE
+928 Log tonen
+929 subnetwerk beheer wordt niet lokaal uitgevoerd.
+930 Je kan subnetwerken niet toevoegen/wijzigen/verwijderen
+931 Wijzig een subnetwerk
+932 IP adres mag niet leeg zijn
+933 Netwerk naam mag niet leeg zijn
+934 Netwerk ID mag niet leeg zijn
+935 Subnetmask mag niet leeg zijn
+936 Type mag niet leeg zijn
+937 Dit apparaattype bestaat al
+938 Nieuw apparaattype
+939 Computers die lid zijn van de groep
+940 Alle computers met dit pakket
+941 TOON STATISTIEKEN VAN
+942 Je kan geen opmerking invoegen bij dit randapparaat
+943 Selecteer het randapparaat type
+944 Gegevens ingevoerd door
+945 Randapparaat wijziging
+946 Nieuw randapparaat toevoegen
+947 Ongeïdentificeerde apparaten lijst
+948 Geïdentificeerde apparaten lijst
+949 Computer Id
+950 BESTANDSNAAM
+951 BESTAND GEMAAKT IN
+952 BESTAND GEWIJZIGD IN
+953 GROOTTE 
+954 SESSIE verloren
+955 GEEN SYSTEEM GEVONDEN IN DATABANK
+956 Alle fouten
+957 Alle SUCCESSen
+958 PROBLEEM MET TELEDEPLOY WAARDE
+959 TE VEEL SOFTWARE. FILTER SPECIFIEKER
+960 GEEN SOFTWARE GEVONDEN MET FILTER
+961 LIJST VAN
+962 (één , tussen elke)
+963 VERSCHIL LIJST VAN
+964 Partitie naam
+965 Toon
+966 Agent
+967 BEHOORT BIJ
+968 BEHOORT NIET BIJ
+969 Pakket historie
+970 Pakketten
+971 COMPUTERS VERWIJDEREN UIT GROEP
+972 Computers zijn verwijderd uit groep
+973 COMPUTERS TOEVOEGEN AAN GROEP
+974 computers toegevoegd aan de cache
+975 Toevoegen aan groep
+976 GESELECTEERDE INTERFACE BLOKKEREN
+977 Geblokkeerd
+978 Je blokkeert alle geselecteerde interfaces
+979 Om naar standaardwaardes te gaan, klik op het icoon <img src='image/cadena_op.png' > rechtsboven in het scherm
+980 Pakketten op computers
+981 Pakketten op server groepen
+982 GEEN TOEWIJSREGEL BESCHIKBAAR. GEEN HERDISTRIBUTIE MOGELIJK.
+983 Selecteer het type waarop je de wijzigingen wilt toepassen
+984 Wijzigingen
+985 COMPUTER VERWIJDERING
+986 VERWIJDER COMPUTERS VOOR
+987 Deze registersleutel bestaat al
+988 VUL ALLE VELDEN
+989 GEEN DATA BETREFFENDE DE UITROL VAN DIT PAKKET GEVONDEN.<BR>KAN GEEN GRAFIEK BEREKENEN.
+990 Pakketten handmatig aangemaakt
+991 Pakketten automatisch aangemaakt
+992 Geschatte uitroltijd
+993 Rode velden zijn fout
+994 PDA/SMARTPHONE
+995 user ID
+996 Achternaam
+997 User ID invullen a.u.b.
+998 selecteer een geldig profiel
+999 Dit user ID bestaat al
+1000 Gemeld
+1001 Rode velden zijn fout!
+1002 Geschatte tijd voor uitrol
+1003 Herdistributie servers pakket parameters
+1004 Het is niet mogelijk om de map voor de pakketten te maken
+1005 Pakkeet aanmaken niet mogelijk
+1006 je hebt geen schrijfrechten
+1007 De map
+1008 Pakket gebruiken voor herdistributie
+1009 Server opslag map
+1010 NORMAAL
+1011 DEBUG
+1012 VERTALING
+1013 ONDERHOUD
+1014 Debug modus
+1015 User modus
+1016 Gebruikersnaam (DN) om te verbinden
+1017 Wachtwoord gebruikersnaam
+1018 (Niets invullen wanneer je een anonieme verbinding wilt gebruiken)
+1019 Blokkeer resultaat
+1020 TAG naam
+1021 Uitrol admin
+1022 TAG admin
+1023 Pakketten toegewezen met status
+1024 worden verwijderd
+1025 verwijder toewijzing
+1026 Pakketten verwijderd van computers
+1027 Categorieën
+1028 Nieuw
+1029 Genegeerd
+1030 Onveranderd
+1031 workflow voor uitrol
+1032 Activeer workflow voor uitrol
+1033 Aanvrager informatie
+1034 Algemene pakket informatie
+1035 Technicsche pakket informatie
+1036 Bevestiging informatie
+1037 Pakket naam
+1038 Aanvrager
+1039 Prioriteit
+1040 Melden aan gebruiker
+1041 Gebruiker kan uitstellen
+1042 veroorzaakt een herstart
+1043 Controle om de installatie te bevestigen
+1044 Volgens lijst
+1045 Visueel
+1046 Toestand
+1047 INFO
+1048 Bestand toevoegen
+1049 VERKEERDE ACTIE
+1050 Zoek software
+1051 Zoek
+1052 Historie
+1053 Wijzigingsverzoek
+1054 Toewijsverzoek
+1055 Verkeerd e-mail adres
+1056 Neem contact op met je OCS-NG administrator
+1057 Kan niet verbinden met mailserver
+1058 Verkeerd e-mail adres
+1059 Data beschikbaar
+1060 Nieuwe data
+1061 Tabblad
+1062 Veld
+1063 Naam
+1064 Verplicht
+1065 Veld begrenzing
+1066 Verbonden met een status
+1067 veldnaam al gebruikt
+1068 veldnaam mag niet leeg zijn
+1069 Waarde toegevoegd
+1070 Nieuw veld
+1071 Veld type
+1072 Lopende verzoeken
+1073 Doe een verzoek
+1074 'Workflow' functie niet geactiveerd.
+1075 Activeer deze functie om het te kunnen gebruiken
+1076 FOUT: ZOEK STATUS NIET GEDEFINIEERD
+1077 Status voor pakket creatie
+1078 Test status
+1079 begrenst bereik status
+1080 globaal bereik status
+1081 Informatie via mail
+1082 Workflow admin groep
+1083 Bereik identificatie
+1084 Groepnaam voor test
+1085 Groepnaam voor begrenst bereik
+1086 TAG waarde voor test
+1087 Waarde van de test tag
+1088 TAG waarde voor begrenst bereik
+1089 Geen status actief. je moet er eerst één activeren
+1090 heeft wijzigings aanvraag nr
+1091 Een nieuw verzoek is geplaatst
+1092 plaats een nieuw verzoek
+1093 Databank niet compleet
+1094 Herhaal de volledige installatie van de databank
+1095 Status Admin
+1096 Velden lijst
+1097 Tabbladen lijst
+1098 Veldnaam
+1099 Standaard waarde
+1100 Status lijst
+1101 Dit veld kan niet geupdate worden
+1102 Actieve status
+1103 Status ID
+1104 Niveau
+1105 Workflow functionaliteit staat aan
+1106 Het is alleen mogelijk om een pakket aan te maken wanneer er een verzoek voor bestaat
+1107 En de status is correct
+1108 LDAP configuratie
+1109 Filter
+1110 Het toewijzen van een pakket hangt af van de status van het verzoek
+1111 Naam van het eerste attribuut dat gebruikt wordt om het beveiligingsniveau te bepalen van een LDAP user (leeg voor geen)
+1112 Waarde van het eerste attribuut dat gebruikt wordt om het beveiligingsniveau te bepalen van een LDAP user (leeg voor geen)
+1113 Wanneer het eerste attribuut is gevonden en de waarde overeenkomt, geef de gebruiker dan automatisch deze rol
+1114 Naam van het tweede attribuut dat gebruikt wordt om het beveiligingsniveau te bepalen van een LDAP user (leeg voor geen)
+1115 Waarde van het tweede attribuut dat gebruikt wordt om het beveiligingsniveau te bepalen van een LDAP user (leeg voor geen)
+1116 Wanneer het tweede attribuut is gevonden en de waarde overeenkomt, geef de gebruiker dan automatisch deze rol
+1117 E-mail
+1118 Wijzig
+1119 Selecteer
+1120 Aantal
+1121 Update klaar
+1122 Wiki
+1123 IRC
+1124 Forums
+1125 Percentage
+1126 Notitie datum
+1127 Notitie auteur
+1128 Notities
+1129 VERWIJDERD PAKKET
+1130 Taal editor
+1131 Woord
+1132 ID woord
+1133 Nieuw woord
+1134 Geen IPdiscover data
+1135 computer(s) bestaan al in herdistributie groep
+1136 SNMP
+1137 SNMP service inschakelen
+1138 Toon alle subnetten
+1139 Beheer
+1140 Beheer subnet
+1141 Subnet toegevoegd
+1142 Blacklist IP-range
+1143 Subnet mask
+1144 Verkeerd MAC adres. (moet zijn: XX.XX.XX.XX.XX.XX)
+1145 de waarde moet zijn tussen
+1146 Beheer profielen
+1147 Je kan het niet updaten.
+1148 <b>WAARSCHUWING:</b> Automatische backup van configuratie bestanden niet mogelijk
+1149 Nieuwe profiel naam
+1150 Referentie profiel
+1151 Tekst profiel
+1152 WAARSCHUWING: standaard profielen niet wissen, hierdoor werkt OCS-NG mogelijk niet meer goed.
+1153 Profielnaam
+1154 Op computers
+1155 Op uitrol workflow
+1156 Beheer uitrol workflow
+1157 Op de velden van uitrol workflow
+1158 Op de pakket activatie
+1159 Op MAC adres
+1160 Op serienummer
+1161 Op IPdiscover's subnet
+1162 Beheer tele-uitrol
+1163 Update Configuratie
+1164 Beheer groepen
+1165 Beheer scherm
+1166 Zie waarschuwingen van de GUI
+1167 Beheer account info
+1168 mag computer account info wijzigen
+1169 mag groepslidmaatschap wijzigen
+1170 Beheer profielen
+1171 Beheer profielgroep
+1172 Beheer IPdiscover
+1173 Profiel informatie
+1174 Gebruiker pagina's
+1175 Restricties
+1176 Rechten om te blacklisten
+1177 Rechten om te beheren
+1178 Dit veld
+1179 is een variabele. Het kan geen speciale tekens bevatten
+1180 kan niet leeg zijn
+1181 Gebruik herdistributie servers aan of uit
+1182 je kan herdistributie regels niet beheren, deze functie is uitgeschakeld
+1183 Lijst te maken pakketten
+1184 Sleutel toegevoegd
+1185 Sleutel geupdate
+1186 Je data is geupdate
+1187 Configuratie loopt
+1188 Deze groep is aangewezen als TEST bereik
+1189 Deze groep is aangewezen als BEGRENST bereik
+1190 Je kan pakketten geen hoger niveau toewijzen
+1191 Informatie: de workflow configuratie is op dit moment AAN
+1192 Groep kan TEST pakketten ontvangen
+1193 Groep kan BEGRENSDE pakketten ontvangen
+1194 Alleen pakketten met een hoger niveau
+1195 mogen worden toegewezen
+1196 Profiel
+1197 SNMP functionaliteit
+1198 Netwerk scans
+1199 SNMP versie
+1200 Waarde is aangepast
+1201 Toon
+1202 Linux (ALLE)
+1203 Windows (ALLE)
+1204 IPdiscover
+1205 Beheer SNMP communities
+1206 Map met SNMP communities bestand
+1207 SNMP community toevoegen
+1208 SNMP community toegevoegd
+1209 SNMP community aangepast
+1210 Account info:
+1211 URL waar het SNMP community bestand staat
+1212 SNMP community verwijderd
+1213 Scheidingsteken in exportbestand
+1214 Update de SNMP inventarisatie volgens de snmp_laststate tabel (lagere belasting DB backend)
+1215 Blade server
+1216 Firewall
+1217 Load balancer
+1218 Switch(es)
+1219 Kaarten
+1220 Cartridges
+1221 Drives
+1222 Fans
+1223 Power supplies
+1224 Trays
+1225 Maximum capaciteit
+1226 Kleur
+1227 Contact
+1228 Apparaat SNMP
+1229 Firmware
+1230 Volume Naam
+1231 Bestandstype moet ZIP zijn
+1232 Bestandstype moet TAR.GZ zijn
+1233 Databank naam
+1234 Omschrijving mag niet leeg zijn
+1235 Referentie
+1236 Software versie
+1237 Firmware versie
+1238 Installatie datum
+1239 MHz
+1240 MB
+1241 Aantal SNMP apparaten
+1242 m/d/j
+1243 Alleen ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe en ocspackage.exe bestanden zijn mogelijk
+1244 Bestand mag niet leeg zijn
+1245 Beheer je OCS-NG clients
+1246 Opnieuw toewijzen
+1247 Architectuur
+1248 Map
+1249 Activeer cache tabellen<br>(hierdoor wordt de MySQL databank minder bevraagd)
+1250 Tele-uitrol snelheid
+1251 Statistieken
+1252 Map voor configuratie profiel bestanden
+1253 Map voor oude conf profiel bestanden
+1254 Map voor logbestanden van scripts
+1255 Aantal connecties per dag
+1256 Aantal foute connecties per dag
+1257 Gebruik flash op GUI
+1258 Handmatige invoer
+1259 Voor een week
+1260 Voor een maand
+1261 Wis cache
+1262 Geen plugin toegevoegd aan je profiel
+1263 BEVEILIGINGS ALARM!
+1264 Volgende
+1265 cache tabellen aan zetten
+1266 Virtual Computers
+1267 Type Virtual Computers
+1268 Uuid
+1269 Computer gehost door
+1270 MMDDJJJJ
+1271 Computers in het subnet
+1272 Verwijder deze computers
+1273 Je hebt geen rechten om een computer te verwijderen
+1274 Profiel aangepast
+1275 Profielen kunnen niet gewist worden.
+1276 Profiel gemaakt
+1277 Standaard profiel (leeg voor geen)
+1278 Je mag geen verbinding maken
+1279 WOL
+1280 Wake On Lan
+1281 Bij Wake On Lan
+1282 Wake On Lan packet verzonden
+1283 Wil je een Wake On Lan packet verzenden naar deze computer
+1284 Bron IP
+1292 Gebruik de geavanceerde opties van tele-uitrol
+1293 Forceer tele-uitrol
+1294 Installatie tijd
+1295 Installatie datum
+1296 Reclame
+1297 SNMP apparaat identificatie
+1298 QRCode beheer
+1299 QRCode
+1300 Controleer QRCode
+1301 op niet zichtbare pakketten
+1302 ontwikkeling
+1303 Exporteer
+1304 XML
+1305 Bij het genereren van een XML inventarisatie
+1306 Beheer plugins
+1307 Actieve plugins
+1308 Plugins toevoegen
+1309 Tele-uitrol opties
+1310 Afsluiten
+1311 Herstart
+1312 Data breedte
+1313 Huidige adres breedte
+1314 Logische CPUS
+1315 Huidige snelheid
+1316 Socket type
+1317 Aantal cores
+1318 L2 cache grootte
+1319 Voltage
+1320 Gebruik komma (",") als scheidingsteken
+1321 Geen poort gedefinieerd voor WOL
+1322 Kan socket voor WOL niet openen
+1323 Server printer deling
+1324 Deel printer op server
+1325 scherm horizontaal / verticaal
+1326 Gedeeld
+1327 Lokaal / Netwerken
+1328 Beheer
+1329 Administratie
+1330 Hardware
+1331 Devices
+1332 Diversen
+1333 Configuratie
+1334 Geen records
+1335 Toon _START_ tot _END_ van _TOTAL_ regels
+1336 Toon 0 tot 0 van 0 regels
+1337 (Gefilterd uit _MAX_ regels)
+1338 Toon _MENU_ opties
+1339 Laden...
+1340 Verwerken...
+1341 Zoek&nbsp;:&nbsp;
+1342 Geen regels gevonden
+1343 Eerste
+1344 Laatste
+1345 Volgende
+1346 Vorige
+1347 Sorteer kolom oplopend
+1348 Sorteer kolom aflopend
+1349 Toon / Verberg
+1350 ,
+1351 .
+1352 Server begreep de vraag maar antwoord was ongeldig
+1353 Toegang niet toegestaan
+1354 Geen toegang tot bron
+1355 Pagina niet gevonden
+1356 Aanvraag-URI te lang, verwijder je Cookies
+1357 Interne Server Fout
+1358 Service Niet Beschikbaar
+1359 Gebruiker afgemeld
+1360 Server informatie
+1361 Mijn account
+1362 Over
+1363 OK
+1364 Annuleren
+1365 Mijn account
+1366 Voornaam
+1367 Netwerk
+1368 CPU
+1369 PHP Versie
+1370 Web Server
+1371 Database Server
+1372 Kernel
+1373 Distributie
+1374 Ga naar de website
+1375 Oude Forums
+1376 Q&A
+1377 Question and answers
+1378 RAM vrij
+1379 RAM geïnstalleerd
+1380 Reset tabel kolommen
+1381 Acties
+1382 Moederbord Serienummer
+1383 Moederbord Fabrikant
+1384 Moederbord Model
+1385 Wijzig gebruiker
+1386 Maak gebruiker
+1387 Systeem
+1388 Netwerk
+1389 Hardware
+1390 Agent
+1391 Dit veld is verplicht
+1392 Ongeldige waarde
+1393 Pakket naam bestaat al
+1394 Veld mag alleen cijfers en letters bevatten
+1395 Er bestaat al een profiel met deze naam. Kies een andere naam.
+1396 Unieke naam (bijv: admin)
+1397 Display naam (bijv: Administrators)
+1398 Kopieer profiel data
+1399 Maak profiel
+1400 Gebruikers
+1401 Profielen
+1402 Unieke naam
+1403 Maak gebruiker
+1404 Fouten gevonden bij controleren profiel
+1405 Profiel gemaakt
+1406 Fout opgetreden bij aanmaken profiel, controleer het bestandssysteem of neem contact op met een administrator
+1407 Profielbestand niet schrijfbaar
+1408 Profiel gewijzigd
+1409 Fout opgetreden bij profiel wijzigen, controleer het bestandssysteem of neem contact op met een administrator
+1410 Gebruikers
+1411 Display naam
+1412 Wijzig profiel
+1413 Nieuw label
+1414 Machine Details
+1415 OperatorID
+1416 OperatorNaam
+1417 IMEI/DEVICEID
+1418 Land
+1419 Zoek in kolom
+1420 Thema aanpassen
+1421 Repository
+1422 Verloopt
+1423 Bestandsnaam
+1424 Mirrors
+1425 Tag
+1426 Gewijzigd
+1427 Basis URL
+1428 Batterij
+1429 Sim kaart
+1430 Gelijk aan
+1431 Groter dan
+1432 Kleiner dan
+1433 Hardware Link Id
+1434 Gebruiker Id
+1435 Locatie
+1436 Process
+1437 Chemistry
+1438 SBDS Versie
+1439 Max error
+1440 OEM Specifiek
+1441 Revalidate time
+1442 XML Definitie
+1443 Standaard Gateway
+1444 USB apparaten
+1445 Groep
+1446 Model naam
+1447 Account info
+1448 IS NULL
+1449 Algemene configuratie
+1450 ID
+1451 Statisch ?
+1452 Begin garantie
+1453 GUID
+1454 Bron
+1455 Virtuele interface
+
+
+1500 Software categorie
+1501 Nieuwe categorie
+1502 Categorielijst
+1503 Software toevoegen
+1504 Reguliere expressie of Software naam
+1505 Selecteer standaard categorie voor software
+1506 Geen categorie gemaakt
+1507 Software versie
+1508 Software verkoper
+1509 Geavanceerde instellingen
+1510 Software versie vergelijker
+1511 Versie vergelijker
+1512 Kleiner of gelijk aan
+1513 Groter of gelijk aan
+1514 Categorie
+1515 Alle OS
+1516 Alle software (behalve standaard)
+1517 Geen categorie geselecteerd
+
+
+1600 Mijn dashboard
+1601 Dynamische groepen
+
+1700 Geavanceerde configuratie
+1701 Tabbladen
+1702 Nieuw tabblad
+1703 Geselecteerde pakketten toevoegen
+
+2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
+2001 FOUT:
+2002 FOUT: regel
+2003 MySQL fout:
+2004 (gebruik nieuw ocs account)
+2005 Subnet
+2006 WAARSCHUWING:
+2007 account
+2008 fout
+2009 mislukt
+2010 host
+2011 login
+2012 niet ingevoegd
+2013 nodig
+2014 wachtwoord
+2015 filter
+2016 gelukt
+2017 gebruik
+2018 is geïmporteerd
+2019 waren al geïmporteerd
+2020 install.php bestaat in je installatie map (default: /usr/share/ocsinventory-reports/ocsreports).
+2021 Map voor log bestanden is niet schrijfbaar (default: /var/lib/ocsinventory-reports/logs)
+2022 Je kan geen bestand sturen groter dan
+2023 Wis het
+2024 Het standaard SQL login/wachtwoord is actief op je databank:
+2025 Verander je login wachtwoord voor gebruiker 'ocs' in MySQL
+2026 Het standaard login/wachtwoord is actief op de OCS-NG GUI
+2027 Wijzig je 'admin' wachtwoord op de OCS-NG GUI
+2028 Authenticatie sleutel
+2029 De configuratie map is niet schrijfbaar
+
+2030 OCS-NG Inventory Installatie
+2031 Huidige versie
+2032 is lager dan deze versie
+2033 Automatische installatie gestart.
+2034 DB configuratie niet compleet. Automatische installatie gestart
+2035 FOUT: Sessions voor PHP niet goed geïnstalleerd.<br>Probeer de php-session extensie te installeren.
+2036 WAARSCHUWING: XML voor PHP niet goed geïnstalleerd, IPdiscover-util kun je niet gebruiken.
+2037 FOUT: MySQL voor PHP niet goed geïnstalleerd.<br>Probeer de php-MySQL extensie te installeren (Debian: php5-mysql)
+2038 WAARSCHUWING: GD voor PHP niet goed geïnstalleerd.<br>Tonen van grafieken niet mogelijk.<br>Windows: Haal de puntkomma voor de regel 'extension=php_gd2.dll' weg in php.ini<br>Linux: Installeer de php5-gd extensie.
+2039 WAARSCHUWING: OpenSSL voor PHP niet goed geïnstalleerd.<br>Sommige automatische uitrol functies zijn niet beschikbaar<br>Windows: Haal de puntkomma voor de regel 'extension=php_openssl.dll' weg in php.ini<br>Linux: installeer de php-openssl extensie.
+2040 WAARSCHUWING: Je kan geen pakketten bouwen groter dan
+2041 Je moet <font color="red">post_max_size</font> en <font color="red">upload_max_filesize</font> in php.ini vergroten om deze limiet te verhogen.
+2042 WAARSCHUWING: De MySQL server gebruikt het standaard root wachtwoord. Wijzig dit z.s.m.. (root wachtwoord=leeg)
+2043 WAARSCHUWING: De ingevoerde gebruiker lijkt geen root te zijn<br>Heb je problemen met bestanden invoegen, wijzig dan de globale <font color="red">max_allowed_packet</font> MySQL instelling naar minimaal 2MB.
+2044 Label toegevoegd
+2045 Label NIET toegevoegd (er wordt niet gevraag om een TAG bij starten Agent)
+2046 FOUT: MySQL authenticatie probleem.
+2047 Je moet de 'old-passwords' in je MySQL config bestand (my.ini) zetten. Herstart daarna MySQL en herstart install.php
+2050 Installatie klaar. Je kan nu aanmelden met gebruiker=admin en wachtwoord=admin
+2051 Klik hier om naar de OCS-NG GUI te gaan
+2052 FOUT: kan niet schrijven in map met dbconfig.inc.php. Zet de rechten goed om ocsinventory te installeren (na een succesvolle installatie kun je deze rechten weer verwijderen)
+2053 Geduld a.u.b., wijzigen databank kan 30 minuten duren...
+2054 mislukt, KEY was te lang<br>Doe deze query later nogmaals, anders krijg je prestatie problemen.
+2055 Databank succesvol aangemaakt
+2056 MySQL config bestand succesvol geschreven
+2057 Bestaande databank aangepast
+2058 Databank engine controle...
+2059 FOUT: Wijzig query mislukt
+2060 FOUT: 'Show table status' query mislukt
+2061 FOUT: InnoDB conversie mislukt, installeer InnoDB MySQL engine support op je server<br>anders krijg je prestatie problemen.<br>(Probeer skip-innodb in je MySQL config file aan te zetten.)<br>Herinstalleer wanneer aangepast.
+2062 FOUT: HEAP conversie mislukt, installeer HEAP MySQL engine support op je server<br>anders krijg je prestatie problemen.
+2063 Databank engine sucesvol aangepast
+2064 tabel(len) gewijzigd
+2065 FOUT: Installatie mislukt, herstart install.php wanneer de problemen zijn opgelost
+2066 WAARSCHUWING: 'bestanden' map ontbreekt, kan niet importeren
+2067 van het
+2068 was niet ingevoegd. Wijzig de MySQL max_allowed_packet instelling naar minimaal 2MB
+2070 ontbreekt, wanneer je niet herinstalleert is de UITROL optie niet beschikbaar
+2071 WAARSCHUWING: één of meer bestanden zijn al ingevoegd
+2072 Uitrol bestanden ingevoegd
+2073 Tabel 'files' ingekort
+2074 Tabel 'files' was leeg
+2076 Geen subnet.csv bestand om te importeren
+2077 Netwerken uit subnet.csv invoegen
+2078 FOUT: Kon netwerk niet invoegen
+2079 in de subnet tabel, fout
+2080 WAARSCHUWING: Netwerk
+2081 is niet ingevoegd (verkeerd ip of subnetmask)
+2082 Berekenen Netwerk netid. Wachten a.u.b....
+2083 FOUT: Kon netid niet wijzigen in
+2084 Netwerk netid is berekend
+2085 waren al berekend
+2086 waren niet te berekenen
+2087 Berekenen netmap netid. Wachten a.u.b....
+2089 Netmap netid berekend
+2090 Niet te koppelen regels opschonen...
+2091 FOUT: Kon niet opschonen
+2092 Niet te koppelen regels verwijderd
+2093 Netmap opschonen...
+2094 FOUT: Kon netmap niet opschonen
+2095 netmap regels verwijderd
+2096 Geef het label voor het TAG invoerveld van de Windows agent:
+2097 (Leeg laten wanneer je bij starten van de agent geen popup scherm wilt)
+2098 FOUT: ZIP voor PHP niet goed geïnstalleerd.<br>Windows: Haal de puntkomma voor de regel 'extension=php_zip.dll' weg in php.ini<br>Linux: Installeer het libphp-pclzip pakket.
+2099 FOUT: deze MySQL gebruiker heeft geen rechten om de databank aan te maken
+2100 Wijzig oude account info
+2101 Toevoegen mbv script
+2102 WAARSCHUWING: Wanneer je de standaard databanknaam (ocsweb) of gebruiker (ocs) wijzigd, vergeet dan niet het bestand 'z-ocsinventory-server.conf' in je Apache configuratie map aan te passen
+2103 DEMO modus: je kan geen data wijzigen
+2104 JE KIJKT NAAR DE DEMO VERSIE VAN
+2105 Je databank is OK.<br>Niets gewijzigd.
+2106 In de MySQL configuratie mogen volgens 'max_allowed_packet' alleen bestandsgroottes <
+2107 De WEB interface versie is lager dan de databank versie
+2108 De databank versie <b> MOET </b> lager of gelijk zijn aan de web interface versie
+2109 Huidige versie
+2110 Verwachte versie
+2111 Voer de update uit
+2112 Het volgende bestand is niet aanwezig of niet leesbaar
+2113 Je PHP versie is lager dan versie 5.4 en niet compatible met inkomende versies (versioenbsp;:&nbsp;
+2114 Geen sql bestand gevonden voor versie
+2115 De gebruiker die je invoerde lijkt geen root te zijn
+2116 De config/profiles mappen zijn niet schrijfbaar
+2117 Toon een update bericht wanneer een nieuwe versie beschikbaar is
+2118 OCSInventory
+2119 is beschikbaar
+2120 Klik hier om te downloaden
+2121 Start inventarisatie bij starten agent service (Windows)
+2122 Wijzig
+2123 Beschikbare pakketten
+2124 Gewiste pakketten
+2125 WAARSCHUWING: CURL voor PHP is niet goed geïnstalleerd. Installeer het php-curl pakket (Linux).
+2126 Activa categoriën
+2127 Het huidige multi zoekfilter zal gebruikt worden als criterium voor activa categorie.
+2128 Weet je het zeker ?
+2129 Terug naar multi zoek
+2130 Activa categoriën
+2131 Aantal machines per categorie
+2132 Activa categorie
+2133 Je hebt geen activa categorie gemaakt
+2134 Je hebt geen software categorie gemaakt
+2135 Geen machine geïnventariseerd
+2136 Update
+2137 Selecteer een nieuw bestand wanneer je de oude wilt wijzigen
+
+5000 [DEBUG]aanvraag computers invoegen =>[DEBUG]
+5001 [DEBUG]AANVRAAG => [DEBUG]
+5002 [DEBUG] => gewicht: [DEBUG]
+5003 [DEBUG]Cache vernieuwing[DEBUG]
+5004 [DEBUG]forceer cache limiet oude waarde[DEBUG]
+5005 [DEBUG]Cache totaal gebruik[DEBUG]
+5006 [DEBUG]array count aanvraag[DEBUG]
+5007 [DEBUG]Cache gebruik voor regels nummer[DEBUG]
+5008 [DEBUG]array aanvraag[DEBUG]
+5009 [DEBUG]RUWE DATA[DEBUG]
+5010 [DEBUG]tabel veld=[DEBUG]
+5011 [DEBUG]Vergelijking veld=[DEBUG]
+5012 [DEBUG]zoekwaarde=[DEBUG]
+5013 [DEBUG]Complementair veld=[DEBUG]
+5014 [DEBUG]AND OR Veld=[DEBUG]
+5015 [DEBUG]COMPLEMENTAIR VELD ONTBREEKT IN TABEL[DEBUG]
+5016 [DEBUG]tabel =>[DEBUG]
+5017 [DEBUG]gearchiveerd =>[DEBUG]
+5018 [DEBUG]vergelijking =>[DEBUG]
+5019 [DEBUG]zoekwaarde  =>[DEBUG]
+5020 [DEBUG]complementair veld =>[DEBUG]
+5021 [DEBUG]AND_OR =>[DEBUG]
+5022 [DEBUG]AANVRAAG NORMALE CONDITIE[DEBUG]
+5023 [DEBUG]AANVRAAG VERSCHIL CONDITIE[DEBUG]
+
+6000 Plugins
+6001 Selecteer kolommen om te tonen / verbergen
+6003 Plugin
+6004 Totaal beschikbaar
+6005 Power on/off
+6007 Installeer de volgende modules om deze optie werkend te krijgen&nbsp;:&nbsp;
+6008 Deze map is niet schrijfbaar&nbsp;:&nbsp;
+6009 Je kan geen plugins installeren, zie de foutmeldingen hierboven.
+6010 De communicatie server liep tegen de volgende fout aan tijdens de installatie&nbsp;:&nbsp;
+6011 Klik hier om het probleem op te lossen
+6012 Selecteer Alles
+
+7000 Plugins
+7001 Pluginbeheer
+7002 Plugin naam
+7003 Versie
+7004 Licentie
+7005 Auteur
+7006 Laatste update
+7007 Weet je zeker dat de deze plugin wilt verwijderen
+7008 Installeer Plugin
+7009 Geïnstalleerde Plugins
+7010 Deze plugin is al geïnstalleerd
+7011 is een verkeerde plugin, controleer je bronnen.
+7012 Installatie afgebroken !
+7013 geïnstalleerd
+7014 Er is geen plugin beschikbaar voor installatie
+7015 Selecteer tenminste één computer !
+7016 MTU
+
+8000 Notificaties
+8001 Notificatie tracking aanzetten
+8002 Emailadres administrator
+8003 Naam administrator
+8004 Reply emailadres
+8005 Reply naam
+8006 SMTP server
+8007 SMTP loginnaam
+8008 SMTP wachtwoord
+8009 Email zendmodus
+8010 (Optioneel)
+8011 Configuratie
+8012 Template aanpassen
+8013 Hier is de standaard OCS Inventory samenvatting, het bevat een rapport van de software- en activa categoriën :
+8014 Upload gelukt
+8015 Upload mislukt
+8016 Hier kun je het aangepaste notificatie template downloaden:</br>• Het moet een html bestand zijn.</br></br>Informatie:</br>• Om te vertalen zet {{g.(nummer vertaling)}} in je html code- Bijvoorbeeld: {{g.49}} = Naam</br>• Je kan kiezen uit twee inventory rapporten: </br> {{Report.Software}} - Aantal software per software categorie </br> {{Report.Asset}} - Aantal machines per activa categorie
+8017 Dit is geen html bestand
+8018 Onderwerp
+8019 OCSInventory Notificatie
+8020 WAARSCHUWING: Mail template bestand niet gevonden
+8021 Het geuploade bestand moet de extensie .html hebben
+8022 Zie nieuws
+8023 ... Lees meer
+8024 Sluit nieuws
+8025 Terug naar nieuwsmenu
+8026 OCS Inventory Nieuws op dashboard aanzetten
+8027 Kan OCS nieuws niet ophalen
+8028 Er zijn nieuwe berichten
+8029 niet schrijfbaar
+
+8100 SAAS Inventarisatie
+8101 SAAS lijst
+8102 SAAS toevoegen
+8103 SAAS DNS naam
+8104 Waarde
+8105 Data
+8106 Time to live
+8107 Deze SAAS bestaat al
+8108 Software as a Service Inventarisatie aanzetten

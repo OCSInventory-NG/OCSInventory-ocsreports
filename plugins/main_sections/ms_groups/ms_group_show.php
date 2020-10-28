@@ -58,10 +58,11 @@ $list_fields2 = array($l->g(949) => 'h.ID',
     $l->g(354) => 'h.FIDELITY',
     $l->g(53) => 'h.DESCRIPTION',
     $l->g(34) => 'h.IPADDR',
+    $l->g(24) => 'h.userid',
     'CHECK' => 'h.ID');
 $list_fields = array_merge($list_fields, $list_fields2);
 $list_col_cant_del = array('NAME' => 'NAME', 'CHECK' => 'CHECK');
-$default_fields2 = array('NAME' => 'NAME', $l->g(46) => $l->g(46), $l->g(820) => $l->g(820), $l->g(34) => $l->g(34));
+$default_fields2 = array('NAME' => 'NAME', $l->g(46) => $l->g(46), $l->g(820) => $l->g(820), $l->g(34) => $l->g(34), $l->g(24) => $l->g(24));
 $default_fields = array_merge($default_fields, $default_fields2);
 
 if (isset($protectedGet['systemid'])) {
@@ -120,7 +121,7 @@ $queryMachine = "SELECT REQUEST,
 						  CREATE_TIME,
 						  NAME,
 						  XMLDEF,
-						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join groups g on g.hardware_id=h.id
+						  DESCRIPTION,LASTDATE,OSCOMMENTS,DEVICEID FROM hardware h left join `groups` g on g.hardware_id=h.id
 				  WHERE ID=%s AND (deviceid ='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_')";
 $arg = $systemid;
 $result = mysql2_query_secure($queryMachine, $_SESSION['OCS']["readServer"], $arg);
@@ -298,7 +299,7 @@ function regeneration_sql($valGroup) {
 
 function form_action_group($systemid) {
     global $l;
-    $reqGrpStat = "SELECT REQUEST,XMLDEF FROM groups WHERE hardware_id=%s";
+    $reqGrpStat = "SELECT REQUEST,XMLDEF FROM `groups` WHERE hardware_id=%s";
     $resGrpStat = mysql2_query_secure($reqGrpStat, $_SESSION['OCS']["readServer"], $systemid);
     $valGrpStat = mysqli_fetch_array($resGrpStat);
     if (($valGrpStat['REQUEST'] == "" || $valGrpStat['REQUEST'] == null) && ($valGrpStat['XMLDEF'] == "" || $valGrpStat['XMLDEF'] == null)) {
@@ -341,7 +342,7 @@ function print_computers_real($systemid) {
         $tab_options['CACHE'] = 'RESET';
     }
     //group 2.0 version
-    $sql_group = "SELECT xmldef FROM groups WHERE hardware_id='%s'";
+    $sql_group = "SELECT xmldef FROM `groups` WHERE hardware_id='%s'";
     $arg = $systemid;
     $resGroup = mysql2_query_secure($sql_group, $_SESSION['OCS']["readServer"], $arg);
     $valGroup = mysqli_fetch_array($resGroup); //group old version
@@ -642,7 +643,7 @@ function img($a, $avail) {
 function show_stat($fileId) {
     global $protectedGet, $pages_refs;
 
-    echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $fileId . "&group=" . $protectedGet['systemid'] . "\" target=_blank><span class='glyphicon glyphicon-stats'></span></a>";
+    echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_stats'] . "&head=1&stat=" . $fileId . "&group=" . $protectedGet['systemid'] . "\"><span class='glyphicon glyphicon-stats'></span></a>";
 }
 
 

@@ -20,9 +20,16 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
+
 define("DB_NAME", "ocsweb");
-define("SERVER_READ", "localhost");
-define("SERVER_WRITE", "localhost");
-define("COMPTE_BASE", "ocs");
-define("PSWD_BASE", "ocs");
+define("SERVER_READ","localhost");
+define("SERVER_WRITE","localhost");
+define("SERVER_PORT", 3306);
+define("COMPTE_BASE","ocs");
+define("PSWD_BASE","ocs");
+define("ENABLE_SSL","0");
+define("SSL_MODE","");
+define("SSL_KEY","/path/to/client-key.pem");
+define("SSL_CERT","/path/to/client-cert.pem");
+define("CA_CERT","/path/to/ca.pem");
 ?>

@@ -28,6 +28,7 @@ unset($_SESSION['OCS']['SQL_DEBUG']);
 
 // Before session_start to allow objects to be unserialized from session
 require_once('var.php');
+require_once(COMPOSER_AUTOLOAD);
 require_once('require/extensions/include.php');
 require_once('require/menu/include.php');
 require_once('require/config/include.php');
@@ -69,7 +70,6 @@ if ($_POST['RELOAD_CONF'] == 'RELOAD') {
 /* * ***************************************************LOGOUT******************************************** */
 if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON') {
     if ($_SESSION['OCS']['cnx_origine'] == "CAS") {
-        require_once(PHPCAS);
         require_once(BACKEND . 'require/cas.config.php');
         $cas = new phpCas();
         $cas->client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_uri);
@@ -80,7 +80,7 @@ if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON') {
     unset($_GET);
 }
 /* * *************************************************** First installation checking ******************************************************** */
-if ((!is_readable(CONF_MYSQL)) || (!function_exists('session_start')) || (!function_exists('mysqli_connect'))) {
+if ((!is_readable(CONF_MYSQL)) || (!function_exists('session_start')) || (!function_exists('mysqli_real_connect'))) {
     require('install.php');
     die();
 } else {
@@ -94,9 +94,10 @@ if (!defined("SERVER_READ") || !defined("DB_NAME") || !defined("SERVER_WRITE") |
 }
 
 //connect to databases
-$link_write = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE);
-$link_read = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE);
+$link_write = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
+$link_read = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
 //p($link_write);
+
 if (is_object($link_write) && is_object($link_read)) {
     $_SESSION['OCS']["writeServer"] = $link_write;
     $_SESSION['OCS']["readServer"] = $link_read;
@@ -192,11 +193,11 @@ if (!isset($no_error)) {
 
 /* * **************************************************SQL TABLE & FIELDS********************************************** */
 if (!isset($_SESSION['OCS']['SQL_TABLE'])) {
-    $sql = "show tables from %s";
+    $sql = "show tables from `%s`";
     $arg = DB_NAME;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     while ($item = mysqli_fetch_row($res)) {
-        $sql = "SHOW COLUMNS FROM %s";
+        $sql = "SHOW COLUMNS FROM `%s`";
         $arg = $item[0];
         $res_column = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
         while ($item_column = mysqli_fetch_row($res_column)) {
@@ -310,17 +311,11 @@ $l = $_SESSION['OCS']["LANGUAGE_FILE"];
 
 if (!isset($_SESSION['OCS']["loggeduser"])) {
     if (!AJAX && !((array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))) {
-        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
-            if (version_compare(PHP_VERSION, '5.5') < 0) {
-                include_once(PASSWORD_COMPAT);
-            }
-            $values = look_config_default_values('PASSWORD_VERSION');
-            $_SESSION['OCS']['PASSWORD_VERSION'] = $values['ivalue']['PASSWORD_VERSION'];
-            $_SESSION['OCS']['PASSWORD_ENCRYPTION'] = $values['tvalue']['PASSWORD_VERSION'];
-        } else {
-            $_SESSION['OCS']['PASSWORD_VERSION'] = false;
-            $_SESSION['OCS']['PASSWORD_ENCRYPTION'] = false;
-        }
+
+        $values = look_config_default_values('PASSWORD_VERSION');
+        $_SESSION['OCS']['PASSWORD_VERSION'] = $values['ivalue']['PASSWORD_VERSION'];
+        $_SESSION['OCS']['PASSWORD_ENCRYPTION'] = $values['tvalue']['PASSWORD_VERSION'];
+
         require_once(BACKEND . 'AUTH/auth.php');
     } else {
         header($_SERVER["SERVER_PROTOCOL"] . " 401 " . utf8_decode($l->g(1359)));
@@ -455,7 +450,7 @@ if ($url_name) {
     } else if ($profile->hasPage('ms_console')) {
         require ($default_first_page);
     } else {
-        echo "<img src='image/fond.png'>";
+        echo "<img src='image/fond.png' class='background-pic'>";
     }
 }
 ?>

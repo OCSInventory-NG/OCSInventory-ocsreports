@@ -20,7 +20,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-require_once(TC_LIB_BARCODE);
+
 require_once('require/function_admininfo.php');
 if (is_numeric($protectedGet['systemid']) && array_key_exists($protectedGet['default_value'], $array_qr_action)) {
     if ($array_qr_action[$protectedGet['default_value']]['TYPE'] == 'url') {

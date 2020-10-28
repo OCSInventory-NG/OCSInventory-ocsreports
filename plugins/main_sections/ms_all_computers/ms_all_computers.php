@@ -29,6 +29,9 @@ require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
 //intégration des fonctions liées à la recherche multicritère
 require_once('require/function_search.php');
+require_once('require/archive/ArchiveComputer.php');
+
+$archive = new ArchiveComputer();
 
 //show mac address on the tab
 $show_mac_addr = true;
@@ -66,11 +69,43 @@ if ($protectedPost['SUP_PROF'] != '') {
     $tab_options['CACHE'] = 'RESET';
 }
 
+//archive one computer
+if ($protectedPost['ARCHIVER'] != '') {
+    $archive->archive($protectedPost['ARCHIVER']);
+    $tab_options['CACHE'] = 'RESET';
+}
+
+//archive one computer
+if ($protectedPost['RESTORE'] != '') {
+    $archive->restore($protectedPost['RESTORE']);
+    $tab_options['CACHE'] = 'RESET';
+}
+
 if (!isset($protectedPost['tri_' . $table_name]) || $protectedPost['tri_' . $table_name] == "") {
     $protectedPost['tri_' . $table_name] = "h.lastdate";
     $protectedPost['sens_' . $table_name] = "DESC";
 }
 echo open_form($form_name, '', '', 'form-horizontal');
+
+$def_onglets['ALL'] = $l->g(1557);
+$def_onglets['ACTIVE'] = $l->g(1555);
+$def_onglets['ARCHIVE'] = $l->g(1554);
+
+if ($protectedPost['onglet'] == "") {
+    $protectedPost['onglet'] = "ACTIVE";
+}
+
+//show onglet
+echo "<p>";
+onglet($def_onglets, $form_name, "onglet", 7);
+echo "</p></br></br>";
+
+if($protectedPost['onglet'] == "ACTIVE") {
+    $icon = "ARCHIVER";
+} elseif($protectedPost['onglet'] == "ARCHIVE") {
+    $icon = "RESTORE";
+}
+
 //BEGIN SHOW ACCOUNTINFO
 $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
 if (array($accountinfo_value['TAB_OPTIONS'])) {
@@ -101,12 +136,13 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(355) => "h.wincompany",
     $l->g(356) => "h.winowner",
     $l->g(357) => "h.useragent",
+    $l->g(1551) => "h.archive",
     $l->g(64) => "e.smanufacturer",
     $l->g(284) => "e.bmanufacturer",
     $l->g(36) => "e.ssn",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
-    $l->g(34) => "ipaddress",
+    $l->g(34) => "h.ipaddr",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -142,12 +178,13 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(355) => "h.wincompany",
     $l->g(356) => "h.winowner",
     $l->g(357) => "h.useragent",
+    $l->g(1551) => "h.archive",
     $l->g(64) => "e.smanufacturer",
     $l->g(284) => "e.bmanufacturer",
     $l->g(36) => "e.ssn",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
-    $l->g(34) => "GROUP_CONCAT(DISTINCT CASE WHEN n.ipaddress != 0x20 THEN n.ipaddress ELSE NULL END SEPARATOR 0x2D) as ipaddress",
+    $l->g(34) => "h.ipaddr",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -162,14 +199,24 @@ $tab_options['FILTRE']['h.name'] = $l->g(23);
 asort($tab_options['FILTRE']);
 if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
     $list_fields['CHECK'] = 'h.ID';
+    if($protectedPost['onglet'] != "ALL") {
+        $list_fields[$icon] = 'h.ID';
+    }
     $list_fields['SUP'] = 'h.ID';
 }
 $list_col_cant_del = array('SUP' => 'SUP', 'NAME' => 'NAME', 'CHECK' => 'CHECK');
+if($protectedPost['onglet'] != "ALL") {
+    $list_col_cant_del[$icon] = $icon;
+}
 $default_fields2 = array($_SESSION['OCS']['TAG_LBL']['TAG'] => $_SESSION['OCS']['TAG_LBL'], $l->g(46) => $l->g(46), 'NAME' => 'NAME', $l->g(23) => $l->g(23),
-    $l->g(24) => $l->g(24), $l->g(25) => $l->g(25), $l->g(568) => $l->g(568),
-    $l->g(569) => $l->g(569));
+    $l->g(24) => $l->g(24), $l->g(25) => $l->g(25), $l->g(568) => $l->g(568), $l->g(569) => $l->g(569));
 $default_fields = array_merge($default_fields, $default_fields2);
-$sql = prepare_sql_tab($select_fields, array('SUP', 'CHECK'));
+if($protectedPost['onglet'] != "ALL") {
+    $sql = prepare_sql_tab($select_fields, array('SUP', $icon, 'CHECK'));
+} else {
+    $sql = prepare_sql_tab($select_fields, array('SUP', 'CHECK'));
+}
+
 $tab_options['ARG_SQL'] = $sql['ARG'];
 $queryDetails = $sql['SQL'] . " from hardware h
 				LEFT JOIN accountinfo a ON a.hardware_id=h.id  ";
@@ -180,9 +227,6 @@ if ($show_mac_addr) {
 // BIOS INFOS
 $queryDetails .= "LEFT JOIN bios e ON e.hardware_id=h.id ";
 
-//MEMORIES INFOS
-$queryDetails .= "LEFT JOIN memories m ON m.hardware_id=h.id ";
-
 //ASSETS CATEGORY
 $queryDetails .= "LEFT JOIN assets_categories ac ON ac.ID = h.CATEGORY_ID ";
 
@@ -190,8 +234,13 @@ $queryDetails .= "LEFT JOIN assets_categories ac ON ac.ID = h.CATEGORY_ID ";
 $queryDetails .= "LEFT JOIN videos v ON v.hardware_id=h.id ";
 $queryDetails .= "where deviceid<>'_SYSTEMGROUP_' AND deviceid<>'_DOWNLOADGROUP_' ";
 
-// STATUS NETWORK INTERFACE UP
-$queryDetails .= " AND n.STATUS = 'up' ";
+// ARCHIVE COMPUTERS
+if($protectedPost['onglet'] == "ACTIVE") {
+    $queryDetails .= "AND h.archive IS NULL ";
+} elseif($protectedPost['onglet'] == "ARCHIVE") {
+    $queryDetails .= "AND h.archive IS NOT NULL ";
+}
+
 
 // TAG RESTRICTIONS
 if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {

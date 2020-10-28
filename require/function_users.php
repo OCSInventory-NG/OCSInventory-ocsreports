@@ -63,7 +63,6 @@ function delete_list_user($list_to_delete) {
 function add_user($data_user, $list_profil = '') {
     global $l;
 
-    checkForPasswordCompat();
 
     if (isset($data_user['PASSWORD'])) {
         $password = $data_user['PASSWORD'];
@@ -291,7 +290,6 @@ function admin_user($id_user = null, $is_my_account = false) {
 }
 
 function updatePassword($id_user, $password) {
-    checkForPasswordCompat();
 
     $sql = "select id from operators where id= '%s'";
     $arg = $id_user;
@@ -309,17 +307,6 @@ function updatePassword($id_user, $password) {
                 $arg_update[] = $row->id;
                 $res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"], $arg_update);
             }
-        }
-    }
-}
-
-/**
- * Include password compat for older php versions at user creation and modification
- */
-function checkForPasswordCompat() {
-    if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
-        if (version_compare(PHP_VERSION, '5.5') < 0) {
-            include_once(PASSWORD_COMPAT);
         }
     }
 }

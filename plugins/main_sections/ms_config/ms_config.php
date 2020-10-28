@@ -34,7 +34,6 @@ $def_onglets['REGISTRY'] = $l->g(211); //Registry
 $def_onglets['GUI'] = $l->g(84); //GUI
 $def_onglets['SNMP'] = $l->g(1136); //SNMP
 $def_onglets['WOL'] = $l->g(1279); //WOL
-$def_onglets['PLUGINSCONF'] = $l->g(6000); //Plugins Configuration
 
 if (DEV_OPTION) {
     $def_onglets['DEV'] = $l->g(1302);
@@ -80,13 +79,16 @@ if($values['ivalue']['ADVANCE_CONFIGURATION']){
   $def_onglets['REDISTRIB'] = $l->g(628); //redistribution servers
   $def_onglets['INV_FILE'] = $l->g(734); //Inventory file
   $def_onglets['FILTER'] = $l->g(735); //Filter
-  $def_onglets['WEBSERVICES'] = $l->g(760); //Webservice
   $def_onglets['CNX'] = $l->g(1108); //connexion
+  $def_onglets['VULN'] = $l->g(1460); //cve-search integration
 }
 
 show_tabs($def_onglets,$form_name,"onglet",true);
 echo '<div class="col col-md-10">';
 switch ($protectedPost['onglet']) {
+    case 'VULN':
+        pageVulnerability();
+        break;
     case 'CNX':
         pageConnexion();
         break;
@@ -120,17 +122,11 @@ switch ($protectedPost['onglet']) {
     case 'FILTER':
         pagefilter();
         break;
-    case 'WEBSERVICES':
-        pagewebservice();
-        break;
     case 'SNMP':
         pagesnmp();
         break;
     case 'DEV':
         pagesdev();
-        break;
-    case 'PLUGINSCONF':
-        pagesplugin();
         break;
     case 'WOL':
         pageswol();

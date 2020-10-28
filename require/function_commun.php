@@ -153,25 +153,41 @@ function prepare_sql_tab($list_fields, $explu = array(), $distinct = false) {
     return array('SQL' => substr($begin_sql, 0, -2) . " ", 'ARG' => $begin_arg);
 }
 
-function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME) {
+function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME, $sslkey = SSL_KEY, $sslcert = SSL_CERT, $cacert = CA_CERT, $port = 3306, $sslmode = SSL_MODE, $enablessl = ENABLE_SSL) {
     error_reporting(E_ALL & ~E_NOTICE);
     mysqli_report(MYSQLI_REPORT_STRICT);
     //$link is ok?
     try {
-        $link = mysqli_connect($server, $compte_base, $pswd_base);
+        $dbc = mysqli_init();
+        if($enablessl == "1") {
+            $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+            $dbc->ssl_set($sslkey, $sslcert, $cacert, NULL, NULL);
+            if($sslmode == "MYSQLI_CLIENT_SSL") {
+                $connect = MYSQLI_CLIENT_SSL;
+            } elseif($sslmode == "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT") {
+                $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+            }
+        } else {
+            $connect = NULL;
+        }
+
+        $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
+        $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
+
+        $link = mysqli_real_connect($dbc, $server, $compte_base, $pswd_base, NULL, $port, NULL, $connect);
+
+        if($link) {
+            $link = $dbc;
+        }
     } catch (Exception $e) {
         if (mysqli_connect_errno()) {
             return "ERROR: MySql connection problem " . $e->getCode() . "<br>" . $e->getMessage();
         }
     }
     //database is ok?
-    if (!mysqli_select_db($link, $db)) {
+    if (!$link->select_db($db)) {
         return "NO_DATABASE";
     }
-    //force UTF-8
-    mysqli_query($link, "SET NAMES 'utf8'");
-    //sql_mode => not strict
-    mysqli_query($link, "SET sql_mode='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
     return $link;
 }
@@ -464,9 +480,12 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 			echo "<option value='".$option."' ".($inputValue == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
 		}
 		echo "</select>";
-	}
-	else{
-		echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='form-control ".$class."' ".$attrBalise.">";
+	} else {
+        if($inputType == "checkbox") {
+            echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='".$class."' ".$attrBalise.">";
+        } else {
+            echo "<input type='".$inputType."' name='".$inputName."' id='".$inputName."' size='".$size."' maxlength='".$maxlength."' value='".$inputValue."' class='form-control ".$class."' ".$attrBalise.">";
+        }
   }
   if($groupAddon != ""){
   	echo "<span class='input-group-addon' id='".$name."-addon'>".$groupAddon."</span>";
@@ -495,7 +514,7 @@ function calendars($NameInputField,$DateFormat)
 
 
 
-function modif_values($field_labels, $fields, $hidden_fields, $options = array()) {
+function modif_values($field_labels, $fields, $hidden_fields, $options = array(), $field_name="form-group") {
 	global $l;
 
 	$options = array_merge(array(
@@ -517,6 +536,12 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
 
                     $field = $fields[$key];
 
+                    if (is_array($field_name)){
+                        $name = $field_name[$key];
+                    } else {
+                        $name = $field_name;
+                    }
+
                     /**
                      * 0 = text
                      * 1 = textarea
@@ -533,6 +558,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                      * 12 = QRCode
                      * 13 = Disabled
                      * 14 = Date
+                     * 15 = number
                      **/
                     if($field['INPUT_TYPE'] == 0 ||
                             $field['INPUT_TYPE'] == 1 ||
@@ -559,11 +585,13 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                         $inputType = 'qrcode';
                     } elseif($field['INPUT_TYPE'] == 11){
                         $inputType = 'radio';
+                    } elseif($field['INPUT_TYPE'] == 15){
+                        $inputType = 'number';
                     } else {
                             $inputType = 'hidden';
                     }
 
-                    echo "<div class='form-group'>";
+                    echo "<div class='$name'>";
                         echo "<label for='".$field['INPUT_NAME']."' class='col-sm-2 control-label'>".$label."</label>";
                         echo "<div class='col-sm-10'>";
 
@@ -575,6 +603,12 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                         echo "<div class='input-group'>";
                                     }
                                     echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                    if($field['COMMENT_AFTER'] == ""){
+                                      echo "</div>";
+                                    }
+                                }else if($inputType == 'number'){
+                                    echo "<div class='input-group'>";
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' min='1' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
                                     if($field['COMMENT_AFTER'] == ""){
                                       echo "</div>";
                                     }
@@ -744,7 +778,7 @@ function check_requirements(){
         $msg_lbl['error'][] = $l->g(2035);
     }
     //msg= no mysqli_connect function
-    if (!function_exists('mysqli_connect')) {
+    if (!function_exists('mysqli_real_connect')) {
         $msg_lbl['error'][] = $l->g(2037);
     }
     if ((file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL)) || (!file_exists(CONF_MYSQL) && !is_writable(CONF_MYSQL_DIR))) {
@@ -753,9 +787,6 @@ function check_requirements(){
     //msg for phpversion
     if (version_compare(phpversion(), '5.4', '<')) {
         $msg_lbl['warning'][] = $l->g(2113) . " " . phpversion() . " ) ";
-    }
-    if (!class_exists('SoapClient')) {
-        $msg_lbl['warning'][] = $l->g(6006);
     }
     if (!function_exists('xml_parser_create')) {
         $msg_lbl['warning'][] = $l->g(2036);
@@ -809,7 +840,7 @@ function check_requirements(){
  */
 function return_bytes($val) {
     $val = trim($val);
-    $last = strtolower($val{strlen($val) - 1});
+    $last = strtolower($val[strlen($val) - 1]);
     switch ($last) {
         case 'g':
             $val *= 1024;

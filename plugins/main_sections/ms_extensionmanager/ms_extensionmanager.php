@@ -42,8 +42,17 @@ $extMgr = new ExtensionManager();
 if($extMgr->checkPrerequisites()){
     $extMgr->checkInstallableExtensions();
     
+	if (!empty($extMgr->installableExtensions_errors)) {
+		$extensions_errors .= '<ul>';
+		foreach($extMgr->installableExtensions_errors as $error_msg) {
+			$extensions_errors .= '<li>'.$error_msg.'</li>';
+		}
+		$extensions_errors .= '</ul>';
+		msg_error($extensions_errors);
+	}
+	
     if(empty($extMgr->installableExtensionsList)){
-        msg_warning($l->g(7014));
+        msg_warning($l->g(7014).' ('.EXT_DL_DIR.').');
     }else{   
         echo open_form("PluginInstall", '', '', 'form-horizontal');
         ?>
@@ -76,11 +85,23 @@ if($extMgr->checkPrerequisites()){
 
 if (!AJAX) {
     if(isset($protectedPost['extensions'])){
-        $extMgr->installExtension($protectedPost['extensions']);
+        $result = $extMgr->installExtension($protectedPost['extensions']);
+        if($result == true) {
+            msg_success($l->g(7017));
+        } elseif($result == 'isInstalled') {
+            msg_error($l->g(7018));
+        } else {
+            msg_error($l->g(7019));
+        }
     }
 
     if(isset($protectedPost['SUP_PROF'])){
-        $extMgr->deleteExtension($protectedPost['SUP_PROF']);
+        $desinstall = $extMgr->deleteExtension($protectedPost['SUP_PROF']);
+        if($desinstall) {
+            msg_success($l->g(7020));
+        } else {
+            msg_error($l->g(7019));
+        }
     }
 }
 

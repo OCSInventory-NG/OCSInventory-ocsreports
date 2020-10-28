@@ -1452,7 +1452,6 @@
 6003 Zásuvný modul
 6004 Celkem k dispozici
 6005 Připojit/odpojit napájení
-6006 VAROVÁNÍ: nainstalujte rozšíření php-soap, engine zásuvného modulu bez nej nemůže fungovat
 6007 Aby tato funkce byla provozuschopná, nainstalujte následující moduly&nbsp;:&nbsp;
 6008 Nedaří se zapisovat do následující složky&nbsp;:&nbsp;
 6009 Nyní není možné instalovat zásuvné moduly, důvod viz chybové hlášení výše.

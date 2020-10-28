@@ -33,7 +33,7 @@ function del_soft($onglet, $list_soft) {
     if ($_SESSION['OCS']['usecache']) {
         $table = "softwares_name_cache";
     } else {
-        $table = "softwares";
+        $table = "software_name";
     }
 
     $sql_soft_name = "select distinct NAME from " . $table . " where ID in (" . implode(",", $list_soft) . ")";
@@ -61,7 +61,7 @@ function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
     if ($_SESSION['OCS']['usecache']) {
         $table = "softwares_name_cache";
     } else {
-        $table = "softwares";
+        $table = "software_name";
     }
     
     //verif is this cat exist
@@ -75,7 +75,7 @@ function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
     }
 
     if ($onglet == "NEW") {
-        $table = "softwares";
+        $table = "software_name";
         $ok = true;
     } else {
         if (!isset($already_exist)) {

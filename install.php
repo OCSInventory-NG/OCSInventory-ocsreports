@@ -88,18 +88,43 @@ check_requirements();
 //post the first form
 if (isset($_POST["name"])) {
 
-    $link = dbconnect($_POST["host"], $_POST["name"], $_POST["pass"], $_POST["database"]);
+    $link = dbconnect($_POST["host"], $_POST["name"], $_POST["pass"], $_POST["database"], $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], $_POST["port"], $_POST["sslmode"], $_POST["enablessl"] );
     if (mysqli_connect_errno()) {
         $firstAttempt = false;
         msg_error($l->g(2001) . " " . $l->g(249) .
                 " (" . $l->g(2010) . "=" . $_POST["host"] .
                 " " . $l->g(2011) . "=" . $_POST["name"] .
                 " " . $l->g(2014) . "=" . $_POST["pass"] .
+                " " . $l->g(2014) . "=" . $_POST["port"] .
+                " " . $l->g(2014) . "=" . $_POST["enablessl"] .
+                " " . $l->g(2014) . "=" . $_POST["sslmode"] .
+                " " . $l->g(2014) . "=" . $_POST["sslkey"] .
+                " " . $l->g(2014) . "=" . $_POST["sslcert"] .
+                " " . $l->g(2014) . "=" . $_POST["cacert"] .
                 ")<br>" . $link);
     } else {
         //if database not exist
         if ($link == "NO_DATABASE") {
-            $link = mysqli_connect($_POST["host"], $_POST["name"], $_POST["pass"]);
+            $dbc = mysqli_init();
+            if(isset($_POST["enablessl"]) == 1) {
+                $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+                $dbc->ssl_set($_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], NULL, NULL);
+                if($_POST["sslmode"] == "MYSQLI_CLIENT_SSL") {
+                    $connect = MYSQLI_CLIENT_SSL;
+                } elseif($_POST["sslmode"] == "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT") {
+                    $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+                }
+            } else {
+                $connect = NULL;
+            }
+            $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
+            $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
+
+            $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, $_POST["port"], NULL, $connect);
+
+            if($link) {
+                $link = $dbc;
+            }
             //have to execute new install file
             $db_file = "files/ocsbase_new.sql";
             if (!mysqli_query($link, "CREATE DATABASE " . $_POST['database'] . " CHARACTER SET utf8 COLLATE utf8_bin;") || !mysqli_query($link, "USE " . $_POST['database']) || !mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $_POST['database'] . ".* TO ocs IDENTIFIED BY 'ocs'") || !mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $_POST['database'] . ".* TO ocs@localhost IDENTIFIED BY 'ocs'")) {
@@ -122,8 +147,14 @@ if (isset($_POST["name"])) {
                 fwrite($ch, "define(\"DB_NAME\", \"" . $_POST['database'] . "\");\n");
                 fwrite($ch, "define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
                 fwrite($ch, "define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");
+                fwrite($ch, "define(\"SERVER_PORT\",\"" . $_POST["port"] . "\");\n");
                 fwrite($ch, "define(\"COMPTE_BASE\",\"" . $_POST["name"] . "\");\n");
                 fwrite($ch, "define(\"PSWD_BASE\",\"" . $_POST["pass"] . "\");\n");
+                fwrite($ch, "define(\"ENABLE_SSL\",\"" . $_POST["enablessl"] . "\");\n");
+                fwrite($ch, "define(\"SSL_MODE\",\"" . $_POST["sslmode"] . "\");\n");
+                fwrite($ch, "define(\"SSL_KEY\",\"" . $_POST["sslkey"] . "\");\n");
+                fwrite($ch, "define(\"SSL_CERT\",\"" . $_POST["sslcert"] . "\");\n");
+                fwrite($ch, "define(\"CA_CERT\",\"" . $_POST["cacert"] . "\");\n");
                 fwrite($ch, "?>");
                 fclose($ch);
                 msg_success("<b><a href='index.php'>" . $l->g(2051) . "</a></b>");
@@ -142,11 +173,35 @@ if (isset($_POST["name"])) {
             fwrite($ch, "define(\"DB_NAME\", \"" . $_POST['database'] . "\");\n");
             fwrite($ch, "define(\"SERVER_READ\",\"" . $_POST["host"] . "\");\n");
             fwrite($ch, "define(\"SERVER_WRITE\",\"" . $_POST["host"] . "\");\n");
+            fwrite($ch, "define(\"SERVER_PORT\",\"" . $_POST["port"] . "\");\n");
             fwrite($ch, "define(\"COMPTE_BASE\",\"" . $name_connect . "\");\n");
             fwrite($ch, "define(\"PSWD_BASE\",\"" . $pass_connect . "\");\n");
+            fwrite($ch, "define(\"ENABLE_SSL\",\"" . $_POST["enablessl"] . "\");\n");
+            fwrite($ch, "define(\"SSL_MODE\",\"" . $_POST["sslmode"] . "\");\n");
+            fwrite($ch, "define(\"SSL_KEY\",\"" . $_POST["sslkey"] . "\");\n");
+            fwrite($ch, "define(\"SSL_CERT\",\"" . $_POST["sslcert"] . "\");\n");
+            fwrite($ch, "define(\"CA_CERT\",\"" . $_POST["cacert"] . "\");\n");
             fwrite($ch, "?>");
             fclose($ch);
-            if (!mysqli_connect($_POST["host"], $name_connect, $pass_connect)) {
+
+            $dbc = mysqli_init();
+            if(isset($_POST["enablessl"]) == 1) {
+                $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+                $dbc->ssl_set($_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], NULL, NULL);
+                if($_POST["sslmode"] == "MYSQLI_CLIENT_SSL") {
+                    $connect = MYSQLI_CLIENT_SSL;
+                } elseif($_POST["sslmode"] == "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT") {
+                    $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+                }
+            } else {
+                $connect = NULL;
+            }
+            $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
+            $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
+
+            $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, $_POST["port"], NULL, $connect);
+
+            if (!$link) {
                 if (mysqli_connect_errno() == 0) {
                     echo "<br><center><font color=red><b>" . $l->g(2043) .
                     " " . $l->g(2044) .
@@ -194,21 +249,63 @@ if (is_readable(CONF_MYSQL)) {
     } else {
         $valServ = '';
     }
+    if (defined('SERVER_PORT')) {
+        $valPort = SERVER_PORT;
+    } else {
+        $valPort = 3306;
+    }
     if (defined('DB_NAME')) {
         $valdatabase = DB_NAME;
     } else {
         $valdatabase = '';
     }
+    if (defined('ENABLE_SSL')) {
+        $valenablessl = [
+            "1" => $l->g(455),
+            "0" => $l->g(454)
+        ];
+    } else {
+        $valenablessl = [
+            "1" => $l->g(455),
+            "0" => $l->g(454)
+        ];
+    }
+    if (defined('SSL_MODE')) {
+        $valsslmode = [
+            "MYSQLI_CLIENT_SSL" => "MYSQLI_CLIENT_SSL",
+            "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT" => "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT"
+        ];
+    } else {
+        $valsslmode = [
+            "MYSQLI_CLIENT_SSL" => "MYSQLI_CLIENT_SSL",
+            "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT" => "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT"
+        ];
+    }
+    if (defined('SSL_KEY')) {
+        $valsslkey = SSL_KEY;
+    } else {
+        $valsslkey = '';
+    }
+    if (defined('SSL_CERT')) {
+        $valsslcert = SSL_CERT;
+    } else {
+        $valsslcert = '';
+    }
+    if (defined('CA_CERT')) {
+        $valcacert = CA_CERT;
+    } else {
+        $valcacert = '';
+    }
 }
 //show first form
 $form_name = 'fsub';
-$name_field = array("name", "pass", "database", "host");
-$tab_name = array($l->g(247) . ": ", $l->g(248) . ": ", $l->g(1233) . ":", $l->g(250) . ":");
-$type_field = array(0, 4, 0, 0);
+$name_field = array("name", "pass", "database", "host", "port", "enablessl", "sslmode", "sslkey", "sslcert", "cacert");
+$tab_name = array($l->g(247) . ": ", $l->g(248) . ": ", $l->g(1233) . ":", $l->g(250) . ":", $l->g(9105) . " :", $l->g(9102) . ":", $l->g(9103) . ":", $l->g(9100) . ":", $l->g(9101) . ":", $l->g(9104) . ":");
+$type_field = array(0, 4, 0, 0, 15, 2, 2, 0, 0, 0);
 if (isset($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"])) {
-    $value_field = array($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"]);
+    $value_field = array($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"], $_POST["port"], $valenablessl, $valsslmode, $_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"]);
 } else {
-    $value_field = array($valNme, $valPass, $valdatabase, $valServ);
+    $value_field = array($valNme, $valPass, $valdatabase, $valServ, $valPort, $valenablessl, $valsslmode, $valsslkey, $valsslcert, $valcacert);
 }
 $tab_typ_champ = show_field($name_field, $type_field, $value_field);
 modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(

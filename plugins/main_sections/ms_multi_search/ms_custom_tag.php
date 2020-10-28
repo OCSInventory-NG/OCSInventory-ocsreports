@@ -44,7 +44,7 @@
              if (substr($field, 0, 5) == "check") {
                  $temp = substr($field, 5);
                  if (array_key_exists($temp, $info_account_id)) {
-                     //cas of checkboxtag_seach
+                     //cas of checkboxtag_search
                      foreach ($protectedPost as $field2 => $value2) {
                          $casofcheck = explode('_', $field2);
                          if ($casofcheck[0] . '_' . $casofcheck[1] == $temp) {
@@ -80,19 +80,50 @@
      }
 
      //CAS OF WOL
+     require_once('require/wol/WakeOnLan.php');
+     $wol = new Wol();
+
      if (is_defined($protectedPost['WOL'])) {
-         require_once('require/function_wol.php');
-         $wol = new Wol();
          $sql = "select IPADDRESS,MACADDR from networks WHERE status='Up' and hardware_id in ";
          $arg = array();
          $tab_result = mysql2_prepare($sql, $arg, $list_id);
-         $resultDetails = mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["writeServer"], $tab_result['ARG']);
+         $resultDetails = mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["readServer"], $tab_result['ARG']);
          $msg = "";
          while ($item = mysqli_fetch_object($resultDetails)) {
-             $wol->wake($item->MACADDR);
+            $wol->look_config_wol($item->IPADDRESS, $item->MACADDR);
              $msg .= "<br>" . $wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS;
          }
          msg_info($msg);
+     }
+
+     if (is_defined($protectedPost['WOL_PROGRAM'])) {
+        $result = $wol->save_wol($protectedGet['idchecked'], $protectedPost['WOL_DATE']);
+        unset($protectedPost['WOL_PROGRAM']);
+        unset($protectedPost['WOL_DATE']);
+        unset($protectedPost['WOL_PROGRAM']);
+        if($result){
+            msg_success($l->g(8203));
+        }
+     }
+
+     //CAS ARCHIVE
+     require_once('require/archive/ArchiveComputer.php');
+     $archive = new ArchiveComputer();
+
+     if (is_defined($protectedPost['ARCHIVER'])) {
+        $result = $archive->archive($protectedGet['idchecked']);
+        unset($protectedPost['ARCHIVER']);
+        if($result){
+            msg_success($l->g(572));
+        }
+     }
+
+     if (is_defined($protectedPost['RESTORE'])) {
+        $result = $archive->restore($protectedGet['idchecked']);
+        unset($protectedPost['RESTORE']);
+        if($result){
+            msg_success($l->g(572));
+        }
      }
      echo "</div>";
 
@@ -106,6 +137,10 @@
 
      if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
          $def_onglets['WOL'] = $l->g(1280);
+     }
+
+     if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
+        $def_onglets['ARCHIVE'] = $l->g(1556);
      }
 
      if ($protectedPost['onglet'] == "") {
@@ -194,8 +229,28 @@
                  echo "<br><input type='submit' name='RAZ' value='" . $l->g(1025) . "' class='btn'>";
              }
          } elseif ($protectedPost['onglet'] == "WOL") {
-             echo "<br><input type='submit' name='WOL' value='" . $l->g(13) . "' class='btn'>";
-             echo "</div>";
+            echo "<div class='col-md-8 col-xs-offset-0 col-md-offset-2'>";
+            
+            echo "<div><input type='checkbox' name='SCHEDULE_WOL' id='SCHEDULE_WOL' style='display:initial;width:20px;height:14px;' class='form-control' onclick='show_hide_wol(\"WOL_DIV\", \"SCHEDULE_WOL\", \"WOL\");'>".$l->g(8200)."</div>";
+            echo "<br><input type='submit' name='WOL' id='WOL' value='" . $l->g(13) . "' class='btn'>";
+            echo "<div style='display:none;' id='WOL_DIV'>";
+            $config['COMMENT_AFTER'][0] = datePick("WOL_DATE");
+            $config['SELECT_DEFAULT'][0] = '';
+            $config['SIZE'][0] = '8';
+            $tab_name = array($l->g(8202));
+            $name_field = array("WOL_DATE");
+            $type_field = array(14);
+            $value_field = '';
+            
+            $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
+            modif_values($tab_name, $tab_typ_champ, $tab_hidden, array('show_button' => false));
+            echo "<input type='submit' name='WOL_PROGRAM' value='" . $l->g(8201) . "' class='btn'>";
+            echo "</div></div></div>";
+         } elseif ($protectedPost['onglet'] == "ARCHIVE") {
+            echo "<div class='col-md-8 col-xs-offset-0 col-md-offset-2'>";
+            echo "<input type='submit' name='ARCHIVER' value='" . $l->g(1551) . "' class='btn'>";
+            echo "<input type='submit' name='RESTORE' value='" . $l->g(1552) . "' class='btn' style='margin-left:10px;'>";
+            echo "</div>";
          }
      }
      echo "</div>";

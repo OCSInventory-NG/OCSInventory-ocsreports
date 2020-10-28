@@ -44,11 +44,16 @@ class Teledeploy
 
       $rep = $document_root . $timestamp . "/";
       $info = file_get_contents($rep.'info');
+      $info = html_entity_decode($info, 0, 'UTF-8');
       $xml = simplexml_load_string($info);
       $info_data = [];
 
       foreach($xml->attributes() as $key => $value){
-        $info_data[$key] = (string)$value;
+        if($key == "NOTIFY_TEXT") {
+          $info_data[$key] = htmlspecialchars($value, ENT_QUOTES);
+        } else {
+          $info_data[$key] = (string)$value;
+        }
       }
 
       $sql_download = "SELECT * FROM download_available WHERE FILEID = %s";

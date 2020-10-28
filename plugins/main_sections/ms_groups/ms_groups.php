@@ -126,7 +126,7 @@ if ($protectedPost['onglet'] == "SERV") {
     $sql_nb_mach = "SELECT count(*) nb, group_id
 					from download_servers group by group_id";
 } else { //requete pour les groupes 'normaux'
-    $querygroup .= " from hardware h,groups g ";
+    $querygroup .= " from hardware h,`groups` g ";
     $querygroup .= "where g.hardware_id=h.id and h.deviceid = '_SYSTEMGROUP_' ";
     if ($protectedPost['onglet'] == "DYNA") {
         $querygroup .= " and ((g.request is not null and trim(g.request) != '')
