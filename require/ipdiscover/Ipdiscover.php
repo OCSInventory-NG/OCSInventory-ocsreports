@@ -300,12 +300,9 @@ class Ipdiscover
 		exec($command);
 	}
 
-	/* Returns all known subnets except those blacklisted */
 	public function find_all_subnet($dpt_choise = '') {
 		if ($dpt_choise != '') {
-			return array_filter(array_keys($_SESSION['OCS']["ipdiscover"][$dpt_choise]), function($k) {
-				return !(array_key_exists($k, $_SESSION['OCS']["ipdiscover"]["--Blacklist--"]));
-			});
+			return array_keys($_SESSION['OCS']["ipdiscover"][$dpt_choise]);
 		}
 
 		if (isset($_SESSION['OCS']["ipdiscover"])) {
