@@ -79,10 +79,10 @@ if($protectedPost['onglet'] == 'SNMP_RULE') {
         // Remove type
         $result_remove = $snmp->delete_type($protectedPost['SUP_PROF']);
         unset($protectedPost['SUP_PROF']);
-        if($result_remove == true){
+        if($result_remove == 0){
             msg_success($l->g(572));
         }else{
-            msg_error($l->g(573));
+            msg_error($l->g($result_remove));
         }
     }
 
@@ -133,10 +133,10 @@ if($protectedPost['onglet'] == 'SNMP_LABEL') {
         // Remove type
         $result_remove = $snmp->delete_label($protectedPost['SUP_PROF']);
         unset($protectedPost['SUP_PROF']);
-        if($result_remove == true){
+        if($result_remove == 0){
             msg_success($l->g(572));
         }else{
-            msg_error($l->g(573));
+            msg_error($l->g($result_remove));
         }
     }
 
@@ -183,10 +183,10 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
         // Remove config
         $result_remove = $snmp->delete_config($protectedPost['SUP_PROF']);
         unset($protectedPost['SUP_PROF']);
-        if($result_remove == true){
+        if($result_remove == 0){
             msg_success($l->g(572));
         }else{
-            msg_error($l->g(573));
+            msg_error($l->g($result_remove));
         }
     }
 
@@ -264,10 +264,10 @@ if($protectedPost['onglet'] == 'SNMP_MIB') {
         // Remove config
         $result_remove = $snmp->delete_config($protectedPost['SUP_PROF']);
         unset($protectedPost['SUP_PROF']);
-        if($result_remove == true){
+        if($result_remove == 0){
             msg_success($l->g(572));
         }else{
-            msg_error($l->g(573));
+            msg_error($l->g($result_remove));
         }
     }
 
