@@ -36,15 +36,31 @@ class OCSSnmp
 	 * @return boolean
 	 */
 	public function create_type($typeName, $oid, $oidString) {
-
+		// Verif if type already exists
 		$sql_verif = "SELECT * FROM `snmp_types` WHERE `TYPE_NAME` = '%s'";
 		$sql_verif_arg = array(addslashes($typeName));
 		$verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $sql_verif_arg);
 
+		// If oid and oid string value empty return error
+		if(trim($oid) == "" || trim($oidString) == "") {
+			return 9022;
+		}
+
 		if($verif->num_rows == 0) {
-			$tableTypeName = str_replace(" ", "_", $typeName);
+			// Insert info table in type snmp table
+			$typeName = $this->cleanString($typeName);
+			$tableTypeName = $typeName;
 			$tableTypeName = strtolower($tableTypeName);
 			$tableTypeName = "snmp_".$tableTypeName;
+
+			$sql = "INSERT INTO `snmp_types` (`TYPE_NAME`,`CONDITION_OID`,`CONDITION_VALUE`, `TABLE_TYPE_NAME`) VALUES ('%s','%s','%s', '%s')";
+			$sql_arg = array(addslashes($typeName), addslashes($oid), addslashes($oidString), $tableTypeName);
+
+			$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
+
+			if(!$result) {
+				return 9024;
+			}
 
 			$sql_create_table =   "CREATE TABLE IF NOT EXISTS `%s` (
 										`ID` INT(6) NOT NULL AUTO_INCREMENT,
@@ -55,21 +71,16 @@ class OCSSnmp
 			$result_create = mysql2_query_secure($sql_create_table, $_SESSION['OCS']["writeServer"], $sql_arg_table);
 			
 			if($result_create) {
-				$sql = "INSERT INTO `snmp_types` (`TYPE_NAME`,`CONDITION_OID`,`CONDITION_VALUE`, `TABLE_TYPE_NAME`) VALUES ('%s','%s','%s', '%s')";
-				$sql_arg = array(addslashes($typeName), addslashes($oid), addslashes($oidString), $tableTypeName);
+				return 0;
+			} else {
+				$sql = "DELETE FROM `snmp_types` WHERE `TABLE_TYPE_NAME` = '%s'";
+				$sql_arg = array($tableTypeName);
 
 				$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
-
-				if($result) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
+				return 9024; // inserer erreur insertion dans la config
 			}
 		} else {
-			return false;
+			return 9023;
 		}
 	}
 
@@ -80,6 +91,7 @@ class OCSSnmp
 	 * @return boolean
 	 */
 	public function create_label($labelName) {
+		$labelName = $this->cleanString($labelName);
 		$sql_verif = "SELECT * FROM `snmp_labels` WHERE `LABEL_NAME` = '%s'";
 		$sql_verif_arg = array(addslashes($labelName));
 		$verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $sql_verif_arg);
@@ -91,12 +103,12 @@ class OCSSnmp
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
 
 			if($result) {
-				return true;
+				return 0;
 			} else {
-				return false;
+				return 9026;
 			}
 		} else {
-			return false;
+			return 9025;
 		}
 	}
 
@@ -146,9 +158,9 @@ class OCSSnmp
 	 */
 	public function snmp_config($typeID, $labelID, $oid, $reconciliation = null) {
 		global $l;
-		$result_alter_table  = $this->add_label_column($typeID, $labelID, $reconciliation);
+		$result_alter_table = $this->add_label_column($typeID, $labelID, $reconciliation);
 
-		if($result_alter_table){
+		if($result_alter_table) {
 			if($reconciliation != null) {
 				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`) VALUES (%s,%s,'%s','%s')";
 				$sql_arg = array($typeID, $labelID, addslashes($oid), 'Yes');
@@ -156,15 +168,15 @@ class OCSSnmp
 				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
 				$sql_arg = array($typeID, $labelID, addslashes($oid));
 			}
-			
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
+
 			if($result) {
-				return true;
+				return 0;
 			} else {
-				return false;
+				return 9027;
 			}
-		}else{
-			return false;
+		} else {
+			return 9027;
 		}
 	}
 
@@ -178,7 +190,7 @@ class OCSSnmp
 	private function add_label_column($typeID, $labelID, $reconciliation) {
 		$tableName = $this->get_table_type_drop($typeID);
 		$labelName = $this->get_label_drop($labelID);
-
+		
 		$sql_alter = "ALTER TABLE `%s` ADD `%s` VARCHAR(255) NOT NULL";
 		
 		$arg_alter = array($tableName, $labelName);
@@ -189,9 +201,9 @@ class OCSSnmp
 			$arg_unique = array($tableName, $labelName);
 			$result_unique = mysql2_query_secure($sql_unique, $_SESSION['OCS']["writeServer"], $arg_unique);
 		}
-		if($result_alter){
+		if($result_alter) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -215,9 +227,9 @@ class OCSSnmp
 			$sqlArg = [$id];
 			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 
-			return true;
+			return 0;
 		}else{
-			return false;
+			return 9028;
 		}
 	}
 
@@ -230,7 +242,7 @@ class OCSSnmp
 	private function drop_table($id){
 		$tableName = $this->get_table_type_drop($id);
 
-		$sql_drop_table = "DROP TABLE %s";
+		$sql_drop_table = "DROP TABLE `%s`";
 		$arg_drop_table = array($tableName);
 
 		$result_drop = mysql2_query_secure($sql_drop_table, $_SESSION['OCS']["writeServer"], $arg_drop_table);
@@ -262,9 +274,9 @@ class OCSSnmp
 			$sqlArg = [$id];
 			$result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 			if($result){
-				return true;
+				return 0;
 			} else {
-				return false;
+				return 9029;
 			}
 		}
 	}
@@ -375,12 +387,12 @@ class OCSSnmp
 			$sqlArg = [$id];
 			$result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 			if($result){
-				return true;
+				return 0;
 			}else{
-				return false;
+				return 9030;
 			}
 		} else {
-			return false;
+			return 9030;
 		}
 	}
 
@@ -481,6 +493,34 @@ class OCSSnmp
 		}
 
 		return $infos;
+	}
+
+	/**
+	 * Clean specil characters from string 
+	 */
+	private function cleanString($text) {
+		$utf8 = array(
+			'/[áàâãªä]/u'   =>   'a',
+			'/[ÁÀÂÃÄ]/u'    =>   'A',
+			'/[ÍÌÎÏ]/u'     =>   'I',
+			'/[íìîï]/u'     =>   'i',
+			'/[éèêë]/u'     =>   'e',
+			'/[ÉÈÊË]/u'     =>   'E',
+			'/[óòôõºö]/u'   =>   'o',
+			'/[ÓÒÔÕÖ]/u'    =>   'O',
+			'/[úùûü]/u'     =>   'u',
+			'/[ÚÙÛÜ]/u'     =>   'U',
+			'/ç/'           =>   'c',
+			'/Ç/'           =>   'C',
+			'/ñ/'           =>   'n',
+			'/Ñ/'           =>   'N',
+			'/–/'           =>   '_', // UTF-8 hyphen to "normal" hyphen
+			'/[’‘‹›‚]/u'    =>   '_', // Literally a single quote
+			'/[“”«»„]/u'    =>   '_', // Double quote
+			'/ /'           =>   '_', // nonbreaking space (equiv. to 0x160)
+			'/&#039;/'		=>	 '_'
+		);
+		return preg_replace(array_keys($utf8), array_values($utf8), $text);
 	}
 
 }
