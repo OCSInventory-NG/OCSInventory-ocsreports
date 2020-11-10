@@ -88,10 +88,10 @@ if($protectedPost['onglet'] == 'SNMP_RULE') {
 
     if(isset($protectedPost['create_type'])) {
         $result = $snmp->create_type($protectedPost['type_name'], $protectedPost['condition_oid'], $protectedPost['condition_value']);
-        if($result == true){
+        if($result == 0){
           msg_success($l->g(572));
         }else{
-          msg_error($l->g(573));
+          msg_error($l->g($result));
         }
         unset($protectedPost['create_type']);
     }
@@ -142,10 +142,10 @@ if($protectedPost['onglet'] == 'SNMP_LABEL') {
 
     if(isset($protectedPost['create_label'])) {
         $result = $snmp->create_label($protectedPost['label_name']);
-        if($result == true){
+        if($result == 0){
           msg_success($l->g(572));
         }else{
-          msg_error($l->g(573));
+          msg_error($l->g($result));
         }
         unset($protectedPost['create_label']);
     }
@@ -192,10 +192,10 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
 
     if(isset($protectedPost['update_snmp'])) {
         $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation']);
-        if($result == true){
+        if($result == 0){
           msg_success($l->g(572));
         }else{
-          msg_error($l->g(573));
+          msg_error($l->g($result));
         }
         unset($protectedPost['update_snmp']);
     }
