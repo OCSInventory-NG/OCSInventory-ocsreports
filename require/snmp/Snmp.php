@@ -48,10 +48,11 @@ class OCSSnmp
 
 		if($verif->num_rows == 0) {
 			// Insert info table in type snmp table
-			$typeName = $this->cleanString($typeName);
-			$tableTypeName = $typeName;
+			$typeName = str_replace("&#039;", "'", $typeName);
+			$tableTypeName = $this->cleanString($typeName);
 			$tableTypeName = strtolower($tableTypeName);
 			$tableTypeName = "snmp_".$tableTypeName;
+			$oidString = str_replace("&#039;", "'", $oidString);
 
 			$sql = "INSERT INTO `snmp_types` (`TYPE_NAME`,`CONDITION_OID`,`CONDITION_VALUE`, `TABLE_TYPE_NAME`) VALUES ('%s','%s','%s', '%s')";
 			$sql_arg = array(addslashes($typeName), addslashes($oid), addslashes($oidString), $tableTypeName);
@@ -215,7 +216,6 @@ class OCSSnmp
 	 * @return boolean
 	 */
 	public function delete_type($id){
-
 		$result = $this->drop_table($id);
 		if($result){
 			$sqlQuery = "DELETE FROM `snmp_types` WHERE ID = %s";
@@ -518,7 +518,9 @@ class OCSSnmp
 			'/[’‘‹›‚]/u'    =>   '_', // Literally a single quote
 			'/[“”«»„]/u'    =>   '_', // Double quote
 			'/ /'           =>   '_', // nonbreaking space (equiv. to 0x160)
-			'/&#039;/'		=>	 '_'
+			'/&#039;/'		=>	 '_',
+			'/-/'			=>	 '_',
+			"/'/"			=>	 '_',
 		);
 		return preg_replace(array_keys($utf8), array_values($utf8), $text);
 	}
