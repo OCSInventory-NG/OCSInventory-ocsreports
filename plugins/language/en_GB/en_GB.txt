@@ -1665,7 +1665,7 @@
 9004 OID
 9005 OID string value
 9006 Label name
-9007 Type name is unique and must not contain any special characters except underscore.</br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
+9007 <b>The name is unique and must not contain any special characters except underscore.</b></br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
 9008 Add MIB file
 9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
 9010 Server SNMP MIBs directory
@@ -1680,6 +1680,15 @@
 9019 OID name string
 9020 Add to SNMP Model
 9021 Search for specific row
+9022 Can't create type with empty OID or empty OID string value
+9023 Type name already exists
+9024 An error happened during the SNMP type creation
+9025 Label already exists
+9026 An error happened during the SNMP label creation
+9027 An error happened during the SNMP configuration
+9028 An error happened during the type deletion
+9029 An error happened during the label deletion
+9030 An error happened during the config deletion
 
 9100 SSL key path
 9101 SSL certificat path
