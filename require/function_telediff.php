@@ -416,6 +416,7 @@ function create_pack($sql_details, $info_details, $modif = "true") {
         if ($size = @filesize($fname)) {
             $handle = fopen($fname, "rb");
             $read = 0;
+            if(!isset($sql_details['nbfrags'])) $sql_details['nbfrags'] = 1;
             for ($i = 1; $i < $sql_details['nbfrags']; $i++) {
                 $contents = fread($handle, $size / $sql_details['nbfrags']);
                 $read += strlen($contents);
