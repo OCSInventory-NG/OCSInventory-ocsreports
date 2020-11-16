@@ -63,10 +63,15 @@ class Ipdiscover
 		return $row;
 	}
 
-	public function form_add_subnet($title = '', $default_value, $form) {
+	public function form_add_subnet($title = '', $default_value, $form, $is_tag_linked) {
 		global $l, $pages_refs;
 	
-		$name_field = array("RSX_NAME", "ID_NAME", "ADD_TAG", "ADD_IP", "ADD_SX_RSX");
+		if($is_tag_linked){
+			$name_field = array("RSX_NAME", "ID_NAME", "ADD_TAG", "ADD_IP", "ADD_SX_RSX");
+		}else{
+			$name_field = array("RSX_NAME", "ID_NAME", "ADD_IP", "ADD_SX_RSX");
+		}
+		
 
 		if (isset($_SESSION['OCS']["ipdiscover_id"])) {
 			$lbl_id = $_SESSION['OCS']["ipdiscover_id"];
@@ -74,15 +79,33 @@ class Ipdiscover
 			$lbl_id = $l->g(305) . ":";
 		}
 
-		$tab_name = array($l->g(304) . " :", $lbl_id . " :", "TAG :", $l->g(34) . " :", $l->g(208) . " :");
+		if($is_tag_linked){
+			$tab_name = array($l->g(304) . " :", $lbl_id . " :", "TAG :", $l->g(34) . " :", $l->g(208) . " :");
+		}else{
+			$tab_name = array($l->g(304) . " :", $lbl_id . " :", $l->g(34) . " :", $l->g(208) . " :");
+		}
+		
 
-		if ($title == $l->g(931)) {
-			$type_field = array(0, 2, 2, 13, 0);
-		} else {
-			$type_field = array(0, 2, 2, 0, 0);
+		if($is_tag_linked){
+			if ($title == $l->g(931)) {
+				$type_field = array(0, 2, 2, 13, 0);
+			} else {
+				$type_field = array(0, 2, 2, 0, 0);
+			}
+		}else{
+			if ($title == $l->g(931)) {
+				$type_field = array(0, 2, 13, 0);
+			} else {
+				$type_field = array(0, 2, 0, 0);
+			}
 		}
 	
-		$value_field = array($default_value['RSX_NAME'], $default_value['ID_NAME'], $default_value['ADD_TAG'], $default_value['ADD_IP'], $default_value['ADD_SX_RSX']);
+		if($is_tag_linked){
+			$value_field = array($default_value['RSX_NAME'], $default_value['ID_NAME'], $default_value['ADD_TAG'], $default_value['ADD_IP'], $default_value['ADD_SX_RSX']);
+		}else{
+			$value_field = array($default_value['RSX_NAME'], $default_value['ID_NAME'], $default_value['ADD_IP'], $default_value['ADD_SX_RSX']);
+		}
+		
 	
 		$tab_typ_champ = show_field($name_field, $type_field, $value_field);
 
