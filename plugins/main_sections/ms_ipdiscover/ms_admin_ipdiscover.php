@@ -208,11 +208,11 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
         }
     }
 
-    if ($protectedPost['MODIF'] != '') {
+    if (!empty($protectedPost['MODIF'])) {
         echo "<input type='hidden' name='MODIF' id='MODIF' value='" . $protectedPost['MODIF'] . "'";
     }
-    if (isset($protectedPost['ADD_TYPE']) || $protectedPost['MODIF']) {
-        if ($protectedPost['MODIF']) {
+    if (isset($protectedPost['ADD_TYPE']) || !empty($protectedPost['MODIF'])) {
+        if (!empty($protectedPost['MODIF'])) {
             $info = $ipdiscover->find_info_type('', $protectedPost['MODIF']);
             $protectedPost['TYPE_NAME'] = $info->NAME;
         }
