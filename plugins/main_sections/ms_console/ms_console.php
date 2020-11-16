@@ -185,7 +185,7 @@ $tab_options['ARG_SQL'] = $query['ARG'];
 $querygroup = $query['SQL'];
 
 
-$querygroup .= " from hardware h,groups g ";
+$querygroup .= " from hardware h, `groups` g ";
 $querygroup .= "where g.hardware_id=h.id and h.deviceid = '_SYSTEMGROUP_' ";
 
 $querygroup .= " and ((g.request is not null and trim(g.request) != '')
