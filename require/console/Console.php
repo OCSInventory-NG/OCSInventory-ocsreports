@@ -47,7 +47,7 @@
             if(strpos($item['USERAGENT'], 'unix') !== false) {
               $machine['unix'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
-            } elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false || strpos($item['USERAGENT'], 'windows') !== false || strpos($item['USERAGENT'], 'Windows') !== false) {
+            } elseif(strpos(strtoupper($item['USERAGENT']), 'WINDOWS') !== false) {
               $machine['windows'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
             } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
