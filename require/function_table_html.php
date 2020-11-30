@@ -1687,7 +1687,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 								$lbl_msg=$l->g(640)." ".$value_of_field;
 							}
 							if($form_name == "admins" && $_SESSION['OCS']["loggeduser"] == htmlspecialchars($value_of_field, ENT_QUOTES)) {
-
+								// Do nothing 
 							} else {
 								$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
 							}	
