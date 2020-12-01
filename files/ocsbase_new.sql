@@ -1,8 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.22, for Linux (x86_64)
---
--- Host: localhost    Database: ocsdb10
--- ------------------------------------------------------
--- Server version	8.0.22-0ubuntu0.20.04.2
+-- If it's a new database
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
