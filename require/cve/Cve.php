@@ -261,10 +261,11 @@ class Cve
     $regex = str_replace(
       array("\*", "\?"), // wildcard chars
       array('.*','.'),   // regexp chars
+      array("\\/", ""),
       preg_quote($pattern)
     );
 
-    return preg_match('/^'.$regex.'$/is', $source);
+    return preg_match('/^'.$regex.'$/is', strtolower($source));
   }
 
   /**
@@ -312,7 +313,7 @@ class Cve
         foreach($array as $keys => $values) {
           if(isset($values["vulnerable_configuration"])) {
             foreach($values["vulnerable_configuration"] as $keys => $vuln){
-              if((strpos($vuln, $vuln_conf) !== false) || (strpos($vuln, $vuln_conf_all) !== false)){
+              if((strpos(strval($vuln), strval($vuln_conf)) !== false) || (strpos(strval($vuln), strval($vuln_conf_all)) !== false)){
                 $result = $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0]);
                 if($result != null) {
                   if($this->CVE_VERBOSE == 1) {
@@ -474,10 +475,10 @@ class Cve
 
     while ($item = mysqli_fetch_array($result)) {
       $list[$item['NAME_ID']]['NAME'] = $item['NAME'];
-      $list[$item['NAME_ID']][$item['VERSION_ID']]['VERSION'] = $item['VERSION'];
-      $list[$item['NAME_ID']][$item['VERSION_ID']]['CVSS'] = $item['CVSS'];
-      $list[$item['NAME_ID']][$item['VERSION_ID']]['CVE'] = $item['CVE'];
-      $list[$item['NAME_ID']][$item['VERSION_ID']]['LINK'] = $item['LINK'];
+      $list[$item['NAME_ID']][$item['CVE']]['VERSION'] = $item['VERSION'];
+      $list[$item['NAME_ID']][$item['CVE']]['CVSS'] = $item['CVSS'];
+      $list[$item['NAME_ID']][$item['CVE']]['CVE'] = $item['CVE'];
+      $list[$item['NAME_ID']][$item['CVE']]['LINK'] = $item['LINK'];
     }
 
     return $list;
