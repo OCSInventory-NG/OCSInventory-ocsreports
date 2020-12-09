@@ -227,7 +227,7 @@ class Cve
     
     foreach($regs as $key => $reg) {
       $reg_publish = $this->stringMatchWithWildcard(trim($values['VENDOR']), $reg['NAME_REG']);
-      $reg_name = $this->stringMatchWithWildcard($reg['NAME_REG'], trim($values['NAME']));
+      $reg_name = $this->stringMatchWithWildcard(trim($values['NAME']), $reg['NAME_REG']);
 
       if($reg_name || $reg_publish) {
         if($reg['NAME_RESULT'] != "") {
