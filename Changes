@@ -1,4 +1,27 @@
 Revision history for ocsreports
+2.8.1
+
+		* Add IpDiscover purge configuration
+		* Add IpDiscover purge related translation
+		* Add IpDiscover purge crontab
+		* Add Unix users in computer details
+		* Add explicit error message during  SNMP type configuration
+		* Update ocsbase.sql for clean installation
+		* Update Spanish, Deutsh and Brazilian translation
+		* Authorized - and _ for login
+		* Fix role attribution especially when using memberof
+		* Fix multisearch for dynamic group
+		* Fix software displaying in dictionary
+		* Fix IpDiscover subnet list
+		* Fix IpDiscover form when inventory is not linked to a tag
+		* Fix reference link in CVE reporting
+		* Fix special characters for label and type on SNMP configuration
+		* Fix user table and removal
+		* Fix CVE regex matching
+		* Fix PHP warning
+		* Remove local ocs file import
+		* Remove old plugins manager page
+
 2.8
 		* Rework SNMP Interface and configuration
 		* Rework IPDiscover manager
