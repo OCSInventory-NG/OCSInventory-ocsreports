@@ -472,7 +472,8 @@
                       if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
                       $this->queryArgs[] = $op;
                       $this->queryArgs[] = $value[self::SESS_VALUES];
-                    } else if(($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE') && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ) {
+                    // text fix datetime in multisearch
+                    } else if($this->getSearchedFieldType($nameTable, $value[self::SESS_FIELDS]) == 'datetime' && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ) {
                       $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
                       $this->queryArgs[] = $nameTable;
                       $this->queryArgs[] = $value[self::SESS_FIELDS];
@@ -530,7 +531,8 @@
                 $this->queryArgs[] = $value[self::SESS_OPERATOR];
                 $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
-              }else if(($value[self::SESS_FIELDS] == 'LASTCOME' || $value[self::SESS_FIELDS] == 'LASTDATE') && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ){
+              // test fix datetime in multisearch
+              }else if($this->getSearchedFieldType($nameTable, $value[self::SESS_FIELDS]) == 'datetime' && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ){
                 $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
                 $this->queryArgs[] = $nameTable;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
