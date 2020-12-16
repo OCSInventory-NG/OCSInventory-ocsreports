@@ -721,7 +721,7 @@
             $operatorList = $this->operatorAccount;
         } elseif($accounttype == '5') {
             $operatorList = $this->operatorAccountCheckbox;
-        } elseif($field == "LASTCOME" || $field == "LASTDATE") {
+        } elseif($this->getSearchedFieldType($table, $field) == 'datetime') {
             $operatorList = array_merge($this->operatorList, $this->operatorDelay);
         } else {
             $operatorList = $this->operatorList;
