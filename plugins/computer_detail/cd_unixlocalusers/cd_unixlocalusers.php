@@ -31,12 +31,12 @@ else{
     $ajax=false;
 }
 
-print_item_header("Unix users");
+print_item_header("Unix local users");
 
 if (!isset($protectedPost['SHOW']))
     $protectedPost['SHOW'] = 'NOSHOW';
 
-$form_name="unixusers";
+$form_name="local_users";
 $table_name=$form_name;
 $tab_options=$protectedPost;
 $tab_options['form_name']=$form_name;
@@ -44,15 +44,13 @@ $tab_options['table_name']=$table_name;
 
 echo open_form($form_name);
 
-$list_fields=array( 'Name_Users' => 'NAME_USERS',
-                    'Id_Users' => 'ID_USERS',
-                    'Login_Users' => 'LOGIN_USERS',
-                    'Shell_Users' => 'SHELL_USERS',
-                    'Gid_Users' => 'GID_USERS',
-                    'Home_Users' => 'HOME_USERS',
-                    'Id_Group' => 'ID_GROUP',
-                    'Name_Group' => 'NAME_GROUP',
-                    'Member_Group' => 'MEMBER_GROUP',
+$list_fields=array( 
+    'NAME_USER' => 'NAME',
+    'ID_USER' => 'ID_USER',
+    'LOGIN' => 'LOGIN',
+    'SHELL' => 'SHELL',
+    'GID' => 'GID',
+    'HOME' => 'HOME',
 );
 
 $list_col_cant_del=$list_fields;
