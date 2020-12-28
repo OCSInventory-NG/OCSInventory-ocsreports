@@ -313,7 +313,7 @@ class Cve
         foreach($array as $keys => $values) {
           if(isset($values["vulnerable_configuration"])) {
             foreach($values["vulnerable_configuration"] as $keys => $vuln){
-              if((strpos(strval($vuln), strval($vuln_conf)) !== false) || (strpos(strval($vuln), strval($vuln_conf_all)) !== false)){
+              if((!empty(strval($vuln_conf)) && (strpos(strval($vuln), strval($vuln_conf)) !== false)) || (!empty(strval($vuln_conf_all)) && (strpos(strval($vuln), strval($vuln_conf_all)) !== false))){
                 $result = $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0]);
                 if($result != null) {
                   if($this->CVE_VERBOSE == 1) {
@@ -351,24 +351,10 @@ class Cve
    *  Clean CVE and ban software
    */
   public function clean_cve($publisher){
-    $sql = 'SELECT DISTINCT cve FROM cve_search WHERE PUBLISHER_ID = %s';
+    // Clean all CVE of this publisher before insert new CVE
+    $sql = 'DELETE FROM cve_search WHERE PUBLISHER_ID = %s';
     $arg = array($publisher);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $curl = curl_init();
-
-    while ($item_cve = mysqli_fetch_array($result)) {
-      $url = $this->CVE_SEARCH_URL."/api/cve/".$item_cve["cve"];
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
-      $result = curl_exec ($curl);
-      $vars = json_decode($result, true);
-      curl_close ($curl) ;
-      if(empty($vars)){
-        $sql_clean = "DELETE FROM cve_search WHERE cve = '%s'";
-        $sql_arg = array($item_cve["cve"]);
-        $result_verif = mysql2_query_secure($sql_clean, $_SESSION['OCS']["writeServer"], $arg_sql);
-      }
-    }
 
     if(gettype($this->curlSession) == 'resource') curl_close($this->curlSession);
 
