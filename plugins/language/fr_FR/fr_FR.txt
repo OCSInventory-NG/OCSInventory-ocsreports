@@ -1682,3 +1682,7 @@
 9103 Mode SSL
 9104 Chemin du certificat CA
 9105 Port MySQL
+
+9500 Fusionner la sélection
+9501 Tout fusionner
+9502 Machine(s) dupliquée(s) :
