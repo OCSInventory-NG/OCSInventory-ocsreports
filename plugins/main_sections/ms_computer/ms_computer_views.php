@@ -57,6 +57,7 @@ function show_computer_title($computer) {
 }
 
 function show_computer_actions($computer){
+    global $protectedGet;
     global $l;
 
     $urls = $_SESSION['OCS']['url_service'];
