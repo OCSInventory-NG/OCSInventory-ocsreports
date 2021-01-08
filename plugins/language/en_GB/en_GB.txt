@@ -1700,3 +1700,7 @@
 9200 Package deployment for computer
 9201 Package deployment for selection
 9202 Package deployment for group
+
+9500 Merge selected duplicates
+9501 Merge all duplicates
+9502 Duplicates by :

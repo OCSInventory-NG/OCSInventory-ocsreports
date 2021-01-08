@@ -27,39 +27,6 @@ if (AJAX) {
     ob_start();
 }
 require_once('require/function_computers.php');
-if ($protectedPost['DEL_ALL'] != '') {
-    foreach ($protectedPost as $key => $value) {
-        $checkbox = explode('check', $key);
-        if (isset($checkbox[1])) {
-            deleteDid($checkbox[1]);
-        }
-    }
-}
-if ($protectedPost['SUP_PROF'] != '' and is_numeric($protectedPost['SUP_PROF'])) {
-    deleteDid($protectedPost['SUP_PROF']);
-}
-
-if ($protectedPost['FUSION']) {
-    foreach ($protectedPost as $name => $value) {
-        if (substr($name, 0, 5) == "check") {
-            $list_id_fusion[] = substr($name, 5);
-        }
-    }
-    if (count($list_id_fusion) < 2) {
-        echo "<script>alert('" . $l->g(922) . "');</script>";
-    } else {
-        $afus = array();
-        $i = 0;
-        while (isset($list_id_fusion[$i])) {
-            $res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $list_id_fusion[$i]) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-            $afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
-            $i++;
-        }
-        if (isset($afus)) {
-            fusionne($afus);
-        }
-    }
-}
 
 //restriction for profils?
 if ($_SESSION['OCS']['mesmachines']) {
@@ -148,6 +115,8 @@ if (isset($doublon['hostname'])) {
 } else {
     $count_id['hostname'] = 0;
 }
+
+
 //search id of computers => hostname + serial number
 $sql_id_doublon['hostname_serial'] = "SELECT DISTINCT h.id,h.name info1,b.ssn info2
 						FROM hardware h
@@ -196,7 +165,8 @@ if (is_defined($tab_id_mes_machines)) {
     $arg_id_doublon['macaddress_serial'] = $sql['ARG'];
 }
 foreach($sql_id_doublon as $name=>$sql_value){
-	$sql_value.=" group by id";
+    $sql_value.=" group by id";
+	
 	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_id_doublon[$name]);
 	$count_id[$name] = 0;
 	while( $val = mysqli_fetch_object( $res ) ) {
@@ -212,6 +182,8 @@ foreach($sql_id_doublon as $name=>$sql_value){
 			$list_info[$name][]=$val->info1;
 	}
 }
+
+
 $form_name='doublon';
 $table_name='DOUBLON';
 $tab_options=$protectedPost;
@@ -219,6 +191,7 @@ $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 echo "<div class='col col-md-12'>";
+
 function returnTrad($lbl){
 	global $l;
 	switch($lbl) {
@@ -231,6 +204,8 @@ function returnTrad($lbl){
 	}
 
 }
+
+// show number of duplis for each category (hostname, serial, etc.)
 foreach ($count_id as $lbl=>$count_value){
 
 	echo "<div class='row'>";
@@ -239,7 +214,7 @@ foreach ($count_id as $lbl=>$count_value){
 		echo "</div>";
 		echo "<div class='col col-md-2 text-left'>";
 		if ($count_value != 0)
-			echo "<a href=# onclick='pag(\"".$lbl."\",\"detail\",\"".$form_name."\");' alt='".$l->g(41)."'>";
+            echo "<a href=# onclick='pag(\"".$lbl."\",\"detail\",\"".$form_name."\");' alt='".$l->g(41)."'>";
 
 		echo $count_value;
 
@@ -255,8 +230,11 @@ foreach ($count_id as $lbl=>$count_value){
 echo "</table>";
 echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']."'>";
 
-//show details
+//show details for category
 if ($protectedPost['detail'] != '') {
+    // category reminder 
+    echo "<h2>". $l->g(9502) ." ".returnTrad($protectedPost['detail'])." </h2>";
+
     //BEGIN SHOW ACCOUNTINFO
     require_once('require/function_admininfo.php');
     $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
@@ -305,6 +283,7 @@ if ($protectedPost['detail'] != '') {
     $sql['SQL'] .= " left join bios b on h.id=b.hardware_id ";
     $sql['SQL'] .= " left join networks n on h.id=n.hardware_id ";
     $sql['SQL'] .= "  where h.id in ";
+
     
 	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
 	if (($protectedPost['detail'] == "macaddress" or $protectedPost['detail'] == "macaddress_serial")
@@ -312,24 +291,174 @@ if ($protectedPost['detail'] != '') {
 		$sql['SQL'] .= " and n.macaddr in ";
 		$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_info[$protectedPost['detail']]);
 		
-	}
- 	$sql['SQL'] .= " group by h.id ";
-	$tab_options['ARG_SQL']=$sql['ARG'];
-	$tab_options['FILTRE']=array('NAME'=>$l->g(35),'b.ssn'=>$l->g(36),'n.macaddr'=>$l->g(95));
-	$tab_options['LBL_POPUP']['SUP']='NAME';
-	$tab_options['LBL']['SUP']=$l->g(122);
-	$result_exist=ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
-	echo "<input type='submit' value='".$l->g(177)."' name='FUSION' class='btn btn-success'><br /><br />";
-	if ($result_exist != "" and $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES"){
-		echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"".$form_name."\",\"DEL_ALL\",\"".$l->g(900)."\");'><span class='glyphicon glyphicon-remove delete-span' title='".$l->g(162)."' ></span></a>";
-		echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
-	}
-	echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
+    }
+    $sql['SQL'] .= " group by h.id ";
+
+// BEGIN MODIF DUPLICATES
+    // sort an array by key
+    function groupBy($key, $data) {
+        $result = array();
+        foreach ($data as $val) {
+            if (array_key_exists($key, $val)) {
+                $result[$val[$key]][] = $val;
+            } else {
+                $result[""][] = $val;
+            }
+        }
+        return $result;
+    }
+
+    $duplicates = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
+    $duplicates = mysqli_fetch_all($duplicates, MYSQLI_ASSOC);
+
+    // grouping of duplicates is conditional
+    switch($protectedPost['detail']) {
+		case "hostname_serial": $criteria = 'name'; break;
+		case "hostname_macaddress": $criteria = 'name'; break;
+		case "macaddress_serial": $criteria = 'ssn'; break;
+		case "hostname": $criteria = 'name'; break;
+		case "ssn": $criteria = 'ssn'; break;
+		case "macaddress": $criteria = 'macaddr'; break;
+    }
+    $grpDuplis = groupBy($criteria, $duplicates);
+
+    $i = 0;
+    // iterate through each group of duplicates to build collapsible
+    foreach ($grpDuplis as $item) {
+        echo "<div class='panel-group'><div class='panel-heading panel-ocs'>";
+            // check all boxes for this duplicated item
+            ?>
+            <div class='col-md-2'><input type='checkbox' id='selected_grp_dupli' name='selected_grp_dupli[]' value="<?php echo htmlspecialchars(json_encode($item)); ?>"></div>
+            <?php
+            echo "<a data-toggle='collapse' href='#collapse". $i ."'>".$item[0][$criteria]. "</a>
+                </div>
+                <div id='collapse". $i ."' class='panel-collapse collapse'>";
+
+        // iterate through duplicate's infos
+        foreach ($item as $itemagain) {
+            echo "<div class='panel-body'>"; 
+            ?>
+            <div class='col-md-2'><input type='checkbox' id='selected_dupli' name='selected_dupli[]' value="<?php echo htmlspecialchars(json_encode($itemagain)); ?>"></div>
+            <?php
+             echo "<div class='col-md-10'>".$itemagain['name']. "</div>";
+            foreach ($itemagain as $key => $info) {
+                echo "<div class='col-md-2'>". $key ." : ". $info ." </div>";
+            }
+
+            echo "</div>";
+        }
+
+        echo "</div></div><br>";
+        $i++;
+    }
+
+
+    echo "<br><input type='submit' value='". $l->g(9500)."' name='FUSION' class='btn btn-success'><br><br>";
+    echo "<input type='submit' value='". $l->g(9501)."' name='FUSION_ALL' class='btn btn-success'><br /><br />";
+    echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
+
 }
 echo close_form();
 
+
+
+
+// merge selected duplicates
+if ($protectedPost['FUSION']) {
+    // if duplicates selection is coming from checkbox "all"
+    if (isset($protectedPost['selected_grp_dupli'])) {
+        foreach ($protectedPost['selected_grp_dupli'] as $dpl) {
+            // oh boy
+            $dpl = json_decode(html_entity_decode($dpl), true);
+            $selectedDuplis[] = $dpl;    
+            $dup_grp = groupBy($criteria, $dpl);
+            foreach ($dup_grp as $grp) { 
+                if (count($grp) >= 2) {
+                    $afus = array();
+                    $i = 0;
+                    foreach ($grp as $dupl) {
+                        $res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $dupl['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+                        $afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
+                        $i++;
+                    }
+    
+                    // if $afus is defined, there is something to merge
+                    if (isset($afus)) {
+                        echo "MERGE SUCCESS";
+                        fusionne($afus);
+                    }
+                    
+                }
+
+            }
+
+        }
+    
+    } 
+
+    if (isset($protectedPost['selected_dupli']) && count($protectedPost['selected_dupli']) >= 2) {
+        // need to reconstruct array from jsons
+        foreach ($protectedPost['selected_dupli'] as $dpl) {
+            $dpl = json_decode(html_entity_decode($dpl), true);
+            $selectedDuplis[] = $dpl;   
+                 
+        }
+
+        // grouping the reconstructed array by criteria to merge duplicates coherently
+        $groupedDuplis = groupBy($criteria, $selectedDuplis);
+        
+        // iterate through each group of duplicates
+        foreach ($groupedDuplis as $correspDuplis) {
+            // there must be a least 2 duplis in each group to merge
+            if (count($correspDuplis) >= 2) {
+                $afus = array();
+                $i = 0;
+                foreach ($correspDuplis as $dupl) {
+                    $res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $correspDuplis[$i]['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+                    $afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
+                    $i++;
+                }
+
+                if (isset($afus)) {
+                    echo "MERGE SUCCESS";
+                    fusionne($afus);
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    if (isset($protectedPost['selected_dupli']) && count($protectedPost['selected_dupli']) < 2) {
+        echo "<script>alert('" . $l->g(922) . "');</script>";
+    }
+
+} 
+
+
+// merge all duplicates
+if ($protectedPost['FUSION_ALL']) {
+    // $grpDuplis as already been grouped by criteria and contains all duplicates
+    foreach ($grpDuplis as $dup) {
+        $afus = array();
+        foreach ($dup as $d) {
+            $res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $d['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+            $afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);    
+        }
+
+        if (isset($afus)) {
+            fusionne($afus);
+        }
+
+    } 
+    
+}
+
+// END MODIF DUPLICATES
+
+
 if (AJAX) {
     ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
 }
 ?>
