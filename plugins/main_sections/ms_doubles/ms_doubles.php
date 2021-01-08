@@ -93,6 +93,7 @@ if (isset($doublon['ssn'])) {
 } else {
     $count_id['ssn'] = 0;
 }
+
 ////search id of computers => macaddresses
 if (isset($doublon['macaddress'])) {
     $sql_id_doublon['macaddress'] = " select distinct hardware_id id,MACADDR info1
@@ -105,6 +106,7 @@ if (isset($doublon['macaddress'])) {
 } else {
     $count_id['macaddress'] = 0;
 }
+
 //search id of computers => hostname
 if (isset($doublon['hostname'])) {
     $sql_id_doublon['hostname'] = " select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ";
@@ -126,6 +128,7 @@ $sql_id_doublon['hostname_serial'] = "SELECT DISTINCT h.id,h.name info1,b.ssn in
 						WHERE  b2.hardware_id = h2.id
 						AND h.id <> h2.id and b.ssn not in (select serial from blacklist_serials) ";
 $arg_id_doublon['hostname_serial'] = array();
+
 if (is_defined($tab_id_mes_machines)) {
     $sql = mysql2_prepare($sql_id_doublon['hostname_serial'] . ' and h.id in ', $arg_id_doublon['hostname_serial'], $tab_id_mes_machines);
     $sql_id_doublon['hostname_serial'] = $sql['SQL'];
@@ -159,11 +162,13 @@ $sql_id_doublon['macaddress_serial'] = "SELECT DISTINCT h.id, n1.macaddr info1, 
 										AND b.ssn not in (select serial from blacklist_serials)
 										AND n1.macaddr not in (select macaddress from blacklist_macaddresses)";
 $arg_id_doublon['macaddress_serial'] = array();
+
 if (is_defined($tab_id_mes_machines)) {
     $sql = mysql2_prepare($sql_id_doublon['macaddress_serial'] . ' and h.id in ', $arg_id_doublon['macaddress_serial'], $tab_id_mes_machines);
     $sql_id_doublon['macaddress_serial'] = $sql['SQL'];
     $arg_id_doublon['macaddress_serial'] = $sql['ARG'];
 }
+
 foreach($sql_id_doublon as $name=>$sql_value){
     $sql_value.=" group by id";
 	
@@ -172,14 +177,14 @@ foreach($sql_id_doublon as $name=>$sql_value){
 	while( $val = mysqli_fetch_object( $res ) ) {
 		//if restriction => count only computers of profil
 		//else, all computers
-			if (is_array($tab_id_mes_machines) and in_array ($val->id,$tab_id_mes_machines)){
-				$list_id[$name][$val->id]=$val->id;
-				$count_id[$name]++;
-			}elseif ($tab_id_mes_machines == ""){
-				$list_id[$name][$val->id]=$val->id;
-				$count_id[$name]++;
-			}		
-			$list_info[$name][]=$val->info1;
+        if (is_array($tab_id_mes_machines) and in_array ($val->id,$tab_id_mes_machines)){
+            $list_id[$name][$val->id]=$val->id;
+            $count_id[$name]++;
+        }elseif ($tab_id_mes_machines == ""){
+            $list_id[$name][$val->id]=$val->id;
+            $count_id[$name]++;
+        }		
+        $list_info[$name][]=$val->info1;
 	}
 }
 
@@ -202,12 +207,10 @@ function returnTrad($lbl){
 		case "ssn": return $l->g(197); break;
 		case "macaddress": return $l->g(198); break;
 	}
-
 }
 
 // show number of duplis for each category (hostname, serial, etc.)
 foreach ($count_id as $lbl=>$count_value){
-
 	echo "<div class='row'>";
 		echo "<div class='col col-md-4 col-md-offset-3'>";
 			echo "<span>".returnTrad($lbl)."</span>";
@@ -278,23 +281,24 @@ if ($protectedPost['detail'] != '') {
         $list_col_cant_del['SUP'] = 'SUP';
     }
     $sql = prepare_sql_tab($list_fields, array('SUP', 'CHECK'));
-    $sql['SQL'] .= " from hardware h ";
-    $sql['SQL'] .= " left join accountinfo a on h.id=a.hardware_id ";
-    $sql['SQL'] .= " left join bios b on h.id=b.hardware_id ";
-    $sql['SQL'] .= " left join networks n on h.id=n.hardware_id ";
-    $sql['SQL'] .= "  where h.id in ";
-
+    $sql['SQL'] .= " from hardware h";
+    $sql['SQL'] .= " left join accountinfo a on h.id=a.hardware_id";
+    $sql['SQL'] .= " left join bios b on h.id=b.hardware_id";
+    $sql['SQL'] .= " left join networks n on h.id=n.hardware_id";
+    $sql['SQL'] .= " where h.id in ";
     
-	$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
+    $sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
+    
 	if (($protectedPost['detail'] == "macaddress" or $protectedPost['detail'] == "macaddress_serial")
 			 and count($list_info)>0){
 		$sql['SQL'] .= " and n.macaddr in ";
 		$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_info[$protectedPost['detail']]);
 		
     }
+
     $sql['SQL'] .= " group by h.id ";
 
-// BEGIN MODIF DUPLICATES
+    // BEGIN MODIF DUPLICATES
     // sort an array by key
     function groupBy($key, $data) {
         $result = array();
@@ -325,12 +329,13 @@ if ($protectedPost['detail'] != '') {
     $i = 0;
     // iterate through each group of duplicates to build collapsible
     foreach ($grpDuplis as $item) {
-        echo "<div class='panel-group'><div class='panel-heading panel-ocs'>";
+        echo "<div class='panel-group'><div class='panel-heading panel-heading-duplicate panel-ocs-duplicate'>";
             // check all boxes for this duplicated item
             ?>
-            <div class='col-md-2'><input type='checkbox' id='selected_grp_dupli' name='selected_grp_dupli[]' value="<?php echo htmlspecialchars(json_encode($item)); ?>"></div>
+            <div class='col-md-2'><input type='checkbox' id='selected_grp_dupli' name='selected_grp_dupli[]' value="<?php echo htmlspecialchars(json_encode($item)); ?>" onClick="disabled_checkbox('selected_grp_dupli');"></div>
             <?php
-            echo "<a data-toggle='collapse' href='#collapse". $i ."'>".$item[0][$criteria]. "</a>
+            echo "<div class='col-md-8'><a data-toggle='collapse' class='duplicate-collapse' href='#collapse". $i ."'><b>".strtoupper($item[0][$criteria]). "</b></a></div>
+                <div class='col-md-2'></div>
                 </div>
                 <div id='collapse". $i ."' class='panel-collapse collapse'>";
 
@@ -340,15 +345,17 @@ if ($protectedPost['detail'] != '') {
             ?>
             <div class='col-md-2'><input type='checkbox' id='selected_dupli' name='selected_dupli[]' value="<?php echo htmlspecialchars(json_encode($itemagain)); ?>"></div>
             <?php
-             echo "<div class='col-md-10'>".$itemagain['name']. "</div>";
+             echo "<div class='col-md-8'><b>".strtoupper($itemagain['name']). "</b></div><div class='col-md-2'></div><br><br>";
+             echo "<div class='col-md-12 duplicate-details'>";
             foreach ($itemagain as $key => $info) {
-                echo "<div class='col-md-2'>". $key ." : ". $info ." </div>";
+                echo "<div class='col-md-3 duplicate-info'><b>". strtoupper($key) ." :</b> ". $info ." </div>";
             }
+            echo "</div>";
 
             echo "</div>";
         }
 
-        echo "</div></div><br>";
+        echo "</div></div>";
         $i++;
     }
 
@@ -386,14 +393,10 @@ if ($protectedPost['FUSION']) {
                     if (isset($afus)) {
                         echo "MERGE SUCCESS";
                         fusionne($afus);
-                    }
-                    
+                    } 
                 }
-
             }
-
         }
-    
     } 
 
     if (isset($protectedPost['selected_dupli']) && count($protectedPost['selected_dupli']) >= 2) {
@@ -422,18 +425,14 @@ if ($protectedPost['FUSION']) {
                 if (isset($afus)) {
                     echo "MERGE SUCCESS";
                     fusionne($afus);
-                }
-                
-            }
-            
-        }
-        
+                } 
+            } 
+        }  
     }
     
     if (isset($protectedPost['selected_dupli']) && count($protectedPost['selected_dupli']) < 2) {
         echo "<script>alert('" . $l->g(922) . "');</script>";
     }
-
 } 
 
 
@@ -450,9 +449,7 @@ if ($protectedPost['FUSION_ALL']) {
         if (isset($afus)) {
             fusionne($afus);
         }
-
-    } 
-    
+    }    
 }
 
 // END MODIF DUPLICATES
