@@ -32,7 +32,7 @@
     * @return array $table
     */
     public function get_group_name() {
-        $sql = 'SELECT h.NAME, h.ID FROM hardware h INNER JOIN groups g ON g.HARDWARE_ID = h.ID';
+        $sql = 'SELECT h.NAME, h.ID FROM hardware h INNER JOIN `groups` g ON g.HARDWARE_ID = h.ID';
         $tableList = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
         while ($tableInfos = mysqli_fetch_array($tableList)) {

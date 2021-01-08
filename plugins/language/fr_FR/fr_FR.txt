@@ -1672,9 +1672,18 @@
 9016 Sélectionnez le type que vous souhaitez configurer.
 9017 OID numérique
 9018 Nom du champ d'inventaire
-9019 OID name string
+9019 nom d'OID
 9020 Ajouter au model SNMP
 9021 Rechercher une ligne spécifique
+9022 Vous ne pouvez pas créer un type avec un OID numérique vide et un nom d'OID vide
+9023 Nom de type déjà existant
+9024 Une erreur est survenue lors de la création du type
+9025 Label déjà existant
+9026 Une erreur est survenue lors de la création du label
+9027 Une erreur est survenue lors de la création de la configuration
+9028 Une erreur est survenue lors de la suppression du type
+9029 Une erreur est survenue lors de la suppression du label
+9030 Une erreur est survenue lors de la suppression de la configuration
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
@@ -1682,6 +1691,10 @@
 9103 Mode SSL
 9104 Chemin du certificat CA
 9105 Port MySQL
+
+9200 Deploiement de paquet pour la machine
+9201 Deploiement de paquet pour la sélection
+9202 Deploiement de paquet pour le groupe
 
 9500 Fusionner la sélection
 9501 Tout fusionner

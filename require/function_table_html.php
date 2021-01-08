@@ -1496,7 +1496,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 					if($info_tag[$id_tag[1]]['type'] == 2) {
 						$info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
 						foreach($info as $key => $value) {
-							if(strpos($value, $search) !== false) {
+							if(strpos($value, strtolower($search)) !== false) {
 								$acc_select[$key] = $key;
 							}
 						}
@@ -1677,14 +1677,20 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						break;
 					case "SUP":
 						if ( $value_of_field!= '&nbsp;'){
-							if (isset($tab_options['LBL_POPUP'][$key])){
-								if (isset($row[$tab_options['LBL_POPUP'][$key]]))
+							if (isset($tab_options['LBL_POPUP'][$key])) {
+								if (isset($row[$tab_options['LBL_POPUP'][$key]])) {
 									$lbl_msg=$l->g(640)." ".$row_temp[$tab_options['LBL_POPUP'][$key]];
-								else
+								} else {
 									$lbl_msg=$tab_options['LBL_POPUP'][$key];
-							}else
+								}
+							} else {
 								$lbl_msg=$l->g(640)." ".$value_of_field;
-							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
+							}
+							if($form_name == "admins" && $_SESSION['OCS']["loggeduser"] == htmlspecialchars($value_of_field, ENT_QUOTES)) {
+								// Do nothing 
+							} else {
+								$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
+							}	
 						}
 						break;
 					case "NAME":
