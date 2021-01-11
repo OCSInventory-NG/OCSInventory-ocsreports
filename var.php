@@ -142,6 +142,7 @@ define('DEV_OPTION', false);
  * - 3 : LDAP Only
  * - 4 : LDAP with SSO
  * - 5 : Always OK, won't ask for user and password
+ * - 6 : Local with SSO
  * 
  * If LDAP / SSO Basic auth is configured, please configure the LDAP Authentication
  */

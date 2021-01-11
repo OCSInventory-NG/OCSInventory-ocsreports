@@ -22,7 +22,7 @@
  */
 
 function get_affiche_methode(){
-    if(AUTH_TYPE == 4){
+    if(AUTH_TYPE == 4 || AUTH_TYPE == 6){
         return "SSO";
     }else{
         return "HTML";
@@ -73,6 +73,12 @@ function get_list_methode($identity = false){
                     0 => "always_ok.php"
                 );
             }
+            break;
+
+        case 6:
+            return array(
+                0 => "local.php"
+            );
             break;
         
         default:
