@@ -27,6 +27,7 @@ if (AJAX) {
     ob_start();
 }
 require_once('require/function_computers.php');
+require_once('require/function_admininfo.php');
 
 //restriction for profils?
 if ($_SESSION['OCS']['mesmachines']) {
@@ -348,7 +349,24 @@ if ($protectedPost['detail'] != '') {
              echo "<div class='col-md-8'><b>".strtoupper($itemagain['name']). "</b></div><div class='col-md-2'></div><br><br>";
              echo "<div class='col-md-12 duplicate-details'>";
             foreach ($itemagain as $key => $info) {
-                echo "<div class='col-md-3 duplicate-info'><b>". strtoupper($key) ." :</b> ". $info ." </div>";
+                if(strpos($key, "fields_") !== false) {
+                    $admininfoId = explode("_", $key);
+                    $admininfo = find_info_accountinfo($admininfoId[1]);
+                    
+                    if($admininfo[$admininfoId[1]]['type'] == "11" || $admininfo[$admininfoId[1]]['type'] == 2) {
+                        $adminvalue = find_value_field("ACCOUNT_VALUE_".$admininfo[$admininfoId[1]]['name'], $admininfo[$admininfoId[1]]['type']);
+                        $adminvalue = $adminvalue[$info];
+                    } elseif($admininfo[$admininfoId[1]]['type'] == "5") {
+                        $checkbox = explode("&&&", $info);
+                        $adminvalue = implode(",",$checkbox);
+                    } else {
+                        $adminvalue = $info;
+                    }
+                    
+                    echo "<div class='col-md-3 duplicate-info'><b>".strtoupper($admininfo[$admininfoId[1]]['name']) ." :</b> ". $adminvalue ." </div>";
+                } else {
+                    echo "<div class='col-md-3 duplicate-info'><b>". strtoupper($key) ." :</b> ". $info ." </div>";
+                }
             }
             echo "</div>";
 
