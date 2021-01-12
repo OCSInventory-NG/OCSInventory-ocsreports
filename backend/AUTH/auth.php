@@ -107,6 +107,7 @@ if ($login_successful == "OK" && isset($login_successful)) {
           $value_logo['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
         }
         ?>
+        <div class="login-page-container"></div>
         <div class="container">
             <div class="col-md-4 col-md-offset-4">
                 <?php echo '<img class="profile-img" src="themes/'.$value_logo['tvalue']['CUSTOM_THEME'].'/logo.png" />'; ?>
@@ -118,14 +119,14 @@ if ($login_successful == "OK" && isset($login_successful)) {
 
                     <div class="form-group">
                         <label for="LOGIN"><?php echo $l->g(243); ?> :</label>
-                        <input type="text" class="form-control" name="LOGIN" id="LOGIN" value='<?php echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $protectedPost['LOGIN']); ?>' placeholder="<?php echo $l->g(243); ?>">
+                        <input type="text" class="form-control login-username-input" name="LOGIN" id="LOGIN" value='<?php echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $protectedPost['LOGIN']); ?>' placeholder="<?php echo $l->g(243); ?>">
                     </div>
                     <div class="form-group">
                         <label for="PASSWD"><?php echo $l->g(217); ?> :</label>
-                        <input type="password" class="form-control" name="PASSWD" id="PASSWD" value='<?php echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $protectedPost['PASSWD']); ?>' placeholder="<?php echo $l->g(217); ?>">
+                        <input type="password" class="form-control login-password-input" name="PASSWD" id="PASSWD" value='<?php echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $protectedPost['PASSWD']); ?>' placeholder="<?php echo $l->g(217); ?>">
                     </div>
 
-                    <input type="submit" class="btn btn-lg btn-block btn-success" id="btn-logon" name="Valid_CNX" value="<?php echo $l->g(13); ?>" />
+                    <input type="submit" class="btn btn-lg btn-block btn-success login-btn" id="btn-logon" name="Valid_CNX" value="<?php echo $l->g(13); ?>" />
                 </form>
             </div>
         </div><!-- /container -->
