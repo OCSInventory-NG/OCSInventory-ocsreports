@@ -345,3 +345,20 @@ div.progress {
 .background-pic{
     opacity: 0.5;
 }
+
+.panel-heading-duplicate {
+    background: #cccccc;
+    background-color:#cccccc;
+    color: white;
+    height: 40px;
+}
+
+.duplicate-info {
+    text-align: left;
+    padding-left: 70px;
+}
+
+.duplicate-collapse {
+    display: inline-block;
+    width: 100%;
+}

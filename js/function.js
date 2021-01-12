@@ -320,3 +320,17 @@ function searchInMIB() {
         }
     }
 }
+
+function disabled_checkbox(id) {
+    var checkedValue = $('#'+id+':checked').val();
+    console.log(checkedValue);
+    if(checkedValue != undefined) {
+        $('[id=selected_dupli]').each(function() {
+            $(this).attr("disabled", true);
+        });
+    } else {
+        $('[id=selected_dupli]').each(function() {
+            $(this).attr("disabled", false);
+        });
+    }
+}
