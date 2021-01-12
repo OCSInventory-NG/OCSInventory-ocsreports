@@ -107,6 +107,7 @@ if ($login_successful == "OK" && isset($login_successful)) {
           $value_logo['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
         }
         ?>
+        <div class="login-page-container"></div>
         <div class="container">
             <div class="col-md-4 col-md-offset-4">
                 <?php echo '<img class="profile-img" src="themes/'.$value_logo['tvalue']['CUSTOM_THEME'].'/logo.png" />'; ?>
