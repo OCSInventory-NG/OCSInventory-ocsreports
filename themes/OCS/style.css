@@ -157,13 +157,6 @@ input[type=checkbox], input[type=radio] {
     margin: 4px 4px 0;
 }
 
-.profile-img {
-    width: auto;
-    height: 256px;
-    margin: 0 auto 10px;
-    display: block;
-}
-
 table.dataTable .glyphicon-stats {
     color: #337ab7  !important;
     font-weight: bold;
@@ -363,6 +356,10 @@ div.progress {
     width: 100%;
 }
 
+/**************************/
+/******* LOGIN PAGE *******/
+/**************************/
+
 .login-page-container {
     position: absolute;
     width: 100%;
@@ -370,4 +367,19 @@ div.progress {
     top: 0;
     left: 0;
     z-index: -1;
+}
+
+/*.login-username-input, .login-password-input {
+    Customize username and password login input 
+}*/
+
+/*.login-btn {
+    Customize login button
+}*/
+
+.profile-img {
+    width: auto;
+    height: 256px;
+    margin: 0 auto 10px;
+    display: block;
 }
