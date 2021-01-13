@@ -4,22 +4,22 @@
         <!-- OS Defintition ID -->
         <id>windows</id>
         <!-- OS Name (can be clear text or OCS translation) -->
-        <name>9205</name>
+        <name>9305</name>
         <!-- Link to image name -->
         <imgref>image/windows-logo.png</imgref>
         <!-- Available categories -->
         <categories>
             <category>
                 <id>installuninstallwindows</id>
-                <name>9208</name>
+                <name>9308</name>
             </category>
             <category>
                 <id>scriptswindows</id>
-                <name>9207</name>
+                <name>9307</name>
             </category>
             <category>
                 <id>otherswindows</id>
-                <name>9209</name>
+                <name>9309</name>
             </category>
         </categories>
         <!-- Link to linked interactions possible (use interaction id) -->
@@ -45,22 +45,22 @@
         <!-- OS Defintition ID -->
         <id>linux</id>
         <!-- OS Name (can be clear text or OCS translation) -->
-        <name>9203</name>
+        <name>9303</name>
         <!-- Link to image name -->
         <imgref>image/linux-logo.png</imgref>
         <!-- Available categories -->
         <categories>
             <category>
                 <id>installuninstalllinux</id>
-                <name>9208</name>
+                <name>9308</name>
             </category>
             <category>
                 <id>scriptslinux</id>
-                <name>9207</name>
+                <name>9307</name>
             </category>
             <category>
                 <id>otherslinux</id>
-                <name>9209</name>
+                <name>9309</name>
             </category>
         </categories>
         <!-- Link to linked interactions possible (use interaction id) -->
@@ -71,22 +71,22 @@
         <!-- OS Defintition ID -->
         <id>macos</id>
         <!-- OS Name (can be clear text or OCS translation) -->
-        <name>9204</name>
+        <name>9304</name>
         <!-- Link to image name -->
         <imgref>image/apple-logo.png</imgref>
         <!-- Available categories -->
         <categories>
             <category>
                 <id>installuninstallmacos</id>
-                <name>9208</name>
+                <name>9308</name>
             </category>
             <category>
                 <id>scriptsmacos</id>
-                <name>9207</name>
+                <name>9307</name>
             </category>
             <category>
                 <id>othersmacos</id>
-                <name>9209</name>
+                <name>9309</name>
             </category>
         </categories>
         <!-- Link to linked interactions possible (use interaction id) -->

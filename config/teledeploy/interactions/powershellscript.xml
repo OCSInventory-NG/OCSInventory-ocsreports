@@ -3,7 +3,7 @@
     <!-- Id of the interaction -->
     <id>powershellscript</id>
     <!-- Name of the interaction -->
-    <name>9214</name>
+    <name>9314</name>
     <!-- Linked operating system ID -->
     <refos>windows</refos>
     <!-- Image reference -->

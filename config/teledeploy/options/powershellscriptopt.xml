@@ -3,7 +3,7 @@
     <!-- Id of the option -->
     <id>powershellscriptopt</id>
     <!-- Name of the option (used for header) -->
-    <name>9214</name>
+    <name>9314</name>
     <!-- Linked reference id -->
     <refint>powershellscript</refint>
     <!-- Fragmentation node -->
@@ -24,13 +24,13 @@
         -->
         <formblock>
             <id>editorCode</id>
-            <label>9240</label>
+            <label>9340</label>
             <mandatory>true</mandatory>
             <type>code</type>
             <language>powershell</language>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9244</description>
+            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -45,12 +45,12 @@
         </formblock>
         <formblock>
             <id>additionalfiles</id>
-            <label>9241</label>
+            <label>9341</label>
             <mandatory>false</mandatory>
             <type>file</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9244</description>
+            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
     </formoption>
