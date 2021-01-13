@@ -142,10 +142,6 @@
         <label>g(175)</label>
         <url>ms_doubles</url>
       </menu-elem>
-      <menu-elem id="ms_local">
-        <label>g(287)</label>
-        <url>ms_local</url>
-      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="extension">

@@ -21,7 +21,7 @@
  * MA 02110-1301, USA.
  */
 
-require 'require/function_admininfo.php';
+require_once 'require/function_admininfo.php';
 
  /**
   * This class implement basic behavior for accountinfo search management

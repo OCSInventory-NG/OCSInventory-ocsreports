@@ -87,10 +87,9 @@ $f1_name = $config['LDAP_CHECK_FIELD1_NAME'];
 $f2_name = $config['LDAP_CHECK_FIELD2_NAME'];
 $f1_value = $_SESSION['OCS']['details'][$f1_name];
 $f2_value = $_SESSION['OCS']['details'][$f2_name];
-if ($f1_value != '') {
-    //NEW CODE BELOW
-    //FIXME: casing? -> 'memberOf'
-    if ($f1_name == "memberof") {
+
+if (!empty($f1_value)) {
+    if (strtolower($f1_name) == "memberof") {
         //the idea here is to iterate through the groups array looking for a match
         //if we find it, unset the array and store only the match, else leave as it is
         foreach ($f1_value as $group) {
@@ -108,9 +107,8 @@ if ($f1_value != '') {
     }
 }
 
-if ($f2_value != '') {
-    //NEW CODE BELOW
-    if ($f2_name == "memberof") {
+if (!empty($f2_value)) {
+    if (strtolower($f2_name) == "memberof") {
         foreach ($f2_value as $group) {
             if ($group == $config['LDAP_CHECK_FIELD2_VALUE']) {
                 $f2_value = array();

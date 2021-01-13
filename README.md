@@ -47,11 +47,6 @@ OCS Inventory NG includes the packet deployment functionality to be sure that al
 
 OCS Inventory is GPLv2 licensed
 
-## Dev notes :
-  - Minimal PHP Version : 5.3.7 (password_compat requierement)
-  - Min IE version : 8 ([bootstrap](http://getbootstrap.com/getting-started/#support))
-  - Targeted others browser version : latest ([bootstrap](http://getbootstrap.com/getting-started/#support))
-
 ## Libraries
   - [PHP : password_compat - v11 Aug 2015] (https://github.com/ircmaxell/password_compat) Backport of password_* functions shipped with PHP 5.5
   - [PHP : phpcas - v1.3.4] (https://github.com/Jasig/phpCAS) PHP Authentication library that allows authenticate users via a Central Authentication Service (CAS) server

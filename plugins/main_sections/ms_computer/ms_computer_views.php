@@ -57,6 +57,7 @@ function show_computer_title($computer) {
 }
 
 function show_computer_actions($computer){
+    global $protectedGet;
     global $l;
 
     $urls = $_SESSION['OCS']['url_service'];
@@ -69,7 +70,7 @@ function show_computer_actions($computer){
     echo '</h3>';
     echo "&nbsp;&nbsp;";
 
-    if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
+    if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO" && isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
         echo "<button class='btn btn-action' OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"" . $l->g(1283) . "\");'>WOL</button> ";
     }
     echo "</div>";

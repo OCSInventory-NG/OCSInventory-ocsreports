@@ -164,4 +164,16 @@
 		<category>other</category>
 		<available>repository</available>
 	</plugin>
+	<plugin id="cd_unixlocalusers">
+		<label>g(235)</label>
+		<system>1</system>
+		<category>other</category>
+		<available>unixlocalusers</available>
+	</plugin>
+	<plugin id="cd_unixlocalgroups">
+		<label>g(235)</label>
+		<system>1</system>
+		<category>other</category>
+		<available>unixlocalgroups</available>
+	</plugin>
 </plugins>

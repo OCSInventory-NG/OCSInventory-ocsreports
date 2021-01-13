@@ -73,6 +73,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
     $url_show_ipdiscover = 'index.php?function=show_ipdiscover';
 
     if (!$method) {
+
         if (is_defined($protectedPost['SUP_PROF'])) {
             $ipdiscover->delete_subnet($protectedPost['SUP_PROF']);
             $tab_options['CACHE'] = 'RESET';
@@ -147,6 +148,8 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 $list_subnet = array();
             }
 
+            $is_tag_linked = look_config_default_values('IPDISCOVER_LINK_TAG_NETWORK');
+
             $list_subnet = array(0 => "") + $list_subnet;
 
             $list_tag = $ipdiscover->get_tag();
@@ -159,7 +162,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 'ADD_SX_RSX' => $protectedPost['ADD_SX_RSX']
             );
 
-            $ipdiscover->form_add_subnet($title, $default_values, $form_name);
+            $ipdiscover->form_add_subnet($title, $default_values, $form_name, $is_tag_linked['ivalue']['IPDISCOVER_LINK_TAG_NETWORK']);
         } else {
             $sql = "SELECT NETID, NAME, ID, MASK, TAG, CONCAT(NETID,IFNULL(TAG, '')) as supsub FROM subnet";
 
@@ -208,11 +211,11 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
         }
     }
 
-    if ($protectedPost['MODIF'] != '') {
+    if (!empty($protectedPost['MODIF'])) {
         echo "<input type='hidden' name='MODIF' id='MODIF' value='" . $protectedPost['MODIF'] . "'";
     }
-    if (isset($protectedPost['ADD_TYPE']) || $protectedPost['MODIF']) {
-        if ($protectedPost['MODIF']) {
+    if (isset($protectedPost['ADD_TYPE']) || !empty($protectedPost['MODIF'])) {
+        if (!empty($protectedPost['MODIF'])) {
             $info = $ipdiscover->find_info_type('', $protectedPost['MODIF']);
             $protectedPost['TYPE_NAME'] = $info->NAME;
         }

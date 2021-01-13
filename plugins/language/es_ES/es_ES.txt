@@ -1,19 +1,31 @@
 2 Todos los dispositivos
-3 Equipos con sotfware...
+3 Dispositivos con sotfware...
+4 Dispositivos sin software...
 5 Códigos de elementos bajo mi responsabilidad
+6 Dispositivo fuera de garantía
+7 Detalles del dispositivo fuera de garantía
+8 Elija sus peticiones
 9 Búsqueda por varios criterios
+10 Dispositivos por etiqueta
+11 Dispositivos por etiquetas
 12 Valor de la etiqueta
 13 Aceptar
+14 Gestión
+15 Etiquetas
+16 Administración
 17 Agente
 18 Revisión
 19 Versión del software
 20 Software
+21 Primera cita
+22 Fecha fuera de la garantía
 23 Dispositivo
 24 Nombre usuario
 25 Sistema Operativo
 26 Memoria
 27 Velocidad de la memoria (MHz)
 28 Número de dispositivos
+29 El servidor LDAP no responde
 30 Buscar
 31 Seleccionar un parámetro
 32 Seleccionar
@@ -21,11 +33,17 @@
 34 Dirección IP
 35 Nombre del dispositivo
 36 Número de serie
+37 Orden
+38 Orden de entrega
+39 Origen
+40 Código
 41 Inicializar
 42 No hay resultados
 43 Menú principal
+44 Elija una opción
 45 Espacio libre
 46 Último inventario
+47 Última página
 48 Detalles del dispositivo
 49 Nombre
 50 Memoria virtual
@@ -35,6 +53,10 @@
 54 Procesador(es)
 55 Número
 56 Datos administrativos
+57 Número de comando
+58 Fecha de comando
+59 Código
+60 Orden de entrega
 61 Tarjeta de video
 62 Resolución
 63 Almacenamiento
@@ -42,8 +64,17 @@
 65 Modelo
 66 Tipo
 67 Tamaño del disco
+68 Directorio
 69 Editor
 70 Designación
+71 Garantía
+72 Intervención(es)
+73 Valor
+74 Fecha de la demanda
+75 Tipo de demanda
+76 Fecha de la intervención
+77 Tipo de intervención
+78 Cuenta
 79 Impresora(s)
 80 Identificador
 81 Estado
@@ -54,6 +85,7 @@
 86 Sistema de archivos
 87 Total
 88 Libre
+89 Fecha de la orden de entrega
 90 Resultado(s)
 91 Dispositivos de entrada
 92 Disco(s)
@@ -64,30 +96,77 @@
 97 Monitor(es)
 98 <b>ATENCIÓN:</b> Sólo puede seleccionar 8 opciones
 99 Detalles del dispositivo
+100 Parámetros de arranque
+101 Orden
+102 Nueva búsqueda
 103 Actualizar
+104 afectados directamente
+105 en unidades
+106 Opciones de configuración
 107 Configurar
 108 Claves del registro
+109 Tipo de dispositivo
+110 a
 111 Licencia Windows
+112 Fecha de garantía
 113 Cancelar
 114 Registrar
 115 Actualizar
 116 Añadir
 117 Registro
+118 Ir a la página
 119 ¿Realmente desea borrar el dispositivo?
+120 cero
+121 Borrar dispositivo
 122 Borrar
+123 Cambiar tipo de dispositivo
+124 Añadir nuevo tipo de dispositivo
+125 Último
+126 Siguiente
+127 Primero
+128 Último
 129 Igual
 130 Diferente
+131 Archivo de iconos
+132 Archivo de imagen
+133 Inventario
 134 Añadir un nuevo archivo al sistema
 135 Tenga cuidado, ¡está a punto de borrar este archivo de forma definitiva!
 136 Descargar
 137 Archivo
+138 Crea
+139 Crear/Borrar
 140 Super administradores
 141 Administradores
 142 Administradores locales
 143 solicitantes teledespliegue
+144 Los administradores ven todos los dispositivos pero no pueden asignar una etiqueta de unidad.
+145 Los administradores locales ven sólo su dispositivo y no pueden asignar una etiqueta de unidad.
+146 Seleccione un administrador
+147 Tenga cuidado, ¡está a punto de borrar los permisos definitivamente!
+148 ETIQUETA ISMERETLEN
+149 Etiquetas de unidad bajo la responsabilidad de
+150 permiso(s) en su lugar
+151 permiso(s) de la ley
+152 ¡Atención, esta operación anula los permisos del administrador afectado!
+153 Ninguna unidad de etiqueta afectada por este administrador
+154 Añadir una etiqueta a un administrador
+155 Añadir administrador a una etiqueta
+156 Añadir una etiqueta de unidad
+
+158 Copia los permisos de
+159 permisos copiados de
+160 No hay administrador para esta etiqueta
+161 Etiqueta de unidad bajo la responsabilidad de
 162 Eliminar seleccionados
-168 Formato de archivo no válido (Debe ser zip, pl o binario unix)
-170 ¡Ya existe el mismo archivo!
+163 Número del tipo de registro
+164 Personas responsables de la etiqueta de la unidad
+165 ¡Debe introducir un nombre o una lista para buscar!
+166 ¡Debe elegir un elemento de la lista!
+167 Ver los detalles
+168 Formato de archivo no válido (Debe ser zip, pl o binario UNIX)
+169 añadir a la base
+170 ¡Ya existe el archivo!
 171 Archivo borrado
 172 Apareció un error, el archivo
 173 No se añadirá al sistema
@@ -96,10 +175,12 @@
 176 IPs
 177 Mezclar dispositivos redundantes
 178 Etiqueta / Distribución de PCs
+179 Nombre de la unidad
 180 Usuario no registrado
-182 Dispositivos que tienen una etiqueta dada
+181 Error de usuario o contraseña
+182 Dispositivos con una determinada etiqueta
 183 Descargar
-184 Este archivo no contiene "use versión constante"
+184 Este archivo no contiene "usar versión constante"
 185 La versión debe ser mayor de 1
 186 Este archivo no contiene el archivo de versión
 187 Archivo zip no válido
@@ -136,7 +217,7 @@
 218 Versiones de agentes
 219 interfaces de red sin inventariar
 220 borrado
-221 Equipos que registran IPs
+221 Dispositivos que registran IPs
 222 <b>AVISO:</b> Los dispositivos seleccionados se van a unir como un único dispositivo, ¿está seguro?
 223 Información
 224 Valor
@@ -228,8 +309,8 @@
 310 IpDiscover menor de
 311 Dispositivos
 312 Descubrimiento IP
-313 Equipos Puerta de enlace
-314 Dispositivos IpDiscover Puerta de enlace
+313 Dispositivo de puerta de enlace
+314 IpDiscover dispositivo de puerta de enlace
 315 Dispositivos sin inventariar
 316 Subred
 317 ANALIZAR
@@ -239,7 +320,7 @@
 321 ¿Desea ver los datos en caché?
 322 Datos en caché
 323 generado el
-324 MÁQUINAS EVALUADAS COMO
+324 HOSTS EVALUADOS COMO
 325 Vacío
 326 No se especificó la máscara
 327 Detalles del dispositivo
@@ -289,7 +370,7 @@
 373 Usuario registrado
 374 Sociedad registrada
 375 Versión del Agente OCS NG
-376 Equipo bloqueado. Por favor vuelva a intentarlo en unos minutos
+376 Dispositivo bloqueado. Por favor vuelva a intentarlo en unos minutos
 377 Velocidad del procesador (MHz)
 380 Diccionario
 381 Número
@@ -378,7 +459,7 @@
 475 Fecha y hora (Marca temporal)
 476 O activar un paquete manualmente
 477 Afectar un paquete
-478 Equipo(s)
+478 Dispositivo(s)
 479 No se seleccionaron dispositivos
 480 Partes
 481 Paquetes activados
@@ -422,7 +503,7 @@
 519 El dispositivo ya está elegido para la red
 520 El dispositivo ya FORZÓ IpDiscover para la red
 521 El dispositivo ya está en estado ilegible FORZADO
-522 Equipo estándar
+522 Dispositivo estándar
 523 Revertir a estado estándar
 524 NUNCA volver a afectar
 525 ¿ESTÁ SEGURO(A)?
@@ -452,7 +533,7 @@
 549 Archivo (Desplegado en dispositivos clientes)
 550 Archivo (Opcional, la orden "Ejecutar" lo puede usar)
 551 Este nombre de paquete ya existe
-552 <i>Haga una búsqueda de dispositivos y luego haga clic en <b>Instalar</b> para afectar los paquetes activados.<br>También puede afectar un paquete a un equipo utilizando la opción <b>Personalizar</b> de la página de detalles del dispositivo deseado</i>.
+552 <i>Haga una búsqueda de dispositivos y luego haga clic en <b>Instalar</b> para afectar los paquetes activados.<br>También puede afectar un paquete a un dispositivo utilizando la opción <b>Personalizar</b> de la página de detalles del dispositivo deseado</i>.
 553 Clave Windows
 554 Monitor: Número de serie
 555 Monitor: Fabricante
@@ -533,6 +614,7 @@
 633 Administración de grupos de servidores
 634 Acción deseada
 635 Nuevo nombre
+636 Descripción
 637 Reemplazar
 638 EL NOMBRE DEL GRUPO NO PUEDE ESTAR VACÍO
 639 ESTE SERVIDOR DE GRUPOS NO EXISTE
@@ -555,18 +637,19 @@
 656 Este dato ya existe en la lista
 657 ¡Los campos en color rojo contienen un error! (Vacíos o tamaño < 2) 
 658 la máquina no tiene servidores de redistribución. <br>Es necesario afectar este paquete individualmente.
-659 Los dispositivos ya tienen este paquete instalado remotamente. El estado del paquete para estos equipos es ahora
-660 GRUPO DE SERVIDORES NO EXISTE
+659 Los dispositivos ya tienen instalado este paquete remotamente. El estado del paquete para estos dispositivos es ahora
+660 GRUPO DE REDISTRIBUCIÓN NO EXISTE
 661 PAQUETES PARA SERVIDOR DE REDISTRIBUCIÓN
 662 Reglas de afectación
 663 PROBLEMA INTERNO
 664 Acción efectuada
-665 MÁQUINA NO SELECCIONADA. GRUPO DE SERVIDORES NO CREADO
-666 Grupo de servidores hecho
+665 DISPOSITIVO NO SELECCIONADO. GRUPO DE SERVIDORES NO CREADO
+666 Grupo de servidores creado
 667 PARA EL PAQUETE
 668 ¿Afectar cualquier regla?
-669 <b>ATENCIÓN:</b> Hay duplicados de prioridad <br> ¡Solo se mantendrá una regla! <br>
+669 <b>ATENCIÓN:</b> Hay duplicados de prioridad <br>¡Solo se mantendrá una regla!<br>
 670 Una regla ya tiene este nombre
+671 ¡El nombre de la regla no puede estar vacío!
 672 ¡Esta regla no existe!
 673 La administración de las reglas de afectación
 674 NOMBRE DE LA REGLA
@@ -577,7 +660,7 @@
 679 NOMBRE
 680 DOMINIO
 681 USUARIO
-682 para Añadir una condición adicional
+682 para añadir una condición adicional
 683 Validar la regla
 684 Se debe cambiar el tamaño de los siguientes campos
 685 Añadir una regla
@@ -603,7 +686,7 @@
 705 ¿Está seguro que desea quitar de la lista negra
 706 Quitar de lista negra
 707 este número de serie
-708 esta dirección mac
+708 esta dirección MAC
 709 PROLOG_FREQ personalizado
 710 Descarga personalizada
 711 Incluir modificaciones
@@ -638,7 +721,7 @@
 739 Mejoras de seguridad futuras
 740 Validez de un bloqueo de dispositivo
 741 Actualizar el inventario respecto a los valores obtenidos la primera vez por el agente (Menor carga BackEnd DB)
-742 Inventariado como una transacción (Menor concurrencia, mejor uso del disco)
+742 Permitir que el motor trate el inventariado como una transacción (Menor valor, mejor uso del disco)
 743 Configurar motor para hacer una actualización diferencial de las secciones del inventario (A nivel de registro). Menor carga BackEnd DB, mayor carga de frontend.
 744 Aceptar un inventario únicamente si lo solicita el servidor (Rechazar inventarios "forzados")
 745 Especifique cuando se eliminarán las estructuras de caché del inventario
@@ -774,11 +857,11 @@
 875 Clave de registro: Valor
 876 GRUPO DE REDISTRIBUCIÓN simple, inefectivo
 877 ALGUNOS DISPOSITIVOS NO SE HAN AGREGADO AL GRUPO PORQUE:
-878 <b>Recordatorio:</b> Un ordenador puede ser miembro de un solo grupo de redistribución
+878 <b>Recordatorio:</b> Un dispositivo puede ser miembro de un solo grupo de redistribución
 879 GRUPO REEMPLAZADO
 880 GRUPO CREADO
-881 Ordenadores añadidos
-882 Ordenadores borrados del grupo
+881 Dispositivos añadidos
+882 Dispositivos eliminados del grupo
 883 Restringir vista
 884 <b>ADVERTENCIA:</b> CON FILTRO de visualización
 885 desconocido/a
@@ -789,9 +872,11 @@
 890 La interfaz está bloqueada en una búsqueda con varios criterios
 891 Eliminar interfaz LOCK
 892 Conectar con otra cuenta
-893 NINGUNA ETIQUETA AFECTA A SU PERFIL
-894 NINGÚN NIVEL DE DERECHOS DEFINIDO PARA SU PERFIL
+893 NINGUNA ETIQUETA AFECTA PARA SU PERFIL
+894 NO HAY DEFINIDO NINGÚN NIVEL DE PERMISOS PARA SU PERFIL
 895 Modificar etiqueta
+896 Anotaciones
+897 Nota de la fecha
 898 Añadir nota
 899 Autor
 900 ¿Realmente quiere eliminar la selección?
@@ -900,7 +985,7 @@
 1003 Parámetros de paquetes de servidores de redistribución
 1004 No es posible crear el directorio de creación de paquetes
 1005 La creación del paquete no es posible por
-1006 No tienen derechos de escritura
+1006 No tienen permisos de escritura
 1007 El directorio
 1008 Usar redistribución en este paquete
 1009 Directorio de almacenamiento de servidores
@@ -1070,8 +1155,8 @@
 1173 Información del perfil
 1174 Páginas de usuario
 1175 Restricciones
-1176 Derechos a la lista negra
-1177 Derechos para administrar
+1176 Permisos a la lista negra
+1177 Permisos para administrar
 1178 Este campo
 1179 Una variable no puede contener caracteres especiales
 1180 No puede estar vacío
@@ -1179,6 +1264,13 @@
 1282 Orden enviada Wake On Lan
 1283 ¿Quiere realizar Wake On Lan en este dispositivo?
 1284 IP de origen
+1285 Las credenciales han sido añadidas
+1286 GNU General Public License, version 2.0
+1287 apoyo disponible
+1288 Apoyo a la validación
+1289 Identificadores admitidos
+1290 Correo electrónico de contacto
+1291 Personas autorizadas
 1292 Use las opciones avanzadas de teledespliegue
 1293 Forzar teledespliegue
 1294 Tiempo de instalación
@@ -1343,7 +1435,36 @@
 1453 GUID
 1454 Origen
 1455 Interfaz virtual
+1456 Número de teléfono
+1457 Enlazar la red IpDiscover al TAG del dispositivo </br><b style="color:#d9534f;">Cerrar sesión / Iniciar sesión después de actualizar esta configuración</b>
 
+1460 Gestionar CVE-search
+1461 Habilitar CVE Reporting
+1462 URL del host de CVE-search que se utilizará para la presentación de informes
+1463 CVE Reporting
+1464 CVE Reporting no está activado.
+1465 Por CVSS
+1466 Por favor, consulte la documentación para configurar CVE Reporting : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Gestión de informes de búsqueda CVE </a>
+1467 Enlace
+1468 Puntuación de vulnerabilidad entre
+1469 Seleccione las categorías de software que no desea procesar
+1470 Habilitar búsqueda-CVE
+1471 Habilitar para obtener el CVE correspondiente a toda la versión de software
+1472 Inventario CVE
+1473 Nueva regex coincidente
+1474 Lista de coincidencias
+1475 Nombre o Regex
+1476 Resultado de la publicación
+1477 Nombre del resultado
+1478 O importar un archivo CSV
+1479 Importar
+1480 Descargar archivo de ejemplo CSV
+1481 Historial CVE
+1482 Última fecha de ejecución
+1483 Recuento CVE
+1484 Tiempo de validez de un CVE después del escaneo de OCS Inventory
+1485 Por software
+1486 Por dispositivo
 
 1500 Categoría de software
 1501 Nueva categoría
@@ -1364,16 +1485,28 @@
 1516 Todo el software (Pero por defecto)
 1517 No ha sido seleccionada ninguna categoría
 
+1550 ¿Realmente quieres archivar 
+1551 Archivar
+1552 Restaurar
+1553 ¿Realmente quieres restaurar 
+1554 DISPOSITIVOS ARCHIVADOS
+1555 DISPOSITIVOS ACTIVOS
+1556 Archivar / Restaurar
+1557 TODOS LOS DISPOSITIVOS
+1558 Archivos
 
 1600 Panel principal
 1601 Grupos dinámicos
-
+1602 No contiene
+1603 Más de X días
+1604 Menos de X días
+1605 Otros
+1606 No está vacío
 
 1700 Configuración avanzada
 1701 Pestaña disponible
 1702 Nueva pestaña
 1703 Añadir paquetes seleccionados
-
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 <b>ERROR:</b>
@@ -1416,7 +1549,6 @@
 2038 <b>ADVERTENCIA:</b> GD para PHP no está instalado correctamente. <br>No podrá ver ninguna pantalla gráfica. <br>Intente descomentar la extensión = php_gd2.dll (Windows) quitando el punto y coma en el archivo php.ini, o intente instalar el paquete php5-gd (Linux).
 2039 <b>ADVERTENCIA:</b> OpenSSL para PHP no está instalado correctamente. Algunas características de implementación automática no estarán disponibles. <br>Pruebe descomentar la extensión = php_openssl.dll (Windows) eliminando el punto y coma en el archivo php.ini, o intente instalar el paquete php-openssl (Linux).
 2040 <b>ADVERTENCIA:</b> No podrá construir ningún paquete de implementación con un tamaño superior a
-Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="red"> upload_max_filesize </ font> en su php.ini para aumentar este límite.
 2041 Debe aumentar tanto <font color="red">post_max_size</font> como <font color="red">upload_max_filesize</font> en su configuración de vhost para aumentar este límite.
 2042 <b>ADVERTENCIA:</b> Su contraseña de root predeterminada está configurada en su servidor MySQL. Cámbielo lo antes posible. (Usando la contraseña de root = en blanco)
 2043 <b>ADVERTENCIA:</b> El usuario que escribió no parece ser root. <br>Si encuentra algún problema con la inserción de archivos, intente configurar <font color="red"> max_allowed_packet </font> como valor MySQL de al menos 2MB en su archivo de configuración del servidor.
@@ -1426,7 +1558,7 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 2047 Debe agregar las 'contraseñas antiguas' en su archivo de configuración MySQL (my.ini). Luego reinicia MySQL, y reinicia install.php
 2050 La instalación finalizó, puede iniciar sesión en index.php con login=admin y password=admin
 2051 Click aquí para entrar OCS-NG GUI
-2052 <b>ERROR:</b> No se puede escribir en el directorio (En dbconfig.inc.php), configure los derechos necesarios para instalar OCSInventory (debe eliminar el modo de escritura una vez que la instalación se haya realizado correctamente)
+2052 <b>ERROR:</b> No se puede escribir en el directorio (En dbconfig.inc.php), configure los permisos necesarios para instalar OCSInventory (debe eliminar el modo de escritura una vez que la instalación se haya realizado correctamente)
 2053 Espere, la actualización de la base de datos puede tardar hasta 30 minutos ...
 2054 falló, KEY es demasiado largo. Necesita volver a realizar esta consulta más adelante o experimentará problemas graves de rendimiento.
 2055 Base de datos generada con éxito
@@ -1470,7 +1602,7 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 2096 Por favor introduzca la etiqueta del cuadro de entrada de etiqueta de cliente de Windows:
 2097 Déjelo vacío si no desea que se muestre una ventana emergente en cada lanzamiento del agente
 2098 <b>ERROR:</b> ZIP para PHP no está instalado correctamente. <br>Intente descomentar el comentario de extensión = php_zip.dll (Windows) eliminando el punto y coma en el archivo php.ini, o intente instalar el paquete libphp-pclzip (Linux).
-2099 <b>ERROR:</b> Este inicio de sesión de MySQL no tiene los derechos para crear la base de datos
+2099 <b>ERROR:</b> Este inicio de sesión de MySQL no tiene los permisos para crear la base de datos
 2100 Actualizar información de agentes antiguos
 2101 Agregar por script
 2102 <b>ADVERTENCIA:</b> Si cambia el nombre predeterminado de la base de datos (ocsweb), no se olvide de actualizar los archivos del motor de ocs.2103 Modo DEMO: no puede actualizar los datos
@@ -1509,7 +1641,13 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 2135 Ningún dispositivo ha sido inventariado
 2136 Actualizar
 2137 Elija un archivo nuevo si desea modificar el anterior en
-
+2138 Guardar mi búsqueda
+2139 La búsqueda múltiple actual será guardada. Podrá recuperar sus búsquedas guardadas en <i><b>Gestionar > Búsqueda guardada</b></i> o usando <i><b>Utilizar una búsqueda guardada</b></i> en multibúsqueda.
+2140 Usar una búsqueda guardada
+2141 Búsquedas guardadas
+2142 Crear una búsqueda
+2143 La búsqueda fue guardada con éxito
+2144 Actualizar una búsqueda guardada existente
 
 5000 [DEBUG]solicitud de inserciones de dispositivos =>[DEBUG]
 5001 [DEBUG]SOLICITUD HECHA => [DEBUG]
@@ -1536,7 +1674,6 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 5022 [DEBUG]NORMAL CONDITION REQUEST[DEBUG]
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
-
 6000 Complementos/Plugins
 6001 Seleccionar columnas para mostrar/ocultar
 6002 Distribución de las licencias de ofimática
@@ -1549,7 +1686,6 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 6010 El servidor de comunicaciones encontró el siguiente error en la instalación &nbsp;:&nbsp;
 6011 Haga clic aquí para resolver su problema
 6012 Seleccionar todo
-
 
 7000 Complementos/Plugins
 7001 Administrador de complementos
@@ -1568,7 +1704,13 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 7014 Actualmente no hay ningún complemento disponible para su instalación
 7015 ¡Seleccione al menos un dispositivo!
 7016 MTU
-
+7017 ¡Extensión instalada con éxito! <br> Por favor, cierre la sesión y vuelva a abrirla para terminar la instalación de la consola.
+7018 Esta extensión ya está instalada.
+7019 Se ha producido un error de PHP.
+7020 Extensión desinstalada correctamente!
+7021 La extensión "%s" no es compatible.
+7022 ¡Función perdida "%s" en "%s"!
+7023 No se puede incluir install.php
 
 8000 Notificaciones
 8001 Habilite el seguimiento de notificaciones
@@ -1579,27 +1721,27 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 8006 Host SMTP
 8007 SMTP identificador
 8008 Contraseña SMTP
-8009 Modo de envío de correo electrónico
+8009 Modo de envío de email
 8010 (Opcional)
 8011 Configuración
-8012 Personalizar plantilla
-8013 Aquí está el resumen predeterminado del inventario de OCS, que contiene un informe de las categorías de software y categorías de activos:
-8014 Carga exitosa
-8015 Carga fallida
-8016 Aquí puede descargar su plantilla de notificación personalizada: </br>• El archivo debe ser un archivo html.</br></br>Informaciones:</br>• Para obtener traducción, {{g. (Número de traducción) )}} en su código html - Ejemplo: {{g.49}} = Nombre</br>• Por el momento tiene dos opciones de inventario de informes:</br> {{Report.Software}} - Número de programas por categoría de software</br> {{Report.Asset}} - Número de dispositivos por categoría de activos
+8012 Personalizar la plantilla
+8013 Este es el resumen del inventario de OCS por defecto, contiene un informe de las categorías de software y de las categorías de activos:
+8014 Subida correcta
+8015 Fallo en la subida
+8016 Aquí puede descargar su plantilla de notificación personalizada:</br>• El archivo debe ser un archivo html.</br><br>Información:</br>• Para obtener la traducción ponga {{g.(number of translation)}} en su código html - Ejemplo: {{g.49}} = Name</br>• Por el momento tiene dos opciones de inventario de informe: </br> {{Report.Software}} - Número de software por categoría de software </br> {{Report.Asset}} - Número de máquinas por categoría de activos
 8017 Este archivo no es un archivo html
 8018 Asunto
 8019 Notificación OCSInventory
-8020 ADVERTENCIA: Archivo de plantilla de correo no encontrado
-8021 El archivo cargado debe tener una extensión .html para ser válido
+8020 ADVERTENCIA: Archivo de plantilla de correo no encontrado.
+8021 El archivo subido debe tener la extensión .html para ser válido
 8022 Ver noticias
 8023 ... Leer más
 8024 Cerrar noticias
 8025 Volver al menú de noticias
-8026 Habilitar noticias de OCS Inventory en el panel principal
-8027 Se ha producido un problema al recuperar las noticias de OCS
+8026 Activar las noticias de OCS Inventory en el dashboard
+8027 Se ha producido un problema en la recuperación de datos de las noticias de OCS
 8028 Tiene noticias recientes
-8029 no es escribible
+8029 no es editable
 
 8100 SAAS Inventory
 8101 Lista SAAS
@@ -1610,3 +1752,38 @@ Debe aumentar tanto <font color="red"> post_max_size </font> como <font color="r
 8106 Tiempo de vida
 8107 Este SAAS ya existe
 8108 Habilitar el software como un inventario de servicios
+
+8200 Programar Wake On Lan
+8201 Guardar
+8202 WOL fecha/hora
+8203 ¡WOL guardado!
+
+9000 Configuración SNMP
+9001 Creat tipo
+9002 Configuración de tipo
+9003 Crear etiqueta
+9004 OID
+9005 Valor de la cadena OID
+9006 Nombre de la etiqueta
+9007 El nombre del tipo es único y no debe contener ningún carácter especial excepto el subrayado. </br>Por favor no use palabras claves de MySQL o palabras reservadas, puede consultarlo en: <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">Palabras clave MySQL</a>
+9008 Agregar archivo MIB
+9009 Ponga el archivo MIB en el directorio MIB de su servidor. <br>No te olvides de poner la ruta del directorio de MIBs en <b>Configuración > Configuración General > SNMP</b>
+9010 Directorio de MIBs del servidor SNMP
+9011 Filtrar por tipo:
+9012 Detalles SNMP
+9013 Mostrar detalles
+9014 La configuración SNMP está vacía. Consulte la documentación para saber cómo configurar SNMP: <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+9015 Uso para la reconciliación
+9016 Seleccione el tipo que desea configurar.
+9017 OID numérico
+9018 Nombre del campo de inventario
+9019 Cadena de nombres OID
+9020 Añadir al modelo SNMP
+9021 Buscar una fila específica
+
+9100 Ruta de la clave SSL 
+9101 Ruta del certificado SSL
+9102 Habilitar SSL
+9103 Modo SSL
+9104 Ruta del certificado CA
+9105 Puerto MySQL

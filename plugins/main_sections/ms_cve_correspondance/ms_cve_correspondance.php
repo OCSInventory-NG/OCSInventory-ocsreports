@@ -97,10 +97,18 @@ if($protectedPost['onglet'] == "NEW_CORR") {
 if($protectedPost['onglet'] == "LIST_CORR") {
     //delete regex
     if (is_defined($protectedPost['SUP_PROF'])) {
-        $reqDcatall = "DELETE FROM cve_search_correspondance WHERE ID = ".$protectedPost['SUP_PROF'];
+        $reqDcatall = 'DELETE FROM cve_search_correspondance WHERE NAME_REG = "'.$protectedPost['SUP_PROF'].'"';
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
         unset($protectedPost['SUP_PROF']);
-    }
+    } else if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != '') {
+		// delete multiple selected rows
+		$ids = explode(',', $protectedPost['del_check']);
+		foreach ($ids as $id) {
+            $reqDcatall = 'DELETE FROM cve_search_correspondance WHERE ID = '.$id;
+            mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+		}
+		$tab_options['CACHE'] = 'RESET';
+	}
 
     $sql['SQL'] = 'SELECT * FROM cve_search_correspondance';
 
@@ -110,8 +118,9 @@ if($protectedPost['onglet'] == "LIST_CORR") {
         $l->g(1477) => 'NAME_RESULT',
     );
 
-    $list_fields['SUP'] = 'ID';
-    $list_col_cant_del = array('SUP' => 'SUP');
+    $list_fields['SUP'] = 'NAME_REG';
+    $list_fields['CHECK'] = 'ID';
+    $list_col_cant_del = array('SUP' => 'SUP', 'CHECK' => 'CHECK');
     $default_fields = $list_fields;
     $list_col_cant_del = $default_fields;
     $tab_options['ARG_SQL'] = $sql['ARG'];
@@ -119,6 +128,7 @@ if($protectedPost['onglet'] == "LIST_CORR") {
     $tab_options['table_name'] = $form_name;
 
     $result = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+    del_selection($form_name);
 }
 
 echo '</div>';

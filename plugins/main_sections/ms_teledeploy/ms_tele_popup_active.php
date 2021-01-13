@@ -125,7 +125,7 @@ if (!isset($info_id['ERROR'])) {
             $type_field = array(0, 0);
             $value_field = array($protectedPost['FILE_SERV'], $protectedPost['HTTPS_SERV']);
         } else {
-            if (count($groupListServers) == 0) {
+            if (empty($groupListServers)) {
                 msg_error($l->g(660));
             } else {
                 $tab_name = array($l->g(651), $l->g(470));

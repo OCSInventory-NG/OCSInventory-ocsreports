@@ -152,12 +152,13 @@ function reload(){
 }
 
 function isnull(selectid, fieldid, fieldtype = null) {
+    // operator value
     var selectvalue = $("#"+selectid+" :selected").val();
-
     if(selectvalue == 'MORETHANXDAY' || selectvalue == 'LESSTHANXDAY') {
-        $(".form_datetime").empty();
-        $(".form_datetime").replaceWith('<input class="form-control" type="number" name="'+fieldid+'" id="'+fieldid+'" value="">');
-    } else if((selectvalue != 'MORETHANXDAY' && selectvalue != 'LESSTHANXDAY') && (fieldtype == "LASTDATE" || fieldtype == "LASTCOME")) {
+        var parentElement = $("#"+fieldid).parent();
+        parentElement.empty();
+        parentElement.replaceWith('<input class="form-control" type="number" name="'+fieldid+'" id="'+fieldid+'" value="">');
+    } else if((selectvalue != 'MORETHANXDAY' && selectvalue != 'LESSTHANXDAY')) {
         if($(".form_datetime").length == 0) {
             $.ajax({
                 url: "ajax/calendarfield.php",
@@ -344,4 +345,18 @@ function loadOptions(os, linkedoptions) {
             $('#deployment_options').append(dataoptions);
         }
     });
+}
+
+function disabled_checkbox(id) {
+    var checkedValue = $('#'+id+':checked').val();
+    console.log(checkedValue);
+    if(checkedValue != undefined) {
+        $('[id=selected_dupli]').each(function() {
+            $(this).attr("disabled", true);
+        });
+    } else {
+        $('[id=selected_dupli]').each(function() {
+            $(this).attr("disabled", false);
+        });
+    }
 }

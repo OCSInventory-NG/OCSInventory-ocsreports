@@ -62,14 +62,14 @@ class Stats{
 
         foreach($form as $key => $value){
             if ($key == 'NB_OS') {
-                $sql = "select count(h.osname) c,h.osname as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.osname != ''";
+                $sql = "select count(h.osname) c,h.osname as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.osname != '' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
                 $sql .= " group by h.osname order by count(h.osname) DESC ";
                 $height_legend = 300;
             } else {
-                $sql = "select count(h.useragent) c,h.useragent as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.useragent != ''";
+                $sql = "select count(h.useragent) c,h.useragent as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.useragent != '' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
@@ -96,7 +96,7 @@ class Stats{
             if($key == 'SEEN'){
                 //last seen since
                 $date = date("y-m-d",strtotime("-15 day")); 
-                $sql_seen = "SELECT DATE_FORMAT(h.lastcome, '%Y-%m') AS contact, count(h.lastcome) AS conta FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.LASTCOME < '".$date."'";
+                $sql_seen = "SELECT DATE_FORMAT(h.lastcome, '%Y-%m') AS contact, count(h.lastcome) AS conta FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.LASTCOME < '".$date."' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql_seen .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }

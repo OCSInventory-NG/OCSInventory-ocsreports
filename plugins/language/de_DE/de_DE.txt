@@ -1301,6 +1301,8 @@
 1370 Webserver
 1371 Datenbank-Server
 1373 Distribution
+1376 FAQ
+1377 Frequently Asked Questions
 1378 Freier Speicher
 1379 Installierter Speicher
 1380 Spalten zurücksetzen
@@ -1357,16 +1359,35 @@
 
 1469 Software-Kategorien für die keine CVE-Berichte gesucht werden sollen
 
+1471 Aktivieren, um CVE für alle Software-Versionen zu erhalten
+
+1473 Neue Regex
+1474 Übereinstimmungen
+
+1481 CVE Historie
+
+1484 Zeitspanne wie lange ein CVE Scan nach einem OCS Inventory Scan gültig ist
+1485 Nach Software
+1486 Nach Computer
+
 1500 Software Kategorie
 1501 Neue Kategorie
 1502 Liste der Kategorien
 1503 Software hinzufügen
+1504 Regulärer Ausdruck oder Software-Name
 1505 Standard-Kategorie für neue Software
 1506 Keine Kategorie erstellt
 
 1509 Erweiterte Einstellungen
 
+
+1516 Gesamte Software (but default)
 1517 Es wurde keine Kategorie ausgewählt
+
+1554 ARCHIVIERTE COMPUTER
+1555 AKTIVE COMPUTER
+
+1557 ALLE COMPUTER
 
 1600 Mein Dashboard
 1601 Dynamische Gruppen
@@ -1403,7 +1424,6 @@
 2026 Sicherheitsproblem: Sie verwenden das Standard-Admin-Passwort für die OCS-GUI!
 2027 Ändern Sie das Admin-Kennwort in der OCS-GUI!
 2028 Authentifizierungs-Schlüssel
-
 
 2030 OCS-NG Inventory Installation
 2031 Derzeit installierte Version
@@ -1498,6 +1518,12 @@
 2133 Es wurde noch keine Asset Kategorie angelegt
 2134 Es wurde noch keine Software Kategorie angelegt
 
+2140 Eine gespeicherte Suche nutzen
+2141 Gespeicherte Suche
+2142 Eine Suche generieren
+2143 Suche wurde erfolgreich gespeichert
+2144 Eine vorhandene Suche anpassen
+
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
@@ -1574,3 +1600,5 @@
 9000 SNMP-Konfiguration
 
 9010 SNMP MIBs-Verzeichnis auf dem Server
+
+9014 SNMP ist nicht konfiguriert. Lesen Sie die Dokumentation um zu erfahren wie SNMP eingerichtet wird: <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>

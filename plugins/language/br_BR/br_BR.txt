@@ -10,7 +10,7 @@
 25 Sistema Operacional
 26 Memória
 27 Velocidade da Memória (MHz)
-28 Número da Máquina
+28 Número de Máquinas
 30 Pesquisar
 31 Escolha um parâmetro
 32 Escolha
@@ -79,8 +79,8 @@
 142 Administradores locais
 143 solicitantes de implantação
 162 Apagar seleção
-168 Este formato de arquivo é inválido (deve ser um .exe)
-170 O mesmo arquivo já existe !
+168 Este formato de arquivo é inválido (deve ser um exe)
+170 Esse arquivo já existe !
 171 Arquivo apagado
 172 Um erro aconteceu, o arquivo
 173 não foi adicionado à base
@@ -130,7 +130,7 @@
 219 IPs desconhecidos
 220 apagado
 221 Computadores coletores de IP
-222 Aviso ! Todos os computadores selecionados serão reunidos num único computador! Tem certeza?
+222 Aviso ! Todos os computadores selecionados serão agrupados num único computador! Tem certeza?
 223 Informação
 224 Valor
 225 Informação administrativa
@@ -218,7 +218,7 @@
 307 Adicionar um tipo
 308 Nome do tipo
 309 Tipos de equipamentos de rede
-310 Descobrir IPs menor que
+310 Descoberta de IPs menor que
 311 Hosts
 312 Descoberta de IPs
 313 Computadores gateway
@@ -277,12 +277,12 @@
 368 da rede
 369 Enviado por
 370 Implantação
-371 Todos os componentes
+371 Todos componentes
 372 Escolha os componentes
 373 Usuário registrado
 374 Usuário atualizado
 375 Versão do Agente OCS-NG
-376 Computador indisponível. Por favor tente novamente em alguns instantes
+376 Computador bloqueado. Por favor tente novamente em alguns instantes
 377 Velocidade do processador (MHz)
 380 Dicionário
 381 Número de instalações
@@ -307,11 +307,11 @@
 412 Coletar de chaves do registro
 413 Atualização automática
 414 Habilitar Implantação
-415 Registrar computadores deletados (utilizado pela GLPI)
+415 Registrar computadores apagados (requerido pelo GLPI)
 416 Registrar atividades (log)
 417 Implantação automática de software
 418 Diferenciação de inventário
-419 Número máximo de dias para um computador de descoberta de IPs ser substituído
+419 Máximo de dias para um computador de descoberta de IPs ser substituído
 420 Implantação automática de software: consulte a documentação.
 421 Implantação automática de software: consulte a documentação.
 422 Implantação automática de software: consulte a documentação.
@@ -329,7 +329,7 @@
 434 Construtor de pacotes
 435 Construir novo pacote
 436 Não foi possível abrir o arquivo
-437 O pacote foi criado com êxito no diretório
+437 O pacote foi criado com sucesso no diretório
 438 Criação de novo pacote
 439 Protocolo
 440 Prioridade
@@ -348,14 +348,14 @@
 453 Necessário ação do usuário para concluir instalação
 454 NÃO
 455 SIM
-456 Executar
+456 Executar comando
 457 Armazenar
-458 Lançar
+458 Executar arquivo
 459 Contador deve ser um número
 460 Identificador único
 461 Digest
 462 Tamanho total
-463 Tamanho das fragmentos
+463 Tamanho dos fragmentos
 464 Número de fragmentos
 465 Ativação de pacote
 466 AVISO: Não foi possível encontrar o arquivo de informações em
@@ -451,7 +451,7 @@
 556 Monitor: descrição
 557 Usuário de Domínio
 558 Pacotes atribuídos
-559 Este arquivo não é um .ocs
+559 Este arquivo não é .ocs
 560 Ao servidor
 561 Desconhecido (pacote deletado)
 562 Redes com uid:
@@ -501,7 +501,7 @@
 610 ESTATICAMENTE INCLUÍDO
 611 SEM CACHE
 612 ESTÁTICO
-613 DIN MICO
+613 DINÂMICO
 614 EXCLUÍDO
 615 Pesquisa
 616 Perímetro do Usuário
@@ -530,7 +530,7 @@
 640 Deseja realmente apagar
 641 Gestão de servidores de redistribuição
 642 o grupo
-643 Todas máquinas
+643 Todas as máquinas
 644 esta máquina
 645 DETALHE DO GRUPO
 646 URL
@@ -540,9 +540,9 @@
 650 MANUAL
 651 Grupo de redistribuição
 652 Máquinas
-653 Lista negra de endereços MAC
-654 Entre com o novo endereço MAC para a lista negra
-655 Inserção feita
+653 Endereços MAC ignorados
+654 Entre com o novo endereço MAC para ignorar
+655 Inserção efetuada
 656 Este dado já existe na lista
 657 Campos em vermelho com ERRO!!! (Campos vazios ou tamanho < 2)
 658 máquina não tem um servidor de redistribuição. <br>É necessário atribuir este pacote manualmente.
@@ -550,8 +550,8 @@
 660 GRUPO DE REDISTRIBUIÇÃO NÃO EXISTE
 661 PACOTES PARA SERVIDORES DE REDISTRIBUIÇÃO
 662 Regras de atribuição
-663 PROBLEMAS INTERNOS
-664 Ação realizada
+663 PROBLEMA INTERNO
+664 Ação efetuada
 665 NENHUMA MÁQUINA FOI SELECIONADA. GRUPO DE REDISTRIBUIÇÃO NÃO CRIADO
 666 Grupo de redistribuição criado
 667 PARA O PACOTE
@@ -573,10 +573,10 @@
 684 Os campos a seguir devem ser apreendidos
 685 Adicionar a regra
 686 A condição
-687 Você não pode apagar isto.
+687 Você não pode apagar isso.
 688 Pacotes estão associados neste grupo!
 689 Pacotes estão atribuídos neste servidor!
-690 Você não pode apagar todas máquinas
+690 Você não pode apagar todas as máquinas
 691 Valores Genéricos: $IP$ e $NAME$
 692 Você irá modificar TODOS os valores dos servidores
 693 Você irá modificar os valores do servidor:
@@ -586,13 +586,13 @@
 697 a máquina
 698 grupo de redistribuição
 699 Tem certeza que quer atribuir esse pacotes nessas máquinas?
-700 Escolha a Lista Negra
-701 Lista Negra de número de série
-702 Entre com o novo número de série para lista negra
-703 Lista Negra
-704 Tem certeza que deseja adicionar a lista negra
-705 Tem certeza que deseja remover da lista negra
-706 Remover da lista negra
+700 Lista de ignorados
+701 Números de série ignorados
+702 Entre com o novo número de série para ignorar
+703 Lista de ignorados
+704 Tem certeza que deseja adicionar a lista de ignorados
+705 Tem certeza que deseja remover da lista de ignorados
+706 Des-ignorar
 707 este número de série
 708 este endereço MAC
 709 PROLOG_FREQ personalizado
@@ -620,7 +620,7 @@
 731 Recurso nomeados na base de cada seção de inventário.
 732 milissegundo(s)
 733 Inativo
-734 Arquivo de Inventário
+734 Arquivos de Inventário
 735 Filtros
 736 Ativar o recurso de grupos de computadores
 737 Número aleatório calculado no intervalo definido. Projetado para evitar calcular muitos grupos no mesmo processo
@@ -648,14 +648,14 @@
 759 É necessário ser igual ou superior
 760 Webservice
 761 Habilita/Desabilita o serviço SOAP
-762 Resultado por tamanho (esteja ciente dos problemas de desempenho)
+762 Tamanho da página de resultados (esteja ciente dos problemas de desempenho)
 763 Incluir arquivos de seus próprios módulos
 764 Opções a seguir não são configuráveis pela interface do usuário. <br> (edite manualmente ocsinventory-server.conf)
 765 Todos softwares
 766 SEM RESULTADO
 767 AVISO: RESULTADO FILTRADO
 768 Número de gravações
-769 Transferência feita
+769 Transferência efetuada
 770 ATUALIZADO DE
 771 Esta categoria já existe
 772 O nome da categoria não pode ser nulo
@@ -663,7 +663,7 @@
 774 Você está tentando transferir para mesma categoria
 775 Diretório de criação de pacotes
 776 Diretório de cache das análises de descoberta de IPs
-777 Validade da seção
+777 Validade da sessão
 778 Grupos de trabalho distintos
 779 TAGs distintas
 780 Subredes distintas
@@ -689,7 +689,7 @@
 800 Outro
 801 Não mostre esse campo
 802 Mostre esse campo
-803 Total de dias que a máquina não se reporta
+803 Total de dias que a máquina não faz contato
 804 Velocidade mínima de processador
 805 Velocidade máxima de processador
 806 Tamanho mínimo de RAM
@@ -732,7 +732,7 @@
 843 Disco: Nome do volume
 844 Grupo: Id
 845 Grupo: Estático?
-846 Software: Companhia
+846 Software: Empresa
 847 Software: Nome
 848 Software: Versão
 849 Software: Diretório de instalação
@@ -773,11 +773,11 @@
 884 AVISO: Resultados Filtrados
 885 desconhecido
 886 Desatribuição
-887 É possível que este pacote não está atribuído a grupos de redistribuição
+887 É possível que este pacote não esteja atribuído a grupos de redistribuição
 888 Remoção
 889 Conectado a
 890 Interface está atualmente travada na pesquisa com vários critérios
-891 Remover trava da interface
+891 Remover trava
 892 conectar com outra conta
 893 NENHUMA TAG DEFINIDA AO SEU PERFIL
 894 NENHUM DIREITO DEFINIDO AO SEU PERFIL
@@ -794,7 +794,7 @@
 907 Explicação sobre a remoção do pacote<br>neste computador
 908 Informações de terminal móvel
 909 MODIFICAÇÃO NÃO REALIZADA: NOVO PERFIL ERRADO
-910 Validar
+910 Aplicar
 911 Trocar perfil de
 912 Exportar lista de computadores que possuem esse software
 913 Interfaces de rede não inventariadas
@@ -844,7 +844,7 @@
 957 Todos os SUCESSOS
 958 PROBLEMA DE VALOR DE IMPLANTAÇÃO
 959 MUITOS SOFTWARES ENCONTRADOS. SEJA MAIS ESPECÍFICO NA PESQUISA
-960 NENHUM SOFTWARE CORRESPONDENTE COM A PESQUISA
+960 NENHUM SOFTWARE CORRESPONDE COM A PESQUISA
 961 LISTA DE
 962 (separado por vírgula ',')
 963 LISTA DIFERENTE DE
@@ -861,15 +861,15 @@
 974 computadores inseridos no cache
 975 Adicionar ao grupo
 976 TRAVAR INTERFACE NO RESULTADO
-977 Trava
+977 Travar
 978 Você irá travar toda a interface no resultado da pesquisa
 979 Para voltar ao estado padrão, você deve clicar no ícone <span class='glyphicon glyphicon-lock'></span> que está no canto superior direito da interface
 980 Pacotes nos computadores
 981 Pacotes nos grupos de redistribuição
-982 NENHUMA REGRA DE ATRIBUIÇÃO ESTÁ DISPONÍVEL. NENHUMA REDISTRIBUIÇÃO POSSÍVEL.
+982 NENHUMA REGRA DE ATRIBUIÇÃO DISPONÍVEL. NENHUMA REDISTRIBUIÇÃO POSSÍVEL.
 983 Você deve escolher o tipo para fazer alterações
 984 Modificações
-985 DELEÇÃO DE COMPUTADORES
+985 REMOÇÃO DE COMPUTADORES
 986 REMOVER COMPUTADORES PARA
 987 Esta chave de registro já existe
 988 VOCÊ DEVE PREENCHER TODOS OS CAMPOS
@@ -877,7 +877,7 @@
 990 Pacotes criados manualmente
 991 Pacotes criados automaticamente
 992 Tempo estimado para implantação
-993 Campos vermelhos estão com erro
+993 Campos em vermelho estão com erro
 994 PDA/SMARTPHONE
 995 Login
 996 Último nome
@@ -889,7 +889,7 @@
 1002 Tempo estimado para implantação
 1003 Parâmetro do pacote do servidor de redistribuição
 1004 Não foi possível criar o diretório de pacotes (/var/lib/ocsinventory-reports/download/).
-1005 Não foi possível criar o pacote.
+1005 Não é possível criar pacote.
 1006 não há direitos de escrita
 1007 O diretório
 1008 Usar redistribuição
@@ -903,11 +903,11 @@
 1016 Login ROOT
 1017 Password ROOT
 1018 (Não escreva nada se deseja usar conexão anônima)
-1019 Travar resultado
+1019 Travar
 1020 Nome da tag
 1021 Administrador de implantação
 1022 Administrador de TAG
-1023 pacotes atribuídos no estado
+1023 pacotes atribuídos com estado
 1024 será removido
 1025 Desatribuir
 1026 Pacotes removidos nos computadores
@@ -915,7 +915,7 @@
 1028 Novo
 1029 Ignorado
 1030 Não modificado
-1031 workflow for Teledeploy
+1031 fluxo de trabalho para implantação
 1032 Ativar fluxo de trabalho para implantação
 1033 Informação do Solicitante
 1034 Pacote Informação geral
@@ -940,7 +940,7 @@
 1053 Pedido alterado
 1054 Pedido efetuado
 1055 Seu email não é válido
-1056 Contate o administrador do OCS
+1056 Contate o administrador do OCS-NG
 1057 Não foi possível conectar-se ao servidor de email
 1058 Nenhum email válido
 1059 Dados existentes
@@ -964,7 +964,7 @@
 1077 Estado para criação de pacote
 1078 Estado de teste
 1079 Nível de perímetro restrito
-1080 Nível de perímetro total
+1080 Nível de perímetro global
 1081 Informações por email
 1082 Administradores de fluxo de trabalho
 1083 Identificação do perímetro
@@ -979,7 +979,7 @@
 1092 publicar novo pedido
 1093 Banco de dados está incompleto
 1094 Por favor, repita a instalação completa da base
-1095 Status Admin
+1095 Admin de estado
 1096 Lista de campos
 1097 Lista de abas
 1098 Nome do campo
@@ -991,7 +991,7 @@
 1104 Nível
 1105 Fluxo de trabalho está habilitado
 1106 Só é possível criar um pacote se existir um pedido
-1107 Está no estado de criação de pacotes
+1107 E o estado está correto
 1108 Configuração LDAP
 1109 Filtro
 1110 A atribuição de um pacote depende do estado do pedido
@@ -1005,14 +1005,14 @@
 1118 Editar
 1119 Selecionar
 1120 Quantidade
-1121 Atualização pronta
+1121 Atualização efetuada
 1122 Wiki
 1123 IRC
 1124 Fóruns
 1125 Porcentagem
 1126 Data da nota
 1127 Autor da nota
-1128 Nota
+1128 Notas
 1129 PACOTE REMOVIDO
 1130 Editor de linguagem
 1131 Palavra
@@ -1026,12 +1026,12 @@
 1139 Administrar
 1140 Administrar subrede
 1141 Subrede adicionada
-1142 Informe a nova subrede para a lista negra
+1142 Informe a nova subrede para a ignorar
 1143 Máscara
 1144 Endereço MAC Inválido. (deve ser: XX.XX.XX.XX.XX.XX)
 1145 o valor deve ser entre
 1146 Administrar perfis
-1147 Você não pode atualizá-lo.
+1147 Você não pode alterar.
 1148 <b>AVISO:</b> Nenhum backup automático de arquivos de configuração será possível
 1149 Nome do novo perfil
 1150 Perfil de referência
@@ -1060,7 +1060,7 @@
 1173 Informações de perfil
 1174 Páginas de Usuário
 1175 Restrições
-1176 Direitos para lista negra
+1176 Direitos para lista de ignorados
 1177 Direitos para Gerenciar
 1178 Esse campo
 1179 é uma variável. Não pode conter caracteres especiais
@@ -1074,11 +1074,11 @@
 1187 Configuração está pendente
 1188 Este grupo está declarado como perímetro de TESTE
 1189 Este grupo está declarado como perímetro RESTRITO
-1190 Você só pode atribuir pacotes de nível maior que
+1190 Você não pode atribuir pacotes de nível superior
 1191 Informação: o fluxo de trabalho está habilitado
 1192 Grupo que pode receber pacotes de TESTE
 1193 Grupo que pode receber pacotes RESTRITOS
-1194 Apenas pacotes de nível maior que
+1194 Apenas pacotes de nível superior
 1195 pode ser atribuído
 1196 Perfil
 1197 Funcionalidade SNMP
@@ -1098,7 +1098,7 @@
 1211 URL do arquivo da comunidade SNMP
 1212 Comunidade removida
 1213 Separador de arquivo exportado
-1214 Configurar motor para atualizar inventário snmp na tabela snmp_laststate (menor carga no banco de dados)
+1214 Configurar motor para atualizar inventário snmp conforme tabela snmp_laststate (menor carga no banco de dados)
 1215 Servidor Blade
 1216 Firewall
 1217 Balanceamento de Carga
@@ -1174,7 +1174,7 @@
 1294 Hora de instalação
 1295 Data de instalação
 1296 OCS Profissional
-1297 Número de identificação
+1297 Identificação do dispositivo SNMP
 1298 Administração de QRCode
 1299 QRCode
 1300 Verificar QRCode
@@ -1231,9 +1231,9 @@
 1351 ,
 1352 Conteúdo do pedido inválido
 1353 Acesso não autorizado
-1354 Direitos insuficientes para acessar o recurso solicitado
+1354 Proibido acesso ao recurso
 1355 Página não encontrada
-1356 A URL solicitado é muito longa, tente excluir os cookies do OCS (você será desconectado)
+1356 A URL solicitado é muito longa, tente excluir os cookies
 1357 Erro interno do servidor
 1358 Serviço indisponível
 1359 Usuário desconectado
@@ -1247,7 +1247,7 @@
 1367 Rede
 1368 CPU
 1369 Versão do PHP
-1370 Servidor WEB
+1370 Servidor Web
 1371 Servidor SQL
 1372 Kernel
 1373 Distribuição
@@ -1327,14 +1327,82 @@
 1447 Dados administrativos
 1448 é nulo
 1449 Configurações Gerais
+1450 ID
+1451 Estático ?
+1452 Início da garantia
+1453 GUID
+1454 Origem
+1455 Interface virtual
+1456 Número do telefone
+1457 Associar descoberta de rede a tag do computador</br><b style="color:#d9534f;">Saia e logue novamente depois de atualizar essa configuração</b>
+
+1460 Gerenciamento de pesquisa-CVE
+1461 Ativar Relatórios CVE
+1462 URL do servidor de pesquisa-cve para o relatório
+1463 Relatório CVE
+1464 Relatório CVE não está habilitado.
+1465 Por CVSS
+1466 Por favor, consulte a documentação para configurar o Relatório CVE : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Managing CVE-search reporting </a>
+1467 Link
+1468 Pontuação de vulnerabilidade entre
+1469 Selecione as categorias de software que você não deseja processar
+1470 Ativar pesquisa-CVE verbose
+1471 Ative para obter o CVE correspondente a todas as versões de software
+1472 Inventário CVE
+1473 Nova regex correspondente
+1474 Lista de correspondência
+1475 Nome ou Regex
+1476 Resultado do editor
+1477 Nome resultado
+1478 Ou importe arquivo CSV
+1479 Importar
+1480 Baixar exemplo de arquivo CSV
+1481 Histórico CVE
+1482 Última data de execução
+1483 Contagem CVE
+1484 Tempo de validade de um CVE após a varredura do inventário OCS
+1485 Por software
+1486 Por computador
 
 1500 Categoria de software
 1501 Nova categoria
 1502 Lista de categorias
 1503 Adicionar software
-1504 Expressão regular ou Nome do software
-1505 Selecionar categoria padrão para os softwares
+1504 Expressão regular ou nome do software
+1505 Selecione a categoria padrão para os softwares
 1506 Nenhuma categoria criada
+1507 Versão do software
+1508 Fornecedor de software
+1509 Configurações avançadas
+1510 Comparador de versão de software
+1511 Comparador de versão
+1512 menor ou igual
+1513 maior ou igual
+1514 Categoria
+1515 Todos os sistemas operacionais
+1516 Todos softwares
+1517 Nenhuma categoria foi selecionada
+
+1550 Você realmente deseja arquivar
+1551 Arquivar
+1552 Restaurar
+1553 Você realmente deseja restaurar
+1554 COMPUTADORES ARQUIVADOS
+1555 COMPUTADORES ATIVOS
+1556 Arquivar / Restaurar
+1557 TODOS COMPUTADORES
+1558 Arquivos
+
+1560 Apagar dados antigos da Descoberta de IPs
+1561 Validade em dias da Descoberta de IPs
+
+1600 Meu painel
+1601 Grupos dinâmicos
+1602 não contém
+1603 mais de X dias
+1604 menos de X dias
+1605 outros
+1606 não está vazio
 
 1700 Configuração avançada
 1701 Aba disponível
@@ -1364,12 +1432,12 @@
 2021 Seu diretório de logs não é gravável (padrão: /var/lib/ocsinventory-reports/logs)
 2022 Não é possível enviar um arquivo maior que
 2023 Deletar isto
-2024 O usuário/senha padrão está ativo no seu banco de dados:
-2025 Alterar a sua senha para o usuário 'ocs' no MySQL
+2024 O usuário/senha padrão está definido no seu banco de dados:
+2025 Altere sua senha para o usuário 'ocs' no MySQL
 2026 O usuário/senha padrão está ativo na interface de usuário do OCS-NG
-2027 Alterar sua senha 'admin' na interface de usuário do OCS-NG
+2027 Altere sua senha 'admin' na interface de usuário do OCS-NG
 2028 Chave de autenticação
-2029 O diretório de configuração não está gravável
+2029 O diretório de configuração não é gravável
 
 2030 Instalação do OCS Inventory
 2031 Versão atual instalada
@@ -1396,13 +1464,13 @@
 2054 falhou, KEY estava muito longa<br>Você precisará refazer essa consulta mais tarde ou terá problemas graves de desempenho.
 2055 Banco de dados gerado com sucesso
 2056 Arquivo de configuração do MySql gravado com sucesso
-2057 atualizando o banco de dados existente
-2058 verificando engine do banco de dados...
+2057 banco de dados existente atualizado
+2058 verificando motor do banco de dados...
 2059 ERRO: A query de alteração falhou
 2060 ERRO: A query show table status falhou
 2061 ERRO: Conversão InnoDB falhou, instale suporte a InnoDB no servidor MySql<br>ou você terá problemas graves de desempenho.<br>(Tente descomentar skip-innodb no seu arquivo de configuração do MySql.)<br>Reinstale quando corrigido.
 2062 ERRO: Conversão HEAP falhou, instale suporte a HEAP no servidor mysql<br>ou você terá problemas graves de desempenho.
-2063 Engine do banco de dados atualizada com sucesso
+2063 Motor do banco de dados atualizado com sucesso
 2064 tabelas alteradas
 2065 ERRO: Instalação finalizada com erro, reinicie o install.php quando os problemas estiverem corrigidos
 2066 AVISO: o diretório 'files' está faltando, não foi possível importar
@@ -1418,7 +1486,7 @@
 2078 ERRO: Não foi possível inserir a rede
 2079 na tabela subnet, erro
 2080 AVISO: Rede
-2081 não foi inserido (ip ou máscara inválida
+2081 não foi inserida (ip ou máscara inválida
 2082 Processando rede netid. Por favor aguarde...
 2083 ERRO: Não foi possível atualizar netid para
 2084 Rede netid foi processada
@@ -1468,6 +1536,19 @@
 2129 Retornar a pesquisa
 2130 Categorias de ativos
 2131 Número de máquinas por categoria
+2132 Categoria de ativos
+2133 Você não criou uma categoria de ativo
+2134 Você não criou uma categoria de software
+2135 Nenhuma máquina foi inventariada
+2136 Atualizar
+2137 Escolha um novo arquivo se você quer modificar o antigo
+2138 Salvar minha pesquisa
+2139 A consulta de pesquisa atual será salva. Você poderá recuperar suas pesquisas salvas em <i><b>Gerenciar > Pesquisa salva</b></i> ou usando <i><b>Usar uma pesquisa salva</b></i> na pesquisa de vários critérios.
+2140 Use uma pesquisa salva
+2141 Pesquisas salvas
+2142 Crie uma pesquisa
+2143 Pesquisa salva com sucesso
+2144 Atualizar uma pesquisa salva existente
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1478,7 +1559,7 @@
 5006 [DEBUG]array count request[DEBUG]
 5007 [DEBUG]Cache use for lines number[DEBUG]
 5008 [DEBUG]array request[DEBUG]
-5009 [DEBUG]RAW DATAS[DEBUG]
+5009 [DEBUG]RAW DATA[DEBUG]
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
 5012 [DEBUG]valor a pesquisar=[DEBUG]
@@ -1506,23 +1587,30 @@
 6011 Clique aqui para resolver seu problema
 6012 Todas
 
-7000 Plugins
-7001 Gerenciador de plugins
-7002 Nome do plugin
+7000 Extensões
+7001 Gerenciador de extensões
+7002 Nome da extensão
 7003 Versão
 7004 Licença
 7005 Autor
 7006 Última atualização
-7007 Tem certeza de que deseja excluir este plugin?
-7008 Instalar plugin
-7009 Plugins instalados
-7010 Este plugin já está instalado
-7011 é um plugin inválido, verifique suas fontes.
+7007 Tem certeza de que deseja excluir esta extensão?
+7008 Instalar extensão
+7009 Extensão instalados
+7010 Esta extensão já está instalada
+7011 é uma extensão inválida, verifique suas fontes.
 7012 Instalação abortada !
 7013 instalado
-7014 Não há atualmente nenhum plugin disponível para instalação
+7014 Atualmente não há nenhuma extensão disponível para instalação
 7015 Selecione pelo menos um computador !
 7016 MTU
+7017 Extensão instalada com sucesso ! <br> Por favor, saia e logue novamente para finalizar a instalação na console.
+7018 Esta extensão já está instalada.
+7019 Ocorreu um erro de PHP.
+7020 Extensão desinstalada com sucesso !
+7021 Extensão "%s" não compatível
+7022 Função "%s" ausente em "%s"!
+7023 Incapaz de incluir install.php
 
 8000 Notificações
 8001 Ativar o acompanhamento de notificações
@@ -1540,9 +1628,62 @@
 8013 Aqui está o resumo padrão do OCS Inventory, ele contém um relatório das categorias de software e categorias de ativos :
 8014 Upload com sucesso
 8015 Upload falhou
-8016 Aqui você pode baixar o seu modelo de notificação personalizado:</br>• O arquivo deve ser um arquivo html.</br></br>Informações:</br>• Para obter uma tradução, coloque {{g.(número da tradução)}} no seu código html - Exemplo: {{g.49}} = Nome</br>• No momento você tem duas opções de relatórios de inventário: </br> {{Report.Software}} - Número de softwares por categoria </br> {{Report.Asset}} - Número de máquinas por categoria de ativo
+8016 Aqui você pode baixar o seu modelo de notificação personalizado:</br>• O arquivo deve ser um arquivo html.</br></br>Informações:</br>• Para obter uma tradução, coloque {{g.(number of translation)}} no seu código html - Exemplo: {{g.49}} = Nome</br>• No momento você tem duas opções de relatórios de inventário: </br> {{Report.Software}} - Número de softwares por categoria </br> {{Report.Asset}} - Número de máquinas por categoria de ativo
 8017 Este arquivo não é um arquivo html
 8018 Assunto
 8019 Notificação OCSInventory
 8020 AVISO : Arquivo de modelo de email não encontrado
 8021 O arquivo enviado precisa ter extensão .html para ser válido
+8022 Ver notícias
+8023 ... Ver mais
+8024 Fechar notícias
+8025 Voltar ao menu de notícias
+8026 Ativar Notícias OCS Inventory no painel
+8027 Ocorreu um problema ao obter as notícias OCS
+8028 Você tem notícias recentes
+8029 não é gravável
+
+8100 Inventário de aplicativos web
+8101 Lista de aplicativos web
+8102 Adicionar aplicativo web
+8103 DNS associado
+8104 Entrada
+8105 Dados
+8106 Tempo de vida
+8107 Este aplicativo web já existe
+8108 Habilitar inventário de aplicativos web
+
+8200 Agendar Wake On Lan
+8201 Salvar
+8202 WOL data/hora
+8203 WOL salvo !
+
+9000 Configuração SNMP
+9001 Criar tipo
+9002 Configuração de tipo
+9003 Criar etiqueta
+9004 OID
+9005 Valor da string OID
+9006 Nome do rótulo
+9007 O nome do tipo é único e não deve conter nenhum caractere especial, exceto sublinhado.</br>Não use palavras-chave do MySQL ou palavras reservadas, consulte: <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
+9008 Adicionar arquivo MIB
+9009 Coloque o arquivo MIB no diretório MIBs do servidor. <br> Não se esqueça de definir o caminho do diretório MIBs em <b>Configurações > Configurações gerais > SNMP</b>
+9010 Diretório SNMP MIBs do servidor
+9011 Filtrar por tipo:
+9012 Detalhes SNMP
+9013 Mostrar detalhes
+9014 A configuração SNMP está vazia. Verifique a documentação para saber como configurar SNMP: <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+9015 Use para reconciliação
+9016 Selecione o tipo que você deseja configurar.
+9017 OID numérico
+9018 Nome do campo de inventário
+9019 String de nome OID
+9020 Adicionar ao modelo SNMP
+9021 Pesquisar por linha específica
+
+9100 Caminho da chave SSL
+9101 Caminho do certificado SSL
+9102 Habilitar SSL
+9103 modo SSL
+9104 Caminho do certificado CA
+9105 Porta MySQL

@@ -1393,6 +1393,9 @@
 1557 TOUS LES ORDINATEURS
 1558 Archive
 
+1560 Purge des anciennes données IPDiscover
+1561 Période de validité d'une donnée IPDiscover
+
 1600 Mon tableau de bord
 1601 Groupes dynamiques
 1602 Ne contient pas
@@ -1669,9 +1672,18 @@
 9016 Sélectionnez le type que vous souhaitez configurer.
 9017 OID numérique
 9018 Nom du champ d'inventaire
-9019 OID name string
+9019 nom d'OID
 9020 Ajouter au model SNMP
 9021 Rechercher une ligne spécifique
+9022 Vous ne pouvez pas créer un type avec un OID numérique vide et un nom d'OID vide
+9023 Nom de type déjà existant
+9024 Une erreur est survenue lors de la création du type
+9025 Label déjà existant
+9026 Une erreur est survenue lors de la création du label
+9027 Une erreur est survenue lors de la création de la configuration
+9028 Une erreur est survenue lors de la suppression du type
+9029 Une erreur est survenue lors de la suppression du label
+9030 Une erreur est survenue lors de la suppression de la configuration
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
@@ -1680,26 +1692,34 @@
 9104 Chemin du certificat CA
 9105 Port MySQL
 
-9200 Interactions
-9201 Options
-9202 Catalogue de services
-9203 Linux
-9204 MacOS
-9205 Windows
-9206 Script Powershell
-9207 Scripts
-9208 Installater / Desinstallater
-9209 Autres
+9300 Deploiement de paquet pour la machine
+9301 Deploiement de paquet pour la sélection
+9302 Deploiement de paquet pour le groupe
 
-9210 Script Batch
-9211 Paquet personnalisé
-9212 Executer un exe
-9213 Installer une application MSI
-9214 Script Powershell
-9215 Stocker fichier/dossier 
-9216 Désinstaller une application
-9217 Mise à jour Agent
-9218 Installer avec WinGet (Powershell)
+9300 Fusionner la sélection
+9301 Tout fusionner
+9302 Machine(s) dupliquée(s) :
 
-9240 Text
-9241 File
+9300 Interactions
+9301 Options
+9302 Catalogue de services
+9303 Linux
+9304 MacOS
+9305 Windows
+9306 Script Powershell
+9307 Scripts
+9308 Installater / Desinstallater
+9309 Autres
+
+9310 Script Batch
+9311 Paquet personnalisé
+9312 Executer un exe
+9313 Installer une application MSI
+9314 Script Powershell
+9315 Stocker fichier/dossier 
+9316 Désinstaller une application
+9317 Mise à jour Agent
+9318 Installer avec WinGet (Powershell)
+
+9340 Text
+9341 File
