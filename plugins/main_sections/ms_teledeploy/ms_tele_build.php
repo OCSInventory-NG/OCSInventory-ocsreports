@@ -49,12 +49,16 @@ echo '  <div class="nav-ocs-deploy">
                 <li class="active triangle radius-left" id="operating_system"><a><b>'.strtoupper($l->g(25)).'</b></a></li>
                 <li class="disabled ocs-disabled triangle" id="interactions"><a><b>'.strtoupper($l->g(9300)).'</b></a></li>
                 <li class="disabled ocs-disabled triangle" id="options"><a><b>'.strtoupper($l->g(9301)).'</b></a></li>
-                <li class="disabled ocs-disabled triangle" id="fragments"><a><b>'.strtoupper($l->g(480)).'</b></a></li>
-                <li class="disabled ocs-disabled radius-right" id="services"><a><b>'.strtoupper($l->g(9302)).'</b></a></li>
+                <li class="disabled ocs-disabled radius-right" id="resume"><a><b>'.strtoupper($l->g(9302)).'</b></a></li>
             </ul>
         </div>';
 
 echo '<div class="col col-md-12" >';
+
+/*********************** VALID FORM ***********************/
+if(isset($protectedPost['valid'])) {
+    $packageBuilder->buildPackage($protectedPost,$_FILES);
+}
 
 /******************** OPERATING SYSTEM ********************/
 echo $packageBuilderForm->generateOperatingSystem();

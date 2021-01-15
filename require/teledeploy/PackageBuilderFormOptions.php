@@ -40,14 +40,24 @@ class PackageBuilderFormOptions
         
         foreach($optionInfos->formoption as $formblock) {
             foreach($formblock as $formblockDetails) {
-                $html .= '  <div class="form-group">
-                                <label class="control-label col-sm-2" for="'.$formblockDetails->id.'">'.$l->g(intval($formblockDetails->label)).'</label>
-                                <div class="col-sm-9">';
+                $html .= '<div class="form-group">';
+                if(intval($formblockDetails->label) != 0) {
+                    $html .= '<label class="control-label col-sm-2" for="'.$formblockDetails->id.'">'.$l->g(intval($formblockDetails->label)).'</label>';
+                }     
+                $html .= '<div class="col-sm-9">';
                 $html .= $this->generateField($formblockDetails, $l);
                 $html .= '</div></div>';
+                if($formblockDetails->id == "NOTIFY_USER" || $formblockDetails->id == "NEED_DONE_ACTION") {
+                    $html .= '<div id="'.$formblockDetails->id.'_div" style="display: none;">';
+                } elseif ($formblockDetails->id == "NOTIFY_CAN_DELAY" || $formblockDetails->id == "NEED_DONE_ACTION_TEXT") {
+                    $html .= '</div>';
+                }
             }
         }
 
+        if($html != "") {
+            $html .= '<input type="submit" name="valid" id="valid" class="btn btn-success" value="'.$l->g(910).'">';
+        }
         return $html;
     }
 
@@ -57,13 +67,44 @@ class PackageBuilderFormOptions
     private function generateField($formblockDetails, $l) {
         switch($formblockDetails->type) {
             case 'select':
-                $select = '<select name="'.$formblockDetails->id.'" id="'.$formblockDetails->id.'" class="form-control">';
-                foreach($formblockDetails->options as $options) {
-                    foreach($options as $option) {
-                        $select .= '<option value="'.$option->id.'">'.$l->g(intval($option->name)).'</option>';
-                    } 
+                $select = '<select name="'.$formblockDetails->id.'" id="'.$formblockDetails->id.'" class="form-control" '.$formblockDetails->javascript.'>';
+                if($formblockDetails->id == "PRIORITY") {
+                    $i = 0;
+                    while($i <= 9) {
+                        $select .= '<option value="'.$i.'">'.$i.'</option>';
+                        $i++;
+                    }
+                } else {
+                    foreach($formblockDetails->options as $options) {
+                        foreach($options as $option) {
+                            $select .= '<option value="'.$option->id.'">'.$l->g(intval($option->name)).'</option>';
+                        } 
+                    }
                 }
                 $select .= '</select>';
+                if($formblockDetails->id == "ACTION") {
+                    $select .= "<script language='javascript'>
+                                    function changeLabelAction(){
+                                        var displayText = {'EXECUTE' : '" . $l->g(444) . "', 'STORE' : '" . $l->g(445) . "', 'LAUNCH' : '" . $l->g(446) . "'};
+                                        var select = $(\"#ACTION :selected \");
+                                        var label = $(\"label[for='ACTION_INPUT']\");
+                            
+                                        switch(select.val()){
+                                            case 'EXECUTE':
+                                                label.html(displayText.EXECUTE);
+                                                break;
+                                            case 'STORE':
+                                                label.html(displayText.STORE);
+                                                break;
+                                            case 'LAUNCH':
+                                                label.html(displayText.LAUNCH);
+                                                break;
+                                            default:
+                                                label.html('ERROR');
+                                        }
+                                    }
+                                </script>";
+                }
                 return $select;
             break;
 
@@ -88,7 +129,7 @@ class PackageBuilderFormOptions
             break;
 
             default:
-                return '<input type="'.$formblockDetails->type.'" name="'.$formblockDetails->id.'" id="'.$formblockDetails->id.'" value="'.$formblockDetails->defaultvalue.'" class="form-control">';
+                return '<input type="'.$formblockDetails->type.'" name="'.$formblockDetails->id.'" id="'.$formblockDetails->id.'" value="'.$formblockDetails->defaultvalue.'" class="form-control" '.$formblockDetails->javascript.' '.$formblockDetails->mandatory.'>';
         }
     }
 
