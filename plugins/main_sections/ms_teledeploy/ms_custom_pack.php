@@ -214,10 +214,10 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 'INFO_LOC' => 'e.INFO_LOC',
                 'CERT_FILE' => 'e.CERT_FILE',
                 'CERT_PATH' => 'e.CERT_PATH',
-                $l->g(1037) => 'a.NAME',
-                $l->g(1039) => 'a.PRIORITY',
-                $l->g(51) => 'a.COMMENT',
-                $l->g(274) => 'a.OSNAME',
+                $l->g(1037) => 'da.NAME',
+                $l->g(1039) => 'da.PRIORITY',
+                $l->g(51) => 'da.COMMENT',
+                $l->g(274) => 'da.OSNAME',
                 $l->g(953) . " (KB)" => 'SIZE'
             );
 
@@ -225,11 +225,11 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
                 'INFO_LOC' => 'e.INFO_LOC',
                 'CERT_FILE' => 'e.CERT_FILE',
                 'CERT_PATH' => 'e.CERT_PATH',
-                $l->g(1037) => 'a.NAME',
-                $l->g(1039) => 'a.PRIORITY',
-                $l->g(51) => 'a.COMMENT',
-                $l->g(274) => 'a.OSNAME',
-                $l->g(953) . " (KB)" => 'round(a.SIZE/1024,0) as SIZE'
+                $l->g(1037) => 'da.NAME',
+                $l->g(1039) => 'da.PRIORITY',
+                $l->g(51) => 'da.COMMENT',
+                $l->g(274) => 'da.OSNAME',
+                $l->g(953) . " (KB)" => 'round(da.SIZE/1024,0) as SIZE'
             );
 
             if (!isset($nb_rule) || $nb_rule > 0) {
@@ -264,25 +264,25 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
 
             $sql = prepare_sql_tab($select_fields, array('SELECT', 'CHECK'), $distinct);
 
-            $sql['SQL'] .= " from download_available a, download_enable e ";
+            $sql['SQL'] .= " from download_available da, download_enable e ";
             if ($protectedPost['onglet'] == 'MACH') {
-                $sql['SQL'] .= "where a.FILEID=e.FILEID and e.SERVER_ID is null ";
+                $sql['SQL'] .= "where da.FILEID=e.FILEID and e.SERVER_ID is null ";
             } else {
-                $sql['SQL'] .= ", hardware h where a.FILEID=e.FILEID and h.id=e.group_id and  e.SERVER_ID is not null ";
+                $sql['SQL'] .= ", hardware h where da.FILEID=e.FILEID and h.id=e.group_id and  e.SERVER_ID is not null ";
             }
 
             if (is_defined($fileid_show)) {
                 $sql = mysql2_prepare($sql['SQL'], $sql['ARG'], $fileid_show, true);
             }
             if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES") {
-                $sql['SQL'] .= " and a.comment not like '%s'";
+                $sql['SQL'] .= " and da.comment not like '%s'";
                 array_push($sql['ARG'], '%[VISIBLE=0]%');
             }
 
             error_reporting(0);
 
             $tab_options['QUESTION']['SELECT'] = $l->g(699);
-            $tab_options['FILTRE'] = array('e.FILEID' => 'Timestamp', 'a.NAME' => $l->g(49));
+            $tab_options['FILTRE'] = array('e.FILEID' => 'Timestamp', 'da.NAME' => $l->g(49));
             $tab_options['ARG_SQL'] = $sql['ARG'];
             $tab_options['MODIF']['IMG'] = "image/prec16.png";
 
