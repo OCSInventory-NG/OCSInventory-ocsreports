@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<optionsdefinition>
+    <!-- Id of the option -->
+    <id>custompackageopt</id>
+    <!-- Name of the option (used for header) -->
+    <name>9311</name>
+    <!-- Linked reference id -->
+    <refint>custompackage</refint>
+    <!-- Fragmentation node -->
+    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
+    <fragmentation>false</fragmentation>
+    <!-- Form options-->
+    <formoption>
+        <!-- 
+            A formblock is constitued of the following values : 
+            - id : id used in the form
+            - label : pretty name
+            - mandatory : required / empty
+            - type : (code / text / textarea / select / hidden / file)
+            - disabled : true / false
+            - defautlvalue : defautl value upon form loading
+            - description : helping hint
+            - specialcharallowed : Are special chars allowed ?
+            - javascript : add javascript function to input
+            - style : add specific css
+        -->
+        <formblock>
+            <id>NAME</id>
+            <label>1037</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>DESCRIPTION</id>
+            <label>53</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>9344</description>
+            <specialcharallowed>true</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>PROTOCOLE</id>
+            <label>439</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <options>
+                <option>
+                    <id>HTTP</id>
+                    <name>9345</name>
+                </option>
+                <option>
+                    <id>HTTPS</id>
+                    <name>9346</name>
+                </option>
+            </options>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+            <javascript/>
+        </formblock>
+        <formblock>
+            <id>PRIORITY</id>
+            <label>1039</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <options/>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+            <javascript/>
+        </formblock>
+        <formblock>
+            <id>additionalfiles</id>
+            <label>9341</label>
+            <mandatory>false</mandatory>
+            <type>file</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>ACTION</id>
+            <label>443</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <options>
+                <option>
+                    <id>EXECUTE</id>
+                    <name>456</name>
+                </option>
+                <option>
+                    <id>STORE</id>
+                    <name>457</name>
+                </option>
+                <option>
+                    <id>LAUNCH</id>
+                    <name>458</name>
+                </option>
+            </options>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+            <javascript>onchange="changeLabelAction()"</javascript>
+        </formblock>
+        <formblock>
+            <id>ACTION_INPUT</id>
+            <label>444</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>9344</description>
+            <specialcharallowed>true</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>NOTIFY_USER</id>
+            <label>448</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>454</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>455</name>
+                </option>
+            </options>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+            <javascript>onchange="notifyUser()"</javascript>
+        </formblock>
+        <formblock>
+            <id>NOTIFY_TEXT</id>
+            <label>449</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>9344</description>
+            <specialcharallowed>true</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>NOTIFY_COUNTDOWN</id>
+            <label>450</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>9344</description>
+            <specialcharallowed>true</specialcharallowed>
+            <javascript>onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"</javascript>
+        </formblock>
+        <formblock>
+            <id>NOTIFY_CAN_ABORT</id>
+            <label>451</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>454</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>455</name>
+                </option>
+            </options>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+            <javascript/>
+        </formblock>
+        <formblock>
+            <id>NOTIFY_CAN_DELAY</id>
+            <label>452</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>454</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>455</name>
+                </option>
+            </options>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+            <javascript/>
+        </formblock>
+        <formblock>
+            <id>NEED_DONE_ACTION</id>
+            <label>453</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>454</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>455</name>
+                </option>
+            </options>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+            <javascript>onchange="needDoneAction()"</javascript>
+        </formblock>
+        <formblock>
+            <id>NEED_DONE_ACTION_TEXT</id>
+            <label>449</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <description>9344</description>
+            <specialcharallowed>true</specialcharallowed>
+        </formblock>
+    </formoption>
+    
+    <!-- Package builder -->
+    <packagebuilder>
+        <!-- 
+            The package builder will create the archive necessary for deployment :
+            - packagename :  will get text typed form block and correspond to the package name
+            - pathfile : will get text typed form block and put it in pahtfile info file
+            - codeasfile : will get code formblock content and put it in a file
+            - filesinarchive : will get file typed form block and put it in the final archive
+        -->
+        <packagename>
+            <!-- Target formblock id-->
+            <targetid>packagename</targetid>
+        </packagename>
+        <pathfile>
+            <!-- Target formblock id-->
+            <targetid>pathfile</targetid>
+        </pathfile>
+        <filesinarchive>
+            <!-- Target formblock id-->
+            <targetid>additionalfiles</targetid>
+            <!-- Force a specific file name in ouput, no action performed if empty -->
+            <filename/>
+        </filesinarchive>
+    </packagebuilder>
+    <!-- Package definition -->
+    <packagedefinition>
+        <!--
+            Package definition will create the info file containing the instructions needed for deployment
+            variables from formoptions can be used with :formblockid 
+        -->
+        <!-- Priority -->
+        <PRI>:priority</PRI>
+        <!-- Action (EXECUTE / LAUNCH / STORE) -->
+        <ACT>:action</ACT>
+        <!-- PROCOTOL used either HTTP or HTTPS-->
+        <PROTO>:protocol</PROTO>
+        <!-- File command -->
+        <PATH>:pathfile</PATH> 
+        <!-- Notify user -->
+        <NOTIFY_USER>:notifyuser</NOTIFY_USER>
+        <!-- Notify text -->
+        <NOTIFY_TEXT>:notifytext</NOTIFY_TEXT>
+        <!-- Notify popup countdown -->
+        <NOTIFY_COUNTDOWN>:notifycountdown</NOTIFY_COUNTDOWN>
+        <!-- Can user abort -->
+        <NOTIFY_CAN_ABORT>:notifycanabort</NOTIFY_CAN_ABORT>
+        <!-- Can user delay -->
+        <NOTIFY_CAN_DELAY>:notifycandelay</NOTIFY_CAN_DELAY>
+        <!-- Need finish action on deployment -->
+        <NEED_DONE_ACTION>:needdoneaction</NEED_DONE_ACTION>
+        <!-- End deployment popup -->
+        <NEED_DONE_ACTION_TEXT>:needdoneactiontext</NEED_DONE_ACTION_TEXT>
+    </packagedefinition>
+</optionsdefinition>

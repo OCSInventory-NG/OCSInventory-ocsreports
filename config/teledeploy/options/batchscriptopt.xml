@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <optionsdefinition>
     <!-- Id of the option -->
-    <id>powershellscriptopt</id>
+    <id>batchscriptopt</id>
     <!-- Name of the option (used for header) -->
-    <name>9314</name>
+    <name>9310</name>
     <!-- Linked reference id -->
-    <refint>powershellscript</refint>
+    <refint>batchscript</refint>
     <!-- Fragmentation node -->
     <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
     <fragmentation>false</fragmentation>
@@ -37,14 +37,14 @@
             <label>9340</label>
             <mandatory>true</mandatory>
             <type>code</type>
-            <language>powershell</language>
+            <language>batch</language>
             <disabled>false</disabled>
             <defaultvalue/>
             <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
-            <id>powershellscript</id>
+            <id>batchscript</id>
             <label></label>
             <mandatory>false</mandatory>
             <type>hidden</type>
@@ -79,9 +79,9 @@
         </packagename>
         <codeasfile>
             <!-- Target formblock id-->
-            <targetid>powershellscript</targetid>
+            <targetid>batchscript</targetid>
             <!-- Force a specific file name in ouput, no action performed if empty -->
-            <filename>psscript.ps1</filename>
+            <filename>batscript.bat</filename>
         </codeasfile>
         <filesinarchive>
             <!-- Target formblock id-->
@@ -103,7 +103,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>powershell.exe psscript.ps1</COMMAND> 
+        <COMMAND>cmd.exe batscript.bat</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
