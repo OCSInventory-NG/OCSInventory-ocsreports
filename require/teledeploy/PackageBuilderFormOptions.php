@@ -68,7 +68,7 @@ class PackageBuilderFormOptions
         switch($formblockDetails->type) {
             case 'select':
                 $select = '<select name="'.$formblockDetails->id.'" id="'.$formblockDetails->id.'" class="form-control" '.$formblockDetails->javascript.'>';
-                if($formblockDetails->id == "PRIORITY") {
+                if($formblockDetails->id == "PRI") {
                     $i = 0;
                     while($i <= 9) {
                         $select .= '<option value="'.$i.'">'.$i.'</option>';
@@ -82,12 +82,12 @@ class PackageBuilderFormOptions
                     }
                 }
                 $select .= '</select>';
-                if($formblockDetails->id == "ACTION") {
+                if($formblockDetails->id == "ACT") {
                     $select .= "<script language='javascript'>
                                     function changeLabelAction(){
                                         var displayText = {'EXECUTE' : '" . $l->g(444) . "', 'STORE' : '" . $l->g(445) . "', 'LAUNCH' : '" . $l->g(446) . "'};
-                                        var select = $(\"#ACTION :selected \");
-                                        var label = $(\"label[for='ACTION_INPUT']\");
+                                        var select = $(\"#ACT :selected \");
+                                        var label = $(\"label[for='pathfile']\");
                             
                                         switch(select.val()){
                                             case 'EXECUTE':

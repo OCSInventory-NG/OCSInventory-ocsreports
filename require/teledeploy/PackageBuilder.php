@@ -57,19 +57,23 @@ class PackageBuilder
 	 *
 	 * @return void
 	 */
-	public function buildPackage($post, $file) {
+	public function buildPackage($post, $file = null) {
 		global $l;
 		
 		$timestamp = time();
-		$digest = md5_file($file["additionalfiles"]["tmp_name"]);
+		$packageInfos = [];
 
+		if($file != null) {
+			$digest = md5_file($file["additionalfiles"]["tmp_name"]);
+		}
+		
 		if(isset($this->downloadConfig['tvalue']['DOWNLOAD_PACK_DIR'])) {
 			$downloadPath = $this->downloadConfig['tvalue']['DOWNLOAD_PACK_DIR'].'/download/'.$timestamp;
 		} else {
 			$downloadPath = VARLIB_DIR . '/download/'.$timestamp;
 		}
 
-		if(file_exists($file["additionalfiles"]["tmp_name"])) {
+		if($file != null && file_exists($file["additionalfiles"]["tmp_name"])) {
 			// Create folder if not exists
 			if (!file_exists($downloadPath)) {
                 mkdir($downloadPath);
@@ -82,6 +86,7 @@ class PackageBuilder
 		$xmlDetails = $this->packageBuilderParseXml->parseOptions($post['FORMTYPE']);
 		// Replace dynamic value from xml
 		$xmlDetails = $this->replaceXmlValue($post, $xmlDetails);
+
 		// Generate info xml
 		$info = $this->writePackageInfo($xmlDetails, $timestamp, $details['frag'], $digest, $post['pathfile']);
 		// Create info file
@@ -102,8 +107,7 @@ class PackageBuilder
 			$details['frag'],
 			$details['size'], 
 			$xmlDetails->refos, 
-			$post['DESCRIPTION'], 
-			$sql_details['id_wk']
+			$post['DESCRIPTION']
 		);
 			
         mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
@@ -115,6 +119,13 @@ class PackageBuilder
 		unset($_SESSION['OCS']['DATA_CACHE']['LIST_PACK']);
 		unset($_SESSION['OCS']['NUM_ROW']['LIST_PACK']);
 
+		$packageInfos['NAME'] = $post['NAME'];
+		$packageInfos['DESCRIPTION'] = $post['DESCRIPTION'];
+		$packageInfos['FRAG'] = $details['frag'];
+		$packageInfos['SIZE'] = $details['size'];
+		$packageInfos['PRIO'] = $xmlDetails->packagedefinition->PRI;
+
+		return $packageInfos;
 	}
 	
 	/**
@@ -209,10 +220,10 @@ class PackageBuilder
                  "DIGEST_ALGO=\"MD5\" " .
                  "DIGEST_ENCODE=\"Hexa\" ";
         if ($xmlDetails->packagedefinition->ACT  == 'STORE') {
-            $info .= "PATH=\"" . $xmlDetails->packagedefinition->PATH . "\" ";
+            $info .= "PATH=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
         if ($xmlDetails->packagedefinition->ACT  == 'LAUNCH') {
-            $info .= "NAME=\"" . $xmlDetails->packagedefinition->NAME . "\" ";
+            $info .= "NAME=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
         if ($xmlDetails->packagedefinition->ACT  == 'EXECUTE') {
             $info .= "COMMAND=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";

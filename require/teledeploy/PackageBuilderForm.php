@@ -30,16 +30,28 @@ class PackageBuilderForm
     private $packageBuilderFormOperatingSystem;
     private $packageBuilderParseXml;
     private $packageBuilderFormOptions;
-
+    
+    /**
+     * Method __construct
+     *
+     * @param $packageBuildeFormInteractions $packageBuildeFormInteractions [explicite description]
+     * @param $packageBuilderFormOperatingSystem $packageBuilderFormOperatingSystem [explicite description]
+     * @param $packageBuilderParseXml $packageBuilderParseXml [explicite description]
+     * @param $packageBuilderFormOptions $packageBuilderFormOptions [explicite description]
+     *
+     * @return void
+     */
     function __construct($packageBuildeFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml, $packageBuilderFormOptions) {
         $this->packageBuilderFormOperatingSystem = $packageBuilderFormOperatingSystem;
         $this->packageBuildeFormInteractions = $packageBuildeFormInteractions;
         $this->packageBuilderParseXml = $packageBuilderParseXml;
         $this->packageBuilderFormOptions = $packageBuilderFormOptions;
     }
-
+    
     /**
-     *  Generate Operating System
+     * Method generateOperatingSystem
+     *
+     * @return string
      */
     public function generateOperatingSystem() {
         $html = '<div id="operatingsystem"><div class="row">';
@@ -52,9 +64,11 @@ class PackageBuilderForm
 
         return $html;
     }
-
+    
     /**
-     *  Generate Interactions
+     * Method generateInteractions
+     *
+     * @return string
      */
     public function generateInteractions() {
         $operatingInfos = $this->packageBuilderParseXml->parseOperatingSystem();
@@ -85,9 +99,15 @@ class PackageBuilderForm
 
         return $html;
     }
-
+    
     /**
-     *  Generate Options
+     * Method generateOptions
+     *
+     * @param $os $os [explicite description]
+     * @param $linkedOption $linkedOption [explicite description]
+     * @param $language $language [explicite description]
+     *
+     * @return string
      */
     public function generateOptions($os, $linkedOption, $language) {
         global $l;
@@ -97,6 +117,26 @@ class PackageBuilderForm
         
         $html = '<h3 class="text-center">'.$l->g(intval($optionInfos->name)).'</h3></br>';
         $html .= $this->packageBuilderFormOptions->generateOptions($optionInfos, $l);
+
+        return $html;
+    }
+    
+    /**
+     * Method generateResume
+     *
+     * @param $packageInfos $packageInfos [explicite description]
+     *
+     * @return void
+     */
+    public function generateResume($packageInfos) {
+        global $l;
+
+        $html = '<h3 class="text-center">Resume</h3></br>';
+        $html .= '<p><b>Name :</b> '.$packageInfos['NAME'].'<p>';
+        $html .= '<p><b>Description :</b> '.$packageInfos['DESCRIPTION'].'<p>';
+        $html .= '<p><b>Fragment number :</b> '.$packageInfos['FRAG'].'<p>';
+        $html .= '<p><b>Size :</b> '.$packageInfos['SIZE'].'<p>';
+        $html .= '<p><b>Priority :</b> '.$packageInfos['PRIO'].'<p><br>';
 
         return $html;
     }
