@@ -23,6 +23,16 @@
             - specialcharallowed : Are special chars allowed ?
         -->
         <formblock>
+            <id>FORMTYPE</id>
+            <label/>
+            <mandatory/>
+            <type>hidden</type>
+            <disabled>false</disabled>
+            <defaultvalue>powershellscriptopt</defaultvalue>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
             <id>packagename</id>
             <label>1037</label>
             <mandatory>true</mandatory>

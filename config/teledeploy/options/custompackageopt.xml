@@ -25,6 +25,16 @@
             - style : add specific css
         -->
         <formblock>
+            <id>FORMTYPE</id>
+            <label/>
+            <mandatory/>
+            <type>hidden</type>
+            <disabled>false</disabled>
+            <defaultvalue>custompackageopt</defaultvalue>
+            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
             <id>NAME</id>
             <label>1037</label>
             <mandatory>true</mandatory>
@@ -45,7 +55,7 @@
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
-            <id>PROTOCOLE</id>
+            <id>PROTO</id>
             <label>439</label>
             <mandatory>true</mandatory>
             <type>select</type>
@@ -66,7 +76,7 @@
             <javascript/>
         </formblock>
         <formblock>
-            <id>PRIORITY</id>
+            <id>PRI</id>
             <label>1039</label>
             <mandatory>true</mandatory>
             <type>select</type>
@@ -88,7 +98,7 @@
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
-            <id>ACTION</id>
+            <id>ACT</id>
             <label>443</label>
             <mandatory>true</mandatory>
             <type>select</type>
@@ -113,7 +123,7 @@
             <javascript>onchange="changeLabelAction()"</javascript>
         </formblock>
         <formblock>
-            <id>ACTION_INPUT</id>
+            <id>pathfile</id>
             <label>444</label>
             <mandatory>true</mandatory>
             <type>text</type>
@@ -270,26 +280,26 @@
             variables from formoptions can be used with :formblockid 
         -->
         <!-- Priority -->
-        <PRI>:priority</PRI>
+        <PRI>:PRI</PRI>
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
-        <ACT>:action</ACT>
+        <ACT>:ACT</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>:protocol</PROTO>
+        <PROTO>:PROTO</PROTO>
         <!-- File command -->
-        <PATH>:pathfile</PATH> 
+        <COMMAND>:pathfile</COMMAND> 
         <!-- Notify user -->
-        <NOTIFY_USER>:notifyuser</NOTIFY_USER>
+        <NOTIFY_USER>:NOTIFY_USER</NOTIFY_USER>
         <!-- Notify text -->
-        <NOTIFY_TEXT>:notifytext</NOTIFY_TEXT>
+        <NOTIFY_TEXT>:NOTIFY_TEXT</NOTIFY_TEXT>
         <!-- Notify popup countdown -->
-        <NOTIFY_COUNTDOWN>:notifycountdown</NOTIFY_COUNTDOWN>
+        <NOTIFY_COUNTDOWN>:NOTIFY_COUNTDOWN</NOTIFY_COUNTDOWN>
         <!-- Can user abort -->
-        <NOTIFY_CAN_ABORT>:notifycanabort</NOTIFY_CAN_ABORT>
+        <NOTIFY_CAN_ABORT>:NOTIFY_CAN_ABORT</NOTIFY_CAN_ABORT>
         <!-- Can user delay -->
-        <NOTIFY_CAN_DELAY>:notifycandelay</NOTIFY_CAN_DELAY>
+        <NOTIFY_CAN_DELAY>:NOTIFY_CAN_DELAY</NOTIFY_CAN_DELAY>
         <!-- Need finish action on deployment -->
-        <NEED_DONE_ACTION>:needdoneaction</NEED_DONE_ACTION>
+        <NEED_DONE_ACTION>:NEED_DONE_ACTION</NEED_DONE_ACTION>
         <!-- End deployment popup -->
-        <NEED_DONE_ACTION_TEXT>:needdoneactiontext</NEED_DONE_ACTION_TEXT>
+        <NEED_DONE_ACTION_TEXT>:NEED_DONE_ACTION_TEXT</NEED_DONE_ACTION_TEXT>
     </packagedefinition>
 </optionsdefinition>
