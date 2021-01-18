@@ -43,36 +43,50 @@ echo "<div class='container'>
 $form_name = "generate_build_package";
 printEnTete($l->g(434));
 
+/*********************** VALID FORM ***********************/
+if(isset($protectedPost['valid'])) {
+    var_dump($protectedPost);
+    //$packageInfos = $packageBuilder->buildPackage($protectedPost,$_FILES);
+    $classOptInt = "triangle active";
+    $classSys = "active triangle radius-left";
+    $classRes = "active radius-right";
+} else {
+    $classOptInt = "disabled ocs-disabled triangle";
+    $classSys = "active triangle radius-left";
+    $classRes = "disabled ocs-disabled radius-right";
+}
+
 // Loading nav
 echo '  <div class="nav-ocs-deploy">
             <ul class="nav nav-pills nav-justified nav-pills-ocs radius-parent">
-                <li class="active triangle radius-left" id="operating_system"><a><b>'.strtoupper($l->g(25)).'</b></a></li>
-                <li class="disabled ocs-disabled triangle" id="interactions"><a><b>'.strtoupper($l->g(9300)).'</b></a></li>
-                <li class="disabled ocs-disabled triangle" id="options"><a><b>'.strtoupper($l->g(9301)).'</b></a></li>
-                <li class="disabled ocs-disabled radius-right" id="resume"><a><b>'.strtoupper($l->g(9302)).'</b></a></li>
+                <li class="'.$classSys.'" id="operating_system"><a><b>'.strtoupper($l->g(25)).'</b></a></li>
+                <li class="'.$classOptInt.'" id="interactions"><a><b>'.strtoupper($l->g(9300)).'</b></a></li>
+                <li class="'.$classOptInt.'" id="options"><a><b>'.strtoupper($l->g(9301)).'</b></a></li>
+                <li class="'.$classRes.'" id="resume"><a><b>'.strtoupper($l->g(9302)).'</b></a></li>
             </ul>
         </div>';
 
 echo '<div class="col col-md-12" >';
 
-/*********************** VALID FORM ***********************/
 if(isset($protectedPost['valid'])) {
-    $packageBuilder->buildPackage($protectedPost,$_FILES);
+    /************************* RESUME *************************/
+    //echo $packageBuilderForm->generateResume($packageInfos);
+
+} else {
+    /******************** OPERATING SYSTEM ********************/
+    echo $packageBuilderForm->generateOperatingSystem();
+
+    /********************** INTERACTIONS **********************/
+    echo $packageBuilderForm->generateInteractions();
+
+    /************************* OPTIONS ************************/
+
+    echo open_form($form_name, '', "enctype='multipart/form-data'", "form-horizontal");
+    echo '<div id="deployment_options">';
+    // Generate with ajax
+    echo '</div>';
+    echo close_form();
 }
-
-/******************** OPERATING SYSTEM ********************/
-echo $packageBuilderForm->generateOperatingSystem();
-
-/********************** INTERACTIONS **********************/
-echo $packageBuilderForm->generateInteractions();
-
-/************************* OPTIONS ************************/
-
-echo open_form($form_name, '', "enctype='multipart/form-data'", "form-horizontal");
-echo '<div id="deployment_options">';
-// Generate with ajax
-echo '</div>';
-echo close_form();
 
 echo '</div>';
 
