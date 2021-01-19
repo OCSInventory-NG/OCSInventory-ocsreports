@@ -125,6 +125,12 @@ class PackageBuilderFormOptions
                             });
                             
                             codeEditor.setTheme("ace/theme/solarized_dark");
+
+                            $("#editorCode").keyup(function() {
+                                var code = codeEditor.getSession().getValue();
+                                $("#getcode").val(code);
+                            });
+
                         </script>';
             break;
 

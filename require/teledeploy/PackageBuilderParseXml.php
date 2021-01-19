@@ -48,7 +48,7 @@ class PackageBuilderParseXml
      *  Parse Options XML
      */
     public function parseOptions($name) {
-        return simplexml_load_file(self::XML_OPTION.$name.'.xml');
+        return simplexml_load_file(self::XML_OPTION.$name.'.xml', null, LIBXML_NOCDATA);
     }
 
 }

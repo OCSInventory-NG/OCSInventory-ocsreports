@@ -62,31 +62,46 @@ class PackageBuilder
 		
 		$timestamp = time();
 		$packageInfos = [];
-
-		if($file != null) {
-			$digest = md5_file($file["additionalfiles"]["tmp_name"]);
-		}
+		$digest = null;
+		// Get Xml option info
+		$xmlDetails = $this->packageBuilderParseXml->parseOptions($post['FORMTYPE']);
 		
 		if(isset($this->downloadConfig['tvalue']['DOWNLOAD_PACK_DIR'])) {
 			$downloadPath = $this->downloadConfig['tvalue']['DOWNLOAD_PACK_DIR'].'/download/'.$timestamp;
 		} else {
 			$downloadPath = VARLIB_DIR . '/download/'.$timestamp;
 		}
-
-		if($file != null && file_exists($file["additionalfiles"]["tmp_name"])) {
-			// Create folder if not exists
-			if (!file_exists($downloadPath)) {
-                mkdir($downloadPath);
-			}
-			// Create package archive
-			$details = $this->fragmentPackage($file["additionalfiles"]["tmp_name"], $downloadPath, $timestamp);
+error_log(print_r($post,true));
+		// Create folder if not exists
+		if (!file_exists($downloadPath)) {
+			mkdir($downloadPath);
 		}
 
-		// Get Xml option info
-		$xmlDetails = $this->packageBuilderParseXml->parseOptions($post['FORMTYPE']);
-		// Replace dynamic value from xml
-		$xmlDetails = $this->replaceXmlValue($post, $xmlDetails);
+		if(isset($post['getcode']) && trim($post['getcode']) != "") {
+			$script = $downloadPath.'/'.$xmlDetails->packagebuilder->codeasfile->filename;
+			// Create script file
+			$handscript = fopen($script, "w+");
+			fwrite($handscript, $post['getcode']);
+			fclose($handscript);
+		}
 
+		if($file["additionalfiles"]['size'] != 0 && file_exists($file["additionalfiles"]["tmp_name"])) {
+			$digest = md5_file($file["additionalfiles"]["tmp_name"]);
+			// Create package archive
+			$details = $this->fragmentPackage($file["additionalfiles"]["tmp_name"], $downloadPath, $timestamp);
+		} elseif(isset($post['getcode']) && file_exists($downloadPath.'/'.$xmlDetails->packagebuilder->codeasfile->filename)) {
+			$zipScript = $this->zipScriptFile($downloadPath.'/', $xmlDetails->packagebuilder->codeasfile->filename);
+			$digest = md5_file($zipScript);
+			// Create package archive
+			$details = $this->fragmentPackage($zipScript, $downloadPath, $timestamp);
+			unlink($zipScript);
+		}
+
+		// Replace dynamic value from xml
+		if($xmlDetails->replace == "true") {
+			$xmlDetails = $this->replaceXmlValue($post, $xmlDetails);
+		}
+		
 		// Generate info xml
 		$info = $this->writePackageInfo($xmlDetails, $timestamp, $details['frag'], $digest, $post['pathfile']);
 		// Create info file
@@ -126,6 +141,26 @@ class PackageBuilder
 		$packageInfos['PRIO'] = $xmlDetails->packagedefinition->PRI;
 
 		return $packageInfos;
+	}
+
+	private function zipScriptFile($path, $name) {
+		$zip = new ZipArchive();
+
+		$DelFilePath = $path.$name;
+		$zipPath = $path.$name.".zip";
+		
+		if($zip->open($zipPath, ZIPARCHIVE::CREATE) == TRUE) {
+			$zip->addFile($DelFilePath, $name);
+		}
+		
+		// close and save archive
+		$zip->close();
+
+		if(file_exists($DelFilePath)) {
+			unlink($DelFilePath); 
+		}
+
+		return $zipPath;
 	}
 	
 	/**
