@@ -45,8 +45,7 @@ printEnTete($l->g(434));
 
 /*********************** VALID FORM ***********************/
 if(isset($protectedPost['valid'])) {
-    var_dump($protectedPost);
-    //$packageInfos = $packageBuilder->buildPackage($protectedPost,$_FILES);
+    $packageInfos = $packageBuilder->buildPackage($_POST,$_FILES);
     $classOptInt = "triangle active";
     $classSys = "active triangle radius-left";
     $classRes = "active radius-right";
@@ -70,7 +69,7 @@ echo '<div class="col col-md-12" >';
 
 if(isset($protectedPost['valid'])) {
     /************************* RESUME *************************/
-    //echo $packageBuilderForm->generateResume($packageInfos);
+    echo $packageBuilderForm->generateResume($packageInfos);
 
 } else {
     /******************** OPERATING SYSTEM ********************/
