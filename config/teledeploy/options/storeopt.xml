@@ -9,6 +9,7 @@
     <!-- Fragmentation node -->
     <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
     <fragmentation>true</fragmentation>
+    <replace>true</replace>
     <!-- Linked operating system ID -->
     <refos>all</refos>
     <!-- Form options-->
