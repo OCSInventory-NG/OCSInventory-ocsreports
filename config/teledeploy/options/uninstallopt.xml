@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <optionsdefinition>
     <!-- Id of the option -->
-    <id>powershellscriptopt</id>
+    <id>uninstallopt</id>
     <!-- Name of the option (used for header) -->
-    <name>9314</name>
+    <name>9312</name>
     <!-- Linked reference id -->
-    <refint>powershellscript</refint>
-    <!-- Linked operating system ID -->
-    <refos>windows</refos>
+    <refint>uninstall</refint>
     <!-- Fragmentation node -->
     <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>false</fragmentation>
+    <fragmentation>true</fragmentation>
     <!-- Replace value on xml ? true / false -->
-    <replace>false</replace>
+    <replace>true</replace>
+    <!-- Linked operating system ID -->
+    <refos>all</refos>
     <!-- Form options-->
     <formoption>
         <!-- 
@@ -32,19 +32,20 @@
             <mandatory/>
             <type>hidden</type>
             <disabled>false</disabled>
-            <defaultvalue>powershellscriptopt</defaultvalue>
+            <defaultvalue>uninstallopt</defaultvalue>
             <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
             <id>NAME</id>
             <label>1037</label>
-            <mandatory>true</mandatory>
+            <mandatory>required</mandatory>
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
             <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
+            <javascript>onkeyup="verifPackageName(this);"</javascript>
         </formblock>
         <formblock>
             <id>DESCRIPTION</id>
@@ -57,31 +58,10 @@
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
-            <id>editorCode</id>
-            <label>9340</label>
-            <mandatory>true</mandatory>
-            <type>code</type>
-            <language>powershell</language>
-            <disabled>false</disabled>
-            <defaultvalue/>
-            <description>9344</description>
-            <specialcharallowed>false</specialcharallowed>
-        </formblock>
-        <formblock>
-            <id>getcode</id>
-            <label></label>
-            <mandatory>false</mandatory>
-            <type>hidden</type>
-            <disabled>false</disabled>
-            <defaultvalue/>
-            <description></description>
-            <specialcharallowed>false</specialcharallowed>
-        </formblock>
-        <formblock>
-            <id>additionalfiles</id>
-            <label>9341</label>
-            <mandatory>false</mandatory>
-            <type>file</type>
+            <id>pathfile</id>
+            <label>444</label>
+            <mandatory>required</mandatory>
+            <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
             <description>9344</description>
@@ -91,24 +71,10 @@
     <!-- Package builder -->
     <packagebuilder>
         <!-- 
-            The package builder will create the archive necessary for deployment : 
-            - packagename :  will get text typed form block and correspond to the package name
-            - pathfile : will get text typed form block and put it in pahtfile info file
+            The package builder will create the archive necessary for deployment :
             - codeasfile : will get code formblock content and put it in a file
             - filesinarchive : will get file typed form block and put it in the final archive
         -->
-        <codeasfile>
-            <!-- Target formblock id-->
-            <targetid>getcode</targetid>
-            <!-- Force a specific file name in ouput, no action performed if empty -->
-            <filename>psscript.ps1</filename>
-        </codeasfile>
-        <filesinarchive>
-            <!-- Target formblock id-->
-            <targetid>additionalfiles</targetid>
-            <!-- Force a specific file name in ouput, no action performed if empty -->
-            <filename/>
-        </filesinarchive>
     </packagebuilder>
     <!-- Package definition -->
     <packagedefinition>
@@ -119,11 +85,11 @@
         <!-- Priority -->
         <PRI>5</PRI>
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
-        <ACT>EXECUTE</ACT>
+        <ACT>LAUNCH</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>powershell.exe -File psscript.ps1</COMMAND> 
+        <COMMAND>:pathfile</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->

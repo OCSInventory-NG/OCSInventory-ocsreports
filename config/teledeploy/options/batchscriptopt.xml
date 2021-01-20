@@ -11,6 +11,7 @@
     <!-- Fragmentation node -->
     <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
     <fragmentation>false</fragmentation>
+    <!-- Replace value on xml ? true / false -->
     <replace>false</replace>
     <!-- Form options-->
     <formoption>
