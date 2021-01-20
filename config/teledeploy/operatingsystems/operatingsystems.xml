@@ -65,6 +65,14 @@
         </categories>
         <!-- Link to linked interactions possible (use interaction id) -->
         <linkedinteractions>
+            <category id="installuninstalllinux">
+            </category>
+            <category id="scriptslinux">
+            </category>
+            <category id="otherslinux">
+                <interaction order="1">store</interaction>
+                <interaction order="2">custompackage</interaction>
+            </category>
         </linkedinteractions>
     </osdefinition>
     <osdefinition>
@@ -91,6 +99,14 @@
         </categories>
         <!-- Link to linked interactions possible (use interaction id) -->
         <linkedinteractions>
+            <category id="installuninstallmacos">
+            </category>
+            <category id="scriptsmacos">
+            </category>
+            <category id="othersmacos">
+                <interaction order="1">store</interaction>
+                <interaction order="2">custompackage</interaction>
+            </category>
         </linkedinteractions>
     </osdefinition>
 </content>
