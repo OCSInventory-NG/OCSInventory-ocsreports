@@ -63,6 +63,10 @@ class PackageBuilder
 		$timestamp = time();
 		$packageInfos = [];
 		$digest = null;
+		$details = [
+			'frag' => 0,
+			'size' => 0
+		];
 		// Get Xml option info
 		$xmlDetails = $this->packageBuilderParseXml->parseOptions($post['FORMTYPE']);
 		
@@ -71,13 +75,13 @@ class PackageBuilder
 		} else {
 			$downloadPath = VARLIB_DIR . '/download/'.$timestamp;
 		}
-error_log(print_r($post,true));
+
 		// Create folder if not exists
 		if (!file_exists($downloadPath)) {
 			mkdir($downloadPath);
 		}
 
-		if(isset($post['getcode']) && trim($post['getcode']) != "") {
+		if((isset($post['getcode']) && trim($post['getcode']) != "")) {
 			$script = $downloadPath.'/'.$xmlDetails->packagebuilder->codeasfile->filename;
 			// Create script file
 			$handscript = fopen($script, "w+");
@@ -86,9 +90,31 @@ error_log(print_r($post,true));
 		}
 
 		if($file["additionalfiles"]['size'] != 0 && file_exists($file["additionalfiles"]["tmp_name"])) {
-			$digest = md5_file($file["additionalfiles"]["tmp_name"]);
+			//verif if is an archive file
+			$name_file_extention = explode('.', $file["additionalfiles"]["name"]);
+			$extention = array_pop($name_file_extention);
+
+			// If have a specific xml filename
+			if(isset($xmlDetails->packagebuilder->filesinarchive->replacename)) {
+				$filename = $xmlDetails->packagebuilder->filesinarchive->replacename;
+			} else {
+				$filename = $file["additionalfiles"]["name"];
+			}
+
+			// If not an archive
+			if (strtoupper($extention) != "ZIP" && strtoupper($extention) != "GZ") {
+				if($post['FORMTYPE'] == "updateagentopt") {
+					$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', $filename, true);
+				}else {
+					$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', $filename);
+				}	
+			} else {
+				$filepath = $file["additionalfiles"]["tmp_name"];
+			}
+
+			$digest = md5_file($filepath);
 			// Create package archive
-			$details = $this->fragmentPackage($file["additionalfiles"]["tmp_name"], $downloadPath, $timestamp);
+			$details = $this->fragmentPackage($filepath, $downloadPath, $timestamp);
 		} elseif(isset($post['getcode']) && file_exists($downloadPath.'/'.$xmlDetails->packagebuilder->codeasfile->filename)) {
 			$zipScript = $this->zipScriptFile($downloadPath.'/', $xmlDetails->packagebuilder->codeasfile->filename);
 			$digest = md5_file($zipScript);
@@ -143,7 +169,7 @@ error_log(print_r($post,true));
 		return $packageInfos;
 	}
 
-	private function zipScriptFile($path, $name) {
+	private function zipScriptFile($path, $name, $attachmentScript = null) {
 		$zip = new ZipArchive();
 
 		$DelFilePath = $path.$name;
@@ -151,6 +177,10 @@ error_log(print_r($post,true));
 		
 		if($zip->open($zipPath, ZIPARCHIVE::CREATE) == TRUE) {
 			$zip->addFile($DelFilePath, $name);
+		}
+
+		if($attachmentScript == true) {
+			$zip->addFile("config/teledeploy/script/scheduledupdateagent.ps1", "scheduledupdateagent.ps1");
 		}
 		
 		// close and save archive
