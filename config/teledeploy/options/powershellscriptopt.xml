@@ -106,6 +106,7 @@
         <filesinarchive>
             <!-- Target formblock id-->
             <targetid>additionalfiles</targetid>
+            <replacename>psscript.ps1</replacename>
             <!-- Force a specific file name in ouput, no action performed if empty -->
             <filename/>
         </filesinarchive>

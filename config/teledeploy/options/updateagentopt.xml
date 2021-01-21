@@ -58,16 +58,6 @@
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
-            <id>pathfile</id>
-            <label>444</label>
-            <mandatory>required</mandatory>
-            <type>text</type>
-            <disabled>false</disabled>
-            <defaultvalue/>
-            <description>9344</description>
-            <specialcharallowed>false</specialcharallowed>
-        </formblock>
-        <formblock>
             <id>additionalfiles</id>
             <label>9341</label>
             <mandatory>required</mandatory>
@@ -88,6 +78,7 @@
         <filesinarchive>
             <!-- Target formblock id-->
             <targetid>additionalfiles</targetid>
+            <replacename>ocsupdate.exe</replacename>
             <!-- Force a specific file name in ouput, no action performed if empty -->
             <filename/>
         </filesinarchive>
@@ -105,7 +96,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>:pathfile</COMMAND> 
+        <COMMAND>powershell.exe -File scheduledupdateagent.ps1</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->

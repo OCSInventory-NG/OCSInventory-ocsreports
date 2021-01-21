@@ -101,11 +101,12 @@
             <!-- Target formblock id-->
             <targetid>batchscript</targetid>
             <!-- Force a specific file name in ouput, no action performed if empty -->
-            <filename>batscript.bat</filename>
+            <filename>batchscript.bat</filename>
         </codeasfile>
         <filesinarchive>
             <!-- Target formblock id-->
             <targetid>additionalfiles</targetid>
+            <replacename>batchscript.bat</replacename>
             <!-- Force a specific file name in ouput, no action performed if empty -->
             <filename/>
         </filesinarchive>
@@ -123,7 +124,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>cmd.exe batscript.bat</COMMAND> 
+        <COMMAND>cmd.exe batchscript.bat</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
