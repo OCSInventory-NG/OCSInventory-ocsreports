@@ -85,7 +85,7 @@
         <!-- Priority -->
         <PRI>5</PRI>
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
-        <ACT>LAUNCH</ACT>
+        <ACT>EXECUTE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
