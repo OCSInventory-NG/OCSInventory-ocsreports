@@ -104,9 +104,9 @@ class PackageBuilder
 			// If not an archive
 			if (strtoupper($extention) != "ZIP" && strtoupper($extention) != "GZ") {
 				if($post['FORMTYPE'] == "updateagentopt") {
-					$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', $filename, true);
+					$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename, true);
 				}else {
-					$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', $filename);
+					$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename);
 				}	
 			} else {
 				$filepath = $file["additionalfiles"]["tmp_name"];
@@ -169,23 +169,23 @@ class PackageBuilder
 		return $packageInfos;
 	}
 
-	private function zipScriptFile($path, $name, $attachmentScript = null) {
+	private function zipScriptFile($path, $name, $newName, $attachmentScript = null) {
 		$zip = new ZipArchive();
 
 		$DelFilePath = $path.$name;
 		$zipPath = $path.$name.".zip";
 		
 		if($zip->open($zipPath, ZIPARCHIVE::CREATE) == TRUE) {
-			$zip->addFile($DelFilePath, $name);
-		}
-
-		if($attachmentScript == true) {
-			$zip->addFile("config/teledeploy/script/scheduledupdateagent.ps1", "scheduledupdateagent.ps1");
+			$zip->addFile($DelFilePath, $newName);
+			if($attachmentScript == true) {
+				$zip->addFile("config/teledeploy/script/scheduledupdateagent.ps1", "scheduledupdateagent.ps1");
+				$zip->addFile("config/teledeploy/script/removeupdateagent.ps1", "removeupdateagent.ps1");
+			}
 		}
 		
 		// close and save archive
 		$zip->close();
-
+		
 		if(file_exists($DelFilePath)) {
 			unlink($DelFilePath); 
 		}
