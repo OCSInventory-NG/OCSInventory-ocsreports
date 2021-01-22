@@ -31,7 +31,7 @@ Unregister-ScheduledTask -TaskName "OCS Inventory Agent Update" -Confirm:$false
 
 # Register new ocs inventory scheduled task
 $action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c $tempFolder\ocsupdate.exe"
-$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2))
+$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(30))
 $result = Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "OCS Inventory Agent Update" -Description "Scheduled task to update OCS Inventory Agent" -User "System" -RunLevel Highest
 
 if(!$result) {
