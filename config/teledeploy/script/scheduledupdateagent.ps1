@@ -9,7 +9,7 @@ Unregister-ScheduledTask -TaskName "OCS Inventory Agent Uninstall" -Confirm:$fal
 
 # Register new ocs inventory scheduled task
 $action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-File $tempFolder\removeupdateagent.ps1"
-$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2))
+$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(30))
 $result = Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "OCS Inventory Agent Uninstall" -Description "Scheduled task to uninstall old version of OCS Inventory Agent" -User "System" -RunLevel Highest
 
 if(!$result) {

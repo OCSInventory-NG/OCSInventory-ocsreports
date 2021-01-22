@@ -21,9 +21,6 @@ else {
 	}
 }
 
-$path = Split-Path -Path $uninst
-Remove-Item $path
-
 $tempFolder = $env:temp
 
 # Unregister old ocs inventory scheduled task if exists
@@ -31,7 +28,7 @@ Unregister-ScheduledTask -TaskName "OCS Inventory Agent Update" -Confirm:$false
 
 # Register new ocs inventory scheduled task
 $action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c $tempFolder\ocsupdate.exe"
-$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(30))
+$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2))
 $result = Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "OCS Inventory Agent Update" -Description "Scheduled task to update OCS Inventory Agent" -User "System" -RunLevel Highest
 
 if(!$result) {
