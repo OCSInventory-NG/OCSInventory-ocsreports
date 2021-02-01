@@ -66,8 +66,13 @@
         <!-- Link to linked interactions possible (use interaction id) -->
         <linkedinteractions>
             <category id="installuninstalllinux">
+                <interaction order="1">installapplinux</interaction>
+                <interaction order="2">uninstallapplinux</interaction>
+                <interaction order="3">aptrepository</interaction>
+                <interaction order="4">yumrepository</interaction>
             </category>
             <category id="scriptslinux">
+                <interaction order="1">bashscript</interaction>
             </category>
             <category id="otherslinux">
                 <interaction order="1">store</interaction>
