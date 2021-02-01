@@ -1724,13 +1724,23 @@
 9317 Update Agent
 9318 Install with WinGet (Powershell)
 
-9340 Text
-9341 File
+9340 Script
+9341 MSI File
 9342 Select
 9343 Number
 9344 Description field
 9345 HTTP
 9346 HTTPS
+9347 Arguments (optionnal)
+9348 Packager file
+9349 Application name
+9350 Application identifier
+9351 How to find wmic application identifier : blablabla
+9352 EXE File
+9353 Script file
+9354 Write your script here or put your script file
+9355 Put your packager file with all parameters inside
+9356 If multiple files, please zip before
 
 9500 Merge selected duplicates
 9501 Merge all duplicates
