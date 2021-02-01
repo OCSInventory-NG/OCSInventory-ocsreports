@@ -40,6 +40,9 @@ class PackageBuilderFormOptions
         
         foreach($optionInfos->formoption as $formblock) {
             foreach($formblock as $formblockDetails) {
+                if($formblockDetails->description) {
+                    $html .= '<center><div id="my-alert-" class="alert alert-info fade in" role="alert">'.$l->g(intval($formblockDetails->description)).'</div></center>';
+                }
                 $html .= '<div class="form-group">';
                 if(intval($formblockDetails->label) != 0) {
                     $html .= '<label class="control-label col-sm-2" for="'.$formblockDetails->id.'">'.$l->g(intval($formblockDetails->label)).'</label>';
@@ -49,7 +52,7 @@ class PackageBuilderFormOptions
                 $html .= '</div></div>';
                 if($formblockDetails->id == "NOTIFY_USER" || $formblockDetails->id == "NEED_DONE_ACTION") {
                     $html .= '<div id="'.$formblockDetails->id.'_div" style="display: none;">';
-                } elseif ($formblockDetails->id == "NOTIFY_CAN_DELAY" || $formblockDetails->id == "NEED_DONE_ACTION_TEXT") {
+                } elseif ($formblockDetails->id == "NOTIFY_CAN_DELAY" || $formblockDetails->id == "NEED_DONE_ACTION_TEXT" || ($optionInfos->id == "uninstallopt" && $formblockDetails->id == "NOTIFY_COUNTDOWN")) {
                     $html .= '</div>';
                 }
             }
