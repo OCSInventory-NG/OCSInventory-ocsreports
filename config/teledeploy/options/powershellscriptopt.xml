@@ -33,7 +33,6 @@
             <type>hidden</type>
             <disabled>false</disabled>
             <defaultvalue>powershellscriptopt</defaultvalue>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -43,7 +42,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -53,7 +51,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
@@ -64,7 +61,7 @@
             <language>powershell</language>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
+            <description>9354</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -74,17 +71,15 @@
             <type>hidden</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description></description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
             <id>additionalfiles</id>
-            <label>9341</label>
+            <label>9353</label>
             <mandatory>false</mandatory>
             <type>file</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
     </formoption>

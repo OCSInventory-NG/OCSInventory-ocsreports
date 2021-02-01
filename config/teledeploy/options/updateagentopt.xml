@@ -33,7 +33,6 @@
             <type>hidden</type>
             <disabled>false</disabled>
             <defaultvalue>updateagentopt</defaultvalue>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -43,7 +42,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript>onkeyup="verifPackageName(this);"</javascript>
         </formblock>
@@ -54,17 +52,16 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
             <id>additionalfiles</id>
-            <label>9341</label>
+            <label>9348</label>
             <mandatory>required</mandatory>
             <type>file</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
+            <description>9355</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
     </formoption>

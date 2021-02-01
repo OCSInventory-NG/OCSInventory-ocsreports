@@ -33,7 +33,6 @@
             <type>hidden</type>
             <disabled>false</disabled>
             <defaultvalue>executableopt</defaultvalue>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -43,7 +42,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript>onkeyup="verifPackageName(this);"</javascript>
         </formblock>
@@ -54,27 +52,24 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
-            <id>pathfile</id>
-            <label>444</label>
-            <mandatory>required</mandatory>
-            <type>text</type>
-            <disabled>false</disabled>
-            <defaultvalue/>
-            <description>9344</description>
-            <specialcharallowed>false</specialcharallowed>
-        </formblock>
-        <formblock>
             <id>additionalfiles</id>
-            <label>9341</label>
+            <label>9352</label>
             <mandatory>required</mandatory>
             <type>file</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>pathfile</id>
+            <label>9347</label>
+            <mandatory></mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
     </formoption>

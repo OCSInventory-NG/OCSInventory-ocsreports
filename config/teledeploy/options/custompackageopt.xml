@@ -35,7 +35,6 @@
             <type>hidden</type>
             <disabled>false</disabled>
             <defaultvalue>custompackageopt</defaultvalue>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -45,7 +44,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -55,7 +53,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
@@ -75,7 +72,6 @@
                     <name>9346</name>
                 </option>
             </options>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript/>
         </formblock>
@@ -87,7 +83,6 @@
             <disabled>false</disabled>
             <defaultvalue/>
             <options/>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript/>
         </formblock>
@@ -98,7 +93,6 @@
             <type>file</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
@@ -122,7 +116,6 @@
                     <name>458</name>
                 </option>
             </options>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript>onchange="changeLabelAction()"</javascript>
         </formblock>
@@ -133,7 +126,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
@@ -153,7 +145,6 @@
                     <name>455</name>
                 </option>
             </options>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript>onchange="notifyUser()"</javascript>
         </formblock>
@@ -164,7 +155,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
@@ -174,7 +164,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>true</specialcharallowed>
             <javascript>onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"</javascript>
         </formblock>
@@ -195,7 +184,6 @@
                     <name>455</name>
                 </option>
             </options>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript/>
         </formblock>
@@ -216,7 +204,6 @@
                     <name>455</name>
                 </option>
             </options>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript/>
         </formblock>
@@ -237,7 +224,6 @@
                     <name>455</name>
                 </option>
             </options>
-            <description>9344</description>
             <specialcharallowed>false</specialcharallowed>
             <javascript>onchange="needDoneAction()"</javascript>
         </formblock>
@@ -248,7 +234,6 @@
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
-            <description>9344</description>
             <specialcharallowed>true</specialcharallowed>
         </formblock>
     </formoption>
