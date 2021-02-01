@@ -1724,6 +1724,12 @@
 9317 Update Agent
 9318 Install with WinGet (Powershell)
 
+9319 Install application
+9320 Uninstall application
+9321 Add apt repository
+9322 Add yum repository
+9323 Bash script
+
 9340 Script
 9341 MSI File
 9342 Select
