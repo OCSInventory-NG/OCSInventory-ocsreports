@@ -1362,6 +1362,10 @@
 1484 Time of validity of a CVE after OCS Inventory scan
 1485 By software
 1486 By computer
+1487 The authentication is temporarily blocked because of too many failed. Please try later.
+1488 Enable authentication security
+1489 Number of attempt
+1490 Time to waiting
 
 1500 Software category
 1501 New category

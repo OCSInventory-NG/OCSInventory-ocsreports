@@ -33,6 +33,7 @@
 require_once(BACKEND . 'require/connexion.php');
 require_once(BACKEND . 'require/auth.manager.php');
 
+$auth = look_config_default_values(['SECURITY_AUTHENTICATION_BLOCK_IP', 'SECURITY_AUTHENTICATION_NB_ATTEMPT', 'SECURITY_AUTHENTICATION_TIME_BLOCK']);
 
 // You don't have to change these variables anymore, see var.php
 $affich_method = get_affiche_methode();
@@ -55,6 +56,37 @@ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($prot
     $mdp = $_SERVER['PHP_AUTH_PW'];
 } 
 
+if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $maxTry = $auth['ivalue']['SECURITY_AUTHENTICATION_NB_ATTEMPT'];
+    $timeBlock = $auth['ivalue']['SECURITY_AUTHENTICATION_TIME_BLOCK'];
+    $max = 0;
+
+    $sql = "SELECT * FROM auth_attempt WHERE IP = '$ip'";
+    $res = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
+      
+    while ($row = mysqli_fetch_object($res)) {
+        $datetime = new DateTime($row->DATETIMEATTEMPT);
+        $timestamp = $datetime->getTimestamp();
+        if ($timestamp > $max){
+            $max = $timestamp;
+        }      
+    }
+    if ($max + $timeBlock < $_SERVER['REQUEST_TIME']){
+        $sql = "DELETE FROM auth_attempt WHERE IP = '$ip'";
+        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
+        $timeEnd = true;
+    } else {
+        $timeEnd = false;
+    }
+    
+    if ($res->num_rows >= $maxTry && !$timeEnd){
+        $limitAttempt = true;
+    } else {
+        $limitAttempt = false;
+    }
+}
+
 if (isset($login) && isset($mdp)) {
     $i = 0;
     while ($list_methode[$i]) {
@@ -65,7 +97,7 @@ if (isset($login) && isset($mdp)) {
     }
 }
 // login ok?
-if ($login_successful == "OK" && isset($login_successful)) {
+if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
     $_SESSION['OCS']["loggeduser"] = $login;
     $_SESSION['OCS']['cnx_origine'] = $cnx_origine;
     $_SESSION['OCS']['user_group'] = $user_group;
@@ -88,7 +120,62 @@ if ($login_successful == "OK" && isset($login_successful)) {
         unset($protectedGet);
     }
 
+} elseif (isset($limitAttempt) && $limitAttempt){
+    if ($affich_method == 'HTML') {
+        require_once (HEADER_HTML);
+        if (isset($protectedPost['Valid_CNX'])) {
+            $login_successful = $l->g(1458);
+            msg_error($login_successful);
+            flush();
+            //you can't send a new login/passwd before 2 seconds
+            sleep(2);
+        }
+        $value_logo = look_config_default_values('CUSTOM_THEME');
+        if(is_null($value_logo)){
+          $value_logo['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
+        }
+        ?>
+        <div class="login-page-container"></div>
+        <div class="container">
+            <div class="col-md-4 col-md-offset-4">
+                <?php echo '<img class="profile-img" src="themes/'.$value_logo['tvalue']['CUSTOM_THEME'].'/logo.png" />'; ?>
+                <div class="center-block text-center">
+                    <?php require_once(LANGUAGE_DIR . 'language.php'); ?>
+                </div>
+                <br />
+                <form method="post" name="CHANGE">
+
+                    <div class="form-group">
+                        <label for="LOGIN"><?php echo $l->g(243); ?> :</label>
+                        <input type="text" class="form-control login-username-input" name="LOGIN" id="LOGIN" placeholder="<?php echo $l->g(243); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="PASSWD"><?php echo $l->g(217); ?> :</label>
+                        <input type="password" class="form-control login-password-input" name="PASSWD" id="PASSWD" placeholder="<?php echo $l->g(217); ?>">
+                    </div>
+
+                    <input type="submit" class="btn btn-lg btn-block btn-success login-btn" id="btn-logon" name="Valid_CNX" value="<?php echo $l->g(13); ?>" />
+                </form>
+            </div>
+        </div><!-- /container -->
+
+        <?php
+        require_once(FOOTER_HTML);
+        die();
+    } else {
+        header('WWW-Authenticate: Basic realm="OcsinventoryNG"');
+        header('HTTP/1.0 401 Unauthorized');
+        die();
+    }
 } else {
+    if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
+        $sql = "INSERT INTO auth_attempt (`DATETIMEATTEMPT`,`LOGIN`,`IP`,`SUCCESS`)
+        VALUES ('%s','%s','%s','%s')";
+        $datetime = new DateTime();
+        $arg = array($datetime->format('Y-m-d H:i:s'), $login, $_SERVER['REMOTE_ADDR'], 0);
+        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+    }
+
     //show HTML form
     if ($affich_method == 'HTML') {
         require_once (HEADER_HTML);
