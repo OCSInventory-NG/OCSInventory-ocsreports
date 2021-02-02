@@ -84,6 +84,7 @@ if(isset($protectedPost['valid'])) {
     echo '<div id="deployment_options">';
     // Generate with ajax
     echo '</div>';
+    echo '<input type="hidden" value="" id="os_selected" name="os_selected">';
     echo close_form();
 }
 

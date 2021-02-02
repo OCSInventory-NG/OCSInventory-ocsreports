@@ -324,6 +324,7 @@ function searchInMIB() {
 function loadInteractions(os) {
     $('#interactions').removeClass("disabled ocs-disabled").addClass("active");
     $('#operatingsystem').hide();
+    $('#os_selected').val(os);
 
     if(os == "windows") {
         $('#windowsInteractions').show();
