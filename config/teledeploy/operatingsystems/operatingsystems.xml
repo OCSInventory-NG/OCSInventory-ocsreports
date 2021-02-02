@@ -105,8 +105,13 @@
         <!-- Link to linked interactions possible (use interaction id) -->
         <linkedinteractions>
             <category id="installuninstallmacos">
+                <interaction order="1">installappmacos</interaction>
+                <interaction order="2">installpkgmacos</interaction>
+                <interaction order="3">installappbrew</interaction>
             </category>
             <category id="scriptsmacos">
+                <interaction order="1">applescript</interaction>
+                <interaction order="2">bashscript</interaction>
             </category>
             <category id="othersmacos">
                 <interaction order="1">store</interaction>
