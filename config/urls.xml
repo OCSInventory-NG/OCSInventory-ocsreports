@@ -132,12 +132,8 @@
         <value>console</value>
         <directory>ms_console</directory>
     </url>
-    <url key="ms_tele_package">
-        <value>tele_package</value>
-        <directory>ms_teledeploy</directory>
-    </url>
     <url key="ms_tele_build">
-        <value>build_test</value>
+        <value>tele_build</value>
         <directory>ms_teledeploy</directory>
     </url>
     <url key="ms_tele_modify">

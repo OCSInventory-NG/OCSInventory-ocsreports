@@ -46,10 +46,6 @@
     <label>g(512)</label>
     <url>ms_teledeploy</url>
     <submenu>
-      <menu-elem id="ms_tele_package">
-        <label>g(513)</label>
-        <url>ms_tele_package</url>
-      </menu-elem>
       <menu-elem id="ms_tele_build">
         <label>g(513)</label>
         <url>ms_tele_build</url>
