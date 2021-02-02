@@ -102,11 +102,19 @@ class PackageBuilder
 			}
 
 			// If not an archive
-			if (strtoupper($extention) != "ZIP" && strtoupper($extention) != "GZ") {
-				if($post['FORMTYPE'] == "updateagentopt") {
-					$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename, true);
-				}else {
-					$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename);
+			if (strtoupper($extention) != "ZIP" && strtoupper($extention) != "GZ") { 
+				//switch os selected to zip or tar
+				switch($post['os_selected']) {
+					case 'windows':
+						if($post['FORMTYPE'] == "updateagentopt") {
+							$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename, true);
+						} else {
+							$filepath = $this->zipScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename);
+						}
+						break;
+					default:
+						$filepath = $this->tarScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename);
+						break;
 				}	
 			} else {
 				$filepath = $file["additionalfiles"]["tmp_name"];
@@ -116,11 +124,23 @@ class PackageBuilder
 			// Create package archive
 			$details = $this->fragmentPackage($filepath, $downloadPath, $timestamp);
 		} elseif(isset($post['getcode']) && file_exists($downloadPath.'/'.$xmlDetails->packagebuilder->codeasfile->filename)) {
-			$zipScript = $this->zipScriptFile($downloadPath.'/', $xmlDetails->packagebuilder->codeasfile->filename);
-			$digest = md5_file($zipScript);
-			// Create package archive
-			$details = $this->fragmentPackage($zipScript, $downloadPath, $timestamp);
-			unlink($zipScript);
+			$fileNameInArchive = $xmlDetails->packagebuilder->codeasfile->filename;
+			switch($post['os_selected']) {
+				case 'windows':
+					$zipScript = $this->zipScriptFile($downloadPath.'/', $fileNameInArchive, $fileNameInArchive);
+					$digest = md5_file($zipScript);
+					// Create package archive
+					$details = $this->fragmentPackage($zipScript, $downloadPath, $timestamp);
+					unlink($zipScript);
+					break;
+				default:
+					$tarScript = $this->tarScriptFile($downloadPath.'/', $fileNameInArchive, $fileNameInArchive);
+					$digest = md5_file($tarScript);
+					// Create package archive
+					$details = $this->fragmentPackage($tarScript, $downloadPath, $timestamp);
+					unlink($tarScript);
+					break;
+			}	
 		}
 
 		// Replace dynamic value from xml
@@ -134,7 +154,7 @@ class PackageBuilder
 		$handinfo = fopen($downloadPath."/info", "w+");
         fwrite($handinfo, $info);
 		fclose($handinfo);
-		
+
 		//delete all package with the same id
 		mysql2_query_secure("DELETE FROM download_available WHERE FILEID='%s'", $_SESSION['OCS']["writeServer"], $timestamp);
 		
@@ -147,7 +167,7 @@ class PackageBuilder
 			$xmlDetails->packagedefinition->PRI, 
 			$details['frag'],
 			$details['size'], 
-			$xmlDetails->refos, 
+			strtoupper($post["os_selected"]), 
 			$post['DESCRIPTION']
 		);
 			
@@ -169,11 +189,31 @@ class PackageBuilder
 		return $packageInfos;
 	}
 
-	private function zipScriptFile($path, $name, $newName, $attachmentScript = null) {
-		$zip = new ZipArchive();
+	private function tarScriptFile($path, $name, $newName) {
+		$DelFilePath = $path.$name;
+		$tarPath = $path.$name.".tar";
 
+		try {
+			$tar = new PharData($tarPath);
+			// ADD FILES TO archive.tar FILE
+			$tar->addFile($DelFilePath, $newName);
+			// COMPRESS archive.tar FILE. COMPRESSED FILE WILL BE archive.tar.gz
+			$tar->compress(Phar::GZ);
+			// NOTE THAT BOTH FILES WILL EXISTS. SO IF YOU WANT YOU CAN UNLINK archive.tar
+			unlink($tarPath);
+			unlink($DelFilePath);
+		} catch (Exception $e) {
+			error_log(print_r("error when tar gz file",true));
+		}
+
+		return $tarPath.".gz";
+	}
+
+	private function zipScriptFile($path, $name, $newName, $attachmentScript = null) {
 		$DelFilePath = $path.$name;
 		$zipPath = $path.$name.".zip";
+
+		$zip = new ZipArchive();
 		
 		if($zip->open($zipPath, ZIPARCHIVE::CREATE) == TRUE) {
 			$zip->addFile($DelFilePath, $newName);
