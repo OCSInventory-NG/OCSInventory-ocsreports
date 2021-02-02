@@ -83,7 +83,7 @@
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
-            <id>pathfile</id>
+            <id>arguments</id>
             <label>9347</label>
             <mandatory></mandatory>
             <type>text</type>
@@ -128,7 +128,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>osascript applescript.scpt</COMMAND> 
+        <COMMAND>osascript applescript.scpt :arguments:</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
