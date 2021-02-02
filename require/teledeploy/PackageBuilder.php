@@ -200,8 +200,12 @@ class PackageBuilder
 			// COMPRESS archive.tar FILE. COMPRESSED FILE WILL BE archive.tar.gz
 			$tar->compress(Phar::GZ);
 			// NOTE THAT BOTH FILES WILL EXISTS. SO IF YOU WANT YOU CAN UNLINK archive.tar
-			unlink($tarPath);
-			unlink($DelFilePath);
+			if(file_exists($DelFilePath)) {
+				unlink($DelFilePath); 
+			}
+			if(file_exists($tarPath)) {
+				unlink($tarPath); 
+			}
 		} catch (Exception $e) {
 			error_log(print_r("error when tar gz file",true));
 		}
