@@ -1728,13 +1728,18 @@
 9320 Uninstall application
 9321 Add apt repository
 9322 Add yum repository
-9323 Bash script
+9323 Bash / sh script
+
+9324 Install .app application
+9325 Install .pkg application
+9326 Install with brew
+9327 Apple script
 
 9340 Script
-9341 MSI File
-9342 Select
-9343 Number
-9344 Description field
+9341 MSI file
+9342 Repository URL
+9343 .app file
+9344 .pkg file
 9345 HTTP
 9346 HTTPS
 9347 Arguments (optionnal)
@@ -1742,11 +1747,15 @@
 9349 Application name
 9350 Application identifier
 9351 How to find wmic application identifier : blablabla
-9352 EXE File
+9352 EXE file
 9353 Script file
 9354 Write your script here or put your script file
 9355 Put your packager file with all parameters inside
 9356 If multiple files, please zip before
+9357 Packager type
+9358 apt
+9359 yum
+9360 dnf
 
 9500 Merge selected duplicates
 9501 Merge all duplicates
