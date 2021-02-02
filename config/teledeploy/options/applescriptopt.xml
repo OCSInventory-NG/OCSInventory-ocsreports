@@ -6,13 +6,8 @@
     <name>9327</name>
     <!-- Linked reference id -->
     <refint>applescript</refint>
-    <!-- Linked operating system ID -->
-    <refos>windows</refos>
-    <!-- Fragmentation node -->
-    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>false</fragmentation>
     <!-- Replace value on xml ? true / false -->
-    <replace>false</replace>
+    <replace>true</replace>
     <!-- Form options-->
     <formoption>
         <!-- 
@@ -119,7 +114,7 @@
     <packagedefinition>
         <!--
             Package definition will create the info file containing the instructions needed for deployment
-            variables from formoptions can be used with :formblockid 
+            variables from formoptions can be used with :formblockid:
         -->
         <!-- Priority -->
         <PRI>5</PRI>

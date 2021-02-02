@@ -6,13 +6,8 @@
     <name>9324</name>
     <!-- Linked reference id -->
     <refint>installappmacos</refint>
-    <!-- Fragmentation node -->
-    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>true</fragmentation>
     <!-- Replace value on xml ? true / false -->
-    <replace>true</replace>
-    <!-- Linked operating system ID -->
-    <refos>macos</refos>
+    <replace>false</replace>
     <!-- Form options-->
     <formoption>
         <!-- 
@@ -71,6 +66,13 @@
             - codeasfile : will get code formblock content and put it in a file
             - filesinarchive : will get file typed form block and put it in the final archive
         -->
+        <filesinarchive>
+            <!-- Target formblock id-->
+            <targetid>additionalfiles</targetid>
+            <replacename>application.app</replacename>
+            <!-- Force a specific file name in ouput, no action performed if empty -->
+            <filename/>
+        </filesinarchive>
     </packagebuilder>
     <!-- Package definition -->
     <packagedefinition>
@@ -85,7 +87,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>installer -app :additionalfiles:</COMMAND> 
+        <COMMAND>installer -app application.app</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->

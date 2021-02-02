@@ -6,11 +6,6 @@
     <name>9314</name>
     <!-- Linked reference id -->
     <refint>powershellscript</refint>
-    <!-- Linked operating system ID -->
-    <refos>windows</refos>
-    <!-- Fragmentation node -->
-    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>false</fragmentation>
     <!-- Replace value on xml ? true / false -->
     <replace>false</replace>
     <!-- Form options-->

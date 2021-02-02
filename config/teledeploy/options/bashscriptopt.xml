@@ -6,13 +6,8 @@
     <name>9323</name>
     <!-- Linked reference id -->
     <refint>bashscript</refint>
-    <!-- Linked operating system ID -->
-    <refos>windows</refos>
-    <!-- Fragmentation node -->
-    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>false</fragmentation>
     <!-- Replace value on xml ? true / false -->
-    <replace>false</replace>
+    <replace>true</replace>
     <!-- Form options-->
     <formoption>
         <!-- 

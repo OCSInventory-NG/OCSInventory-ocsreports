@@ -6,13 +6,8 @@
     <name>9318</name>
     <!-- Linked reference id -->
     <refint>winget</refint>
-    <!-- Fragmentation node -->
-    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>true</fragmentation>
     <!-- Replace value on xml ? true / false -->
     <replace>true</replace>
-    <!-- Linked operating system ID -->
-    <refos>windows</refos>
     <!-- Form options-->
     <formoption>
         <!-- 

@@ -6,13 +6,8 @@
     <name>9326</name>
     <!-- Linked reference id -->
     <refint>installappbrew</refint>
-    <!-- Fragmentation node -->
-    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>true</fragmentation>
     <!-- Replace value on xml ? true / false -->
     <replace>true</replace>
-    <!-- Linked operating system ID -->
-    <refos>macos</refos>
     <!-- Form options-->
     <formoption>
         <!-- 

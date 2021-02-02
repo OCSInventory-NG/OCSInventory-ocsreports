@@ -6,13 +6,8 @@
     <name>9321</name>
     <!-- Linked reference id -->
     <refint>aptreposiroty</refint>
-    <!-- Fragmentation node -->
-    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>true</fragmentation>
     <!-- Replace value on xml ? true / false -->
     <replace>true</replace>
-    <!-- Linked operating system ID -->
-    <refos>linux</refos>
     <!-- Form options-->
     <formoption>
         <!-- 
@@ -76,7 +71,7 @@
     <packagedefinition>
         <!--
             Package definition will create the info file containing the instructions needed for deployment
-            variables from formoptions can be used with :formblockid 
+            variables from formoptions can be used with :formblockid:
         -->
         <!-- Priority -->
         <PRI>5</PRI>

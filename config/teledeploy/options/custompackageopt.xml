@@ -6,11 +6,6 @@
     <name>9311</name>
     <!-- Linked reference id -->
     <refint>custompackage</refint>
-    <!-- Linked operating system ID -->
-    <refos>all</refos>
-    <!-- Fragmentation node -->
-    <!-- Is fragmentation needed for this interaction ? (false will skip fragmentation part) -->
-    <fragmentation>false</fragmentation>
     <!-- Replace value on xml ? true / false -->
     <replace>true</replace>
     <!-- Form options-->
