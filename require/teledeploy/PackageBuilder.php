@@ -204,10 +204,12 @@ class PackageBuilder
 	private function replaceXmlValue($post, $xmlDetails) {
 		foreach($xmlDetails->packagedefinition as $packagedefinition) {
 			foreach ($packagedefinition as $key => $value) {
-				if(strpos($value, ":") !== false) {
-					$xmlDetails->packagedefinition->$key = $post[ltrim($value, ':')];	
+				if (preg_match_all('/:(.*?):/', $value, $match) != 0) {
+					foreach($match[0] as $id => $replace) {
+						$xmlDetails->packagedefinition->$key = str_replace($replace, $post[$match[1][$id]], $xmlDetails->packagedefinition->$key);
+					}
 				}
-			}	
+			}
 		}
 
 		return $xmlDetails;
