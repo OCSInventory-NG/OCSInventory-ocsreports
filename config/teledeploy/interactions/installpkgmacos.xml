@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interactiondefinition>
     <!-- Id of the interaction -->
-    <id>bashscript</id>
+    <id>installpkgmacos</id>
     <!-- Name of the interaction -->
-    <name>9323</name>
+    <name>9325</name>
     <!-- Linked operating system ID -->
-    <refos>all</refos>
+    <refos>macos</refos>
     <!-- Image reference -->
-    <imgref>image/console.png</imgref>
+    <imgref>image/installing.png</imgref>
     <!-- Linked option -->
-    <linkedoptions>bashscriptopt</linkedoptions>
+    <linkedoptions>installpkgmacosopt</linkedoptions>
 </interactiondefinition>

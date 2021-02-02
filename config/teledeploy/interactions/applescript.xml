@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interactiondefinition>
     <!-- Id of the interaction -->
-    <id>bashscript</id>
+    <id>applescript</id>
     <!-- Name of the interaction -->
-    <name>9323</name>
+    <name>9327</name>
     <!-- Linked operating system ID -->
-    <refos>all</refos>
+    <refos>macos</refos>
     <!-- Image reference -->
-    <imgref>image/console.png</imgref>
+    <imgref>image/apple-logo.png</imgref>
     <!-- Linked option -->
-    <linkedoptions>bashscriptopt</linkedoptions>
+    <linkedoptions>applescriptopt</linkedoptions>
 </interactiondefinition>
