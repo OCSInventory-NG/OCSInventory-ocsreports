@@ -99,7 +99,7 @@
     <packagedefinition>
         <!--
             Package definition will create the info file containing the instructions needed for deployment
-            variables from formoptions can be used with :formblockid 
+            variables from formoptions can be used with :formblockid: 
         -->
         <!-- Priority -->
         <PRI>5</PRI>
@@ -108,7 +108,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>:linux_type install -y :application_name</COMMAND> 
+        <COMMAND>:linux_type: install -y :application_name:</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->

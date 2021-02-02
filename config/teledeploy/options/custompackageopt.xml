@@ -269,26 +269,26 @@
             variables from formoptions can be used with :formblockid 
         -->
         <!-- Priority -->
-        <PRI>:PRI</PRI>
+        <PRI>:PRI:</PRI>
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
-        <ACT>:ACT</ACT>
+        <ACT>:ACT:</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>:PROTO</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
-        <COMMAND>:pathfile</COMMAND> 
+        <COMMAND>:pathfile:</COMMAND> 
         <!-- Notify user -->
-        <NOTIFY_USER>:NOTIFY_USER</NOTIFY_USER>
+        <NOTIFY_USER>:NOTIFY_USER:</NOTIFY_USER>
         <!-- Notify text -->
-        <NOTIFY_TEXT>:NOTIFY_TEXT</NOTIFY_TEXT>
+        <NOTIFY_TEXT>:NOTIFY_TEXT:</NOTIFY_TEXT>
         <!-- Notify popup countdown -->
-        <NOTIFY_COUNTDOWN>:NOTIFY_COUNTDOWN</NOTIFY_COUNTDOWN>
+        <NOTIFY_COUNTDOWN>:NOTIFY_COUNTDOWN:</NOTIFY_COUNTDOWN>
         <!-- Can user abort -->
-        <NOTIFY_CAN_ABORT>:NOTIFY_CAN_ABORT</NOTIFY_CAN_ABORT>
+        <NOTIFY_CAN_ABORT>:NOTIFY_CAN_ABORT:</NOTIFY_CAN_ABORT>
         <!-- Can user delay -->
-        <NOTIFY_CAN_DELAY>:NOTIFY_CAN_DELAY</NOTIFY_CAN_DELAY>
+        <NOTIFY_CAN_DELAY>:NOTIFY_CAN_DELAY:</NOTIFY_CAN_DELAY>
         <!-- Need finish action on deployment -->
-        <NEED_DONE_ACTION>:NEED_DONE_ACTION</NEED_DONE_ACTION>
+        <NEED_DONE_ACTION>:NEED_DONE_ACTION:</NEED_DONE_ACTION>
         <!-- End deployment popup -->
-        <NEED_DONE_ACTION_TEXT>:NEED_DONE_ACTION_TEXT</NEED_DONE_ACTION_TEXT>
+        <NEED_DONE_ACTION_TEXT>:NEED_DONE_ACTION_TEXT:</NEED_DONE_ACTION_TEXT>
     </packagedefinition>
 </optionsdefinition>

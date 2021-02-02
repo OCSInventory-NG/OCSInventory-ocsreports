@@ -64,7 +64,7 @@
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
-            <id>pathfile</id>
+            <id>arguments</id>
             <label>9347</label>
             <mandatory></mandatory>
             <type>text</type>
@@ -94,7 +94,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>:linux_type install -y :application_name</COMMAND> 
+        <COMMAND>installer -pkg :additionalfiles: :arguments:</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->

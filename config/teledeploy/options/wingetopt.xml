@@ -55,7 +55,7 @@
             <specialcharallowed>true</specialcharallowed>
         </formblock>
         <formblock>
-            <id>pathfile</id>
+            <id>application_name</id>
             <label>9349</label>
             <mandatory>required</mandatory>
             <type>text</type>
@@ -85,7 +85,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>:pathfile</COMMAND> 
+        <COMMAND>winget install :application_name:</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->

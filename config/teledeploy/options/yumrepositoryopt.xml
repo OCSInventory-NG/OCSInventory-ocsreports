@@ -85,7 +85,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>yum remove -y :repository_url</COMMAND> 
+        <COMMAND>yum-config-manager --add-repo :repository_url:</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
