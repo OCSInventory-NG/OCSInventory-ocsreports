@@ -76,14 +76,10 @@ if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
         $sql = "DELETE FROM auth_attempt WHERE IP = '$ip'";
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
         $timeEnd = true;
-    } else {
-        $timeEnd = false;
     }
     
     if ($res->num_rows >= $maxTry && !$timeEnd){
         $limitAttempt = true;
-    } else {
-        $limitAttempt = false;
     }
 }
 
@@ -96,6 +92,7 @@ if (isset($login) && isset($mdp)) {
         $i++;
     }
 }
+
 // login ok?
 if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
     $_SESSION['OCS']["loggeduser"] = $login;
@@ -124,7 +121,7 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
     if ($affich_method == 'HTML') {
         require_once (HEADER_HTML);
         if (isset($protectedPost['Valid_CNX'])) {
-            $login_successful = $l->g(1458);
+            $login_successful = $l->g(1487);
             msg_error($login_successful);
             flush();
             //you can't send a new login/passwd before 2 seconds
