@@ -400,16 +400,16 @@ if ($protectedPost['onglet'] == 1) {
         <div class='col-sm-10'>";
         // if file can not be read correctly (probably due to wrong separator), close and delete it
         if ($protectedPost['csv_header'] == false ) {
-            msg_error($l->g(9206));
+            msg_error($l->g(9606));
             fclose($handle);
             $delete_csv = $csvObj->deleteCSV($protectedPost['csv_filename']);
             $protectedPost['wrong_file'] = 'wrong file';
             echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
         } else {
-            msg_info($l->g(9208));
-            msg_success($l->g(9207));
+            msg_info($l->g(9608));
+            msg_success($l->g(9607));
             // display form for CSV field selection
-            formGroup('select', 'csv_field', $l->g(9200), '', '', $protectedPost['csv_field'], '', $protectedPost['csv_header'], $protectedPost['csv_header']);
+            formGroup('select', 'csv_field', $l->g(9600), '', '', $protectedPost['csv_field'], '', $protectedPost['csv_header'], $protectedPost['csv_header']);
             echo "<br><br><input type='submit' name='valid_csv_field' id='valid_csv_field' class='btn btn-success' value=".$l->g(1264)."><br><br>";
             echo "<input type='hidden' name ='csv_filename' id='csv_filename' value= ".$protectedPost['csv_filename'].">";
             // close file
@@ -432,9 +432,9 @@ if ($protectedPost['onglet'] == 1) {
         ?>
     
             <div class="col-sm-10">
-            <?php echo msg_info($l->g(9209)); ?>
+            <?php echo msg_info($l->g(9609)); ?>
                 <div class="form-group">
-                    <label class='control-label col-sm-2' for='table_select'><?php echo $l->g(9201) ?></label>
+                    <label class='control-label col-sm-2' for='table_select'><?php echo $l->g(601) ?></label>
                     <div class="col-sm-10">
                         <select class="form-control" name="column_select">
                             <?php 
@@ -475,7 +475,7 @@ if ($protectedPost['onglet'] == 1) {
         array_unshift($ocs_fields, "----");
 
         echo '<div class="col-sm-10">';
-        msg_info($l->g(9210));
+        msg_info($l->g(9610));
         echo '  <div class="dataTables_scrollBody" style="overflow: auto; width: 100%;"> 
                     <table width="100%" class="table table-striped table-condensed table-hover cell-border dataTable no-footer" role="grid" style="margin-left: 0px; width: 100%;">
                         <thead>
@@ -531,11 +531,11 @@ if ($protectedPost['onglet'] == 1) {
         function logCSVErrors($lvl) {
             switch ($lvl) {
                 case '1':
-                    return $error = 9202;
+                    return $error = 9602;
                 case '2':
-                    return $error = 9203;
+                    return $error = 9603;
                 case '3':
-                    return $error = 9204;
+                    return $error = 9604;
             }
         }
 
@@ -592,7 +592,7 @@ if ($protectedPost['onglet'] == 1) {
         echo "<br><input type='submit' name='import_new' id='import_new' class='btn btn-success' value=". $l->g(188)."><br><br>";
 
         if ($success != '') {
-            msg_info($l->g(9205));
+            msg_info($l->g(9605));
         }
         foreach ($errors as $key => $error) {
             $error = "CSV line $key : ".$l->g($error);
