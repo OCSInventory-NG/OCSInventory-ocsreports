@@ -87,7 +87,6 @@ function add_user($data_user, $list_profil = '') {
         }
         if ($passwordConfig['ivalue']['SECURITY_PASSWORD_FORCE_SPE_CHAR'] == 1){
             if (strpbrk($password, '*.! @#$%^&(){}[]:;<>,.?/~_+-=|\\') === false){
-                echo $password;
                 $ERROR = $l->g(1499);
             }
         }
