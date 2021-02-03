@@ -72,7 +72,7 @@
 129 Like
 130 Different
 134 Add a new file in the database
-135 Be careful, you're about to delete this file permanently!
+135 Be careful, you're about to delete this file permanently !
 137 File
 140 Super administrators
 141 Administrators
@@ -80,7 +80,7 @@
 143 teledeploy requesters
 162 Remove Selected
 168 This format file is invalid (it must be exe)
-170 The same file already exists!
+170 The same file already exists !
 171 File deleted
 172 An error is appeared, the file
 173 don't be added to the base
@@ -130,7 +130,7 @@
 219 uninventoried network interfaces
 220 deleted
 221 IP gathering computers
-222 Warning! All selected computers are going to be merged in a single computer! Are you sure?
+222 Warning ! All selected computers are going to be merged in a single computer! Are you sure?
 223 Information
 224 Value
 225 Admininfo
@@ -303,7 +303,7 @@
 397 Go to the category
 398 Categories list
 410 EXACTLY
-411 Fields must contain only numbers!
+411 Fields must contain only numbers !
 412 Registry key gathering functionality
 413 Automatic update functionality
 414 Automatic deployment functionality
@@ -1327,7 +1327,7 @@
 1448 Is null
 1449 General configuration
 1450 ID
-1451 Static?
+1451 Static ?
 1452 Warranty begin
 1453 GUID
 1454 Source
@@ -1532,7 +1532,7 @@
 2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
 2126 Assets categorization
 2127 The current multi search query will be used as an asset categorization criteria.
-2128 Are you sure?
+2128 Are you sure ?
 2129 Back to multi search
 2130 Assets categories
 2131 Number of machines per category
@@ -1599,15 +1599,15 @@
 7009 Installed Extensions
 7010 This extension has been already installed
 7011 is an invalid extension, check your sources.
-7012 Installation aborted!
+7012 Installation aborted !
 7013 installed
 7014 There is currently no extensions available for installation
-7015 Select at least one computer!
+7015 Select at least one computer !
 7016 MTU
-7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation.
+7017 Extension successfull installed ! <br> Please, logout and re-log to finish the console installation.
 7018 This extension is allready installed.
 7019 A PHP error occurred.
-7020 Extension successfully uninstalled!
+7020 Extension successfull desinstalled !
 7021 Extension "%s" not compliant
 7022 Missing function "%s" in "%s"!
 7023 Unable to include install.php
@@ -1656,7 +1656,7 @@
 8200 Schedule a Wake On Lan
 8201 Save
 8202 WOL date/time
-8203 WOL saved!
+8203 WOL saved !
 
 9000 SNMP configuration
 9001 Create type
@@ -1665,7 +1665,7 @@
 9004 OID
 9005 OID string value
 9006 Label name
-9007 <b>The name is unique and must not contain any special characters except underscore.</b></br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
+9007 Type name is unique and must not contain any special characters except underscore.</br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
 9008 Add MIB file
 9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
 9010 Server SNMP MIBs directory
@@ -1680,15 +1680,6 @@
 9019 OID name string
 9020 Add to SNMP Model
 9021 Search for specific row
-9022 Can't create type with empty OID or empty OID string value
-9023 Type name already exists
-9024 An error happened during the SNMP type creation
-9025 Label already exists
-9026 An error happened during the SNMP label creation
-9027 An error happened during the SNMP configuration
-9028 An error happened during the type deletion
-9029 An error happened during the label deletion
-9030 An error happened during the config deletion
 
 9100 SSL key path
 9101 SSL certificat path
@@ -1697,10 +1688,15 @@
 9104 CA certificat path
 9105 MySQL Port
 
-9200 Package deployment for computer
-9201 Package deployment for selection
-9202 Package deployment for group
-
-9500 Merge selected duplicates
-9501 Merge all duplicates
-9502 Duplicates by :
+9600 CSV reconciliation field :
+9601 OCS reconciliation field :
+9602 Empty value
+9603 No corresponding device found in OCS database
+9604 Update failed
+9605 Admin data was imported from CSV, see below for any errors
+9606 CSV can not be read, please check separator configuration in OCS general configuration
+9607 CSV uploaded successfully
+9608 The CSV reconciliation field must allow the identification of each machine and must correspond to a field already present in the OCS database (machine name or serial number)
+9609 OCS reconciliation field must correspond to the CSV field chose previously 
+9610 Please select corresponding fields :
+9611 Directory for temporary files

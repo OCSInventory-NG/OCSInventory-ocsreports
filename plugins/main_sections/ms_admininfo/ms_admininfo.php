@@ -33,6 +33,9 @@ if (AJAX) {
 
 require_once('require/function_admininfo.php');
 require_once('require/function_config_generale.php');
+require('require/CSV.class.php');
+
+
 
 $accountinfo_choise['COMPUTERS'] = $l->g(729);
 $accountinfo_choise['SNMP'] = $l->g(1136);
@@ -55,6 +58,7 @@ $data_on[1] = $l->g(1059);
 $data_on[2] = $l->g(1060);
 $data_on[3] = $l->g(1701);
 $data_on[4] = $l->g(1702);
+$data_on[5] = "Import from CSV";
 
 if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 1) {
     $protectedPost['onglet'] = 2;
@@ -164,8 +168,13 @@ if (isset($hidden) && is_numeric($hidden)) {
     $tab_hidden['MODIF_OLD'] = $hidden;
 }
 
-echo open_form($form_name, '', '', 'form-horizontal');
-show_tabs($data_on,$form_name,"onglet",true);
+if ($protectedPost['onglet'] == 5) {
+    echo open_form($form_name, '', 'enctype="multipart/form-data"', 'form-horizontal');
+} else {
+    echo open_form($form_name, '', '', 'form-horizontal');
+}
+
+show_tabs($data_on, $form_name, "onglet", true);
 echo '<div class="col col-md-10" >';
 
 $table = "accountinfo";
@@ -376,9 +385,235 @@ if ($protectedPost['onglet'] == 1) {
   modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
       'form_name' => 'NO_FORM'
   ));
-}
 
+} elseif ($protectedPost['onglet'] == 5) {
+    // 2nd - CSV already sent
+    if (isset($protectedPost['valid_csv'])) {
+        // create new csv obj
+        $csvObj = new CSV();
+        $protectedPost['csv_filename'] = $csvObj->saveCSV($_FILES['csv_file'], $_FILES['csv_file']['name']);
+        // open csv
+        $handle = $csvObj->openCSV($protectedPost['csv_filename']);
+        // use first line as header
+        $protectedPost['csv_header'] = $csvObj->readCSVHeader();
+        echo "<div class='row margin-top30'>
+        <div class='col-sm-10'>";
+        // if file can not be read correctly (probably due to wrong separator), close and delete it
+        if ($protectedPost['csv_header'] == false ) {
+            msg_error($l->g(9206));
+            fclose($handle);
+            $delete_csv = $csvObj->deleteCSV($protectedPost['csv_filename']);
+            $protectedPost['wrong_file'] = 'wrong file';
+            echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
+        } else {
+            msg_info($l->g(9208));
+            msg_success($l->g(9207));
+            // display form for CSV field selection
+            formGroup('select', 'csv_field', $l->g(9200), '', '', $protectedPost['csv_field'], '', $protectedPost['csv_header'], $protectedPost['csv_header']);
+            echo "<br><br><input type='submit' name='valid_csv_field' id='valid_csv_field' class='btn btn-success' value=".$l->g(1264)."><br><br>";
+            echo "<input type='hidden' name ='csv_filename' id='csv_filename' value= ".$protectedPost['csv_filename'].">";
+            // close file
+            fclose($handle);
+        }
+
+    // 3rd - selection for OCS field 
+    } elseif (!isset($protectedPost['column_select']) && isset($protectedPost['valid_csv_field'])) {
+        // set defaultTable if necessary
+        if (isset($protectedPost['column_select'])) {
+            $defaultTable = $protectedPost['column_select'];
+        } else {
+            $defaultTable = null;
+        }
+    
+        // association with OCS fields is achieved with 2 fields hardware>NAME or bios>SSN
+        $tabs_available = array('hardware - machine name', 'bios - serial number');
+        // display form for OCS field selection
+        echo open_form('csv_assoc', '', '', '');
+        ?>
+    
+            <div class="col-sm-10">
+            <?php echo msg_info($l->g(9209)); ?>
+                <div class="form-group">
+                    <label class='control-label col-sm-2' for='table_select'><?php echo $l->g(9201) ?></label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="column_select">
+                            <?php 
+                            if ($defaultTable != null ) {
+                                echo "<option value=".$defaultTable." >".$defaultTable."</option>";
+                            } else {
+                                foreach ($tabs_available as $tab) {
+                                    echo "<option value=".$tab." >".$tab."</option>";
+                                }
+                            } 
+                            ?>
+                        <input type='hidden' name ='csv_field' id='csv_field' value= '<?php echo $protectedPost['csv_field']; ?>'>
+                        <input type='hidden' name ='csv_filename' id='csv_filename' value= '<?php echo $protectedPost['csv_filename']; ?>'>
+                        </select>
+                    </div>
+                    <div class='col-sm-10'>
+    
+                        <br><br><input type='submit' name='valid_ocs_field' id='valid_ocs_field' class='btn btn-success' value='<?php echo $l->g(1264) ?>.'><br><br>
+                    </div>
+                </div>
+            </div>
+                
+    
+        <?php echo close_form();
+    
+    // 4th - links between CSV fields and OCS fields
+    } elseif (isset($protectedPost['valid_ocs_field']) && isset($protectedPost['csv_field'])) {
+        $csvObj = new CSV();
+        $handle = $csvObj->openCSV($protectedPost['csv_filename']);
+        $header = $csvObj->readCSVHeader();
+        // delete csv field of reconciliation from header > cant link it with any other field
+        unset($header[$protectedPost['csv_field']]);
+        
+        // get ocs fields from accountinfo_config
+        $req = "SELECT ID, NAME from accountinfo_config WHERE account_type = 'computers'";
+        $ocs_fields = mysql2_query_secure($req, $_SESSION['OCS']["readServer"]);
+        $ocs_fields = mysqli_fetch_all($ocs_fields, MYSQLI_ASSOC);
+        array_unshift($ocs_fields, "----");
+
+        echo '<div class="col-sm-10">';
+        msg_info($l->g(9210));
+        echo '  <div class="dataTables_scrollBody" style="overflow: auto; width: 100%;"> 
+                    <table width="100%" class="table table-striped table-condensed table-hover cell-border dataTable no-footer" role="grid" style="margin-left: 0px; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%; text-align:center;"><font>CSV FIELD</font></th>
+                                <th style="width: 100%; text-align:center;"><font>OCS FIELD</font></th><br><br>
+                            </tr>
+                        </thead>
+                        <tbody>';
+        foreach($header as $key => $column) {
+        echo '              <tr>';
+        echo '                  <td style="width: 40%; text-align:center;">'.$column.'</td>';
+        echo '                  <td><select style="width: 100%;" class="form-control" type="text" name="link_'.$key.'">';
+                                foreach($ocs_fields as $id => $ocs_field) {
+                                echo '<option value="'.$ocs_field['ID'].'">'.$ocs_field['NAME'].'</option>';
+                                }
+        echo '                  </td>';
+        echo '              </tr>';
+        }
+        echo '          </tbody>';
+        echo '      </table>';
+        echo '  </div>';
+        echo "  <br><br><input type='submit' name='valid_links' id='valid_links' class='btn btn-success' value=".$l->g(1264)."><br><br>";
+        echo "  <input type='hidden' name ='csv_filename' id='csv_filename' value=".$protectedPost['csv_filename'].">";
+        echo "  <input type='hidden' name ='csv_field' id='csv_field' value=".$protectedPost['csv_field'].">
+                <input type='hidden' name ='column_select' id='column_select' value=".$protectedPost['column_select'].">
+            </div>";
+       
+        
+
+
+    // 5th - results
+    } elseif (isset($protectedPost['valid_links'])) {
+        $errors = array();
+        $csvObj = new CSV();
+        $handle = $csvObj->openCSV($protectedPost['csv_filename']);
+
+        // get array of links
+        foreach ($protectedPost as $key => $value) {
+            if (strpos($key, 'link_') === 0) {
+                $links[$key] = $value;
+            }
+        }
+        // remove empty links + format ID for future query
+        foreach ($links as $key => $link) {
+             if ($link == '-') {
+                unset($links[$key]);
+             } else {
+                 $links[$key] = "fields_".$link;
+             }
+        }
+
+        function logCSVErrors($lvl) {
+            switch ($lvl) {
+                case '1':
+                    return $error = 9202;
+                case '2':
+                    return $error = 9203;
+                case '3':
+                    return $error = 9204;
+            }
+        }
+
+        // req to retrieve hardware id
+        $sql_h_id = "SELECT %s FROM %s WHERE %s = '%s'";
+        $i = 0;
+        while ($line = $csvObj->readCSVLine()) {
+            $i++;
+            // first line means header
+            if ($i == 1) {
+                continue;
+            } else {
+                // if csv field chosen by user is empty (reconciliation cannot be achieved on an empty field)
+                if ($line[$protectedPost['csv_field']] != '') {
+                    if ($protectedPost['column_select'] == 'hardware') {
+                        $table_select = 'hardware';
+                        $column_select = 'NAME';
+                        $id_column = 'ID';
+                    } else {
+                        $table_select = 'bios';
+                        $column_select = 'SSN';
+                        $id_column = 'hardware_id';
+                    }
+                    // csv field index = value index
+                    $args = array($id_column, $table_select, $column_select, $line[$protectedPost['csv_field']]);
+                    $h_id = mysql2_query_secure($sql_h_id, $_SESSION['OCS']["readServer"], $args);
+                    // if device exists
+                    if ($h_id = mysqli_fetch_assoc($h_id)) {
+                        // update fields 
+                        foreach ($links as $index => $field) {
+                            $index = str_replace('link_', '', $index);
+                            $req_update = "UPDATE accountinfo SET %s = '%s' WHERE hardware_id = %s";
+                            $args_update = array($field, trim($line[$index]), $h_id[$id_column]);
+                            if (mysql2_query_secure($req_update, $_SESSION['OCS']["readServer"], $args_update)) {
+                                $success = 1;
+                            } else {
+                                $lvl = '3';
+                                $errors[$i] = logCSVErrors($lvl);
+                            }
+                        }
+                    } else {
+                        $lvl = '2';
+                        $errors[$i] = logCSVErrors($lvl);
+                    }
+                } else {
+                    $lvl = '1';
+                    $errors[$i] = logCSVErrors($lvl);
+                }
+            }
+        }
+        // close file once data has been imported
+        fclose($handle);
+        $delete_csv = $csvObj->deleteCSV($protectedPost['csv_filename']);
+        echo "<br><input type='submit' name='import_new' id='import_new' class='btn btn-success' value=". $l->g(188)."><br><br>";
+
+        if ($success != '') {
+            msg_info($l->g(9205));
+        }
+        foreach ($errors as $key => $error) {
+            $error = "CSV line $key : ".$l->g($error);
+            msg_error($error);
+        }
+        
+    // 1st - import csv
+    } else {
+        // Open new form for csv file
+        echo open_form('admininfo_csv', '', 'enctype="multipart/form-data"', 'form-horizontal');
+        echo "<div class='row margin-top30'>
+                <div class='col-sm-10'>";
+    
+        echo "<br><br>";
+        formGroup('file', 'csv_file', 'Import CSV file :', '', '', $protectedPost['csv_file'], '', '', '', "accept='.csv'");
+        echo "<input type='submit' name='valid_csv' id='valid_csv' class='btn btn-success' value='".$l->g(1479)."'><br><br>";
+        echo "</div>";
+    }
+}
 echo "</div>";
+
 echo close_form();
 
 if (AJAX) {
