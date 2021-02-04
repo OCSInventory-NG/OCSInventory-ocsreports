@@ -1363,10 +1363,10 @@
 1484 Time of validity of a CVE after OCS Inventory scan
 1485 By software
 1486 By computer
-1487 The authentication is temporarily blocked for too many failed. Please try later.
+1487 Authentication has been blocked due to too many failed attempts. (%time% seconds remaining)
 1488 Enable authentication security
-1489 Number of attempt
-1490 Time to waiting
+1489 Number of attempts
+1490 Cooldown
 1491 Enable password security
 1492 Set minimal characters in password
 1493 Force number in password

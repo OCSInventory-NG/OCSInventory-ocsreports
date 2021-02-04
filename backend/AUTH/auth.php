@@ -121,7 +121,7 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
     if ($affich_method == 'HTML') {
         require_once (HEADER_HTML);
         if (isset($protectedPost['Valid_CNX'])) {
-            $login_successful = $l->g(1487);
+            $login_successful = str_replace("%time%", $max + $timeBlock - $_SERVER['REQUEST_TIME'], $l->g(1487));
             msg_error($login_successful);
             flush();
             //you can't send a new login/passwd before 2 seconds

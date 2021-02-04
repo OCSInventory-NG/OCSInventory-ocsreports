@@ -1364,7 +1364,7 @@
 1484 Temps de validité des CVE après le scan OCS Inventory
 1485 Par logiciel
 1486 Par ordinateur
-1487 L'authentification est bloqué à cause d'un trop grand nombre d'essai. Merci d'essayer plus tard.
+1487 L'authentification est bloqué à cause d'un trop grand nombre d'essai. (%time% secondes restantes)
 1488 Activer la sécurité de l'authentification
 1489 Nombre d'essai
 1490 Temps à attendre
