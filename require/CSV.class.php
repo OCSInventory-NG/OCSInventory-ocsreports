@@ -5,7 +5,6 @@ Php class used for CSV treatment in ms_admininfo
 
 - save tmp file
 - open file
-- close file
 - get header
 - get line
 - delete tmp file
@@ -17,14 +16,22 @@ class CSV {
     function __construct() {
         $values = look_config_default_values($this->champs);
         $this->separator = $values['tvalue']['EXPORT_SEP'];
-        $this->file_path = $values['tvalue']['TMP_DIR'];
+        // in case tmp dir path has not been set and created yet, tmp dir will be created at /var/lib/ocsinventory-reports/tmp_dir/
+        if (isset($values['tvalue']['TMP_DIR'])) {
+            $this->file_path = $values['tvalue']['TMP_DIR'];
+        } else {
+            $this->file_path = VARLIB_DIR;
+        }
     }
 
     function saveCSV($file, $newname) {
-        // save uploaded csv to dl dir
-        $info = pathinfo($file['name']);
-        // $target will be defined later in interface 
-        $target = $this->file_path."/tmp_dir/".$newname;
+        $tmp_dir = $this->file_path."/tmp_dir/";
+        // create dir if neccessary
+        if (!is_dir($tmp_dir)) {
+            mkdir($tmp_dir, 0777, true);
+        }
+        // save uploaded csv to tmp dir
+        $target = $tmp_dir.$newname;
         if (move_uploaded_file($file['tmp_name'], $target)) {
             return $this->file = $target; 
         } else {
