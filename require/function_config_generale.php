@@ -388,7 +388,7 @@ function update_default_value($POST) {
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
         'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME',
-        'IPDISCOVER_LINK_TAG_NETWORK');
+        'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -802,7 +802,9 @@ function pageipdiscover($advance) {
             'IPDISCOVER_MAX_ALIVE' => 'IPDISCOVER_MAX_ALIVE',
             'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
             'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS',
-            'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK'   
+            'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK',
+            'IPDISCOVER_PURGE_OLD' => 'IPDISCOVER_PURGE_OLD',
+            'IPDISCOVER_PURGE_VALIDITY_TIME' => 'IPDISCOVER_PURGE_VALIDITY_TIME',   
         );
     } else {
         $champs = array('IPDISCOVER' => 'IPDISCOVER');
@@ -827,6 +829,8 @@ function pageipdiscover($advance) {
         ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
         ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
         ligne('IPDISCOVER_LINK_TAG_NETWORK', $l->g(1457), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_LINK_TAG_NETWORK']));
+        ligne('IPDISCOVER_PURGE_OLD', $l->g(1560), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_PURGE_OLD']));
+        ligne('IPDISCOVER_PURGE_VALIDITY_TIME', $l->g(1561), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_PURGE_VALIDITY_TIME'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     } else {
         ligne('IPDISCOVER', $l->g(425), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $ipdiscover, 'END' => $l->g(729), 'JAVASCRIPT' => $numeric));
     }
