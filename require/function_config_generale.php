@@ -505,7 +505,6 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
 
 function trait_post($name) {
     global $protectedPost, $values;
-
     if (isset($values['tvalue'][$name])) {
         $select = 'CUSTOM';
     } else {
@@ -529,6 +528,7 @@ function pageGUI($advance) {
           'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR',
           'LOG_GUI' => 'LOG_GUI',
           'LOG_DIR' => 'LOG_DIR',
+          'TMP_DIR' => 'TMP_DIR',
           'EXPORT_SEP' => 'EXPORT_SEP',
           'TAB_CACHE' => 'TAB_CACHE',
           'LOG_SCRIPT' => 'LOG_SCRIPT',
@@ -550,6 +550,7 @@ function pageGUI($advance) {
     $select_pack = trait_post('DOWNLOAD_PACK_DIR');
     $select_ipd = trait_post('IPDISCOVER_IPD_DIR');
     $select_log = trait_post('LOG_DIR');
+    $select_tmp = trait_post('TMP_DIR');
     $select_scripts = trait_post('LOG_SCRIPT');
     $select_profils = trait_post('CONF_PROFILS_DIR');
     $select_old_profils = trait_post('OLD_CONF_DIR');
@@ -572,6 +573,9 @@ function pageGUI($advance) {
 
       $def = VARLOG_DIR . '/logs';
       ligne('LOG_DIR', $l->g(825), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_log), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/logs"));
+    
+      $def = VARLIB_DIR . '/tmp_dir';
+      ligne('TMP_DIR', $l->g(9611), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_tmp), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['TMP_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/tmp_dir"));
 
       $def = VARLOG_DIR . '/scripts';
       ligne('LOG_SCRIPT', $l->g(1254), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_scripts), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_SCRIPT'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/scripts"));
@@ -800,7 +804,7 @@ function pageipdiscover($advance) {
             'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS',
             'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK',
             'IPDISCOVER_PURGE_OLD' => 'IPDISCOVER_PURGE_OLD',
-            'IPDISCOVER_PURGE_VALIDITY_TIME' => 'IPDISCOVER_PURGE_VALIDITY_TIME',
+            'IPDISCOVER_PURGE_VALIDITY_TIME' => 'IPDISCOVER_PURGE_VALIDITY_TIME',   
         );
     } else {
         $champs = array('IPDISCOVER' => 'IPDISCOVER');

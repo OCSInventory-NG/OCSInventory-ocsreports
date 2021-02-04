@@ -1704,3 +1704,18 @@
 9500 Merge selected duplicates
 9501 Merge all duplicates
 9502 Duplicates by :
+
+9600 CSV reconciliation field :
+9601 OCS reconciliation field :
+9602 Empty value
+9603 No corresponding device found in OCS database
+9604 Update failed
+9605 Admin data was imported from CSV, see below for any errors
+9606 CSV can not be read, please check separator configuration in OCS general configuration
+9607 CSV uploaded successfully
+9608 The CSV reconciliation field must allow the identification of each machine and must correspond to a field already present in the OCS database (machine name or serial number)
+9609 OCS reconciliation field must correspond to the CSV field chose previously 
+9610 Please select corresponding fields :
+9611 Directory for temporary files
+9612 Import from CSV
+9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
