@@ -505,7 +505,6 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
 
 function trait_post($name) {
     global $protectedPost, $values;
-
     if (isset($values['tvalue'][$name])) {
         $select = 'CUSTOM';
     } else {
@@ -576,7 +575,7 @@ function pageGUI($advance) {
       ligne('LOG_DIR', $l->g(825), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_log), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/logs"));
     
       $def = VARLIB_DIR . '/tmp_dir';
-      ligne('TMP_DIR', $l->g(9211), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_tmp), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['TMP_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/tmp_dir"));
+      ligne('TMP_DIR', $l->g(9611), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_tmp), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['TMP_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/tmp_dir"));
 
       $def = VARLOG_DIR . '/scripts';
       ligne('LOG_SCRIPT', $l->g(1254), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_scripts), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_SCRIPT'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/scripts"));

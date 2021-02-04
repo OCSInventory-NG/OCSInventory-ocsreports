@@ -1,1 +1,1 @@
-INSERT INTO `config` VALUES('TMP_DIR',0,'/var/lib/ocsinventory-reports','Directory for temporary files');
+INSERT INTO `config` VALUES('TMP_DIR',0,'','Directory for temporary files');
