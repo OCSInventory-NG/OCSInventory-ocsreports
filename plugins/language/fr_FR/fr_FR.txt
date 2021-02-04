@@ -1695,3 +1695,5 @@
 9609 Le champ de réconciliation d'OCS doit correspondre au champ du CSV sélectionné précédemment
 9610 Veuillez sélectionner les champs correspondants :
 9611 Répertoire de fichiers temporaires
+9612 Importer depuis un CSV
+9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS

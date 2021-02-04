@@ -1700,3 +1700,5 @@
 9609 OCS reconciliation field must correspond to the CSV field chose previously 
 9610 Please select corresponding fields :
 9611 Directory for temporary files
+9612 Import from CSV
+9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration

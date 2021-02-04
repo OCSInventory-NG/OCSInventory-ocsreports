@@ -58,7 +58,7 @@ $data_on[1] = $l->g(1059);
 $data_on[2] = $l->g(1060);
 $data_on[3] = $l->g(1701);
 $data_on[4] = $l->g(1702);
-$data_on[5] = "Import from CSV";
+$data_on[5] = $l->g(9612);
 
 if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 1) {
     $protectedPost['onglet'] = 2;
@@ -392,28 +392,34 @@ if ($protectedPost['onglet'] == 1) {
         // create new csv obj
         $csvObj = new CSV();
         $protectedPost['csv_filename'] = $csvObj->saveCSV($_FILES['csv_file'], $_FILES['csv_file']['name']);
-        // open csv
-        $handle = $csvObj->openCSV($protectedPost['csv_filename']);
-        // use first line as header
-        $protectedPost['csv_header'] = $csvObj->readCSVHeader();
-        echo "<div class='row margin-top30'>
-        <div class='col-sm-10'>";
-        // if file can not be read correctly (probably due to wrong separator), close and delete it
-        if ($protectedPost['csv_header'] == false ) {
-            msg_error($l->g(9606));
-            fclose($handle);
-            $delete_csv = $csvObj->deleteCSV($protectedPost['csv_filename']);
-            $protectedPost['wrong_file'] = 'wrong file';
+        // saveCSV failed
+        if ($protectedPost['csv_filename'] == false) {
+            msg_error($l->g(9613));
             echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
         } else {
-            msg_info($l->g(9608));
-            msg_success($l->g(9607));
-            // display form for CSV field selection
-            formGroup('select', 'csv_field', $l->g(9600), '', '', $protectedPost['csv_field'], '', $protectedPost['csv_header'], $protectedPost['csv_header']);
-            echo "<br><br><input type='submit' name='valid_csv_field' id='valid_csv_field' class='btn btn-success' value=".$l->g(1264)."><br><br>";
-            echo "<input type='hidden' name ='csv_filename' id='csv_filename' value= ".$protectedPost['csv_filename'].">";
-            // close file
-            fclose($handle);
+            // open csv
+            $handle = $csvObj->openCSV($protectedPost['csv_filename']);
+            // use first line as header
+            $protectedPost['csv_header'] = $csvObj->readCSVHeader();
+            echo "<div class='row margin-top30'>
+            <div class='col-sm-10'>";
+            // if file can not be read correctly (probably due to wrong separator), close and delete it
+            if ($protectedPost['csv_header'] == false ) {
+                msg_error($l->g(9606));
+                fclose($handle);
+                $delete_csv = $csvObj->deleteCSV($protectedPost['csv_filename']);
+                // $protectedPost['wrong_file'] = 'wrong file';
+                echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
+            } else {
+                msg_info($l->g(9608));
+                msg_success($l->g(9607));
+                // display form for CSV field selection
+                formGroup('select', 'csv_field', $l->g(9600), '', '', $protectedPost['csv_field'], '', $protectedPost['csv_header'], $protectedPost['csv_header']);
+                echo "<br><br><input type='submit' name='valid_csv_field' id='valid_csv_field' class='btn btn-success' value=".$l->g(1264)."><br><br>";
+                echo "<input type='hidden' name ='csv_filename' id='csv_filename' value= ".$protectedPost['csv_filename'].">";
+                // close file
+                fclose($handle);
+            }
         }
 
     // 3rd - selection for OCS field 
@@ -434,7 +440,7 @@ if ($protectedPost['onglet'] == 1) {
             <div class="col-sm-10">
             <?php echo msg_info($l->g(9609)); ?>
                 <div class="form-group">
-                    <label class='control-label col-sm-2' for='table_select'><?php echo $l->g(601) ?></label>
+                    <label class='control-label col-sm-2' for='table_select'><?php echo $l->g(9601) ?></label>
                     <div class="col-sm-10">
                         <select class="form-control" name="column_select">
                             <?php 
