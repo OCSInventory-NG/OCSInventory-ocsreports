@@ -1362,6 +1362,7 @@
 1484 Time of validity of a CVE after OCS Inventory scan
 1485 By software
 1486 By computer
+1487 Time delay between each CVE scan
 
 1500 Software category
 1501 New category

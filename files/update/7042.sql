@@ -1,0 +1,1 @@
+INSERT INTO `config` VALUES('VULN_CVE_DELAY_TIME',2,'','Time delay between CVE scans');
