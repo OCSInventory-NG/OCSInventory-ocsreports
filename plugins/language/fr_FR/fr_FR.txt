@@ -1713,3 +1713,18 @@
 9500 Fusionner la sélection
 9501 Tout fusionner
 9502 Machine(s) dupliquée(s) :
+
+9600 Champ de réconciliation CSV :
+9601 Champ de réconciliation OCS :
+9602 Champ vide
+9603 Aucune machine correspondante dans la base de donnée OCS
+9604 La mise à jour de la valeur a échoué
+9605 Données administratives importées, voir erreurs ci-dessous
+9606 Le CSV ne peut pas être lu, le séparateur utilisé ne semble pas correspondre au séparateur défini dans la configuration générale d'OCS
+9607 CSV importé avec succès
+9608 Le champ de réconciliation du CSV doit permettre l'identification de chaque machine et doit correspondre à un champ présent dans la base de donnée OCS (nom de la machine ou numéro de série)
+9609 Le champ de réconciliation d'OCS doit correspondre au champ du CSV sélectionné précédemment
+9610 Veuillez sélectionner les champs correspondants :
+9611 Répertoire de fichiers temporaires
+9612 Importer depuis un CSV
+9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS
