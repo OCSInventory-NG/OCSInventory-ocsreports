@@ -62,8 +62,8 @@ if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
     $timeBlock = $auth['ivalue']['SECURITY_AUTHENTICATION_TIME_BLOCK'];
     $max = 0;
 
-    $sql = "SELECT * FROM auth_attempt WHERE IP = '$ip'";
-    $res = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
+    $sql = "SELECT * FROM auth_attempt WHERE IP = '%s'";
+    $res = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $ip);
       
     while ($row = mysqli_fetch_object($res)) {
         $datetime = new DateTime($row->DATETIMEATTEMPT);
@@ -73,8 +73,8 @@ if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
         }      
     }
     if ($max + $timeBlock < $_SERVER['REQUEST_TIME']){
-        $sql = "DELETE FROM auth_attempt WHERE IP = '$ip'";
-        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
+        $sql = "DELETE FROM auth_attempt WHERE IP = '%s'";
+        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $ip);
         $timeEnd = true;
     }
     
@@ -166,11 +166,14 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
     }
 } else {
     if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
-        $sql = "INSERT INTO auth_attempt (`DATETIMEATTEMPT`,`LOGIN`,`IP`,`SUCCESS`)
-        VALUES ('%s','%s','%s','%s')";
-        $datetime = new DateTime();
-        $arg = array($datetime->format('Y-m-d H:i:s'), $login, $_SERVER['REMOTE_ADDR'], 0);
-        mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        if ($login != ""){
+            error_log(print_r('TEST', true));
+            $sql = "INSERT INTO auth_attempt (`DATETIMEATTEMPT`,`LOGIN`,`IP`,`SUCCESS`)
+            VALUES ('%s','%s','%s','%s')";
+            $datetime = new DateTime();
+            $arg = array($datetime->format('Y-m-d H:i:s'), $login, $_SERVER['REMOTE_ADDR'], 0);
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        }
     }
 
     //show HTML form

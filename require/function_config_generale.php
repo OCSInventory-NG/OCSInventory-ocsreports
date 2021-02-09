@@ -1021,7 +1021,7 @@ function pagesSecurity(){
 
     ligne('SECURITY_AUTHENTICATION_BLOCK_IP', $l->g(1488), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP']));
     ligne('SECURITY_AUTHENTICATION_NB_ATTEMPT', $l->g(1489), 'input', array('VALUE' => $values['ivalue']['SECURITY_AUTHENTICATION_NB_ATTEMPT'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-    ligne('SECURITY_AUTHENTICATION_TIME_BLOCK', $l->g(1490), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SECURITY_AUTHENTICATION_TIME_BLOCK'], 'SIZE' => 1, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+    ligne('SECURITY_AUTHENTICATION_TIME_BLOCK', $l->g(1490), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SECURITY_AUTHENTICATION_TIME_BLOCK'], 'SIZE' => 1, 'MAXLENGTH' => 10, 'JAVASCRIPT' => $numeric), '', '', $sup1);
 
     ligne('SECURITY_PASSWORD_ENABLED', $l->g(1491), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_ENABLED']));
     ligne('SECURITY_PASSWORD_MIN_CHAR', $l->g(1492), 'input', array('VALUE' => $values['ivalue']['SECURITY_PASSWORD_MIN_CHAR'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
