@@ -63,11 +63,34 @@ function delete_list_user($list_to_delete) {
 function add_user($data_user, $list_profil = '') {
     global $l;
 
+    $passwordConfig = look_config_default_values(['SECURITY_PASSWORD_ENABLED', 'SECURITY_PASSWORD_MIN_CHAR', 'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR']);
 
     if (isset($data_user['PASSWORD'])) {
         $password = $data_user['PASSWORD'];
     }
     $data_user = strip_tags_array($data_user);
+
+    //Password check
+    if ($passwordConfig['ivalue']['SECURITY_PASSWORD_ENABLED'] == 1){
+        if ($passwordConfig['ivalue']['SECURITY_PASSWORD_MIN_CHAR'] > strlen($password)){
+            $ERROR = $l->g(1496) . " " . $passwordConfig['ivalue']['SECURITY_PASSWORD_MIN_CHAR'] . " " . $l->g(1458);
+        }
+        if ($passwordConfig['ivalue']['SECURITY_PASSWORD_FORCE_NB'] == 1){
+            if (!preg_match('/[0-9]/', $password)){
+                $ERROR = $l->g(1498);
+            }
+        }
+        if ($passwordConfig['ivalue']['SECURITY_PASSWORD_FORCE_UPPER'] == 1){
+            if (!preg_match('/[A-Z]/', $password)){
+                $ERROR = $l->g(1497);
+            }
+        }
+        if ($passwordConfig['ivalue']['SECURITY_PASSWORD_FORCE_SPE_CHAR'] == 1){
+            if (strpbrk($password, '*.! @#$%^&(){}[]:;<>,.?/~_+-=|\\') === false){
+                $ERROR = $l->g(1499);
+            }
+        }
+    }
 
     // Name ok ?
     if (trim($data_user['FIRSTNAME']) == "") {
@@ -86,6 +109,9 @@ function add_user($data_user, $list_profil = '') {
         if (!array_key_exists($data_user['ACCESSLVL'], $list_profil)) {
             $ERROR = $l->g(998);
         }
+    }
+    if($ERROR == ""){
+        unset($ERROR);
     }
     if (!isset($ERROR)) {
         $sql = "select id from operators where id= '%s'";
