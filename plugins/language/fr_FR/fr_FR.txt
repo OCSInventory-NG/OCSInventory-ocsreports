@@ -1335,6 +1335,7 @@
 1455 Interface virtuelle
 1456 Numéro de téléphone
 1457 Lier les réseaux Ipdiscover aux TAG ordinateurs</br><b style="color:#d9534f;">Après mise à jour de cette configuration, reconnectez-vous à l'interface</b>
+1458 caractères
 
 1459 Délai entre chaque scan CVE
 1460 Cve-search management
@@ -1364,6 +1365,19 @@
 1484 Temps de validité des CVE après le scan OCS Inventory
 1485 Par logiciel
 1486 Par ordinateur
+1487 L'authentification est bloqué à cause d'un trop grand nombre d'essai. (%time% secondes restantes)
+1488 Activer la sécurité de l'authentification
+1489 Nombre d'essai
+1490 Temps à attendre
+1491 Activer la sécurité des mots de passe
+1492 Nombre de caractères minimum 
+1493 Oblige l'utilisation de chiffres
+1494 Oblige l'utilisation de majuscules
+1495 Oblige l'utilisation de caractères spéciaux
+1496 Le mot de passe doit contenir au moins
+1497 Le mot de passe doit contenir au moins une majuscule
+1498 Le mot de passe doit contenir au moins un chiffre
+1499 Le mot de passe doit contenir au moins caractère spécial
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie

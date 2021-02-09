@@ -1334,6 +1334,7 @@
 1455 Virtual interface
 1456 Phone number
 1457 Link Ipdiscover network to computer TAG</br><b style="color:#d9534f;">Logout / Login after updating this configuration</b>
+1458 characters
 
 1459 Time delay between each CVE scan
 1460 CVE-search management
@@ -1363,6 +1364,19 @@
 1484 Time of validity of a CVE after OCS Inventory scan
 1485 By software
 1486 By computer
+1487 Authentication has been blocked due to too many failed attempts. (%time% seconds remaining)
+1488 Enable authentication security
+1489 Number of attempts
+1490 Cooldown
+1491 Enable password security
+1492 Set minimal characters in password
+1493 Force number in password
+1494 Force uppercase in password
+1495 Force special characters in password
+1496 The password must contain at least
+1497 The password must contain at least one uppercase
+1498 The password must contain at least one number
+1499 The password must contain at least one special character
 
 1500 Software category
 1501 New category
