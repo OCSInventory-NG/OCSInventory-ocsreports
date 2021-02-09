@@ -416,11 +416,9 @@ function strip_tags_array($value = '') {
 
     $value = is_array($value) ? array_map('strip_tags_array', $value) : strip_tags($value, "<p><b><i><font><br><center>");
 
-/*     if(!is_array($value)){
-    // set double_encode to false = chars already encoded will not be re encoded (e.g. when editing a value)
-      // $value = htmlspecialchars($value, ENT_QUOTES, false);
-      $value = addslashes($value);
-    } */
+    if(!is_array($value)){
+      $value = htmlspecialchars($value, ENT_QUOTES);
+    }
 
     return $value;
 }
