@@ -1337,6 +1337,7 @@
 1457 Lier les réseaux Ipdiscover aux TAG ordinateurs</br><b style="color:#d9534f;">Après mise à jour de cette configuration, reconnectez-vous à l'interface</b>
 1458 caractères
 
+1459 Délai entre chaque scan CVE
 1460 Cve-search management
 1461 Activer Rapport de CVE
 1462 URL de l'hôte cve-search à utiliser pour le rapport
