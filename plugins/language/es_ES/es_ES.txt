@@ -265,7 +265,7 @@
 266 Fecha inválida
 267 dd/mm/AAAA
 268 Velocidad
-269 %d/%m/%Y %H:%i
+269 %m/%d/%Y %H:%i
 270 Módem(s)
 271 Ranura(s)
 272 Puerto(s)
@@ -1221,7 +1221,7 @@
 1239 MHz
 1240 MB
 1241 Número de dispositivos SNMP
-1242 m/d/y
+1242 m/d/Y H:i
 1243 Sólo pueden ser publicados los archivos ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe y ocspackage.exe
 1244 Este archivo no puede estar vacío
 1245 Administre sus clientes OCS-NG
