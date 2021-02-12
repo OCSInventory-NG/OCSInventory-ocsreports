@@ -265,8 +265,7 @@ class Cve
     $regex = str_replace(
       array("\*", "\?"), // wildcard chars
       array('.*','.'),   // regexp chars
-      array("\\/", ""),
-      preg_quote($pattern)
+      preg_quote($pattern, '/')
     );
 
     return preg_match('/^'.$regex.'$/is', strtolower($source));
