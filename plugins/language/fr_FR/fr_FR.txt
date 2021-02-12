@@ -1335,7 +1335,9 @@
 1455 Interface virtuelle
 1456 Numéro de téléphone
 1457 Lier les réseaux Ipdiscover aux TAG ordinateurs</br><b style="color:#d9534f;">Après mise à jour de cette configuration, reconnectez-vous à l'interface</b>
+1458 caractères
 
+1459 Délai entre chaque scan CVE
 1460 Cve-search management
 1461 Activer Rapport de CVE
 1462 URL de l'hôte cve-search à utiliser pour le rapport
@@ -1363,6 +1365,19 @@
 1484 Temps de validité des CVE après le scan OCS Inventory
 1485 Par logiciel
 1486 Par ordinateur
+1487 L'authentification est bloqué à cause d'un trop grand nombre d'essai. (%time% secondes restantes)
+1488 Activer la sécurité de l'authentification
+1489 Nombre d'essai
+1490 Temps à attendre
+1491 Activer la sécurité des mots de passe
+1492 Nombre de caractères minimum 
+1493 Oblige l'utilisation de chiffres
+1494 Oblige l'utilisation de majuscules
+1495 Oblige l'utilisation de caractères spéciaux
+1496 Le mot de passe doit contenir au moins
+1497 Le mot de passe doit contenir au moins une majuscule
+1498 Le mot de passe doit contenir au moins un chiffre
+1499 Le mot de passe doit contenir au moins caractère spécial
 
 1500 Catégorie de logiciels
 1501 Nouvelle catégorie
@@ -1692,13 +1707,10 @@
 9104 Chemin du certificat CA
 9105 Port MySQL
 
-9300 Deploiement de paquet pour la machine
-9301 Deploiement de paquet pour la sélection
-9302 Deploiement de paquet pour le groupe
+9200 Deploiement de paquet pour la machine
+9201 Deploiement de paquet pour la sélection
+9202 Deploiement de paquet pour le groupe
 
-9300 Fusionner la sélection
-9301 Tout fusionner
-9302 Machine(s) dupliquée(s) :
 
 9300 Intéractions
 9301 Options
@@ -1754,6 +1766,21 @@
 9359 yum
 9360 dnf
 
-9500 Merger les doublons sélectionnés
-9501 Merger tous les doublons
-9502 Doublons par :
+9500 Fusionner la sélection
+9501 Tout fusionner
+9502 Machine(s) dupliquée(s) :
+
+9600 Champ de réconciliation CSV :
+9601 Champ de réconciliation OCS :
+9602 Champ vide
+9603 Aucune machine correspondante dans la base de donnée OCS
+9604 La mise à jour de la valeur a échoué
+9605 Données administratives importées, voir erreurs ci-dessous
+9606 Le CSV ne peut pas être lu, le séparateur utilisé ne semble pas correspondre au séparateur défini dans la configuration générale d'OCS
+9607 CSV importé avec succès
+9608 Le champ de réconciliation du CSV doit permettre l'identification de chaque machine et doit correspondre à un champ présent dans la base de donnée OCS (nom de la machine ou numéro de série)
+9609 Le champ de réconciliation d'OCS doit correspondre au champ du CSV sélectionné précédemment
+9610 Veuillez sélectionner les champs correspondants :
+9611 Répertoire de fichiers temporaires
+9612 Importer depuis un CSV
+9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS

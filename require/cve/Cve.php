@@ -32,6 +32,7 @@ class Cve
   private $CVE_BAN;
   private $CVE_ALL = null;
   public $CVE_EXPIRE_TIME = null;
+  public $CVE_DELAY_TIME = null;
   private $publisherName = null;
   public $cve_attr = [];
   public $cve_history = [
@@ -49,7 +50,8 @@ class Cve
         'VULN_BAN_LIST' => 'VULN_BAN_LIST',
         'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE',
         'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL',
-        'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME');
+        'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME',
+        'VULN_CVE_DELAY_TIME' => 'VULN_CVE_DELAY_TIME');
 
     // Get configuration values from DB
     $values = look_config_default_values($champs);
@@ -60,6 +62,7 @@ class Cve
     $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"];
     $this->CVE_ALL = $values['ivalue']["VULN_CVESEARCH_ALL"];
     $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"];
+    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"];
 
   }
 
@@ -220,6 +223,7 @@ class Cve
     }
 
     curl_close ($curl) ;
+    sleep($this->CVE_DELAY_TIME);
   }
 
   private function match($values) {

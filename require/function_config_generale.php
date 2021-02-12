@@ -258,7 +258,8 @@ function verif_champ() {
         "DOWNLOAD_PERIOD_LENGTH", "DOWNLOAD_TIMEOUT", "PROLOG_FREQ", "IPDISCOVER_MAX_ALIVE",
         "GROUPS_CACHE_REVALIDATE", "GROUPS_CACHE_OFFSET", "LOCK_REUSE_TIME", "INVENTORY_CACHE_REVALIDATE",
         "IPDISCOVER_BETTER_THRESHOLD", "GROUPS_CACHE_OFFSET", "GROUPS_CACHE_REVALIDATE", "INVENTORY_FILTER_FLOOD_IP_CACHE_TIME",
-        "SESSION_VALIDITY_TIME", "IPDISCOVER_LATENCY");
+        "SESSION_VALIDITY_TIME", "IPDISCOVER_LATENCY", "SECURITY_AUTHENTICATION_NB_ATTEMPT", "SECURITY_AUTHENTICATION_TIME_BLOCK", 
+        "SECURITY_PASSWORD_MIN_CHAR");
     $supp10 = array("IPDISCOVER_LATENCY");
     $file_exist = array('CONF_PROFILS_DIR' => array('FIELD_READ' => 'CONF_PROFILS_DIR_edit', 'END' => "/conf/", 'FILE' => "4all_config.txt", 'TYPE' => 'r'),
         'DOWNLOAD_PACK_DIR' => array('FIELD_READ' => 'DOWNLOAD_PACK_DIR_edit', 'END' => "/download/", 'FILE' => "", 'TYPE' => 'r'),
@@ -387,8 +388,11 @@ function update_default_value($POST) {
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_ACTIVATE_FRAG', 'DOWNLOAD_RATIO_FRAG', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
-        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME',
-        'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME');
+        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME', 'VULN_CVE_DELAY_TIME',
+        'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME', 'SECURITY_AUTHENTICATION_BLOCK_IP', 
+        'SECURITY_AUTHENTICATION_NB_ATTEMPT', 'SECURITY_AUTHENTICATION_TIME_BLOCK', 'SECURITY_PASSWORD_ENABLED', 'SECURITY_PASSWORD_MIN_CHAR',
+        'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR');
+
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
@@ -505,7 +509,6 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
 
 function trait_post($name) {
     global $protectedPost, $values;
-
     if (isset($values['tvalue'][$name])) {
         $select = 'CUSTOM';
     } else {
@@ -529,6 +532,7 @@ function pageGUI($advance) {
           'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR',
           'LOG_GUI' => 'LOG_GUI',
           'LOG_DIR' => 'LOG_DIR',
+          'TMP_DIR' => 'TMP_DIR',
           'EXPORT_SEP' => 'EXPORT_SEP',
           'TAB_CACHE' => 'TAB_CACHE',
           'LOG_SCRIPT' => 'LOG_SCRIPT',
@@ -550,6 +554,7 @@ function pageGUI($advance) {
     $select_pack = trait_post('DOWNLOAD_PACK_DIR');
     $select_ipd = trait_post('IPDISCOVER_IPD_DIR');
     $select_log = trait_post('LOG_DIR');
+    $select_tmp = trait_post('TMP_DIR');
     $select_scripts = trait_post('LOG_SCRIPT');
     $select_profils = trait_post('CONF_PROFILS_DIR');
     $select_old_profils = trait_post('OLD_CONF_DIR');
@@ -572,6 +577,9 @@ function pageGUI($advance) {
 
       $def = VARLOG_DIR . '/logs';
       ligne('LOG_DIR', $l->g(825), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_log), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/logs"));
+    
+      $def = VARLIB_DIR . '/tmp_dir';
+      ligne('TMP_DIR', $l->g(9611), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_tmp), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['TMP_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/tmp_dir"));
 
       $def = VARLOG_DIR . '/scripts';
       ligne('LOG_SCRIPT', $l->g(1254), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_scripts), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOG_SCRIPT'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/scripts"));
@@ -808,7 +816,7 @@ function pageipdiscover($advance) {
             'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS',
             'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK',
             'IPDISCOVER_PURGE_OLD' => 'IPDISCOVER_PURGE_OLD',
-            'IPDISCOVER_PURGE_VALIDITY_TIME' => 'IPDISCOVER_PURGE_VALIDITY_TIME',
+            'IPDISCOVER_PURGE_VALIDITY_TIME' => 'IPDISCOVER_PURGE_VALIDITY_TIME',   
         );
     } else {
         $champs = array('IPDISCOVER' => 'IPDISCOVER');
@@ -910,7 +918,8 @@ function pageVulnerability() {
         'VULN_BAN_LIST' => 'VULN_BAN_LIST',
         'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE',
         'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL',
-        'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME');
+        'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME',
+        'VULN_CVE_DELAY_TIME' => 'VULN_CVE_DELAY_TIME');
     // Get configuration values from DB
     $values = look_config_default_values($champs);
 
@@ -926,6 +935,7 @@ function pageVulnerability() {
     ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE']));
     ligne('VULN_CVESEARCH_ALL', $l->g(1471), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL']));
     ligne('VULN_CVE_EXPIRE_TIME', $l->g(1484), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_EXPIRE_TIME'], 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(730)));
+    ligne('VULN_CVE_DELAY_TIME', $l->g(1487), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_DELAY_TIME'], 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(511)));
 }
 
 function pageConnexion() {
@@ -1004,6 +1014,31 @@ function pageswol() {
 
     ligne('WOL_PORT', $l->g(272) . " (" . $l->g(1320) . ")", 'input', array('VALUE' => $values['tvalue']['WOL_PORT'], 'SIZE' => "30%", 'MAXLENGTH' => "30%", 'JAVASCRIPT' => $numeric_semicolon));
     ligne('WOL_BIOS_PASSWD', 'Bios password', 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $wol_passwd), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $values['tvalue']['WOL_BIOS_PASSWD'], 'SIZE' => 40, 'MAXLENGTH' => 254), "readonly");
+}
+
+function pagesSecurity(){
+    global $l, $numeric, $sup1;
+
+    $champs = array('SECURITY_AUTHENTICATION_BLOCK_IP' => 'SECURITY_AUTHENTICATION_BLOCK_IP', 
+    'SECURITY_AUTHENTICATION_NB_ATTEMPT' => 'SECURITY_AUTHENTICATION_NB_ATTEMPT', 
+    'SECURITY_AUTHENTICATION_TIME_BLOCK' => 'SECURITY_AUTHENTICATION_TIME_BLOCK',
+    'SECURITY_PASSWORD_ENABLED' => 'SECURITY_PASSWORD_ENABLED', 
+    'SECURITY_PASSWORD_MIN_CHAR' => 'SECURITY_PASSWORD_MIN_CHAR', 
+    'SECURITY_PASSWORD_FORCE_NB' => 'SECURITY_PASSWORD_FORCE_NB',
+    'SECURITY_PASSWORD_FORCE_UPPER' => 'SECURITY_PASSWORD_FORCE_UPPER', 
+    'SECURITY_PASSWORD_FORCE_SPE_CHAR' => 'SECURITY_PASSWORD_FORCE_SPE_CHAR');
+
+    $values = look_config_default_values($champs);
+
+    ligne('SECURITY_AUTHENTICATION_BLOCK_IP', $l->g(1488), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP']));
+    ligne('SECURITY_AUTHENTICATION_NB_ATTEMPT', $l->g(1489), 'input', array('VALUE' => $values['ivalue']['SECURITY_AUTHENTICATION_NB_ATTEMPT'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+    ligne('SECURITY_AUTHENTICATION_TIME_BLOCK', $l->g(1490), 'input', array('END' => $l->g(511), 'VALUE' => $values['ivalue']['SECURITY_AUTHENTICATION_TIME_BLOCK'], 'SIZE' => 1, 'MAXLENGTH' => 10, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+
+    ligne('SECURITY_PASSWORD_ENABLED', $l->g(1491), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_ENABLED']));
+    ligne('SECURITY_PASSWORD_MIN_CHAR', $l->g(1492), 'input', array('VALUE' => $values['ivalue']['SECURITY_PASSWORD_MIN_CHAR'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+    ligne('SECURITY_PASSWORD_FORCE_NB', $l->g(1493), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_NB']));
+    ligne('SECURITY_PASSWORD_FORCE_UPPER', $l->g(1494), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_UPPER']));
+    ligne('SECURITY_PASSWORD_FORCE_SPE_CHAR', $l->g(1495), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_SPE_CHAR']));
 }
 
 function pagesdev() {
