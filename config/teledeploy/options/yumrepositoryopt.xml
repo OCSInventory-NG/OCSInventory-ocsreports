@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <optionsdefinition>
     <!-- Id of the option -->
-    <id>yumreposirotyopt</id>
+    <id>yumrepositoryopt</id>
     <!-- Name of the option (used for header) -->
     <name>9322</name>
     <!-- Linked reference id -->
-    <refint>yumreposiroty</refint>
+    <refint>yumrepository</refint>
     <!-- Replace value on xml ? true / false -->
     <replace>true</replace>
     <!-- Form options-->
@@ -27,7 +27,7 @@
             <mandatory/>
             <type>hidden</type>
             <disabled>false</disabled>
-            <defaultvalue>yumreposirotyopt</defaultvalue>
+            <defaultvalue>yumrepositoryopt</defaultvalue>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <optionsdefinition>
     <!-- Id of the option -->
-    <id>aptreposirotyopt</id>
+    <id>aptrepositoryopt</id>
     <!-- Name of the option (used for header) -->
     <name>9321</name>
     <!-- Linked reference id -->
-    <refint>aptreposiroty</refint>
+    <refint>aptrepository</refint>
     <!-- Replace value on xml ? true / false -->
     <replace>true</replace>
     <!-- Form options-->
@@ -27,7 +27,7 @@
             <mandatory/>
             <type>hidden</type>
             <disabled>false</disabled>
-            <defaultvalue>aptreposirotyopt</defaultvalue>
+            <defaultvalue>aptrepositoryopt</defaultvalue>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
