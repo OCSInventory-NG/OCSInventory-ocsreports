@@ -1663,7 +1663,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 			}
 			$row_temp = $row;
 			foreach($row as $rowKey=>$rowValue){
-				$row[$rowKey]=htmlentities($rowValue);
+				$row[$rowKey]=$rowValue;
 			}
 			foreach($list_fields as $key=>$column){
 				$name = explode('.',$column);
