@@ -111,7 +111,8 @@ class Cve
     $sql = 'SELECT DISTINCT p.ID, p.PUBLISHER FROM software_publisher p
             LEFT JOIN software s ON p.ID = s.PUBLISHER_ID 
             LEFT JOIN software_name n ON n.ID = s.NAME_ID 
-            LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID WHERE p.ID != 1';
+            LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID
+            WHERE p.ID != 1 AND TRIM(p.PUBLISHER) != ""';
     if($this->CVE_BAN != ""){
       $sql .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
     }
@@ -136,7 +137,8 @@ class Cve
       $sql_soft = "SELECT n.NAME, v.VERSION, s.NAME_ID, s.VERSION_ID FROM software_name n 
                   LEFT JOIN software s ON s.NAME_ID = n.ID 
                   LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
-                  WHERE s.PUBLISHER_ID = %s AND s.VERSION_ID != 1";
+                  WHERE s.PUBLISHER_ID = %s AND s.VERSION_ID != 1
+                  AND TRIM(n.NAME) != ''";
       if($this->CVE_BAN != ""){
         $sql_soft .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
       }
@@ -211,7 +213,7 @@ class Cve
     $curl = curl_init();
     foreach($cve_attr as $key => $values){
       $values = $this->match($values);
-      $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME']; 
+      $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME'];
       curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
       curl_setopt($curl, CURLOPT_URL, $url);
       curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -227,37 +229,52 @@ class Cve
   }
 
   private function match($values) {
-    $regs = $this->get_regex();
-    
-    foreach($regs as $key => $reg) {
-      $reg_publish = $this->stringMatchWithWildcard(trim($values['VENDOR']), $reg['NAME_REG']);
-      $reg_name = $this->stringMatchWithWildcard(trim($values['NAME']), $reg['NAME_REG']);
+    $new_vendor = $this->cpeNormalizeVendor($values['VENDOR'], $values['NAME']);
+    $new_name = $this->cpeNormalizeName($values['NAME']);
 
-      if($reg_name || $reg_publish) {
-        if($reg['NAME_RESULT'] != "") {
-          $values['NAME'] = $reg['NAME_RESULT'];
-        }
-        if($reg['PUBLISH_RESULT'] != "") {
-          $values['VENDOR'] = $reg['PUBLISH_RESULT'];
+    $regs = $this->get_regex($new_vendor, $new_name);
+
+    if(!empty($regs)) {
+      foreach($regs as $key => $reg) {
+        $reg_publish = $this->stringMatchWithWildcard(trim($values['VENDOR']), $reg['NAME_REG']);
+        $reg_name = $this->stringMatchWithWildcard(trim($values['NAME']), $reg['NAME_REG']);
+
+        if($reg_name || $reg_publish) {
+          if($reg['NAME_RESULT'] != "") {
+            $values['NAME'] = $reg['NAME_RESULT'];
+          }
+          if($reg['PUBLISH_RESULT'] != "") {
+            $values['VENDOR'] = $reg['PUBLISH_RESULT'];
+          }
+          break;
         }
       }
     }
+
     $values['NAME'] = $this->cpeNormalizeName($values['NAME']);
     $values['VENDOR'] = $this->cpeNormalizeVendor($values['VENDOR'], $values['NAME']);
     return $values;
   }
 
-  private function get_regex() {
+  private function get_regex($vendor, $name) {
     $reg = [];
     $i = 0;
-    $sql = "SELECT * FROM cve_search_correspondance";
-    $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
-    while($item = mysqli_fetch_array($result)) {
-      $reg[$i]['NAME_REG'] = $item['NAME_REG'];
-      $reg[$i]['PUBLISH_RESULT'] = $item['PUBLISH_RESULT'];
-      $reg[$i]['NAME_RESULT'] = $item['NAME_RESULT'];
-      $i++;
+
+    $sql = "SELECT * FROM cve_search_correspondance
+            WHERE (`NAME_REG` LIKE '%".$vendor."%') OR (`NAME_REG` LIKE '%".$name."%')
+            OR (`PUBLISH_RESULT` LIKE '%".$vendor."%') OR (`NAME_RESULT` LIKE '%".$name."%')";
+
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+
+    if($result->num_rows != 0) {
+      while($item = mysqli_fetch_array($result)) {
+        $reg[$i]['NAME_REG'] = $item['NAME_REG'];
+        $reg[$i]['PUBLISH_RESULT'] = $item['PUBLISH_RESULT'];
+        $reg[$i]['NAME_RESULT'] = $item['NAME_RESULT'];
+        $i++;
+      }
     }
+
     return $reg;
   }
 
@@ -265,8 +282,7 @@ class Cve
     $regex = str_replace(
       array("\*", "\?"), // wildcard chars
       array('.*','.'),   // regexp chars
-      array("\\/", ""),
-      preg_quote($pattern)
+      preg_quote($pattern, '/')
     );
 
     return preg_match('/^'.$regex.'$/is', strtolower($source));
