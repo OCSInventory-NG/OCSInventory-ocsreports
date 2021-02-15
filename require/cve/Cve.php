@@ -111,7 +111,8 @@ class Cve
     $sql = 'SELECT DISTINCT p.ID, p.PUBLISHER FROM software_publisher p
             LEFT JOIN software s ON p.ID = s.PUBLISHER_ID 
             LEFT JOIN software_name n ON n.ID = s.NAME_ID 
-            LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID WHERE p.ID != 1';
+            LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID
+            WHERE p.ID != 1 AND TRIM(p.PUBLISHER) != ""';
     if($this->CVE_BAN != ""){
       $sql .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
     }
@@ -136,7 +137,8 @@ class Cve
       $sql_soft = "SELECT n.NAME, v.VERSION, s.NAME_ID, s.VERSION_ID FROM software_name n 
                   LEFT JOIN software s ON s.NAME_ID = n.ID 
                   LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
-                  WHERE s.PUBLISHER_ID = %s AND s.VERSION_ID != 1";
+                  WHERE s.PUBLISHER_ID = %s AND s.VERSION_ID != 1
+                  AND TRIM(n.NAME) != ''";
       if($this->CVE_BAN != ""){
         $sql_soft .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
       }
