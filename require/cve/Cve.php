@@ -225,7 +225,7 @@ class Cve
     }
     $vendor = strtolower($vendor);
     $vendor = preg_replace("/https?:[^\s]+/", "", $vendor);
-    $vendor = preg_replace("/,?\s*(corporation|gmbh|inc\.|incorporated|LLC|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated)$/", "", $vendor);
+    $vendor = preg_replace("/,?\s*(corporation|gmbh|inc\.|incorporated|LLC|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated|copyright)$/", "", $vendor);
     $vendor = preg_replace("/\s*\(r\)/", "", $vendor);
     $vendor = preg_replace('/[^\x00-\x7F]/', "", $vendor);
     $vendor = preg_replace("/[^A-Za-z0-9\._]/", "", $vendor);
@@ -265,8 +265,13 @@ class Cve
 
     if(!empty($regs)) {
       foreach($regs as $key => $reg) {
-        $reg_publish = $this->stringMatchWithWildcard(trim($values['VENDOR']), $reg['NAME_REG']);
-        $reg_name = $this->stringMatchWithWildcard(trim($values['NAME']), $reg['NAME_REG']);
+        if(count($regs) == 1) {
+          $reg_publish = true;
+          $reg_name = true;
+        } else {
+          $reg_publish = $this->stringMatchWithWildcard(trim($values['VENDOR']), $reg['NAME_REG']);
+          $reg_name = $this->stringMatchWithWildcard(trim($values['NAME']), $reg['NAME_REG']);
+        }
 
         if($reg_name || $reg_publish) {
           if($reg['NAME_RESULT'] != "") {
