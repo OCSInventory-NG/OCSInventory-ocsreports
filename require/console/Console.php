@@ -152,13 +152,18 @@
         $result_os = mysql2_query_secure($sql_os, $_SESSION['OCS']["readServer"]);
         $oss = "<p style='font-size:32px; font-weight:bold;'>".mysqli_num_rows($result_os)."</p>";
         //get softwares
-        $sql = "SELECT s.ID, count(ID) FROM `software` s LEFT JOIN accountinfo a ON a.HARDWARE_ID = s.HARDWARE_ID";
+        $sql = "SELECT count(sl.ID) as nb FROM software_link sl";
+
         if (is_defined($_SESSION['OCS']["mesmachines"])) {
-          $sql .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+          $sql .= " LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
+                    LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID
+                    WHERE " . $_SESSION['OCS']["mesmachines"];
         }
-        $sql .= " GROUP BY CONCAT(s.NAME_ID,';',s.PUBLISHER_ID,';',s.VERSION_ID)";
+
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-        $softs = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_all_soft'>".mysqli_num_rows($result)."</a>";
+        $resultSoft = mysqli_fetch_object($result);
+
+        $softs = "<a style='font-size:32px; font-weight:bold;' href='index.php?function=visu_all_soft'>".$resultSoft->nb."</a>";
 
         $table .= '<table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-top:20px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
                     <tr>
@@ -189,12 +194,15 @@
         if(!empty($cat)){
 
           foreach($cat as $key => $value){
-            $sql = "SELECT count(ID) as nb FROM software_categories_link 
-                    WHERE CATEGORY_ID = %s";
-
-            /*if (is_defined($_SESSION['OCS']["mesmachines"])) {
-              $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
-            }*/
+            $sql = "SELECT count(scl.ID) as nb FROM software_categories_link scl";
+                    
+            if (is_defined($_SESSION['OCS']["mesmachines"])) {
+              $sql .= " LEFT JOIN software s ON s.NAME_ID = scl.NAME_ID AND s.VERSION_ID = scl.VERSION_ID AND s.PUBLISHER_ID = scl.PUBLISHER_ID 
+                        LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID
+                        WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID = %s";
+            } else {
+              $sql .= " WHERE scl.CATEGORY_ID = %s";
+            }
 
             $arg = array($key);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);

@@ -242,13 +242,12 @@ class SoftwareCategory
      * @return array
      */
     public function onglet_cat_cd($computerID){
-        $sql = "SELECT n.CATEGORY FROM software_name n 
-                LEFT JOIN software s ON n.ID = s.NAME_ID 
-                WHERE hardware_id = %s GROUP BY n.CATEGORY";
+        $sql = "SELECT CATEGORY_ID FROM software_categories_link  
+                WHERE NAME_ID IN (SELECT DISTINCT NAME_ID FROM software WHERE HARDWARE_ID = %s) GROUP BY CATEGORY_ID";
         $sql_arg = array($computerID);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
         while ($idCat = mysqli_fetch_array($result)) {
-            $id[$idCat['CATEGORY']] = $idCat['CATEGORY'];
+            $id[$idCat['CATEGORY_ID']] = $idCat['CATEGORY_ID'];
         }
         $cat = implode(',', $id);
 
