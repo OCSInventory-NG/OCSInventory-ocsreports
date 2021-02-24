@@ -1249,7 +1249,7 @@
 1267 Tipos de Máquinas Virtuales
 1268 UUID
 1269 Máquina alojada por
-1270 DDMMYYYY
+1270 dd/mm/yyyy hh:ii
 1271 Dispositivos de la subnet
 1272 Eliminar estos dispositivos
 1273 Usted no tiene permisos para eliminar una máquina

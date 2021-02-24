@@ -1153,7 +1153,7 @@
 1267 Type Virtual Computers
 1268 Uuid
 1269 Computer gehost door
-1270 MMDDJJJJ
+1270 mm/dd/yyyy hh:ii
 1271 Computers in het subnet
 1272 Verwijder deze computers
 1273 Je hebt geen rechten om een computer te verwijderen
