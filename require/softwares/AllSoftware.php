@@ -36,8 +36,9 @@ class AllSoftware
         $allSoftCat = $this->get_software_categories_link_informations();
 
         $software = [];
+        $softwareCategory = [];
 
-        if($allSoft) {
+        if($allSoft && $allSoft->num_rows != 0) {
             while($item_all_soft = mysqli_fetch_array($allSoft)) {
                 $software[$item_all_soft['identifier']]['NAME_ID'] = intval($item_all_soft['NAME_ID']);
                 $software[$item_all_soft['identifier']]['PUBLISHER_ID'] = intval($item_all_soft['PUBLISHER_ID']);
@@ -47,23 +48,37 @@ class AllSoftware
             }
         }
 
-        if($allSoftCat && $allSoftCat->rows != 0) {
+        if($allSoftCat && $allSoftCat->num_rows != 0) {
+            while($items = mysqli_fetch_array($allSoftCat)) {
+                $softwareCategory[$items['ID']]['NAME_ID'] = intval($items['NAME_ID']);
+                $softwareCategory[$items['ID']]['PUBLISHER_ID'] = intval($items['PUBLISHER_ID']);
+                $softwareCategory[$items['ID']]['VERSION_ID'] = intval($items['VERSION_ID']);
+                $softwareCategory[$items['ID']]['CATEGORY_ID'] = intval($items['CATEGORY_ID']);
+            }
+        }
+
+        if(!empty($softwareCategory)) {
             foreach($software as $identifier => $values) {
-                while($items = mysqli_fetch_array($allSoftCat)) {
-                    if($values['NAME_ID'] == $items['NAME_ID'] && $values['PUBLISHER_ID'] == $items['PUBLISHER_ID'] && $values['VERSION_ID'] == $items['VERSION_ID']) {
-                        $software[$identifier]['CATEGORY_ID'] = intval($items['CATEGORY_ID']);
+                foreach($softwareCategory as $key => $infos) {
+                    if($values['NAME_ID'] == $infos['NAME_ID'] && $values['PUBLISHER_ID'] == $infos['PUBLISHER_ID'] && $values['VERSION_ID'] == $infos['VERSION_ID']) {
+                        $software[$identifier]['CATEGORY_ID'] = $infos['CATEGORY_ID'];
                     }
                 }
             }
         }
 
         foreach($software as $identifier => $values) {
-            $sql = "INSERT INTO `software_link` (`IDENTIFIER`, `NAME_ID`, `PUBLISHER_ID`, `VERSION_ID`, `CATEGORY_ID`, `COUNT`)
-                    VALUES ('%s', %s, %s, %s, %s, %s)";
-            $arg = array($identifier, $values['NAME_ID'], $values['PUBLISHER_ID'], $values['VERSION_ID'], $values['CATEGORY_ID'], $values['COUNT']);
+            $sql = "INSERT INTO `software_link` (`IDENTIFIER`, `NAME_ID`, `PUBLISHER_ID`, `VERSION_ID`, `CATEGORY_ID`, `COUNT`)";
+            if($values['CATEGORY_ID'] == null) {
+                $sql .= " VALUES ('%s', %s, %s, %s, NULL, %s)";
+                $arg = array($identifier, $values['NAME_ID'], $values['PUBLISHER_ID'], $values['VERSION_ID'], $values['COUNT']);
+            } else {
+                $sql .= " VALUES ('%s', %s, %s, %s, %s, %s)";
+                $arg = array($identifier, $values['NAME_ID'], $values['PUBLISHER_ID'], $values['VERSION_ID'], $values['CATEGORY_ID'], $values['COUNT']);
+            }
+
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-            var_dump($result);
-            die();
+
             if(!$result) {
                 error_log(print_r("An error occure when attempt to insert software with identifier : ".$identifier, true));
             }
