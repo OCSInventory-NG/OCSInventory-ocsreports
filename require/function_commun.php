@@ -417,7 +417,8 @@ function strip_tags_array($value = '') {
     $value = is_array($value) ? array_map('strip_tags_array', $value) : strip_tags($value, "<p><b><i><font><br><center>");
 
     if(!is_array($value)){
-      $value = htmlspecialchars($value, ENT_QUOTES);
+        // set double encode to false to avoid re encoding html entities
+      $value = htmlspecialchars($value, ENT_QUOTES, $encoding = '', false);
     }
 
     return $value;

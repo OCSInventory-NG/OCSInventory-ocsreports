@@ -136,7 +136,8 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
           if (substr($donnee, 0 , 1) != "\"") {
             $toBeWritten .= "\"";
           }
-          $toBeWritten .= $donnee;
+          // decode html entities (single and double quotes are preserved)
+          $toBeWritten .= htmlspecialchars_decode($donnee, ENT_QUOTES);
           if ($donnee[strlen($donnee)-1] != "\"") {
             $toBeWritten .= "\"";
           }
