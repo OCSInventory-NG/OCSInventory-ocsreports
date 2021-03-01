@@ -150,8 +150,8 @@ if($protectedPost['onglet'] == "ALL"){
             $sql['ARG'] =  $sql_fin['ARG'];
         }
 
-        $list_fields = array('name' => 'n.NAME',
-            $l->g(69) => 'p.PUBLISHER',
+        $list_fields = array($l->g(69) => 'p.PUBLISHER',
+            'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
@@ -204,8 +204,8 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array('name' => 'n.NAME',
-            $l->g(69) => 'p.PUBLISHER',
+        $list_fields = array($l->g(69) => 'p.PUBLISHER',
+            'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
@@ -255,8 +255,8 @@ else {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array('name' => 'NAME',
-            $l->g(69) => 'p.PUBLISHER',
+        $list_fields = array($l->g(69) => 'p.PUBLISHER',
+            'name' => 'NAME',
             $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
