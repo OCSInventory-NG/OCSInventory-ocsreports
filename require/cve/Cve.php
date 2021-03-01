@@ -104,12 +104,13 @@ class Cve
    */
   private function getPublisher($date, $check_history) {
     $sql = 'SELECT DISTINCT p.ID, p.PUBLISHER FROM software_publisher p
-          LEFT JOIN software s ON p.ID = s.PUBLISHER_ID 
-          LEFT JOIN software_name n ON n.ID = s.NAME_ID 
-          LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID
+            LEFT JOIN software_link sl ON p.ID = sl.PUBLISHER_ID 
+            LEFT JOIN software_name n ON n.ID = sl.NAME_ID 
+            LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID
+            LEFT JOIN software_categories_link scl ON scl.PUBLISHER_ID = p.ID
           WHERE p.ID != 1 AND TRIM(p.PUBLISHER) != ""';
     if($this->CVE_BAN != ""){
-      $sql .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
+      $sql .= ' AND scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .')';
     }
     if($date != null && $check_history != 0) {
       $sql .= ' AND (h.FLAG_DATE <= "'.$date.'" OR p.ID NOT IN (SELECT PUBLISHER_ID FROM cve_search_history))';
@@ -125,13 +126,15 @@ class Cve
    *  Get distinct software name by publisher
    */
   private function getSoftwareName($publisher_id) {
-    $sql_soft = "SELECT DISTINCT n.NAME, s.NAME_ID FROM software_name n 
-            LEFT JOIN software s ON s.NAME_ID = n.ID 
-            WHERE s.PUBLISHER_ID = %s AND TRIM(n.NAME) != ''";
+    $sql_soft = " SELECT DISTINCT n.NAME, sl.NAME_ID FROM software_name n 
+                  LEFT JOIN software_link sl ON sl.NAME_ID = n.ID
+                  LEFT JOIN software_categories_link scl ON scl.NAME_ID = n.ID
+                  WHERE sl.PUBLISHER_ID = %s AND TRIM(n.NAME) != ''";
     if($this->CVE_BAN != ""){
-      $sql_soft .= ' AND n.category NOT IN ('. $this->CVE_BAN .')';
+      $sql_soft .= ' AND scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .')';
     }
     $sql_soft .= " ORDER BY n.NAME";
+
     $arg_soft = array($publisher_id);
     $result_soft = mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
 
@@ -142,9 +145,9 @@ class Cve
    *  Get distinct software name by publisher
    */
   private function getSoftwareVersion($name_id) {
-    $sql_soft = "SELECT DISTINCT v.VERSION, s.VERSION_ID FROM software_version v 
-            LEFT JOIN software s ON s.VERSION_ID = v.ID 
-            WHERE s.NAME_ID = %s AND s.VERSION_ID != 1";
+    $sql_soft = " SELECT DISTINCT v.VERSION, sl.VERSION_ID FROM software_version v 
+                  LEFT JOIN software_link sl ON sl.VERSION_ID = v.ID 
+                  WHERE sl.NAME_ID = %s AND sl.VERSION_ID != 1";
     $sql_soft .= " ORDER BY v.VERSION";
     $arg_soft = array($name_id);
     $result_soft = mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
@@ -417,7 +420,7 @@ class Cve
     if(gettype($this->curlSession) == 'resource') curl_close($this->curlSession);
 
     if($this->CVE_BAN != ""){
-      $sql_ban = "SELECT DISTINCT c.NAME_ID FROM cve_search c LEFT JOIN software_name as s ON c.NAME_ID = s.ID WHERE s.category IN (%s)";
+      $sql_ban = "SELECT DISTINCT cs.NAME_ID FROM cve_search cs LEFT JOIN software_categories_link as scl ON cs.NAME_ID = scl.NAME_ID WHERE scl.CATEGORY_ID IN (%s)";
       $sql_ban_arg = array($this->CVE_BAN);
       $result_ban = mysql2_query_secure($sql_ban, $_SESSION['OCS']["readServer"], $sql_ban_arg);
 

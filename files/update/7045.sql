@@ -1,0 +1,33 @@
+-- Create software_categories_link table
+CREATE TABLE IF NOT EXISTS `software_categories_link` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `NAME_ID` INTEGER NOT NULL,
+    `PUBLISHER_ID` INTEGER NOT NULL,
+    `VERSION_ID` INTEGER NOT NULL,
+    `CATEGORY_ID` INTEGER NOT NULL,
+    PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB;
+
+ALTER TABLE `software_categories_link` ADD KEY `NAME_ID` (`NAME_ID`);
+ALTER TABLE `software_categories_link` ADD KEY `PUBLISHER_ID` (`PUBLISHER_ID`);
+ALTER TABLE `software_categories_link` ADD KEY `VERSION_ID` (`VERSION_ID`);
+ALTER TABLE `software_categories_link` ADD KEY `CATEGORY_ID` (`CATEGORY_ID`);
+
+-- DROP CATEGORY column from software_name
+ALTER TABLE `software_name` DROP COLUMN `CATEGORY`;
+
+-- Create software_link table
+CREATE TABLE IF NOT EXISTS `software_link` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `NAME_ID` INTEGER NOT NULL,
+    `PUBLISHER_ID` INTEGER NOT NULL,
+    `VERSION_ID` INTEGER NOT NULL,
+    `CATEGORY_ID` INTEGER DEFAULT NULL,
+    `IDENTIFIER` VARCHAR(255) NOT NULL,
+    `COUNT` INTEGER DEFAULT NULL,
+    PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB;
+
+ALTER TABLE `software_link` ADD KEY `NAME_ID` (`NAME_ID`);
+ALTER TABLE `software_link` ADD KEY `PUBLISHER_ID` (`PUBLISHER_ID`);
+ALTER TABLE `software_link` ADD KEY `VERSION_ID` (`VERSION_ID`);
