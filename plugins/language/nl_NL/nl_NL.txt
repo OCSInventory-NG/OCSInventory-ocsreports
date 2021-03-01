@@ -1125,7 +1125,7 @@
 1239 MHz
 1240 MB
 1241 Aantal SNMP apparaten
-1242 m/d/j
+1242 m/d/Y H:i
 1243 Alleen ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe en ocspackage.exe bestanden zijn mogelijk
 1244 Bestand mag niet leeg zijn
 1245 Beheer je OCS-NG clients
@@ -1153,7 +1153,7 @@
 1267 Type Virtual Computers
 1268 Uuid
 1269 Computer gehost door
-1270 MMDDJJJJ
+1270 mm/dd/yyyy hh:ii
 1271 Computers in het subnet
 1272 Verwijder deze computers
 1273 Je hebt geen rechten om een computer te verwijderen
