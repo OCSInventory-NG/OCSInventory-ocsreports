@@ -120,7 +120,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>wmic :application_identifier:</COMMAND> 
+        <COMMAND>wmic product where (name=':application_identifier:') call uninstall</COMMAND>
         <!-- Notify user -->
         <NOTIFY_USER>:NOTIFY_USER:</NOTIFY_USER>
         <!-- Notify text -->
