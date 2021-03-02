@@ -178,7 +178,7 @@
 266 无效的日期
 267 yyyy/mm/dd
 268 速度
-269 %Y/%m/%d
+269 %Y/%m/%d %H:%i
 270 调制解调器
 271 插槽)
 272 端口
@@ -1126,7 +1126,7 @@
 1239 MHz
 1240 MB
 1241 SNMP 装置的数量 
-1242 y/m/d
+1242 Y/m/d H:i
 1243 只能贴上 ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe 和 ocspackage.exe 档案
 1244 这个档案不能为空白
 1245 管理您的 OCS-NG 客户端
@@ -1154,7 +1154,7 @@
 1267 虚拟机的类型
 1268 Uuid
 1269 机器位于
-1270 YYYYMMDD
+1270 yyyy/mm/dd hh:ii
 1271 子网的计算机
 1272 删除这台电脑
 1273 您没有权限移除机器

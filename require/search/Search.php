@@ -955,9 +955,14 @@
                 'value' => $value[0],
                 'operator' => 'EQUAL',
             ];
+            $_SESSION['OCS']['multi_search']['software']['allsoftpublisher'] = [
+              'fields' => 'PUBLISHER_ID',
+              'value' => $value[1],
+              'operator' => 'EQUAL',
+            ];
             $_SESSION['OCS']['multi_search']['software']['allsoftversion'] = [
               'fields' => 'VERSION_ID',
-              'value' => $value[1],
+              'value' => $value[2],
               'operator' => 'EQUAL',
             ];
             break;
@@ -995,7 +1000,6 @@
                     'operator' => 'EQUAL',
                     'comparator' => 'OR',
                 ];
-
                 $_SESSION['OCS']['multi_search']['devices']['ipdiscover4'] = [
                     'fields' => 'TVALUE',
                     'value' => $value,

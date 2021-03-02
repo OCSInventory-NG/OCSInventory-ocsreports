@@ -84,7 +84,8 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
                     FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                     LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                     LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
-                    LEFT JOIN software_categories c ON n.CATEGORY = c.ID
+                    LEFT JOIN software_categories_link scl ON scl.NAME_ID = n.ID AND scl.VERSION_ID = v.ID AND scl.PUBLISHER_ID = p.ID
+                    LEFT JOIN software_categories c ON scl.CATEGORY_ID = c.ID
 					WHERE (hardware_id=$systemid)";
     $list_fields[$l->g(49)] = 'NAME';
 }

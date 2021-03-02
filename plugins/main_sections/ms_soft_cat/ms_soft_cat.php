@@ -71,10 +71,10 @@ if ($search_count != "" || $search_cache != "") {
 }
 
 $os_version = [
-  "ALL" => $l->g(1515),
-  "WINDOWS" => "Windows",
-  "unix" => "Unix",
-  "Android" => "Android"
+	"ALL" => $l->g(1515),
+	"WINDOWS" => "Windows",
+	"unix" => "Unix",
+	"Android" => "Android"
 ];
 
 $softCat = new SoftwareCategory();
@@ -96,26 +96,31 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
     if (is_defined($protectedPost['SUP_CAT'])) {
         if ($protectedPost['SUP_CAT'] == 1) {
             $first_onglet = 2;
-         }
-         $reqDcatall = "DELETE FROM software_category_exp WHERE CATEGORY_ID = (SELECT ID FROM software_categories WHERE CATEGORY_NAME = '" . $list_cat[$protectedPost['SUP_CAT']] . "')";
-         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+        }
+        // First delete regex
+        $reqDcatall = "DELETE FROM software_category_exp WHERE CATEGORY_ID = (SELECT ID FROM software_categories WHERE CATEGORY_NAME = '" . $list_cat[$protectedPost['SUP_CAT']] . "')";
+        mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+        // Second delete software_categories_link
+        $reqDcatSoft = "DELETE FROM software_categories_link WHERE CATEGORY_ID = (SELECT ID FROM software_categories WHERE CATEGORY_NAME = '" . $list_cat[$protectedPost['SUP_CAT']] . "')";
+        mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatSoft) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+		// End delete category info
         $reqDcat = "DELETE FROM software_categories WHERE CATEGORY_NAME ='" . $list_cat[$protectedPost['SUP_CAT']] . "'";
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcat) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
         unset($list_cat[$protectedPost['SUP_CAT']]);
         unset($protectedPost['SUP_CAT']);
-     }
+    }
 
-     if ($protectedPost['onglet_soft'] == "" || !isset($list_cat[$protectedPost['onglet_soft']])) {
-         $protectedPost['onglet_soft'] = $first_onglet;
-     }
+	if ($protectedPost['onglet_soft'] == "" || !isset($list_cat[$protectedPost['onglet_soft']])) {
+		$protectedPost['onglet_soft'] = $first_onglet;
+	}
 
-     if ($i <= 10) {
-         echo "<p>";
-         onglet($list_cat, $form_name, "onglet_soft", 5);
-         echo "</p>";
-     } else {
-         echo "<p>" . $l->g(398) . ": " . show_modif($list_cat, 'onglet_soft', 2, $form_name) . "</p>";
-     }
+	if ($i <= 10) {
+		echo "<p>";
+		onglet($list_cat, $form_name, "onglet_soft", 5);
+		echo "</p>";
+	} else {
+		echo "<p>" . $l->g(398) . ": " . show_modif($list_cat, 'onglet_soft', 2, $form_name) . "</p>";
+	}
 
     //delete regex
     if (is_defined($protectedPost['SUP_PROF'])) {
@@ -132,9 +137,9 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
     }
 
     if($os_version[$os[$list_cat[$protectedPost['onglet_soft']]]] != null){
-      echo "<br><br><h4>".$l->g(274)." : ".$os_version[$os[$list_cat[$protectedPost['onglet_soft']]]]."</h4><br>";
+      	echo "<br><br><h4>".$l->g(274)." : ".$os_version[$os[$list_cat[$protectedPost['onglet_soft']]]]."</h4><br>";
     }else{
-      echo "<br><br><h4>".$l->g(274)." : ".$l->g(1515)."</h4><br>";
+      	echo "<br><br><h4>".$l->g(274)." : ".$l->g(1515)."</h4><br>";
     }
 
     if(!empty($list_cat)){
@@ -181,16 +186,16 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         $tab_options['table_name'] = $table_name;
 
         $list_fields = array(
-          $l->g(69) => 'PUBLISHER',
-          $l->g(382) => 'NAME',
-          $l->g(277) => 'VERSION',
+			$l->g(69) => 'PUBLISHER',
+			$l->g(382) => 'NAME',
+			$l->g(277) => 'VERSION',
         );
 
-        $queryDetails = "SELECT *, n.NAME, p.PUBLISHER, v.VERSION FROM software s
-                        LEFT JOIN software_name n ON n.ID = s.NAME_ID
-                        LEFT JOIN software_publisher p ON p.ID = s.PUBLISHER_ID 
-                        LEFT JOIN software_version v ON v.ID = s.VERSION_ID 
-                        WHERE n.CATEGORY =".$categorie_id[$list_cat[$protectedPost['onglet_soft']]]." GROUP BY n.NAME, v.VERSION";
+        $queryDetails = "SELECT n.NAME, p.PUBLISHER, v.VERSION FROM software_categories_link scl
+                        LEFT JOIN software_name n ON n.ID = scl.NAME_ID
+                        LEFT JOIN software_publisher p ON p.ID = scl.PUBLISHER_ID 
+                        LEFT JOIN software_version v ON v.ID = scl.VERSION_ID 
+                        WHERE scl.CATEGORY_ID =".$categorie_id[$list_cat[$protectedPost['onglet_soft']]];
         $default_fields = $list_fields;
         $list_col_cant_del = $list_fields;
         $list_fields[$l->g(51)] = 'COMMENTS';
@@ -204,9 +209,9 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         $list_fields[$l->g(1247)] = 'BITSWIDTH';
 
         ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-  }else{
-      msg_warning($l->g(1506));
-  }
+	}else{
+		msg_warning($l->g(1506));
+	}
 }
 
 /**********************************************NEW CATEGORY********************************************************/
@@ -215,9 +220,9 @@ if($protectedPost['onglet'] == 'NEW_CAT'){
     if(isset($protectedPost['valid'])){
         $result = $softCat->add_category($protectedPost['cat_name'], $protectedPost['os_version']);
         if($result == true){
-          msg_success($l->g(572));
+          	msg_success($l->g(572));
         }else{
-          msg_error($l->g(573));
+          	msg_error($l->g(573));
         }
     }
 

@@ -130,33 +130,43 @@ if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NB
 
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
-    $sql['SQL'] = 'SELECT *, count(CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
-                FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
-                LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
-                LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
-                LEFT JOIN software_categories sc ON n.CATEGORY = sc.ID';
+    $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb 
+                    FROM software_link sl 
+                    LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
+                    LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
+                    LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
+                    LEFT JOIN software_categories sc ON sl.CATEGORY_ID = sc.ID ';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
-      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"];
+        $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
+                        LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
+                        WHERE ".$_SESSION['OCS']["mesmachines"];
     }
 
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME_ID, s.VERSION_ID";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] =  $sql_fin['ARG'];
         }
 
-        $list_fields = array('name' => 'n.NAME',
+        $list_fields = array($l->g(69) => 'p.PUBLISHER',
+            'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
-            'nbre' => 'nb',
         );
+
+        if(!is_defined($_SESSION['OCS']["mesmachines"])) {
+            $list_fields['nbre'] = 'nb';
+            $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+            $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+        } else {
+            $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+            $tab_options['LIEN_CHAMP']['name'] = 'id';
+        }
+
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
-        $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-        $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
         $tab_options['LBL']['nbre'] = $l->g(1120);
         $tab_options['ARG_SQL'] = $sql['ARG'];
@@ -171,35 +181,46 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $champs = array('DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     $values = look_config_default_values($champs);
 
-    $sql['SQL'] = 'SELECT *, count(CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
-                    FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
-                    LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
-                    LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
-                    LEFT JOIN software_categories sc ON n.CATEGORY = sc.ID';
+    $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb
+                    FROM software_link sl
+                    LEFT JOIN software_name n ON sl.NAME_ID = n.ID
+                    LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID
+                    LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
+                    LEFT JOIN software_categories_link scl ON scl.NAME_ID = sl.NAME_ID AND scl.VERSION_ID = sl.VERSION_ID AND scl.PUBLISHER_ID = sl.PUBLISHER_ID
+                    LEFT JOIN software_categories sc ON scl.CATEGORY_ID = sc.ID ';
 
     //If restriction
-    if (is_defined($_SESSION['OCS']["mesmachines"])) {
-      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND n.CATEGORY != %s AND n.CATEGORY IS NOT NULL";
+    if(is_defined($_SESSION['OCS']["mesmachines"])) {
+        $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID
+                        LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
+                        WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID != %s";
     } else {
-      $sql['SQL'] .= ' WHERE n.CATEGORY != %s AND n.CATEGORY IS NOT NULL';
+        $sql['SQL'] .= ' WHERE scl.CATEGORY_ID != %s';
     }
 
     $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
     if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME_ID, s.VERSION_ID";
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array('name' => 'n.NAME',
+        $list_fields = array($l->g(69) => 'p.PUBLISHER',
+            'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
-            'nbre' => 'nb',
         );
+
+        if(!is_defined($_SESSION['OCS']["mesmachines"])) {
+            $list_fields['nbre'] = 'nb';
+            $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+            $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+        } else {
+            $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+            $tab_options['LIEN_CHAMP']['name'] = 'id';
+        }
+
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
-        $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-        $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
         $tab_options['LBL']['nbre'] = $l->g(1120);
         $tab_options['ARG_SQL'] = $sql['ARG'];
@@ -211,35 +232,46 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
 /****************************************** SOFTWARE PER CATEGORY ******************************************/
 else {
-    $sql['SQL'] = 'SELECT *, count(CONCAT(s.NAME_ID,"_", s.VERSION_ID)) as nb, CONCAT(n.NAME,";", v.VERSION) id, sc.CATEGORY_NAME, v.VERSION, n.NAME, p.PUBLISHER 
-                FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
-                LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
-                LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
-                LEFT JOIN software_categories sc ON n.CATEGORY = sc.ID';
+    $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb 
+                    FROM software_link sl 
+                    LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
+                    LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
+                    LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
+                    LEFT JOIN software_categories_link scl ON scl.NAME_ID = sl.NAME_ID AND scl.VERSION_ID = sl.VERSION_ID AND scl.PUBLISHER_ID = sl.PUBLISHER_ID
+                    LEFT JOIN software_categories sc ON scl.CATEGORY_ID = sc.ID ';
 
     //If restriction
     if (is_defined($_SESSION['OCS']["mesmachines"])) {
-      $sql['SQL'] .= " LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID WHERE ".$_SESSION['OCS']["mesmachines"]." AND n.CATEGORY = %s";
+        $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID
+                        LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
+                        WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID = %s";
     } else {
-      $sql['SQL'] .= ' WHERE n.CATEGORY = %s';
+        $sql['SQL'] .= ' WHERE scl.CATEGORY_ID = %s';
     }
 
     $sql['ARG'] = array($protectedPost['onglet']);
-    if (isset($sql)) {
-        $sql['SQL'] .= " GROUP BY s.NAME_ID, s.VERSION_ID";
+    if (isset($sql)) {;
         if ($sql_fin['SQL'] != '') {
             $sql['SQL'] .= $sql_fin['SQL'];
             $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
         }
-        $list_fields = array('name' => 'NAME',
-            $l->g(7003) => 's.VERSION',
+        $list_fields = array($l->g(69) => 'p.PUBLISHER',
+            'name' => 'NAME',
+            $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
-            'nbre' => 'nb',
         );
+
+        if(!is_defined($_SESSION['OCS']["mesmachines"])) {
+            $list_fields['nbre'] = 'nb';
+            $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+            $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+        } else {
+            $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+            $tab_options['LIEN_CHAMP']['name'] = 'id';
+        }
+
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
-        $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-        $tab_options['LIEN_CHAMP']['nbre'] = 'id';
         $tab_options['LBL']['name'] = $l->g(847);
         $tab_options['LBL']['nbre'] = $l->g(1120);
         $tab_options['ARG_SQL'] = $sql['ARG'];
@@ -251,9 +283,9 @@ else {
 
 /****************************************** FILTER ******************************************/
 $options_compar = [
-  "lt" => "&lt;",
-  "gt" => "&gt;",
-  "eq" => "=",
+    "lt" => "&lt;",
+    "gt" => "&gt;",
+    "eq" => "=",
 ];
 
 echo "<button type='button' data-toggle='collapse' data-target='#filter' class='btn'>" . $l->g(735) . "</button>";
@@ -268,11 +300,11 @@ echo '<div class="form-group">
         <select name="COMPAR" id="COMPAR" class="form-control">
             <option value=""></option>';
             foreach ($options_compar as $key => $value){
-              if($key == $protectedPost['COMPAR']){
-                echo '<option value="'.$key.'" selected>'.$value.'</option>';
-              }else{
-                echo '<option value="'.$key.'">'.$value.'</option>';
-              }
+                if($key == $protectedPost['COMPAR']){
+                    echo '<option value="'.$key.'" selected>'.$value.'</option>';
+                }else{
+                    echo '<option value="'.$key.'">'.$value.'</option>';
+                }
             }
 echo '</select>
     </div>
@@ -299,12 +331,12 @@ $tab_options['NO_SEARCH']['id'] = 'id';
 $ft_idx = dbGetFTIndex('software', 's');
 if(is_array($tab_options['visible_col'])) {
     foreach($tab_options['visible_col'] as $column) {
-            $cname = $tab_options['columns'][$column]['name'];
-            if (!empty($ft_idx[$cname])) {
-                    $tab_options['columns'][$column]['ft_index'] = 'true';
-            } else {
-                    $tab_options['columns'][$column]['ft_index'] = 'false';
-            }
+        $cname = $tab_options['columns'][$column]['name'];
+        if (!empty($ft_idx[$cname])) {
+            $tab_options['columns'][$column]['ft_index'] = 'true';
+        } else {
+            $tab_options['columns'][$column]['ft_index'] = 'false';
+        }
     }
 }
 

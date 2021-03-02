@@ -342,8 +342,9 @@ function msg_error($txt, $close = false) {
 }
 
 function html_header($noJavascript = false) {
-
-    $value_theme = look_config_default_values('CUSTOM_THEME');
+    if (!$_SESSION['OCS']['readServer']) {
+        $value_theme = look_config_default_values('CUSTOM_THEME');
+    }
     if(is_null($value_theme)){
       $value_theme['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
     }
@@ -418,7 +419,8 @@ function strip_tags_array($value = '') {
     $value = is_array($value) ? array_map('strip_tags_array', $value) : strip_tags($value, "<p><b><i><font><br><center>");
 
     if(!is_array($value)){
-      $value = htmlspecialchars($value, ENT_QUOTES);
+        // set double encode to false to avoid re encoding html entities
+      $value = htmlspecialchars($value, ENT_QUOTES, $encoding = '', false);
     }
 
     return $value;
