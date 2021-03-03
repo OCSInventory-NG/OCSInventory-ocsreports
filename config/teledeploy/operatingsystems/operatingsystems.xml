@@ -26,7 +26,7 @@
         <linkedinteractions>
             <category id="installuninstallwindows">
                 <interaction order="1">msiapplication</interaction>
-                <interaction order="2">winget</interaction>
+                <interaction order="2">updateagent</interaction>
                 <interaction order="3">executable</interaction>
                 <interaction order="4">uninstall</interaction>
             </category>
@@ -35,9 +35,8 @@
                 <interaction order="1">batchscript</interaction>
             </category>
             <category id="otherswindows">
-                <interaction order="2">store</interaction>
-                <interaction order="1">updateagent</interaction>
-                <interaction order="3">custompackage</interaction>
+                <interaction order="1">store</interaction>
+                <interaction order="2">custompackage</interaction>
             </category>
         </linkedinteractions>
     </osdefinition>
