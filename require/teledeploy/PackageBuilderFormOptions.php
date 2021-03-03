@@ -52,7 +52,10 @@ class PackageBuilderFormOptions
                 $html .= '</div></div>';
                 if($formblockDetails->id == "NOTIFY_USER" || $formblockDetails->id == "NEED_DONE_ACTION") {
                     $html .= '<div id="'.$formblockDetails->id.'_div" style="display: none;">';
-                } elseif ($formblockDetails->id == "NOTIFY_CAN_DELAY" || $formblockDetails->id == "NEED_DONE_ACTION_TEXT" || ($optionInfos->id == "uninstallopt" && $formblockDetails->id == "NOTIFY_COUNTDOWN")) {
+                } elseif ($formblockDetails->id == "NOTIFY_CAN_DELAY" 
+                        || $formblockDetails->id == "NEED_DONE_ACTION_TEXT" 
+                        || ($optionInfos->id == "uninstallopt" && $formblockDetails->id == "NOTIFY_COUNTDOWN") 
+                        || ($optionInfos->id == "executableopt" && $formblockDetails->id == "NOTIFY_COUNTDOWN")) {
                     $html .= '</div>';
                 }
             }

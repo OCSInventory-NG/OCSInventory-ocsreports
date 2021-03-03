@@ -67,6 +67,45 @@
             <defaultvalue/>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
+        <formblock>
+            <id>NOTIFY_USER</id>
+            <label>448</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>454</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>455</name>
+                </option>
+            </options>
+            <specialcharallowed>false</specialcharallowed>
+            <javascript>onchange="notifyUser()"</javascript>
+        </formblock>
+        <formblock>
+            <id>NOTIFY_TEXT</id>
+            <label>449</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <specialcharallowed>true</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>NOTIFY_COUNTDOWN</id>
+            <label>450</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <specialcharallowed>true</specialcharallowed>
+            <javascript>onkeypress="return scanTouche(event,/[0-9]/);" onkeydown="convertToUpper(this);" onkeyup="convertToUpper(this);" onblur="convertToUpper(this);" onclick="convertToUpper(this);"</javascript>
+        </formblock>
     </formoption>
     <!-- Package builder -->
     <packagebuilder>
@@ -98,11 +137,11 @@
         <!-- File command -->
         <COMMAND>executable.exe :arguments:</COMMAND> 
         <!-- Notify user -->
-        <NOTIFY_USER>0</NOTIFY_USER>
+        <NOTIFY_USER>:NOTIFY_USER:</NOTIFY_USER>
         <!-- Notify text -->
-        <NOTIFY_TEXT/>
+        <NOTIFY_TEXT>:NOTIFY_TEXT:</NOTIFY_TEXT>
         <!-- Notify popup countdown -->
-        <NOTIFY_COUNTDOWN/>
+        <NOTIFY_COUNTDOWN>:NOTIFY_COUNTDOWN:</NOTIFY_COUNTDOWN>
         <!-- Can user abort -->
         <NOTIFY_CAN_ABORT>0</NOTIFY_CAN_ABORT>
         <!-- Can user delay -->
