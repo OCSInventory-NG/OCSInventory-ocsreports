@@ -59,6 +59,53 @@ if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
     unset($protectedPost['MODIF']);
 }
 
+if (is_defined($protectedPost['Valid_modif'])) {
+    $error = "";
+
+    $opensslOk = function_exists("openssl_open");
+
+    if ($opensslOk) {
+        $httpsOk = @fopen("https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/info", "r");
+    } else {
+        $error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
+    }
+
+    if (!$httpsOk) {
+        $error .= $l->g(466) . " https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/<br>";
+    } else {
+        fclose($httpsOk);
+    }
+
+    if ($protectedPost['choix_activ'] == "MAN") {
+        $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $protectedGet["active"] . "'";
+        $resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);
+        $valFrags = mysqli_fetch_array($resFrags);
+        $fragAvail = ($valFrags["fragments"] > 0);
+        if ($fragAvail) {
+            $fragOk = @fopen("http://" . $protectedPost["FILE_SERV"] . "/" . $protectedGet["active"] . "/" . $protectedGet["active"] . "-1", "r");
+        } else {
+            $fragOk = true;
+        }
+    } else {
+        $fragOk = true;
+    }
+
+    if ($fragAvail) {
+        fclose($fragOk);
+    }
+}
+
+if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
+    if ($protectedPost['choix_activ'] == "MAN") {
+        activ_pack($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV']);
+    }
+
+    if ($protectedPost['choix_activ'] == "AUTO") {
+        activ_pack_server($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV_REDISTRIB']);
+    }
+    echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
+}
+
 show_tabs($data_on,$form_name,"onglet",true);
 
 echo '<div class="col col-md-10" >';
