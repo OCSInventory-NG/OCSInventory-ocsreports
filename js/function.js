@@ -367,6 +367,7 @@ function verifPackageName(input) {
             success : function(dataverif, status) {
                 var result = jQuery.parseJSON(dataverif);
                 if(result.file_exist == false) {
+                    $('#error_name').remove();
                     $(input).parent().parent().prepend("<p id='error_name' style='color:red;'>Name already exist</p>");
                     $('#valid').attr("disabled", true);
                 } else {
