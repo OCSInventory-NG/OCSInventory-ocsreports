@@ -1761,10 +1761,10 @@
 9348 Packager file
 9349 Application name
 9350 Application identifier
-9351 How to find wmic application identifier : blablabla
+9351 How to find wmic application identifier : open a cmd as administrator and run "wmic product get name"
 9352 EXE file
 9353 Script file
-9354 Write your script here or put your script file
+9354 Write your script here <b>OR</b> put your script file
 9355 Put your packager file with all parameters inside
 9356 If multiple files, please zip before
 9357 Packager type
