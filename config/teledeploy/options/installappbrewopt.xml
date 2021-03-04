@@ -80,7 +80,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>brew install :application_name:</COMMAND> 
+        <COMMAND>username=$(last -1 | awk '{print $1}');su - $username -c 'brew install :application_name:'</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
