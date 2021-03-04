@@ -46,7 +46,17 @@ class PackageBuilder
 			'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR',
 			'DOWNLOAD_ACTIVATE_FRAG' => 'DOWNLOAD_ACTIVATE_FRAG',
 			'DOWNLOAD_RATIO_FRAG' => 'DOWNLOAD_RATIO_FRAG',
+			'DOWNLOAD_AUTO_ACTIVATE' => 'DOWNLOAD_AUTO_ACTIVATE',
+			'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG',
+			'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO'
 		]);
+
+		if ($this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] == "") {
+            $this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] = $_SERVER["SERVER_ADDR"]."/download";;
+        }
+        if ($this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] == "") {
+            $this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] = $_SERVER["SERVER_ADDR"]."/download";;
+        }
 	}
 	
 	/**
@@ -185,8 +195,42 @@ class PackageBuilder
 		$packageInfos['FRAG'] = $details['frag'];
 		$packageInfos['SIZE'] = $details['size'];
 		$packageInfos['PRIO'] = $xmlDetails->packagedefinition->PRI;
+		$packageInfos['ACTIVATE'] = $l->g(454);
+
+		// Autot activate package
+		if(isset($this->downloadConfig['ivalue']['DOWNLOAD_AUTO_ACTIVATE']) && $this->downloadConfig['ivalue']['DOWNLOAD_AUTO_ACTIVATE'] == 1) {
+			$packageInfos['ACTIVATE'] = $this->activate_package($timestamp, $this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'], $this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG']);
+		}
 
 		return $packageInfos;
+	}
+
+	public function activate_package($fileid, $https_server, $file_serv) {
+		global $l;
+
+		$reqEnable = "SELECT * FROM download_enable WHERE FILEID = %s";
+		$argEnable = array($fileid);
+		$result = mysql2_query_secure($reqEnable, $_SESSION['OCS']["readServer"], $argEnable);
+
+		$listInfoLoc = [];
+		$listPackLoc = [];
+
+		while($recVerif = mysqli_fetch_array($result)){
+			$listInfoLoc[] = $recVerif['INFO_LOC'];
+			$listPackLoc[] = $recVerif['PACK_LOC'];
+		}
+
+		if(!in_array($https_server, $listInfoLoc) && !in_array($file_serv, $listPackLoc)){
+			$req = "INSERT INTO download_enable(FILEID, INFO_LOC, PACK_LOC, CERT_FILE, CERT_PATH) 
+					VALUES ('%s', '%s', '%s', 'INSTALL_PATH/cacert.pem','INSTALL_PATH')";
+			$arg = array($fileid, $https_server, $file_serv);
+			$result = mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg, $l->g(512));
+
+			if($result) {
+				return $l->g(455);
+			}
+		}
+		return $l->g(454);
 	}
 
 	private function tarScriptFile($path, $name, $newName) {

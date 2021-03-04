@@ -136,7 +136,8 @@ class PackageBuilderForm
         $html .= '<p><b>Description :</b> '.$packageInfos['DESCRIPTION'].'<p>';
         $html .= '<p><b>Fragment number :</b> '.$packageInfos['FRAG'].'<p>';
         $html .= '<p><b>Size :</b> '.$packageInfos['SIZE'].'<p>';
-        $html .= '<p><b>Priority :</b> '.$packageInfos['PRIO'].'<p><br>';
+        $html .= '<p><b>Priority :</b> '.$packageInfos['PRIO'].'<p>';
+        $html .= '<p><b>Activate :</b> '.$packageInfos['ACTIVATE'].'<p><br>';
 
         return $html;
     }
