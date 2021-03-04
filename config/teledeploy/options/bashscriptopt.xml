@@ -78,7 +78,7 @@
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
-            <id>pathfile</id>
+            <id>arguments</id>
             <label>9347</label>
             <mandatory></mandatory>
             <type>text</type>
@@ -123,7 +123,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>sh bashscript.sh</COMMAND> 
+        <COMMAND>sh bashscript.sh :arguments:</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
