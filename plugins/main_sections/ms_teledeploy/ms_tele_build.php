@@ -43,6 +43,8 @@ echo "<div class='container'>
 $form_name = "generate_build_package";
 printEnTete($l->g(434));
 
+echo "<br><a href='' class='btn btn-info' role='button' onClick='reload();'>".$l->g(9361)."</a><br>";
+
 /*********************** VALID FORM ***********************/
 if(isset($protectedPost['valid'])) {
     $packageInfos = $packageBuilder->buildPackage($_POST,$_FILES);

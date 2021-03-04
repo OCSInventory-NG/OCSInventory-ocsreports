@@ -69,7 +69,7 @@ class PackageBuilderFormInteractions
                             <div class="card_deploy">
                                 <div class="container_deploy">
                                     <a onClick="loadOptions(\''.$xmlInteractionDetails->refos.'\',\''.$xmlInteractionDetails->linkedoptions.'\')">
-                                        <img src="'.$xmlInteractionDetails->imgref.'" style="margin-top:10px;"/>
+                                        <img src="'.$xmlInteractionDetails->imgref.'" style="margin-top:10px;width:50px;height:50px;"/>
                                         <h4><b>'.$l->g(intval($xmlInteractionDetails->name)).'</b></h4>
                                     </a>
                                 </div>

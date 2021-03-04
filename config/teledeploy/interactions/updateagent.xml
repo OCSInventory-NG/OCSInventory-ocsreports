@@ -7,7 +7,7 @@
     <!-- Linked operating system ID -->
     <refos>windows</refos>
     <!-- Image reference -->
-    <imgref>image/installing.png</imgref>
+    <imgref>image/logo-ocs-black.png</imgref>
     <!-- Linked option -->
     <linkedoptions>updateagentopt</linkedoptions>
 </interactiondefinition>
