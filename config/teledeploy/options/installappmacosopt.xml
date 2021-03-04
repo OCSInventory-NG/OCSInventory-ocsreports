@@ -7,7 +7,7 @@
     <!-- Linked reference id -->
     <refint>installappmacos</refint>
     <!-- Replace value on xml ? true / false -->
-    <replace>false</replace>
+    <replace>true</replace>
     <!-- Form options-->
     <formoption>
         <!-- 
@@ -51,13 +51,23 @@
         </formblock>
         <formblock>
             <id>additionalfiles</id>
-            <label>9343</label>
+            <label>137</label>
             <mandatory>required</mandatory>
             <type>file</type>
             <disabled>false</disabled>
             <defaultvalue/>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
+        <formblock>
+            <id>pathfile</id>
+            <label>445</label>
+            <mandatory>required</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+
     </formoption>
     <!-- Package builder -->
     <packagebuilder>
@@ -69,7 +79,6 @@
         <filesinarchive>
             <!-- Target formblock id-->
             <targetid>additionalfiles</targetid>
-            <replacename>application.app</replacename>
             <!-- Force a specific file name in ouput, no action performed if empty -->
             <filename/>
         </filesinarchive>
@@ -83,11 +92,11 @@
         <!-- Priority -->
         <PRI>5</PRI>
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
-        <ACT>EXECUTE</ACT>
+        <ACT>STORE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>installer -app application.app</COMMAND> 
+        <COMMAND>:pathfile:</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
