@@ -59,9 +59,9 @@
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
-            <id>arguments</id>
-            <label>9347</label>
-            <mandatory></mandatory>
+            <id>pathfile</id>
+            <label>445</label>
+            <mandatory>required</mandatory>
             <type>text</type>
             <disabled>false</disabled>
             <defaultvalue/>
@@ -96,7 +96,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>installer -pkg application.pkg :arguments:</COMMAND> 
+        <COMMAND>installer -pkg application.pkg -target :pathfile:</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
