@@ -131,13 +131,32 @@ class PackageBuilderForm
     public function generateResume($packageInfos) {
         global $l;
 
-        $html = '<h3 class="text-center">Resume</h3></br>';
-        $html .= '<p><b>Name :</b> '.$packageInfos['NAME'].'<p>';
-        $html .= '<p><b>Description :</b> '.$packageInfos['DESCRIPTION'].'<p>';
-        $html .= '<p><b>Fragment number :</b> '.$packageInfos['FRAG'].'<p>';
-        $html .= '<p><b>Size :</b> '.$packageInfos['SIZE'].'<p>';
-        $html .= '<p><b>Priority :</b> '.$packageInfos['PRIO'].'<p>';
-        $html .= '<p><b>Activate :</b> '.$packageInfos['ACTIVATE'].'<p><br>';
+        $html = '<h3 class="text-center">Resume</h3><br><br>';
+
+        $html .= '<div class="table-responsive">
+                    <table class="table">
+                        <thead style="background-color:#20222e;color:white;">
+                            <tr>
+                                <th style="text-align:center;"><font>'.$l->g(49).'</font></th>
+                                <th style="text-align:center;"><font>'.$l->g(53).'</font></th>
+                                <th style="text-align:center;"><font>'.$l->g(464).'</font></th>
+                                <th style="text-align:center;"><font>'.$l->g(462).'</font></th>
+                                <th style="text-align:center;"><font>'.$l->g(1039).'</font></th>
+                                <th style="text-align:center;"><font>'.$l->g(9206).'</font></th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color:#EAECEE;">
+                            <tr>
+                                <td style="text-align:center;">'.$packageInfos['NAME'].'</td>
+                                <td style="text-align:center;">'.$packageInfos['DESCRIPTION'].'</td>
+                                <td style="text-align:center;">'.$packageInfos['FRAG'].'</td>
+                                <td style="text-align:center;">'.$packageInfos['SIZE'].'</td>
+                                <td style="text-align:center;">'.$packageInfos['PRIO'].'</td>
+                                <td style="text-align:center;">'.$packageInfos['ACTIVATE'].'</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>';
 
         return $html;
     }

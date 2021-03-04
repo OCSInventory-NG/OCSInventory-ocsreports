@@ -1718,6 +1718,7 @@
 9203 Activate download fragmentation
 9204 Configure download fragmentation ratio
 9205 Enable auto activation package
+9206 Activated
 
 9300 Interactions
 9301 Options
