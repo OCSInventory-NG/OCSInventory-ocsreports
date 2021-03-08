@@ -80,7 +80,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>add-apt-repository ':repository_url:'</COMMAND> 
+        <COMMAND>add-apt-repository -y ':repository_url:'</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
