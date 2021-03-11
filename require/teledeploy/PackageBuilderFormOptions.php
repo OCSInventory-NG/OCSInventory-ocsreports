@@ -77,7 +77,11 @@ class PackageBuilderFormOptions
                 if($formblockDetails->id == "PRI") {
                     $i = 0;
                     while($i <= 9) {
-                        $select .= '<option value="'.$i.'">'.$i.'</option>';
+                        if($i == 5) {
+                            $select .= '<option value="'.$i.'" selected>'.$i.'</option>';
+                        } else {
+                            $select .= '<option value="'.$i.'">'.$i.'</option>';
+                        }
                         $i++;
                     }
                 } else {
