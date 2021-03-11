@@ -103,7 +103,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>:linux_type: remove -y :application_name:</COMMAND> 
+        <COMMAND>:linux_type: remove -y :application_name: ; exit 0</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
