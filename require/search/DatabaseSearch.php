@@ -60,7 +60,8 @@ class DatabaseSearch
         "itmgmt_comments",
         "javainfo",
         "journallog",
-        "groups"
+        "groups",
+        "accesslog"
     ];
 
     /**
