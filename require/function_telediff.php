@@ -357,10 +357,14 @@ function del_pack($fileid) {
 
 // Definitly remove packet from database
 function remove_packet($fileid) {
+    // remove pkg from machines history
+    $reqDelHistory = "DELETE FROM `download_history` WHERE PKG_ID ='%s'";
+    $argDelHistory = $fileid;
+    mysql2_query_secure($reqDelHistory, $_SESSION['OCS']["writeServer"], $argDelHistory);
+
     //delete info of this pack
     $reqDelAvailable = "DELETE FROM `download_available` WHERE `FILEID` = '%s'";
     $argDelAvailable = $fileid;
-
     mysql2_query_secure($reqDelAvailable, $_SESSION['OCS']["writeServer"], $argDelAvailable);
 }
 
