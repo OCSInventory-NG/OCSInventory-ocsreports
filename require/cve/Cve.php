@@ -133,7 +133,7 @@ class Cve
                   LEFT JOIN software_categories_link scl ON scl.NAME_ID = n.ID
                   WHERE sl.PUBLISHER_ID = %s AND TRIM(n.NAME) != ''";
     if($this->CVE_BAN != ""){
-      $sql_soft .= ' AND scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .')';
+      $sql_soft .= ' AND (scl.CATEGORY_ID IS NULL OR scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .'))';
     }
     $sql_soft .= " ORDER BY n.NAME";
 
