@@ -234,14 +234,11 @@ if ($protectedPost['onglet'] == 'NEW') {
     }
 
     $querydico = substr($querydico, 0, -1);
-    if ($table == 'software_name') { 
-        $querydico .= " from software_name where name in (" . $list_soft . ") and name != ''";
-    } elseif ($table == 'softwares_name_cache') {
-        $querydico .= " from software_name where name != ''";
-    }
-    $querydico .= " and name not in (select extracted name from dico_soft)
-            and name not in (select extracted name from dico_ignored)
-			group by name ";
+    $querydico .= " from software_name
+                    where name in (" . $list_soft . ") and name != ''
+                    and name not in (select extracted name from dico_soft)
+                    and name not in (select extracted name from dico_ignored)
+                    group by name ";
 }
 /* * *****************************************************CAS OF IGNORED****************************************************** */
 if ($protectedPost['onglet'] == 'IGNORED') {
