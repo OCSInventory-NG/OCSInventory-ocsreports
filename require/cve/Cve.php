@@ -110,7 +110,9 @@ class Cve
             LEFT JOIN software_categories_link scl ON scl.PUBLISHER_ID = p.ID
           WHERE p.ID != 1 AND TRIM(p.PUBLISHER) != ""';
     if($this->CVE_BAN != ""){
-      $sql .= ' AND scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .')';
+      // fix cve ban retuns 0 cve -> double condition is necessary
+      // bc 'NOT IN' does not apply to softs not referenced in scl table (not in any category)
+      $sql .= ' AND (scl.CATEGORY_ID IS NULL OR scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .'))';
     }
     if($date != null && $check_history != 0) {
       $sql .= ' AND (h.FLAG_DATE <= "'.$date.'" OR p.ID NOT IN (SELECT PUBLISHER_ID FROM cve_search_history))';
@@ -131,7 +133,7 @@ class Cve
                   LEFT JOIN software_categories_link scl ON scl.NAME_ID = n.ID
                   WHERE sl.PUBLISHER_ID = %s AND TRIM(n.NAME) != ''";
     if($this->CVE_BAN != ""){
-      $sql_soft .= ' AND scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .')';
+      $sql_soft .= ' AND (scl.CATEGORY_ID IS NULL OR scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .'))';
     }
     $sql_soft .= " ORDER BY n.NAME";
 
