@@ -31,6 +31,7 @@ if(isset($_GET['fieldid'])){
 
 function get_html($fieldId) {
     global $l;
+    $fieldId = htmlspecialchars($fieldId, ENT_QUOTES, 'UTF-8');
     $html = '<div class="input-group date form_datetime">
                 <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value=""/>
                 <span class="input-group-addon">
