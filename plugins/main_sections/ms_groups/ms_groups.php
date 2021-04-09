@@ -170,7 +170,6 @@ if ($protectedPost['onglet'] == "STAT") {
     }
 }
 //on ajoute un javascript lorsque l'on clic sur la visibilité du groupe pour tous
-$tab_options['JAVA']['CHECK']['NAME'] = "NAME";
 $tab_options['JAVA']['CHECK']['QUESTION'] = $l->g(811);
 $tab_options['FILTRE'] = array('NAME' => $l->g(679), 'DESCRIPTION' => $l->g(53));
 //affichage du tableau
