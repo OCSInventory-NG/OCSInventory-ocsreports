@@ -143,7 +143,7 @@ class SoftwareCategory
                         </tr>';
 
         foreach ($cat as $key => $value){
-          $sql = "SELECT `NAME` FROM software_name WHERE CATEGORY = %s";
+          $sql = "SELECT `NAME` FROM software_name sn LEFT JOIN software_categories_link scl ON sn.ID = scl.NAME_ID WHERE scl.CATEGORY_ID = %s";
           $arg = array($key);
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
