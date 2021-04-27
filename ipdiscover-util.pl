@@ -235,6 +235,8 @@ if ($isNet){
     my ($subnet, $mask) = split(/\//, $ips); 
     $mask = _bintoascii($mask) if($mask=~/^\d\d$/);
 
+    $dbh->do('DELETE FROM netmap WHERE NETID = ?', {}, $subnet);
+
     if ($scantype eq "nmap"){ #Scan with nmap
       $str = `nmap -sn $ips`;
       #get all values
