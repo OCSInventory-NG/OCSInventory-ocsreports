@@ -245,6 +245,7 @@ if($protectedPost['onglet'] == "ACTIVE") {
 // TAG RESTRICTIONS
 if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
     $tag = $_GET['value'];
+    $tag = htmlspecialchars($tag, ENT_QUOTES, 'UTF-8');
     $queryDetails .= "AND a.TAG= '$tag' ";
 }
 

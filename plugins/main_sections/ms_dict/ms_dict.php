@@ -235,10 +235,10 @@ if ($protectedPost['onglet'] == 'NEW') {
 
     $querydico = substr($querydico, 0, -1);
     $querydico .= " from software_name
-            where name != ''
-            and name not in (select extracted name from dico_soft)
-            and name not in (select extracted name from dico_ignored)
-			group by name ";
+                    where name in (" . $list_soft . ") and name != ''
+                    and name not in (select extracted name from dico_soft)
+                    and name not in (select extracted name from dico_ignored)
+                    group by name ";
 }
 /* * *****************************************************CAS OF IGNORED****************************************************** */
 if ($protectedPost['onglet'] == 'IGNORED') {

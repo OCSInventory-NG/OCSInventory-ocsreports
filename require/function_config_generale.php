@@ -395,13 +395,13 @@ function update_default_value($POST) {
 
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
-        'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit',
+        'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit', 'TMP_DIR' => 'TMP_DIR_edit',
         'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG_edit',
         'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO_edit',
         'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR_edit',
         'OLD_CONF_DIR' => 'OLD_CONF_DIR_edit', 'LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER_edit', 'WOL_BIOS_PASSWD' => 'WOL_BIOS_PASSWD_edit');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue
-    $array_interprete_ivalue = array('FREQUENCY' => 'FREQUENCY_edit', 'IPDISCOVER' => 'IPDISCOVER_edit', 'INVENTORY_VALIDITY' => 'INVENTORY_VALIDITY_edit');
+    $array_interprete_ivalue = array('FREQUENCY' => 'FREQUENCY_edit', 'IPDISCOVER' => 'IPDISCOVER_edit');
 
     //recherche des valeurs par défaut
     $sql_exist = " select NAME,ivalue,tvalue from config ";
@@ -741,7 +741,6 @@ function pageinventory($advance) {
           'INVENTORY_WRITE_DIFF' => 'INVENTORY_WRITE_DIFF',
           'INVENTORY_SESSION_ONLY' => 'INVENTORY_SESSION_ONLY',
           'INVENTORY_CACHE_REVALIDATE' => 'INVENTORY_CACHE_REVALIDATE',
-          'INVENTORY_VALIDITY' => 'INVENTORY_VALIDITY',
           'INVENTORY_CACHE_ENABLED' => 'INVENTORY_CACHE_ENABLED',
           'DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY',
           'INVENTORY_SAAS_ENABLED' => 'INVENTORY_SAAS_ENABLED');
@@ -754,15 +753,6 @@ function pageinventory($advance) {
     }
 
     $values = look_config_default_values($champs);
-    if (isset($champs['INVENTORY_VALIDITY'])) {
-        $validity = $values['ivalue']['INVENTORY_VALIDITY'];
-        //gestion des différentes valeurs de l'ipdiscover
-        if ($values['ivalue']['INVENTORY_VALIDITY'] != 0) {
-            $values['ivalue']['INVENTORY_VALIDITY'] = 'ON';
-        } else {
-            $values['ivalue']['INVENTORY_VALIDITY'] = 'OFF';
-        }
-    }
 
     if ($values['ivalue']['FREQUENCY'] == 0 && isset($values['ivalue']['FREQUENCY'])) {
         $optvalueselected = 'ALWAYS';
@@ -780,7 +770,6 @@ function pageinventory($advance) {
       ligne('INVENTORY_SESSION_ONLY', $l->g(744), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SESSION_ONLY']));
       ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
       ligne('INVENTORY_CACHE_ENABLED', $l->g(1265), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_CACHE_ENABLED']));
-      ligne('INVENTORY_VALIDITY', $l->g(828), 'radio', array('ON' => 'ON', 'OFF' => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_VALIDITY']), array('HIDDEN' => 'ON', 'HIDDEN_VALUE' => $validity, 'END' => $l->g(496), 'JAVASCRIPT' => $numeric, 'SIZE' => 3), "readonly");
     }else{
       ligne('FREQUENCY', $l->g(494), 'radio', array('ALWAYS' => $l->g(485), 'NEVER' => $l->g(486), 'CUSTOM' => $l->g(487), 'VALUE' => $optvalueselected), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['ivalue']['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
       ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);

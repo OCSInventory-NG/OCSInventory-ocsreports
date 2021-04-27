@@ -1644,12 +1644,6 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
 	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
 	if($resultDetails){
-		if (isset($tab_options['JAVA']['CHECK'])){
-			$javascript="OnClick='confirme(\"".htmlspecialchars($row_temp[$tab_options['JAVA']['CHECK']['NAME']], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
-		}else{
-			$javascript="";
-		}
-
 		while($row = mysqli_fetch_assoc($resultDetails))
 		{
 			if (isset($tab_options['AS'])){
@@ -1671,6 +1665,16 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 				$value_of_field = $row[$column];
 				switch($key){
 					case "CHECK":
+						// condition below added to fix static grp visbility checkbox
+						if (isset($tab_options['JAVA']['CHECK'])){
+							$grp_name = array();
+							// workaround to get grp name (matches anything btw > and <) 
+							preg_match('/(?<=>)(.*?)(?=<)/', $row['NAME'], $grp_name);
+							$javascript="OnClick='confirme(\"".htmlspecialchars($grp_name[0], ENT_QUOTES)."\",".$value_of_field.",\"".$form_name."\",\"CONFIRM_CHECK\",\"".htmlspecialchars($tab_options['JAVA']['CHECK']['QUESTION'], ENT_QUOTES)." \")'";
+						}else{
+							$javascript="";
+						}
+
 						if ($value_of_field!= '&nbsp;'){
 							$row[$key] = "<input type='checkbox' name='check".$value_of_field."' id='check".$value_of_field."' ".$javascript." ".(isset($tab_options['check'.$value_of_field])? " checked ": "").">";
 						}

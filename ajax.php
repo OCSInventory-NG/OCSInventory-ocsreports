@@ -22,6 +22,7 @@
  */
 // Here come AJAX query !
 define('AJAX', true);
+header('Content-Type: application/json; charset=UTF8');
 // Load the default configuration
 require("index.php");
 ?>

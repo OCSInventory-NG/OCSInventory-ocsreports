@@ -31,6 +31,12 @@ foreach ($_POST as $key => $value) {
     $temp_post[$key] = $value;
 }
 $protectedPost = $temp_post;
+if (isset($protectedPost['NAME'])){
+    $protectedPost['NAME'] = htmlspecialchars($protectedPost['NAME']);
+}
+if (isset($protectedPost['DESCRIPTION'])){
+    $protectedPost['DESCRIPTION'] = htmlspecialchars($protectedPost['DESCRIPTION']);
+}
 
 if (isset($protectedPost["VALID_END"]) || isset($protectedPost['VALID_END_MODIF'])) {
     //configure description of this package
