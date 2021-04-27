@@ -31,11 +31,12 @@ if (AJAX) {
  */
 require_once('require/softwares/SoftwareCategory.php');
 //use or not cache
-if ($_SESSION['OCS']['usecache']) {
+/*if ($_SESSION['OCS']['usecache']) {
     $table = "softwares_name_cache";
 } else {
     $table = "software";
-}
+}*/
+$table = "software";
 
 //form name
 $form_name = 'soft_cat';

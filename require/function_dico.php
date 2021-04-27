@@ -30,11 +30,12 @@ function search_all_item() {
 }
 
 function del_soft($onglet, $list_soft) {
-    if ($_SESSION['OCS']['usecache']) {
+    /*if ($_SESSION['OCS']['usecache']) {
         $table = "softwares_name_cache";
     } else {
         $table = "software_name";
-    }
+    }*/
+    $table = "software_name";
 
     $sql_soft_name = "select distinct NAME from " . $table . " where ID in (" . implode(",", $list_soft) . ")";
     $result_soft_name = mysqli_query($_SESSION['OCS']["readServer"], $sql_soft_name);
@@ -58,11 +59,12 @@ function trans($onglet, $list_soft, $affect_type, $new_cat, $exist_cat) {
         return ;
     }
     
-    if ($_SESSION['OCS']['usecache']) {
+    /*if ($_SESSION['OCS']['usecache']) {
         $table = "softwares_name_cache";
     } else {
         $table = "software_name";
-    }
+    }*/
+    $table = "software_name";
     
     //verif is this cat exist
     if ($new_cat != '') {

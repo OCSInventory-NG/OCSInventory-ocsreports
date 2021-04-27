@@ -31,11 +31,12 @@ if (AJAX) {
  */
 require_once('require/function_dico.php');
 //use or not cache
-if ($_SESSION['OCS']['usecache']) {
+/*if ($_SESSION['OCS']['usecache']) {
     $table = "softwares_name_cache";
 } else {
     $table = "software_name";
-}
+}*/
+$table = "software_name";
 
 //form name
 $form_name = 'admin_param';
