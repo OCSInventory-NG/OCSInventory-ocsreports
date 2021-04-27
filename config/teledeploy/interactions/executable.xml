@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interactiondefinition>
+    <!-- Id of the interaction -->
+    <id>executable</id>
+    <!-- Name of the interaction -->
+    <name>9312</name>
+    <!-- Linked operating system ID -->
+    <refos>windows</refos>
+    <!-- Image reference -->
+    <imgref>image/exe.png</imgref>
+    <!-- Linked option -->
+    <linkedoptions>executableopt</linkedoptions>
+</interactiondefinition>

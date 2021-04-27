@@ -322,9 +322,73 @@ function searchInMIB() {
     }
 }
 
+function loadInteractions(os) {
+    $('#interactions').removeClass("disabled ocs-disabled").addClass("active");
+    $('#operatingsystem').hide();
+    $('#os_selected').val(os);
+
+    if(os == "windows") {
+        $('#windowsInteractions').show();
+    } else if(os == "linux") {
+        $('#linuxInteractions').show();
+    } else {
+        $('#macosInteractions').show();
+    }
+}
+
+function loadOptions(os, linkedoptions) {
+    $.ajax({
+        url: "ajax/teledeployoptions.php",
+        type : "GET",
+        data : "os="+os+"&linkedoptions="+linkedoptions,
+        success : function(dataoptions, status) {
+            $('#options').removeClass("disabled ocs-disabled").addClass("active");
+            // If os == all test all os to hide
+            if(os == "all") {
+                $('#windowsInteractions').hide();
+                $('#linuxInteractions').hide();
+                $('#macosInteractions').hide();
+            } else {
+                $('#'+os+'Interactions').hide();
+            }
+            $('#deployment_options').append(dataoptions);
+        }
+    });
+}
+
+function verifPackageName(input) {
+    var name = $(input).val();
+
+    if(name.length >= 2) {
+        $.ajax({
+            url: "ajax/teledeployoptions.php",
+            type : "GET",
+            data : "name="+name,
+            success : function(dataverif, status) {
+                var result = jQuery.parseJSON(dataverif);
+                if(result.file_exist == false) {
+                    $('#error_name').remove();
+                    $(input).parent().parent().prepend("<p id='error_name' style='color:red;'>Name already exist</p>");
+                    $('#valid').attr("disabled", true);
+                } else {
+                    $('#error_name').remove();
+                    $('#valid').attr("disabled", false);
+                }
+            }
+        });
+    } 
+}
+
+function notifyUser() {
+    active("NOTIFY_USER_div", $('#NOTIFY_USER').val());
+}
+
+function needDoneAction() {
+    active("NEED_DONE_ACTION_div", $('#NEED_DONE_ACTION').val());
+}
+
 function disabled_checkbox(id) {
     var checkedValue = $('#'+id+':checked').val();
-    console.log(checkedValue);
     if(checkedValue != undefined) {
         $('[id=selected_dupli]').each(function() {
             $(this).attr("disabled", true);

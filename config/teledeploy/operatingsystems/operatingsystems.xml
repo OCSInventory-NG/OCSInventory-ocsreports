@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+    <osdefinition>
+        <!-- OS Defintition ID -->
+        <id>windows</id>
+        <!-- OS Name (can be clear text or OCS translation) -->
+        <name>9305</name>
+        <!-- Link to image name -->
+        <imgref>image/windows-logo.png</imgref>
+        <!-- Available categories -->
+        <categories>
+            <category>
+                <id>installuninstallwindows</id>
+                <name>9308</name>
+            </category>
+            <category>
+                <id>scriptswindows</id>
+                <name>9307</name>
+            </category>
+            <category>
+                <id>otherswindows</id>
+                <name>9309</name>
+            </category>
+        </categories>
+        <!-- Link to linked interactions possible (use interaction id) -->
+        <linkedinteractions>
+            <category id="installuninstallwindows">
+                <interaction order="1">msiapplication</interaction>
+                <interaction order="2">updateagent</interaction>
+                <interaction order="3">executable</interaction>
+                <interaction order="4">uninstall</interaction>
+            </category>
+            <category id="scriptswindows">
+                <interaction order="2">powershellscript</interaction>
+                <interaction order="1">batchscript</interaction>
+            </category>
+            <category id="otherswindows">
+                <interaction order="1">store</interaction>
+                <interaction order="2">custompackage</interaction>
+            </category>
+        </linkedinteractions>
+    </osdefinition>
+    <osdefinition>
+        <!-- OS Defintition ID -->
+        <id>linux</id>
+        <!-- OS Name (can be clear text or OCS translation) -->
+        <name>9303</name>
+        <!-- Link to image name -->
+        <imgref>image/linux-logo.png</imgref>
+        <!-- Available categories -->
+        <categories>
+            <category>
+                <id>installuninstalllinux</id>
+                <name>9308</name>
+            </category>
+            <category>
+                <id>scriptslinux</id>
+                <name>9307</name>
+            </category>
+            <category>
+                <id>otherslinux</id>
+                <name>9309</name>
+            </category>
+        </categories>
+        <!-- Link to linked interactions possible (use interaction id) -->
+        <linkedinteractions>
+            <category id="installuninstalllinux">
+                <interaction order="1">installapplinux</interaction>
+                <interaction order="2">uninstallapplinux</interaction>
+                <interaction order="3">aptrepository</interaction>
+                <interaction order="4">yumrepository</interaction>
+            </category>
+            <category id="scriptslinux">
+                <interaction order="1">bashscript</interaction>
+            </category>
+            <category id="otherslinux">
+                <interaction order="1">store</interaction>
+                <interaction order="2">custompackage</interaction>
+            </category>
+        </linkedinteractions>
+    </osdefinition>
+    <osdefinition>
+        <!-- OS Defintition ID -->
+        <id>macos</id>
+        <!-- OS Name (can be clear text or OCS translation) -->
+        <name>9304</name>
+        <!-- Link to image name -->
+        <imgref>image/apple-logo.png</imgref>
+        <!-- Available categories -->
+        <categories>
+            <category>
+                <id>installuninstallmacos</id>
+                <name>9308</name>
+            </category>
+            <category>
+                <id>scriptsmacos</id>
+                <name>9307</name>
+            </category>
+            <category>
+                <id>othersmacos</id>
+                <name>9309</name>
+            </category>
+        </categories>
+        <!-- Link to linked interactions possible (use interaction id) -->
+        <linkedinteractions>
+            <category id="installuninstallmacos">
+                <interaction order="1">installappmacos</interaction>
+                <interaction order="2">installpkgmacos</interaction>
+                <interaction order="3">installappbrew</interaction>
+            </category>
+            <category id="scriptsmacos">
+                <interaction order="1">applescript</interaction>
+                <interaction order="2">bashscript</interaction>
+            </category>
+            <category id="othersmacos">
+                <interaction order="1">store</interaction>
+                <interaction order="2">custompackage</interaction>
+            </category>
+        </linkedinteractions>
+    </osdefinition>
+</content>

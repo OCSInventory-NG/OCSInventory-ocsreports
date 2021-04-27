@@ -25,8 +25,10 @@ $info_id = found_info_pack($protectedGet["active"]);
 if (!isset($info_id['ERROR'])) {
 
     $form_name = "form_active";
+    $action_redirect = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_tele_activate']."&active=".$protectedGet['active'];
+
     //ouverture du formulaire
-    echo open_form($form_name, '', '', 'form-horizontal');
+    echo open_form($form_name, $action_redirect, '', 'form-horizontal');
     if ((!isset($protectedPost['FILE_SERV']) && $protectedPost['choix_activ'] == 'MAN') || (!isset($protectedPost['FILE_SERV_REDISTRIB']) && $protectedPost['choix_activ'] == 'AUTO') || !isset($protectedPost['HTTPS_SERV'])) {
         $default = $_SERVER["SERVER_ADDR"] . "/download";
         $values = look_config_default_values(array('DOWNLOAD_URI_INFO', 'DOWNLOAD_URI_FRAG'));
@@ -46,53 +48,6 @@ if (!isset($info_id['ERROR'])) {
         while ($valGroupsServers = mysqli_fetch_array($resGroupsServers)) {
             $groupListServers[$valGroupsServers["id"]] = $valGroupsServers["name"];
         }
-    }
-
-    if (is_defined($protectedPost['Valid_modif'])) {
-        $error = "";
-
-        $opensslOk = function_exists("openssl_open");
-
-        if ($opensslOk) {
-            $httpsOk = @fopen("https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/info", "r");
-        } else {
-            $error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
-        }
-
-        if (!$httpsOk) {
-            $error .= $l->g(466) . " https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/<br>";
-        } else {
-            fclose($httpsOk);
-        }
-
-        if ($protectedPost['choix_activ'] == "MAN") {
-            $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $protectedGet["active"] . "'";
-            $resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);
-            $valFrags = mysqli_fetch_array($resFrags);
-            $fragAvail = ($valFrags["fragments"] > 0);
-            if ($fragAvail) {
-                $fragOk = @fopen("http://" . $protectedPost["FILE_SERV"] . "/" . $protectedGet["active"] . "/" . $protectedGet["active"] . "-1", "r");
-            } else {
-                $fragOk = true;
-            }
-        } else {
-            $fragOk = true;
-        }
-
-        if ($fragAvail) {
-            fclose($fragOk);
-        }
-    }
-
-    if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
-        if ($protectedPost['choix_activ'] == "MAN") {
-            activ_pack($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV']);
-        }
-
-        if ($protectedPost['choix_activ'] == "AUTO") {
-            activ_pack_server($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV_REDISTRIB']);
-        }
-        echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
     }
 
     if ($_SESSION['OCS']["use_redistribution"] == 1) {

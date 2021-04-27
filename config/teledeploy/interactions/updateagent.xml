@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interactiondefinition>
+    <!-- Id of the interaction -->
+    <id>updateagent</id>
+    <!-- Name of the interaction -->
+    <name>9317</name>
+    <!-- Linked operating system ID -->
+    <refos>windows</refos>
+    <!-- Image reference -->
+    <imgref>image/logo-ocs-black.png</imgref>
+    <!-- Linked option -->
+    <linkedoptions>updateagentopt</linkedoptions>
+</interactiondefinition>

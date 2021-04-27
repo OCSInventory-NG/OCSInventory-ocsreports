@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interactiondefinition>
+    <!-- Id of the interaction -->
+    <id>uninstall</id>
+    <!-- Name of the interaction -->
+    <name>9316</name>
+    <!-- Linked operating system ID -->
+    <refos>all</refos>
+    <!-- Image reference -->
+    <imgref>image/uninstalling.png</imgref>
+    <!-- Linked option -->
+    <linkedoptions>uninstallopt</linkedoptions>
+</interactiondefinition>

@@ -7,7 +7,7 @@
 20 Logiciel
 23 Machine
 24 Utilisateur connecté
-25 Système
+25 Systeme
 26 Mémoire
 27 Vitesse mémoire (MHz)
 28 Nombre de machines
@@ -1710,6 +1710,67 @@
 9200 Deploiement de paquet pour la machine
 9201 Deploiement de paquet pour la sélection
 9202 Deploiement de paquet pour le groupe
+9203 Activer la fragmentation de paquet
+9204 Configurer le ratio de fragmentation des paquets
+9205 Activer l'auto activation des paquets
+9206 Activé
+
+
+9300 Intéractions
+9301 Options
+9302 Catalogue de services
+9303 Linux
+9304 MacOS
+9305 Windows
+9306 Script Powershell
+9307 Scripts
+9308 Installater / Desinstallater
+9309 Autres
+
+9310 Script Batch
+9311 Paquet personnalisé
+9312 Exécuter un exe
+9313 Installer une application MSI
+9314 Script Powershell
+9315 Stocker fichier/dossier 
+9316 Désinstaller une application
+9317 Mise à jour Agent
+9318 Installer avec WinGet (Powershell)
+
+9319 Installer une application
+9320 Désinstaller une application
+9321 Ajouter un répertoire apt
+9322 Ajouter une répertoire yum
+9323 Script Bash / sh
+
+9324 Installer une application .app
+9325 Installer une application .pkg
+9326 Installer avec brew
+9327 Script Apple
+
+9340 Script
+9341 Fichier MSI
+9342 URL du répertoire
+9343 Fichier .app
+9344 Fichier .pkg
+9345 HTTP
+9346 HTTPS
+9347 Arguments (optionnel)
+9348 Fichier packager
+9349 Nom de l'application
+9350 Identifieur de l'application
+9351 Comment trouver l'identifieur wmic de l'application : blablabla
+9352 Fichier EXE
+9353 Fichier script
+9354 Ecrivez votre script ci-dessous ou télécharger votre fichier script
+9355 Télécharger le fichier packager avec toutes les options déjà présentes dedans
+9356 Si vous téléchargez plusieurs fichiers, merci de les zip avant
+9357 Type de packager
+9358 apt
+9359 yum
+9360 dnf
+9361 Recharger
+9362 Fichier
 
 9500 Fusionner la sélection
 9501 Tout fusionner
