@@ -1759,7 +1759,7 @@
 9348 Fichier packager
 9349 Nom de l'application
 9350 Identifieur de l'application
-9351 Comment trouver l'identifieur wmic de l'application : blablabla
+9351 Comment trouver l'identifieur wmic de l'application : ouvrez cmd en administrateur et lancez "wmic product get name"
 9352 Fichier EXE
 9353 Fichier script
 9354 Ecrivez votre script ci-dessous ou télécharger votre fichier script
