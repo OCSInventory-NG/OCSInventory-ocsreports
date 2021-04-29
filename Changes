@@ -1,4 +1,32 @@
 Revision history for ocsreports
+2.9
+		* Rework deployment feature
+		* Rework duplicates interface
+		* Add authentication security
+		* Add password security
+		* Add custom css for login page
+		* Add administrative data import via CSV
+		* Add crontab to populate all software page
+		* Add crontab to purge removed packages in history
+		* Add auto activation package
+		* Add IpDiscover scan from the server
+		* Improve CVE API call
+		* Update chinese translation
+		* Display special chars in datatable and CSV export
+		* Fix CVE bans
+		* Fix RCE from SNMP config
+		* Fix SQL injection from all computers
+		* Fix datetime multisearch field
+		* Fix Unix users inventory
+		* Fix CVE warning
+		* Fix case sensitive on accountinfo select type search
+		* Fix CVE regex
+		* Fix mysqli warning
+		* Fix checkbox visibility from static group
+		* Fix dictionary software order
+		* Remove package edition
+		* Remove accesslog from multisearch
+
 2.8.1
 
 		* Add IpDiscover purge configuration
