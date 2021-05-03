@@ -33,6 +33,10 @@ if(isset($protectedPost['SUP_PROF'])){
     mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 }
 
+if(!empty($_SESSION['OCS']['multi_search'])){
+    unset($_SESSION['OCS']['multi_search']);
+}
+
 printEnTete($l->g(2141));
 
 $tab_options = $protectedPost;
