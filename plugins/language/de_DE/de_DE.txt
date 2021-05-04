@@ -1602,3 +1602,27 @@
 9010 SNMP MIBs-Verzeichnis auf dem Server
 
 9014 SNMP ist nicht konfiguriert. Lesen Sie die Dokumentation um zu erfahren wie SNMP eingerichtet wird: <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+
+9300 Interaktionen
+9301 Optionen
+9302 fortsetzen
+
+9306 Powershell Script
+9307 Scripte
+
+9310 Batch Script
+9311 Eigens Paket
+9312 EXE ausführen
+9313 MSI Anwendung installieren
+9314 Powershell Script
+9315 Datei/Ordner speichern
+9316 Anwendungen deinstallieren
+9317 Agent updaten
+9318 Installation mit WinGet (Powershell)
+
+9319 Anwendung installieren
+9320 Anwendung deinstallieren
+
+9323 Bash / sh Script
+
+9361 Paketerstellung zurücksetzen
