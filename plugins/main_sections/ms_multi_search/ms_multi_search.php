@@ -258,7 +258,17 @@ echo close_form();
 	<div class="col-sm-12">
 <?php
 
-if($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields']){
+$isValid = true;
+
+foreach ($_SESSION['OCS']['multi_search'] as $key => $value) {
+	foreach ($value as $k => $v) {
+		if (is_null($v['value'])) {
+			$isValid = false;
+		}
+	}
+}
+
+if(($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields']) && $isValid){
   	unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 	/**
 	 * Generate Search fields
