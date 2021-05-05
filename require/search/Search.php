@@ -1091,10 +1091,8 @@
           case 'querysave':
             $parameters = $this->query_save($value);
 
-            if (empty($_SESSION['OCS']['multi_search'])) {
-              $_SESSION['OCS']['multi_search'] = array();
-              $_SESSION['OCS']['multi_search'] = $parameters;
-            }
+            $_SESSION['OCS']['multi_search'] = array();
+            $_SESSION['OCS']['multi_search'] = $parameters;
 
             break;
 
