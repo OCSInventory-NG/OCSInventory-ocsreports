@@ -74,6 +74,12 @@
   	<category>software</category>
   	<available>saas</available>
   </plugin>
+  <plugin id="cd_cve">
+  	<label>g(1472)</label>
+  	<system>1</system>
+  	<category>software</category>
+  	<available>cve</available>
+  </plugin>
 
   <!-- NETWORK -->
   <plugin id="cd_networks">
