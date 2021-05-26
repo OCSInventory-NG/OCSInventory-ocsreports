@@ -1716,7 +1716,7 @@
 9206 Activé
 
 
-9300 Intéractions
+9300 Interactions
 9301 Options
 9302 Catalogue de services
 9303 Linux
@@ -1724,7 +1724,7 @@
 9305 Windows
 9306 Script Powershell
 9307 Scripts
-9308 Installater / Desinstallater
+9308 Installer / Desinstaller
 9309 Autres
 
 9310 Script Batch
