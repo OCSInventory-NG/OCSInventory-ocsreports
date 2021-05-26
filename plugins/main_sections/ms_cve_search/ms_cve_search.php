@@ -112,18 +112,12 @@ if($cve->CVE_ACTIVE != 1){
 
     /******************************* BY COMPUTER *******************************/
     if($protectedPost['onglet'] == "BY_COMPUTER"){
-        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME,";",v.VERSION) as search, c.LINK as id, h.NAME as computer, h.ID as computerid, n.NAME as softname
-                    FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
-                    LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
-                    LEFT JOIN software_version v ON v.ID = c.VERSION_ID
-                    LEFT JOIN software s ON s.NAME_ID = n.ID
-                    LEFT JOIN hardware h ON h.ID = s.HARDWARE_ID
-                    GROUP BY h.ID, c.LINK, c.CVSS, c.NAME_ID, c.CVE';
+        $sql['SQL'] = 'SELECT *, CONCAT(c.SOFTWARE_NAME,";",c.PUBLISHER,";",c.VERSION) as search FROM cve_search_computer c';
 
         $list_fields = array(
-            'computer' => 'computer',
+            'computer' => 'HARDWARE_NAME',
             $l->g(69) => 'PUBLISHER',
-            'soft' => 'softname',
+            'soft' => 'SOFTWARE_NAME',
             'Version' => 'VERSION',
             'CVSS' => 'CVSS',
             'CVE' => 'CVE',
@@ -138,7 +132,7 @@ if($cve->CVE_ACTIVE != 1){
         $tab_options['LIEN_CHAMP']['soft'] = 'search';
         $tab_options['LBL']['soft'] = $l->g(847);
         $tab_options['LIEN_LBL']['computer'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&systemid=';
-        $tab_options['LIEN_CHAMP']['computer'] = 'computerid';
+        $tab_options['LIEN_CHAMP']['computer'] = 'HARDWARE_ID';
         $tab_options['LBL']['computer'] = $l->g(23);
         $tab_options['LIEN_LBL']['Link'] = ' ';
         $tab_options['LIEN_CHAMP']['Link'] = 'LINK';
