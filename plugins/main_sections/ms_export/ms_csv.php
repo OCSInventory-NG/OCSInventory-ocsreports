@@ -96,7 +96,8 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
                     $key = $exploded_key[1];
                 }
                 if (array_key_exists($key, $cont)) {
-                    if (($field == 'TAG' || substr($key, 0, 7) == 'fields_') && isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$val])) {
+                    $is_admindata = substr($key, 0, 7) == 'fields_' || substr($key, -8, 7) == 'fields_' || substr($key, -9, 7) == 'fields_';
+                    if (($field == 'TAG' || $is_admindata ) && isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$val])) {
                         // administrative data
                         if(strpos($cont[$key], "&&&")){
                           $value_field = explode("&&&", $cont[$key]);
