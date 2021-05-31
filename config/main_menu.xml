@@ -58,10 +58,6 @@
         <label>g(514)</label>
         <url>ms_tele_activate</url>
       </menu-elem>
-      <menu-elem id="ms_rules_redistrib">
-        <label>g(662)</label>
-        <url>ms_rules_redistrib</url>
-      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="config">

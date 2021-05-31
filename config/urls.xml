@@ -156,10 +156,6 @@
         <value>tele_pack</value>
         <directory/>
     </url>
-    <url key="ms_rules_redistrib">
-        <value>rules_redistrib</value>
-        <directory>ms_teledeploy</directory>
-    </url>
     <url key="ms_custom_param">
         <value>opt_param</value>
         <directory>ms_config</directory>
@@ -223,10 +219,6 @@
     <url key="ms_snmp_detail">
         <value>snmp_detail</value>
         <directory>ms_snmp</directory>
-    </url>
-    <url key="ms_server_redistrib">
-        <value>server_redistrib</value>
-        <directory>ms_teledeploy</directory>
     </url>
     <url key="jp_teledeploy_stats">
         <value>teledeploy_stats</value>

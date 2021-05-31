@@ -77,7 +77,6 @@ $form_name = 'modif_onglet';
 echo open_form($form_name, '', '', 'form-horizontal');
 
 if($values['ivalue']['ADVANCE_CONFIGURATION']){
-  $def_onglets['REDISTRIB'] = $l->g(628); //redistribution servers
   $def_onglets['INV_FILE'] = $l->g(734); //Inventory file
   $def_onglets['FILTER'] = $l->g(735); //Filter
   $def_onglets['CNX'] = $l->g(1108); //connexion
@@ -107,9 +106,6 @@ switch ($protectedPost['onglet']) {
         break;
     case 'TELEDEPLOY':
         pageteledeploy($values['ivalue']['ADVANCE_CONFIGURATION']);
-        break;
-    case 'REDISTRIB':
-        pageredistrib();
         break;
     case 'GROUPS':
         pagegroups();

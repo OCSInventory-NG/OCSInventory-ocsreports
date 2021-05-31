@@ -386,7 +386,7 @@ function update_default_value($POST) {
         'INVENTORY_FILTER_FLOOD_IP', 'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME', 'INVENTORY_FILTER_ON',
         'LOG_GUI', 'DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_FRAG_LATENCY', 'DOWNLOAD_GROUPS_TRACE_EVENTS',
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_ACTIVATE_FRAG', 'DOWNLOAD_RATIO_FRAG', 'DOWNLOAD_AUTO_ACTIVATE', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
-        'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'DOWNLOAD_REDISTRIB', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
+        'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
         'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME', 'VULN_CVE_DELAY_TIME',
         'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME', 'SECURITY_AUTHENTICATION_BLOCK_IP', 
@@ -839,36 +839,6 @@ function pageipdiscover($advance) {
     }
 }
 
-function pageredistrib() {
-    global $l;
-    //what ligne we need?
-    $champs = array('DOWNLOAD_SERVER_URI' => 'DOWNLOAD_SERVER_URI',
-        'DOWNLOAD_SERVER_DOCROOT' => 'DOWNLOAD_SERVER_DOCROOT',
-        'DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT',
-        'DOWNLOAD_REDISTRIB' => 'DOWNLOAD_REDISTRIB');
-    $values = look_config_default_values($champs);
-    $i = 0;
-    while ($i < 10) {
-        $priority[$i] = $i;
-        $i++;
-    }
-    if (isset($values['tvalue']['DOWNLOAD_REP_CREAT'])) {
-        $select_rep_creat = 'CUSTOM';
-    } else {
-        $select_rep_creat = 'DEFAULT';
-    }
-
-    if (isset($values['ivalue']['DOWNLOAD_REDISTRIB'])) {
-        $radio_redistrib = $values['ivalue']['DOWNLOAD_REDISTRIB'];
-    } else {
-        $radio_redistrib = 'ON';
-    }
-
-    ligne('DOWNLOAD_REDISTRIB', $l->g(1181), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $radio_redistrib));
-    ligne('DOWNLOAD_SERVER_URI', $l->g(726), 'input', array('BEGIN' => 'HTTP://', 'VALUE' => $values['tvalue']['DOWNLOAD_SERVER_URI'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
-    ligne('DOWNLOAD_SERVER_DOCROOT', $l->g(727), 'input', array('VALUE' => $values['tvalue']['DOWNLOAD_SERVER_DOCROOT'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
-    ligne('DOWNLOAD_REP_CREAT', $l->g(829), 'radio', array('DEFAULT' => $l->g(823) . " (" . DOCUMENT_ROOT . "download/server)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_rep_creat), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_REP_CREAT'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
-}
 
 function pagefilesInventory() {
     global $l;
