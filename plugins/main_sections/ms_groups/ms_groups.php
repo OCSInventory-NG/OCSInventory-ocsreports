@@ -79,8 +79,6 @@ echo open_form($form_name, '', '', 'form-horizontal');
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	$def_onglets['DYNA']=$l->g(810); //Dynamic group
 	$def_onglets['STAT']=$l->g(809); //Static group centraux
-	if ($_SESSION['OCS']["use_redistribution"] == 1)
-		$def_onglets['SERV']=mb_strtoupper($l->g(651));
 	if ($protectedPost['onglet'] == "")
 	$protectedPost['onglet']="STAT";	
 	//show onglet
