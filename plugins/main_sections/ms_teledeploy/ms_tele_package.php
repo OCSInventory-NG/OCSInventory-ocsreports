@@ -80,72 +80,6 @@ if (isset($protectedPost["VALID_END"]) || isset($protectedPost['VALID_END_MODIF'
       $modif = $protectedPost['VALID_END_MODIF'];
       create_pack($sql_details, $info_details, $modif);
     }
-
-    if ($protectedPost['REDISTRIB_USE'] == 1) {
-        $timestamp_redistrib = time();
-        $server_dir = $protectedPost['download_rep_creat'];
-        //create zip file for redistribution servers
-        $zipfile = new ZipArchive();
-        $rep = $protectedPost['document_root'] . $sql_details['timestamp'] . "/";
-
-        if (!file_exists($server_dir)) {
-            mkdir($server_dir);
-        }
-        if (!file_exists($server_dir . $timestamp_redistrib)) {
-            mkdir($server_dir . $timestamp_redistrib);
-        }
-
-        $zipfile->open($server_dir . $timestamp_redistrib . "/" . $timestamp_redistrib . "_redistrib.zip", ZipArchive::CREATE);
-        $zipfile->addEmptyDir($sql_details['timestamp']);
-
-        $dir = opendir($rep);
-
-        while ($f = readdir($dir)) {
-            if (is_file($rep . $f)) {
-                $zipfile->addFile($rep . $f, $sql_details['timestamp'] . "/" . basename($rep . $f));
-            }
-        }
-
-        $zipfile->close();
-
-        closedir($dir);
-        flush();
-
-        //crypt the file
-        $digest = crypt_file($server_dir . $timestamp_redistrib . "/" . $timestamp_redistrib . "_redistrib.zip", $protectedPost["digest_algo"], $protectedPost["digest_encod"]);
-        //change name of this file to "tmp" for use function of create a package
-        rename($server_dir . $timestamp_redistrib . "/" . $timestamp_redistrib . "_redistrib.zip", $server_dir . $timestamp_redistrib . "/tmp");
-        //create temp file
-        $fSize = filesize($server_dir . $timestamp_redistrib . "/tmp");
-        $sql_details = array('document_root' => $server_dir,
-            'timestamp' => $timestamp_redistrib,
-            'nbfrags' => $protectedPost['nbfrags_redistrib'],
-            'name' => $protectedPost['NAME'] . '_redistrib',
-            'os' => $protectedPost['OS'],
-            'description' => '[PACK REDISTRIBUTION ' . $protectedPost['timestamp'] . ']',
-            'size' => $fSize,
-            'id_wk' => $protectedPost['LIST_DDE_CREAT']);
-
-        $info_details = array('PRI' => $protectedPost['REDISTRIB_PRIORITY'],
-            'ACT' => 'STORE',
-            'DIGEST' => $digest,
-            'PROTO' => $protectedPost['PROTOCOLE'],
-            'DIGEST_ALGO' => $protectedPost["digest_algo"],
-            'DIGEST_ENCODE' => $protectedPost["digest_encod"],
-            'PATH' => $protectedPost['DOWNLOAD_SERVER_DOCROOT'],
-            'NAME' => '',
-            'COMMAND' => '',
-            'NOTIFY_USER' => '0',
-            'NOTIFY_TEXT' => '',
-            'NOTIFY_COUNTDOWN' => '',
-            'NOTIFY_CAN_ABORT' => '0',
-            'NOTIFY_CAN_DELAY' => '0',
-            'NEED_DONE_ACTION' => '0',
-            'NEED_DONE_ACTION_TEXT' => '',
-            'GARDEFOU' => "rien");
-
-        create_pack($sql_details, $info_details);
-    }
     unset($protectedPost, $_SESSION['OCS']['DATA_CACHE']);
 }
 
@@ -293,14 +227,6 @@ if (isset($protectedPost['valid'])) {
         $java_script = "verif2();";
         javascript_pack();
 
-        if ($protectedPost['REDISTRIB_USE'] == 1) {
-            echo "<br />";
-            echo "<h4>" . $l->g(1003) . "</h4>";
-            input_pack_taille("tailleFrag_redistrib", "nbfrags_redistrib", round($size), '8', round($size / 1024), $l->g(463), $l->g(516));
-            input_pack_taille("nbfrags_redistrib", "tailleFrag_redistrib", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
-            $java_script = "verif_redistributor();";
-        }
-
         formGroup('hidden', 'comment', '', '', '', $protectedPost['DESCRIPTION'], '', '', '', '');
         echo "<input type='button' class='btn btn-success' name='TEST_END' id='TEST_END' OnClick='" . $java_script . "' value='" . $l->g(13) . "'>";
         echo "<input type='hidden' name='digest' value='" . $digest . "'>";
@@ -410,14 +336,6 @@ if(isset($protectedPost['valid_modif'])){
           time_deploy($l->g(1002));
           $java_script = "verif2();";
           javascript_pack();
-
-          if ($protectedPost['REDISTRIB_USE'] == 1) {
-              echo "<br />";
-              echo "<h4>" . $l->g(1003) . "</h4>";
-              input_pack_taille("tailleFrag_redistrib", "nbfrags_redistrib", round($size), '8', round($size / 1024), $l->g(463), $l->g(516));
-              input_pack_taille("nbfrags_redistrib", "tailleFrag_redistrib", round($size), '5', '1', $l->g(464), '<span class="glyphicon glyphicon-th-large"></span>');
-              $java_script = "verif_redistributor();";
-          }
 
           $protectedPost['MODIF_FILE'] = true;
 
@@ -681,8 +599,6 @@ $arrayName = array(
     "user_can_delay" => $l->g(452),
     "need_user_action" => $l->g(453),
     "file" => $l->g(549),
-    "title_redistribution" => $l->g(628),
-    "redistribution" => $l->g(1008),
     "path_remote_server" => $l->g(1009)
 );
 $config_input = array(
@@ -707,8 +623,6 @@ $arrayName = [
 	"user_can_delay" => $l->g(452),
 	"need_user_action" => $l->g(453),
 	"file" => $l->g(549),
-	"title_redistribution" => $l->g(628),
-	"redistribution" => $l->g(1008),
 	"path_remote_server" => $l->g(1009)
 ];
 $config_input=[
@@ -790,28 +704,9 @@ formGroup('file', 'teledeploy_file', $arrayName['file'], '', $config_input['MAXL
 formGroup('select', 'ACTION', $arrayName['action'], '', $config_input['MAXLENGTH'], $protectedPost['ACTION'], '', $list_action, $list_action, "onchange='changeLabelAction()' ");
 formGroup('text', 'ACTION_INPUT', $trad, '' ,$config_input['MAXLENGTH'], $protectedPost['ACTION_INPUT']);
 
-echo "<br />";
-echo "<h4>" . $arrayName['title_redistribution'] . "</h4>";
-echo "<br />";
 
-//redistrib
-if ($_SESSION['OCS']["use_redistribution"] == 1) {
-
-    $sql = "select NAME,TVALUE from config where NAME ='DOWNLOAD_REP_CREAT'
-		  union select NAME,TVALUE from config where NAME ='DOWNLOAD_SERVER_DOCROOT'";
-    $resdefaultvalues = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-    while ($item = mysqli_fetch_object($resdefaultvalues)) {
-        $default[$item->NAME] = $item->TVALUE;
-    }
-    if (!$default['DOWNLOAD_REP_CREAT']) {
-        $default['DOWNLOAD_REP_CREAT'] = $_SERVER["DOCUMENT_ROOT"] . "/download/server/";
-    }
-}
 ?>
 <script type="text/javascript">
-    function redistributeUse() {
-        active("REDISTRIB_USE_div", $('#REDISTRIB_USE').val());
-    }
     function notifyUser() {
         active("NOTIFY_USER_div", $('#NOTIFY_USER').val());
     }
@@ -820,15 +715,6 @@ if ($_SESSION['OCS']["use_redistribution"] == 1) {
     }
 </script>
 <?php
-formGroup('select', 'REDISTRIB_USE', $arrayName['redistribution'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_USE'], '', [0,1], [0 => 'No', 1 => 'Yes'], "onchange='redistributeUse()' ");
-
-    echo '<div id="REDISTRIB_USE_div" style="display: none;">';
-
-    formGroup('text', 'DOWNLOAD_SERVER_DOCROOT', $arrayName['path_remote_server'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $default['DOWNLOAD_SERVER_DOCROOT'], '', $list_prio);
-    formGroup('select', 'REDISTRIB_PRIORITY', $arrayName['prio'], $config_input['MAXLENGTH'], $config_input['MAXLENGTH'], $protectedPost['REDISTRIB_PRIORITY'], '', $list_prio, $list_prio);
-    echo "</div>";
-
-    echo "<br />";
     echo "<div id='OS_div'>";
     echo "<h4>" . $arrayName['title_user_notif'] . "</h4>";
     echo "<br />";

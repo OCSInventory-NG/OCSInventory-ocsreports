@@ -67,16 +67,5 @@ function get_package_info($timestamp) {
     return mysqli_fetch_assoc($res);
 }
 
-function get_redistrib_package_info($timestamp) {
-    $query = "SELECT FILEID, NAME, PRIORITY, FRAGMENTS, SIZE, OSNAME, COMMENT FROM download_available"
-            . " WHERE NAME LIKE '%%_redistrib' AND COMMENT LIKE '%%[PACK REDISTRIBUTION %s]%%'";
-    $res = mysql2_query_secure($query, $_SESSION['OCS']['readServer'], $timestamp);
-
-    if (mysqli_num_rows($res)) {
-        return mysqli_fetch_assoc($res);
-    } else {
-        return false;
-    }
-}
 
 ?>
