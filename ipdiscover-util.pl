@@ -255,6 +255,12 @@ if ($isNet){
           $macAddr = $ip;
         }
 
+        #Trim results
+        $ip =~ s/\s+//g;
+        $macAddr =~ s/\s+//g;
+        $name =~ s/\s+//g;
+        $mask =~ s/\s+//g;
+
         print "Adding $ip\n";
 
         #bdd insertion
@@ -270,6 +276,11 @@ if ($isNet){
       if (/^fping:/){
         foreach (`fping -g --quiet -a $ips`){
           $ip = $macAddr = $_;
+
+          #Trim results
+          $ip =~ s/\s+//g;
+          $macAddr =~ s/\s+//g;
+          $mask =~ s/\s+//g;
 
           print "Adding $ip\n";
 
