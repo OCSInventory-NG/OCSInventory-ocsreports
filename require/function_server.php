@@ -62,20 +62,6 @@ function exist_server($list_id) {
     }
 }
 
-// fonction qui permet de supprimer des serveurs
-// d'un groupe de redistribution
-function remove_list_serv($id_group, $list_id) {
-    if (is_array($list_id)) {
-        $list_id = implode(",", $list_id);
-    }
-    $sql_del = "DELETE FROM download_servers WHERE group_id='%s' and hardware_id in ";
-    $arg_del = array($id_group);
-    $arg = mysql2_prepare($sql_del, $arg_del, $list_id);
-    mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["writeServer"], $arg['ARG']);
-    $cached = mysqli_affected_rows($_SESSION['OCS']["writeServer"]);
-    return $cached;
-}
-
 //function for add machine in server's group
 function add_mach($id_group, $list_mach) {
     $default_values = look_config_default_values(array('DOWNLOAD_SERVER_URI', 'DOWNLOAD_SERVER_DOCROOT'));
