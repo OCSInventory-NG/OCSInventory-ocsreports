@@ -105,14 +105,14 @@ if (is_defined($protectedPost['SUP_PROF'])) {
 }
 if (!isset($protectedPost['ADD_FILE'])) {
     echo open_form($form_name, '', '', 'form-horizontal');
-    $list_fields = array($l->g(283) => 'function',
+    $list_fields = array($l->g(283) => 'purpose',
         $l->g(49) => 'name',
         'SUP' => 'name'
     );
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
 
-    $sql = "select '%s' as function,%s from deploy where name != 'label'";
+    $sql = "select '%s' as purpose,%s from deploy where name != 'label'";
     $tab_options['ARG_SQL'] = array($l->g(370), 'name');
     $tab_options['LIEN_LBL'][$l->g(49)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_view_file'] . '&prov=agent&no_header=1&value=';
     $tab_options['LIEN_CHAMP'][$l->g(49)] = 'name';
