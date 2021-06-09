@@ -96,8 +96,6 @@ if($cve->CVE_ACTIVE != 1){
 
         $sql['SQL'] .= ' GROUP BY c.LINK, c.CVSS, c.NAME_ID, c.CVE';
 
-        print($sql['SQL']);
-
         $list_fields = array(
             $l->g(69) => 'PUBLISHER',
             'soft' => 'NAME',
