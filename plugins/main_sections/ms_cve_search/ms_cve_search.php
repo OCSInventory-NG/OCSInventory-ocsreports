@@ -66,7 +66,7 @@ if($cve->CVE_ACTIVE != 1){
 
     /******************************* BY CVSS *******************************/
     if($protectedPost['onglet'] == "BY_CVSS"){
-
+        $whereAnd = " WHERE ";
         //Filter CVSS
         if ($protectedPost['FILTRE1'] != "" && $protectedPost['FILTRE2'] != "") {
             $query = " WHERE c.CVSS BETWEEN %s AND %s ";
@@ -78,11 +78,25 @@ if($cve->CVE_ACTIVE != 1){
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                     LEFT JOIN software_version v ON v.ID = c.VERSION_ID';
         
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql['SQL'] .= ' LEFT JOIN software s ON n.ID = s.NAME_ID AND p.ID = s.PUBLISHER_ID AND v.ID = s.VERSION_ID 
+                             LEFT JOIN hardware h ON s.HARDWARE_ID = h.ID
+                             LEFT JOIN accountinfo a ON a.hardware_id=h.id';
+        }
+
         if($query != null) {
             $sql['SQL'] .= $query;
+            $whereAnd = " AND ";
+        }
+
+        // TAG RESTRICTIONS
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql['SQL'] .= $whereAnd . $_SESSION['OCS']["mesmachines"];
         }
 
         $sql['SQL'] .= ' GROUP BY c.LINK, c.CVSS, c.NAME_ID, c.CVE';
+
+        print($sql['SQL']);
 
         $list_fields = array(
             $l->g(69) => 'PUBLISHER',
@@ -99,9 +113,17 @@ if($cve->CVE_ACTIVE != 1){
         $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME) as search, c.LINK as id, c.NAME_ID as nameid
                     FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
-                    LEFT JOIN software_version v ON v.ID = c.VERSION_ID
-                    GROUP BY n.ID';
+                    LEFT JOIN software_version v ON v.ID = c.VERSION_ID';
+
+        
+
+        // TAG RESTRICTIONS
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql['SQL'] .= "AND " . $_SESSION['OCS']["mesmachines"];
+        }
             
+        $sql['SQL'] .= 'GROUP BY n.ID';
+
         $list_fields = array(
             $l->g(69) => 'PUBLISHER',
             'soft' => 'NAME'
@@ -113,6 +135,11 @@ if($cve->CVE_ACTIVE != 1){
     /******************************* BY COMPUTER *******************************/
     if($protectedPost['onglet'] == "BY_COMPUTER"){
         $sql['SQL'] = 'SELECT *, CONCAT(c.SOFTWARE_NAME,";",c.PUBLISHER,";",c.VERSION) as search FROM cve_search_computer c';
+
+        // TAG RESTRICTIONS
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql['SQL'] .= "AND " . $_SESSION['OCS']["mesmachines"];
+        }
 
         $list_fields = array(
             'computer' => 'HARDWARE_NAME',
