@@ -114,7 +114,7 @@
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>HTTP</PROTO>
         <!-- File command -->
-        <COMMAND>powershell.exe -File psscript.ps1</COMMAND> 
+        <COMMAND>powershell.exe -ExecutionPolicy ByPass -File psscript.ps1</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>0</NOTIFY_USER>
         <!-- Notify text -->
