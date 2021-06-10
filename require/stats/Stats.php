@@ -69,7 +69,7 @@ class Stats{
                 $sql .= " group by h.osname order by count(h.osname) DESC ";
                 $height_legend = 300;
             } else {
-                $sql = "select count(h.useragent) c,h.useragent as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.useragent != '' AND h.deviceid != '_SYSTEMGROUP_'";
+                $sql = "select count(h.useragent) c, upper(h.useragent) as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.useragent != '' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
