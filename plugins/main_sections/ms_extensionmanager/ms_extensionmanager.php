@@ -86,7 +86,7 @@ if($extMgr->checkPrerequisites()){
 if (!AJAX) {
     if(isset($protectedPost['extensions'])){
         $result = $extMgr->installExtension($protectedPost['extensions']);
-        if($result == true) {
+        if($result === true) {
             msg_success($l->g(7017));
         } elseif($result == 'isInstalled') {
             msg_error($l->g(7018));
