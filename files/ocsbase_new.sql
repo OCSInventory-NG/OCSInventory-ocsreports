@@ -2196,7 +2196,7 @@ DROP TABLE IF EXISTS `software`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `software` (
-  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID` bigint NOT NULL AUTO_INCREMENT,
   `HARDWARE_ID` int NOT NULL,
   `NAME_ID` int NOT NULL,
   `PUBLISHER_ID` int NOT NULL,
