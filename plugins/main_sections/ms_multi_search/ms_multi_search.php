@@ -147,8 +147,14 @@ if(isset($protectedGet['fields'])){
 }
 
 if(isset($protectedGet['prov'])){
-  if($protectedGet['prov'] == 'allsoft'){
+  if($protectedGet['prov'] == 'cveNamePublisherVersion'){
     $search->link_multi($protectedGet['prov'], $protectedGet['value']);
+  }elseif($protectedGet['prov'] == 'cveNameVersion'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
+  }elseif($protectedGet['prov'] == 'cveName'){
+    $search->link_multi($protectedGet['prov'], $protectedGet['value']);
+  }elseif($protectedGet['prov'] == 'allsoft'){
+    $search->link_multi("cveNamePublisherVersion", $protectedGet['value']);
   }elseif($protectedGet['prov'] == 'ipdiscover1'){
     $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }elseif($protectedGet['prov'] == 'stat'){

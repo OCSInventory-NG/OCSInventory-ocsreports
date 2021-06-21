@@ -73,7 +73,7 @@ if($cve->CVE_ACTIVE != 1){
             $sql['ARG'] = array($protectedPost['FILTRE1'], $protectedPost['FILTRE2']);
         }
 
-        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME,";",v.VERSION) as search, c.LINK as id 
+        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME,";",p.PUBLISHER,";",v.VERSION) as search, c.LINK as id 
                     FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                     LEFT JOIN software_version v ON v.ID = c.VERSION_ID';
@@ -92,11 +92,13 @@ if($cve->CVE_ACTIVE != 1){
             'CVE' => 'CVE',
             'Link' => 'LINK'
         );
+
+        $multisearch = "cveNamePublisherVersion";
     }
 
     /******************************* BY SOFTWARE *******************************/
     if($protectedPost['onglet'] == "BY_SOFT"){
-        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME) as search, c.LINK as id, c.NAME_ID as nameid
+        $sql['SQL'] = 'SELECT *, p.PUBLISHER, v.VERSION, CONCAT(n.NAME) as search, c.LINK as id, c.NAME_ID as nameid
                     FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                     LEFT JOIN software_version v ON v.ID = c.VERSION_ID
@@ -108,6 +110,7 @@ if($cve->CVE_ACTIVE != 1){
         );
 
         $list_fields['SHOW_DETAILS'] = 'nameid';
+        $multisearch = "cveName";
     }
 
     /******************************* BY COMPUTER *******************************/
@@ -123,12 +126,13 @@ if($cve->CVE_ACTIVE != 1){
             'CVE' => 'CVE',
             'Link' => 'LINK'
         );
+        $multisearch = "cveNamePublisherVersion";
     }
 
     if (isset($sql)) {
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
-        $tab_options['LIEN_LBL']['soft'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+        $tab_options['LIEN_LBL']['soft'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . "&prov=$multisearch&value=";
         $tab_options['LIEN_CHAMP']['soft'] = 'search';
         $tab_options['LBL']['soft'] = $l->g(847);
         $tab_options['LIEN_LBL']['computer'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&systemid=';
@@ -204,6 +208,10 @@ if($cve->CVE_ACTIVE != 1){
                                         echo '<td>';
                                         if($namec == 'LINK') {
                                             echo '<a href="'.$item[$namec].'">'.$item[$namec].'</a>';
+                                        } elseif($namec == 'VERSION'){
+                                            $value = $values['NAME'] . ";" . $item[$namec];
+                                            $multisearch = "cveNameVersion";
+                                            echo '<a href="index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . "&prov=$multisearch&value=".$value.'">'.$item[$namec].'</a>';
                                         } else {
                                             echo $item[$namec];
                                         }
