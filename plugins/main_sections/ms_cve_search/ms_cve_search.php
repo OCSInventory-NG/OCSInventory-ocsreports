@@ -211,7 +211,7 @@ if($cve->CVE_ACTIVE != 1){
                                         } elseif($namec == 'VERSION'){
                                             $value = $values['NAME'] . ";" . $item[$namec];
                                             $multisearch = "cveNameVersion";
-                                            echo '<a href="index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . "&prov=$multisearch&value=".$value.'">'.$item[$namec].'</a>';
+                                            echo '<a href="index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . "&prov=$multisearch&value=".urlencode($value).'">'.$item[$namec].'</a>';
                                         } else {
                                             echo $item[$namec];
                                         }
