@@ -45,6 +45,7 @@ my $path;
 #Launch IpDiscover
 my $isNet;
 my $scantype;
+my $tag
 
 my @networks = ();
 #Default values for database connection
@@ -110,6 +111,8 @@ for $option (@ARGV){
       die "Invalid address => [IP/MASK]. Abort...\n";
     }
     $scantype = $1;
+  }elsif($option=~/-tag=(\S+)/){
+    $tag = $1;
   }else{
     print <<EOF;
 Usage :
@@ -265,9 +268,9 @@ if ($isNet){
 
         #bdd insertion
         if ($name){
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name); 
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?,?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
         } else {
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet); 
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $tag); 
         }
       }
     } elsif ($scantype eq "ping") { #scan with fping
