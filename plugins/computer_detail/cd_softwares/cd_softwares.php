@@ -72,7 +72,7 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
                             s_name.NAME AS NAME,
                             s_version.NAME AS VERSION,
                             s.COMMENTS,s.FOLDER,s.FILENAME,s.FILESIZE,s.GUID,
-                            s.LANGUAGE,s.INSTALLDATE,s.BITSWIDTH, c.CATEGORY_NAME AS CATEGORY
+                            s.LANGUAGE,s.INSTALLDATE,s.BITSWIDTH, s.ARCHITECTURE, c.CATEGORY_NAME AS CATEGORY
                     FROM software s
                     LEFT JOIN type_softwares_name s_name ON s_name.id= s.name_id
                     LEFT JOIN type_softwares_version s_version ON s_version.id=s.version_id
@@ -110,7 +110,8 @@ $list_fields[ucfirst(strtolower($l->g(953)))] = 'FILESIZE';
 $list_fields['GUID'] = 'GUID';
 $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
 $list_fields[$l->g(1238)] = 'INSTALLDATE';
-$list_fields[$l->g(1247)] = 'BITSWIDTH';
+$list_fields[$l->g(1312)] = 'BITSWIDTH';
+$list_fields[$l->g(1247)] = 'ARCHITECTURE';
 $list_fields[$l->g(388)] = 'c.CATEGORY_NAME';
 
 $tab_options['FILTRE'] = array_flip($list_fields);
