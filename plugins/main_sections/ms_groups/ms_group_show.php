@@ -59,6 +59,7 @@ $list_fields2 = array($l->g(949) => 'h.ID',
     $l->g(53) => 'h.DESCRIPTION',
     $l->g(34) => 'h.IPADDR',
     $l->g(24) => 'h.userid',
+    $l->g(36) => 'b.ssn',
     'CHECK' => 'h.ID');
 $list_fields = array_merge($list_fields, $list_fields2);
 $list_col_cant_del = array('NAME' => 'NAME', 'CHECK' => 'CHECK');
@@ -443,7 +444,7 @@ function print_computers_cached($systemid) {
         $queryDetails .= $value . ",";
     }
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
-						,groups_cache e
+                        LEFT JOIN bios b ON b.hardware_id=h.id ,groups_cache e
 						where group_id='" . $systemid . "' and h.id=e.HARDWARE_ID ";
     if (isset($mesmachines) && $mesmachines != '') {
         $queryDetails .= $mesmachines;
