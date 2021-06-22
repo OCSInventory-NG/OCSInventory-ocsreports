@@ -262,7 +262,7 @@ if (is_defined($protectedPost['MODIF'])) {
             if ($protectedGet['prov'] == "inv") {
                 $title = $l->g(1271);
                 $sql = $sql['SQL'] . ",md5(deviceid) as MD5_DEVICEID from accountinfo a,hardware h LEFT JOIN networks n ON n.hardware_id=h.id";
-                $sql .= " where ipsubnet='%s' and status='Up' and a.hardware_id=h.id";
+                $sql .= " where ipsubnet='%s' and status='Up' and a.hardware_id=h.id group by h.id";
                 if($tag != "") {
                     $sql .= " AND TAG = '%s'";
                 }
