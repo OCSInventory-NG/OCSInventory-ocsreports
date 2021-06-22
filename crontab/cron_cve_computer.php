@@ -25,7 +25,7 @@ if($cve->CVE_ACTIVE == 1) {
                 LEFT JOIN software_name n ON n.ID = c.NAME_ID
                 LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                 LEFT JOIN software_version v ON v.ID = c.VERSION_ID
-                LEFT JOIN software s ON s.NAME_ID = n.ID
+                LEFT JOIN software s ON s.NAME_ID = n.ID AND p.ID = s.PUBLISHER_ID AND v.ID = s.VERSION_ID
                 INNER JOIN hardware h ON h.ID = s.HARDWARE_ID
     GROUP BY h.ID, c.LINK, c.CVSS, c.NAME_ID, c.CVE';
 
