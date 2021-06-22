@@ -262,7 +262,7 @@ if (is_defined($protectedPost['MODIF'])) {
             if ($protectedGet['prov'] == "inv") {
                 $title = $l->g(1271);
                 $sql = $sql['SQL'] . ",md5(deviceid) as MD5_DEVICEID from accountinfo a,hardware h LEFT JOIN networks n ON n.hardware_id=h.id";
-                $sql .= " where ipsubnet='%s' and status='Up' and a.hardware_id=h.id group by h.id";
+                $sql .= " where ipsubnet='%s' and status='Up' and a.hardware_id=h.id";
                 if($tag != "") {
                     $sql .= " AND TAG = '%s'";
                 }
@@ -271,6 +271,7 @@ if (is_defined($protectedPost['MODIF'])) {
                 $sql = $sql['SQL'] . " from accountinfo a,hardware h left join devices d on d.hardware_id=h.id";
                 $sql .= " where a.hardware_id=h.id and (d.ivalue=1 or d.ivalue=2) and d.name='IPDISCOVER' and d.tvalue='%s'";
             }
+            $sql .= " group by h.id";
 
             array_push($tab_options['ARG_SQL'], $value_preg, $tag);
             $default_fields['NAME'] = 'NAME';
