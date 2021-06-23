@@ -45,7 +45,7 @@ my $path;
 #Launch IpDiscover
 my $isNet;
 my $scantype;
-my $tag
+my $tag;
 
 my @networks = ();
 #Default values for database connection
@@ -132,6 +132,7 @@ Usage :
 #SCAN OPTION
 -network=X.X.X.X/X (ex: 10.1.1.1/20)-> subnet to scan
 -scantype=xxxx (ping or nmap) tool to scan (default nmap)
+-tag=xxxx  add this if the Ipdiscover have a TAG (default tag is NULL)
 
 EOF
     die "Invalid options. Abort..\n";
@@ -267,10 +268,14 @@ if ($isNet){
         print "Adding $ip\n";
 
         #bdd insertion
-        if ($name){
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?,?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
-        } else {
+        if ($name AND $tag){
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?s,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
+        }elsif ($name) {
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name); 
+        }elsif ($tag){
           $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $tag); 
+        }else{
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet);
         }
       }
     } elsif ($scantype eq "ping") { #scan with fping
