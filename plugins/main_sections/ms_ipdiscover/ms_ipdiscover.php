@@ -152,7 +152,7 @@ if (isset($protectedPost['onglet'])) {
 
     $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				ident ON ipdiscover.$on=ident.$on LEFT JOIN
+				ident ON inv.$on=ident.$on LEFT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT n.mac) AS c, 
