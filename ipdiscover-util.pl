@@ -268,8 +268,8 @@ if ($isNet){
         print "Adding $ip\n";
 
         #bdd insertion
-        if ($name AND $tag){
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?s,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
+        if ($name && $tag){
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
         }elsif ($name) {
           $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name); 
         }elsif ($tag){
@@ -292,7 +292,12 @@ if ($isNet){
 
           print "Adding $ip\n";
 
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?) ', {}, $ip, $macAddr, $mask, $subnet);
+          #bdd insertion
+          if ($tag){
+            $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $tag); 
+          }else{
+            $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?) ', {}, $ip, $macAddr, $mask, $subnet);
+          }
         }
       } else {
         die "Please install fping to use ping for scanning or use -scantype=nmap.\n";
