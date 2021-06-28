@@ -64,7 +64,7 @@ $queryDetails = "SELECT v.VERSION, c.CVSS, c.CVE, c.LINK , p.PUBLISHER, n.NAME a
                     LEFT JOIN software_name n ON n.ID = c.NAME_ID
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                     LEFT JOIN software_version v ON v.ID = c.VERSION_ID
-                    LEFT JOIN software s ON s.NAME_ID = n.ID
+                    LEFT JOIN software s ON s.NAME_ID = n.ID AND p.ID = s.PUBLISHER_ID AND v.ID = s.VERSION_ID
                     INNER JOIN hardware h ON h.ID = s.HARDWARE_ID
                     WHERE h.ID=$systemid
                     GROUP BY c.LINK, c.CVSS, c.NAME_ID, c.CVE ";

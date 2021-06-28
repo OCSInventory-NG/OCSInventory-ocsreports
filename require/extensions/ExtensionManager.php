@@ -164,7 +164,7 @@ class ExtensionManager{
 
         if($this->isInstalled($name)){
             // TODO : error already installed
-            return false;
+            return 'isInstalled';
         }
 
         // Add plugin record in database

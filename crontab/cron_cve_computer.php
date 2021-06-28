@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
-require_once('../dbconfig.inc.php');
 require_once('../var.php');
+require_once(CONF_MYSQL);
 require_once('../require/function_commun.php');
 require_once('../require/cve/Cve.php');
 require_once('../require/config/include.php');
@@ -25,7 +25,7 @@ if($cve->CVE_ACTIVE == 1) {
                 LEFT JOIN software_name n ON n.ID = c.NAME_ID
                 LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                 LEFT JOIN software_version v ON v.ID = c.VERSION_ID
-                LEFT JOIN software s ON s.NAME_ID = n.ID
+                LEFT JOIN software s ON s.NAME_ID = n.ID AND p.ID = s.PUBLISHER_ID AND v.ID = s.VERSION_ID
                 INNER JOIN hardware h ON h.ID = s.HARDWARE_ID
     GROUP BY h.ID, c.LINK, c.CVSS, c.NAME_ID, c.CVE';
 

@@ -271,6 +271,7 @@ if (is_defined($protectedPost['MODIF'])) {
                 $sql = $sql['SQL'] . " from accountinfo a,hardware h left join devices d on d.hardware_id=h.id";
                 $sql .= " where a.hardware_id=h.id and (d.ivalue=1 or d.ivalue=2) and d.name='IPDISCOVER' and d.tvalue='%s'";
             }
+            $sql .= " group by h.id";
 
             array_push($tab_options['ARG_SQL'], $value_preg, $tag);
             $default_fields['NAME'] = 'NAME';

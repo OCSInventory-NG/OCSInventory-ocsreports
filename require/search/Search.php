@@ -947,7 +947,7 @@
      */
     public function link_multi($fields, $value, $option = ""){
         switch($fields){
-          case 'allsoft':
+          case 'cveNamePublisherVersion':
             $value = explode(";", $value);
             $_SESSION['OCS']['multi_search'] = array();
             $_SESSION['OCS']['multi_search']['software']['allsoft'] = [
@@ -964,6 +964,28 @@
               'fields' => 'VERSION_ID',
               'value' => $value[2],
               'operator' => 'EQUAL',
+            ];
+            break;
+            case 'cveNameVersion':
+              $value = explode(";", $value);
+              $_SESSION['OCS']['multi_search'] = array();
+              $_SESSION['OCS']['multi_search']['software']['allsoft'] = [
+                  'fields' => 'NAME_ID',
+                  'value' => $value[0],
+                  'operator' => 'EQUAL',
+              ];
+              $_SESSION['OCS']['multi_search']['software']['allsoftversion'] = [
+                'fields' => 'VERSION_ID',
+                'value' => $value[1],
+                'operator' => 'EQUAL',
+              ];
+              break;
+          case 'cveName':
+            $_SESSION['OCS']['multi_search'] = array();
+            $_SESSION['OCS']['multi_search']['software']['allsoft'] = [
+                'fields' => 'NAME_ID',
+                'value' => $value,
+                'operator' => 'EQUAL',
             ];
             break;
 

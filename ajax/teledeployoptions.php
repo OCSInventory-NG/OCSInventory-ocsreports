@@ -20,8 +20,8 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-require_once('../dbconfig.inc.php');
 require_once('../var.php');
+require_once(CONF_MYSQL);
 require_once('../require/function_commun.php');
 require_once('../require/config/include.php');
 require_once('../require/fichierConf.class.php');
