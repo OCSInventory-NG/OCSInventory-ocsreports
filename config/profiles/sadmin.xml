@@ -64,7 +64,6 @@
     <page>ms_blacklist</page>
     <page>ms_console</page>
     <page>ms_components</page>
-    <page>ms_tele_package</page>
     <page>ms_tele_build</page>
     <page>ms_tele_activate</page>
     <page>ms_tele_popup_active</page>
