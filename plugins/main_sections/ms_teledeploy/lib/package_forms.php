@@ -75,11 +75,6 @@ function validate_package_form($data, $files) {
             }
         }
     }
-    if ($data['REDISTRIB_USE'] == 'on') {
-        if (!isset($data['DOWNLOAD_SERVER_DOCROOT']) || trim($data['DOWNLOAD_SERVER_DOCROOT']) == false) {
-            $errors['DOWNLOAD_SERVER_DOCROOT'] [] = $l->g(1391);
-        }
-    }
 
     // Check unique fields
     if ($data['NAME'] && package_name_exists(trim($data['NAME']))) {

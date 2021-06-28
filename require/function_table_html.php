@@ -1752,9 +1752,6 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><span class='glyphicon glyphicon-edit'></span></a><center>";
 						}
 						break;
-					case "EDIT_DEPLOY":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_package']."&head=1&package=".$value_of_field."\"><span class='glyphicon glyphicon-edit'></span></a>";
-						break;
 					case "SHOW_DETAILS":
 						$row[$key]='<a href="#'.$value_of_field.'" data-toggle="modal" data-target="#'.$value_of_field.'" title="'.$l->g(9013).'"><span class="glyphicon glyphicon-search"></span></a>';
 						break;

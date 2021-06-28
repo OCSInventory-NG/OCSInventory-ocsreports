@@ -64,13 +64,11 @@
     <page>ms_blacklist</page>
     <page>ms_console</page>
     <page>ms_components</page>
-    <page>ms_tele_package</page>
     <page>ms_tele_build</page>
     <page>ms_tele_activate</page>
     <page>ms_tele_popup_active</page>
     <page>ms_tele_actives</page>
     <page>ms_tele_pack</page>
-    <page>ms_rules_redistrib</page>
     <page>ms_custom_param</page>
     <page>ms_opt_ipdiscover</page>
     <page>ms_group_show</page>
@@ -90,7 +88,6 @@
     <page>ms_options_soft_cat</page>
     <page>ms_snmp</page>
     <page>ms_snmp_detail</page>
-    <page>ms_server_redistrib</page>
     <page>jp_teledeploy_stats</page>
     <page>jp_teledeploy_speed_stats</page>
     <page>jp_activity_stats</page>

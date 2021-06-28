@@ -336,22 +336,6 @@ function del_pack($fileid) {
         }
     }
 
-    // delete redistribution package
-    $dl_rep_redist = look_config_default_values('DOWNLOAD_REP_CREAT');
-    $document_root = $dl_rep_redist['tvalue']['DOWNLOAD_REP_CREAT'];
-
-    if (!$document_root) {
-        $document_root = VARLIB_DIR . '/download/server';
-    }
-    $redist_package = realpath($document_root . "/" . $fileid);
-
-    if ($redist_package && @opendir($redist_package)) {
-        //delete all files from this package
-        if (!@recursive_remove_directory($redist_package)) {
-            msg_error($l->g(472) . " " . $redist_package);
-        }
-    }
-
     addLog($l->g(512), $l->g(888) . " " . $fileid);
 }
 

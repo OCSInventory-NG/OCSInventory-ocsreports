@@ -99,10 +99,6 @@ if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
     if ($protectedPost['choix_activ'] == "MAN") {
         activ_pack($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV']);
     }
-
-    if ($protectedPost['choix_activ'] == "AUTO") {
-        activ_pack_server($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV_REDISTRIB']);
-    }
     echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
 }
 

@@ -128,10 +128,6 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
                 $sql_group_cache = "DELETE FROM groups_cache WHERE group_id='%s'";
                 $resDelete = mysql2_query_secure($sql_group_cache, $_SESSION['OCS']["writeServer"], $idHard);
                 $affectedComputers = mysqli_affected_rows($_SESSION['OCS']["writeServer"]);
-                //Deleting redistribution group
-                $sql_group_cache = "DELETE FROM download_servers WHERE group_id='%s'";
-                $resDelete = mysql2_query_secure($sql_group_cache, $_SESSION['OCS']["writeServer"], $idHard);
-                $affectedComputers = mysqli_affected_rows($_SESSION['OCS']["writeServer"]);
             }
 
             if (!$silent) {
