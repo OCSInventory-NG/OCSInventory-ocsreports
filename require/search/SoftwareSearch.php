@@ -103,7 +103,7 @@
                 return self::NAME_TABLE;
             break;
             default :
-                return SOFTWARE_TABLE;
+                return self::SOFTWARE_TABLE;
             break;
         }
     }
