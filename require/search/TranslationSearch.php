@@ -199,7 +199,7 @@
         "guid" => 1453,
         "language" => 1012,
         "installdate" => 1238,
-        "bitswidth" => 1247,
+        "bitswidth" => 1312,
         "disksize" => 67,
         "firmware" => 1229,
         "chipset" => 276,
@@ -215,7 +215,8 @@
         "category_id" => 2132,
         "name_id" => 49,
         "publisher_id" => 69,
-        "version_id" => 277
+        "version_id" => 277,
+        "architecture" => 1247
     ];
 
     private $operatorsArray = [
