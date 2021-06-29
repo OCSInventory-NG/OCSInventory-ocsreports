@@ -269,7 +269,7 @@ if ($isNet){
 
         #bdd insertion
         if ($name && $tag){
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?,?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
         }elsif ($name) {
           $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name); 
         }elsif ($tag){
