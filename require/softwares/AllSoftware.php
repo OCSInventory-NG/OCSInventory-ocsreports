@@ -113,4 +113,27 @@ class AllSoftware
         return $result;
     }
 
+     /**
+      * Search for softwares w/ hardware_ids that are no longer registered
+      * in hardware table and delete them from software table
+      */
+    public function software_cleanup() {
+        $sql = "SELECT software.HARDWARE_ID FROM `software` 
+                LEFT JOIN `hardware` ON software.HARDWARE_ID = hardware.ID
+                WHERE hardware.ID IS NULL GROUP BY software.HARDWARE_ID";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']['readServer']);
+        $i = 0;
+        while ($hid = mysqli_fetch_array($result)) {
+            $unlinked_hids[$i] = $hid['HARDWARE_ID'];
+            $i++;
+        }
+
+        if ($unlinked_hids >= 1) {
+            $sql_del = "DELETE FROM software WHERE HARDWARE_ID IN (%s)";
+            $arg_del = implode(",", $unlinked_hids);
+            $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);
+        }
+        
+    }
+
 }
