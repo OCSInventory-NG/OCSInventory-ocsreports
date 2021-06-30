@@ -63,13 +63,13 @@ unset($list_fields);
 $list_fields[$list_fields_flip[$tag]] = $tag;
 $list_fields['Nbr_mach'] = 'c';
 $tab_options['LIEN_LBL']['Nbr_mach'] = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_all_computers'] . "&filtre=" . $tag . "&value=";
-$tab_options['LIEN_CHAMP']['Nbr_mach'] = $tag;
+$tab_options['LIEN_CHAMP']['Nbr_mach'] = "ID";
 $tab_options['LBL']['Nbr_mach'] = $l->g(1120);
 $tab_options['NO_SEARCH']['c'] = 'c';
 
 $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
-$queryDetails = "SELECT count(hardware_id) c, %s from accountinfo a where %s !='' ";
+$queryDetails = "SELECT count(hardware_id) c, %s as ID, %s from accountinfo a where %s !='' ";
 $tab_options['ARG_SQL'] = array($tag, $tag, $tag);
 if (is_defined($_SESSION['OCS']["mesmachines"])) {
     $queryDetails .= " AND " . $_SESSION['OCS']["mesmachines"];
