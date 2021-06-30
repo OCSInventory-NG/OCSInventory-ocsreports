@@ -251,6 +251,9 @@ class Cve
       curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
       curl_setopt($curl, CURLOPT_URL, $url);
       curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
+      // Uncomment if using a self-signed certificate on CVE server
+      //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+      //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
       $result = curl_exec ($curl);
       $vars = json_decode($result, true);
       if($vars['total'] != 0){

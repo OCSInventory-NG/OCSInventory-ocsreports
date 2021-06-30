@@ -24,6 +24,11 @@ if($cve->CVE_ACTIVE == 1) {
 
     $curl = curl_init($cve->CVE_SEARCH_URL);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    // Uncomment if using a self-signed certificate on CVE server
+    //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    
     curl_exec($curl);
 
     // Check if any error occured on cve-search server
