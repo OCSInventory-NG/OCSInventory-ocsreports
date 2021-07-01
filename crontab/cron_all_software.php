@@ -13,4 +13,5 @@ $_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, 
 $software = new AllSoftware();
 
 error_log(print_r("Please wait, software processing is in progress. It could take a few minutes ...", true));
+$cleanup = $software->software_cleanup();
 $insert = $software->software_link_treatment();
