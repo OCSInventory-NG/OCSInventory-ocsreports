@@ -47,7 +47,7 @@ $def_onglets['CAT'] = $l->g(1027); //Categories
 $def_onglets['NEW'] = $l->g(1028); //nouveau logiciels
 $def_onglets['IGNORED'] = $l->g(1029); //ignor.
 $def_onglets['UNCHANGED'] = $l->g(1030); //unchanged
-//d�fault => first onglet
+//défault => first onglet
 if ($protectedPost['onglet'] == "") {
     $protectedPost['onglet'] = "CAT";
 }
@@ -154,7 +154,7 @@ if ($protectedPost['onglet'] == 'CAT') {
     if ($i != 1 && isset($list_cat[$protectedPost['onglet_soft']])) {
         echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a>";
     }
-    
+
     /**
      * ADD VERSION AND PUBLISHER to columns
      */
@@ -341,7 +341,7 @@ if (isset($querydico)) {
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
 
-//r�cup�ration de toutes les cat�gories
+//récupération de toutes les catégories
 $list_categories['NONE'] = " ";
 $list_categories['IGNORED'] = "IGNORED";
 $list_categories['UNCHANGED'] = "UNCHANGED";
@@ -350,7 +350,7 @@ $result_list_categories = mysqli_query($_SESSION['OCS']["readServer"], $sql_list
 while ($item_list_categories = mysqli_fetch_object($result_list_categories)) {
     $list_categories[$item_list_categories->name] = $item_list_categories->name;
 }
-//d�finition de toutes les options possibles
+//définition de toutes les options possibles
 $choix_affect['NONE'] = " ";
 $choix_affect['NEW_CAT'] = $l->g(385);
 $choix_affect['EXIST_CAT'] = $l->g(387);
