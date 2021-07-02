@@ -99,9 +99,10 @@ if (isset($doublon['ssn'])) {
 if (isset($doublon['macaddress'])) {
     $sql_id_doublon['macaddress'] = " select distinct hardware_id id,MACADDR info1
 									from networks,hardware h
-									where h.id=networks.hardware_id and MACADDR in ";
+									where h.id=networks.hardware_id and STATUS = 'Up' and MACADDR in ";
     $arg_id_doublon['macaddress'] = array();
     $sql = mysql2_prepare($sql_id_doublon['macaddress'], $arg_id_doublon['macaddress'], $doublon['macaddress']);
+    $sql['SQL'] .= " group by networks.id, MACADDR";
     $arg_id_doublon['macaddress'] = $sql['ARG'];
     $sql_id_doublon['macaddress'] = $sql['SQL'];
 } else {
@@ -137,7 +138,7 @@ if (is_defined($tab_id_mes_machines)) {
 }
 
 //search id of computers => hostname + mac address
-$sql_id_doublon['hostname_macaddress'] = "SELECT DISTINCT h.id,h.name info1,n.macaddr info2
+$sql_id_doublon['hostname_macaddress'] = "SELECT DISTINCT h.id,n.macaddr info1, h.name info2
 						FROM hardware h
 						LEFT JOIN networks n ON n.hardware_id = h.id
 						LEFT JOIN hardware h2 on h.name=h2.name
@@ -171,8 +172,7 @@ if (is_defined($tab_id_mes_machines)) {
 }
 
 foreach($sql_id_doublon as $name=>$sql_value){
-    $sql_value.=" group by id";
-	
+
 	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_id_doublon[$name]);
 	$count_id[$name] = 0;
 	while( $val = mysqli_fetch_object( $res ) ) {
@@ -290,14 +290,16 @@ if ($protectedPost['detail'] != '') {
     
     $sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
     
-	if (($protectedPost['detail'] == "macaddress" or $protectedPost['detail'] == "macaddress_serial")
-			 and count($list_info)>0){
+	if (($protectedPost['detail'] == "macaddress" || $protectedPost['detail'] == "macaddress_serial" || $protectedPost['detail'] == "hostname_macaddress") 
+        && count($list_info)>0){
 		$sql['SQL'] .= " and n.macaddr in ";
 		$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_info[$protectedPost['detail']]);
 		
+    } else {
+        $sql['SQL'] .= " group by h.id";
     }
 
-    $sql['SQL'] .= " group by h.id ";
+
 
     // BEGIN MODIF DUPLICATES
     // sort an array by key
@@ -319,8 +321,8 @@ if ($protectedPost['detail'] != '') {
     // grouping of duplicates is conditional
     switch($protectedPost['detail']) {
 		case "hostname_serial": $criteria = 'name'; break;
-		case "hostname_macaddress": $criteria = 'name'; break;
-		case "macaddress_serial": $criteria = 'ssn'; break;
+		case "hostname_macaddress": $criteria = 'macaddr'; break;
+		case "macaddress_serial": $criteria = 'macaddr'; break;
 		case "hostname": $criteria = 'name'; break;
 		case "ssn": $criteria = 'ssn'; break;
 		case "macaddress": $criteria = 'macaddr'; break;
@@ -379,7 +381,8 @@ if ($protectedPost['detail'] != '') {
 
 
     echo "<br><input type='submit' value='". $l->g(9500)."' name='FUSION' class='btn btn-success'><br><br>";
-    echo "<input type='submit' value='". $l->g(9501)."' name='FUSION_ALL' class='btn btn-success'><br /><br />";
+    # removed the merge all button until duplicates are listed correctly
+    # echo "<input type='submit' value='". $l->g(9501)."' name='FUSION_ALL' class='btn btn-success'><br /><br />";
     echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
 
 }
