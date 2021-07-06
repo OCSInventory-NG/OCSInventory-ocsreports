@@ -1,4 +1,5 @@
 $appname = "OCS Inventory NG Agent"
+$path = "C:\OCSUpdateTemp"
 
 # Stop OCS Inventory Service before uninstall 
 Stop-Service -Name "OCS Inventory Service"
@@ -21,15 +22,16 @@ else {
 	}
 }
 
-$tempFolder = $env:temp
-
 # Unregister old ocs inventory scheduled task if exists
-Unregister-ScheduledTask -TaskName "OCS Inventory Agent Update" -Confirm:$false
+schtasks /delete /tn "OCS Inventory Agent Update" /f
+#Unregister-ScheduledTask -TaskName "OCS Inventory Agent Update" -Confirm:$false
 
 # Register new ocs inventory scheduled task
-$action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c $tempFolder\ocsupdate.exe"
-$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2))
-$result = Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "OCS Inventory Agent Update" -Description "Scheduled task to update OCS Inventory Agent" -User "System" -RunLevel Highest
+$hour = (Get-Date).AddMinutes(2).ToString("HH:mm")
+$result = schtasks /create /tn "OCS Inventory Agent Update" /tr "cmd.exe /c $path\ocsupdate.exe" /sc once /st $hour /ru System
+#$action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c $tempFolder\ocsupdate.exe"
+#$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2))
+#$result = Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "OCS Inventory Agent Update" -Description "Scheduled task to update OCS Inventory Agent" -User "System" -RunLevel Highest
 
 if(!$result) {
 	exit 1
