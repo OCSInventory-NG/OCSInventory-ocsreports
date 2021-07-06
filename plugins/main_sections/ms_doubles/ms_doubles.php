@@ -97,9 +97,9 @@ if (isset($doublon['ssn'])) {
 
 ////search id of computers => macaddresses
 if (isset($doublon['macaddress'])) {
-    $sql_id_doublon['macaddress'] = " select distinct hardware_id id,MACADDR info1
-									from networks,hardware h
-									where h.id=networks.hardware_id and STATUS = 'Up' and MACADDR in ";
+    $sql_id_doublon['macaddress'] = "SELECT DISTINCT CONCAT(hardware_id,MACADDR), hardware_id id,MACADDR info1
+									FROM networks,hardware h
+									WHERE h.id=networks.hardware_id AND MACADDR IN ";
     $arg_id_doublon['macaddress'] = array();
     $sql = mysql2_prepare($sql_id_doublon['macaddress'], $arg_id_doublon['macaddress'], $doublon['macaddress']);
     $sql['SQL'] .= " group by networks.id, MACADDR";
@@ -111,7 +111,10 @@ if (isset($doublon['macaddress'])) {
 
 //search id of computers => hostname
 if (isset($doublon['hostname'])) {
-    $sql_id_doublon['hostname'] = " select id, NAME info1 from hardware h,accountinfo a where a.hardware_id=h.id and NAME in ";
+    $sql_id_doublon['hostname'] = " SELECT id, NAME info1 
+                                    FROM hardware h,accountinfo a 
+                                    WHERE a.hardware_id=h.id 
+                                    AND NAME IN ";
     $arg_id_doublon['hostname'] = array();
     $sql = mysql2_prepare($sql_id_doublon['hostname'], $arg_id_doublon['hostname'], $doublon['hostname']);
     $arg_id_doublon['hostname'] = $sql['ARG'];
@@ -122,17 +125,17 @@ if (isset($doublon['hostname'])) {
 
 
 //search id of computers => hostname + serial number
-$sql_id_doublon['hostname_serial'] = "SELECT DISTINCT h.id,h.name info1,b.ssn info2
+$sql_id_doublon['hostname_serial'] = "SELECT DISTINCT CONCAT(h.id,h.name,b.ssn), h.id,h.name info1,b.ssn info2
 						FROM hardware h
 						LEFT JOIN bios b ON b.hardware_id = h.id
-						LEFT JOIN hardware h2 on h.name=h2.name
-						LEFT JOIN  bios b2 on b2.ssn = b.ssn
+						LEFT JOIN hardware h2 ON h.name=h2.name
+						LEFT JOIN  bios b2 ON b2.ssn = b.ssn
 						WHERE  b2.hardware_id = h2.id
-						AND h.id <> h2.id and b.ssn not in (select serial from blacklist_serials) ";
+						AND h.id <> h2.id AND b.ssn NOT IN (SELECT serial FROM blacklist_serials) ";
 $arg_id_doublon['hostname_serial'] = array();
 
 if (is_defined($tab_id_mes_machines)) {
-    $sql = mysql2_prepare($sql_id_doublon['hostname_serial'] . ' and h.id in ', $arg_id_doublon['hostname_serial'], $tab_id_mes_machines);
+    $sql = mysql2_prepare($sql_id_doublon['hostname_serial'] . ' AND h.id IN ', $arg_id_doublon['hostname_serial'], $tab_id_mes_machines);
     $sql_id_doublon['hostname_serial'] = $sql['SQL'];
     $arg_id_doublon['hostname_serial'] = $sql['ARG'];
 }
@@ -141,13 +144,13 @@ if (is_defined($tab_id_mes_machines)) {
 $sql_id_doublon['hostname_macaddress'] = "SELECT DISTINCT h.id,n.macaddr info1, h.name info2
 						FROM hardware h
 						LEFT JOIN networks n ON n.hardware_id = h.id
-						LEFT JOIN hardware h2 on h.name=h2.name
-						LEFT JOIN  networks n2 on n2.MACADDR = n.MACADDR
+						LEFT JOIN hardware h2 ON h.name=h2.name
+						LEFT JOIN  networks n2 ON n2.MACADDR = n.MACADDR
 						WHERE  n2.hardware_id = h2.id
-						AND h.id <> h2.id and n.MACADDR not in (select macaddress from blacklist_macaddresses)";
+						AND h.id <> h2.id AND n.MACADDR NOT IN (SELECT macaddress FROM blacklist_macaddresses)";
 $arg_id_doublon['hostname_macaddress'] = array();
 if (is_defined($tab_id_mes_machines)) {
-    $sql = mysql2_prepare($sql_id_doublon['hostname_macaddress'] . ' and h.id in ', $arg_id_doublon['hostname_macaddress'], $tab_id_mes_machines);
+    $sql = mysql2_prepare($sql_id_doublon['hostname_macaddress'] . ' AND h.id IN ', $arg_id_doublon['hostname_macaddress'], $tab_id_mes_machines);
     $sql_id_doublon['hostname_macaddress'] = $sql['SQL'];
     $arg_id_doublon['hostname_macaddress'] = $sql['ARG'];
 }
@@ -155,18 +158,18 @@ if (is_defined($tab_id_mes_machines)) {
 $sql_id_doublon['macaddress_serial'] = "SELECT DISTINCT h.id, n1.macaddr info1, b.ssn info2
 									  FROM hardware h
 										LEFT JOIN bios b ON b.hardware_id = h.id
-										LEFT JOIN networks n1 on b.hardware_id=n1.hardware_id
-										LEFT JOIN networks n2 on n1.macaddr = n2.macaddr
-										LEFT JOIN bios b2 on b2.ssn = b.ssn
+										LEFT JOIN networks n1 ON b.hardware_id=n1.hardware_id
+										LEFT JOIN networks n2 ON n1.macaddr = n2.macaddr
+										LEFT JOIN bios b2 ON b2.ssn = b.ssn
 									  WHERE n1.hardware_id = h.id
 										AND b2.hardware_id = n2.hardware_id
 										AND b2.hardware_id <> b.hardware_id
-										AND b.ssn not in (select serial from blacklist_serials)
-										AND n1.macaddr not in (select macaddress from blacklist_macaddresses)";
+										AND b.ssn NOT IN (SELECT serial FROM blacklist_serials)
+										AND n1.macaddr NOT IN (SELECT macaddress FROM blacklist_macaddresses)";
 $arg_id_doublon['macaddress_serial'] = array();
 
 if (is_defined($tab_id_mes_machines)) {
-    $sql = mysql2_prepare($sql_id_doublon['macaddress_serial'] . ' and h.id in ', $arg_id_doublon['macaddress_serial'], $tab_id_mes_machines);
+    $sql = mysql2_prepare($sql_id_doublon['macaddress_serial'] . ' AND h.id IN ', $arg_id_doublon['macaddress_serial'], $tab_id_mes_machines);
     $sql_id_doublon['macaddress_serial'] = $sql['SQL'];
     $arg_id_doublon['macaddress_serial'] = $sql['ARG'];
 }
@@ -282,24 +285,25 @@ if ($protectedPost['detail'] != '') {
         $list_col_cant_del['SUP'] = 'SUP';
     }
     $sql = prepare_sql_tab($list_fields, array('SUP', 'CHECK'));
-    $sql['SQL'] .= " from hardware h";
-    $sql['SQL'] .= " left join accountinfo a on h.id=a.hardware_id";
-    $sql['SQL'] .= " left join bios b on h.id=b.hardware_id";
-    $sql['SQL'] .= " left join networks n on h.id=n.hardware_id";
-    $sql['SQL'] .= " where h.id in ";
+    $sql['SQL'] .= " FROM hardware h";
+    $sql['SQL'] .= " LEFT JOIN accountinfo a ON h.id=a.hardware_id";
+    $sql['SQL'] .= " LEFT JOIN bios b ON h.id=b.hardware_id";
+    $sql['SQL'] .= " LEFT JOIN networks n ON h.id=n.hardware_id";
+    $sql['SQL'] .= " WHERE h.id IN ";
     
     $sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_id[$protectedPost['detail']]);
+
+    $groupby = "";
     
 	if (($protectedPost['detail'] == "macaddress" || $protectedPost['detail'] == "macaddress_serial" || $protectedPost['detail'] == "hostname_macaddress") 
         && count($list_info)>0){
-		$sql['SQL'] .= " and n.macaddr in ";
+		$sql['SQL'] .= " AND n.macaddr IN ";
 		$sql=mysql2_prepare($sql['SQL'],$sql['ARG'],$list_info[$protectedPost['detail']]);
+        $groupby = ",n.macaddr";
 		
-    } else {
-        $sql['SQL'] .= " group by h.id";
     }
-
-
+    
+    $sql['SQL'] .= " GROUP BY h.id".$groupby;
 
     // BEGIN MODIF DUPLICATES
     // sort an array by key
