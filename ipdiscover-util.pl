@@ -45,6 +45,7 @@ my $path;
 #Launch IpDiscover
 my $isNet;
 my $scantype;
+my $tag;
 
 my @networks = ();
 #Default values for database connection
@@ -110,6 +111,8 @@ for $option (@ARGV){
       die "Invalid address => [IP/MASK]. Abort...\n";
     }
     $scantype = $1;
+  }elsif($option=~/-tag=(\S+)/){
+    $tag = $1;
   }else{
     print <<EOF;
 Usage :
@@ -129,6 +132,7 @@ Usage :
 #SCAN OPTION
 -network=X.X.X.X/X (ex: 10.1.1.1/20)-> subnet to scan
 -scantype=xxxx (ping or nmap) tool to scan (default nmap)
+-tag=xxxx  add this if the Ipdiscover have a TAG (default tag is NULL)
 
 EOF
     die "Invalid options. Abort..\n";
@@ -264,10 +268,14 @@ if ($isNet){
         print "Adding $ip\n";
 
         #bdd insertion
-        if ($name){
+        if ($name && $tag){
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?,?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
+        }elsif ($name) {
           $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name); 
-        } else {
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet); 
+        }elsif ($tag){
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $tag); 
+        }else{
+          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet);
         }
       }
     } elsif ($scantype eq "ping") { #scan with fping
@@ -284,7 +292,12 @@ if ($isNet){
 
           print "Adding $ip\n";
 
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?) ', {}, $ip, $macAddr, $mask, $subnet);
+          #bdd insertion
+          if ($tag){
+            $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $tag); 
+          }else{
+            $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?) ', {}, $ip, $macAddr, $mask, $subnet);
+          }
         }
       } else {
         die "Please install fping to use ping for scanning or use -scantype=nmap.\n";
