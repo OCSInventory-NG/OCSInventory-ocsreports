@@ -70,7 +70,6 @@ class StatsChartsRenderer {
             }else{
                 $offset = "";
             }
-
             ?>
             <div>
             <?php if($legend && ($key == 'NB_AGENT' || $key == 'NB_OS' || $key == 'teledeploy_stats')){ ?>
@@ -88,6 +87,11 @@ class StatsChartsRenderer {
                 <div class="<?php echo $mainClass ?>" style='margin-top: 5%;'>
 				    <canvas id="<?php echo $key?>" height="160"></canvas>
 			    </div>
+            <?php }elseif($key == 'teledeploy_speed'){  ?>
+                <div class='col-md-2'></div>
+                <div class='col-md-8'>
+                    <canvas id="<?php echo $key?>" height="150"/>
+                </div>
             <?php } ?>
             </div>
             <?php
@@ -243,7 +247,7 @@ class StatsChartsRenderer {
 
     }
 
-    public function createPointChart($canvasName ,  $labels, $datas, $dataLbl){
+    public function createPointChart($canvasName, $labels, $datas, $dataLbl){
 
         ?>
         <script>
