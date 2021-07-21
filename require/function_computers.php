@@ -136,7 +136,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
 
             if (isset($tables) && is_array($tables)) {
                 foreach ($tables as $table) {
-                    $sql = "DELETE FROM %s WHERE hardware_id='%s'";
+                    $sql = "DELETE FROM `%s` WHERE hardware_id='%s'";
                     $arg = array($table, $idHard);
                     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
                 }
