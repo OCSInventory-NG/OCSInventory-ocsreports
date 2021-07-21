@@ -31,11 +31,11 @@ if (AJAX) {
  */
 require_once('require/function_dico.php');
 //use or not cache
-/* if ($_SESSION['OCS']['usecache']) {
-  $table = "softwares_name_cache";
-  } else {
-  $table = "software_name";
-  } */
+/*if ($_SESSION['OCS']['usecache']) {
+    $table = "softwares_name_cache";
+} else {
+    $table = "software_name";
+}*/
 $table = "software_name";
 
 //form name
@@ -56,15 +56,15 @@ if ($protectedPost['RESET'] == "RESET") {
     unset($protectedPost['custom_search']);
 }
 //filtre
-if (isset($protectedPost['custom_search']) && $protectedPost['custom_search'] != "") {
-    $search_cache = " and cache.name like '%" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $protectedPost['custom_search']) . "%' ";
+if ( isset($protectedPost['custom_search']) && $protectedPost['custom_search'] != "" ){
+    $search_cache = " and cache.name like '%" . mysqli_real_escape_string( $_SESSION['OCS']["readServer"], $protectedPost['custom_search']) . "%' ";
     $search_count = " and extracted like '%" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $protectedPost['custom_search']) . "%' ";
 } else {
     $search = "";
     $search_count = "";
 }
 //show first lign of onglet
-show_tabs($def_onglets, $form_name, "onglet", true);
+show_tabs($def_onglets,$form_name,"onglet",true);
 echo '<div class="col col-md-10" >';
 //attention=> result with restriction
 if ($search_count != "" || $search_cache != "") {
@@ -84,15 +84,15 @@ if ($protectedPost['TRANS'] == "TRANS") {
             }
         }
     }
-
+    
     // If list check and protected post are OK for transfer
-    if ($list_check != '' && ( isset($protectedPost['NEW_CAT']) || isset($protectedPost['EXIST_CAT']) )) {
-        if ($protectedPost['EXIST_CAT'] != "NONE") {
+    if ($list_check != '' && ( isset($protectedPost['NEW_CAT']) || isset($protectedPost['EXIST_CAT'])  ) ) {
+        if($protectedPost['EXIST_CAT'] != "NONE"){
             trans($protectedPost['onglet'], $list_check, $protectedPost['AFFECT_TYPE'], '', $protectedPost['EXIST_CAT']);
-            unset($protectedPost['EXIST_CAT']);
+            unset($protectedPost['EXIST_CAT']); 
         }
-
-        if ($protectedPost['NEW_CAT'] != "") {
+        
+        if($protectedPost['NEW_CAT'] != ""){
             trans($protectedPost['onglet'], $list_check, $protectedPost['AFFECT_TYPE'], $protectedPost['NEW_CAT'], '');
             unset($protectedPost['NEW_CAT']);
         }
@@ -100,6 +100,7 @@ if ($protectedPost['TRANS'] == "TRANS") {
         // unset vars
         $list_check = "";
         $protectedPost['AFFECT_TYPE'] = 'NONE';
+ 
     }
 }
 //delete a soft in list => return in 'NEW' liste
@@ -114,11 +115,8 @@ if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
 /* * *****************************************************CAS OF CATEGORIES****************************************************** */
 if ($protectedPost['onglet'] == 'CAT') {
     //search all categories
-    /**
-     * FIX SQL if dico_soft.EXTRACTED == FORMATED
-     */
     $sql_list_cat = "select formatted  name
-		  from dico_soft where 1!=0 " . $search_count . " group by formatted";
+		  from dico_soft where extracted!=formatted " . $search_count . " group by formatted";
     $result_list_cat = mysqli_query($_SESSION['OCS']["readServer"], $sql_list_cat);
     $i = 1;
     while ($item_list_cat = mysqli_fetch_object($result_list_cat)) {
@@ -144,7 +142,7 @@ if ($protectedPost['onglet'] == 'CAT') {
     }
     //show all categories
     if ($i <= 20) {
-        echo "<p>";
+        echo "<p>";  
         onglet($list_cat, $form_name, "onglet_soft", 5);
         echo "</p>";
     } else {
@@ -154,16 +152,10 @@ if ($protectedPost['onglet'] == 'CAT') {
     if ($i != 1 && isset($list_cat[$protectedPost['onglet_soft']])) {
         echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a>";
     }
-
-    /**
-     * ADD VERSION AND PUBLISHER to columns
-     */
     $list_fields = array('SOFT_NAME' => 'EXTRACTED',
-        'ID' => 'cache.ID',
-        'SUP' => 'cache.ID',
-        'CHECK' => 'cache.ID',
-        'SOFT_VERSION' => 'sv.VERSION',
-        'SOFT_PUBLISHER' => 'sp.PUBLISHER'
+        'ID' => 'ID',
+        'SUP' => 'ID',
+        'CHECK' => 'ID'
     );
     $table_name = "CAT_EXIST";
     $default_fields = array('SOFT_NAME' => 'SOFT_NAME', 'SUP' => 'SUP', 'CHECK' => 'CHECK');
@@ -174,31 +166,19 @@ if ($protectedPost['onglet'] == 'CAT') {
             $querydico .= $value . ',';
         }
     }
-    //error_log($list_cat[$protectedPost['onglet_soft']]);
+    error_log($list_cat[$protectedPost['onglet_soft']]);
     $querydico = substr($querydico, 0, -1);
-    /**
-     * FIX query very slow if many softwares in new category
-     */
-    $querydico .= " from dico_soft 
-        left join " . $table . " cache on dico_soft.extracted=cache.name
-        left join software s on (s.NAME_ID=cache.ID)
-        left join software_publisher sp on (sp.ID=s.PUBLISHER_ID)
-        left join software_version sv on (sv.ID=s.VERSION_ID)
-	where formatted='" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $list_cat[$protectedPost['onglet_soft']]) . "' " . $search_count . " group by EXTRACTED";
+    $querydico .= " from dico_soft left join " . $table . " cache on dico_soft.extracted=cache.name
+				 where formatted='" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $list_cat[$protectedPost['onglet_soft']]) . "' " . $search_count . " group by EXTRACTED";
 }
-/* * *****************************************************CAS OF NEW****************************************************** */
+/* ******************************************************CAS OF NEW****************************************************** */
 if ($protectedPost['onglet'] == 'NEW') {
-    /**
-     * FIX query very slow if many softwares in new category
-     */
     $sql_list_alpha = "select
     distinct left(trim(name),1) alpha
     from " . $table . " cache
     where name is not null
-    and ID not in (select sn.ID from dico_soft ds 
-INNER JOIN software_name sn ON (sn.NAME=ds.EXTRACTED))
-and ID not in (select sn.ID FROM dico_ignored di 
-INNER JOIN software_name sn ON (sn.NAME=di.EXTRACTED)) " . $search_cache;
+    and name not in (select extracted name from dico_soft)
+    and name not in (select extracted name from dico_ignored) " . $search_cache;
     $first = '';
     //execute the query only if necessary
     $result_list_alpha = mysqli_query($_SESSION['OCS']["readServer"], $sql_list_alpha);
@@ -222,69 +202,45 @@ INNER JOIN software_name sn ON (sn.NAME=di.EXTRACTED)) " . $search_cache;
     echo "<p>";
     onglet($list_alpha, $form_name, "onglet_soft", 20);
     echo "</p>";
-
+    
     //search all soft for the tab as selected
-    /**
-     * FIX query very slow if many softwares in new category
-     */
-    $search_soft = "select distinct trim(name) name,ID from " . $table . " cache
+    $search_soft = "select distinct trim(name) name from " . $table . " cache
     where name like '" . $_SESSION['OCS']['ONGLET_SOFT'][$protectedPost['onglet_soft']] . "%'
-    and ID not in (select sn.ID from dico_soft ds 
-INNER JOIN software_name sn ON (sn.NAME=ds.EXTRACTED))
-and ID not in (select sn.ID FROM dico_ignored di 
-INNER JOIN software_name sn ON (sn.NAME=di.EXTRACTED)) " . $search_cache;
+    and name not in (select extracted name from dico_soft)
+    and name not in (select extracted name from dico_ignored) " . $search_cache;
     $result_search_soft = mysqli_query($_SESSION['OCS']["readServer"], $search_soft);
     $list_soft = "'";
     while ($item_search_soft = mysqli_fetch_object($result_search_soft)) {
-        $list_soft .= addslashes($item_search_soft->ID) . "','";
+        $list_soft .= addslashes($item_search_soft->name) . "','";
     }
     $list_soft = substr($list_soft, 0, -2);
     if ($list_soft == "") {
         $list_soft = "''";
     }
-    /**
-     * ADD VERSION AND PUBLISHER columns
-     */
+
     $list_fields = array('SOFT_NAME' => 'NAME',
         'QTE' => 'QTE',
-        'ID' => 'software_name.ID',
-        'CHECK' => 'ID',
-        'SOFT_VERSION' => 'sv.VERSION',
-        'SOFT_PUBLISHER' => 'sp.PUBLISHER',
-        // for FIX search on computers 
-        'SRCHSOFT' => 'SRCHSOFT'
-    );
+        'ID' => 'ID',
+        'CHECK' => 'ID');
     $table_name = "CAT_NEW";
     $default_fields = array('SOFT_NAME' => 'SOFT_NAME', 'QTE' => 'QTE', 'CHECK' => 'CHECK');
     $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'QTE' => 'QTE', 'CHECK' => 'CHECK');
     $querydico = 'SELECT ';
     foreach ($list_fields as $key => $value) {
-        if ($key == 'QTE') {
-            //FIX count number of affected computers with the software
-            $querydico .= ' count(DISTINCT s.HARDWARE_ID) as ' . $value . ',';
-        } elseif ($key == 'SRCHSOFT') { // used for filter in search 
-            $querydico .= " CONCAT(NAME,';',sp.PUBLISHER,';',sv.VERSION) as " . $value . ',';
-        } elseif ($key != 'CHECK') {
+        if ($key != 'CHECK' && $key != 'QTE') {
             $querydico .= $value . ',';
+        } elseif ($key == 'QTE') {
+            $querydico .= ' count(NAME) as ' . $value . ',';
         }
     }
 
     $querydico = substr($querydico, 0, -1);
-    /**
-     * improve SQL for bether performance
-     */
     $querydico .= " from software_name
-        INNER JOIN software s ON (s.NAME_ID=software_name.ID)
-        left join software_publisher sp on (sp.ID=s.PUBLISHER_ID)
-        left join software_version sv on (sv.ID=s.VERSION_ID)        
-                    where software_name.ID in (" . $list_soft . ") and software_name.name != ''
-                    and software_name.ID not in (select sn.ID from dico_soft ds 
-INNER JOIN software_name sn ON (sn.NAME=ds.EXTRACTED))
-and software_name.ID not in (select sn.ID FROM dico_ignored di 
-INNER JOIN software_name sn ON (sn.NAME=di.EXTRACTED))
+                    where name in (" . $list_soft . ") and name != ''
+                    and name not in (select extracted name from dico_soft)
+                    and name not in (select extracted name from dico_ignored)
                     group by name ";
 }
-//error_log($querydico);
 /* * *****************************************************CAS OF IGNORED****************************************************** */
 if ($protectedPost['onglet'] == 'IGNORED') {
     $list_fields = array('SOFT_NAME' => 'EXTRACTED',
@@ -325,7 +281,7 @@ if ($protectedPost['onglet'] == 'UNCHANGED') {
     }
     $querydico = substr($querydico, 0, -1);
     $querydico .= " from dico_soft left join " . $table . " cache on cache.name=dico_soft.extracted
-	 	where 1=1 " . $search_cache . " group by EXTRACTED ";
+	 	where extracted=formatted " . $search_cache . " group by EXTRACTED ";
 }
 if (isset($querydico)) {
     $_SESSION['OCS']['query_dico'] = $querydico;
@@ -333,11 +289,9 @@ if (isset($querydico)) {
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $table_name;
     $tab_options['LIEN_LBL']['QTE'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-    $tab_options['LIEN_CHAMP']['QTE'] = 'SRCHSOFT';
+    $tab_options['LIEN_CHAMP']['QTE'] = 'NAME';
     $tab_options['LBL']['SOFT_NAME'] = $l->g(382);
     $tab_options['LBL']['QTE'] = $l->g(55);
-    $tab_options['LBL']['SOFT_PUBLISHER'] = $l->g(69);
-    $tab_options['LBL']['SOFT_VERSION'] = $l->g(277);
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
 
@@ -345,7 +299,7 @@ if (isset($querydico)) {
 $list_categories['NONE'] = " ";
 $list_categories['IGNORED'] = "IGNORED";
 $list_categories['UNCHANGED'] = "UNCHANGED";
-$sql_list_categories = "select distinct(formatted) name from dico_soft order by formatted";
+$sql_list_categories = "select distinct(formatted) name from dico_soft where formatted!=extracted order by formatted";
 $result_list_categories = mysqli_query($_SESSION['OCS']["readServer"], $sql_list_categories);
 while ($item_list_categories = mysqli_fetch_object($result_list_categories)) {
     $list_categories[$item_list_categories->name] = $item_list_categories->name;
@@ -355,39 +309,40 @@ $choix_affect['NONE'] = " ";
 $choix_affect['NEW_CAT'] = $l->g(385);
 $choix_affect['EXIST_CAT'] = $l->g(387);
 
-if ($protectedPost['onglet'] == "NEW") {
-    ?>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-4">
-            <?php formGroup('text', 'custom_search', $l->g(1051), '', '', $protectedPost['custom_search']); ?>
-        </div>
+if($protectedPost['onglet'] == "NEW"){
+?>
+<div class="row">
+    <div class="col-md-6 col-md-offset-4">
+        <?php formGroup('text', 'custom_search', $l->g(1051), '', '', $protectedPost['custom_search']); ?>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <input class='btn btn-success' type='submit' value='<?php echo $l->g(393); ?>'>
-            <button class='btn btn-danger' value='<?php echo $l->g(396); ?>' onclick='return pag("RESET", "RESET", "<?php echo $form_name ?>");' ><?php echo $l->g(396); ?></button>
-        </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <input class='btn btn-success' type='submit' value='<?php echo $l->g(393); ?>'>
+        <button class='btn btn-danger' value='<?php echo $l->g(396); ?>' onclick='return pag("RESET","RESET","<?php echo $form_name ?>");' ><?php echo $l->g(396); ?></button>
     </div>
-    <div class="row margin-top30">
-        <div class="col-md-6 col-md-offset-3">
-            <input name='all_item' id='all_item' type='checkbox' <?php echo (isset($protectedPost['all_item']) ? " checked " : "") . ">" . $l->g(384); ?>
-                   <br />
-                   <?php
-                   formGroup('select', 'AFFECT_TYPE', $l->g(1381), '', '', $protectedPost['AFFECT_TYPE'], '', $choix_affect, $choix_affect, 'onchange="document.admin_param.submit();"');
+</div>
+<div class="row margin-top30">
+    <div class="col-md-6 col-md-offset-3">
+        <input name='all_item' id='all_item' type='checkbox' <?php echo (isset($protectedPost['all_item']) ? " checked " : "") . ">" . $l->g(384); ?>
+        <br />
+        <?php
+        formGroup('select', 'AFFECT_TYPE', $l->g(1381), '', '', $protectedPost['AFFECT_TYPE'], '', $choix_affect, $choix_affect, 'onchange="document.admin_param.submit();"');
+        
+        if(isset($protectedPost['AFFECT_TYPE']) && $protectedPost['AFFECT_TYPE'] != "NONE"){
+            if ($protectedPost['AFFECT_TYPE'] == "NEW_CAT") {
+                formGroup('text', 'NEW_CAT', $l->g(391), '', 100, $protectedPost['NEW_CAT']);
+            }elseif($protectedPost['AFFECT_TYPE'] == "EXIST_CAT"){
+                formGroup('select', 'EXIST_CAT', $l->g(388), '', 100, $protectedPost['EXIST_CAT'], '', $list_categories, $list_categories);
+            }
+            echo "<input type='hidden' name='TRANS' id='TRANS' value='TRANS'>";
+            echo "<input type='submit' class='btn btn-success' value=".$l->g(13).">";
+        }
 
-                   if (isset($protectedPost['AFFECT_TYPE']) && $protectedPost['AFFECT_TYPE'] != "NONE") {
-                       if ($protectedPost['AFFECT_TYPE'] == "NEW_CAT") {
-                           formGroup('text', 'NEW_CAT', $l->g(391), '', 100, $protectedPost['NEW_CAT']);
-                       } elseif ($protectedPost['AFFECT_TYPE'] == "EXIST_CAT") {
-                           formGroup('select', 'EXIST_CAT', $l->g(388), '', 100, $protectedPost['EXIST_CAT'], '', $list_categories, $list_categories);
-                       }
-                       echo "<input type='hidden' name='TRANS' id='TRANS' value='TRANS'>";
-                       echo "<input type='submit' class='btn btn-success' value=" . $l->g(13) . ">";
-                   }
-                   ?>
-        </div>
+        ?>
     </div>
-    <?php
+</div>
+<?php
 }
 
 echo '</div>';
@@ -395,7 +350,7 @@ echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 echo "<input type='hidden' name='SUP_CAT' id='SUP_CAT' value=''>";
 echo close_form();
 
-if (isset($protectedPost['custom_search'])) {
+if(isset($protectedPost['custom_search'])){
     unset($tab_options['custom_search']);
 }
 
@@ -403,4 +358,4 @@ if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $querydico, $tab_options);
 }
-?> 
+?>
