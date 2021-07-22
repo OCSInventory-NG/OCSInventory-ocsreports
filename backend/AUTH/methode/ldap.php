@@ -126,7 +126,7 @@ function ldap_connection() {
     ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
     if (ROOT_DN != '' && defined('ROOT_DN')) {
-        $b = ldap_bind($ds, ROOT_DN, ROOT_PW);
+        $b = ldap_bind($ds, ROOT_DN, htmlspecialchars_decode(ROOT_PW));
     } else { //Anonymous bind
         $b = ldap_bind($ds);
     }
