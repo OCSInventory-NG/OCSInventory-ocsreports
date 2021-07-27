@@ -85,7 +85,11 @@ while ($item = mysqli_fetch_object($result)) {
 		$year = $data_temp[4];
 	}
 
-	$hour_temp = explode(':', $data_temp[4]);
+	if ($data_temp[2] != '') {
+		$hour_temp = explode(':', $data_temp[3]);
+	} else {
+		$hour_temp = explode(':', $data_temp[4]);
+	}
 
 	$timestamp = mktime($hour_temp[0], 0, 0, $year_month[$month], $day, $year);
 
