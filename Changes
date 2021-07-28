@@ -1,4 +1,32 @@
 Revision history for ocsreports
+2.9.1
+		* Add CVE by computer crontab
+		* Add CVE in computer details
+		* Add architecture column to softwares
+		* Add serial number to group table
+		* Add commented line to disable SSL verification on CVE cURL call
+		* Add software removal if not linked to any current hardware
+		* Improve update agent script from deployment
+		* Update Deutsh translation
+		* Update memory capacity to INT
+		* Fix admindata select type in multisearch
+		* Fix typo in French translation
+		* Fix MySQL reserved word conflict from upload file
+		* Fix real path from crontab
+		* Fix CVE links
+		* Fix duplicates
+		* Fix CVE computer version
+		* Fix IpDiscover identified networks
+		* Fix display select and checkbox accountinfo in computers per tag
+		* Fix multisearch wrong translation
+		* Fix update agent script compatibility with old powershell version
+		* Fix deployment success stats
+		* Fix MySQL 8 compatibility when deleting computers
+		* Fix special chars for LDAP password
+		* Remove redistribution from deployment
+		* Remove useless file ms_tele_package.php
+
+
 2.9
 		* Rework deployment feature
 		* Rework duplicates interface
