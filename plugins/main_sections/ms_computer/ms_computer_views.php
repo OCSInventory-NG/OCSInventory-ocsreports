@@ -73,6 +73,19 @@ function show_computer_actions($computer){
     if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO" && isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
         echo "<button class='btn btn-action' OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"" . $l->g(1283) . "\");'>WOL</button> ";
     }
+
+    echo "&nbsp;&nbsp;";
+
+    // archive btn -> if computer already archived : restore, else : archive
+    if ($_SESSION['OCS']['profile']->getRestriction('ARCHIVE', 'NO') == "NO" && isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
+        $archive = new ArchiveComputer();
+        if (mysqli_num_rows($archive->isArchived($computer->ID)) != 0) {
+            $archive_action = $l->g(1552);
+        } else {
+            $archive_action = $l->g(1551);
+        }
+        echo "<button class='btn btn-action' OnClick='confirme(\"\",\"". $archive_action ."\",\"bandeau\",\"ARCHIVE\",\"Do you want to ". strtolower($archive_action) ." this computer ?\");'>". strtoupper($archive_action)."</button> ";
+    }
     echo "</div>";
 }
 
@@ -187,6 +200,7 @@ function show_computer_summary($computer) {
 
     show_summary($data, $labels, $cat_labels, $link);
     echo "<input type='hidden' id='WOL' name='WOL' value=''>";
+    echo "<input type='hidden' id='ARCHIVE' name='ARCHIVE' value=''>";
 
     echo close_form();
 }

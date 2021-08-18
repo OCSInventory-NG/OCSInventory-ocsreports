@@ -33,6 +33,7 @@ require_once('require/extensions/ExtensionHook.php');
 require_once('require/function_machine.php');
 require_once('require/function_files.php');
 require_once('ms_computer_views.php');
+require_once('require/archive/ArchiveComputer.php');
 //recherche des infos de la machine
 $item = info($protectedGet, $protectedPost['systemid']);
 if (!is_object($item)) {
@@ -76,6 +77,13 @@ if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION[
 }
 
 show_computer_title($item);
+
+$archive = new ArchiveComputer();
+if (isset($protectedPost["ARCHIVE"]) && $protectedPost['ARCHIVE'] == 'Archive') {
+    $archive->archive($item->ID);
+} elseif (isset($protectedPost["ARCHIVE"]) && $protectedPost['ARCHIVE'] == 'Restore') {
+    $archive->restore($item->ID);
+}
 
 show_computer_actions($item);
 
