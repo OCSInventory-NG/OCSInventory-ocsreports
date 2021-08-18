@@ -84,13 +84,14 @@
      $wol = new Wol();
 
      if (is_defined($protectedPost['WOL'])) {
-         $sql = "select IPADDRESS,MACADDR from networks WHERE status='Up' and hardware_id in ";
+         $sql = "select IPADDRESS,MACADDR,IPMASK from networks WHERE status='Up' and hardware_id in ";
          $arg = array();
          $tab_result = mysql2_prepare($sql, $arg, $list_id);
          $resultDetails = mysql2_query_secure($tab_result['SQL'], $_SESSION['OCS']["readServer"], $tab_result['ARG']);
          $msg = "";
          while ($item = mysqli_fetch_object($resultDetails)) {
-            $wol->look_config_wol($item->IPADDRESS, $item->MACADDR);
+             $broadcast = long2ip(ip2long($item->IPADDRESS) | ~ip2long($item->IPMASK));
+             $wol->look_config_wol($broadcast, $item->MACADDR);
              $msg .= "<br>" . $wol->wol_send . "=>" . $item->MACADDR . "/" . $item->IPADDRESS;
          }
          msg_info($msg);
