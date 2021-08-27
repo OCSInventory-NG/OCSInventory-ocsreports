@@ -57,7 +57,7 @@
     <page>ms_add_profile</page>
     <page>ms_profile_details</page>
     <page>ms_custom_perim</page>
-    <page>ms_local</page>
+    <page>ms_local_import</page>
     <page>ms_help</page>
     <page>ms_stats</page>
     <page>ms_codes</page>
