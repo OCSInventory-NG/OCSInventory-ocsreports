@@ -296,8 +296,12 @@ function insert_manual_computer($values, $nb = 1) {
     global $i;
     if ($nb == 1) {
         $name = $values['COMPUTER_NAME_GENERIC'];
+        $macaddr = $values['ADDR_MAC_GENERIC'];
+        $serial = $values ['SERIAL_GENERIC'];
     } else {
         $name = $values['COMPUTER_NAME_GENERIC'] . $i;
+        $macaddr = $values['ADDR_MAC_GENERIC']. $i;
+        $serial = $values ['SERIAL_GENERIC']. $i;
     }
 
     $sql = "insert into hardware (deviceid,name) values ('%s','%s')";
@@ -306,11 +310,11 @@ function insert_manual_computer($values, $nb = 1) {
     $id_computer = mysqli_insert_id($_SESSION['OCS']["writeServer"]);
 
     $sql = "insert into bios (hardware_id,ssn) values ('%s','%s')";
-    $arg = array($id_computer, $values['SERIAL_GENERIC'] . '_M');
+    $arg = array($id_computer, $serial . '_M');
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 
     $sql = "insert into networks (hardware_id,macaddr) values ('%s','%s')";
-    $arg = array($id_computer, $values['ADDR_MAC_GENERIC'] . '_M');
+    $arg = array($id_computer, $macaddr. '_M');
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 
     return $id_computer;

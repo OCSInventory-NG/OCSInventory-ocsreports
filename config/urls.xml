@@ -320,4 +320,8 @@
         <value>snmp_inventory</value>
         <directory>ms_snmp_inventory</directory>
     </url>
+    <url key="ms_local_import">
+        <value>admin_local_import</value>
+        <directory>ms_upload_file</directory>
+    </url>
 </urls>
