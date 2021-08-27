@@ -63,4 +63,12 @@ class ArchiveComputer
         return $result;
     }
 
+    public function isArchived($ids) {
+        $sql = "SELECT * FROM archive WHERE HARDWARE_ID = %s";
+
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $ids);
+        
+        return $result;
+    }
+
 }
