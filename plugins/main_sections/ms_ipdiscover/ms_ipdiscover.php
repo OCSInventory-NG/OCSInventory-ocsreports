@@ -90,13 +90,13 @@ if (isset($protectedPost['onglet'])) {
     $sql = "SELECT * FROM 
             (
                 SELECT 
-                inv.RSX AS ID, 
+                non_ident.RSX AS ID, 
                 inv.c AS 'INVENTORIE', 
                 non_ident.c AS 'NON_INVENTORIE', 
                 ipdiscover.c AS 'IPDISCOVER', 
                 ident.c AS 'IDENTIFIE', 
                 inv.TAG,
-                inv.PASS
+                non_ident.PASS
 		        FROM  
                 (
                     SELECT 
@@ -152,7 +152,7 @@ if (isset($protectedPost['onglet'])) {
 
     $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				ident ON inv.$on=ident.$on LEFT JOIN
+				ident ON inv.$on=ident.$on RIGHT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT n.mac) AS c, 
@@ -175,7 +175,7 @@ if (isset($protectedPost['onglet'])) {
                 )
 				non_ident on non_ident.$on=inv.$on
             ) 
-            toto";
+            ipd";
 
     $tab_options['ARG_SQL'] = $arg['ARG'];
 
