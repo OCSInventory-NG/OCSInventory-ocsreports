@@ -37,22 +37,20 @@ while ($row = mysqli_fetch_object($res_black)) {
 }
 
 if($ipdiscover->IPDISCOVER_TAG == "1") {
-    $req = "SELECT DISTINCT ipsubnet,s.name,s.id,CONCAT(ipsubnet,';',ifnull(s.tag,'')) as pass
-            FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
-            WHERE a.hardware_id=n.HARDWARE_ID
-            AND n.status='Up'";
+    $req = "SELECT DISTINCT n.netid as ipsubnet,s.name,s.id,CONCAT(n.netid,';',ifnull(s.tag,'')) as pass FROM netmap n 
+            LEFT JOIN subnet s ON s.netid=n.netid";
     if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-        $req .= "	and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+        $req .= "	and " . $_SESSION['OCS']["mesmachines"] . " order by n.netid";
     } else {
         $req .= " union select netid,name,id,CONCAT(netid,';',ifnull(tag,'')) from subnet";
     }
+
 } else {
-    $req = "SELECT DISTINCT ipsubnet,s.name,s.id
-			FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
-		    WHERE a.hardware_id=n.HARDWARE_ID
-			AND n.status='Up' AND (s.TAG IS NULL OR s.TAG = '')";
+    $req = "SELECT DISTINCT n.netid as ipsubnet,s.name,s.id
+            FROM netmap n LEFT JOIN subnet s ON s.netid=n.netid ,accountinfo a
+		    WHERE (s.TAG IS NULL OR s.TAG = '')";
     if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-        $req .= " and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+        $req .= " and " . $_SESSION['OCS']["mesmachines"] . " order by netid";
     } else {
         $req .= " union select netid,name,id from subnet WHERE TAG IS NULL OR TAG = ''";
     }
