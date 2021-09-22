@@ -1700,6 +1700,7 @@
 9029 Une erreur est survenue lors de la suppression du label
 9030 Une erreur est survenue lors de la suppression de la configuration
 9031 Conditions du type
+9032 Jokers: * ( plusieurs caractères au début de la valeur de la chaîne OID ou à la fin de la valeur de la chaîne OID )
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL

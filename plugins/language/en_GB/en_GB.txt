@@ -1705,6 +1705,7 @@
 9029 An error happened during the label deletion
 9030 An error happened during the config deletion
 9031 Type conditions
+9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
 
 9100 SSL key path
 9101 SSL certificat path
