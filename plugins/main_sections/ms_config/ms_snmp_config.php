@@ -161,6 +161,7 @@ if($protectedPost['onglet'] == 'SNMP_CONDITION') {
     formGroup('select', 'type_id', 'Type :', '', '', '', '', $type, $type);
     formGroup('text', 'condition_oid', $l->g(9004).' :', '', '', '', '', '', '', '');
     formGroup('text', 'condition_value', $l->g(9005).' :', '', '', '', '', '', '', '');
+    echo "<p>".$l->g(9032)."</p>";
 
     echo "<input type='submit' name='create_type_condition' id='create_type_condition' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</br></br><hr></br>";
