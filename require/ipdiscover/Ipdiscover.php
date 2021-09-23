@@ -240,22 +240,25 @@ class Ipdiscover
 
 	public function form_add_community($title = '', $default_value, $form) {
 		global $l, $protectedPost;
-
 		$name_field = array("NAME", "VERSION");
 		$tab_name = array($l->g(49) . ": ", $l->g(1199) . ": ");
 		$type_field = array(0, 2);
 		$value_field = array($default_value['NAME'], $default_value['VERSION']);
 
 		if ($protectedPost['VERSION'] == '3') {
-			array_push($name_field, "USERNAME", "AUTHKEY", "AUTHPASSWD");
-			array_push($tab_name, "USERNAME : ", "AUTHKEY : ", "AUTHPASSWD :");
-			array_push($type_field, 0, 0);
-			array_push($value_field, $default_value['USERNAME'], $default_value['AUTHKEY'], $default_value['AUTHPASSWD']);
+			array_push($name_field, "USERNAME", "AUTHKEY", "AUTHPASSWD", "AUTHPROTO", "PRIVPROTO");
+			array_push($tab_name, "USERNAME : ", "AUTHKEY : ", "AUTHPASSWD :", "AUTHPROTO :", "PRIVPROTO :");
+			array_push($type_field, 0, 0, 0, 2, 2);
+			array_push($value_field, $default_value['USERNAME'], $default_value['AUTHKEY'], $default_value['AUTHPASSWD'], $default_value['AUTHPROTO'], $default_value['PRIVPROTO']);
 		}
 
-		$tab_typ_champ = show_field($name_field, $type_field, $value_field);
+		$tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
+
 		foreach ($tab_typ_champ as $id => $values) {
 			$tab_typ_champ[$id]['CONFIG']['SIZE'] = 30;
+			if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
+				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']];
+			}
 		}
 
 		$tab_typ_champ[1]['RELOAD'] = $form;
@@ -270,7 +273,7 @@ class Ipdiscover
 		));
 	}
 
-	public function add_community($ID, $NAME, $VERSION, $USERNAME, $AUTHKEY, $AUTHPASSWD) {
+	public function add_community($ID, $NAME, $VERSION, $USERNAME, $AUTHKEY, $AUTHPASSWD, $AUTHPROTO, $PRIVPROTO) {
 		global $l;
 
 		if ($VERSION == -1) {
@@ -298,8 +301,8 @@ class Ipdiscover
 			$SUCCESS = $l->g(1208);
 		}
 
-		$sql = "insert into snmp_communities (ID,VERSION,NAME,USERNAME,AUTHKEY,AUTHPASSWD) VALUES ('%s','%s','%s','%s','%s','%s')";
-		$arg = array($ID, $VERSION, $NAME, $USERNAME, $AUTHKEY, $AUTHPASSWD);
+		$sql = "insert into snmp_communities (ID,VERSION,NAME,USERNAME,AUTHKEY,AUTHPASSWD,AUTHPROTO,PRIVPROTO) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')";
+		$arg = array($ID, $VERSION, $NAME, $USERNAME, $AUTHKEY, $AUTHPASSWD, $AUTHPROTO, $PRIVPROTO);
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 		return array('SUCCESS' => $SUCCESS);
 	}
