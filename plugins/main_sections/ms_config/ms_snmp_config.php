@@ -88,7 +88,7 @@ if($protectedPost['onglet'] == 'SNMP_RULE') {
     }
 
     if(isset($protectedPost['create_type'])) {
-        $result = $snmp->create_type($protectedPost['type_name']/*, $protectedPost['condition_oid'], $protectedPost['condition_value']*/);
+        $result = $snmp->create_type($protectedPost['type_name']);
         if($result == 0){
           msg_success($l->g(572));
         }else{
