@@ -74,6 +74,19 @@ if(empty($typeList)) {
             unset($protectedPost['SUP_PROF']);
         }
 
+        //del the selection
+        if (isset($protectedPost['DEL_ALL']) && $protectedPost['DEL_ALL'] != '') {
+            foreach ($protectedPost as $key => $value) {
+                $checkbox = explode('check', $key);
+                if (isset($checkbox[1])) {
+                    $sql_sup_all = "DELETE FROM %s WHERE ID IN (%s)";
+                    $arg_sup_all = array($protectedPost['TABLENAME'], $checkbox[1]);
+                    $result_all = mysql2_query_secure($sql_sup_all, $_SESSION['OCS']["writeServer"], $arg_sup_all);
+                }
+            }
+            unset($protectedPost['DEL_ALL']);
+        }
+
         print_item_header($typeList[$protectedPost['onglet']]['TYPENAME']);
         $columns = $snmp->show_columns($typeList[$protectedPost['onglet']]['TABLENAME']);
 
@@ -89,6 +102,7 @@ if(empty($typeList)) {
             }
         }
         $list_fields['SHOW_DETAILS'] = 'ID';
+        $list_fields['CHECK'] = 'ID';
         $list_fields['SUP'] = 'ID';
         $list_col_cant_del = $list_fields;
         $default_fields = $list_fields;
@@ -149,6 +163,10 @@ if(empty($typeList)) {
     }
 
     echo '</div>';
+
+    echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-remove delete-span'></span></a>";
+    echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
+
     echo close_form();
 
 }
