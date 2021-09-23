@@ -1706,6 +1706,8 @@
 9030 An error happened during the config deletion
 9031 Type conditions
 9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
+9033 Authentication Protocol
+9034 Privacy Protocol
 
 9100 SSL key path
 9101 SSL certificat path
