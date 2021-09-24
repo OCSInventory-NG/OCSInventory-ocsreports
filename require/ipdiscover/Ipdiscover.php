@@ -246,10 +246,10 @@ class Ipdiscover
 		$value_field = array($default_value['NAME'], $default_value['VERSION']);
 
 		if ($protectedPost['VERSION'] == '3') {
-			array_push($name_field, "USERNAME", "LEVEL", "AUTHKEY", "AUTHPASSWD", "AUTHPROTO", "PRIVPASSWD", "PRIVPROTO");
-			array_push($tab_name, "USERNAME : ", "LEVEL : ", "AUTHKEY : ", "AUTHPASSWD :", "AUTHPROTO :", "PRIVPASSWD :", "PRIVPROTO :");
-			array_push($type_field, 0, 2, 0, 0, 2, 0, 2);
-			array_push($value_field, $default_value['USERNAME'], $default_value['LEVEL'], $default_value['AUTHKEY'], $default_value['AUTHPASSWD'], $default_value['AUTHPROTO'], $default_value['PRIVPASSWD'], $default_value['PRIVPROTO']);
+			array_push($name_field, "USERNAME", "LEVEL", "AUTHPASSWD", "AUTHPROTO", "PRIVPASSWD", "PRIVPROTO");
+			array_push($tab_name, "USERNAME : ", "LEVEL : ", "AUTHPASSWD :", "AUTHPROTO :", "PRIVPASSWD :", "PRIVPROTO :");
+			array_push($type_field, 0, 2, 0, 2, 0, 2);
+			array_push($value_field, $default_value['USERNAME'], $default_value['LEVEL'], $default_value['AUTHPASSWD'], $default_value['AUTHPROTO'], $default_value['PRIVPASSWD'], $default_value['PRIVPROTO']);
 		}
 
 		$tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
@@ -273,7 +273,7 @@ class Ipdiscover
 		));
 	}
 
-	public function add_community($ID, $NAME, $VERSION, $USERNAME, $AUTHKEY, $AUTHPASSWD, $AUTHPROTO, $PRIVPROTO, $LEVEL, $PRIVPASSWD) {
+	public function add_community($ID, $NAME, $VERSION, $USERNAME, $AUTHPASSWD, $AUTHPROTO, $PRIVPROTO, $LEVEL, $PRIVPASSWD) {
 		global $l;
 
 		if ($VERSION == -1) {
@@ -301,8 +301,8 @@ class Ipdiscover
 			$SUCCESS = $l->g(1208);
 		}
 
-		$sql = "insert into snmp_communities (ID,VERSION,NAME,USERNAME,AUTHKEY,AUTHPASSWD,AUTHPROTO,PRIVPROTO,LEVEL,PRIVPASSWD) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')";
-		$arg = array($ID, $VERSION, $NAME, $USERNAME, $AUTHKEY, $AUTHPASSWD, $AUTHPROTO, $PRIVPROTO, $LEVEL, $PRIVPASSWD);
+		$sql = "insert into snmp_communities (ID,VERSION,NAME,USERNAME,AUTHPASSWD,AUTHPROTO,PRIVPROTO,LEVEL,PRIVPASSWD) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')";
+		$arg = array($ID, $VERSION, $NAME, $USERNAME, $AUTHPASSWD, $AUTHPROTO, $PRIVPROTO, $LEVEL, $PRIVPASSWD);
 		mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 		return array('SUCCESS' => $SUCCESS);
 	}

@@ -91,3 +91,4 @@ ALTER TABLE `snmp_communities` ADD COLUMN `AUTHPROTO` varchar(255) DEFAULT NULL;
 ALTER TABLE `snmp_communities` ADD COLUMN `PRIVPROTO` varchar(255) DEFAULT NULL;
 ALTER TABLE `snmp_communities` ADD COLUMN `PRIVPASSWD` varchar(255) DEFAULT NULL;
 ALTER TABLE `snmp_communities` ADD COLUMN `LEVEL` varchar(255) DEFAULT NULL;
+ALTER TABLE `snmp_communities` DROP COLUMN `AUTHKEY`;
