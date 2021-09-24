@@ -1708,6 +1708,7 @@
 9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
 9033 Authentication Protocol
 9034 Privacy Protocol
+9035 Privacy Password
 
 9100 SSL key path
 9101 SSL certificat path
