@@ -252,7 +252,18 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
 /************************************* COMMUNITIES *************************************/
 if ($protectedPost['onglet'] == 'ADMIN_SMTP' && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES') {
     if (isset($protectedPost['Valid_modif'])) {
-        $msg_result = $ipdiscover->add_community($protectedPost['MODIF'], $protectedPost['NAME'], $protectedPost['VERSION'], $protectedPost['USERNAME'], $protectedPost['AUTHKEY'], $protectedPost['AUTHPASSWD'], $protectedPost['AUTHPROTO'], $protectedPost['PRIVPROTO']);
+        $msg_result = $ipdiscover->add_community(
+            $protectedPost['MODIF'],
+            $protectedPost['NAME'],
+            $protectedPost['VERSION'],
+            $protectedPost['USERNAME'],
+            $protectedPost['AUTHKEY'],
+            $protectedPost['AUTHPASSWD'],
+            $protectedPost['AUTHPROTO'],
+            $protectedPost['PRIVPROTO'],
+            $protectedPost['LEVEL'],
+            $protectedPost['PRIVPASSWD']
+        );
         if (isset($msg_result['SUCCESS'])) {
             unset($protectedPost['MODIF'], $protectedPost['ADD_COMM']);
             $msg_ok = $msg_result['SUCCESS'];
@@ -283,6 +294,7 @@ if ($protectedPost['onglet'] == 'ADMIN_SMTP' && $_SESSION['OCS']['profile']->get
         $list_version = array('-1' => '2c', '1' => '1', '2' => '2', '3' => '3');
         $list_authproto = array('md5' => 'MD5', 'sha' => 'SHA-1');
         $list_privproto = array('des' => 'DES', 'aes' => 'AES');
+        $list_level = array('noAuthNoPriv' => 'noAuthNoPriv', 'authNoPriv' => 'authNoPriv', 'authPriv' => 'authPriv');
         $title = $l->g(1207);
         if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['NAME'])) {
             $info_com = $ipdiscover->find_community_info($protectedPost['MODIF']);
@@ -290,9 +302,11 @@ if ($protectedPost['onglet'] == 'ADMIN_SMTP' && $_SESSION['OCS']['profile']->get
                 'NAME' => $info_com->NAME,
                 'VERSION' => $list_version,
                 'USERNAME' => $info_com->USERNAME,
+                'LEVEL' => $list_level,
                 'AUTHKEY' => $info_com->AUTHKEY,
                 'AUTHPASSWD' => $info_com->AUTHPASSWD,
                 'AUTHPROTO' => $list_authproto,
+                'PRIVPASSWD' => $info_com->PRIVPASSWD,
                 'PRIVPROTO' => $list_privproto);
             if ($info_com->VERSION == "2c") {
                 $protectedPost['VERSION'] = -1;
@@ -300,15 +314,18 @@ if ($protectedPost['onglet'] == 'ADMIN_SMTP' && $_SESSION['OCS']['profile']->get
                 $protectedPost['VERSION'] = $info_com->VERSION;
                 $protectedPost['AUTHPROTO'] = $info_com->AUTHPROTO;
                 $protectedPost['PRIVPROTO'] = $info_com->PRIVPROTO;
+                $protectedPost['LEVEL'] = $info_com->LEVEL;
             }
         } else {
             $default_values = array('ID' => $protectedPost['ID'],
                 'NAME' => $protectedPost['NAME'],
                 'VERSION' => $list_version,
                 'USERNAME' => $protectedPost['USERNAME'],
+                'LEVEL' => $list_level,
                 'AUTHKEY' => $protectedPost['AUTHKEY'],
                 'AUTHPASSWD' => $protectedPost['AUTHPASSWD'],
                 'AUTHPROTO' => $list_authproto,
+                'PRIVPASSWD' => $protectedPost['PRIVPASSWD'],
                 'PRIVPROTO' => $list_privproto);
         }
         $ipdiscover->form_add_community($title, $default_values, $form_name);
@@ -317,9 +334,11 @@ if ($protectedPost['onglet'] == 'ADMIN_SMTP' && $_SESSION['OCS']['profile']->get
         $list_fields = array($l->g(277) => 'VERSION',
             $l->g(49) => 'NAME',
             $l->g(24) => 'USERNAME',
+            $l->g(1104) => 'LEVEL',
             $l->g(2028) => 'AUTHKEY',
             $l->g(217) => 'AUTHPASSWD',
             $l->g(9033) => 'AUTHPROTO',
+            $l->g(9035) => 'PRIVPASSWD',
             $l->g(9034) => 'PRIVPROTO',
             'MODIF' => 'ID',
             'SUP' => 'ID');
