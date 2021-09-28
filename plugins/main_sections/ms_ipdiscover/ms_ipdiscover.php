@@ -131,7 +131,7 @@ if (isset($protectedPost['onglet'])) {
     $arg['SQL'] .= " AND n.status='Up' 
                     GROUP BY $groupby2
                 )
-				inv ON ipdiscover.$on=inv.$on LEFT JOIN
+				inv ON ipdiscover.$on=inv.$on RIGHT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT mac) AS c,
@@ -173,7 +173,7 @@ if (isset($protectedPost['onglet'])) {
 
     $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				non_ident on non_ident.$on=inv.$on
+				non_ident on non_ident.$on=ident.$on
             ) 
             ipd";
 
