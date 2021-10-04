@@ -78,7 +78,7 @@
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
         <ACT>EXECUTE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>HTTP</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
         <COMMAND>username=$(last -1 | awk '{print $1}');su - $username -c 'brew install :application_name:'</COMMAND> 
         <!-- Notify user -->

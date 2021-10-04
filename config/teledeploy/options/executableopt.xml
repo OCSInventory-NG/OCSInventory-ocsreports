@@ -133,7 +133,7 @@
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
         <ACT>LAUNCH</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>HTTP</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
         <COMMAND>executable.exe :arguments:</COMMAND> 
         <!-- Notify user -->
