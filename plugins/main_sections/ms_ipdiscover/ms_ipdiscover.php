@@ -95,7 +95,7 @@ if (isset($protectedPost['onglet'])) {
                 non_ident.c AS 'NON_INVENTORIE', 
                 ipdiscover.c AS 'IPDISCOVER', 
                 ident.c AS 'IDENTIFIE', 
-                inv.TAG,
+                non_ident.TAG,
                 non_ident.PASS
 		        FROM  
                 (
