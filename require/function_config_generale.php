@@ -375,7 +375,7 @@ function update_default_value($POST) {
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
-        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY');
+        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY', 'DOWNLOAD_PROTOCOL');
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
@@ -616,7 +616,8 @@ function pageteledeploy($advance) {
             'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG',
             'DOWNLOAD_ACTIVATE_FRAG' => 'DOWNLOAD_ACTIVATE_FRAG',
             'DOWNLOAD_RATIO_FRAG' => 'DOWNLOAD_RATIO_FRAG',
-            'DOWNLOAD_AUTO_ACTIVATE' => 'DOWNLOAD_AUTO_ACTIVATE'
+            'DOWNLOAD_AUTO_ACTIVATE' => 'DOWNLOAD_AUTO_ACTIVATE',
+            'DOWNLOAD_PROTOCOL' => 'DOWNLOAD_PROTOCOL'
         );
     }else{
         $champs = array('DOWNLOAD' => 'DOWNLOAD',
@@ -628,7 +629,8 @@ function pageteledeploy($advance) {
             'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO',
             'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG',
             'DOWNLOAD_ACTIVATE_FRAG' => 'DOWNLOAD_ACTIVATE_FRAG',
-            'DOWNLOAD_RATIO_FRAG' => 'DOWNLOAD_RATIO_FRAG'
+            'DOWNLOAD_RATIO_FRAG' => 'DOWNLOAD_RATIO_FRAG',
+            'DOWNLOAD_PROTOCOL' => 'DOWNLOAD_PROTOCOL'
         );
     }
 
@@ -644,6 +646,11 @@ function pageteledeploy($advance) {
     } else {
         $select_frag = 'DEFAULT';
     }
+    
+    $protocol = array(
+        'HTTP' => 'HTTP',
+        'HTTPS' => 'HTTPS'
+    );
 
     //create diff lign for general config
     ligne('DOWNLOAD', $l->g(417), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD']));
@@ -663,6 +670,7 @@ function pageteledeploy($advance) {
     ligne('DOWNLOAD_ACTIVATE_FRAG', $l->g(9203), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD_ACTIVATE_FRAG']));
     ligne('DOWNLOAD_RATIO_FRAG', $l->g(9204), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_RATIO_FRAG'], 'END' => 'MB', 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     ligne('DOWNLOAD_AUTO_ACTIVATE', $l->g(9205), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD_AUTO_ACTIVATE']));
+    ligne('DOWNLOAD_PROTOCOL', $l->g(9106), 'select', array('VALUE' => $values['tvalue']['DOWNLOAD_PROTOCOL'], 'SELECT_VALUE' => $protocol));
 }
 
 function pagegroups() {
