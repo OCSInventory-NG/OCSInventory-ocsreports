@@ -48,14 +48,18 @@ class PackageBuilder
 			'DOWNLOAD_RATIO_FRAG' => 'DOWNLOAD_RATIO_FRAG',
 			'DOWNLOAD_AUTO_ACTIVATE' => 'DOWNLOAD_AUTO_ACTIVATE',
 			'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG',
-			'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO'
+			'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO',
+			'DOWNLOAD_PROTOCOL' => 'DOWNLOAD_PROTOCOL'
 		]);
 
 		if ($this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] == "") {
-            $this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] = $_SERVER["SERVER_ADDR"]."/download";;
+            $this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] = $_SERVER["SERVER_ADDR"]."/download";
         }
         if ($this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] == "") {
-            $this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] = $_SERVER["SERVER_ADDR"]."/download";;
+            $this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] = $_SERVER["SERVER_ADDR"]."/download";
+        }
+		if ($this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'] == "") {
+            $this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'] = "HTTP";
         }
 	}
 	
@@ -290,6 +294,9 @@ class PackageBuilder
 	 * @return void
 	 */
 	private function replaceXmlValue($post, $xmlDetails) {
+		if($post['FORMTYPE'] != "custompackageopt") {
+			$post['PROTO'] = $this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'];
+		}
 		foreach($xmlDetails->packagedefinition as $packagedefinition) {
 			foreach ($packagedefinition as $key => $value) {
 				if (preg_match_all('/:(.*?):/', $value, $match) != 0) {
