@@ -1711,6 +1711,7 @@
 9103 SSL mode
 9104 CA certificat path
 9105 MySQL Port
+9106 Default download protocol
 
 9200 Package deployment for computer
 9201 Package deployment for selection
