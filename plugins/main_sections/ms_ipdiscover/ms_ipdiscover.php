@@ -98,7 +98,17 @@ if (isset($protectedPost['onglet'])) {
                 n.TAG,
                 n.PASS
 		        FROM 
-                (SELECT netid AS RSX, CONCAT(netid,';',ifnull(tag,'')) AS PASS, TAG FROM netmap GROUP BY netid) n LEFT JOIN
+                (
+                    SELECT netid AS RSX, 
+                    CONCAT(netid,';',ifnull(tag,'')) AS PASS, 
+                    TAG FROM netmap 
+                    WHERE netid IN ";
+
+    $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
+
+    $arg['SQL'] .= " GROUP BY netid
+                ) 
+                n LEFT JOIN
                 (
                     SELECT 
                     COUNT(DISTINCT d.hardware_id) AS c,
@@ -110,7 +120,7 @@ if (isset($protectedPost['onglet'])) {
                     LEFT JOIN accountinfo a ON a.HARDWARE_ID = d.HARDWARE_ID
                     WHERE d.name='IPDISCOVER' AND d.tvalue IN ";
 
-    $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
+    $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
     $arg['SQL'] .= " GROUP BY $groupby1
                 )
@@ -179,7 +189,7 @@ if (isset($protectedPost['onglet'])) {
             ipd";
 
     $tab_options['ARG_SQL'] = $arg['ARG'];
-
+    
     $list_fields = array(
         'LBL_RSX' => 'LBL_RSX',
         'RSX' => 'ID',
