@@ -90,14 +90,15 @@ if (isset($protectedPost['onglet'])) {
     $sql = "SELECT * FROM 
             (
                 SELECT 
-                non_ident.RSX AS ID, 
+                n.netid AS ID, 
                 inv.c AS 'INVENTORIE', 
                 non_ident.c AS 'NON_INVENTORIE', 
                 ipdiscover.c AS 'IPDISCOVER', 
                 ident.c AS 'IDENTIFIE', 
                 non_ident.TAG,
                 non_ident.PASS
-		        FROM  
+		        FROM
+                (select netid from netmap group by netid) n LEFT JOIN
                 (
                     SELECT 
                     COUNT(DISTINCT n.mac) AS c, 
@@ -116,9 +117,9 @@ if (isset($protectedPost['onglet'])) {
 
     $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
 
-    $arg['SQL'] .= " GROUP BY $groupby1
+    $arg['SQL'] .= " GROUP BY $groupby1 
                 )
-				non_ident LEFT JOIN
+				non_ident on n.netid=non_ident.RSX LEFT JOIN 
 				(
                     SELECT 
                     COUNT(DISTINCT mac) AS c,
@@ -139,7 +140,7 @@ if (isset($protectedPost['onglet'])) {
 
     $arg['SQL'] .= " GROUP BY $groupby1
                 )
-				ident ON non_ident.RSX=ident.RSX LEFT JOIN
+				ident ON n.netid=ident.RSX LEFT JOIN
 				(
                     SELECT count(DISTINCT h.ID) AS c, 
                     'INVENTORIE' AS TYPE, 
@@ -157,7 +158,7 @@ if (isset($protectedPost['onglet'])) {
     $arg['SQL'] .= " AND n.status='Up' 
                 GROUP BY $groupby2
                 )
-				inv ON non_ident.RSX=inv.RSX LEFT JOIN
+				inv ON n.netid=inv.RSX LEFT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT d.hardware_id) AS c,
@@ -173,7 +174,7 @@ if (isset($protectedPost['onglet'])) {
 
     $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				ipdiscover ON non_ident.RSX = ipdiscover.RSX
+				ipdiscover ON n.netid = ipdiscover.RSX
             ) 
             ipd";
 
