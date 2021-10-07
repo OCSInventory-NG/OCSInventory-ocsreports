@@ -37,9 +37,9 @@ if($ipdiscover->IPDISCOVER_TAG == "1") {
     $identifiant = "PASS";
     $on = "PASS";
 } else {
-    $groupby1 = "netid";
+    $groupby1 = "d.tvalue";
     $groupby2 = "n.ipsubnet";
-    $groupby3 = "d.tvalue";
+    $groupby3 = "netid";
     $identifiant = "ID";
     $on = "RSX";
 }
@@ -90,36 +90,49 @@ if (isset($protectedPost['onglet'])) {
     $sql = "SELECT * FROM 
             (
                 SELECT 
-                n.netid AS ID, 
+                n.RSX AS ID, 
                 inv.c AS 'INVENTORIE', 
                 non_ident.c AS 'NON_INVENTORIE', 
                 ipdiscover.c AS 'IPDISCOVER', 
                 ident.c AS 'IDENTIFIE', 
-                non_ident.TAG,
-                non_ident.PASS
-		        FROM
-                (select netid from netmap group by netid) n LEFT JOIN
+                n.TAG,
+                n.PASS
+		        FROM 
+                (SELECT netid AS RSX, CONCAT(netid,';',ifnull(tag,'')) AS PASS, TAG FROM netmap GROUP BY netid) n LEFT JOIN
                 (
                     SELECT 
-                    COUNT(DISTINCT n.mac) AS c, 
-                    'NON IDENTIFIE' AS TYPE, 
-                    n.netid AS RSX, 
-                    n.TAG,
-                    CONCAT(n.netid,';',ifnull(n.tag,'')) as PASS
-                    FROM netmap n 
-                    LEFT JOIN networks ns ON ns.macaddr=n.mac
-                    LEFT JOIN accountinfo a ON a.TAG = n.TAG 
-                    WHERE n.mac NOT IN ( 
-                        SELECT DISTINCT(macaddr) FROM network_devices 
-                    ) 
-                    AND (ns.macaddr IS NULL) 
-                    AND n.netid IN ";
+                    COUNT(DISTINCT d.hardware_id) AS c,
+                    'IPDISCOVER' AS TYPE,
+                    d.tvalue AS RSX,
+                    a.tag,
+                    CONCAT(d.tvalue,';',ifnull(a.tag,'')) as PASS
+                    FROM devices d
+                    LEFT JOIN accountinfo a ON a.HARDWARE_ID = d.HARDWARE_ID
+                    WHERE d.name='IPDISCOVER' AND d.tvalue IN ";
 
     $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
 
-    $arg['SQL'] .= " GROUP BY $groupby1 
+    $arg['SQL'] .= " GROUP BY $groupby1
                 )
-				non_ident on n.netid=non_ident.RSX LEFT JOIN 
+				ipdiscover ON n.$on=ipdiscover.$on LEFT JOIN 
+				(
+                    SELECT count(DISTINCT h.ID) AS c, 
+                    'INVENTORIE' AS TYPE, 
+                    n.ipsubnet AS RSX, 
+                    s.TAG as TAG, 
+                    CONCAT(n.ipsubnet,';',ifnull(s.tag,'')) as PASS 
+                    FROM networks n 
+                    LEFT JOIN hardware h ON h.ID = n.HARDWARE_ID
+                    LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID
+                    LEFT JOIN subnet s ON a.TAG = s.TAG AND s.NETID = n.IPSUBNET
+                    WHERE n.ipsubnet IN ";
+
+    $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
+
+    $arg['SQL'] .= " AND n.status='Up' 
+                    GROUP BY $groupby2
+                )
+				inv ON n.$on=inv.$on LEFT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT mac) AS c,
@@ -138,43 +151,30 @@ if (isset($protectedPost['onglet'])) {
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
-    $arg['SQL'] .= " GROUP BY $groupby1
+    $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				ident ON n.netid=ident.RSX LEFT JOIN
-				(
-                    SELECT count(DISTINCT h.ID) AS c, 
-                    'INVENTORIE' AS TYPE, 
-                    n.ipsubnet AS RSX, 
-                    s.TAG as TAG, 
-                    CONCAT(n.ipsubnet,';',ifnull(s.tag,'')) as PASS 
-                    FROM networks n 
-                    LEFT JOIN hardware h ON h.ID = n.HARDWARE_ID
-                    LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID
-                    LEFT JOIN subnet s ON a.TAG = s.TAG AND s.NETID = n.IPSUBNET
-                    WHERE n.ipsubnet IN ";
-
-    $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
-
-    $arg['SQL'] .= " AND n.status='Up' 
-                GROUP BY $groupby2
-                )
-				inv ON n.netid=inv.RSX LEFT JOIN
+				ident ON n.$on=ident.$on LEFT JOIN
 				(
                     SELECT 
-                    COUNT(DISTINCT d.hardware_id) AS c,
-                    'IPDISCOVER' AS TYPE,
-                    d.tvalue AS RSX,
-                    a.tag,
-                    CONCAT(d.tvalue,';',ifnull(a.tag,'')) as PASS
-                    FROM devices d
-                    LEFT JOIN accountinfo a ON a.HARDWARE_ID = d.HARDWARE_ID
-                    WHERE d.name='IPDISCOVER' AND d.tvalue IN ";
+                    COUNT(DISTINCT n.mac) AS c, 
+                    'NON IDENTIFIE' AS TYPE, 
+                    n.netid AS RSX, 
+                    n.TAG,
+                    CONCAT(n.netid,';',ifnull(n.tag,'')) as PASS
+                    FROM netmap n 
+                    LEFT JOIN networks ns ON ns.macaddr=n.mac
+                    LEFT JOIN accountinfo a ON a.TAG = n.TAG 
+                    WHERE n.mac NOT IN ( 
+                        SELECT DISTINCT(macaddr) FROM network_devices 
+                    ) 
+                    AND (ns.macaddr IS NULL) 
+                    AND n.netid IN ";
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
     $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				ipdiscover ON n.netid = ipdiscover.RSX
+				non_ident on n.$on=non_ident.$on
             ) 
             ipd";
 
