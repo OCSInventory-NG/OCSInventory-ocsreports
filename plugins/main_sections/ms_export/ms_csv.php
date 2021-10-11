@@ -37,7 +37,7 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     // Gestion des entetes
     foreach ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']] as $name => $nothing) {
         if ($name != 'SUP' && $name != 'CHECK' && $name != 'NAME' && $name != 'ACTIONS') {
-            if ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name]{1} == ".") {
+            if ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name][1] == ".") {
                 $lbl = substr(strrchr($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name], "."), 1);
             } else {
                 $lbl = $_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name];
