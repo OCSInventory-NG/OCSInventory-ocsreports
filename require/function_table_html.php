@@ -159,7 +159,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     );
     //If the column selected are different from the default columns
     if (!empty($_COOKIE[$option['table_name'] . "_col"])) {
-        $visible_col = unserialize($_COOKIE[$option['table_name'] . "_col"]);
+        $visible_col = json_decode($_COOKIE[$option['table_name'] . "_col"]);
     }
 
     $input = $columns;
@@ -1926,7 +1926,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			$visible++;
 		}
 	}
-	$data = serialize($tab_options['visible_col']);
+	$data = json_encode($tab_options['visible_col']);
 	$customized=false;
 	if (count($tab_options['visible_col'])!=$visible){
 		$customized=true;
