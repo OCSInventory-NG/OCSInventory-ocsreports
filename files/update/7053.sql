@@ -8,6 +8,8 @@ SET @new_sql_mode := TRIM(BOTH ',' FROM REPLACE(CONCAT(',',@new_sql_mode,','),',
 SET @@sql_mode := @new_sql_mode ;
 
 ALTER TABLE software MODIFY COLUMN ID BIGINT(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE software_link MODIFY COLUMN ID BIGINT(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE software_categories_link MODIFY COLUMN ID BIGINT(20) NOT NULL AUTO_INCREMENT;
 
 -- revert back to the original sql_mode setting
 SET @@sql_mode := @old_sql_mode ;
