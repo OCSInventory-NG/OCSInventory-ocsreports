@@ -241,6 +241,11 @@ class OCSSnmp
 			$sqlArg = [$id];
 			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 
+			// Remove type conditions associated to this type
+			$sqlQuery = "DELETE FROM `snmp_types_conditions` WHERE TYPE_ID = %s";
+			$sqlArg = [$id];
+			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
+
 			// Remove config associated to this type
 			$sqlQuery = "DELETE FROM `snmp_configs` WHERE TYPE_ID = %s";
 			$sqlArg = [$id];
