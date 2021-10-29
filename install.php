@@ -106,7 +106,7 @@ if (isset($_POST["name"])) {
         //if database not exist
         if ($link == "NO_DATABASE") {
             $dbc = mysqli_init();
-            if(isset($_POST["enablessl"]) == 1) {
+            if($_POST["enablessl"] == 1) {
                 $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
                 $dbc->ssl_set($_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], NULL, NULL);
                 if($_POST["sslmode"] == "MYSQLI_CLIENT_SSL") {

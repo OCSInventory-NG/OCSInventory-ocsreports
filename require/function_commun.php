@@ -343,10 +343,11 @@ function msg_error($txt, $close = false) {
 
 function html_header($noJavascript = false) {
     if (!$_SESSION['OCS']['readServer']) {
-        $value_theme = look_config_default_values('CUSTOM_THEME');
+        $value_theme['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
+        
     }
-    if(is_null($value_theme)){
-      $value_theme['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
+    if(is_null($value_theme)) {
+        $value_theme = look_config_default_values('CUSTOM_THEME');
     }
 
     header("Pragma: no-cache");

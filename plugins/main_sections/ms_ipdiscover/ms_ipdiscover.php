@@ -90,14 +90,25 @@ if (isset($protectedPost['onglet'])) {
     $sql = "SELECT * FROM 
             (
                 SELECT 
-                inv.RSX AS ID, 
+                n.RSX AS ID, 
                 inv.c AS 'INVENTORIE', 
                 non_ident.c AS 'NON_INVENTORIE', 
                 ipdiscover.c AS 'IPDISCOVER', 
                 ident.c AS 'IDENTIFIE', 
-                inv.TAG,
-                inv.PASS
-		        FROM  
+                n.TAG,
+                n.PASS
+		        FROM 
+                (
+                    SELECT netid AS RSX, 
+                    CONCAT(netid,';',ifnull(tag,'')) AS PASS, 
+                    TAG FROM netmap 
+                    WHERE netid IN ";
+
+    $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
+
+    $arg['SQL'] .= " GROUP BY netid
+                ) 
+                n LEFT JOIN
                 (
                     SELECT 
                     COUNT(DISTINCT d.hardware_id) AS c,
@@ -109,11 +120,11 @@ if (isset($protectedPost['onglet'])) {
                     LEFT JOIN accountinfo a ON a.HARDWARE_ID = d.HARDWARE_ID
                     WHERE d.name='IPDISCOVER' AND d.tvalue IN ";
 
-    $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
+    $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
     $arg['SQL'] .= " GROUP BY $groupby1
                 )
-				ipdiscover RIGHT JOIN
+				ipdiscover ON n.$on=ipdiscover.$on LEFT JOIN 
 				(
                     SELECT count(DISTINCT h.ID) AS c, 
                     'INVENTORIE' AS TYPE, 
@@ -131,7 +142,7 @@ if (isset($protectedPost['onglet'])) {
     $arg['SQL'] .= " AND n.status='Up' 
                     GROUP BY $groupby2
                 )
-				inv ON ipdiscover.$on=inv.$on LEFT JOIN
+				inv ON n.$on=inv.$on LEFT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT mac) AS c,
@@ -152,7 +163,7 @@ if (isset($protectedPost['onglet'])) {
 
     $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				ident ON inv.$on=ident.$on LEFT JOIN
+				ident ON n.$on=ident.$on LEFT JOIN
 				(
                     SELECT 
                     COUNT(DISTINCT n.mac) AS c, 
@@ -173,12 +184,12 @@ if (isset($protectedPost['onglet'])) {
 
     $arg['SQL'] .= " GROUP BY $groupby3
                 )
-				non_ident on non_ident.$on=inv.$on
+				non_ident on n.$on=non_ident.$on
             ) 
-            toto";
+            ipd";
 
     $tab_options['ARG_SQL'] = $arg['ARG'];
-
+    
     $list_fields = array(
         'LBL_RSX' => 'LBL_RSX',
         'RSX' => 'ID',
