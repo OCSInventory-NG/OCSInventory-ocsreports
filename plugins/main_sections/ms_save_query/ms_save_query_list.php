@@ -27,10 +27,18 @@ if (AJAX) {
     ob_start();
 }
 
-if(isset($protectedPost['SUP_PROF'])){
+if(isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ""){
     $sqlQuery = "DELETE FROM `save_query` WHERE ID = %s";
     $sqlArg = [$protectedPost['SUP_PROF']];
     mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
+} else if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != '') {
+    // delete multiple selected rows
+    $ids = explode(',', $protectedPost['del_check']);
+    foreach ($ids as $id) {
+        $reqDcatall = 'DELETE FROM `save_query` WHERE ID = '.$id;
+        mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+    }
+    $tab_options['CACHE'] = 'RESET';
 }
 
 printEnTete($l->g(2141));
@@ -74,6 +82,7 @@ $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs[
 $tab_options['LIEN_CHAMP']['name'] = 'id';
 $tab_options['LBL']['name'] = $l->g(49);
 $list_fields['SUP'] = 'ID';
+$list_fields['CHECK'] = 'ID';
 $tab_options['LBL_POPUP']['SUP'] = 'QUERY_NAME';
 
 $default_fields = $list_fields;
@@ -82,6 +91,7 @@ $list_col_cant_del = $list_fields;
 $queryDetails = "select ID, QUERY_NAME, DESCRIPTION, ID AS id from save_query";
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+del_selection($form_name);
 
 echo "</div>";
 echo close_form();
