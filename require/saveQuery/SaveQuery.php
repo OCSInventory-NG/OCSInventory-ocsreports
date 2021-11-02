@@ -32,9 +32,25 @@ class SaveQuery
      * @param array $arg
      * @return boolean
      */
-    public function create_search($arg) {
-        $sqlQuery = "INSERT INTO `save_query`(`QUERY_NAME`, `DESCRIPTION`, `PARAMETERS`) VALUES ('%s','%s','%s')";
-        $sqlArgs = $arg;
+    public function create_search($arg, $whoCanSee) {
+        switch($whoCanSee) {
+            case "USER":
+                $sqlQuery = "INSERT INTO `save_query`(`QUERY_NAME`, `DESCRIPTION`, `PARAMETERS`, `WHO_CAN_SEE`, `USER_ID`) VALUES ('%s','%s','%s','%s','%s')";
+                array_push($arg, $whoCanSee, $_SESSION['OCS']['loggeduser']);
+                $sqlArgs = $arg;
+                break;
+            case "GROUP":
+                $sqlQuery = "INSERT INTO `save_query`(`QUERY_NAME`, `DESCRIPTION`, `PARAMETERS`, `WHO_CAN_SEE`, `GROUP_ID`) VALUES ('%s','%s','%s','%s', %s)";
+                array_push($arg, $whoCanSee, $_SESSION['OCS']['user_group']);
+                $sqlArgs = $arg;
+                break;
+            default:
+                $sqlQuery = "INSERT INTO `save_query`(`QUERY_NAME`, `DESCRIPTION`, `PARAMETERS`, `WHO_CAN_SEE`) VALUES ('%s','%s','%s','%s')";
+                array_push($arg, $whoCanSee);
+                $sqlArgs = $arg;
+                break;
+        }
+
         $result = mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArgs);
 
         if(!$result) {
@@ -68,8 +84,16 @@ class SaveQuery
      * @return array
      */
     public function get_search_name() {
-        $sql = "SELECT ID, QUERY_NAME FROM save_query ORDER BY QUERY_NAME";
-        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        $sql = "SELECT ID, QUERY_NAME FROM save_query WHERE WHO_CAN_SEE = 'ALL' OR USER_ID = '%s'";
+        $arg = array($_SESSION['OCS']['loggeduser']);
+        
+        if($_SESSION['OCS']['user_group'] != null && $_SESSION['OCS']['user_group'] != "") {
+            $sql .= " OR GROUP_ID = %s";
+            array_push($arg, $_SESSION['OCS']['user_group']);
+        }
+
+        $sql .= " ORDER BY QUERY_NAME";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
         $query[0] = "---";
 
