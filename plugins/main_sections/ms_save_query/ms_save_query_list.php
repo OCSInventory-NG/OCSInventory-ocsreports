@@ -76,6 +76,7 @@ echo '<div class="col col-md-10" >';
 $list_fields = array(
     'name' => 'QUERY_NAME',
     $l->g(53) => 'DESCRIPTION',
+    $l->g(2145) => "WHO_CAN_SEE"
 );
 
 $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=querysave&value=';
@@ -88,7 +89,11 @@ $tab_options['LBL_POPUP']['SUP'] = 'QUERY_NAME';
 $default_fields = $list_fields;
 $list_col_cant_del = $list_fields;
 
-$queryDetails = "select ID, QUERY_NAME, DESCRIPTION, ID AS id from save_query";
+$queryDetails = "SELECT ID, QUERY_NAME, DESCRIPTION, WHO_CAN_SEE, ID AS id FROM save_query WHERE WHO_CAN_SEE = 'ALL' OR USER_ID = '".$_SESSION['OCS']['loggeduser']."'";
+
+if($_SESSION["OCS"]["user_group"] != null && $_SESSION["OCS"]["user_group"] != "") {
+    $queryDetails .= " OR GROUP_ID = ".$_SESSION['OCS']['user_group'];
+}
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 del_selection($form_name);

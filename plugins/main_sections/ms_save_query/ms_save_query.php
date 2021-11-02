@@ -37,7 +37,7 @@ if(isset($protectedPost['query_name'])){
     $sqlArgs[] = $multiSearchParameters;
 
     if($protectedPost['id_search'] == "") {
-        $verif = $saveQuery->create_search($sqlArgs);
+        $verif = $saveQuery->create_search($sqlArgs, $protectedPost['query_see']);
     } else {
         $sqlArgs[] = $protectedPost['id_search'];
         $verif = $saveQuery->update_search($sqlArgs);
@@ -64,6 +64,14 @@ if(isset($protectedPost['query_name'])){
 
 } else {
     $query = $saveQuery->get_search_name();
+    $who_can_see = array(
+        "USER" => $l->g(2146),
+        "ALL" => $l->g(2148)
+    );
+
+    if($_SESSION['OCS']['user_group'] != null && $_SESSION['OCS']['user_group'] != "") {
+        $who_can_see['GROUP'] = $l->g(2147);
+    }
 
     echo open_form('save_query', '', '', '');
     ?>
@@ -83,6 +91,11 @@ if(isset($protectedPost['query_name'])){
                 <div class="row">
                     <?php   formGroup('text','query_description',$l->g(53),'','',$search_info['DESCRIPTION'],'','','','',''); ?>
                 </div>
+                <br/>
+                <div class="row">
+                    <?php   formGroup('select','query_see',$l->g(2145),'','','','',$who_can_see, $who_can_see,'',''); ?>
+                </div>
+                <br/>
                 <input type="hidden" id="id_search" name= "id_search" value="<?php echo $search_info['ID'] ?>">
                 <br/>
                 <a onClick="verif_champ_name('save_query', 'query_name');">
