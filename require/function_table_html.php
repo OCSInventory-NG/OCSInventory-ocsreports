@@ -1566,7 +1566,9 @@ function ajaxsort(&$tab_options) {
 		foreach ($tab_options['order'] as $index => $v ) {
 			// get column name
 			$name = $tab_options['columns'][$tab_options['order'][$index]['column']]['name'];
-
+			// sanitize column name (keep only "xxxx.yyyy" or "xxyy" format)
+			preg_match('/([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|^[A-Za-z0-9_-]+)/', $name, $name);
+			$name = $name[0];
 			if (!empty($tab_options["replace_query_arg"][$name])) {
 				$name = $tab_options["replace_query_arg"][$name];
 			}
