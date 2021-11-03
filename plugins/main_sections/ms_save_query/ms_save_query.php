@@ -39,8 +39,7 @@ if(isset($protectedPost['query_name'])){
     if($protectedPost['id_search'] == "") {
         $verif = $saveQuery->create_search($sqlArgs, $protectedPost['query_see']);
     } else {
-        $sqlArgs[] = $protectedPost['id_search'];
-        $verif = $saveQuery->update_search($sqlArgs);
+        $verif = $saveQuery->update_search($sqlArgs, $protectedPost['query_see'], $protectedPost['id_search']);
     }
     
 
