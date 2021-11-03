@@ -69,17 +69,17 @@ class SaveQuery
     public function update_search($arg, $who_can_see, $id_search) {
         switch($who_can_see) {
             case "USER":
-                $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s', WHO_CAN_SEE = '%s', USER_ID = '%s' WHERE ID = %s";
+                $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s', WHO_CAN_SEE = '%s', USER_ID = '%s', GROUP_ID = NULL WHERE ID = %s";
                 array_push($arg, $who_can_see, $_SESSION['OCS']['loggeduser'], $id_search);
                 $sqlArgs = $arg;
                 break;
             case "GROUP":
-                $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s', WHO_CAN_SEE = '%s', GROUP_ID = %s WHERE ID = %s";
+                $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s', WHO_CAN_SEE = '%s', GROUP_ID = %s, USER_ID = NULL WHERE ID = %s";
                 array_push($arg, $who_can_see, $_SESSION['OCS']['user_group'], $id_search);
                 $sqlArgs = $arg;
                 break;
             default:
-                $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s', WHO_CAN_SEE = '%s' WHERE ID = %s";
+                $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s', WHO_CAN_SEE = '%s', GROUP_ID = NULL, USER_ID = NULL WHERE ID = %s";
                 array_push($arg, $who_can_see, $id_search);
                 $sqlArgs = $arg;
                 break;
