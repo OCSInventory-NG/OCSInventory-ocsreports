@@ -92,7 +92,7 @@ if(isset($protectedPost['query_name'])){
                 </div>
                 <br/>
                 <div class="row">
-                    <?php   formGroup('select','query_see',$l->g(2145),'','','','',$who_can_see, $who_can_see,'',''); ?>
+                    <?php   formGroup('select','query_see',$l->g(2145),'','',$search_info['WHO_CAN_SEE'],'',$who_can_see, $who_can_see,'',''); ?>
                 </div>
                 <br/>
                 <input type="hidden" id="id_search" name= "id_search" value="<?php echo $search_info['ID'] ?>">

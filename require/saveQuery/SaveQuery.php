@@ -127,7 +127,7 @@ class SaveQuery
      * @return array
      */
     public function get_search_info($id) {
-        $sql = "SELECT ID, QUERY_NAME, DESCRIPTION FROM save_query WHERE ID = %s";
+        $sql = "SELECT ID, QUERY_NAME, DESCRIPTION, WHO_CAN_SEE FROM save_query WHERE ID = %s";
         $sql_arg = array($id);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
         $query = [];
@@ -136,6 +136,7 @@ class SaveQuery
             $query['ID']            = $row['ID'];
             $query['NAME']          = $row['QUERY_NAME'];
             $query['DESCRIPTION']   = $row['DESCRIPTION'];
+            $query['WHO_CAN_SEE']   = $row['WHO_CAN_SEE'];
         }
 
         return $query;
