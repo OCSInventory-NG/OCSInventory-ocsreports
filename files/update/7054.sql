@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `snmp_default` (
     `DefaultUptime` VARCHAR(255) DEFAULT NULL,
     `DefaultAddressIP` VARCHAR(255) DEFAULT NULL,
     `DefaultGateway` VARCHAR(255) DEFAULT NULL,
+    UNIQUE KEY(`DefaultName`) ,
     PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
