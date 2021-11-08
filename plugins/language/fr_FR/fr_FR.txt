@@ -1710,6 +1710,7 @@
 9103 Mode SSL
 9104 Chemin du certificat CA
 9105 Port MySQL
+9106 Protocole de téléchargement par défaut
 
 9200 Deploiement de paquet pour la machine
 9201 Deploiement de paquet pour la sélection

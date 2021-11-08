@@ -78,7 +78,7 @@
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
         <ACT>EXECUTE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>HTTP</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
         <COMMAND>yum-config-manager --add-repo :repository_url:</COMMAND> 
         <!-- Notify user -->

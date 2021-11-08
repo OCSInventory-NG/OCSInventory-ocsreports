@@ -121,7 +121,7 @@
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
         <ACT>EXECUTE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>HTTP</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
         <COMMAND>sh bashscript.sh :arguments:</COMMAND> 
         <!-- Notify user -->
