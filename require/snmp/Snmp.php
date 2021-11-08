@@ -35,16 +35,11 @@ class OCSSnmp
 	 * @param string $oidString
 	 * @return boolean
 	 */
-	public function create_type($typeName, $oid, $oidString) {
+	public function create_type($typeName) {
 		// Verif if type already exists
 		$sql_verif = "SELECT * FROM `snmp_types` WHERE `TYPE_NAME` = '%s'";
 		$sql_verif_arg = array(addslashes($typeName));
 		$verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $sql_verif_arg);
-
-		// If oid and oid string value empty return error
-		if(trim($oid) == "" || trim($oidString) == "") {
-			return 9022;
-		}
 
 		if($verif->num_rows == 0) {
 			// Insert info table in type snmp table
@@ -52,10 +47,9 @@ class OCSSnmp
 			$tableTypeName = $this->cleanString($typeName);
 			$tableTypeName = strtolower($tableTypeName);
 			$tableTypeName = "snmp_".$tableTypeName;
-			$oidString = str_replace("&#039;", "'", $oidString);
 
-			$sql = "INSERT INTO `snmp_types` (`TYPE_NAME`,`CONDITION_OID`,`CONDITION_VALUE`, `TABLE_TYPE_NAME`) VALUES ('%s','%s','%s', '%s')";
-			$sql_arg = array(addslashes($typeName), addslashes($oid), addslashes($oidString), $tableTypeName);
+			$sql = "INSERT INTO `snmp_types` (`TYPE_NAME`, `TABLE_TYPE_NAME`) VALUES ('%s','%s')";
+			$sql_arg = array(addslashes($typeName), $tableTypeName);
 
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
 
@@ -83,6 +77,31 @@ class OCSSnmp
 		} else {
 			return 9023;
 		}
+	}
+
+	/**
+	 * Insert new type condition into DB
+	 *
+	 * @param int $typeID
+	 * @param string $oid
+	 * @param string $oidString
+	 * @return boolean
+	 */
+	public function create_type_condition($typeID, $oid, $oiValue) {
+
+		// Insert condition
+		$oiValue = str_replace("&#039;", "'", $oiValue);
+
+		$sql = "INSERT INTO `snmp_types_conditions` (`TYPE_ID`, `CONDITION_OID`, `CONDITION_VALUE`) VALUES (%s,'%s','%s')";
+		$sql_arg = array($typeID, addslashes($oid), addslashes($oiValue));
+
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
+
+		if(!$result) {
+			return 9024;
+		}
+		
+		return 0;
 	}
 
 	/**
@@ -222,6 +241,11 @@ class OCSSnmp
 			$sqlArg = [$id];
 			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 
+			// Remove type conditions associated to this type
+			$sqlQuery = "DELETE FROM `snmp_types_conditions` WHERE TYPE_ID = %s";
+			$sqlArg = [$id];
+			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
+
 			// Remove config associated to this type
 			$sqlQuery = "DELETE FROM `snmp_configs` WHERE TYPE_ID = %s";
 			$sqlArg = [$id];
@@ -231,6 +255,20 @@ class OCSSnmp
 		}else{
 			return 9028;
 		}
+	}
+
+	/**
+	 * Remove type in BDD
+	 *
+	 * @param int $id
+	 * @return boolean
+	 */
+	public function delete_type_condition($id){
+		$sqlQuery = "DELETE FROM `snmp_types_conditions` WHERE ID = %s";
+		$sqlArg = [$id];
+		mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
+
+		return 0;
 	}
 
 	/**
