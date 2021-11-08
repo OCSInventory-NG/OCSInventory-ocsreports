@@ -1563,6 +1563,10 @@
 2142 Créer une recherche
 2143 La recherche a été sauvegardée
 2144 Mettre à jour une recherche existante
+2145 Qui peut voir ?
+2146 Seulement moi
+2147 Mon groupe
+2148 Tous les utilisateurs
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
@@ -1711,6 +1715,7 @@
 9103 Mode SSL
 9104 Chemin du certificat CA
 9105 Port MySQL
+9106 Protocole de téléchargement par défaut
 
 9200 Deploiement de paquet pour la machine
 9201 Deploiement de paquet pour la sélection

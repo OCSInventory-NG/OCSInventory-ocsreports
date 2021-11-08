@@ -101,7 +101,7 @@
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
         <ACT>EXECUTE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>HTTP</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
         <COMMAND>:linux_type: remove -y :application_name: ; exit 0</COMMAND> 
         <!-- Notify user -->

@@ -7,7 +7,7 @@
     <!-- Linked reference id -->
     <refint>updateagent</refint>
     <!-- Replace value on xml ? true / false -->
-    <replace>false</replace>
+    <replace>true</replace>
     <!-- Form options-->
     <formoption>
         <!-- 
@@ -86,7 +86,7 @@
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
         <ACT>EXECUTE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>HTTP</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
         <COMMAND>powershell.exe -ExecutionPolicy ByPass -File scheduledupdateagent.ps1</COMMAND> 
         <!-- Notify user -->

@@ -1564,6 +1564,10 @@
 2142 Create a search
 2143 Search was successfully saved
 2144 Update an existing saved search
+2145 Who can see ?
+2146 Only me
+2147 My group
+2148 All users
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1716,6 +1720,7 @@
 9103 SSL mode
 9104 CA certificat path
 9105 MySQL Port
+9106 Default download protocol
 
 9200 Package deployment for computer
 9201 Package deployment for selection
