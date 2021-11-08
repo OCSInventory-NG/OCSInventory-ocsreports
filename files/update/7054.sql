@@ -104,7 +104,6 @@ DROP TABLE `snmp_links`;
 DROP TABLE `snmp_loadbalancers`;
 DROP TABLE `snmp_localprinters`;
 DROP TABLE `snmp_memories`;
-DROP TABLE `snmp_mibs`;
 DROP TABLE `snmp_modems`;
 DROP TABLE `snmp_networks`;
 DROP TABLE `snmp_ports`;
