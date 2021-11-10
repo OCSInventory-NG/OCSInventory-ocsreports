@@ -76,8 +76,8 @@ if ($protectedPost['FUSION']) {
 
 					// if $afus is defined, there is something to merge
 					if (isset($afus)) {
+						msg_success("MERGE SUCCESS");
 						fusionne($afus);
-						$success = true;
 					} 
 				}
 			}
@@ -107,8 +107,8 @@ if ($protectedPost['FUSION']) {
 				}
 
 				if (isset($afus)) {
+					msg_success("MERGE SUCCESS");
 					fusionne($afus);
-					$success = true;
 				} 
 			} 
 		}  
@@ -131,8 +131,8 @@ if ($protectedPost['FUSION_ALL']) {
 		}
 
 		if (isset($afus)) {
+			msg_success("MERGE SUCCESS");
 			fusionne($afus);
-			$success = true;
 		}
 	}    
 }
@@ -480,9 +480,7 @@ if ($protectedPost['detail'] != '') {
 }
 
 echo close_form();
-if ($success) {
-	msg_success("MERGE SUCCESS");
-}
+
 // END MODIF DUPLICATES
 if (AJAX) {
 	ob_end_clean();

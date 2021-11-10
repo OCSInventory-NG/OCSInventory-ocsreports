@@ -214,7 +214,7 @@ function fusionne($afus) {
             $sql = "SELECT CHECKSUM,QUALITY,FIDELITY FROM hardware WHERE ID='%s'";
             $persistent_req = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $afus[$minInd]["id"]);
 
-            // msg_success($l->g(190) . " " . $afus[$maxInd]["deviceid"] . " " . $l->g(191));
+            msg_success($l->g(190) . " " . $afus[$maxInd]["deviceid"] . " " . $l->g(191));
             
             $accountid = null;
             $accountTable = [];
@@ -265,7 +265,7 @@ function fusionne($afus) {
                 }
             }
             
-            // msg_success($l->g(190) . " " . $afus[$minInd]["deviceid"] . " " . $l->g(206) . " " . $afus[$maxInd]["deviceid"]);
+            msg_success($l->g(190) . " " . $afus[$minInd]["deviceid"] . " " . $l->g(206) . " " . $afus[$maxInd]["deviceid"]);
             $i = 0;
             foreach ($afus as $a) {
                 if ($i != $maxInd) {
