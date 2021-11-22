@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -25,20 +26,15 @@ if (AJAX) {
     $protectedPost += $params;
     ob_start();
 }
-
 require_once('require/ipdiscover/Ipdiscover.php');
 require_once('require/function_files.php');
-
 $ipdiscover = new Ipdiscover();
-
 $form_name = 'admin_ipdiscover';
 $table_name = 'admin_ipdiscover';
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
-
 echo open_form($form_name, '', '', 'form-horizontal');
-
 if (isset($protectedGet['value']) && $protectedGet['value'] != ''){
 	if (!in_array($protectedGet['value'],$_SESSION['OCS']["subnet_ipdiscover"])){
 		msg_error($l->g(837));
@@ -66,7 +62,6 @@ if (isset($protectedGet['value']) && $protectedGet['value'] != ''){
     
     echo '<div class="col col-md-10">';
 }
-
 /************************************* SUBNET *************************************/
 if ($protectedPost['onglet'] == 'ADMIN_RSX') {
     $method = $ipdiscover->verif_base_methode('OCS');
@@ -79,7 +74,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             $tab_options['CACHE'] = 'RESET';
         }
         if (isset($protectedPost['Valid_modif'])) {
-            $result = $ipdiscover->add_subnet($protectedPost['ADD_IP'], $protectedPost['RSX_NAME'], $protectedPost['ID_NAME'], $protectedPost['ADD_SX_RSX'], $protectedPost['ADD_TAG']);
+            $result = $ipdiscover->add_subnet($protectedPost['ADD_IP'], $protectedPost['RSX_NAME'], $protectedPost['ID_NAME'], $protectedPost['ADD_SX_RSX'], $protectedPost['ADD_TAG'] ?? '');
             if ($result) {
                 msg_error($result);
             } else {
@@ -106,42 +101,47 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         if (isset($protectedPost['ADD_SUB'])) {
             echo "<input type='hidden' name='ADD_SUB' id='ADD_SUB' value='" . $protectedPost['ADD_SUB'] . "'";
         }
-        if ($protectedPost['MODIF'] != '') {
+        if (!empty($protectedPost['MODIF'])) {
             echo "<input type='hidden' name='MODIF' id='MODIF' value='" . $protectedPost['MODIF'] . "'";
         }
 
-        if (isset($protectedPost['ADD_SUB']) || $protectedPost['MODIF']) {
+        if (isset($protectedPost['ADD_SUB']) || isset($protectedPost['MODIF'])) {
             if ($protectedPost['MODIF']) {
                 $title = $l->g(931);
 
                 $result = $ipdiscover->find_info_subnet($protectedPost['MODIF']);
-                if (!isset($protectedPost['RSX_NAME'])) {
-                    $protectedPost['RSX_NAME'] = $result->NAME;
-                }
-                if (!isset($protectedPost['ID_NAME'])) {
-                    $protectedPost['ID_NAME'] = $result->ID;
-                }
-                if (!isset($protectedPost['ADD_TAG'])) {
-                    $protectedPost['ADD_TAG'] = $result->TAG;
-                }
-                if (!isset($protectedPost['ADD_IP'])) {
-                    $protectedPost['ADD_IP'] = $result->NETID;
-                }
-                if (!isset($protectedPost['ADD_SX_RSX'])) {
-                    $protectedPost['ADD_SX_RSX'] = $result->MASK;
+                if(isset($result)) {
+                    if (!isset($protectedPost['RSX_NAME'])) {
+                        $protectedPost['RSX_NAME'] = $result->NAME;
+                    }
+                    if (!isset($protectedPost['ID_NAME'])) {
+                        $protectedPost['ID_NAME'] = $result->ID;
+                    }
+                    if (!isset($protectedPost['ADD_TAG'])) {
+                        $protectedPost['ADD_TAG'] = $result->TAG;
+                    }
+                    if (!isset($protectedPost['ADD_IP'])) {
+                        $protectedPost['ADD_IP'] = $result->NETID;
+                    }
+                    if (!isset($protectedPost['ADD_SX_RSX'])) {
+                        $protectedPost['ADD_SX_RSX'] = $result->MASK;
+                    }
+
                 }
                 if (is_defined($protectedGet['value'])) {
                     $explode = explode(";", $protectedGet['value']);
                     $protectedPost['ADD_IP'] = $explode[0];
-                    $protectedPost['ADD_TAG'] = $explode[1];
-                }
+                    // no tag = empty val
+                    $protectedPost['ADD_TAG'] = $explode[1] ?? '';
+                } 
+                
             } else {
                 $title = $l->g(303);
             }
             $list_id_subnet = look_config_default_values('ID_IPDISCOVER_%', 'LIKE');
 
             if (isset($list_id_subnet)) {
-                foreach ($list_id_subnet['tvalue'] as $key => $value) {
+                foreach ($list_id_subnet['tvalue'] as $value) {
                     $list_subnet[$value] = $value;
                 }
             } else {
@@ -155,14 +155,14 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             $list_tag = $ipdiscover->get_tag();
 
             $default_values = array(
-                'RSX_NAME' => $protectedPost['RSX_NAME'],
+                'RSX_NAME' => $protectedPost['RSX_NAME'] ?? '',
                 'ID_NAME' => $list_subnet,
                 'ADD_TAG' => $list_tag,
-                'ADD_IP' => $protectedPost['ADD_IP'],
-                'ADD_SX_RSX' => $protectedPost['ADD_SX_RSX']
+                'ADD_IP' => $protectedPost['ADD_IP'] ?? '',
+                'ADD_SX_RSX' => $protectedPost['ADD_SX_RSX'] ?? ''
             );
 
-            $ipdiscover->form_add_subnet($title, $default_values, $form_name, $is_tag_linked['ivalue']['IPDISCOVER_LINK_TAG_NETWORK']);
+            $ipdiscover->form_add_subnet($default_values, $form_name, $is_tag_linked['ivalue']['IPDISCOVER_LINK_TAG_NETWORK'], $title);
         } else {
             $sql = "SELECT NETID, NAME, ID, MASK, TAG, CONCAT(NETID,IFNULL(TAG, '')) as supsub FROM subnet";
 
@@ -187,7 +187,6 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         msg_warning($method);
     }
 }
-
 /************************************* TYPES *************************************/
 if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
     if (isset($protectedPost['Reset_modif'])) {
@@ -248,7 +247,6 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
         echo "<input type='submit' class='btn' value='" . $l->g(116) . "' name='ADD_TYPE'>";
     }
 }
-
 /************************************* COMMUNITIES *************************************/
 if ($protectedPost['onglet'] == 'ADMIN_SMTP' && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SMTP_COMMUNITIES') == 'YES') {
     if (isset($protectedPost['Valid_modif'])) {
@@ -348,10 +346,8 @@ if ($protectedPost['onglet'] == 'ADMIN_SMTP' && $_SESSION['OCS']['profile']->get
         $protectedPost['ADD_COMM'] = $l->g(116);
     }
 }
-
 echo '</div>';
 echo close_form();
-
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);

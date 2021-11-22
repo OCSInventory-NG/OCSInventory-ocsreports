@@ -52,7 +52,6 @@ if (is_defined($protectedPost['reset'])) {
         $l->g(49) => "NAME",
         $l->g(232) => "DATE",
         $l->g(66) => "TYPE");
-    $ret = array();
     $ret = parse_xml_file($file_name, $tabBalises, "HOST");
     if ($ret != array()) {
         $sql = "select ";
