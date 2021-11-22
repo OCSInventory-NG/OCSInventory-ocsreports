@@ -65,11 +65,7 @@ class StatsChartsRenderer {
                 $mainClass = "col-md-6 col-sm-6";
             }
 
-            if($offset){
-                $offset = "";
-            }else{
-                $offset = "";
-            }
+            $offset = "";
             ?>
             <div>
             <?php if($legend && ($key == 'NB_AGENT' || $key == 'NB_OS' || $key == 'teledeploy_stats')){ ?>
@@ -142,7 +138,7 @@ class StatsChartsRenderer {
                         },
                         title: {
                             display: true,
-                            text: "<?php echo $value['title'] ?>"
+                            text: "<?php echo $value['title'] ?? '' ?>"
                         },
                         animation: {
                             animateScale: true,
@@ -234,7 +230,7 @@ class StatsChartsRenderer {
         ?>
         <script>
         window.onload = function() {
-          <?php for($p = 0; $name[$p] != null; $p++){ ?>
+          <?php for($p = 0; isset($name[$p]); $p++){ ?>
             var ctx<?php echo $p ?> = document.getElementById("<?php echo $name[$p] ?>").getContext("2d");
             window.myDoughnut = new Chart(ctx<?php echo $p ?>, config<?php echo $p ?>);
             <?php if($name[$p] == 'NB_AGENT' || $name[$p] == 'NB_OS' || $name[$p] == 'teledeploy_stats'){ ?>
