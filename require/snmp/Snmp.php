@@ -329,11 +329,11 @@ class OCSSnmp
 		$type = $this->get_config($id);
 		$label = $this->get_label_drop($id);
 
-		foreach($type as $key => $value){
+		foreach($type as $value){
 			$tableName[] = $this->get_table_type_drop($value);
 		}
 
-		foreach($tableName as $id => $name){
+		foreach($tableName as $name){
 			$sql_alter_table = "ALTER TABLE `%s` DROP `%s`";
 			$arg_alter_table = array($name, $label);
 			$result_alter = mysql2_query_secure($sql_alter_table, $_SESSION['OCS']["writeServer"], $arg_alter_table);
@@ -458,7 +458,7 @@ class OCSSnmp
 		$config = null;
 
 		foreach($post as $key => $value) {
-			if(strpos($key, "checkbox_") !== false) {
+			if(str_contains($key, "checkbox_")) {
 				$mib_check = explode("_", $key);
 			}
 			
@@ -473,8 +473,7 @@ class OCSSnmp
 			}
 		}
 
-		if(!empty($config)) {
-			foreach($config as $key => $value) {
+		foreach($config as $key => $value) {
 				if($config[$key]['label'] != null && $config[$key]['oid'] != null) {
 					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation']);
 
@@ -483,7 +482,6 @@ class OCSSnmp
 					}
 				}
 			}
-		}
 
 		return true;
 	}
