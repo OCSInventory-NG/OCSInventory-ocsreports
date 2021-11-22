@@ -114,7 +114,7 @@ function optperso($lbl, $lblPerso, $helpText, $optPerso, $default_value = '', $e
         </div>
     </div>
     <hr />
-    <?php
+<?php
 }
 
 

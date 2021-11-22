@@ -219,8 +219,7 @@ function traitement_cache($sql_temp, $field_modif, $field_value, $field_value_co
             $field_value_complement = $value_complement_temp[0] . " " . $in . " (" . $sql_temp . ") " . $value_complement_temp2[1];
         }
     }
-    $monRetour = array('field_value' => $field_value, 'field_value_complement' => $field_value_complement);
-    return $monRetour;
+    return array('field_value' => $field_value, 'field_value_complement' => $field_value_complement);
 }
 
 //fonction qui permet de passer en SESSION
@@ -230,7 +229,7 @@ function sql_group_cache($cache_sql) {
     //requête de recherche "normale" (ressemble, exactement)
     if ($cache_sql['NORMAL']) {
 
-        foreach ($cache_sql['NORMAL'] as $poids => $list) {
+        foreach ($cache_sql['NORMAL'] as $list) {
             $i = 0;
             while ($list[$i]) {
                 $fin_sql = "";
@@ -246,7 +245,7 @@ function sql_group_cache($cache_sql) {
     }
     //requête de recherche "différent", "n'appartient pas"
     if ($cache_sql['DIFF']) {
-        foreach ($cache_sql['DIFF'] as $poids => $list) {
+        foreach ($cache_sql['DIFF'] as $list) {
             $i = 0;
             while ($list[$i]) {
                 $fin_sql = "";
@@ -534,6 +533,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
         <div class="btn-group">
             <?php
             foreach ($img as $key => $value) {
+                $list_id = is_array($list_id) ? implode(',', $list_id) : $list_id;
                 echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
             }
             ?>
@@ -617,6 +617,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
         if($result) while ($item = mysqli_fetch_object($result)) {
             $res[$item->id] = $item->id;
         }
-        return $res;
+
+        return $res ?? null;
     }
     ?>

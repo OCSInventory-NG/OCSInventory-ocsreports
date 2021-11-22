@@ -158,12 +158,12 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
                     echo "<div id='" . $name . "_div' style='display:" . $display . "'>";
 
                     echo "<div class='input-group'>";
-                    if ($data_hidden['BEGIN'] != '' || isset($data_hidden['BEGIN'])) {
+                    if (isset($data_hidden['BEGIN']) && $data_hidden['BEGIN'] != '') {
                         echo "<span class='input-group-addon'>" . $data_hidden['BEGIN'] . "</span>";
                     }
                     echo "<input class='form-control input-sm' type='text' maxlength='" . $maxlength . "' id='" . $name . "_edit' name='" . $name . "_edit' value='" . $data_hidden['HIDDEN_VALUE'] . "' " . $data_hidden['JAVASCRIPT'] . ">";
 
-                    if ($data_hidden['END'] != '' || isset($data_hidden['END'])) {
+                    if (isset($data_hidden['END']) && $data_hidden['END'] != '') {
                         echo "<span class='input-group-addon'>" . $data_hidden['END'] . "</span>";
                     }
 
@@ -182,10 +182,10 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
             $ajout_readonly = " disabled=\"disabled\" style='color:black; background-color:#e1e1e2;'";
         }
         echo "<div class='input-group'>";
-        if ($data['BEGIN'] != '' || isset($data['BEGIN'])) {
+        if (isset($data['BEGIN']) || !empty($data['BEGIN'])) {
             echo "<span class='input-group-addon'>" . $data['BEGIN'] . "</span>";
         }
-        echo "<input " . $ajout_readonly . "  class='form-control input-sm' type='text' name='" . $name . "' id='" . $name . "' value='" . $data['VALUE'] . "' maxlength=" . $data['MAXLENGTH'] . " " . $data['JAVASCRIPT'] . ">";
+        echo "<input " .($ajout_readonly ?? ''). "  class='form-control input-sm' type='text' name='" . $name . "' id='" . $name . "' value='" . $data['VALUE'] . "' maxlength=" . $data['MAXLENGTH'] . " " . $data['JAVASCRIPT'] . ">";
 
         if ($data['END'] != '' || isset($data['END'])) {
             echo "<span class='input-group-addon'>" . $data['END'] . "</span>";
@@ -233,7 +233,7 @@ function ligne($name, $lbl, $type, $data, $data_hidden = '', $readonly = '', $he
         }
         echo "</select>";
     }elseif ($type == 'long_text') {
-        echo "<textarea name='" . $name . "' id='" . $name . "' cols='" . $data['COLS'] . "' rows='" . $data['ROWS'] . "'  class='down' " . $data['JAVASCRIPT'] . ">" . $data['VALUE'] . "</textarea>" . $data['END'];
+        echo "<textarea name='" . $name . "' id='" . $name . "' cols='" . $data['COLS'] . "' rows='" . $data['ROWS'] . "'  class='down' " . ($data['JAVASCRIPT'] ?? '') . ">" . $data['VALUE'] . "</textarea>" . ($data['END'] ?? '');
     }elseif($type == 'password'){
         echo "<input class='form-control input-sm' type='password' name='" . $name . "' id='" . $name . "' value='" . $data['VALUE'] . "' maxlength=" . $data['MAXLENGTH'] . " " . $data['JAVASCRIPT'] . ">";
         echo "<p class='help-block'>" . $helpInput . "</p>";
@@ -271,7 +271,7 @@ function verif_champ() {
         'CUSTOM_THEME' => array('FIELD_READ' => 'CUSTOME_THEME_edit', 'END' => "", 'FILE' => "", 'TYPE' =>'r'));
 
     foreach ($file_exist as $key => $value) {
-        if ($protectedPost[$key] == 'CUSTOM') {
+        if (isset($protectedPost[$key]) && $protectedPost[$key] == 'CUSTOM') {
             //Try to find a file
             if ($value['FILE'] != '') {
                 if ($protectedPost[$value['FIELD_READ']] != '' and ! @fopen($protectedPost[$value['FIELD_READ']] . $value['END'] . $value['FILE'], $value['TYPE'])) {
@@ -288,14 +288,14 @@ function verif_champ() {
 
     $i = 0;
     while ($supp1[$i]) {
-        if ($protectedPost[$supp1[$i]] < 1 && isset($protectedPost[$supp1[$i]])) {
+        if (isset($protectedPost[$supp1[$i]]) && $protectedPost[$supp1[$i]] < 1) {
             $tab_error[$supp1[$i]] = '1';
         }
         $i++;
     }
     $i = 0;
     while ($supp10[$i]) {
-        if ($protectedPost[$supp10[$i]] < 10 && isset($protectedPost[$supp10[$i]])) {
+        if (isset($protectedPost[$supp10[$i]]) && $protectedPost[$supp10[$i]] < 10) {
             $tab_error[$supp10[$i]] = '10';
         }
         $i++;
@@ -395,8 +395,7 @@ function update_default_value($POST) {
 
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
-        'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit', 'TMP_DIR' => 'TMP_DIR_edit',
-        'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG_edit',
+        'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit', 'TMP_DIR' => 'TMP_DIR_edit', 'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG_edit',
         'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO_edit',
         'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR_edit',
         'OLD_CONF_DIR' => 'OLD_CONF_DIR_edit', 'LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER_edit', 'WOL_BIOS_PASSWD' => 'WOL_BIOS_PASSWD_edit');

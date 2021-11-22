@@ -124,7 +124,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     $need_display = look_config_default_values("WARN_UPDATE");
     if ($need_display['ivalue']['WARN_UPDATE'] == '1') {
         $data = get_update_json();
-        if (GUI_VER_SHOW < $data->version) {
+        if (!empty($data) && GUI_VER_SHOW < $data->version) {
             $txt = $l->g(2118) . " " . $data->version . " " . $l->g(2119);
             $txt .= "<br><a href=" . $data->download . ">" . $l->g(2120) . "</a>";
 
@@ -233,7 +233,7 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
 
 echo "<div class='container-fluid'>";
 
-if ($_SESSION['OCS']["mesmachines"] == "NOTAG" && !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) && $protectedGet[PAG_INDEX] == $pages_refs['ms_debug'])) {
+if (isset($_SESSION['OCS']["mesmachines"]) &&  $_SESSION['OCS']["mesmachines"] == "NOTAG" && !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) && $protectedGet[PAG_INDEX] == $pages_refs['ms_debug'])) {
     if (isset($LIST_ERROR)) {
         $msg_error = $LIST_ERROR;
     } else {

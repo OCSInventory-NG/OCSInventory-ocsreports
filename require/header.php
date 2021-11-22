@@ -36,9 +36,12 @@ require_once('require/config/include.php');
 @session_start();
 error_reporting(E_ALL & ~E_NOTICE);
 /* * ******************************************FIND SERVER URL*************************************** */
-$addr_server = explode('/', $_SERVER['HTTP_REFERER']);
-array_pop($addr_server);
-define("OCSREPORT_URL", implode('/', $addr_server));
+if (isset($_SERVER['HTTP_REFERER'])) {
+    $addr_server = explode('/', $_SERVER['HTTP_REFERER']);
+    array_pop($addr_server);
+    define("OCSREPORT_URL", implode('/', $addr_server));
+}
+
 
 if ($_SESSION['OCS']['LOG_GUI'] == 1) {
     define("LOG_FILE", $_SESSION['OCS']['LOG_DIR'] . "log.csv");
@@ -60,7 +63,7 @@ if (isset($_SESSION['OCS']['CONF_RESET'])) {
 }
 
 //If you have to reload conf
-if ($_POST['RELOAD_CONF'] == 'RELOAD') {
+if (isset($_POST['RELOAD_CONF']) && $_POST['RELOAD_CONF'] == 'RELOAD') {
     $_SESSION['OCS']['CONF_RESET'] = true;
 }
 
@@ -399,7 +402,7 @@ if ($url_name) {
         $csrf = true;
         if (isset($_SESSION['OCS']['CSRF'])) {
             foreach ($_SESSION['OCS']['CSRF'] as $k => $v) {
-                if ($v == $protectedPost['CSRF_' . $k]) {
+                if (isset($protectedPost['CSRF_' . $k]) && $v == $protectedPost['CSRF_' . $k]) {
                     $csrf = false;
                 }
             }

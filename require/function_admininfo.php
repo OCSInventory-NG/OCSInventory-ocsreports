@@ -37,22 +37,12 @@ $sql_type_accountinfo = array('0' => 'VARCHAR(255)',
     '11' => 'VARCHAR(255)'
   );
 
-$array_qr_values = array('URL' => $l->g(646),
-    'NAME' => $l->g(35),
-    'UID' => $l->g(1268),
-    'IPADDR' => $l->g(34));
-$array_qr_action = array('URL' => array('TYPE' => 'url', 'VALUE' => OCSREPORT_URL . "/index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . $_GET['systemid']),
-    'NAME' => array('TYPE' => 'bdd', 'VALUE' => "hardware.name"),
-    'UID' => array('TYPE' => 'bdd', 'VALUE' => "hardware.uuid"),
-    'IPADDR' => array('TYPE' => 'bdd', 'VALUE' => "hardware.ipaddr"));
-
 function accountinfo_tab($id) {
     $info_tag = find_info_accountinfo($id);
     if ($info_tag[$id]['type'] == 2
             or $info_tag[$id]['type'] == 5
             or $info_tag[$id]['type'] == 11) {
-        $info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id]['name']);
-        return $info;
+        return find_value_field('ACCOUNT_VALUE_' . $info_tag[$id]['name']);
     } elseif ($info_tag[$id]['type'] == 8) {
         return false;
     }
@@ -354,8 +344,6 @@ function dde_exist($name, $id = '', $type) {
         //name can't be null
         return $l->g(1068);
     }
-
-    return;
 }
 
 /*
@@ -431,8 +419,7 @@ function changeDateFormat($lang, $val){
     $tab = array("fr_FR", "br_BR", "it_IT", "pl_PL", "pt_PT", "ru_RU", "si_SI", "es_ES", "tr_TR");
     if(in_array($lang, $tab)){
         $tab2 = explode("/", $val);
-        $ret = $tab2[1]."/".$tab2[0]."/".$tab2[2];
-        return $ret;
+        return $tab2[1]."/".$tab2[0]."/".$tab2[2];
     }else{
         return $val;
     }
@@ -538,7 +525,11 @@ function replace_tag_value($type = '', $option = array()) {
             }
         }
     }
-    return $tab_options;
+
+    if(isset($tab_options)) {
+        return $tab_options;
+    }
+    
 }
 
 function find_value_in_field($tag, $value_2_find, $type = 'COMPUTERS') {
@@ -586,20 +577,13 @@ function interprete_accountinfo($list_fields, $tab_options) {
 */
 function adminData_to_input($typeID){
 
-    switch ($typeID){
-
-        case '2':
-            return 'select';
-        case '4':
-            return 'checkbox';
-        case '5':
-            return 'file';
-        case '7':
-            return 'radio';
-
-        default:
-            return 'text';
-    }
+    return match ($typeID) {
+        '2' => 'select',
+        '4' => 'checkbox',
+        '5' => 'file',
+        '7' => 'radio',
+        default => 'text',
+    };
 }
 
 ?>

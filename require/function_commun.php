@@ -55,7 +55,9 @@ function look_config_default_values($field_name, $like = '', $default_values = '
         }
     }
 
-    return $result;
+    if (isset($result)) {
+        return $result;
+    }
 }
 
 /* * ****************************************************SQL FUNCTION*************************************************** */
@@ -66,7 +68,7 @@ function generate_secure_sql($sql, $arg = '') {
         foreach ($arg as $value) {
             $arg_array_escape_string[] = mysqli_real_escape_string($_SESSION['OCS']["readServer"], $value);
         }
-        $arg_escape_string = $arg_array_escape_string;
+        $arg_escape_string = $arg_array_escape_string ?? null;
     } elseif ($arg != '') {
         $arg_escape_string = mysqli_real_escape_string($_SESSION['OCS']["readServer"], $arg);
     }
@@ -87,7 +89,7 @@ function mysql2_query_secure($sql, $link, $arg = '', $log = false) {
         addLog($log, $query, $lbl_log);
     }
 
-    if ($_SESSION['OCS']['DEBUG'] == 'ON') {
+    if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') {
         $_SESSION['OCS']['SQL_DEBUG'][] = html_entity_decode($query, ENT_QUOTES);
     }
 
@@ -102,7 +104,7 @@ function mysql2_query_secure($sql, $link, $arg = '', $log = false) {
         }
     }
     $result = mysqli_query($link, $query);
-    if ($_SESSION['OCS']['DEBUG'] == 'ON' && !$result) {
+    if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON' && !$result) {
         msg_error(mysqli_error($link));
     }
     return $result;
@@ -289,8 +291,7 @@ function read_files($search, $ms_cfg_file, $writable = '') {
     }
 
     if (file_exists($ms_cfg_file)) {
-        $profil_data = read_configuration($ms_cfg_file, $search);
-        return $profil_data;
+        return read_configuration($ms_cfg_file, $search);
     } else {
         return false;
     }
@@ -303,7 +304,7 @@ function msg($txt, $css, $closeid = false) {
         $_SESSION['OCS']['CLOSE_ALERT'][$protectedPost['close_alert']] = 1;
     }
 
-    if (!$_SESSION['OCS']['CLOSE_ALERT'][$closeid]) {
+    if (!isset($_SESSION['OCS']['CLOSE_ALERT'][$closeid])) {
         echo "<center><div id='my-alert-" . $closeid . "' class='alert alert-" . $css . " fade in' role='alert'>";
         if ($closeid != false) {
             echo "<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>×</span><span class='sr-only'>Close</span></button>";
@@ -411,10 +412,9 @@ function html_header($noJavascript = false) {
 
 function strip_tags_array($value = '') {
     if (is_object($value)) {
-        $value = get_class($value);
+        $value = $value::class;
         $value = strip_tags($value, "<p><b><i><font><br><center>");
-        $value = "Objet de la classe " . $value;
-        return $value;
+        return "Objet de la classe " . $value;
     }
 
     $value = is_array($value) ? array_map('strip_tags_array', $value) : strip_tags($value, "<p><b><i><font><br><center>");
@@ -504,7 +504,7 @@ function calendars($NameInputField,$DateFormat)
 {
   $lang = $_SESSION['OCS']['LANGUAGE'];
   $calendar = "<i class=\"glyphicon glyphicon-calendar\"></i>";
-  $calendar .= "<script type=\"text/javascript\">
+	return $calendar . ("<script type=\"text/javascript\">
       $(\".form_datetime\").datetimepicker({
           format: \"".$DateFormat."\",
           autoclose: true,
@@ -512,8 +512,7 @@ function calendars($NameInputField,$DateFormat)
           language:\"".$lang."\",
           pickerPosition: \"bottom-left\"
       });
-    </script>";
-	return $calendar;
+    </script>");
 }
 
 
@@ -606,8 +605,8 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     }else{
                                         echo "<div class='input-group'>";
                                     }
-                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
-                                    if($field['COMMENT_AFTER'] == ""){
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
+                                    if(empty($field['COMMENT_AFTER'])){
                                       echo "</div>";
                                     }
                                 }else if($inputType == 'number'){
@@ -618,29 +617,29 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     }
                                 }else if($inputType == 'disabled'){
                                     echo "<div class='input-group'>";
-                                    echo "<input type='text' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT']." readonly>";
-                                    if($field['COMMENT_AFTER'] == ""){
+                                    echo "<input type='text' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '')." readonly>";
+                                    if(empty($field['COMMENT_AFTER'])){
                                       echo "</div>";
                                     }
                                 }else if($inputType == 'select'){
                                     echo "<div class='input-group'>";
-                                    echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                    echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
                                     echo "<option value='' selected></option>";
                                     foreach ($field['DEFAULT_VALUE'] as $key => $value){
-                                            if($key == $field['CONFIG']['SELECTED_VALUE']){
+                                            if(isset($field['CONFIG']['SELECTED_VALUE']) && $key == $field['CONFIG']['SELECTED_VALUE']){
                                                 echo "<option value='".$key."' selected>".$value."</option>";
                                             }else{
                                                 echo "<option value='".$key."'>".$value."</option>";
                                             }
                                     }
                                     echo "</select>";
-                                    if($field['COMMENT_AFTER'] == ""){
+                                    if(empty($field['COMMENT_AFTER'])){
                                       echo "</div>";
                                     }
                                 } else if($inputType == 'checkbox'){
                                   if($field["CONFIG"]["SELECTED_VALUE"] != ''){
                                       $field_check = explode("&&&", $field["CONFIG"]["SELECTED_VALUE"]);
-                                      foreach($field_check as $keys => $values){
+                                      foreach($field_check as $values){
                                         if($values != ''){
                                           $field_checkbox[$values] = $values;
                                         }
@@ -660,7 +659,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                 } else if($inputType == 'radio'){
                                   if($field["CONFIG"]["SELECTED_VALUE"] != ''){
                                       $field_radio = explode("&&&", $field["CONFIG"]["SELECTED_VALUE"]);
-                                      foreach($field_radio as $keys => $values){
+                                      foreach($field_radio as $values){
                                           if($values != ''){
                                             $field_radio[$values] = $values;
                                           }
@@ -682,10 +681,10 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                 } else if($inputType == 'qrcode'){
                                     echo "<img src='" . $field['CONFIG']['DEFAULT'] . "' ".$field['CONFIG']['SIZE']." ".$field['CONFIG']['JAVASCRIPT'].">";
                                 } else{
-                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
                                 }
 
-                                if($field['COMMENT_AFTER'] != ""){
+                                if(!empty($field['COMMENT_AFTER'])){
                                     echo "<span class='input-group-addon' id='".$field['INPUT_NAME']."-addon'>".$field['COMMENT_AFTER']."</span>";
                                     echo "</div>";
                                 }
