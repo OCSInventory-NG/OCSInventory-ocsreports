@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -29,8 +30,6 @@ if (AJAX) {
 $tab_options = $protectedPost;
 $tab_options['form_name'] = "affich_bios";
 $tab_options['table_name'] = "affich_bios";
-
-
 print_item_header($l->g(273));
 if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
@@ -74,25 +73,21 @@ if ($_SESSION['OCS']['ADMIN_BLACKLIST']['SERIAL'] == 'YES') {
         $tab_options['OTHER_BIS']['IMG'] = 'image/green.png';
     }
 }
-
 if ($show_all_column) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del[$l->g(36)] = $l->g(36);
 }
-
 $default_fields = $list_fields;
 $queryDetails = "SELECT ";
-foreach ($list_fields as $lbl => $value) {
+foreach ($list_fields as $value) {
     $queryDetails .= $value . ",";
 }
 $queryDetails = substr($queryDetails, 0, -1) . " FROM bios WHERE (hardware_id=$systemid)";
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-
 echo close_form();
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
     ob_start();
 }
-?>
