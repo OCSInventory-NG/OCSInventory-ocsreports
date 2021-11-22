@@ -53,7 +53,7 @@ if (isset($protectedGet['filtre']) && !isset($protectedPost['FILTRE'])) {
 }
 
 //del the selection
-if ($protectedPost['DEL_ALL'] != '') {
+if (!empty($protectedPost['DEL_ALL'])) {
     foreach ($protectedPost as $key => $value) {
         $checkbox = explode('check', $key);
         if (isset($checkbox[1])) {
@@ -64,34 +64,30 @@ if ($protectedPost['DEL_ALL'] != '') {
 }
 
 //delete one computer
-if ($protectedPost['SUP_PROF'] != '') {
+if (!empty($protectedPost['SUP_PROF'])) {
     deleteDid($protectedPost['SUP_PROF']);
     $tab_options['CACHE'] = 'RESET';
 }
 
 //archive one computer
-if ($protectedPost['ARCHIVER'] != '') {
+if (!empty($protectedPost['ARCHIVER'])) {
     $archive->archive($protectedPost['ARCHIVER']);
     $tab_options['CACHE'] = 'RESET';
 }
 
 //archive one computer
-if ($protectedPost['RESTORE'] != '') {
+if (!empty($protectedPost['RESTORE'])) {
     $archive->restore($protectedPost['RESTORE']);
     $tab_options['CACHE'] = 'RESET';
 }
 
-if (!isset($protectedPost['tri_' . $table_name]) || $protectedPost['tri_' . $table_name] == "") {
-    $protectedPost['tri_' . $table_name] = "h.lastdate";
-    $protectedPost['sens_' . $table_name] = "DESC";
-}
 echo open_form($form_name, '', '', 'form-horizontal');
 
 $def_onglets['ALL'] = $l->g(1557);
 $def_onglets['ACTIVE'] = $l->g(1555);
 $def_onglets['ARCHIVE'] = $l->g(1554);
 
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "ACTIVE";
 }
 
@@ -107,7 +103,8 @@ if($protectedPost['onglet'] == "ACTIVE") {
 }
 
 //BEGIN SHOW ACCOUNTINFO
-$accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+
+$accountinfo_value = interprete_accountinfo($list_fields ?? null, $tab_options);
 if (array($accountinfo_value['TAB_OPTIONS'])) {
     $tab_options = $accountinfo_value['TAB_OPTIONS'];
 }
@@ -250,7 +247,7 @@ if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
 }
 
 // TAG RESTRICTIONS
-if (is_defined($_GET['value']) && strpos($_GET['filtre'], 'a.fields_') === 0){
+if (is_defined($_GET['value']) && str_starts_with($_GET['filtre'], 'a.fields_')){
     $tag = $_GET['value'];
     $fields = $_GET['filtre'];
     $queryDetails .= "AND ".$fields."= '$tag' ";
@@ -287,7 +284,7 @@ $list_pag["image/groups_search.png"] = $pages_refs["ms_custom_groups"];
 
 $list_pag["image/cadena_ferme.png"] = $pages_refs["ms_custom_lock"];
 $list_pag["image/mass_affect.png"] = $pages_refs["ms_custom_tag"];
-add_trait_select($list_fonct, $list_id, $form_name, $list_pag, true);
+add_trait_select($list_fonct, $list_id ?? null, $form_name, $list_pag, true);
 echo "<br><br>";
 
 if ($entete && $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
