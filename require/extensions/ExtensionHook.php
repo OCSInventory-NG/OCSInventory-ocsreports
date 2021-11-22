@@ -42,8 +42,6 @@ class ExtensionHook{
     public $languageExtensionsHooks = array();
     public $computerDetailExtensionsHooks = array();
 
-    public $activatedExt = array();
-
     // Simple array of menu available in all loaded extension
     public $extDeclaredMenu = array();
     public $computerDeclaredMenu = array();
@@ -52,11 +50,9 @@ class ExtensionHook{
 
     private $currentScannedExt = "";
 
-    function __construct($activatedExtArray) {
+    function __construct(public $activatedExt) {
 
-        $this->activatedExt = $activatedExtArray;
-
-        foreach ($activatedExtArray as $extLabel) {
+        foreach ($activatedExt as $extLabel) {
             if($this->haveHook($extLabel)){
                 $this->readHookXml($extLabel);
             }
@@ -302,7 +298,7 @@ class ExtensionHook{
             return false;
         }else{
             $menusElemArray = array();
-            foreach ($subMenus as $extKey => $subMenusInfos) {
+            foreach ($subMenus as $subMenusInfos) {
                 for ($index = 0; $index < count($subMenusInfos); $index++) {
                     $menusElemArray[$subMenusInfos[$index][self::IDENTIFIER]] = $this->generateMenuRenderer($subMenusInfos[$index], true);
                 }
