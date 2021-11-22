@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -26,20 +27,15 @@ if (AJAX) {
 
     ob_start();
 }
-
 /*
  * this page makes it possible to seize the MAC addresses for blacklist
  */
 require_once('require/function_blacklist.php');
 $form_name = "blacklist";
-
-
 //printEnTete($l->g(703));
 if (!is_defined($protectedPost['onglet']))
     $protectedPost['onglet'] = 1;
-
 $tab_options = $protectedPost;
-
 //définition des onglets
 $data_on[1] = $l->g(95);
 $data_on[2] = $l->g(36);
@@ -64,7 +60,6 @@ if (isset($protectedPost['enre'])) {
 echo open_form($form_name, '', '', 'form-horizontal');
 show_tabs($data_on,$form_name,"onglet",true);
 echo '<div class="col col-md-10">';
-
 switch ($protectedPost['onglet']) {
     case 1:
         $table_name = "blacklist_macaddresses";
@@ -150,7 +145,7 @@ switch ($protectedPost['onglet']) {
 
                 ?>
                 </div>
-                <?php
+<?php
 
 
             } elseif ($protectedPost['BLACK_CHOICE'] == 3) {
@@ -213,7 +208,6 @@ switch ($protectedPost['onglet']) {
     default:
         break;
 }
-
 if (isset($list_fields)) {
     //cas of delete mac address or serial
     if (isset($protectedPost["SUP_PROF"]) && is_numeric($protectedPost["SUP_PROF"])) {
@@ -235,9 +229,7 @@ if (isset($list_fields)) {
 }
 echo "</div>";
 echo close_form();
-
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql['SQL'], $tab_options);
 }
-?>

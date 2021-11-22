@@ -35,7 +35,7 @@ $def_onglets['INV'] = $l->g(728); //Inventaire
 $def_onglets['TELE'] = $l->g(512); //Télédéploiement
 $def_onglets['RSX'] = $l->g(1198); //ipdiscover
 //update values
-if ($protectedPost['Valid'] == $l->g(103)) {
+if (isset($protectedPost['Valid']) && $protectedPost['Valid'] == $l->g(103)) {
     if ($list_id) {
         //more then one value
         if (strstr($list_id, ',') != "") {
@@ -67,7 +67,11 @@ if ($protectedPost['Valid'] == $l->g(103)) {
         }
         $MAJ = $l->g(711);
         echo "<div class='col col-md-12'>";
-        msg_success($MAJ . $add_lbl);
+        if (isset($add_lbl)) { 
+            msg_success($MAJ . $add_lbl);
+        } else {
+            msg_success($MAJ);
+        }
         echo "</div>";
         if (isset($protectedGet['origine']) && $protectedGet['origine'] == 'machine') {
             $form_to_reload = 'config_mach';

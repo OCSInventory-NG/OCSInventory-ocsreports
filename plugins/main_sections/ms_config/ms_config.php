@@ -40,7 +40,7 @@ if (DEV_OPTION) {
     $def_onglets['DEV'] = $l->g(1302);
 }
 
-if ($protectedPost['Valid'] == $l->g(103)) {
+if (isset($protectedPost['Valid']) && $protectedPost['Valid'] == $l->g(103)) {
     $etat = verif_champ();
     if ($etat == "") {
         update_default_value($protectedPost); //function in function_config_generale.php
