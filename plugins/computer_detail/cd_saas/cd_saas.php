@@ -51,7 +51,7 @@
 
  $default_fields = array($l->g(49) => $l->g(49), $l->g(8104) => $l->g(8104), $l->g(8105) => $l->g(8105));
  $queryDetails = "SELECT DISTINCT ";
- foreach ($list_fields as $lbl => $value) {
+ foreach ($list_fields as $value) {
      $queryDetails .= $value . ",";
  }
  $queryDetails = substr($queryDetails, 0, -1) . " FROM saas s LEFT JOIN saas_exp e ON e.ID = s.SAAS_EXP_ID WHERE (hardware_id=$systemid)";
