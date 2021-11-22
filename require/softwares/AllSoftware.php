@@ -29,7 +29,7 @@ class AllSoftware
 
     public function software_link_treatment() {
         // First clean software_link
-        $delSoftLink = $this->delete_software_link();
+        $this->delete_software_link();
         // Get all softwares
         $allSoft = $this->get_software_informations();
         // Get categories
@@ -59,7 +59,7 @@ class AllSoftware
 
         if(!empty($softwareCategory)) {
             foreach($software as $identifier => $values) {
-                foreach($softwareCategory as $key => $infos) {
+                foreach($softwareCategory as $infos) {
                     if($values['NAME_ID'] == $infos['NAME_ID'] && $values['PUBLISHER_ID'] == $infos['PUBLISHER_ID'] && $values['VERSION_ID'] == $infos['VERSION_ID']) {
                         $software[$identifier]['CATEGORY_ID'] = $infos['CATEGORY_ID'];
                     }
@@ -101,16 +101,13 @@ class AllSoftware
                 LEFT JOIN software_version v ON s.VERSION_ID = v.ID
                 GROUP BY s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID";
 
-        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-
-        return $result;
+        return mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     }
 
     private function get_software_categories_link_informations() {
         $sql = "SELECT * FROM `software_categories_link`";
-        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-        return $result;
+        return mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     }
 
      /**

@@ -67,9 +67,7 @@ class SoftwareCategory
         }else{
             $sql = "INSERT INTO `software_categories` (`CATEGORY_NAME`, `OS`) values('%s', '%s');";
             $arg_sql = array($catName, $osVersion);
-
-            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
-            return ($result);
+            return (mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql));
         }
     }
 
@@ -106,9 +104,7 @@ class SoftwareCategory
 
         $sql_reg = "INSERT INTO `software_category_exp` (`CATEGORY_ID`, `SOFTWARE_EXP`, `SIGN_VERSION`, `VERSION`, `PUBLISHER`) values(%s, '%s', '%s', '%s', '%s')";
         $arg_reg = array($id_cat, $regExp, $sign, $version, $vendor);
-
-        $result = mysql2_query_secure($sql_reg, $_SESSION['OCS']["writeServer"], $arg_reg);
-        return ($result);
+        return (mysql2_query_secure($sql_reg, $_SESSION['OCS']["writeServer"], $arg_reg));
     }
 
     /**
@@ -162,7 +158,7 @@ class SoftwareCategory
                                 </tr>';
             }
         }else{
-            foreach($cat as $key => $value){
+            foreach($cat as $value){
                 $this->html .= "<tr style='border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;'>
                             <td style='padding: 0 15px 0 0;'>".$value."</td>
                             <td style='padding: 0 0 0 15px;'>0</td>
