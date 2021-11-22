@@ -60,7 +60,7 @@ if($extMgr->checkPrerequisites()){
                 <div class="col col-sm-5 col-sm-offset-3">
                     <select class="form-control" name="extensions">
                         <?php
-                        foreach ($extMgr->installableExtensionsList as $key => $value) {
+                        foreach ($extMgr->installableExtensionsList as $value) {
                             echo "<option value=$value >$value</option>";
                         }
                         ?>
