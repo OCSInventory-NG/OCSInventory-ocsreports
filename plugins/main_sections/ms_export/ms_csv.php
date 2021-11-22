@@ -91,7 +91,7 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
             $found = false;
             // find value case-insensitive
             foreach ($col as $key => $val) {
-                if (strpos($key, ".") !== false) {
+                if (str_contains($key, ".")) {
                     $exploded_key = explode(".", $key);
                     $key = $exploded_key[1];
                 }
@@ -115,7 +115,7 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
                     $found = true;
                 } elseif (array_key_exists(strtoupper($key),$cont)){ // in the case key is in lower case and array cont is in upper case
                     $data[$i][strtoupper($key)] = $cont[strtoupper($key)];
-                } elseif (strpos($key, ' AS ') !== false || strpos($key, ' as ') !== false) {
+                } elseif (str_contains($key, ' AS ') || str_contains($key, ' as ')) {
                     $key_explode  = explode(" ", $key);
                     $data[$i][$key_explode[2]] = $cont[$key_explode[2]];
                 }
@@ -133,7 +133,7 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     $i = 0;
     while ($data[$i]) {
         $toBeWritten .= "\r\n";
-        foreach ($data[$i] as $field_name => $donnee) {
+        foreach ($data[$i] as $donnee) {
           if (substr($donnee, 0 , 1) != "\"") {
             $toBeWritten .= "\"";
           }
