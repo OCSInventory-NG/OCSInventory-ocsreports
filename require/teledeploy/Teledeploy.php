@@ -28,7 +28,7 @@ class Teledeploy
 {
 
   public function get_package($timestamp){
-      $zipfile = new zipArchive();
+      new zipArchive();
 
       $sql_document_root = "SELECT tvalue FROM config WHERE NAME='DOWNLOAD_PACK_DIR'";
 

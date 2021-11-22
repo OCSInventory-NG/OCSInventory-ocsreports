@@ -32,8 +32,7 @@ class PackageBuilderFormOperatingSystem
      */
     public function generateTile($system) {
         global $l;
-
-        $tile = '<div class="col-md-4">
+        return '<div class="col-md-4">
                     <div class="card_deploy">
                         <div class="container_deploy">
                             <a onClick="loadInteractions(\''.$system->id.'\')">
@@ -43,7 +42,6 @@ class PackageBuilderFormOperatingSystem
                         </div>
                     </div>
                 </div>';
-        return $tile;
     }
 
 }
