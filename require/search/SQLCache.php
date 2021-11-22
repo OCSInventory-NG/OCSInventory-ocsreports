@@ -29,18 +29,13 @@
  {
 
     const GROUP_TABLE = "groups_cache";
-
-    private $search;
-    private $software;
     private $searchQuery;
     private $columnsQueryConditions;
 
     /**
      * @param Search $search
      */
-    function __construct($search, $software) {
-        $this->search = $search;
-        $this->software = $software;
+    function __construct(private $search, private $software) {
         $this->searchQuery = "SELECT DISTINCT hardware.ID FROM hardware ";
     }
 
@@ -69,14 +64,14 @@
 				$this->searchQuery .= "LEFT JOIN software_version on software_version.id = $tableName.version_id ";
             }
 
-            foreach ($searchInfos as $index => $value) {
+            foreach ($searchInfos as $value) {
                 if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
                     // Generate union
                     $this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
                 }
-                if($value['comparator'] != null){
+                if(isset($value['comparator'])){
                     $operator[] = $value['comparator'];
-                }elseif($i != 0 && $value['comparator'] == null){
+                }elseif($i != 0 && empty($value['comparator'])){
                     $operator[] = "AND";
                 }else{
                     $operator[] = "";
@@ -94,7 +89,7 @@
                 $containvalue[$index] = $value['operator'];
             }
 
-            foreach ($searchInfos as $index => $value) {
+            foreach ($searchInfos as $value) {
                 $nameTable = $tableName;
                 $open="";
                 $close="";
@@ -117,11 +112,11 @@
                     }
                 }
 
-                if($p == 0 && $operator[$p+1] == 'OR'){
+                if($p == 0 && isset($operator[$p+1]) && $operator[$p+1] == 'OR'){
                     $open = "(";
                 }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
                     $close=")";
-                }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
+                }if($p != 0 && $operator[$p] !='OR' && isset($operator[$p+1]) && $operator[$p+1] =='OR'){
                     $open = "(";
                 }
 

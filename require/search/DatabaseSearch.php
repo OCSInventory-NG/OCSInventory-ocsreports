@@ -34,7 +34,7 @@ class DatabaseSearch
      */
     const FIELD = 'Field';
     const TYPE = 'Type';
-    const NULLABLE = 'Nullable';
+    const NULLABLE = 'Null';
     const KEY = 'Key';
     const DEFAULT_VAL = 'Default';
     const EXTRA = 'Extra';
@@ -79,9 +79,8 @@ class DatabaseSearch
     /**
      * Objects
      */
-    private $dbObject = null;
-    private $dbName = null;
-    private $softwareSearch = null;
+    private $dbObject;
+    private $dbName;
 
     /**
      * Constructor
@@ -102,7 +101,10 @@ class DatabaseSearch
      */
     public function getColumnsList($tableName)
     {
-        return $this->columnsList[$tableName];
+        if(isset($this->columnsList[$tableName])) {
+            return $this->columnsList[$tableName];
+        }
+
     }
 
     /**
@@ -176,7 +178,6 @@ class DatabaseSearch
     /**
      * Get an list of id of the current multi search (needed for buttons at the bottom of the page)
      *
-     * @param Search $searchObj
      * @return Array list of computers ID
      */
     public function getIdList(Search $searchObj){
@@ -184,7 +185,7 @@ class DatabaseSearch
         $idList = mysql2_query_secure($query, $this->dbObject, $searchObj->queryArgs);
         $idArray = [];
 
-        if($idList) foreach ($idList as $index => $fields) {
+        if($idList) foreach ($idList as $fields) {
             $idArray[] = $fields['hardwareID'];
         }
         return $idArray;
@@ -200,8 +201,7 @@ class DatabaseSearch
      */
     private function normalizeFieldType($type)
     {
-        $splittedType = preg_replace('/\(.*?\)|\s*/', '', $type);
-        return $splittedType;
+        return preg_replace('/\(.*?\)|\s*/', '', $type);
     }
 
     /**
@@ -221,7 +221,7 @@ class DatabaseSearch
         $sql= "SELECT id FROM download_enable d_e LEFT JOIN download_available d_a ON d_a.fileid=d_e.fileid
                 WHERE 1=1 AND d_a.comment NOT LIKE '%[VISIBLE=0]%' AND d_e.fileid='".$fileid."'";
         $idPackage = mysql2_query_secure($sql, $this->dbObject);
-        foreach ($idPackage as $index => $fields) {
+        foreach ($idPackage as $fields) {
             $idArray[] = $fields['id'];
         }
         return $idArray;

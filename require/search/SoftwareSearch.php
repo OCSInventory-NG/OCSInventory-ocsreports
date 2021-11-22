@@ -36,8 +36,7 @@
         self::NAME_TABLE,
     ];
 
-    private $dbObject = null;
-    private $dbName = null;
+    private $dbObject;
     private $columnsList = [];
 
     /**
@@ -46,7 +45,6 @@
     function __construct()
     {
         $this->dbObject = $_SESSION['OCS']["readServer"];
-        $this->dbName = DB_NAME;
     }
 
     /**
@@ -82,49 +80,32 @@
      */
     private function normalizeFieldType($type)
     {
-        $splittedType = preg_replace('/\(.*?\)|\s*/', '', $type);
-        return $splittedType;
+        return preg_replace('/\(.*?\)|\s*/', '', $type);
     }
 
     /**
      *  Get Software table name
      */
     public function getTableName($field) {
-        switch ($field) {
-            case "NAME_ID":
-                return self::NAME_TABLE;
-            break;
-            case "PUBLISHER_ID":
-                return self::PUBLISHER_TABLE;
-            break;
-            case "VERSION_ID" :
-                return self::VERSION_TABLE;
-            case "CATEGORY" :
-                return self::NAME_TABLE;
-            break;
-            default :
-                return self::SOFTWARE_TABLE;
-            break;
-        }
+        return match ($field) {
+            "NAME_ID" => self::NAME_TABLE,
+            "PUBLISHER_ID" => self::PUBLISHER_TABLE,
+            "VERSION_ID" => self::VERSION_TABLE,
+            "CATEGORY" => self::NAME_TABLE,
+            default => self::SOFTWARE_TABLE,
+        };
     }
 
     /**
      * Get software column name
      */
     public function getColumnName($field) {
-        switch ($field) {
-            case "NAME_ID":
-                return "NAME";
-            break;
-            case "PUBLISHER_ID":
-                return "PUBLISHER";
-            break;
-            case "VERSION_ID" :
-                return "VERSION";
-            default :
-                return $field;
-            break;
-        }
+        return match ($field) {
+            "NAME_ID" => "NAME",
+            "PUBLISHER_ID" => "PUBLISHER",
+            "VERSION_ID" => "VERSION",
+            default => $field,
+        };
     }
 
  }
