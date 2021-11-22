@@ -38,7 +38,7 @@ function show_computer_menu($computer_id) {
         $url = $menu_elem->getUrl();
         $label = $menu_renderer->getLabel($menu_elem);
         echo "<li ";
-        if ($protectedGet['cat'] == explode('=',$url)[1]) {
+        if (isset($protectedGet['cat']) && $protectedGet['cat'] == explode('=',$url)[1]) {
             echo "class='active'";
         }
         echo " ><a href=' ".$menu_renderer->getUrl($menu_elem) ."'>" . $label . "</a></li>";
@@ -139,7 +139,7 @@ function show_computer_summary($computer) {
 
     foreach ($labels as $cat) {
         foreach ($cat as $key => $lbl) {
-            $computer_info = addslashes($computer->$key);
+            $computer_info = isset($computer->$key) ? addslashes($computer->$key) : '';
             if ($key == "MEMORY") {
                 $sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";
                 $argMem = $computer->ID;
@@ -174,8 +174,8 @@ function show_computer_summary($computer) {
                 $argVM = $computer->UUID;
                 $resVM = mysql2_query_secure($sqlVM, $_SESSION['OCS']["readServer"], $argVM);
                 $valVM = mysqli_fetch_array($resVM);
-                $data[$key] = $valVM['vmtype'];
-                $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . $valVM['hardware_id'] . "'  target='_blank'><font color=red>" . $valVM['name'] . "</font></a>";
+                $data[$key] = $valVM['vmtype'] ?? '';
+                $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . ($valVM['hardware_id'] ?? '') . "'  target='_blank'><font color=red>" . ($valVM['name'] ?? '') . "</font></a>";
                 $link[$key] = true;
 
                 if ($data[$key] != '') {

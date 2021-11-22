@@ -35,7 +35,7 @@ require_once('require/function_files.php');
 require_once('ms_computer_views.php');
 require_once('require/archive/ArchiveComputer.php');
 //recherche des infos de la machine
-$item = info($protectedGet, $protectedPost['systemid']);
+$item = info($protectedGet, $protectedPost['systemid'] ?? '');
 if (!is_object($item)) {
     msg_error($item);
     require_once(FOOTER_HTML);
