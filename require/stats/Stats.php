@@ -177,7 +177,6 @@ class Stats{
         group by contact 
         ORDER BY `contact` ASC";
         $result_seen = mysql2_query_secure($sql_seen, $_SESSION['OCS']["readServer"]);
-        $seen = array();
         $seen_name = array();
         $seen_quant = array();
         while($item = mysqli_fetch_array($result_seen)){
