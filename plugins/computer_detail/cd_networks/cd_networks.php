@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -25,13 +26,11 @@ if (AJAX) {
     $protectedPost += $params;
     ob_start();
 }
-
 print_item_header($l->g(82));
 if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
 }
 $tab_options = $protectedPost;
-
 if ($protectedPost['OTHER_BIS'] != '') {
     //verify @mac
     if (preg_match('/([0-9A-F]{2}:){5}[0-9A-F]{2}$/i', $protectedPost['OTHER_BIS'])) {
@@ -50,7 +49,6 @@ if ($protectedPost['OTHER'] != '') {
         $tab_options['CACHE'] = 'RESET';
     }
 }
-
 $form_name = "affich_networks";
 $table_name = $form_name;
 $tab_options['form_name'] = $form_name;
@@ -84,16 +82,14 @@ if ($_SESSION['OCS']['ADMIN_BLACKLIST']['MACADD'] == "YES") {
         }
     }
 }
-
 if ($show_all_column) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del[$l->g(34)] = $l->g(34);
 }
-
 $default_fields = $list_fields;
 $queryDetails = "SELECT ";
-foreach ($list_fields as $lbl => $value) {
+foreach ($list_fields as $value) {
     $queryDetails .= $value . ",";
 }
 $queryDetails = substr($queryDetails, 0, -1) . " FROM networks WHERE (hardware_id=$systemid)";
@@ -104,4 +100,3 @@ if (AJAX) {
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
     ob_start();
 }
-?>
