@@ -128,8 +128,8 @@
           while($row = mysqli_fetch_array($result)){
               if($row['NAME'] == 'NOTIF_PROG_DAY'){
                 $day[] = explode(",", $row['TVALUE']);
-                foreach($day as $key => $value){
-                  foreach($value as $keys => $values){
+                foreach($day as $value){
+                  foreach($value as $values){
                     if($values != ''){
                       $this->info[$values] = $values;
                     }
@@ -183,7 +183,7 @@
        * send notification with phpMailer
        * @return void
        */
-     public function send_notification($subject, $body, $altBody = '', $selected, $isHtml = false ){
+     public function send_notification($subject, $body, $selected, $altBody = '', $isHtml = false ){
 
             $body = $this->replace_value($body, $selected);
 
@@ -232,24 +232,24 @@
             }
           }
 
-          if(strpos($template, "{{") !== false){
+          if(str_contains($template, "{{")){
             $explode1 = explode("{{", $template);
-              foreach($explode1 as $key => $value){
-                if(strpos($value, "}}") !== false){
+              foreach($explode1 as $value){
+                if(str_contains($value, "}}")){
                     $explode2[] = explode("}}", $value);
                 }
               }
 
-              foreach ($explode2 as $key => $values){
-                foreach ($values as $nb => $trad){
-                  if(strpos($trad, "<") === false){
+              foreach ($explode2 as $values){
+                foreach ($values as $trad){
+                  if(!str_contains($trad, "<")){
                       $explode3[] = $trad;
                   }
                 }
               }
 
-              foreach ($explode3 as $keys => $replace){
-                if(strpos($replace, "g") !== false){
+              foreach ($explode3 as $replace){
+                if(str_contains($replace, "g")){
                     $traduction = explode(".", $replace);
                     $pattern[] = $replace;
                     $replacement[] = $l->g($traduction[1]);
@@ -262,9 +262,8 @@
                     $replacement[] = $soft->get_table_html_soft();
                 }
               }
-              $output = str_replace($pattern, $replacement, $template);
 
-              return $output;
+              return str_replace($pattern, $replacement, $template);
           }else{
               return $template;
           }
