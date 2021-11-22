@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -57,15 +58,12 @@
 if ($_SESSION['OCS']['cnx_origine'] != "LDAP") {
     return false;
 }
-
 require_once ('require/function_files.php');
 // page name
 $name = "ldap.php";
 connexion_local_read();
-
 // select the main database
 mysqli_select_db($link_ocs, $db_ocs);
-
 // retrieve LDAP-related config values into an array
 $sql = "select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
 $arg = array("%CONEX%");
@@ -73,12 +71,10 @@ $res = mysql2_query_secure($sql, $link_ocs, $arg);
 while ($item = mysqli_fetch_object($res)) {
     $config[$item->NAME] = $item->TVALUE;
 }
-
 // checks if the user already exists
 $reqOp = "SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
 $argOp = array($_SESSION['OCS']["loggeduser"]);
 $resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
-
 // defines the user level according to specific LDAP attributes
 // default: normal user
 $defaultRole = $config['LDAP_CHECK_DEFAULT_ROLE'];
@@ -87,14 +83,12 @@ $f1_name = $config['LDAP_CHECK_FIELD1_NAME'];
 $f2_name = $config['LDAP_CHECK_FIELD2_NAME'];
 $f1_value = $_SESSION['OCS']['details'][$f1_name];
 $f2_value = $_SESSION['OCS']['details'][$f2_name];
-
 if (!empty($f1_value)) {
     if (strtolower($f1_name) == "memberof") {
         //the idea here is to iterate through the groups array looking for a match
         //if we find it, unset the array and store only the match, else leave as it is
         foreach ($f1_value as $group) {
             if ($group == $config['LDAP_CHECK_FIELD1_VALUE']) {
-                $f1_value = array();
                 $f1_value = $group;
             }
         }
@@ -106,12 +100,10 @@ if (!empty($f1_value)) {
         $defaultRole = $config['LDAP_CHECK_FIELD1_ROLE'];
     }
 }
-
 if (!empty($f2_value)) {
     if (strtolower($f2_name) == "memberof") {
         foreach ($f2_value as $group) {
             if ($group == $config['LDAP_CHECK_FIELD2_VALUE']) {
-                $f2_value = array();
                 $f2_value = $group;
             }
         }
@@ -121,14 +113,13 @@ if (!empty($f2_value)) {
         $defaultRole = $config['LDAP_CHECK_FIELD2_ROLE'];
     }
 }
-
 // uncomment this section for DEBUG
 // note: cannot use the global DEBUG variable because this happens before the toggle is available.
 /*
-  echo ("field1: ".$f1_name." value=".$f1_value." condition: ".$config['LDAP_CHECK_FIELD1_VALUE']." role=".$config['LDAP_CHECK_FIELD1_ROLE']." level=".$config['LDAP_CHECK_FIELD1_USERLEVEL']."<br>");
-  echo ("field2: ".$item['CONEX_LDAP_CHECK_FIELD2_NAME']." value=".$f2_value." condition: ".$config['LDAP_CHECK_FIELD2_VALUE']." role=".$config['LDAP_CHECK_FIELD2_ROLE']." level=".$config['LDAP_CHECK_FIELD2_USERLEVEL']."<br>");
-  echo ("user: ".$_SESSION['OCS']["loggeduser"]." will have level=".$defaultLevel." and role=".$defaultRole."<br>");
- */
+ echo ("field1: ".$f1_name." value=".$f1_value." condition: ".$config['LDAP_CHECK_FIELD1_VALUE']." role=".$config['LDAP_CHECK_FIELD1_ROLE']." level=".$config['LDAP_CHECK_FIELD1_USERLEVEL']."<br>");
+ echo ("field2: ".$item['CONEX_LDAP_CHECK_FIELD2_NAME']." value=".$f2_value." condition: ".$config['LDAP_CHECK_FIELD2_VALUE']." role=".$config['LDAP_CHECK_FIELD2_ROLE']." level=".$config['LDAP_CHECK_FIELD2_USERLEVEL']."<br>");
+ echo ("user: ".$_SESSION['OCS']["loggeduser"]." will have level=".$defaultLevel." and role=".$defaultRole."<br>");
+*/
 //if defaultRole is define
 if (isset($defaultRole) && $defaultRole != '') {
     // if it doesn't exist, create the user record
@@ -202,7 +193,7 @@ if (isset($defaultRole) && $defaultRole != '') {
             $res = mysql2_query_secure($sql, $link_ocs, $arg);
             while ($row = mysqli_fetch_object($res)) {
                 // Check for wildcard
-                if (strpos($row->tag, '*') !== false || strpos($row->tag,'?') !== false) {
+                if (str_contains($row->tag, '*') || str_contains($row->tag,'?')) {
                     $wildcard = true;
                     $row->tag = str_replace("*", "%", $row->tag);
                     $row->tag = str_replace("?", "_", $row->tag);
@@ -230,4 +221,3 @@ if (isset($defaultRole) && $defaultRole != '') {
 } else {
     $ERROR = $l->g(1278);
 }
-?>

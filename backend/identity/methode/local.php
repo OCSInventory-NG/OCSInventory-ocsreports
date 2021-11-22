@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -28,19 +29,16 @@
  * si une erreur est rencontrée, on retourne un code erreur
  *
  */
-
 require_once ('require/function_files.php');
 //nom de la page
 $name = "local.php";
 connexion_local_read();
 mysqli_select_db($link_ocs, $db_ocs);
-
 //recherche du niveau de droit de l'utilisateur
 $reqOp = "SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
 $argOp = array($_SESSION['OCS']["loggeduser"]);
 $resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
 $rowOp = mysqli_fetch_object($resOp);
-
 if (isset($rowOp->accesslvl)) {
     $lvluser = $rowOp->accesslvl;
 
@@ -63,7 +61,7 @@ if (isset($rowOp->accesslvl)) {
         $res = mysql2_query_secure($sql, $link_ocs, $arg);
         while ($row = mysqli_fetch_object($res)) {
             // Check for wildcard
-            if (strpos($row->tag, '*') !== false || strpos($row->tag,'?') !== false) {
+            if (str_contains($row->tag, '*') || str_contains($row->tag,'?')) {
                 $wildcard = true;
                 $row->tag = str_replace("*", "%", $row->tag);
                 $row->tag = str_replace("?", "_", $row->tag);
@@ -88,4 +86,3 @@ if (isset($rowOp->accesslvl)) {
 } else {
     $ERROR = $l->g(894);
 }
-?>
