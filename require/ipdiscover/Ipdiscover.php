@@ -28,7 +28,7 @@
 class Ipdiscover
 {
 
-	public $IPDISCOVER_TAG = null;
+	public $IPDISCOVER_TAG;
 
 	function __construct() {
 		$champs = array('IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK');
@@ -50,7 +50,7 @@ class Ipdiscover
 	}
 
 	public function find_info_subnet($netid, $tag = null) {
-		if(strpos($netid,";") !== false) {
+		if(str_contains($netid,";")) {
 			$explode = explode(";", $netid);
 			$netid = $explode[0];
 			$tag = $explode[1];
@@ -59,11 +59,10 @@ class Ipdiscover
 		$sql = "SELECT NETID, NAME, ID, MASK, TAG FROM subnet WHERE CONCAT(NETID,IFNULL(TAG, '')) = '%s'";
 		$arg = array($netid.$tag);
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		$row = mysqli_fetch_object($res);
-		return $row;
+		return mysqli_fetch_object($res);
 	}
 
-	public function form_add_subnet($title = '', $default_value, $form, $is_tag_linked) {
+	public function form_add_subnet($default_value, $form, $is_tag_linked, $title = '') {
 		global $l, $pages_refs;
 	
 		if($is_tag_linked){
@@ -189,8 +188,7 @@ class Ipdiscover
 			$arg[] = $update;
 		}
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		$row = mysqli_fetch_object($res);
-		return $row;
+		return mysqli_fetch_object($res);
 	}
 
 	public function add_type($name, $update = '') {
@@ -238,7 +236,7 @@ class Ipdiscover
 		}
 	}
 
-	public function form_add_community($title = '', $default_value, $form) {
+	public function form_add_community($default_value, $form, $title = '') {
 		global $l, $protectedPost;
 		$name_field = array("NAME", "VERSION");
 		$tab_name = array($l->g(49) . ": ", $l->g(1199) . ": ");
@@ -317,11 +315,10 @@ class Ipdiscover
 		$sql = "select * from snmp_communities where id=%s";
 		$arg = $id;
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		$row = mysqli_fetch_object($res);
-		return $row;
+		return mysqli_fetch_object($res);
 	}
 
-	public function runCommand($command = "", $fname) {
+	public function runCommand($fname, $command = "") {
 		$command = "perl ipdiscover-util.pl $command -xml -h=" . SERVER_READ . " -P=" . SERVER_PORT . " -u=" . COMPTE_BASE . " -p=" . PSWD_BASE . " -d=" . DB_NAME . " -path=" . $fname;
 		exec($command);
 	}
