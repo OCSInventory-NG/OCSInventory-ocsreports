@@ -25,17 +25,12 @@
  * Holds the config for a profile
  */
 class Profile {
-    private $name;
-    private $label;
     private $restrictions;
     private $config;
     private $blacklist;
     private $pages;
 
-    public function __construct($name, $label) {
-        $this->name = $name;
-        $this->label = $label;
-
+    public function __construct(private $name, private $label) {
         $this->restrictions = array();
         $this->config = array();
         $this->blacklist = array();
