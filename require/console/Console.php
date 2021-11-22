@@ -44,13 +44,13 @@
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
           
           while($item = mysqli_fetch_array($result)) {
-            if(strpos($item['USERAGENT'], 'unix') !== false) {
+            if(str_contains($item['USERAGENT'], 'unix')) {
               $machine['unix'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
-            } elseif(strpos(strtoupper($item['USERAGENT']), 'WINDOWS') !== false) {
+            } elseif(str_contains(strtoupper($item['USERAGENT']), 'WINDOWS')) {
               $machine['windows'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
-            } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
+            } elseif(str_contains($item['USERAGENT'], 'Android')) {
               $machine['android'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
             }
@@ -65,13 +65,13 @@
         $sql .= " GROUP BY h.USERAGENT";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         while($item = mysqli_fetch_array($result)){
-          if(strpos($item['USERAGENT'], 'unix') !== false) {
+          if(str_contains($item['USERAGENT'], 'unix')) {
             $machine['unix'] = $machine['unix'] + intval($item['nb']);
             $machine['all'] = $machine['all'] + intval($item['nb']);
-          } elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false) {
+          } elseif(str_contains($item['USERAGENT'], 'WINDOWS')) {
             $machine['windows'] = $machine['windows'] + intval($item['nb']);
             $machine['all'] = $machine['all'] + intval($item['nb']);
-          } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
+          } elseif(str_contains($item['USERAGENT'], 'Android')) {
             $machine['android'] = $machine['android'] + intval($item['nb']);
             $machine['all'] = $machine['all'] + intval($item['nb']);
           }else{
@@ -176,10 +176,8 @@
                       <td style="border-right: 1px solid #ddd;"><span>' . $softs. '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(20).'</span></td>                   
                     </tr>';
       }
-        
-       $table .= "</table></div>\n";
 
-       return $table;
+       return $table . "</table></div>\n";
    }
 
    /**
@@ -224,7 +222,7 @@
               }
             }
           }else{
-            foreach($cat as $key => $value){
+            foreach($cat as $value){
               $html .= "<tr class='soft-table'><td class='soft-table-td'>".$value."</td><td style='width: 50%;  text-align: center;'>0</td></tr>";
             }
           }
