@@ -430,13 +430,13 @@ if ($protectedPost['onglet'] == 1) {
         } else {
             $defaultTable = null;
         }
-    
+
         // association with OCS fields is achieved with 2 fields hardware>NAME or bios>SSN
         $tabs_available = array('hardware - machine name', 'bios - serial number');
         // display form for OCS field selection
         echo open_form('csv_assoc', '', '', '');
         ?>
-    
+
             <div class="col-sm-10">
             <?php echo msg_info($l->g(9609)); ?>
                 <div class="form-group">
@@ -457,15 +457,15 @@ if ($protectedPost['onglet'] == 1) {
                         </select>
                     </div>
                     <div class='col-sm-10'>
-    
+
                         <br><br><input type='submit' name='valid_ocs_field' id='valid_ocs_field' class='btn btn-success' value='<?php echo $l->g(1264) ?>.'><br><br>
                     </div>
                 </div>
             </div>
-                
-    
+
+
         <?php echo close_form();
-    
+
     // 4th - links between CSV fields and OCS fields
     } elseif (isset($protectedPost['valid_ocs_field']) && isset($protectedPost['csv_field'])) {
         $csvObj = new CSV();
@@ -473,7 +473,7 @@ if ($protectedPost['onglet'] == 1) {
         $header = $csvObj->readCSVHeader();
         // delete csv field of reconciliation from header > cant link it with any other field
         unset($header[$protectedPost['csv_field']]);
-        
+
         // get ocs fields from accountinfo_config
         $req = "SELECT ID, NAME from accountinfo_config WHERE account_type = 'computers'";
         $ocs_fields = mysql2_query_secure($req, $_SESSION['OCS']["readServer"]);
@@ -495,7 +495,7 @@ if ($protectedPost['onglet'] == 1) {
         echo '              <tr>';
         echo '                  <td style="width: 40%; text-align:center;">'.$column.'</td>';
         echo '                  <td><select style="width: 100%;" class="form-control" type="text" name="link_'.$key.'">';
-                                foreach($ocs_fields as $id => $ocs_field) {
+                                foreach($ocs_fields as $ocs_field) {
                                 echo '<option value="'.$ocs_field['ID'].'">'.$ocs_field['NAME'].'</option>';
                                 }
         echo '                  </td>';
@@ -509,8 +509,8 @@ if ($protectedPost['onglet'] == 1) {
         echo "  <input type='hidden' name ='csv_field' id='csv_field' value=".$protectedPost['csv_field'].">
                 <input type='hidden' name ='column_select' id='column_select' value=".$protectedPost['column_select'].">
             </div>";
-       
-        
+
+
 
 
     // 5th - results
@@ -521,7 +521,7 @@ if ($protectedPost['onglet'] == 1) {
 
         // get array of links
         foreach ($protectedPost as $key => $value) {
-            if (strpos($key, 'link_') === 0) {
+            if (str_starts_with($key, 'link_')) {
                 $links[$key] = $value;
             }
         }
@@ -604,7 +604,7 @@ if ($protectedPost['onglet'] == 1) {
             $error = "CSV line $key : ".$l->g($error);
             msg_error($error);
         }
-        
+
     // 1st - import csv
     } else {
         // Open new form for csv file
