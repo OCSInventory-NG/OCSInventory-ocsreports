@@ -25,14 +25,8 @@
  * Renders the main menu
  */
 class MainMenuRenderer extends MenuRenderer {
-    private $profile;
-    private $urls;
-
-    public function __construct($profile, $urls) {
+    public function __construct(private $profile, private $urls) {
         parent::__construct();
-
-        $this->profile = $profile;
-        $this->urls = $urls;
     }
 
     protected function canSeeElem(MenuElem $menu_elem) {

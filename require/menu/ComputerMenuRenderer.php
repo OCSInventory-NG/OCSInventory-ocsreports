@@ -25,14 +25,8 @@
  * Renders the computer menu
  */
 class ComputerMenuRenderer extends MenuRenderer {
-    private $computer_id;
-    private $urls;
-
-    public function __construct($computer_id, $urls) {
+    public function __construct(private $computer_id, private $urls) {
         parent::__construct();
-
-        $this->computer_id = $computer_id;
-        $this->urls = $urls;
     }
 
 	public function getUrl(MenuElem $menu_elem) {
