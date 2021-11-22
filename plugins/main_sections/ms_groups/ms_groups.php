@@ -32,7 +32,7 @@ if (AJAX) {
 require_once('require/function_groups.php');
 require_once('require/function_computers.php');
 //ADD new static group
-if ($protectedPost['Valid_modif']) {
+if (isset($protectedPost['Valid_modif'])) {
     $result = creat_group($protectedPost['NAME'], $protectedPost['DESCR'], '', '', 'STATIC');
     if ($result['RESULT'] == "ERROR") {
         msg_error($result['LBL']);
@@ -43,7 +43,7 @@ if ($protectedPost['Valid_modif']) {
     $tab_options['CACHE'] = 'RESET';
 }
 //reset add static group
-if ($protectedPost['Reset_modif'] || ($protectedPost['onglet'] != $protectedPost['old_onglet'])) {
+if (isset($protectedPost['Reset_modif']) || (isset($protectedPost['onglet']) && isset($protectedPost['old_onglet']) && ($protectedPost['onglet'] != $protectedPost['old_onglet'] ))) {
     unset($protectedPost['add_static_group']);
 }
 $tab_options = $protectedPost;
@@ -63,7 +63,7 @@ if (!AJAX) {
     }
 }
 //if delete group
-if ($protectedPost['SUP_PROF'] != "") {
+if (!empty($protectedPost['SUP_PROF'])) {
     $result = delete_group($protectedPost['SUP_PROF']);
     if ($result['RESULT'] == "ERROR") {
         msg_error($result['LBL']);
@@ -79,7 +79,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
 	$def_onglets['DYNA']=$l->g(810); //Dynamic group
 	$def_onglets['STAT']=$l->g(809); //Static group centraux
-	if ($protectedPost['onglet'] == "")
+	if (empty($protectedPost['onglet']))
 	$protectedPost['onglet']="STAT";	
 	//show onglet
 	show_tabs($def_onglets,$form_name,"onglet",true);
@@ -192,8 +192,8 @@ if (isset($protectedPost['add_static_group']) && $_SESSION['OCS']['profile']->ge
     <div class="row rowMarginTop30">
         <div class="col-md-12">
             <?php
-            formGroup('text', 'NAME', $l->g(577), '20', '', $protectedPost['NAME']);
-            formGroup('text', 'DESCR', $l->g(53), '', '', $protectedPost['DESCR']);
+            formGroup('text', 'NAME', $l->g(577), '20', '', $protectedPost['NAME'] ?? '');
+            formGroup('text', 'DESCR', $l->g(53), '', '', $protectedPost['DESCR'] ?? '');
             ?>
         </div>
     </div>
