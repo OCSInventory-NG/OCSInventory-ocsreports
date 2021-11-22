@@ -36,7 +36,7 @@ class CommandLine
         $result_cmd = preg_split("/\r\n|\n|\r/", $result_cmd);
         $result_cmd = str_replace('"', "", $result_cmd);
 
-        foreach ($result_cmd as $label => $oid) {
+        foreach ($result_cmd as $oid) {
             $split = preg_split('/\t/', $oid, null, PREG_SPLIT_NO_EMPTY);
             if($split[0] != "") {
                 $oids[$split[0]] = $split[1]; 
