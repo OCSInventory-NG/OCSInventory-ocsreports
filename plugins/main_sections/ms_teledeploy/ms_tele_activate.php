@@ -55,7 +55,7 @@ $tab_options = $protectedPost;
 $data_on['AVAILABLE_PACKET'] = $l->g(2123);
 $data_on['DELETED_PACKET'] = $l->g(2124);
 
-if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
+if (isset($protectedPost['onglet']) && isset($protectedPost['old_onglet']) && ($protectedPost['onglet'] != $protectedPost['old_onglet'])) {
     unset($protectedPost['MODIF']);
 }
 
@@ -96,7 +96,7 @@ if (is_defined($protectedPost['Valid_modif'])) {
 }
 
 if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
-    if ($protectedPost['choix_activ'] == "MAN") {
+    if (isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] == "MAN") {
         activ_pack($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV']);
     }
     echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
@@ -109,12 +109,12 @@ echo '<div class="col col-md-10" >';
 if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     //only for profils who can activate packet
     if (!$cant_active) {
-        if ($protectedPost["SUP_PROF"] != "") {
+        if (!empty($protectedPost["SUP_PROF"])) {
             del_pack($protectedPost["SUP_PROF"]);
             $tab_options['CACHE'] = 'RESET';
         }
         //delete more than one packet
-        if ($protectedPost['del_check'] != '') {
+        if (!empty($protectedPost['del_check'])) {
             foreach (explode(",", $protectedPost['del_check']) as $key) {
                 del_pack($key);
                 $tab_options['CACHE'] = 'RESET';
@@ -122,7 +122,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         }
     }
 
-    if (!$protectedPost['SHOW_SELECT']) {
+    if (!isset($protectedPost['SHOW_SELECT'])) {
         $protectedPost['SHOW_SELECT'] = 'download';
         $tab_options['SHOW_SELECT'] = 'download';
     }
@@ -148,7 +148,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
             $config_document_root = "DOWNLOAD_REP_CREAT";
         }
         $info_document_root = look_config_default_values($config_document_root);
-        $document_root = $info_document_root["tvalue"][$config_document_root];
+        $document_root = $info_document_root["tvalue"][$config_document_root] ?? '';
         //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
         if (!isset($document_root)) {
             $document_root = VARLIB_DIR . '/download';
@@ -271,7 +271,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         'SUCC' => $l->g(572),
         'ERR_' => $l->g(344));
     $tab_options['REQUEST']['STAT'] = 'select distinct fileid AS FIRST from devices d,download_enable de where d.IVALUE=de.ID ';
-    if ($restrict_computers) {
+    if (isset($restrict_computers)) {
         $tab_options['REQUEST']['STAT'] .= 'and d.hardware_id in ';
         $temp = mysql2_prepare($tab_options['REQUEST']['STAT'], array(), $restrict_computers);
         $tab_options['ARG']['STAT'] = $temp['ARG'];
@@ -282,7 +282,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     $tab_options['REQUEST']['SHOWACTIVE'] = 'select distinct fileid AS FIRST from download_enable';
     $tab_options['FIELD']['SHOWACTIVE'] = 'FILEID';
     //on force le tri desc pour l'ordre des paquets
-    if (!$protectedPost['sens_' . $table_name]) {
+    if (!isset($protectedPost['sens_' . $table_name])) {
         $protectedPost['sens_' . $table_name] = 'DESC';
     }
 
@@ -305,7 +305,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI'] = array('NOTI', 'LIKE', 'NOTI%');
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF'] = array('NO_NOTIF', 'IS NULL');
 
-        if ($restrict_computers) {
+        if (isset($restrict_computers)) {
             $sql_data_fixe .= " and d.hardware_id in ";
             $sql_data_fixe_bis .= " and d.hardware_id in ";
             $sql_data_fixe_ter .= " and d.hardware_id in ";
@@ -314,7 +314,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
             $temp_ter = mysql2_prepare($sql_data_fixe_ter, array(), $restrict_computers);
         }
         foreach ($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key => $value) {
-            if ($restrict_computers) {
+            if (isset($restrict_computers)) {
                 if ($key != 'NO_NOTIF' && $key != 'ERR_') {
                     $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL'] . " group by FILEID";

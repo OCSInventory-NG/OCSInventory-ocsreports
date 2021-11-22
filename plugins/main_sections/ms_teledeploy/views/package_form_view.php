@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -20,7 +21,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
 function show_package_form($data, $errors) {
     global $l;
 
@@ -59,7 +59,6 @@ function show_package_form($data, $errors) {
 
     echo close_form();
 }
-
 function show_file_upload_frame($timestamp, $data, $errors) {
     global $l;
 
@@ -114,7 +113,6 @@ function show_file_upload_frame($timestamp, $data, $errors) {
 
     echo '</div>';
 }
-
 function show_basic_info_frame($data, $errors) {
     global $l;
 
@@ -140,20 +138,12 @@ function show_basic_info_frame($data, $errors) {
         ),
     ));
 
-    switch ($data['ACTION']) {
-        case 'EXECUTE':
-            $action_input_label = $l->g(444);
-            break;
-        case 'STORE':
-            $action_input_label = $l->g(445);
-            break;
-        case 'LAUNCH':
-            $action_input_label = $l->g(446);
-            break;
-        default:
-            $action_input_label = '';
-            break;
-    }
+    $action_input_label = match ($data['ACTION']) {
+        'EXECUTE' => $l->g(444),
+        'STORE' => $l->g(445),
+        'LAUNCH' => $l->g(446),
+        default => '',
+    };
     show_form_field($data, $errors, 'input', 'ACTION_INPUT', $action_input_label);
 
     echo '<span style="display: none" class="action-input-EXECUTE">' . $l->g(444) . ' :</span>';
@@ -162,7 +152,6 @@ function show_basic_info_frame($data, $errors) {
 
     echo '</div>';
 }
-
 function show_deploy_speed_frame($data, $errors) {
     global $l;
 
@@ -196,8 +185,6 @@ function show_deploy_speed_frame($data, $errors) {
 
     echo '</div>';
 }
-
-
 function show_user_messages_frame($data, $errors) {
     global $l;
 
@@ -258,5 +245,3 @@ function show_user_messages_frame($data, $errors) {
     echo '</div>';
     echo '</div>';
 }
-
-?>
