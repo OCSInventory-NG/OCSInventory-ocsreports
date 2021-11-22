@@ -36,7 +36,6 @@ if (!isset($protectedPost['SHOW'])) {
 }
 $table_name = "sd_powersupplies";
 $tab_options = $protectedPost;
-$tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 $list_fields = array($l->g(64) => 'MANUFACTURER',
