@@ -42,6 +42,101 @@ if ($_SESSION['OCS']['mesmachines']) {
 
 printEnTete($l->g(199));
 
+	// sort an array by key
+	function groupBy($key, $data) {
+		$result = array();
+		foreach ($data as $val) {
+			if (array_key_exists($key, $val)) {
+				$result[$val[$key]][] = $val;
+			} else {
+				$result[""][] = $val;
+			}
+		}
+		return $result;
+	}
+
+// merge selected duplicates
+if ($protectedPost['FUSION']) {
+	// if duplicates selection is coming from checkbox "all"
+	if (isset($protectedPost['selected_grp_dupli'])) {
+		foreach ($protectedPost['selected_grp_dupli'] as $dpl) {
+			// oh boy
+			$dpl = json_decode(html_entity_decode($dpl), true);
+			$selectedDuplis[] = $dpl;    
+			$dup_grp = groupBy($criteria, $dpl);
+			foreach ($dup_grp as $grp) { 
+				if (count($grp) >= 2) {
+					$afus = array();
+					$i = 0;
+					foreach ($grp as $dupl) {
+						$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $dupl['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+						$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
+						$i++;
+					}
+
+					// if $afus is defined, there is something to merge
+					if (isset($afus)) {
+						msg_success("MERGE SUCCESS");
+						fusionne($afus);
+					} 
+				}
+			}
+		}
+	} 
+
+	if (isset($protectedPost['selected_dupli']) && count($protectedPost['selected_dupli']) >= 2) {
+		// need to reconstruct array from jsons
+		foreach ($protectedPost['selected_dupli'] as $dpl) {
+			$dpl = json_decode(html_entity_decode($dpl), true);
+			$selectedDuplis[] = $dpl;
+		}
+
+		// grouping the reconstructed array by criteria to merge duplicates coherently
+		$groupedDuplis = groupBy($criteria, $selectedDuplis);
+
+		// iterate through each group of duplicates
+		foreach ($groupedDuplis as $correspDuplis) {
+			// there must be a least 2 duplis in each group to merge
+			if (count($correspDuplis) >= 2) {
+				$afus = array();
+				$i = 0;
+				foreach ($correspDuplis as $dupl) {
+					$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $correspDuplis[$i]['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+					$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
+					$i++;
+				}
+
+				if (isset($afus)) {
+					msg_success("MERGE SUCCESS");
+					fusionne($afus);
+				} 
+			} 
+		}  
+	}
+
+	if (isset($protectedPost['selected_dupli']) && count($protectedPost['selected_dupli']) < 2) {
+		echo "<script>alert('" . $l->g(922) . "');</script>";
+	}
+} 
+
+
+// merge all duplicates
+if ($protectedPost['FUSION_ALL']) {
+	// $grpDuplis as already been grouped by criteria and contains all duplicates
+	foreach ($grpDuplis as $dup) {
+		$afus = array();
+		foreach ($dup as $d) {
+			$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $d['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+			$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);    
+		}
+
+		if (isset($afus)) {
+			msg_success("MERGE SUCCESS");
+			fusionne($afus);
+		}
+	}    
+}
+
 /* * **********************  hostname double ************************************** */
 $sql_doublon['hostname'] = "SELECT NAME val FROM hardware ";
 $arg_doublon['hostname'] = array();
@@ -314,18 +409,6 @@ if ($protectedPost['detail'] != '') {
 	$sql['SQL'] .= " GROUP BY h.id".$groupby;
 
 	// BEGIN MODIF DUPLICATES
-	// sort an array by key
-	function groupBy($key, $data) {
-		$result = array();
-		foreach ($data as $val) {
-			if (array_key_exists($key, $val)) {
-				$result[$val[$key]][] = $val;
-			} else {
-				$result[""][] = $val;
-			}
-		}
-		return $result;
-	}
 
 	$duplicates = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
 	$duplicates = mysqli_fetch_all($duplicates, MYSQLI_ASSOC);
@@ -397,87 +480,6 @@ if ($protectedPost['detail'] != '') {
 }
 
 echo close_form();
-
-// merge selected duplicates
-if ($protectedPost['FUSION']) {
-	// if duplicates selection is coming from checkbox "all"
-	if (isset($protectedPost['selected_grp_dupli'])) {
-		foreach ($protectedPost['selected_grp_dupli'] as $dpl) {
-			// oh boy
-			$dpl = json_decode(html_entity_decode($dpl), true);
-			$selectedDuplis[] = $dpl;    
-			$dup_grp = groupBy($criteria, $dpl);
-			foreach ($dup_grp as $grp) { 
-				if (count($grp) >= 2) {
-					$afus = array();
-					$i = 0;
-					foreach ($grp as $dupl) {
-						$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $dupl['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-						$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
-						$i++;
-					}
-
-					// if $afus is defined, there is something to merge
-					if (isset($afus)) {
-						echo "MERGE SUCCESS";
-						fusionne($afus);
-					} 
-				}
-			}
-		}
-	} 
-
-	if (isset($protectedPost['selected_dupli']) && count($protectedPost['selected_dupli']) >= 2) {
-		// need to reconstruct array from jsons
-		foreach ($protectedPost['selected_dupli'] as $dpl) {
-			$dpl = json_decode(html_entity_decode($dpl), true);
-			$selectedDuplis[] = $dpl;
-		}
-
-		// grouping the reconstructed array by criteria to merge duplicates coherently
-		$groupedDuplis = groupBy($criteria, $selectedDuplis);
-
-		// iterate through each group of duplicates
-		foreach ($groupedDuplis as $correspDuplis) {
-			// there must be a least 2 duplis in each group to merge
-			if (count($correspDuplis) >= 2) {
-				$afus = array();
-				$i = 0;
-				foreach ($correspDuplis as $dupl) {
-					$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $correspDuplis[$i]['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-					$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
-					$i++;
-				}
-
-				if (isset($afus)) {
-					echo "MERGE SUCCESS";
-					fusionne($afus);
-				} 
-			} 
-		}  
-	}
-
-	if (isset($protectedPost['selected_dupli']) && count($protectedPost['selected_dupli']) < 2) {
-		echo "<script>alert('" . $l->g(922) . "');</script>";
-	}
-} 
-
-
-// merge all duplicates
-if ($protectedPost['FUSION_ALL']) {
-	// $grpDuplis as already been grouped by criteria and contains all duplicates
-	foreach ($grpDuplis as $dup) {
-		$afus = array();
-		foreach ($dup as $d) {
-			$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $d['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
-			$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);    
-		}
-
-		if (isset($afus)) {
-			fusionne($afus);
-		}
-	}    
-}
 
 // END MODIF DUPLICATES
 if (AJAX) {

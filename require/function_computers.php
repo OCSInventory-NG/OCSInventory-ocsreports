@@ -269,7 +269,7 @@ function fusionne($afus) {
             $i = 0;
             foreach ($afus as $a) {
                 if ($i != $maxInd) {
-                    deleteDid($a["id"], false, false, false);
+                    deleteDid($a["id"], false, false, true);
                     $lesDel .= $a["deviceid"] . "/";
                 }
                 $i++;
