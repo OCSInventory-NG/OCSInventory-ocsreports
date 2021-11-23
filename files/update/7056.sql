@@ -22,3 +22,7 @@ ALTER TABLE `extensions` ADD PRIMARY KEY (`id`);
 ALTER TABLE `subnet` 
 ADD COLUMN `PK` int NOT NULL AUTO_INCREMENT FIRST, 
 ADD PRIMARY KEY (`PK`);
+
+-- engine_persistent
+ALTER TABLE `engine_persistent` ADD PRIMARY KEY (`ID`), 
+DROP KEY `ID`;

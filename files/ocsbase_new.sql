@@ -1012,7 +1012,7 @@ CREATE TABLE `engine_persistent` (
   `IVALUE` int DEFAULT NULL,
   `TVALUE` varchar(255) DEFAULT NULL,
   UNIQUE KEY `NAME` (`NAME`),
-  KEY `ID` (`ID`)
+  PRIMARY KEY `ID` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
