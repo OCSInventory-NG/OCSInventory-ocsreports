@@ -86,14 +86,14 @@ function search_on_loginnt($login) {
     $_SESSION['OCS']['details']['mail'] = $info[0]['mail'][0];
     $_SESSION['OCS']['details']['title'] = $info[0]['title'][0];
 
-    if (strtolower($f1_name) == "memberof") {    
+    if (strtolower($f1_name) == "memberof" || strtolower($f1_name) == "groupmembership") {    
         $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)];
     } else {
         $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)][0];
     }
     
 
-    if (strtolower($f2_name) == "memberof") {
+    if (strtolower($f2_name) == "memberof" || strtolower($f2_name) == "groupmembership") {
         $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)];
     } else {
         $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)][0];
