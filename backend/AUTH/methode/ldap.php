@@ -43,6 +43,26 @@ while ($item = mysqli_fetch_object($res)) {
 $_SESSION['OCS']['config'] = $config;
 
 $login_successful = verif_pw_ldap($login, $mdp);
+
+if($login_successful == "BAD LOGIN OR PASSWORD") {
+    $login_successful = $l->g(180);
+}
+// Check if defaultRole is not empty
+if($login_successful == "OK") {
+    $defaultRole = $config['LDAP_CHECK_DEFAULT_ROLE'];
+
+    if (isset($_SESSION['OCS']['details']["filter1"])) {
+        $defaultRole = $config['LDAP_FILTER1_ROLE'];
+    }
+
+    if (isset($_SESSION['OCS']['details']["filter2"])) {
+        $defaultRole = $config['LDAP_FILTER2_ROLE'];
+    }
+    
+    if(trim($defaultRole) == "") {
+        $login_successful = $l->g(894);
+    }
+}
 $cnx_origine = "LDAP";
 $user_group = "LDAP";
 

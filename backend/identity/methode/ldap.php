@@ -95,7 +95,7 @@ if (isset($_SESSION['OCS']['details']["filter2"])) {
   echo ("user: ".$_SESSION['OCS']["loggeduser"]." will have level=".$defaultLevel." and role=".$defaultRole."<br>");
  */
 //if defaultRole is define
-if (isset($defaultRole) && $defaultRole != '') {
+if (isset($defaultRole) && trim($defaultRole) != '') {
     // if it doesn't exist, create the user record
     if (!mysqli_fetch_object($resOp)) {
 
