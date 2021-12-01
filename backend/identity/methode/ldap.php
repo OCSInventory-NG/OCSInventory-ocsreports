@@ -24,12 +24,10 @@
  *
  * The userlevel is defined according to conditions defined in the following configuration fields:
  *
- * - CONEX_LDAP_CHECK_FIELD1_NAME
- * - CONEX_LDAP_CHECK_FIELD1_VALUE
- * - CONEX_LDAP_CHECK_FIELD1_ROLE
- * - CONEX_LDAP_CHECK_FIELD2_NAME
- * - CONEX_LDAP_CHECK_FIELD2_VALUE
- * - CONEX_LDAP_CHECK_FIELD2_ROLE
+ * - CONEX_LDAP_FILTER1
+ * - CONEX_LDAP_FILTER1_ROLE
+ * - CONEX_LDAP_FILTER2
+ * - CONEX_LDAP_FILTER2_ROLE
  *
  * If any of these attributes are defined (and found on the LDAP query), they're used to determine the correct
  * user level and role.
@@ -39,12 +37,10 @@
  *
  * else, an error code is returned.
  *
- * CONEX_LDAP_CHECK_FIELD1_NAME="thisGuyIsAdmin"
- * CONEX_LDAP_CHECK_FIELD1_VALUE="0"
- * CONEX_LDAP_CHECK_FIELD1_ROLE="user"
- * CONEX_LDAP_CHECK_FIELD2_NAME="thisGuyIsAdmin"
- * CONEX_LDAP_CHECK_FIELD2_VALUE="1"
- * CONEX_LDAP_CHECK_FIELD2_ROLE="sadmin"
+ * CONEX_LDAP_FILTER1="thisGuyIsAdmin"
+ * CONEX_LDAP_FILTER1_ROLE="user"
+ * CONEX_LDAP_FILTER2="thisGuyIsAdmin"
+ * CONEX_LDAP_FILTER2_ROLE="sadmin"
  * In logical terms:
  * if thisGuyIsAdmin=0 then
  *    role=user
@@ -79,47 +75,16 @@ $reqOp = "SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
 $argOp = array($_SESSION['OCS']["loggeduser"]);
 $resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
 
-// defines the user level according to specific LDAP attributes
+// defines the user level according to specific LDAP filter
 // default: normal user
 $defaultRole = $config['LDAP_CHECK_DEFAULT_ROLE'];
-// Checks if the custom fields are valid
-$f1_name = $config['LDAP_CHECK_FIELD1_NAME'];
-$f2_name = $config['LDAP_CHECK_FIELD2_NAME'];
-$f1_value = $_SESSION['OCS']['details'][$f1_name];
-$f2_value = $_SESSION['OCS']['details'][$f2_name];
 
-if (!empty($f1_value)) {
-    if (strtolower($f1_name) == "memberof" || strtolower($f1_name) == "groupmembership") {
-        //the idea here is to iterate through the groups array looking for a match
-        //if we find it, unset the array and store only the match, else leave as it is
-        foreach ($f1_value as $group) {
-            if ($group == $config['LDAP_CHECK_FIELD1_VALUE']) {
-                $f1_value = array();
-                $f1_value = $group;
-            }
-        }
-    }
-    //the if below is now redundant since we already know that we have a match
-    //the coding can be improved, but the logic works.
-    //END NEW CODE
-    if ($f1_value == $config['LDAP_CHECK_FIELD1_VALUE']) {
-        $defaultRole = $config['LDAP_CHECK_FIELD1_ROLE'];
-    }
+if (isset($_SESSION['OCS']['details']["filter1"])) {
+    $defaultRole = $config['LDAP_FILTER1_ROLE'];
 }
 
-if (!empty($f2_value)) {
-    if (strtolower($f2_name) == "memberof" || strtolower($f2_name) == "groupmembership") {
-        foreach ($f2_value as $group) {
-            if ($group == $config['LDAP_CHECK_FIELD2_VALUE']) {
-                $f2_value = array();
-                $f2_value = $group;
-            }
-        }
-    }
-    //END NEW CODE
-    if ($f2_value == $config['LDAP_CHECK_FIELD2_VALUE']) {
-        $defaultRole = $config['LDAP_CHECK_FIELD2_ROLE'];
-    }
+if (isset($_SESSION['OCS']['details']["filter2"])) {
+    $defaultRole = $config['LDAP_FILTER2_ROLE'];
 }
 
 // uncomment this section for DEBUG

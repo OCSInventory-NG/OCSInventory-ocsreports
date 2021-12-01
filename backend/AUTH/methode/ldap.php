@@ -56,28 +56,51 @@ function verif_pw_ldap($login, $pw) {
 }
 
 function search_on_loginnt($login) {
-    $f1_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD1_NAME'];
-    $f2_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD2_NAME'];
+    $filter1 = $_SESSION['OCS']['config']['LDAP_FILTER1'];
+    $filter2 = $_SESSION['OCS']['config']['LDAP_FILTER2'];
 
     // default attributes for query
     $attributs = array("dn", "cn", "givenname", "sn", "mail", "title", "memberof");
 
-    // search for the custom user level attributes if they're defined
-    if ($f1_name != '') {
-        array_push($attributs, strtolower($f1_name));
+    // If filter1 is set
+    if(trim($filter1) != "" && $filter1 != null) {
+        $filter1 = str_replace("&amp;", "&", $filter1);
+        $ds = ldap_connection();
+        $filtre = "(".$filter1."(".LOGIN_FIELD."={$login}))";
+        $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
+        $lce = ldap_count_entries($ds, $sr);
+        $info = ldap_get_entries($ds, $sr);
+        ldap_close($ds);
+        $info["nbResultats"] = $lce;
+        if($info["nbResultats"] == 1) {
+            $_SESSION['OCS']['details']["filter1"] = true;
+        }
+    } 
+    // If filter2 is set and result of filter1 is false
+    if(trim($filter2) != "" && $filter2 != null && isset($info["nbResultats"]) && $info["nbResultats"] != 1) {
+        $filter2 = str_replace("&amp;", "&", $filter2);
+        $ds = ldap_connection();
+        $filtre = "(".$filter2."(".LOGIN_FIELD."={$login}))";
+        $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
+        $lce = ldap_count_entries($ds, $sr);
+        $info = ldap_get_entries($ds, $sr);
+        ldap_close($ds);
+        $info["nbResultats"] = $lce;
+        if($info["nbResultats"] == 1) {
+            $_SESSION['OCS']['details']["filter2"] = true;
+        }
+    } 
+    
+    // Default login ldap
+    if((trim($filter1) == "" && $filter1 == null && trim($filter2) == "" && $filter2 == null) || (isset($info["nbResultats"]) && $info["nbResultats"] != 1)) {
+        $ds = ldap_connection();
+        $filtre = "(".LOGIN_FIELD."={$login})";
+        $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
+        $lce = ldap_count_entries($ds, $sr);
+        $info = ldap_get_entries($ds, $sr);
+        ldap_close($ds);
+        $info["nbResultats"] = $lce;
     }
-
-    if ($f2_name != '') {
-        array_push($attributs, strtolower($f2_name));
-    }
-
-    $ds = ldap_connection();
-    $filtre = "(" . LOGIN_FIELD . "={$login})";
-    $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
-    $lce = ldap_count_entries($ds, $sr);
-    $info = ldap_get_entries($ds, $sr);
-    ldap_close($ds);
-    $info["nbResultats"] = $lce;
 
     // save user fields in session
     $_SESSION['OCS']['details']['givenname'] = $info[0]['givenname'][0];
@@ -85,19 +108,6 @@ function search_on_loginnt($login) {
     $_SESSION['OCS']['details']['cn'] = $info[0]['cn'][0];
     $_SESSION['OCS']['details']['mail'] = $info[0]['mail'][0];
     $_SESSION['OCS']['details']['title'] = $info[0]['title'][0];
-
-    if (strtolower($f1_name) == "memberof" || strtolower($f1_name) == "groupmembership") {    
-        $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)];
-    } else {
-        $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)][0];
-    }
-    
-
-    if (strtolower($f2_name) == "memberof" || strtolower($f2_name) == "groupmembership") {
-        $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)];
-    } else {
-        $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)][0];
-    }
     
     return $info;
 }
