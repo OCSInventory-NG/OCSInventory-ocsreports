@@ -779,7 +779,7 @@
 891 Remove interface LOCK
 892 connect with another account
 893 NO TAG ASSIGNED TO YOUR PROFILE
-894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
+894 No rights level defined to your profile, please contact your administrator
 895 TAG Modification
 898 Add an annotation
 899 Writer

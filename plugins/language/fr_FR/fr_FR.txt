@@ -780,7 +780,7 @@
 891 DEVERROUILLER l'interface
 892 se connecter avec un autre compte
 893 PAS DE TAG AFFECTE A VOTRE PROFIL
-894 PAS DE NIVEAU DE DROITS DEFINI POUR VOTRE PROFIL
+894 Aucun niveau de droits n'a été défini pour votre profil, merci de contacter votre administrateur
 895 Modification d'un TAG
 898 Ajouter une annotation
 899 Rédacteur
