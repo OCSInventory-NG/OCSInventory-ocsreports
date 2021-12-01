@@ -995,12 +995,12 @@
 1108 Configuration LDAP
 1109 Filtrer
 1110 L'affectation d'un paquet dépend du statut de la demande
-1111 Nom du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1111 Premier filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1112 Valeur du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1113 Si le premier attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
-1114 Nom du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1113 Si l'utilisateur est trouvé avec le premier filtre, réglez ce profil d'utilisateur automatiquement
+1114 Dexuième filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1115 Valeur du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1116 Si le second attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
+1116 Si l'utilisateur est trouvé avec le second filtre, réglez ce profil d'utilisateur automatiquement
 1117 E-mail
 1118 Editer
 1119 Sélectionner

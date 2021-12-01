@@ -994,12 +994,12 @@
 1108 LDAP configuration
 1109 Filter
 1110 The assignment of a package depends on the status of the request
-1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1111 First LDAP filter that will be used for evaluating the security level of a LDAP user (blank for none)
 1112 Value of the first  attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1113 If the first attribute is found and the value matches, set this user role automatically
-1114 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1113 If the user is found with the first filter, set this user role automatically
+1114 Second LDAP filter that will be used for evaluating the security level of a LDAP user (blank for none)
 1115 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1116 If the second attribute is found and the value matches, set this user role automatically
+1116 If the user is found with the second filter, set this user role automatically
 1117 E-mail
 1118 Edit
 1119 Select
