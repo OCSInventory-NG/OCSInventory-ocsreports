@@ -478,7 +478,7 @@ class OCSSnmp
 				if($config[$key]['label'] != null && $config[$key]['oid'] != null) {
 					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation']);
 
-					if(!$result) {
+					if($result != 0) {
 						return false;
 					}
 				}
