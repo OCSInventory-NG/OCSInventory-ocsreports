@@ -361,14 +361,12 @@ class Cve
           }
         }
       }
-
       $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$software["VERSION_MODIF"];
       $vuln_conf_all = null;
 
       if($this->CVE_ALL == 1) {
         $vuln_conf_all = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":*:*:";
       }
-      
       if($software["NAME"] == "jre" && preg_match("/Update/", $software["REAL_NAME"])){
         $jre = explode(" ", $software["REAL_NAME"]);
         foreach($jre as $keys => $word){
@@ -411,7 +409,7 @@ class Cve
     $result = null;
 
     if($result_verif->num_rows == 0) {
-      $sql = 'INSERT INTO cve_search VALUES(%s, %s, %s, %s, "%s", "%s")';
+      $sql = 'INSERT INTO cve_search (PUBLISHER_ID, NAME_ID, VERSION_ID, CVSS, CVE, LINK) VALUES(%s, %s, %s, %s, "%s", "%s")';
       $arg_sql = array($this->cve_history['PUBLISHER_ID'], $this->cve_history['NAME_ID'], $this->cve_history['VERSION_ID'], $cvss, $id, $reference);
       $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
     }
