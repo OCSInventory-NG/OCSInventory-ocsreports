@@ -60,13 +60,14 @@ echo '<div class="col col-md-10">';
 if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO") {
     require_once('require/wol/WakeOnLan.php');
     $wol = new Wol();
-    $sql = "select MACADDR,IPADDRESS from networks WHERE (hardware_id=%s) and status='Up'";
+    $sql = "select MACADDR,IPADDRESS,IPMASK from networks WHERE (hardware_id=%s) and status='Up'";
     $arg = array($item->ID);
     $resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $msg = "";
 
     while ($wol_item = mysqli_fetch_object($resultDetails)) {
-        $wol->look_config_wol($wol_item->IPADDRESS, $wol_item->MACADDR);
+        $broadcast = long2ip(ip2long($wol_item->IPADDRESS) | ~ip2long($wol_item->IPMASK));
+        $wol->look_config_wol($broadcast, $wol_item->MACADDR);
 
         if ($wol->wol_send == $l->g(1282)) {
             msg_info($wol->wol_send . "=>" . $wol_item->MACADDR . "/" . $wol_item->IPADDRESS);
