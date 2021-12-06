@@ -473,8 +473,7 @@
                       global $l;
                       $this->queryArgs[] = $l->g(269);
                     } else {
-                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE %s.%s %s '%s')$close ";
-                      $this->queryArgs[] = $nameTable;
+                      $this->columnsQueryConditions .= "$operator[$p] $open(%s.%s %s '%s')$close ";
                       $this->queryArgs[] = $nameTable;
                       $this->queryArgs[] = $value[self::SESS_FIELDS];
                       $this->queryArgs[] = $value[self::SESS_OPERATOR];

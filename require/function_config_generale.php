@@ -271,9 +271,9 @@ function verif_champ() {
         'CUSTOM_THEME' => array('FIELD_READ' => 'CUSTOME_THEME_edit', 'END' => "", 'FILE' => "", 'TYPE' =>'r'));
 
     foreach ($file_exist as $key => $value) {
-        if (isset($protectedPost[$key]) && $protectedPost[$key] == 'CUSTOM') {
+        if (isset($protectedPost[$key]) && ($protectedPost[$key] == 'CUSTOM') || preg_match('/^(\/+\w{0,}){0,}/', $protectedPost[$key]) == true) {
             //Try to find a file
-            if ($value['FILE'] != '') {
+            if ($value['FILE'] != '' ) {
                 if ($protectedPost[$value['FIELD_READ']] != '' and ! @fopen($protectedPost[$value['FIELD_READ']] . $value['END'] . $value['FILE'], $value['TYPE'])) {
                     $tab_error[$key] = array('FILE_NOT_EXIST' => $protectedPost[$value['FIELD_READ']] . $value['END'] . $value['FILE']);
                 }

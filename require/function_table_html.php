@@ -1563,27 +1563,31 @@ function ajaxsort(&$tab_options) {
 		foreach ($tab_options['order'] as $index => $v ) {
 			// get column name
 			$name = $tab_options['columns'][$tab_options['order'][$index]['column']]['name'];
+			// sanitize column name (keep only "xxxx.yyyy", "xxyy" or "xxxx as yyyy" format)
+			if (preg_match('/([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|^[A-Za-z0-9_-]+$)/', $name, $cleanname) || preg_match('/(?<!\([^()])(?![^()]*\))(?<=\bas\s)(\w+)/i', $name, $cleanname)) {
+				$cleanname = $cleanname[0];
+			}
 
 			if (!empty($tab_options["replace_query_arg"][$name])) {
-				$name = $tab_options["replace_query_arg"][$name];
+				$cleanname = $tab_options["replace_query_arg"][$name];
 			}
 			// field name is IP format alike
-			if (in_array(mb_strtoupper($name),$tab_iplike)) {
-				$tri .= " INET_ATON(".$name.") ".$v['dir'].", ";
-			} else if(isset($tab_options['TRI']['DATE'][$name]) && $tab_options['TRI']['DATE'][$name]) {
+			if (in_array(mb_strtoupper($cleanname),$tab_iplike)) {
+				$tri .= " INET_ATON(".$cleanname.") ".$v['dir'].", ";
+			} else if($tab_options['TRI']['DATE'][$cleanname]) {
 				if(isset($tab_options['ARG_SQL'])) {
 					$tri .= " STR_TO_DATE(%s,'%s') %s";
-					$tab_options['ARG_SQL'][] = $name;
-					$tab_options['ARG_SQL'][] = $tab_options['TRI']['DATE'][$name];
+					$tab_options['ARG_SQL'][] = $cleanname;
+					$tab_options['ARG_SQL'][] = $tab_options['TRI']['DATE'][$cleanname];
 					$tab_options['ARG_SQL'][] = $v['dir'];
 				} else {
-					$tri .= " STR_TO_DATE(".$name.",'".$tab_options['TRI']['DATE'][$name]."') ".$v['dir'];
+					$tri .= " STR_TO_DATE(".$cleanname.",'".$tab_options['TRI']['DATE'][$cleanname]."') ".$v['dir'];
 				}
 			} else {
-				if ( !str_contains($name,".") ) {
-					$tri .= "".$name." ".$v['dir'].", ";
+				if ( strpos($cleanname,".") === false ) {
+					$tri .= "".$cleanname." ".$v['dir'].", ";
 				} else {
-					$tri .= $name . " ".$v['dir'].", ";
+					$tri .= $cleanname . " ".$v['dir'].", ";
 				}
 			}
 		}

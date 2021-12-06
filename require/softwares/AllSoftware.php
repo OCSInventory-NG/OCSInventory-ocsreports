@@ -113,6 +113,7 @@ class AllSoftware
      /**
       * Search for softwares w/ hardware_ids that are no longer registered
       * in hardware table and delete them from software table
+      * + clean related tables if necessary
       */
     public function software_cleanup() {
         $sql = "SELECT software.HARDWARE_ID FROM `software` 
@@ -130,7 +131,29 @@ class AllSoftware
             $arg_del = implode(",", $unlinked_hids);
             $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);
         }
-        
+
+        // clean entries in software_name/vers/publi tables 
+        // which are no longer linked to any software entry
+        $target_tables = array('software_name' => 'NAME_ID', 'software_version' => 'VERSION_ID', 'software_publisher' => 'PUBLISHER_ID');
+        foreach ($target_tables as $table => $field) {
+            $sql = "SELECT $table.ID FROM `$table` 
+                LEFT JOIN `software` ON $table.ID = software.$field 
+                WHERE software.$field IS NULL GROUP BY $table.ID";
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']['readServer']);
+            $i = 0;
+            $unlinked_ids = array();
+            while ($ids = mysqli_fetch_array($result)) {
+                $unlinked_ids[$i] = $ids['ID'];
+                $i++;
+            }
+
+            if ($unlinked_ids >= 1) {
+                $sql_del = "DELETE FROM $table WHERE ID IN (%s)";
+                $arg_del = implode(",", $unlinked_ids);
+                $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);
+            }
+
+        }
     }
 
 }

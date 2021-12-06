@@ -347,7 +347,7 @@ function html_header($noJavascript = false) {
         $value_theme = look_config_default_values('CUSTOM_THEME');
         
     }
-    if(is_null($value_theme)) {
+    if (is_null($value_theme)) {
         $value_theme['tvalue']['CUSTOM_THEME'] = DEFAULT_THEME;
     }
 

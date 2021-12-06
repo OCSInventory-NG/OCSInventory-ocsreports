@@ -202,19 +202,40 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     }
 
     $list_fields = array($l->g(475) => 'FILEID',
-        $l->g(593) => 'CAST(from_unixtime(FILEID) AS DATETIME)',
+        $l->g(593) => 'CREADATE',
         'SHOWACTIVE' => 'NAME',
         $l->g(440) => 'PRIORITY',
         $l->g(464) => 'FRAGMENTS',
-        $l->g(462) . " KB" => 'round(SIZE/1024,2)',
+        $l->g(462) . " KB" => 'WEIGHT',
         $l->g(25) => 'OSNAME',
         $l->g(53) => 'COMMENT');
-    $tab_options['REPLACE_COLUMN_KEY'][$l->g(593)] = 'CREADATE';
-    $tab_options['REPLACE_COLUMN_KEY'][$l->g(462) . " KB"] = 'WEIGHT';
+
     // Prevents searching in these 3 columns
     $tab_options['NO_SEARCH']['NOTI'] = 'NOTI';
     $tab_options['NO_SEARCH']['SUCC'] = 'SUCC';
     $tab_options['NO_SEARCH']['ERR_'] = 'ERR_';
+
+    $table_name = "LIST_PACK";
+    $default_fields = array('Timestamp' => 'Timestamp',
+        $l->g(593) => $l->g(593),
+        'SHOWACTIVE' => 'SHOWACTIVE',
+        'CHECK' => 'CHECK', 'NOTI' => 'NOTI', 'SUCC' => 'SUCC',
+        'ERR_' => 'ERR_', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP');
+    $list_col_cant_del = array('SHOWACTIVE' => 'SHOWACTIVE', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'CHECK' => 'CHECK');
+    $querypack = 'SELECT ';
+    foreach ($list_fields as $key => $value) {
+        if ($key != 'Creation date' && $key != 'Total size KB') {
+            $querypack .= $value . ',';
+        }
+        if ($key == 'Creation date') {
+            $querypack .= ' CAST(from_unixtime(FILEID) AS DATETIME) as ' . $value . ',';
+        }
+        if ($key == 'Total size KB') {
+            $querypack .= ' round(SIZE/1024,2) as ' . $value . ',';
+        }
+    }
+    $querypack = substr($querypack, 0, -1);
+
     if ($show_stats) {
         $list_fields['NO_NOTIF'] = 'NO_NOTIF';
         $list_fields['NOTI'] = 'NOTI';
@@ -236,31 +257,19 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     }
     $list_fields['STAT'] = 'FILEID';
 
-    $table_name = "LIST_PACK";
-    $default_fields = array('Timestamp' => 'Timestamp',
-        $l->g(593) => $l->g(593),
-        'SHOWACTIVE' => 'SHOWACTIVE',
-        'CHECK' => 'CHECK', 'NOTI' => 'NOTI', 'SUCC' => 'SUCC',
-        'ERR_' => 'ERR_', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP');
-    $list_col_cant_del = array('SHOWACTIVE' => 'SHOWACTIVE', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'CHECK' => 'CHECK');
-    $querypack = prepare_sql_tab($list_fields, array('SELECT', 'ZIP', 'STAT', 'ACTIVE', 'SUP', 'CHECK', 'NO_NOTIF', 'NOTI', 'SUCC', 'ERR_'));
-
-    $querypack['SQL'] .= " from download_available ";
+    $querypack .= " from download_available ";
     if ($protectedPost['SHOW_SELECT'] == 'download') {
-        $querypack['SQL'] .= " where (comment not like '%s' or comment is null or comment = '')";
+        $querypack .= " where (comment not like '[PACK REDISTRIBUTION%' or comment is null or comment = '')";
     } else {
-        $querypack['SQL'] .= " where comment like '%s'";
+        $querypack .= " where comment like '[PACK REDISTRIBUTION%'";
     }
-    $querypack['SQL'] .= " and DELETED = 0";
-    array_push($querypack['ARG'], "[PACK REDISTRIBUTION%");
+
+    $querypack .= " and DELETED = 0";
     $arg_count = array("[PACK REDISTRIBUTION%");
     if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES") {
-        $querypack['SQL'] .= " and comment not like '%s'";
-        array_push($querypack['ARG'], "%[VISIBLE=0]%");
-        array_push($arg_count, "%[VISIBLE=0]%");
+        $querypack .= " and comment not like '%[VISIBLE=0]%'";
     }
 
-    $tab_options['ARG_SQL'] = $querypack['ARG'];
     $tab_options['ARG_SQL_COUNT'] = $arg_count;
     $tab_options['LBL'] = array('ZIP' => "Archives",
         'STAT' => $l->g(574),
@@ -394,7 +403,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
 
-    $querypack['SQL'] = "SELECT * FROM download_available WHERE DELETED = 1";
+    $querypack = "SELECT * FROM download_available WHERE DELETED = 1";
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
 
@@ -403,6 +412,6 @@ echo "</div>";
 
 if (AJAX) {
     ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $querypack['SQL'], $tab_options);
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $querypack, $tab_options);
 }
 ?>
