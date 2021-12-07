@@ -162,9 +162,9 @@ function show_computer_summary($computer) {
                     $nb_val = count($data_RZ);
                 }
 
-                if ($nb_val == 1) {
+                if (isset($nb_val) && $nb_val == 1) {
                     $data[$key] = $data_RZ[0];
-                } elseif (isset($data_RZ)) {
+                } elseif (isset($data_RZ) && is_array($data_RZ)) {
                     foreach ($data_RZ as $index => $value) {
                         $data[$key] .= $index . " => " . $value . "<br>";
                     }
@@ -219,7 +219,7 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
         echo '<h5>' . mb_strtoupper($cat_labels[$cat_key]) . '</h5>';
 
         foreach ($cat as $name => $label) {
-            $value = $data[$name];
+            $value = isset($data[$name])? $data[$name] : '';
 
             if (trim($value) != '') {
                 if (!array_key_exists($name, $links)) {

@@ -147,7 +147,7 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
                 echo '<div class="plugin-name-' . $plugin->getId() . '">';
             }
         }
-        if(file_exists($file_extension)){
+        if(isset($file_extension) && file_exists($file_extension)){
             require $file_extension;
         }else{
             require $plugin_file;
