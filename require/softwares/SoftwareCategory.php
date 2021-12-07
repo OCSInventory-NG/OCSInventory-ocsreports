@@ -146,7 +146,7 @@ class SoftwareCategory
           while ($computer = mysqli_fetch_array($result)) {
               $nb[$value][] = $computer['NAME'];
           }
-          if($nb[$value] != null){
+          if(isset($nb[$value])){
             $nb_computer[$value] = count($nb[$value]);
           }
         }
