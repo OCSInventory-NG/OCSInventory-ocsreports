@@ -157,7 +157,7 @@ class ExtensionHook{
      * @return array : Values
      */
     public function getCdEntryByCategory($catName){
-        return $this->computerDetailExtensionsHooks[$catName];
+        return $this->computerDetailExtensionsHooks[$catName] ?? '';
     }
 
     /**
