@@ -95,7 +95,7 @@ function subnet_name($systemid) {
 
         $returnVal[] = $valSub->NAME . "  (" . $valSub->NETID . ")";
     }
-    return $returnVal;
+    return $returnVal ?? '';
 }
 
 function print_item_header($text) {
@@ -251,7 +251,7 @@ function checkForComputerPackagesAction(){
     }
 
     //affect again a packet
-    if ($protectedPost['Valid_modif']) {
+    if (isset($protectedPost['Valid_modif'])) {
         if (trim($protectedPost['MOTIF'])) {
             if ($protectedPost["ACTION"] == "again") {
                 //delete all info of specific teledeploy
@@ -274,11 +274,11 @@ function checkForComputerPackagesAction(){
         }
     }
 
-    if ($protectedPost['Reset_modif']) {
+    if (isset($protectedPost['Reset_modif'])) {
         unset($protectedGet['affect_again'], $protectedGet['affect_reset']);
     }
 
-    if ($protectedGet['affect_again'] || $protectedGet['affect_reset']) {
+    if (isset($protectedGet['affect_again']) && ($protectedGet['affect_again']) || (isset($protectedGet['affect_reset']) && $protectedGet['affect_reset'])) {
         if ($protectedGet['affect_again']) {
             $id_pack_affect = $protectedGet['affect_again'];
             $hidden_action = 'again';

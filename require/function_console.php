@@ -23,7 +23,7 @@
 
 $data_limit = find_limit_values();
 require_once('require/function_ipdiscover.php');
-if ($_SESSION['OCS']["TAGS"]) {
+if (isset($_SESSION['OCS']["TAGS"])) {
     $sql_tag = mysql2_prepare('select id from hardware h, accountinfo a where a.hardware_id=h.id and a.tag in ', array(), $_SESSION['OCS']["TAGS"]);
     $result = mysql2_query_secure($sql_tag['SQL'], $_SESSION['OCS']["readServer"], $sql_tag['ARG']);
     while ($val = mysqli_fetch_object($result)) {

@@ -480,9 +480,11 @@ function formGroup($inputType, $inputName, $name, $size, $maxlength, $inputValue
 
 	if($inputType == "select"){
 		echo "<select name='".$inputName."' id='".$inputName."' class='form-control ".$class."' ".$attrBalise.">";
-		foreach ($optionsSelect as $option => $value){
-			echo "<option value='".$option."' ".($inputValue == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
-		}
+		if(is_array($optionsSelect)) {
+            foreach ($optionsSelect as $option => $value){
+                echo "<option value='".$option."' ".($inputValue == $option ? 'selected' : '').">".($arrayDisplayValues[$option] ? $arrayDisplayValues[$option] : $option)."</option>";
+            }
+        }
 		echo "</select>";
 	} else {
         if($inputType == "checkbox") {

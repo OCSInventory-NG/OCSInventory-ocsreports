@@ -1574,7 +1574,7 @@ function ajaxsort(&$tab_options) {
 			// field name is IP format alike
 			if (in_array(mb_strtoupper($cleanname),$tab_iplike)) {
 				$tri .= " INET_ATON(".$cleanname.") ".$v['dir'].", ";
-			} else if($tab_options['TRI']['DATE'][$cleanname]) {
+			} else if(isset($tab_options['TRI']['DATE'][$cleanname])) {
 				if(isset($tab_options['ARG_SQL'])) {
 					$tri .= " STR_TO_DATE(%s,'%s') %s";
 					$tab_options['ARG_SQL'][] = $cleanname;

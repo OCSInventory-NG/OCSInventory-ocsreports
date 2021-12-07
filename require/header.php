@@ -379,7 +379,9 @@ if (!AJAX and ( !isset($header_html) || $header_html != 'NO') && !isset($protect
     require_once (HEADER_HTML);
 }
 
-$url_name = $urls->getUrlName($protectedGet[PAG_INDEX]);
+if (isset($protectedGet[PAG_INDEX])) {
+    $url_name = $urls->getUrlName($protectedGet[PAG_INDEX]);
+}
 
 //VERIF ACCESS TO THIS PAGE
 if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!$_SESSION['OCS']['TRUE_PAGES'] || !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES']))
@@ -396,7 +398,7 @@ if ((!isset($_SESSION['OCS']["loggeduser"]) || !is_defined($_SESSION['OCS']["lvl
     die();
 }
 
-if ($url_name) {
+if (isset($url_name)) {
     //CSRF security
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $csrf = true;
