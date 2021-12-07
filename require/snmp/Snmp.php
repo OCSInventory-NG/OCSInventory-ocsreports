@@ -450,7 +450,7 @@ class OCSSnmp
 			$mib_name[$mib] = $mib;
 		}
 
-		return $mib_name;
+		return $mib_name ?? '';
 	}
 
 	public function sort_mib($post) {
