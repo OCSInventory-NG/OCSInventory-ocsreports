@@ -34,16 +34,18 @@ print_item_header($l->g(273));
 if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
 }
-if ($protectedPost['OTHER_BIS'] != '') {
+if (isset($protectedPost['OTHER_BIS'])) {
     $sql = "INSERT INTO blacklist_serials (SERIAL) value ('%s')";
     $arg = array($protectedPost['OTHER_BIS']);
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 }
-if ($protectedPost['OTHER'] != '') {
+if (isset($protectedPost['OTHER'])) {
     $sql = "DELETE FROM blacklist_serials WHERE SERIAL='%s'";
     $arg = array($protectedPost['OTHER']);
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 }
+
+$form_name = 'cd_bios';
 echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = array($l->g(36) => 'SSN',
     $l->g(64) => 'SMANUFACTURER',
@@ -62,9 +64,9 @@ $arg = array($systemid);
 $resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 $item = mysqli_fetch_object($resultDetails);
 $sql = "select ID from blacklist_serials where SERIAL='%s'";
-$arg = array($item->SSN);
+$arg = array($item->SSN) ?? '';
 $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-if ($_SESSION['OCS']['ADMIN_BLACKLIST']['SERIAL'] == 'YES') {
+if (isset($_SESSION['OCS']['ADMIN_BLACKLIST']['SERIAL']) && $_SESSION['OCS']['ADMIN_BLACKLIST']['SERIAL'] == 'YES') {
     if (mysqli_num_rows($result) == 1) {
         $tab_options['OTHER'][$l->g(36)][$item->SSN] = $item->SSN;
         $tab_options['OTHER']['IMG'] = 'image/red.png';
@@ -73,7 +75,7 @@ if ($_SESSION['OCS']['ADMIN_BLACKLIST']['SERIAL'] == 'YES') {
         $tab_options['OTHER_BIS']['IMG'] = 'image/green.png';
     }
 }
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del[$l->g(36)] = $l->g(36);

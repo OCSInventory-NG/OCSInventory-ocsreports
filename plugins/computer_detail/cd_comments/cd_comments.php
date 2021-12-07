@@ -42,7 +42,7 @@ $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 
 //delete a list of notes
-if ($protectedPost['del_check'] != '') {
+if (isset($protectedPost['del_check'])) {
     $arg_sql = array();
     $sql = "update itmgmt_comments set visible=0 where id in ";
     $sql = mysql2_prepare($sql, $arg_sql, $protectedPost['del_check']);
@@ -85,7 +85,7 @@ if (is_defined($protectedPost['Valid_modif'])) {
         $tab_options['CACHE'] = 'RESET';
     }
 }
-if ($protectedPost['ADD_NOTE']) {
+if (isset($protectedPost['ADD_NOTE'])) {
     unset($tab_name, $tab_typ_champ);
     $tab_name[1] = $l->g(1126) . ": ";
     $tab_name[2] = $l->g(1127) . ": ";
@@ -105,7 +105,7 @@ $list_fields = array( $l->g(1126) => 'DATE_INSERT',
     $l->g(51) => 'COMMENTS',
     $l->g(443) => 'ACTION');
 
-if (!$show_all_column) {
+if (!isset($show_all_column)) {
     // modif management
     $list_fields['MODIF'] = 'ID';
     
@@ -119,7 +119,7 @@ $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-if (!$show_all_column) {
+if (!isset($show_all_column)) {
     echo "<p><input type='submit' name='ADD_NOTE' id='ADD_NOTE' value='" . $l->g(898) . "' class='btn'></p>";
     del_selection($form_name);
 }

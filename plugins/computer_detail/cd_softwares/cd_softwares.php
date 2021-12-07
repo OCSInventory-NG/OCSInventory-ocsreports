@@ -96,7 +96,7 @@ if($protectedPost['onglet_soft'] != 0){
 
 $list_fields[$l->g(277)] = 'VERSION';
 $list_fields[$l->g(51)] = 'COMMENTS';
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));

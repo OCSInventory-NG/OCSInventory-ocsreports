@@ -40,7 +40,7 @@ $list_fields = array($l->g(49) => 'NAME',
     $l->g(65) => 'MODEL',
     $l->g(53) => 'DESCRIPTION',
     $l->g(66) => 'TYPE');
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del = array($l->g(49) => $l->g(49), $l->g(66) => $l->g(66));

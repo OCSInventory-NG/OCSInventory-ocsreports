@@ -42,7 +42,7 @@ if (!is_array($info_account_id)) {
 
     $list_tab = find_all_account_tab('TAB_ACCOUNTAG', 'COMPUTERS', 1);
     if ($list_tab != '') {
-        if ($protectedPost['Valid_modif'] != "" && $protectedPost['NOTE'] == "" && $protectedPost['NOTE_MODIF'] == "") {
+        if (isset($protectedPost['Valid_modif']) && $protectedPost['NOTE'] == "" && $protectedPost['NOTE_MODIF'] == "") {
             if (!is_defined($protectedPost['onglet']) || !is_numeric($protectedPost['onglet'])) {
                 $protectedPost['onglet'] = $list_tab['FIRST'];
             }
@@ -97,7 +97,7 @@ if (!is_array($info_account_id)) {
         unset($list_tab['FIRST']);
 
         echo open_form($form_name, '', '', 'form-horizontal');
-        if (!$show_all_column) {
+        if (!isset($show_all_column)) {
             onglet($list_tab, $form_name, "onglet", 6);
             $sql_admin_info = "select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER,DEFAULT_VALUE from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
 								order by SHOW_ORDER ASC";
@@ -107,7 +107,7 @@ if (!is_array($info_account_id)) {
 								order by SHOW_ORDER ASC";
             $arg_admin_info = array('COMPUTERS');
         }
-        if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && !$show_all_column) {
+        if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && !isset($show_all_column)) {
             $show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
             if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO'])) {
                 $show_admin_button .= "<span class='glyphicon glyphicon-ok'></span></a>";
@@ -230,7 +230,7 @@ if (!is_array($info_account_id)) {
                 array_push($config['SIZE'], 'width=80 height=80');
             } else {
                 array_push($value_field, $info_account_id[$name_accountinfo]);
-                if ($admin_accountinfo) {
+                if (isset($admin_accountinfo)) {
                     array_push($config['COMMENT_AFTER'], $up_png);
                 } else {
                     array_push($config['COMMENT_AFTER'], "");
@@ -270,7 +270,7 @@ if (!is_array($info_account_id)) {
         if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES') {
             $tab_hidden = array('ADMIN' => '', 'UP' => '', 'DOWN' => '');
         }
-        if ($show_all_column || $admin_accountinfo) {
+        if (isset($show_all_column) || isset($admin_accountinfo)) {
             $showbutton = false;
         } else {
             $showbutton = true;

@@ -31,7 +31,7 @@ if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
 }
 $tab_options = $protectedPost;
-if ($protectedPost['OTHER_BIS'] != '') {
+if (isset($protectedPost['OTHER_BIS'])) {
     //verify @mac
     if (preg_match('/([0-9A-F]{2}:){5}[0-9A-F]{2}$/i', $protectedPost['OTHER_BIS'])) {
         $sql = "INSERT INTO blacklist_macaddresses (macaddress) value ('%s')";
@@ -40,7 +40,7 @@ if ($protectedPost['OTHER_BIS'] != '') {
         $tab_options['CACHE'] = 'RESET';
     }
 }
-if ($protectedPost['OTHER'] != '') {
+if (isset($protectedPost['OTHER'])) {
     //verify @mac
     if (preg_match('/([0-9A-F]{2}:){5}[0-9A-F]{2}$/i', $protectedPost['OTHER'])) {
         $sql = "DELETE FROM blacklist_macaddresses WHERE macaddress='%s'";
@@ -65,7 +65,7 @@ $list_fields = array($l->g(53) => 'DESCRIPTION',
     $l->g(207) => 'IPGATEWAY',
     $l->g(331) => 'IPSUBNET',
     $l->g(281) => 'IPDHCP');
-if ($_SESSION['OCS']['ADMIN_BLACKLIST']['MACADD'] == "YES") {
+if (isset($_SESSION['OCS']['ADMIN_BLACKLIST']['MACADD']) && $_SESSION['OCS']['ADMIN_BLACKLIST']['MACADD'] == "YES") {
     $sql = "select MACADDR from networks WHERE (hardware_id=%s)";
     $arg = $systemid;
     $resultDetails = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
@@ -82,7 +82,7 @@ if ($_SESSION['OCS']['ADMIN_BLACKLIST']['MACADD'] == "YES") {
         }
     }
 }
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del[$l->g(34)] = $l->g(34);

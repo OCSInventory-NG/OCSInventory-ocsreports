@@ -42,7 +42,7 @@ $list_fields = array($l->g(64) => 'MANUFACTURER',
     $l->g(80) => 'CAPTION',
     $l->g(53) => 'DESCRIPTION',
     $l->g(277) => 'VERSION');
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del[$l->g(66)] = $l->g(66);
