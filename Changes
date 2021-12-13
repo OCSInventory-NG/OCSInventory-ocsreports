@@ -1,4 +1,25 @@
 Revision history for ocsreports
+2.9.2
+		* Add archive button on computer details page
+		* Add local import
+		* Add default type on SNMP
+		* Add default deployment protocol on configuration
+		* Add HARDWARE_ID field in netmap table
+		* Add missing primary keys
+		* Add cleanup of software related tables
+		* Improve SNMP feature (add multiple conditions)
+		* Improve SNMP v3
+		* Improve LDAP filter configuration
+		* Update software tables ID to BIGINT
+		* Fix ipdiscover not displaying data from server scans
+		* Fix check SSL configuration
+		* Fix subnet table display
+		* Fix custom theme
+		* Fix duplicates count after merging
+		* Fix inserting SNMP configuration with mib file
+		* Fix security issues
+		* Fix LDAP connection if default profil is empty
+
 2.9.1
 		* Add CVE by computer crontab
 		* Add CVE in computer details
@@ -25,7 +46,6 @@ Revision history for ocsreports
 		* Fix special chars for LDAP password
 		* Remove redistribution from deployment
 		* Remove useless file ms_tele_package.php
-
 
 2.9
 		* Rework deployment feature
