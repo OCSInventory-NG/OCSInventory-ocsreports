@@ -367,11 +367,11 @@ function update_default_value($POST) {
         'OCS_FILES_FORMAT', 'OCS_FILES_PATH',
         'CONEX_LDAP_SERVEUR', 'CONEX_LDAP_PORT', 'CONEX_DN_BASE_LDAP',
         'CONEX_LOGIN_FIELD', 'CONEX_LDAP_PROTOCOL_VERSION', 'CONEX_ROOT_DN',
-        'CONEX_ROOT_PW', 'CONEX_LDAP_CHECK_FIELD1_NAME', 'CONEX_LDAP_CHECK_FIELD1_VALUE',
+        'CONEX_ROOT_PW', 'CONEX_LDAP_FILTER1',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE',
-        'CONEX_LDAP_CHECK_FIELD1_ROLE',
-        'CONEX_LDAP_CHECK_FIELD2_NAME', 'CONEX_LDAP_CHECK_FIELD2_VALUE',
-        'CONEX_LDAP_CHECK_FIELD2_ROLE',
+        'CONEX_LDAP_FILTER1_ROLE',
+        'CONEX_LDAP_FILTER2',
+        'CONEX_LDAP_FILTER2_ROLE',
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
@@ -919,12 +919,10 @@ function pageConnexion() {
         'CONEX_LDAP_PROTOCOL_VERSION' => 'CONEX_LDAP_PROTOCOL_VERSION',
         'CONEX_ROOT_DN' => 'CONEX_ROOT_DN',
         'CONEX_ROOT_PW' => 'CONEX_ROOT_PW',
-        'CONEX_LDAP_CHECK_FIELD1_NAME' => 'CONEX_LDAP_CHECK_FIELD1_NAME',
-        'CONEX_LDAP_CHECK_FIELD1_VALUE' => 'CONEX_LDAP_CHECK_FIELD1_VALUE',
-        'CONEX_LDAP_CHECK_FIELD1_ROLE' => 'CONEX_LDAP_CHECK_FIELD1_ROLE',
-        'CONEX_LDAP_CHECK_FIELD2_NAME' => 'CONEX_LDAP_CHECK_FIELD2_NAME',
-        'CONEX_LDAP_CHECK_FIELD2_VALUE' => 'CONEX_LDAP_CHECK_FIELD2_VALUE',
-        'CONEX_LDAP_CHECK_FIELD2_ROLE' => 'CONEX_LDAP_CHECK_FIELD2_ROLE',
+        'CONEX_LDAP_FILTER1' => 'CONEX_LDAP_FILTER1',
+        'CONEX_LDAP_FILTER1_ROLE' => 'CONEX_LDAP_FILTER1_ROLE',
+        'CONEX_LDAP_FILTER2' => 'CONEX_LDAP_FILTER2',
+        'CONEX_LDAP_FILTER2_ROLE' => 'CONEX_LDAP_FILTER2_ROLE',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE' => 'CONEX_LDAP_CHECK_DEFAULT_ROLE');
     $values = look_config_default_values($champs);
 
@@ -939,12 +937,10 @@ function pageConnexion() {
     ligne('CONEX_DN_BASE_LDAP', $l->g(832), 'input', array('VALUE' => $values['tvalue']['CONEX_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LOGIN_FIELD', $l->g(833), 'input', array('VALUE' => $values['tvalue']['CONEX_LOGIN_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_PROTOCOL_VERSION', $l->g(834), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'], 'SIZE' => "30%", 'MAXLENGTH' => 5));
-    ligne('CONEX_LDAP_CHECK_FIELD1_NAME', $l->g(1111), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_NAME'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LDAP_CHECK_FIELD1_VALUE', $l->g(1112), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_VALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LDAP_CHECK_FIELD1_ROLE', $l->g(1113), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD1_ROLE'], 'SELECT_VALUE' => $role1));
-    ligne('CONEX_LDAP_CHECK_FIELD2_NAME', $l->g(1114), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD2_NAME'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LDAP_CHECK_FIELD2_VALUE', $l->g(1115), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD2_VALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LDAP_CHECK_FIELD2_ROLE', $l->g(1116), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_FIELD2_ROLE'], 'SELECT_VALUE' => $role1));
+    ligne('CONEX_LDAP_FILTER1', $l->g(1111), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_FILTER1'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LDAP_FILTER1_ROLE', $l->g(1113), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_FILTER1_ROLE'], 'SELECT_VALUE' => $role1));
+    ligne('CONEX_LDAP_FILTER2', $l->g(1114), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_FILTER2'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LDAP_FILTER2_ROLE', $l->g(1116), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_FILTER2_ROLE'], 'SELECT_VALUE' => $role1));
     ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'], 'SELECT_VALUE' => $default_role));
 
 }

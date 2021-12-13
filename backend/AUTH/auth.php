@@ -180,7 +180,6 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
     if ($affich_method == 'HTML') {
         require_once (HEADER_HTML);
         if (isset($protectedPost['Valid_CNX'])) {
-            $login_successful = $l->g(180);
             msg_error($login_successful);
             flush();
             //you can't send a new login/passwd before 2 seconds
