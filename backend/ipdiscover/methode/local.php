@@ -47,7 +47,7 @@ if($ipdiscover->IPDISCOVER_TAG == "1") {
 
 } else {
     $req = "SELECT DISTINCT n.netid as ipsubnet,s.name,s.id
-            FROM netmap n LEFT JOIN subnet s ON s.netid=n.netid ,accountinfo a
+            FROM netmap n LEFT JOIN subnet s ON s.netid=n.netid
 		    WHERE (s.TAG IS NULL OR s.TAG = '')";
     if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
         $req .= " and " . $_SESSION['OCS']["mesmachines"] . " order by netid";
