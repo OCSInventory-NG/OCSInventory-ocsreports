@@ -101,7 +101,7 @@ function read_configuration($ms_cfg_file, $search, $id_field = '') {
                 }
             }
         }
-        if ($line[0] == "<") {  //Getting tag type for the next launch of the loop
+        if (substr($line, 0, 1) == "<") {  //Getting tag type for the next launch of the loop
             $capture = 'OK_' . substr(substr($line, 1), 0, -1);
         }
     }

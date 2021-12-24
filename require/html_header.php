@@ -60,7 +60,7 @@ if(is_null($value_banniere)){
 
         <div class="collapse navbar-collapse" id="ocs-navbar">
             <?php
-            if ($_SESSION['OCS']['profile']) {
+            if (array_key_exists("profile", $_SESSION['OCS']) && $_SESSION['OCS']['profile']) {
                 if (!isset($protectedGet["popup"])) {
                     show_menu();
                 }
