@@ -26,7 +26,7 @@ $arg_reqOp = array($login);
 $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
 $rowOp = mysqli_fetch_object($resOp);
 $oldpassword = false;
-if ($_SESSION['OCS']['PASSWORD_VERSION'] === false || $rowOp->PASSWORD_VERSION < $_SESSION['OCS']['PASSWORD_VERSION']) {
+if (array_key_exists("PASSWORD_VERSION", $_SESSION['OCS']) && $_SESSION['OCS']['PASSWORD_VERSION'] === false || (isset($rowOp) && $rowOp->PASSWORD_VERSION < $_SESSION['OCS']['PASSWORD_VERSION'])) {
     $oldpassword = true;
 }
 

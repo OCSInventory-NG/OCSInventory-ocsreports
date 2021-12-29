@@ -85,7 +85,7 @@ if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
 
 if (isset($login) && isset($mdp)) {
     $i = 0;
-    while ($list_methode[$i]) {
+    while (array_key_exists($i, $list_methode) && $list_methode[$i]) {
         require_once('methode/' . $list_methode[$i]);
         if ($login_successful == "OK")
             break;
