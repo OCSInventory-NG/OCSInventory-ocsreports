@@ -133,7 +133,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     }
 
     //defaut user already exist on databases?
-    if($_SESSION['OCS']['defaultsql_checked'] == null){
+    if(isset($_SESSION['OCS']['defaultsql_checked']) && $_SESSION['OCS']['defaultsql_checked'] == null || !array_key_exists('defaultsql_checked', $_SESSION['OCS'])){
         try {
             // First sql check has been done
             $_SESSION['OCS']['defaultsql_checked'] = true;

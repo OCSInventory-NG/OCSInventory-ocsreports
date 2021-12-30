@@ -223,7 +223,7 @@ class StatsChartsRenderer {
                 <?php
             }
 
-          $name[$i] = $value['name'][0];
+          $name[$i] = $value['name'][0] ?? "";
           $i++;
         }
 

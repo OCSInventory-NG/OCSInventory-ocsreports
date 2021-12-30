@@ -249,7 +249,7 @@
 			$list_asset_id[$item_asset['ID']] = $item_asset['ID'];
 		}
 
-		if(is_array($list_asset_id)){
+		if(isset($list_asset_id) && is_array($list_asset_id)){
 			foreach($list_asset_id as $key => $values){
         $sql_assets = "SELECT h.ID as hardwareID FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.CATEGORY_ID = %s";
         if (is_defined($_SESSION['OCS']["mesmachines"])) {

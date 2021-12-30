@@ -50,7 +50,7 @@ $champs = array(
 );
 $values = look_config_default_values($champs);
 
-if($values['ivalue']['ACTIVE_NEWS'] == 1){
+if(isset($values) && $values['ivalue']['ACTIVE_NEWS'] == 1 ?? 0){
     $result_test = $news->test_connect();
     if($result_test == 'true'){
         $obj = $news->get_json_news();

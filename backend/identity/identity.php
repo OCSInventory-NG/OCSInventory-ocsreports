@@ -28,7 +28,7 @@ $list_methode = get_list_methode(true);
 if (!isset($_SESSION['OCS']["lvluser"])) {
     $i = 0;
     //methode pour le calcul des droits
-    while ($list_methode[$i]) {
+    while (isset($list_methode[$i]) && $list_methode[$i]) {
         require_once('methode/' . $list_methode[$i]);
         //on garde les erreurs présentes
         //entre chaque méthode

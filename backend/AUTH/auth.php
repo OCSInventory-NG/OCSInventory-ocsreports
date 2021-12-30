@@ -38,6 +38,7 @@ $auth = look_config_default_values(['SECURITY_AUTHENTICATION_BLOCK_IP', 'SECURIT
 // You don't have to change these variables anymore, see var.php
 $affich_method = get_affiche_methode();
 $list_methode = get_list_methode();
+$limitAttempt = false;
 
 if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($protectedPost['LOGIN']) != "") {
     $login = $protectedPost['LOGIN'];

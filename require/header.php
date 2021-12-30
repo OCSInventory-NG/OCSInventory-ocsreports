@@ -43,7 +43,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 }
 
 
-if ($_SESSION['OCS']['LOG_GUI'] == 1) {
+if (isset($_SESSION['OCS']['LOG_GUI']) && $_SESSION['OCS']['LOG_GUI'] == 1) {
     define("LOG_FILE", $_SESSION['OCS']['LOG_DIR'] . "log.csv");
 }
 
@@ -130,8 +130,8 @@ if (!isset($_SESSION['OCS']['LOG_GUI'])) {
     } else {
         $_SESSION['OCS']['OLD_CONF_DIR'] = VARLOG_DIR . '/logs/';
     }
-    $_SESSION['OCS']['LOG_GUI'] = $values['ivalue']['LOG_GUI'];
-    if ($_SESSION['OCS']['LOG_SCRIPT']) {
+    $_SESSION['OCS']['LOG_GUI'] = $values['ivalue']['LOG_GUI'] ?? "";
+    if (isset($_SESSION['OCS']['LOG_SCRIPT'])) {
         $_SESSION['OCS']['LOG_SCRIPT'] .= "/scripts/";
     } else {
         $_SESSION['OCS']['OLD_CONF_DIR'] = VARLOG_DIR . '/scripts/';
