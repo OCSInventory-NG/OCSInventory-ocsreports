@@ -301,7 +301,7 @@ class PackageBuilder
 			foreach ($packagedefinition as $key => $value) {
 				if (preg_match_all('/:(.*?):/', $value, $match) != 0) {
 					foreach($match[0] as $id => $replace) {
-						$xmlDetails->packagedefinition->$key = str_replace($replace, $post[$match[1][$id]], $xmlDetails->packagedefinition->$key);
+						$xmlDetails->packagedefinition->$key = str_replace($replace, str_replace('"', "'", $post[$match[1][$id]]), $xmlDetails->packagedefinition->$key);
 					}
 				}
 			}
