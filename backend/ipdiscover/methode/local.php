@@ -40,7 +40,7 @@ if($ipdiscover->IPDISCOVER_TAG == "1") {
     $req = "SELECT DISTINCT n.netid as ipsubnet, s.name, s.id, CONCAT(n.netid, ';', ifnull(s.tag, '')) as pass FROM netmap n 
             LEFT JOIN subnet s ON s.netid = n.netid";
     if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-        $req .= "	WHERE " . $_SESSION['OCS']["mesmachines"] . " ORDER BY n.netid";
+        $req .= ", accountinfo a WHERE " . $_SESSION['OCS']["mesmachines"] . " ORDER BY n.netid";
     } else {
         $req .= " UNION SELECT netid, name, id, CONCAT(netid,';',ifnull(tag,'')) FROM subnet";
     }
