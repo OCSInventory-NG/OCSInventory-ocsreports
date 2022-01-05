@@ -116,6 +116,7 @@ class SoftwareCategory
         $sql = "SELECT * FROM `software_category_exp` WHERE `CATEGORY_ID`= '%s'";
         $arg_sql = array($onglet_active);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg_sql);
+        $list = [];
 
         while ($item = mysqli_fetch_array($result)) {
             $list[] = ['ID' => $item['ID'],
