@@ -48,7 +48,7 @@ if (is_array($info_tag)) {
 }
 //END SHOW ACCOUNTINFO
 printEnTete($l->g(616) . " " . $protectedGet["id"]);
-if ($protectedPost['newtag'] != "") {
+if (isset($protectedPost['newtag']) && $protectedPost['newtag'] != "") {
     if (isset($protectedPost['use_generic_0'])) {
         if (is_array($info_value_tag)) {
             $arg = str_replace(array("*", "?"), "", $protectedPost["newtag"]);
@@ -115,7 +115,7 @@ if (is_array($info_value_tag) && !isset($protectedPost['use_generic_0'])) {
     $type = 2;
 } else {
     $type = 0;
-    $info_value_tag = $protectedPost['newtag'];
+    $info_value_tag = $protectedPost['newtag'] ?? "";
 }
 echo "<div class='row'>";
 echo "<div class='col-md-6 col-md-offset-3'>";
