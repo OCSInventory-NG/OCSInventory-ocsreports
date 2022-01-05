@@ -54,13 +54,13 @@ class Cve
     // Get configuration values from DB
     $values = look_config_default_values($champs);
 
-    $this->CVE_ACTIVE = $values['ivalue']["VULN_CVESEARCH_ENABLE"];
-    $this->CVE_SEARCH_URL = $values['tvalue']['VULN_CVESEARCH_HOST'];
-    $this->CVE_BAN = $values['tvalue']["VULN_BAN_LIST"];
-    $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"];
-    $this->CVE_ALL = $values['ivalue']["VULN_CVESEARCH_ALL"];
-    $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"];
-    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"];
+    $this->CVE_ACTIVE = $values['ivalue']["VULN_CVESEARCH_ENABLE"] ?? 0;
+    $this->CVE_SEARCH_URL = $values['tvalue']['VULN_CVESEARCH_HOST'] ?? "";
+    $this->CVE_BAN = $values['tvalue']["VULN_BAN_LIST"] ?? "";
+    $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"] ?? 0;
+    $this->CVE_ALL = $values['ivalue']["VULN_CVESEARCH_ALL"] ?? 0;
+    $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"] ?? null;
+    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"] ?? null;
 
   }
 
