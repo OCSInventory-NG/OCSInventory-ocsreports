@@ -112,7 +112,7 @@ switch ($protectedPost['onglet']) {
         $list_action[1] = $l->g(95);
         $list_action[2] = $l->g(36);
         $list_action[3] = $l->g(2005);
-        formGroup('select', 'BLACK_CHOICE', $l->g(700), '', '', $protectedPost['BLACK_CHOICE'], '', $list_action, $list_action, 'onchange="document.blacklist.submit();"');
+        formGroup('select', 'BLACK_CHOICE', $l->g(700), '', '', $protectedPost['BLACK_CHOICE'] ?? 0, '', $list_action, $list_action, 'onchange="document.blacklist.submit();"');
         if (is_defined($protectedPost['BLACK_CHOICE'])) {
 
             echo "<div class='row'>";
