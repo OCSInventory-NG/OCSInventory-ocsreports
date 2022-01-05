@@ -191,7 +191,7 @@ function show_computer_summary($computer) {
                 $argAsset = array($computer->ID);
                 $resAsset = mysql2_query_secure($sqlAsset, $_SESSION['OCS']["readServer"], $argAsset);
                 $asset = mysqli_fetch_array($resAsset);
-                $data[$key] = $asset['CATEGORY_NAME'];
+                $data[$key] = $asset['CATEGORY_NAME'] ?? "";
             }
         }
     }

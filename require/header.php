@@ -142,14 +142,14 @@ if (!isset($_SESSION['OCS']['LOG_GUI'])) {
 /* * *********************************************************CONF DIRECTORY************************************************************************ */
 if (!isset($_SESSION['OCS']['CONF_PROFILS_DIR'])) {
     $values = look_config_default_values(array('CONF_PROFILS_DIR', 'OLD_CONF_DIR'));
-    $_SESSION['OCS']['OLD_CONF_DIR'] = $values['tvalue']['OLD_CONF_DIR'];
+    $_SESSION['OCS']['OLD_CONF_DIR'] = $values['tvalue']['OLD_CONF_DIR'] ?? null;
     if ($_SESSION['OCS']['OLD_CONF_DIR']) {
         $_SESSION['OCS']['OLD_CONF_DIR'] .= '/old_conf/';
     } else {
         $_SESSION['OCS']['CONF_PROFILS_DIR'] = ETC_DIR . '/' . MAIN_SECTIONS_DIR . 'old_conf/';
     }
 
-    $_SESSION['OCS']['CONF_PROFILS_DIR'] = $values['tvalue']['CONF_PROFILS_DIR'];
+    $_SESSION['OCS']['CONF_PROFILS_DIR'] = $values['tvalue']['CONF_PROFILS_DIR'] ?? null;
     if ($_SESSION['OCS']['CONF_PROFILS_DIR']) {
         $_SESSION['OCS']['CONF_PROFILS_DIR'] .= '/conf/';
     } else {
@@ -183,7 +183,9 @@ if (!defined("SERVER_READ")) {
 
 //SECURITY
 $protectedPost = strip_tags_array($_POST);
-$protectedGet = strip_tags_array($_GET);
+if(isset($_GET)) {
+    $protectedGet = strip_tags_array($_GET);
+}
 
 @set_time_limit(0);
 

@@ -171,7 +171,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
         }
     }
 
-    if($_SESSION['OCS']['defaultsql_error'] != null){
+    if(!empty($_SESSION['OCS']['defaultsql_error'])){
         $msg_header_error[] = $l->g(2024) . ' ' . DB_NAME;
         $msg_header_error_sol[] = $l->g(2025);
     }
