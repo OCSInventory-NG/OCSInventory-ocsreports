@@ -45,9 +45,9 @@ $softCat = new SoftwareCategory();
 
 $all_soft = [0 => $l->g(765)];
 $list_cat = $softCat->onglet_cat_cd($systemid);
-$i = $list_cat['i'];
-$first_onglet = $list_cat['first_onglet'];
-$categorie_id = $list_cat['category_name'];
+$i = $list_cat['i'] ?? "";
+$first_onglet = $list_cat['first_onglet'] ?? "";
+$categorie_id = $list_cat['category_name'] ?? "";
 
 unset($list_cat['i']);
 unset($list_cat['first_onglet']);

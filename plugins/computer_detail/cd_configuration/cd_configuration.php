@@ -82,8 +82,10 @@ echo open_form($form_name, '', '', 'form-horizontal');
         }
         $reqGroups .= " order by h.name";
         $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
-        while ($valGroups = mysqli_fetch_array($resGroups)) {
-            echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+        if ($resGroups) {
+            while ($valGroups = mysqli_fetch_array($resGroups)) {
+                echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+            }
         }
         ?>
         </select>

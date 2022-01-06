@@ -242,10 +242,13 @@ class SoftwareCategory
                 WHERE NAME_ID IN (SELECT DISTINCT NAME_ID FROM software WHERE HARDWARE_ID = %s) GROUP BY CATEGORY_ID";
         $sql_arg = array($computerID);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
+        $id = [];
         while ($idCat = mysqli_fetch_array($result)) {
             $id[$idCat['CATEGORY_ID']] = $idCat['CATEGORY_ID'];
         }
         $cat = implode(',', $id);
+
+        $list_cat = [];
 
         if($id != null){
             $sql_list_cat = "SELECT `ID`, `CATEGORY_NAME`, `OS` FROM `software_categories` WHERE ID IN (%s)";
