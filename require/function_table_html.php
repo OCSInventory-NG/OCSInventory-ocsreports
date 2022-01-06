@@ -1792,7 +1792,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
  								$row[$column]=$value_of_field;
  							}
  							else {
- 								$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
+ 								$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field] ?? null;
  							}
 						}
 						if(!empty($tab_options['VALUE'][$key])){

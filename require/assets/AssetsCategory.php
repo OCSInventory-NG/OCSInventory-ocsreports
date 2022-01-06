@@ -33,6 +33,8 @@ class AssetsCategory
         $sql = "SELECT * FROM assets_categories";
         $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
 
+        $list_asset = [];
+
         while ($item_asset = mysqli_fetch_array($result)) {
             $list_asset[$item_asset['ID']]['CATEGORY_NAME'] = $item_asset['CATEGORY_NAME'];
             $list_asset[$item_asset['ID']]['SQL_QUERY'] = $item_asset['SQL_QUERY'];
@@ -43,7 +45,7 @@ class AssetsCategory
     }
 
     public function get_computer_assets($list_asset){
- 
+        $nb_computer = 0;
         foreach($list_asset as $values){
             $nb = [];
             $asset = explode(",", $values['SQL_ARGS']);

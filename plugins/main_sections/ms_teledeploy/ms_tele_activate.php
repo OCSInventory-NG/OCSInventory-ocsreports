@@ -167,7 +167,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
                     $tab_options['SHOW_ONLY']['ZIP'][$f] = $f;
                 }
             }
-            if (!$tab_options['SHOW_ONLY']['ZIP']) {
+            if (isset($tab_options['SHOW_ONLY']['ZIP']) && !$tab_options['SHOW_ONLY']['ZIP']) {
                 $tab_options['SHOW_ONLY']['ZIP'] = 'NULL';
             }
         } else {

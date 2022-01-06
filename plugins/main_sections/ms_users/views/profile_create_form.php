@@ -37,9 +37,9 @@ function show_profile_create_form() {
 		echo open_form('create-profile', '#', '', 'form-horizontal');
 		
 
-		formGroup('text', 'name', $l->g(1396), '', '', $protectedPost['name']);
-		formGroup('text', 'label', $l->g(1397), '', '', $protectedPost['label']);
-		formGroup('select', 'duplicate_profile', $l->g(1398), '', '', $protectedPost['duplicate_profile'], '', get_profile_labels(), get_profile_labels());
+		formGroup('text', 'name', $l->g(1396), '', '', $protectedPost['name'] ?? "");
+		formGroup('text', 'label', $l->g(1397), '', '', $protectedPost['label'] ?? "");
+		formGroup('select', 'duplicate_profile', $l->g(1398), '', '', $protectedPost['duplicate_profile'] ?? "admin", '', get_profile_labels(), get_profile_labels());
 
 
 	?>

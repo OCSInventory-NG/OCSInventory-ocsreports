@@ -36,7 +36,7 @@ class Ipdiscover
 		// Get configuration values from DB
 		$values = look_config_default_values($champs);
 
-		$this->IPDISCOVER_TAG = $values['ivalue']["IPDISCOVER_LINK_TAG_NETWORK"];
+		$this->IPDISCOVER_TAG = $values['ivalue']["IPDISCOVER_LINK_TAG_NETWORK"] ?? 0;
 	}
 
   	public function verif_base_methode($base) {

@@ -47,15 +47,15 @@ if (AJAX) {
         $data_on[5] = $l->g(1146);
     }
 
+    if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == "") {
+        $protectedPost['onglet'] = current($data_on);
+    }
+
     $form_name = "admins";
     $tab_options = $protectedPost;
     $tab_options['form_name'] = $form_name;
     echo open_form($form_name, '', '', 'form-horizontal');
     $table_name = "TAB_ACCESSLVL" . $protectedPost['onglet'];
-
-    if ($protectedPost['onglet'] == "") {
-        $protectedPost['onglet'] = current($data_on);
-    }
 
     //suppression d'une liste de users
     if (is_defined($protectedPost['del_check'])) {
@@ -113,7 +113,7 @@ if (AJAX) {
         $user_groups[$val_user_groups['IVALUE']] = $val_user_groups['TVALUE'];
     }
 
-    $tab_options['REPLACE_VALUE'][$l->g(607)] = $user_groups;
+    $tab_options['REPLACE_VALUE'][$l->g(607)] = $user_groups ?? null;
     $tab_options['LBL']['SUP'] = $l->g(122);
     $tab_options['LBL']['CHECK'] = $l->g(1119);
 

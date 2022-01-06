@@ -32,7 +32,7 @@ require_once(MAIN_SECTIONS_DIR . 'ms_users/lib/profile_functions.php');
 global $l;
 
 // Remove a profile ?
-if ($protectedGet['action'] == 'delete') {
+if (isset($protectedGet['action']) && $protectedGet['action'] == 'delete') {
     remove_profile($protectedGet['profile_id']);
 }
 
