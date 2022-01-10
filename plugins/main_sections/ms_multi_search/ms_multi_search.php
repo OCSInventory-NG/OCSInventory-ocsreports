@@ -268,7 +268,7 @@ $isValid = true;
 
 foreach ($_SESSION['OCS']['multi_search'] as $key => $value) {
 	foreach ($value as $k => $v) {
-		if (is_null($v['value'])) {
+		if (is_null($v['value']) && $v['operator'] != "ISNULL") {
 			$isValid = false;
 		}
 	}
