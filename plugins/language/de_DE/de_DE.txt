@@ -1599,9 +1599,17 @@
 
 9000 SNMP-Konfiguration
 
+9106 Standard Download Protokoll
+
 9010 SNMP MIBs-Verzeichnis auf dem Server
 
 9014 SNMP ist nicht konfiguriert. Lesen Sie die Dokumentation um zu erfahren wie SNMP eingerichtet wird: <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+
+9200 Paketverteilung für Computer
+9201 Paketverteilung für Auswahl
+9202 Paketverteilung für Gruppe
+9205 Aktiviere automatische Paketaktivierung
+9206 Aktiviert
 
 9300 Interaktionen
 9301 Optionen
