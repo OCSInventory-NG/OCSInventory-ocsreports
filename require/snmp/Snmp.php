@@ -211,7 +211,11 @@ class OCSSnmp
 		$tableName = $this->get_table_type_drop($typeID);
 		$labelName = $this->get_label_drop($labelID);
 		
-		$sql_alter = "ALTER TABLE `%s` ADD `%s` VARCHAR(255) NOT NULL";
+		if($reconciliation != null) {
+			$sql_alter = "ALTER TABLE `%s` ADD `%s` VARCHAR(255) NOT NULL";
+		} else {
+			$sql_alter = "ALTER TABLE `%s` ADD `%s` TEXT NOT NULL";
+		}
 		
 		$arg_alter = array($tableName, $labelName);
 		$result_alter = mysql2_query_secure($sql_alter, $_SESSION['OCS']["writeServer"], $arg_alter);
@@ -443,7 +447,7 @@ class OCSSnmp
 		$champs = array('SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
 		$values = look_config_default_values($champs);
 
-		$mib_files = glob($values['tvalue']['SNMP_MIB_DIRECTORY'].'/*.{txt,my}', GLOB_BRACE);
+		$mib_files = glob($values['tvalue']['SNMP_MIB_DIRECTORY'].'/*', GLOB_BRACE);
 		$mib_files = str_replace($values['tvalue']['SNMP_MIB_DIRECTORY']."/", "", $mib_files);
 		
 		foreach($mib_files as $mib) {
