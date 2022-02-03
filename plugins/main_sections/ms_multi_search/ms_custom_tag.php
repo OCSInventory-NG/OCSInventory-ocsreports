@@ -110,7 +110,6 @@
      //CAS ARCHIVE
      require_once('require/archive/ArchiveComputer.php');
      $archive = new ArchiveComputer();
-
      if (is_defined($protectedPost['ARCHIVER'])) {
         $result = $archive->archive($protectedGet['idchecked']);
         unset($protectedPost['ARCHIVER']);
@@ -140,9 +139,7 @@
          $def_onglets['WOL'] = $l->g(1280);
      }
 
-     if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
-        $def_onglets['ARCHIVE'] = $l->g(1556);
-     }
+    $def_onglets['ARCHIVE'] = $l->g(1556);
 
      if ($protectedPost['onglet'] == "") {
          $protectedPost['onglet'] = "TAG";
