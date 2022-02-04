@@ -198,13 +198,13 @@ $tab_options['FILTRE'] = array_flip($list_fields);
 $tab_options['FILTRE']['h.name'] = $l->g(23);
 asort($tab_options['FILTRE']);
 
-// if onglet is not all computers, display the archive/restore action + checkboxes
-if ($protectedPost['onglet'] != "ALL") {
+
+if ($protectedPost['onglet'] != "ALL" && $_SESSION['OCS']['profile']->getConfigValue('ARCHIVE_COMPUTERS') == "YES") {
     $list_fields[$icon] = 'h.ID';
     $list_fields['CHECK'] = 'h.ID';
 
 }
-// if user is allowed to delete devices, display sup action
+
 if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
     $list_fields['SUP'] = 'h.ID';
     $list_fields['CHECK'] = 'h.ID';
