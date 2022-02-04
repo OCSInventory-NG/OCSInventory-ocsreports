@@ -21,6 +21,7 @@
     <config-elem key="MANAGE_USER_GROUP">NO</config-elem>
     <config-elem key="MANAGE_SMTP_COMMUNITIES">NO</config-elem>
     <config-elem key="DELETE_COMPUTERS">NO</config-elem>
+    <config-elem key="ARCHIVE_COMPUTERS">NO</config-elem>
   </config>
   <blacklist/>
   <pages>
