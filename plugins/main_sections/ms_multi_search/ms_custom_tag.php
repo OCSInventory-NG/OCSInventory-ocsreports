@@ -139,7 +139,9 @@
          $def_onglets['WOL'] = $l->g(1280);
      }
 
-    $def_onglets['ARCHIVE'] = $l->g(1556);
+     if ($_SESSION['OCS']['profile']->getConfigValue('ARCHIVE_COMPUTERS') == "YES") {
+        $def_onglets['ARCHIVE'] = $l->g(1556);
+     }
 
      if ($protectedPost['onglet'] == "") {
          $protectedPost['onglet'] = "TAG";
