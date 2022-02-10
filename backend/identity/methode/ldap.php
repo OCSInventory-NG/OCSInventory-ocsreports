@@ -79,12 +79,8 @@ $resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
 // default: normal user
 $defaultRole = $config['LDAP_CHECK_DEFAULT_ROLE'];
 
-if (isset($_SESSION['OCS']['details']["filter1"])) {
-    $defaultRole = $config['LDAP_FILTER1_ROLE'];
-}
-
-if (isset($_SESSION['OCS']['details']["filter2"])) {
-    $defaultRole = $config['LDAP_FILTER2_ROLE'];
+if (isset($_SESSION['OCS']['details']["filter"])) {
+    $defaultRole = $config[$_SESSION['OCS']['details']["filter"]];
 }
 
 // uncomment this section for DEBUG
