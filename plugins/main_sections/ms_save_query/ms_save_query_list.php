@@ -92,7 +92,7 @@ $list_col_cant_del = $list_fields;
 $queryDetails = "SELECT ID, QUERY_NAME, DESCRIPTION, WHO_CAN_SEE, ID AS id FROM save_query WHERE WHO_CAN_SEE = 'ALL' OR USER_ID = '".$_SESSION['OCS']['loggeduser']."'";
 
 if($_SESSION["OCS"]["user_group"] != null && $_SESSION["OCS"]["user_group"] != "") {
-    $queryDetails .= " OR GROUP_ID = ".$_SESSION['OCS']['user_group'];
+    $queryDetails .= " OR GROUP_ID = '".$_SESSION['OCS']['user_group']."'";
 }
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
