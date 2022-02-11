@@ -56,9 +56,6 @@ if($login_successful == "OK") {
     }
 
     error_log($defaultRole);
-/*     if (isset($_SESSION['OCS']['details']["filter2"])) {
-        $defaultRole = $config['LDAP_FILTER2_ROLE'];
-    } */
     
     if(trim($defaultRole) == "") {
         $login_successful = $l->g(894);
@@ -79,11 +76,8 @@ function verif_pw_ldap($login, $pw) {
 function search_on_loginnt($login) {
     // default attributes for query
     $attributs = array("dn", "cn", "givenname", "sn", "mail", "title", "memberof");
-    // error_log(print_r($_SESSION['OCS']['config'], true));
     foreach ($_SESSION['OCS']['config'] as $config_elem => $value) {
-        // error_log($config_elem);
         if (preg_match('/^LDAP_FILTER[0-9]*$/', $config_elem)) {
-            // $filters[$config_elem] = $value;
             if(trim($value) != "" && $value != null) {
                 $filter = str_replace("&amp;", "&", $value);
                 $ds = ldap_connection();
@@ -95,7 +89,8 @@ function search_on_loginnt($login) {
                 $info["nbResultats"] = $lce;
 
                 $filter_num = (int) preg_replace('/[^0-9]/', '', $config_elem);
-                error_log($filter_num);
+                error_log(print_r($info["nbResultats"], true));
+                
                 if($info["nbResultats"] == 1) {
                     $_SESSION['OCS']['details']["filter"] = "LDAP_FILTER".$filter_num."_ROLE";
                 }
@@ -103,8 +98,8 @@ function search_on_loginnt($login) {
         }
     }
     
-/*     // Default login ldap
-    if((trim($filter1) == "" && $filter1 == null && trim($filter2) == "" && $filter2 == null) || (isset($info["nbResultats"]) && $info["nbResultats"] != 1)) {
+    // Default login ldap
+    if((trim($filter) == "" && $filter == null) || (isset($info["nbResultats"]) && $info["nbResultats"] != 1)) {
         $ds = ldap_connection();
         $filtre = "(".LOGIN_FIELD."={$login})";
         $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
@@ -112,7 +107,7 @@ function search_on_loginnt($login) {
         $info = ldap_get_entries($ds, $sr);
         ldap_close($ds);
         $info["nbResultats"] = $lce;
-    } */
+    }
 
     // save user fields in session
     $_SESSION['OCS']['details']['givenname'] = $info[0]['givenname'][0];
