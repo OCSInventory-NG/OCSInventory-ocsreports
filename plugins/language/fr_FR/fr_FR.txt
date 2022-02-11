@@ -998,7 +998,7 @@
 1111 Premier filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1112 Valeur du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1113 Si l'utilisateur est trouvé avec le premier filtre, réglez ce profil d'utilisateur automatiquement
-1114 Dexuième filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1114 Deuxième filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1115 Valeur du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1116 Si l'utilisateur est trouvé avec le second filtre, réglez ce profil d'utilisateur automatiquement
 1117 E-mail
@@ -1800,3 +1800,5 @@
 9611 Répertoire de fichiers temporaires
 9612 Importer depuis un CSV
 9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS
+
+9650 Nombre de filtres LDAP (minimum 1, maximum égal au nombre de profils)
