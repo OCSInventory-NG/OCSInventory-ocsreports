@@ -1004,7 +1004,6 @@ function pageConnexion() {
     // ldap nb filters
     $nb_filters = range(0, sizeof($role1));
     $nb_filters[0] = '';
-    error_log(print_r($nb_filters, true));
     $ldap_filters = nb_ldap_filters($nb = $values['tvalue']['CONEX_LDAP_NB_FILTERS']);
 
     ligne('CONEX_LDAP_SERVEUR', $l->g(830), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_SERVEUR'], 'SIZE' => "30%", 'MAXLENGTH' => 200));

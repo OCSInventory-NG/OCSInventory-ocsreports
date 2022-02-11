@@ -54,8 +54,6 @@ if($login_successful == "OK") {
     if (isset($_SESSION['OCS']['details']["filter"])) {
         $defaultRole = $config[$_SESSION['OCS']['details']["filter"]];
     }
-
-    error_log($defaultRole);
     
     if(trim($defaultRole) == "") {
         $login_successful = $l->g(894);
