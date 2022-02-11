@@ -89,8 +89,7 @@ function search_on_loginnt($login) {
                 $info["nbResultats"] = $lce;
 
                 $filter_num = (int) preg_replace('/[^0-9]/', '', $config_elem);
-                error_log(print_r($info["nbResultats"], true));
-                
+
                 if($info["nbResultats"] == 1) {
                     $_SESSION['OCS']['details']["filter"] = "LDAP_FILTER".$filter_num."_ROLE";
                 }

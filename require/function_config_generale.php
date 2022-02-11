@@ -367,9 +367,10 @@ function update_default_value($POST) {
         'OCS_FILES_FORMAT', 'OCS_FILES_PATH',
         'CONEX_LDAP_SERVEUR', 'CONEX_LDAP_PORT', 'CONEX_DN_BASE_LDAP',
         'CONEX_LOGIN_FIELD', 'CONEX_LDAP_PROTOCOL_VERSION', 'CONEX_ROOT_DN',
-        'CONEX_ROOT_PW', 'CONEX_LDAP_FILTER1',
+        'CONEX_ROOT_PW', 
         'CONEX_LDAP_NB_FILTERS',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE',
+        'CONEX_LDAP_FILTER1',
         'CONEX_LDAP_FILTER1_ROLE',
         'CONEX_LDAP_FILTER2',
         'CONEX_LDAP_FILTER2_ROLE',
@@ -426,7 +427,6 @@ function update_default_value($POST) {
 
     if ($POST['onglet'] == 'CNX') {
         $ldap_filters = nb_ldap_filters($default = true);
-        $add_filters = array_keys($ldap_filters);
         
         // CONEX LDAP FILTERS need to be added dynamically to array_simple_tvalue 
         foreach ($ldap_filters as $filter) {
