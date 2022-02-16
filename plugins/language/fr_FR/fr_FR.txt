@@ -1758,6 +1758,8 @@
 9326 Installer avec brew
 9327 Script Apple
 
+9328 Installation plugin
+
 9340 Script
 9341 Fichier MSI
 9342 URL du répertoire
@@ -1781,6 +1783,10 @@
 9360 dnf
 9361 Recharger
 9362 Fichier
+9363 Fichier agent du plugin
+9364 Ligne configuration
+9365 Ligne devant être ajoutée au fichier modules.conf (ex: 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Chemin du répertoire Modules de l'agent
 
 9500 Fusionner la sélection
 9501 Tout fusionner

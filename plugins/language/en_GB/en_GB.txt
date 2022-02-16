@@ -1762,6 +1762,8 @@
 9326 Install with brew
 9327 Apple script
 
+9328 Install plugin
+
 9340 Script
 9341 MSI file
 9342 Repository URL
@@ -1785,6 +1787,10 @@
 9360 dnf
 9361 Reload build
 9362 File
+9363 Plugin agent file
+9364 Configuration line
+9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Path to Modules directory
 
 9500 Merge selected duplicates
 9501 Merge all duplicates
