@@ -46,7 +46,11 @@ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($prot
 } elseif ($affich_method == 'CAS') {
     require_once('methode/cas.php');
 } elseif ($affich_method == 'SSO' && isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER'])) {
-    $login = $_SERVER['REMOTE_USER'];
+    if (SSO_DEL_DOMAIN){
+        $login = explode('@',$_SERVER['REMOTE_USER'])[0];
+    } else {
+        $login = $_SERVER['REMOTE_USER'];
+    }
     $mdp = 'NO_PASSWD';
 } elseif ($affich_method == 'SSO' && isset($_SERVER['HTTP_AUTH_USER']) && !empty($_SERVER['HTTP_AUTH_USER'])) {
     $login = $_SERVER['HTTP_AUTH_USER'];
