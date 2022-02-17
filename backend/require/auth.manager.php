@@ -51,16 +51,9 @@ function get_list_methode($identity = false){
             break;
 
         case 4:
-            if($identity){
-                return array(
+            return array(
                     0 => "ldap.php"
-                );
-            }else{
-                return array(
-                    0 => "always_ok.php"
-                );
-            }
-
+            );
             break;
 
         case 5:
