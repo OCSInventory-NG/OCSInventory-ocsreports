@@ -72,7 +72,12 @@ function verif_pw_ldap($login, $pw) {
         // login doesn't exist
         return ("BAD LOGIN OR PASSWORD");
     }
-    return (ldap_test_pw($info[0]["dn"], $pw) ? "OK" : "BAD LOGIN OR PASSWORD");
+    $affich_method = get_affiche_methode();
+    if ($affich_method == 'SSO') {
+        return isset($info[0]["dn"]);
+    } else {
+        return (ldap_test_pw($info[0]["dn"], $pw) ? "OK" : "BAD LOGIN OR PASSWORD");
+    }
 }
 
 function search_on_loginnt($login) {
