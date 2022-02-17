@@ -155,7 +155,7 @@ define('AUTH_TYPE', 1);
 *
 */
 
-define('SSO_DEL_DOMAIN',true);
+define('SSO_DEL_DOMAIN',false);
 
 /**
  * Auth Insecure LDAP, skip SSL Cert (not recommended)
