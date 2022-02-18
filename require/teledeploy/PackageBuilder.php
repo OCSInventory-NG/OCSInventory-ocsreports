@@ -127,7 +127,11 @@ class PackageBuilder
 						}
 						break;
 					default:
-						$filepath = $this->tarScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename);
+						if($post['FORMTYPE'] == "installpluginlinuxopt") {
+							$filepath = $this->tarScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename, true);
+						} else {
+							$filepath = $this->tarScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename);
+						}
 						break;
 				}	
 			} else {
@@ -237,7 +241,7 @@ class PackageBuilder
 		return $l->g(454);
 	}
 
-	private function tarScriptFile($path, $name, $newName) {
+	private function tarScriptFile($path, $name, $newName, $attachmentScript = null) {
 		$DelFilePath = $path.$name;
 		$tarPath = $path.$name.".tar";
 
@@ -245,6 +249,9 @@ class PackageBuilder
 			$tar = new PharData($tarPath);
 			// ADD FILES TO archive.tar FILE
 			$tar->addFile($DelFilePath, $newName);
+			if($attachmentScript == true) {
+				$tar->addFile("config/teledeploy/script/installplugin.sh", "installplugin.sh");
+			}
 			// COMPRESS archive.tar FILE. COMPRESSED FILE WILL BE archive.tar.gz
 			$tar->compress(Phar::GZ);
 			// NOTE THAT BOTH FILES WILL EXISTS. SO IF YOU WANT YOU CAN UNLINK archive.tar

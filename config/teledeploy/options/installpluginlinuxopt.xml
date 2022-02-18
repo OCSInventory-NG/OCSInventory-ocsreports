@@ -59,25 +59,6 @@
             <defaultvalue/>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
-        <formblock>
-            <id>add_line</id>
-            <label>9364</label>
-            <mandatory>true</mandatory>
-            <type>text</type>
-            <disabled>false</disabled>
-            <defaultvalue/>
-            <description>9365</description>
-            <specialcharallowed>false</specialcharallowed>
-        </formblock>
-        <formblock>
-            <id>pathfile</id>
-            <label>9366</label>
-            <mandatory>true</mandatory>
-            <type>text</type>
-            <disabled>false</disabled>
-            <defaultvalue/>
-            <specialcharallowed>true</specialcharallowed>
-        </formblock>
     </formoption>
     
     <!-- Package builder -->
@@ -113,11 +94,11 @@
         <!-- Priority -->
         <PRI>5</PRI>
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
-        <ACT>STORE</ACT>
+        <ACT>EXECUTE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>:PROTO:</PROTO>
         <!-- File command -->
-        <COMMAND>:pathfile: ; sudo sed -i '/^# DO NOT REMOVE THE 1;.*/i :add_line:\n' /etc/ocsinventory-agent/modules.conf</COMMAND> 
+        <COMMAND>sh installplugin.sh</COMMAND> 
         <!-- Notify user -->
         <NOTIFY_USER>:NOTIFY_USER:</NOTIFY_USER>
         <!-- Notify text -->
