@@ -367,8 +367,10 @@ function update_default_value($POST) {
         'OCS_FILES_FORMAT', 'OCS_FILES_PATH',
         'CONEX_LDAP_SERVEUR', 'CONEX_LDAP_PORT', 'CONEX_DN_BASE_LDAP',
         'CONEX_LOGIN_FIELD', 'CONEX_LDAP_PROTOCOL_VERSION', 'CONEX_ROOT_DN',
-        'CONEX_ROOT_PW', 'CONEX_LDAP_FILTER1',
+        'CONEX_ROOT_PW', 
+        'CONEX_LDAP_NB_FILTERS',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE',
+        'CONEX_LDAP_FILTER1',
         'CONEX_LDAP_FILTER1_ROLE',
         'CONEX_LDAP_FILTER2',
         'CONEX_LDAP_FILTER2_ROLE',
@@ -422,6 +424,17 @@ function update_default_value($POST) {
         insert_update('AUTO_DUPLICATE_LVL', 0, $optexist['AUTO_DUPLICATE_LVL'], 'ivalue');
         $optexist['AUTO_DUPLICATE_LVL'] = '0';
     }
+
+    if ($POST['onglet'] == 'CNX') {
+        $ldap_filters = nb_ldap_filters($default = true);
+        
+        // CONEX LDAP FILTERS need to be added dynamically to array_simple_tvalue 
+        foreach ($ldap_filters as $filter) {
+            array_push($array_simple_tvalue, $filter[0]['NAME'], $filter[1]['NAME']);
+        }
+        
+    }
+
 
     //check all post
     foreach ($POST as $key => $value) {
@@ -505,6 +518,66 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
     }
 
     return $check;
+}
+
+/*
+ * Handle number of LDAP filters
+ * $nb is number entered by user
+ * $nb_old is calculated from current LDAP filters in config table
+ * if $default is set to true, ldap filters will be left untouched but returned
+ */
+function nb_ldap_filters($nb, $default = false) {
+    $mini_nb = 1;
+    // at least one filter at all times
+    $nb = $nb_old - $nb == 0 ? $mini_nb : $nb;
+    
+
+    if ($default == false) {
+        // old values = from config table
+        $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
+        $old_filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        $nb_old = $old_filters->num_rows;
+        $old_filters = end(mysqli_fetch_all($old_filters, MYSQLI_ASSOC));
+        $last_filter = (int) preg_replace('/[^0-9]/', '', $old_filters['NAME']);
+
+        if ($nb > $nb_old) { // new filters added
+            $i = $last_filter;
+
+            while ($i <= $nb - 1) {
+                $i++;
+                $filter_name = "CONEX_LDAP_FILTER$i";
+                $filter_role = "CONEX_LDAP_FILTER".$i."_ROLE";
+                $sql = "INSERT INTO config VALUES ('$filter_name', '', '', NULL), ('$filter_role', '', '', NULL)";
+                $ok = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
+                
+            }
+        } elseif ($nb < $nb_old) { // filters to be removed
+            $i = $nb_old;
+
+            while ($i >= $nb + 1) {
+                $filter_name = "CONEX_LDAP_FILTER$i";
+                $sql = "DELETE FROM config WHERE NAME = 'CONEX_LDAP_FILTER$i' OR NAME = 'CONEX_LDAP_FILTER".$i."_ROLE'";
+                $ok = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
+                $i--;
+            }
+        }
+    }
+
+
+    $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*'";
+    $filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+    $filters = mysqli_fetch_all($filters, MYSQLI_ASSOC);
+    // sort ldap filters
+    foreach ($filters as $filter) {
+        if (preg_match('/^CONEX_LDAP_FILTER[0-9]*$/', $filter['NAME'])) {
+            $ldap_filters[$filter['NAME']][0] = $filter;
+            
+        } elseif (preg_match('/^(CONEX_LDAP_FILTER[0-9]*)_ROLE$/', $filter['NAME'], $matches)) {
+            $ldap_filters[$matches[1]][1] = $filter;
+        }
+    }
+
+    return $ldap_filters;
 }
 
 function trait_post($name) {
@@ -919,16 +992,19 @@ function pageConnexion() {
         'CONEX_LDAP_PROTOCOL_VERSION' => 'CONEX_LDAP_PROTOCOL_VERSION',
         'CONEX_ROOT_DN' => 'CONEX_ROOT_DN',
         'CONEX_ROOT_PW' => 'CONEX_ROOT_PW',
-        'CONEX_LDAP_FILTER1' => 'CONEX_LDAP_FILTER1',
-        'CONEX_LDAP_FILTER1_ROLE' => 'CONEX_LDAP_FILTER1_ROLE',
-        'CONEX_LDAP_FILTER2' => 'CONEX_LDAP_FILTER2',
-        'CONEX_LDAP_FILTER2_ROLE' => 'CONEX_LDAP_FILTER2_ROLE',
+        'CONEX_LDAP_NB_FILTERS' => 'CONEX_LDAP_NB_FILTERS',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE' => 'CONEX_LDAP_CHECK_DEFAULT_ROLE');
     $values = look_config_default_values($champs);
 
     $role1 = get_profile_labels();
+  
     $default_role[''] = '';
     $default_role = array_merge($default_role, $role1);
+
+    // ldap nb filters
+    $nb_filters = range(0, sizeof($role1));
+    $nb_filters[0] = '';
+    $ldap_filters = nb_ldap_filters($nb = $values['tvalue']['CONEX_LDAP_NB_FILTERS']);
 
     ligne('CONEX_LDAP_SERVEUR', $l->g(830), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_SERVEUR'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_ROOT_DN', $l->g(1016) . '<br>' . $l->g(1018), 'input', array('VALUE' => $values['tvalue']['CONEX_ROOT_DN'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
@@ -937,12 +1013,13 @@ function pageConnexion() {
     ligne('CONEX_DN_BASE_LDAP', $l->g(832), 'input', array('VALUE' => $values['tvalue']['CONEX_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LOGIN_FIELD', $l->g(833), 'input', array('VALUE' => $values['tvalue']['CONEX_LOGIN_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CONEX_LDAP_PROTOCOL_VERSION', $l->g(834), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'], 'SIZE' => "30%", 'MAXLENGTH' => 5));
-    ligne('CONEX_LDAP_FILTER1', $l->g(1111), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_FILTER1'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LDAP_FILTER1_ROLE', $l->g(1113), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_FILTER1_ROLE'], 'SELECT_VALUE' => $role1));
-    ligne('CONEX_LDAP_FILTER2', $l->g(1114), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_FILTER2'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LDAP_FILTER2_ROLE', $l->g(1116), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_FILTER2_ROLE'], 'SELECT_VALUE' => $role1));
     ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'], 'SELECT_VALUE' => $default_role));
-
+    ligne('CONEX_LDAP_NB_FILTERS', $l->g(9650), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_NB_FILTERS'], 'SELECT_VALUE' => $nb_filters));
+    foreach ($ldap_filters as $filter) {
+        ligne($filter[0]['NAME'], $l->g(1111), 'input', array('VALUE' => $filter[0]['TVALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+        ligne($filter[1]['NAME'], $l->g(1116), 'select', array('VALUE' => $filter[1]['TVALUE'], 'SELECT_VALUE' => $role1));
+    }
+ 
 }
 
 function pagesnmp() {

@@ -51,12 +51,8 @@ if($login_successful == "BAD LOGIN OR PASSWORD") {
 if($login_successful == "OK") {
     $defaultRole = $config['LDAP_CHECK_DEFAULT_ROLE'];
 
-    if (isset($_SESSION['OCS']['details']["filter1"])) {
-        $defaultRole = $config['LDAP_FILTER1_ROLE'];
-    }
-
-    if (isset($_SESSION['OCS']['details']["filter2"])) {
-        $defaultRole = $config['LDAP_FILTER2_ROLE'];
+    if (isset($_SESSION['OCS']['details']["filter"])) {
+        $defaultRole = $config[$_SESSION['OCS']['details']["filter"]];
     }
     
     if(trim($defaultRole) == "") {
@@ -76,43 +72,31 @@ function verif_pw_ldap($login, $pw) {
 }
 
 function search_on_loginnt($login) {
-    $filter1 = $_SESSION['OCS']['config']['LDAP_FILTER1'];
-    $filter2 = $_SESSION['OCS']['config']['LDAP_FILTER2'];
-
     // default attributes for query
     $attributs = array("dn", "cn", "givenname", "sn", "mail", "title", "memberof");
+    foreach ($_SESSION['OCS']['config'] as $config_elem => $value) {
+        if (preg_match('/^LDAP_FILTER[0-9]*$/', $config_elem)) {
+            if(trim($value) != "" && $value != null) {
+                $filter = str_replace("&amp;", "&", $value);
+                $ds = ldap_connection();
+                $filtre = "(".$filter."(".LOGIN_FIELD."={$login}))";
+                $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
+                $lce = ldap_count_entries($ds, $sr);
+                $info = ldap_get_entries($ds, $sr);
+                ldap_close($ds);
+                $info["nbResultats"] = $lce;
 
-    // If filter1 is set
-    if(trim($filter1) != "" && $filter1 != null) {
-        $filter1 = str_replace("&amp;", "&", $filter1);
-        $ds = ldap_connection();
-        $filtre = "(".$filter1."(".LOGIN_FIELD."={$login}))";
-        $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
-        $lce = ldap_count_entries($ds, $sr);
-        $info = ldap_get_entries($ds, $sr);
-        ldap_close($ds);
-        $info["nbResultats"] = $lce;
-        if($info["nbResultats"] == 1) {
-            $_SESSION['OCS']['details']["filter1"] = true;
+                $filter_num = (int) preg_replace('/[^0-9]/', '', $config_elem);
+
+                if($info["nbResultats"] == 1) {
+                    $_SESSION['OCS']['details']["filter"] = "LDAP_FILTER".$filter_num."_ROLE";
+                }
+            } 
         }
-    } 
-    // If filter2 is set and result of filter1 is false
-    if(trim($filter2) != "" && $filter2 != null && isset($info["nbResultats"]) && $info["nbResultats"] != 1) {
-        $filter2 = str_replace("&amp;", "&", $filter2);
-        $ds = ldap_connection();
-        $filtre = "(".$filter2."(".LOGIN_FIELD."={$login}))";
-        $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
-        $lce = ldap_count_entries($ds, $sr);
-        $info = ldap_get_entries($ds, $sr);
-        ldap_close($ds);
-        $info["nbResultats"] = $lce;
-        if($info["nbResultats"] == 1) {
-            $_SESSION['OCS']['details']["filter2"] = true;
-        }
-    } 
+    }
     
     // Default login ldap
-    if((trim($filter1) == "" && $filter1 == null && trim($filter2) == "" && $filter2 == null) || (isset($info["nbResultats"]) && $info["nbResultats"] != 1)) {
+    if((trim($filter) == "" && $filter == null) || (isset($info["nbResultats"]) && $info["nbResultats"] != 1)) {
         $ds = ldap_connection();
         $filtre = "(".LOGIN_FIELD."={$login})";
         $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
