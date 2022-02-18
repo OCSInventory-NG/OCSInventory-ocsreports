@@ -40,7 +40,7 @@ class SaveQuery
                 $sqlArgs = $arg;
                 break;
             case "GROUP":
-                $sqlQuery = "INSERT INTO `save_query`(`QUERY_NAME`, `DESCRIPTION`, `PARAMETERS`, `WHO_CAN_SEE`, `GROUP_ID`) VALUES ('%s','%s','%s','%s', %s)";
+                $sqlQuery = "INSERT INTO `save_query`(`QUERY_NAME`, `DESCRIPTION`, `PARAMETERS`, `WHO_CAN_SEE`, `GROUP_ID`) VALUES ('%s','%s','%s','%s', '%s')";
                 array_push($arg, $whoCanSee, $_SESSION['OCS']['user_group']);
                 $sqlArgs = $arg;
                 break;
@@ -74,7 +74,7 @@ class SaveQuery
                 $sqlArgs = $arg;
                 break;
             case "GROUP":
-                $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s', WHO_CAN_SEE = '%s', GROUP_ID = %s, USER_ID = NULL WHERE ID = %s";
+                $sqlQuery = "UPDATE save_query SET QUERY_NAME = '%s', DESCRIPTION = '%s', PARAMETERS = '%s', WHO_CAN_SEE = '%s', GROUP_ID = '%s', USER_ID = NULL WHERE ID = %s";
                 array_push($arg, $who_can_see, $_SESSION['OCS']['user_group'], $id_search);
                 $sqlArgs = $arg;
                 break;
@@ -100,11 +100,12 @@ class SaveQuery
      * @return array
      */
     public function get_search_name() {
+        var_dump($_SESSION['OCS']['user_group']);
         $sql = "SELECT ID, QUERY_NAME FROM save_query WHERE WHO_CAN_SEE = 'ALL' OR USER_ID = '%s'";
         $arg = array($_SESSION['OCS']['loggeduser']);
         
         if($_SESSION['OCS']['user_group'] != null && $_SESSION['OCS']['user_group'] != "") {
-            $sql .= " OR GROUP_ID = %s";
+            $sql .= " OR GROUP_ID = '%s'";
             array_push($arg, $_SESSION['OCS']['user_group']);
         }
 
