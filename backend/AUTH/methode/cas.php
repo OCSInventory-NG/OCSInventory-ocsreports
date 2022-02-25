@@ -42,16 +42,19 @@ $cas->setLogger();
 // Enable verbose error messages. Disable in production
 $cas->setVerbose(true);
 
-$cas->client(CAS_VERSION_2_0, $config['CAS_HOST'], (int)$config['CAS_PORT'], $config['CAS_URI']);
-// uncomment following line if not using server validation
-$cas->setNoCasServerValidation();
-$cas->forceAuthentication();
-$login = $cas->getUser();
-$mdp = "";
+if (!isset($sql_update)) {
+    $cas->client(CAS_VERSION_2_0, $config['CAS_HOST'], (int)$config['CAS_PORT'], $config['CAS_URI']);
+    // uncomment following line if not using server validation
+    $cas->setNoCasServerValidation();
+    $cas->forceAuthentication();
+    $login = $cas->getUser();
+    $mdp = "";
 
-if ($login) {
-    $login_successful = "OK";
-    $cnx_origine = "CAS";
-    $user_group = "CAS";
+    if ($login) {
+        $login_successful = "OK";
+        $cnx_origine = "CAS";
+        $user_group = "CAS";
+    }
 }
+
 ?>
