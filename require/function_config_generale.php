@@ -374,6 +374,10 @@ function update_default_value($POST) {
         'CONEX_LDAP_FILTER1_ROLE',
         'CONEX_LDAP_FILTER2',
         'CONEX_LDAP_FILTER2_ROLE',
+        'CAS_PORT' => 'CAS_PORT',
+        'CAS_URI' => 'CAS_URI',
+        'CAS_HOST' => 'CAS_HOST',
+        'CAS_DEFAULT_ROLE' => 'CAS_DEFAULT_ROLE',
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
@@ -979,6 +983,29 @@ function pageVulnerability() {
     ligne('VULN_CVE_EXPIRE_TIME', $l->g(1484), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_EXPIRE_TIME'], 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(730)));
     ligne('VULN_CVE_DELAY_TIME', $l->g(1459), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_DELAY_TIME'], 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(511)));
 }
+
+function pageCas() {
+    global $l;
+    require_once('require/function_users.php');
+
+    //which line we need?
+    $champs = array(
+        'CAS_PORT' => 'CAS_PORT',
+        'CAS_URI' => 'CAS_URI',
+        'CAS_HOST' => 'CAS_HOST',
+        'CAS_DEFAULT_ROLE' => 'CAS_DEFAULT_ROLE',
+    );
+    $values = look_config_default_values($champs);
+    $role1 = get_profile_labels();
+    $default_role[''] = '';
+    $default_role = array_merge($default_role, $role1);
+
+    ligne('CAS_PORT', $l->g(9700). '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_PORT'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CAS_URI', $l->g(9701) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_URI'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CAS_HOST', $l->g(9702) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CAS_DEFAULT_ROLE', $l->g(9703), 'select', array('VALUE' => $values['tvalue']['CAS_DEFAULT_ROLE'], 'SELECT_VALUE' => $default_role));
+}
+
 
 function pageConnexion() {
     global $l;
