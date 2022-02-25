@@ -56,6 +56,10 @@ define('MAC_FILE', __DIR__ . '/files/oui.txt');
  */
 define('BACKEND', __DIR__ . '/backend/');
 /**
+ * PHP CAS folder (CAS auth)
+ */
+define('PHPCAS', __DIR__ . '/vendor/jasig/phpcas/CAS.php');
+/**
  * Autoload composer
  */
 define('COMPOSER_AUTOLOAD', __DIR__ . '/vendor/autoload.php');
@@ -143,6 +147,7 @@ define('DEV_OPTION', false);
  * - 3 : LDAP Only
  * - 4 : LDAP with SSO
  * - 5 : Always OK, won't ask for user and password
+ * - 6 : CAS authentication
  * 
  * If LDAP / SSO Basic auth is configured, please configure the LDAP Authentication
  */
