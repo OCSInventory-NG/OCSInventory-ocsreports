@@ -20,37 +20,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-/* This module automatically inserts valid LDAP users into OCS operators table.
- *
- * The userlevel is defined according to conditions defined in the following configuration fields:
- *
- * - CONEX_LDAP_FILTER1
- * - CONEX_LDAP_FILTER1_ROLE
- * - CONEX_LDAP_FILTER2
- * - CONEX_LDAP_FILTER2_ROLE
- *
- * If any of these attributes are defined (and found on the LDAP query), they're used to determine the correct
- * user level and role.
- *
- * in case of success, an array is returned with the access data in the following format:
- * array('accesslvl'=>%%,'tag_show'=>array(%,%,%,%,%...))
- *
- * else, an error code is returned.
- *
- * CONEX_LDAP_FILTER1="thisGuyIsAdmin"
- * CONEX_LDAP_FILTER1_ROLE="user"
- * CONEX_LDAP_FILTER2="thisGuyIsAdmin"
- * CONEX_LDAP_FILTER2_ROLE="sadmin"
- * In logical terms:
- * if thisGuyIsAdmin=0 then
- *    role=user
- * else if thisGuyIsAdmin=1 then
- *    role=sadmin
- *
- *    Note: the default user levels in OCS currently are "admin", "ladmin" and "sadmin". The above is just an example.
- *
- */
-
 
 require_once ('require/function_files.php');
 // page name
