@@ -94,7 +94,7 @@ if (isset($defaultRole) && trim($defaultRole) != '') {
                 VALUES ('%s','%s', '%s', '%s','%s', '%s', '%s', '%s')";
 
         $arg_insert = array($_SESSION['OCS']["loggeduser"],
-            $_SESSION['OCS']['details']['givenname'],
+            'Default',
             $_SESSION['OCS']['details']['sn'],
             "",
             "CAS",
@@ -105,11 +105,10 @@ if (isset($defaultRole) && trim($defaultRole) != '') {
     } else {
         // else update it
         $reqInsert = "UPDATE operators SET
-                        NEW_ACCESSLVL='%s',
                         EMAIL='%s'
                     WHERE ID='%s'";
 
-        $arg_insert = array($defaultRole,
+        $arg_insert = array(
             $_SESSION['OCS']['details']['mail'],
             $_SESSION['OCS']["loggeduser"]);
     }
