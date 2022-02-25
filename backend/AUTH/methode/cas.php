@@ -20,9 +20,31 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-require_once(BACKEND . 'require/cas.config.php');
+require_once(BACKEND . 'require/connexion.php');
+require_once(PHPCAS);
+
+function get_cas_config() {
+    connexion_local_read();
+    $sql = "select NAME,TVALUE from config where NAME like '%s'";
+    $arg = array('%CAS_%');
+    $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+    while ($item = mysqli_fetch_object($res)) {
+        $config[$item->NAME] = $item->TVALUE;
+        define($item->NAME, $item->TVALUE);
+    }
+    return $config;
+}
+
+$config = get_cas_config();
 $cas = new phpCas();
-$cas->client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_uri);
+// Enable debugging
+$cas->setLogger();
+// Enable verbose error messages. Disable in production
+$cas->setVerbose(true);
+
+$cas->client(CAS_VERSION_2_0, $config['CAS_HOST'], (int)$config['CAS_PORT'], $config['CAS_URI']);
+// uncomment following line if not using server validation
+$cas->setNoCasServerValidation();
 $cas->forceAuthentication();
 $login = $cas->getUser();
 $mdp = "";
