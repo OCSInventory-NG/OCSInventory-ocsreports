@@ -1802,3 +1802,9 @@
 9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS
 
 9650 Nombre de filtres LDAP (minimum 1, maximum égal au nombre de profils)
+
+9700 Port du serveur CAS, e.g. : 443
+9701 URI du serveur CAS, e.g : /cas
+9702 Adresse du serveur CAS, e.g. : authentication.org
+9703 Profil par défaut, appliqué à toutes les connexions CAS
+9704 Configuration CAS
