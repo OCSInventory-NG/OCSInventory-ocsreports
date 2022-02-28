@@ -95,9 +95,6 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 
     //delete categorie
     if (is_defined($protectedPost['SUP_CAT'])) {
-        if ($protectedPost['SUP_CAT'] == 1) {
-            $first_onglet = 2;
-        }
         // First delete regex
         $reqDcatall = "DELETE FROM software_category_exp WHERE CATEGORY_ID = (SELECT ID FROM software_categories WHERE CATEGORY_NAME = '" . $list_cat[$protectedPost['SUP_CAT']] . "')";
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
@@ -109,6 +106,16 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDcat) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
         unset($list_cat[$protectedPost['SUP_CAT']]);
         unset($protectedPost['SUP_CAT']);
+
+        $list_cat = $softCat->onglet_cat();
+        $i = $list_cat['i'];
+        $first_onglet = $list_cat['first_onglet'];
+        $categorie_id = $list_cat['category_name'];
+        $os = $list_cat['OS'];
+        unset($list_cat['i']);
+        unset($list_cat['first_onglet']);
+        unset($list_cat['category_name']);
+        unset($list_cat['OS']);
     }
 
 	if ($protectedPost['onglet_soft'] == "" || !isset($list_cat[$protectedPost['onglet_soft']])) {

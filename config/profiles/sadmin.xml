@@ -21,6 +21,7 @@
     <config-elem key="MANAGE_USER_GROUP">YES</config-elem>
     <config-elem key="MANAGE_SMTP_COMMUNITIES">YES</config-elem>
     <config-elem key="DELETE_COMPUTERS">YES</config-elem>
+    <config-elem key="ARCHIVE_COMPUTERS">YES</config-elem>
   </config>
   <blacklist>
     <blacklist-elem>MACADD</blacklist-elem>

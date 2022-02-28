@@ -113,6 +113,7 @@ function show_config_frame($profile, $yes_no) {
     show_select_field($config, 'config', 'MANAGE_USER_GROUP', $l->g(1171), $yes_no);
     show_select_field($config, 'config', 'MANAGE_SMTP_COMMUNITIES', $l->g(1205), $yes_no);
     show_select_field($config, 'config', 'DELETE_COMPUTERS', $l->g(1272), $yes_no);
+    show_select_field($config, 'config', 'ARCHIVE_COMPUTERS', $l->g(1556), $yes_no);
 }
 
 function show_blacklist_frame($profile, $yes_no) {

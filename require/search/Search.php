@@ -172,7 +172,9 @@
         $this->groupSearch = $groupSearch;
         $this->softwareSearch = $softwareSearch;
 
-        if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
+        if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES" || $_SESSION['OCS']['profile']->getConfigValue('ARCHIVE_COMPUTERS') == "YES"
+            || $_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES"
+        ) {
             $this->fieldsList['CHECK'] = 'hardwareID';
         }
 
