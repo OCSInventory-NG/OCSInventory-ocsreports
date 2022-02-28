@@ -255,7 +255,7 @@ function debut_tab() {
 function verif_champ() {
     global $protectedPost;
     $supp1 = array("DOWNLOAD_CYCLE_LATENCY", "DOWNLOAD_FRAG_LATENCY", "DOWNLOAD_PERIOD_LATENCY",
-        "DOWNLOAD_PERIOD_LENGTH", "DOWNLOAD_TIMEOUT", "PROLOG_FREQ", "IPDISCOVER_MAX_ALIVE",
+        "DOWNLOAD_PERIOD_LENGTH", "DOWNLOAD_TIMEOUT", "PROLOG_FREQ", "INTERFACE_LAST_CONTACT", "IPDISCOVER_MAX_ALIVE",
         "GROUPS_CACHE_REVALIDATE", "GROUPS_CACHE_OFFSET", "LOCK_REUSE_TIME", "INVENTORY_CACHE_REVALIDATE",
         "IPDISCOVER_BETTER_THRESHOLD", "GROUPS_CACHE_OFFSET", "GROUPS_CACHE_REVALIDATE", "INVENTORY_FILTER_FLOOD_IP_CACHE_TIME",
         "SESSION_VALIDITY_TIME", "IPDISCOVER_LATENCY", "SECURITY_AUTHENTICATION_NB_ATTEMPT", "SECURITY_AUTHENTICATION_TIME_BLOCK", 
@@ -381,7 +381,7 @@ function update_default_value($POST) {
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
-        'PROLOG_FREQ', 'LOCK_REUSE_TIME', 'TRACE_DELETED', 'SESSION_VALIDITY_TIME',
+        'PROLOG_FREQ', 'INTERFACE_LAST_CONTACT', 'LOCK_REUSE_TIME', 'TRACE_DELETED', 'SESSION_VALIDITY_TIME',
         'IPDISCOVER_BETTER_THRESHOLD', 'IPDISCOVER_LATENCY', 'IPDISCOVER_MAX_ALIVE',
         'IPDISCOVER_NO_POSTPONE', 'IPDISCOVER_USE_GROUPS', 'ENABLE_GROUPS', 'GROUPS_CACHE_OFFSET', 'GROUPS_CACHE_REVALIDATE',
         'REGISTRY', 'GENERATE_OCS_FILES', 'OCS_FILES_OVERWRITE', 'PROLOG_FILTER_ON', 'INVENTORY_FILTER_ENABLED',
@@ -612,11 +612,13 @@ function pageGUI($advance) {
           'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR',
           'OLD_CONF_DIR' => 'OLD_CONF_DIR',
           'WARN_UPDATE' => 'WARN_UPDATE',
+          'INTERFACE_LAST_CONTACT' => 'INTERFACE_LAST_CONTACT',
           'CUSTOM_THEME' => 'CUSTOM_THEME',
           'ACTIVE_NEWS' => 'ACTIVE_NEWS',
       );
     }else{
       $champs = array('LOG_GUI' => 'LOG_GUI',
+          'INTERFACE_LAST_CONTACT' => 'INTERFACE_LAST_CONTACT',
           'CUSTOM_THEME' => 'CUSTOM_THEME',
           'ACTIVE_NEWS' => 'ACTIVE_NEWS',
       );
@@ -638,6 +640,8 @@ function pageGUI($advance) {
       ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
 
       ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
+
+      ligne('INTERFACE_LAST_CONTACT', $l->g(484), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INTERFACE_LAST_CONTACT'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
 
       ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
       $def = VARLIB_DIR . '/download';
@@ -668,6 +672,7 @@ function pageGUI($advance) {
     }else{
       ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
       ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
+      ligne('INTERFACE_LAST_CONTACT', $l->g(484), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INTERFACE_LAST_CONTACT'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
       ligne('LOG_GUI', $l->g(824), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOG_GUI']));
     }
 }
