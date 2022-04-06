@@ -40,6 +40,7 @@ class ArchiveComputer
             $arg = array($id);
     
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+            addLog('ARCHIVE', $id, 'hardware_id');
         }
         
         return $result;
@@ -58,6 +59,7 @@ class ArchiveComputer
             $arg = array($id);
     
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+            addLog('RESTORE', $id, 'hardware_id');
         }
         
         return $result;
