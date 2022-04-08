@@ -68,6 +68,10 @@
         <value>cve_history</value>
         <directory>ms_cve_history</directory>
     </url>
+    <url key="ms_history">
+        <value>history</value>
+        <directory>ms_history</directory>
+    </url>
     <url key="ms_admininfo">
         <value>admin_info</value>
         <directory>ms_admininfo</directory>
