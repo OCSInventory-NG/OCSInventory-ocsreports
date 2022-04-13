@@ -117,5 +117,6 @@
     <page>ms_save_query_list</page>
     <page>ms_snmp_inventory</page>
     <page>ms_cve_history</page>
+    <page>ms_history</page>
   </pages>
 </profile>

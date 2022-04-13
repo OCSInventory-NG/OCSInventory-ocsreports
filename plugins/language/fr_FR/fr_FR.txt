@@ -1802,3 +1802,9 @@
 9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS
 
 9650 Nombre de filtres LDAP (minimum 1, maximum égal au nombre de profils)
+
+9651 Historique
+9653 Nom utilisateur
+9654 Date et heure
+9655 Action
+9656 Cible de l'action
