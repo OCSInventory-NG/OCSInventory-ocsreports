@@ -1808,3 +1808,10 @@
 9654 Date et heure
 9655 Action
 9656 Cible de l'action
+
+9700 Port du serveur CAS, e.g. : 443
+9701 URI du serveur CAS, e.g : /cas
+9702 Adresse du serveur CAS, e.g. : authentication.org
+9703 Profil par défaut, appliqué à la première connexion CAS
+9704 Configuration CAS
+

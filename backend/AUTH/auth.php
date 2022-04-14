@@ -167,7 +167,6 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
 } else {
     if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
         if ($login != ""){
-            error_log(print_r('TEST', true));
             $sql = "INSERT INTO auth_attempt (`DATETIMEATTEMPT`,`LOGIN`,`IP`,`SUCCESS`)
             VALUES ('%s','%s','%s','%s')";
             $datetime = new DateTime();
@@ -220,6 +219,9 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
         <?php
         require_once(FOOTER_HTML);
         die();
+    } else if ($list_methode[0] == 'cas.php') {
+        // redirect to CAS login page
+        require_once('methode/' . $list_methode[0]);
     } else {
         header('WWW-Authenticate: Basic realm="OcsinventoryNG"');
         header('HTTP/1.0 401 Unauthorized');

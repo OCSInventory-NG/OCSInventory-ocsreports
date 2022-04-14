@@ -96,7 +96,7 @@ if(is_null($value_banniere)){
                     echo "</li>";
                 }
 
-                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER'])) {
+                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER']) && $_SESSION['OCS']['cnx_origine'] != 'CAS') {
                     echo "<li><a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>" . $l->g(251) . "</a></li>";
                 }
                 echo open_form('log_out', 'index.php');
