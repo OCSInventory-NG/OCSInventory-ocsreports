@@ -73,12 +73,14 @@ if ($protectedPost['SUP_PROF'] != '') {
 if ($protectedPost['ARCHIVER'] != '') {
     $archive->archive($protectedPost['ARCHIVER']);
     $tab_options['CACHE'] = 'RESET';
+    unset($protectedPost['ARCHIVER']);
 }
 
 //archive one computer
 if ($protectedPost['RESTORE'] != '') {
     $archive->restore($protectedPost['RESTORE']);
     $tab_options['CACHE'] = 'RESET';
+    unset($protectedPost['RESTORE']);
 }
 
 if (!isset($protectedPost['tri_' . $table_name]) || $protectedPost['tri_' . $table_name] == "") {
