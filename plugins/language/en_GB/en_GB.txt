@@ -1807,16 +1807,15 @@
 
 9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
 
-<<<<<<< cas_auth
-9700 CAS server port, e.g. : 443
-9701 CAS server uri, e.g : /cas
-9702 CAS server host, e.g. : authentication.org
-9703 CAS default role, applied on first connection initiated using CAS authentication
-9704 CAS Configuration
-=======
 9651 History
 9653 User name
 9654 Date and time
 9655 Action
 9656 Target of action
->>>>>>> master
+
+9700 CAS server port, e.g. : 443
+9701 CAS server uri, e.g : /cas
+9702 CAS server host, e.g. : authentication.org
+9703 CAS default role, applied on first connection initiated using CAS authentication
+9704 CAS Configuration
+
