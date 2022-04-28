@@ -178,7 +178,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
 
     //admin user already exist on data base with defaut password?
     $reqOp = "SELECT ID, USER_GROUP FROM operators WHERE ID='%s' and PASSWD ='%s'";
-    $arg_reqOp = array(DFT_GUI_CMPT, hash('sha256', DFT_GUI_PSWD));
+    $arg_reqOp = array(DFT_GUI_CMPT, hash(PASSWORD_CRYPT, DFT_GUI_PSWD));
     $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
     $rowOp = mysqli_fetch_object($resOp);
     

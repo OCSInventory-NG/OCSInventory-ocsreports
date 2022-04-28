@@ -137,7 +137,7 @@ function add_user($data_user, $list_profil = '') {
                     $data_user['USER_GROUP']);
                 if (is_defined($data_user['PASSWORD'])) {
                     $sql_update .= ", passwd ='%s' , password_version ='%s' ";
-                    $arg_update[] = hash('sha256', $password);
+                    $arg_update[] = hash(PASSWORD_CRYPT, $password);
                     $arg_update[] = $_SESSION['OCS']['PASSWORD_VERSION'];
                 }
                 $sql_update .= "	 where ID='%s'";
@@ -161,7 +161,7 @@ function add_user($data_user, $list_profil = '') {
                 $data_user['USER_GROUP']);
             if (isset($password)) {
                 $sql .= ",'%s','%s'";
-                $arg[] = hash('sha256', $password);
+                $arg[] = hash(PASSWORD_CRYPT, $password);
                 $arg[] = $_SESSION['OCS']['PASSWORD_VERSION'];
             }
             $sql .= ")";
@@ -316,13 +316,13 @@ function admin_user($id_user = null, $is_my_account = false) {
 }
 
 /**
- * updatePasswordMd5toSHA
+ * updatePasswordMd5toHash
  *
  * @param  string $login
  * @param  string $mdp
  * @return boolean $result
  */
-function updatePasswordMd5toSHA($login, $mdp) {
+function updatePasswordMd5toHash($login, $mdp) {
     $sql = "SELECT ID FROM operators WHERE ID = '%s'";
     $arg = array($login);
 
@@ -332,7 +332,7 @@ function updatePasswordMd5toSHA($login, $mdp) {
     if (isset($row->ID)) {
         if (is_defined($mdp)) {
             $sql_update = "UPDATE operators SET PASSWD ='%s', PASSWORD_VERSION ='%s' WHERE ID = '%s'";
-            $sql_arg = array(hash('sha256', $mdp), $_SESSION['OCS']['PASSWORD_VERSION'], $row->ID);
+            $sql_arg = array(hash(PASSWORD_CRYPT, $mdp), $_SESSION['OCS']['PASSWORD_VERSION'], $row->ID);
             $res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"], $sql_arg);
 
             if($res) {

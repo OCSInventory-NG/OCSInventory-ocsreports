@@ -42,7 +42,7 @@ if ($rowOp->PASSWORD_VERSION === '0') {
 
         if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
             require_once('require/function_users.php');
-            updatePasswordMd5toSHA($login, $mdp);
+            updatePasswordMd5toHash($login, $mdp);
         }
     } else {
         $login_successful = $l->g(180);
@@ -57,11 +57,11 @@ if ($rowOp->PASSWORD_VERSION === '0') {
 
     $login_status = false;
 
-    // if password version is set to 1 = md5 version so update to sha256
+    // if password version is set to 1 = md5 version so update to PASSWORD_CRYPT
     if(isset($rowOp->ID) && $rowOp->PASSWORD_VERSION == 1) {
         if(password_verify($mdp, $rowOp->PASSWD)) {
             require_once('require/function_users.php');
-            $update = updatePasswordMd5toSHA($login, $mdp);
+            $update = updatePasswordMd5toHash($login, $mdp);
             error_log(print_r($update, true));
             if($update) {
                 $login_status = true;
@@ -69,7 +69,7 @@ if ($rowOp->PASSWORD_VERSION === '0') {
         }
     }
 
-    if ($login_status == true || hash('sha256', $mdp) == $rowOp->PASSWD) {
+    if ($login_status == true || hash(PASSWORD_CRYPT, $mdp) == $rowOp->PASSWD) {
         $login_successful = "OK";
         $user_group = $rowOp->USER_GROUP;
         $type_log = 'CONNEXION';
