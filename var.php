@@ -159,6 +159,12 @@ define('AUTH_TYPE', 1);
  */
 define('AUTH_LDAP_SKIP_CERT', false);
 
+/**
+ * Define password cryptograpgy
+ * To see all available cryptography, read https://www.php.net/manual/fr/function.hash-algos.php
+ */
+define('PASSWORD_CRYPT', 'sha256');
+
 //====================================================================================
 // Plugins Configuration
 //====================================================================================
