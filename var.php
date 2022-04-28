@@ -73,7 +73,7 @@ define('TEMPLATE', __DIR__.'/templates/');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7061');
+define('GUI_VER', '7062');
 
 /**
  * GUI Version
@@ -158,6 +158,12 @@ define('AUTH_TYPE', 1);
  * Note : OCS doesn't manage certificate for Ldaps, please edit "/etc/ldap/ldap.conf" to set proper certificate
  */
 define('AUTH_LDAP_SKIP_CERT', false);
+
+/**
+ * Define password cryptograpgy
+ * To see all available cryptography, read https://www.php.net/manual/fr/function.hash-algos.php
+ */
+define('PASSWORD_CRYPT', 'sha256');
 
 //====================================================================================
 // Plugins Configuration
