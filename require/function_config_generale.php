@@ -397,7 +397,7 @@ function update_default_value($POST) {
         'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME', 'VULN_CVE_DELAY_TIME',
         'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME', 'SECURITY_AUTHENTICATION_BLOCK_IP', 
         'SECURITY_AUTHENTICATION_NB_ATTEMPT', 'SECURITY_AUTHENTICATION_TIME_BLOCK', 'SECURITY_PASSWORD_ENABLED', 'SECURITY_PASSWORD_MIN_CHAR',
-        'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR');
+        'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR','EXCLUDE_ARCHIVE_COMPUTER');
 
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
@@ -619,12 +619,14 @@ function pageGUI($advance) {
           'INTERFACE_LAST_CONTACT' => 'INTERFACE_LAST_CONTACT',
           'CUSTOM_THEME' => 'CUSTOM_THEME',
           'ACTIVE_NEWS' => 'ACTIVE_NEWS',
+          'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER',
       );
     }else{
       $champs = array('LOG_GUI' => 'LOG_GUI',
           'INTERFACE_LAST_CONTACT' => 'INTERFACE_LAST_CONTACT',
           'CUSTOM_THEME' => 'CUSTOM_THEME',
           'ACTIVE_NEWS' => 'ACTIVE_NEWS',
+          'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER',
       );
     }
 
@@ -641,6 +643,8 @@ function pageGUI($advance) {
 
     $themes = get_available_themes();
     if($advance){
+      ligne('EXCLUDE_ARCHIVE_COMPUTER', $l->g(9800), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']));
+
       ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
 
       ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
@@ -674,6 +678,7 @@ function pageGUI($advance) {
       ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE']));
       ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
     }else{
+      ligne('EXCLUDE_ARCHIVE_COMPUTER', $l->g(9800), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']));
       ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
       ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
       ligne('INTERFACE_LAST_CONTACT', $l->g(484), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INTERFACE_LAST_CONTACT'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
