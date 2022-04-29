@@ -1815,3 +1815,5 @@
 9703 Profil par défaut, appliqué à la première connexion CAS
 9704 Configuration CAS
 
+9800 Exlure les machines archivées des Statistiques, de l'inventaire CVE, du compte de Tous les logiciels, du compte des machines par TAG
+

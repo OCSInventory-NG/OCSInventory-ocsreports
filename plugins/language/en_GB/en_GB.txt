@@ -1819,3 +1819,4 @@
 9703 CAS default role, applied on first connection initiated using CAS authentication
 9704 CAS Configuration
 
+9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
