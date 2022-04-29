@@ -27,6 +27,16 @@
  class Console
  {
 
+  private $excludeArchived = null;
+
+  function __construct() {
+    $configToLookOut = [
+      'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
+    ];
+
+    $this->excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+  } 
+
    /**
     * Get all machine contacted todayand all machines and sort by Agent
     * @param  string $title [table name]
@@ -61,6 +71,9 @@
         $sql = "SELECT DISTINCT h.ID, count(h.ID) as nb, h.USERAGENT FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.id WHERE h.USERAGENT IS NOT NULL";
         if (is_defined($_SESSION['OCS']["mesmachines"])) {
           $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+        }
+        if($this->excludeArchived == 1) {
+          $sql .= " AND h.ARCHIVE IS NULL";
         }
         $sql .= " GROUP BY h.USERAGENT";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
