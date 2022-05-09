@@ -442,13 +442,16 @@ class OCSSnmp
 	public function get_mib() {
 		$champs = array('SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
 		$values = look_config_default_values($champs);
-
-		$mib_files = glob($values['tvalue']['SNMP_MIB_DIRECTORY'].'/*.{txt,my}', GLOB_BRACE);
-		$mib_files = str_replace($values['tvalue']['SNMP_MIB_DIRECTORY']."/", "", $mib_files);
-		
-		foreach($mib_files as $mib) {
-			$mib_name[$mib] = $mib;
+		if(isset($values['tvalue']['SNMP_MIB_DIRECTORY'])) {
+			$mib_files = glob($values['tvalue']['SNMP_MIB_DIRECTORY'].'/*.{txt,my}', GLOB_BRACE);
+			$mib_files = str_replace($values['tvalue']['SNMP_MIB_DIRECTORY']."/", "", $mib_files);
+					
+			foreach($mib_files as $mib) {
+				$mib_name[$mib] = $mib;
+			}
 		}
+
+
 
 		return $mib_name ?? '';
 	}
