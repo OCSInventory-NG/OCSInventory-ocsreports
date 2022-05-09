@@ -193,7 +193,7 @@ switch ($protectedPost['onglet']) {
                 </div>
                 <?php
             } elseif ($protectedPost['BLACK_CHOICE'] == 2) {
-                formGroup('text', $SERIALfield_name.$SERIALnb_field, $l->g(702), '', '', $protectedPost[$SERIALfield_name]);
+                formGroup('text', $SERIALfield_name.$SERIALnb_field, $l->g(702), '', '', $protectedPost[$SERIALfield_name] ?? '');
             }
             echo "</div>";
             echo "</div>";
