@@ -151,7 +151,7 @@ class SoftwareCategory
             $nb_computer[$value] = count($nb[$value]);
           }
         }
-        if($nb_computer != null){
+        if(isset($nb_computer)){
             foreach($nb_computer as $name => $nb){
                 $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
                                 <td style="padding: 0 15px 0 0;">'.$name.'</td>
