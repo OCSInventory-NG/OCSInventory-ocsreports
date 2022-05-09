@@ -687,7 +687,7 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 			natcasesort($name);
 			foreach ($name as $key => $value) {
 				$champs .= "<option value=\"" . $key . "\"";
-				if ($protectedPost[$input_name] == $key)
+				if (!empty($protectedPost[$input_name]) && $protectedPost[$input_name] == $key)
 					$champs .= " selected";
 				$champs .= ($countHl % 2 == 1 ? " class='hi'" : " class='down'") . " >" . $value . "</option>";
 				$countHl++;

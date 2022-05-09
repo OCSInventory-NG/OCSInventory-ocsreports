@@ -51,7 +51,7 @@ function all_groups($group_type) {
     while ($valGetId = mysqli_fetch_array($resGetId)) {
         $list_group[$valGetId['id']] = $valGetId['name'];
     }
-    return $list_group;
+    return $list_group ?? '';
 }
 //fonction pour sortir les machines d'un groupe
 function remove_of_group($id_group, $list_id) {

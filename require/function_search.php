@@ -560,10 +560,10 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
                 }
                 formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
             }
-            if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '') {
+            if ((isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] == 'REQ') || $protectedGet['idchecked'] == '') {
                 msg_info($l->g(901));
                 if ($protectedGet['idchecked'] == '') {
-                    echo "<input type='hidden' name='CHOISE' value='" . $protectedPost['CHOISE'] . "'>";
+                    echo "<input type='hidden' name='CHOISE' value='" . ($protectedPost['CHOISE'] ?? '') . "'>";
                     $protectedPost['CHOISE'] = 'REQ';
                 }
                 $list_id = $_SESSION['OCS']['ID_REQ'];

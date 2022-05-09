@@ -128,7 +128,7 @@ if ($protectedPost['onglet'] != $l->g(810)) {
 if (isset($groupDelList)) {
     $optionList['DEL'] = $l->g(818);
 } else {
-    if ($protectedPost['NEW_RAZ'] == "DEL") {
+    if (isset($protectedPost['NEW_RAZ']) && $protectedPost['NEW_RAZ'] == "DEL") {
         unset($protectedPost['NEW_RAZ']);
     }
 }
@@ -158,21 +158,21 @@ if (is_defined($protectedPost['CHOISE']) && $protectedPost['CHOISE'] != 'NONE') 
     echo $select;
     echo "</td></tr>";
     //if user want give up or go out of the group
-    if ($protectedPost['NEW_RAZ'] == "RAZ" || $protectedPost['NEW_RAZ'] == "ADD") {
+    if (!empty($protectedPost['NEW_RAZ']) && ($protectedPost['NEW_RAZ'] == "RAZ" || $protectedPost['NEW_RAZ'] == "ADD")) {
         $List = $all_groups;
     }
-    if ($protectedPost['NEW_RAZ'] == "DEL") {
+    if (!empty($protectedPost['NEW_RAZ']) && $protectedPost['NEW_RAZ'] == "DEL") {
         $List = $groupDelList;
     }
-    if ($protectedPost['NEW_RAZ'] == "NEW") {
-        $nom = show_modif($protectedPost['NAME_GROUP'], 'NAME_GROUP', 0, '');
-        $lbl = show_modif($protectedPost['LBL_GROUP'], 'LBL_GROUP', 1, '');
+    if (!empty($protectedPost['NEW_RAZ']) && $protectedPost['NEW_RAZ'] == "NEW") {
+        $nom = show_modif($protectedPost['NAME_GROUP'] ?? '', 'NAME_GROUP', 0, '');
+        $lbl = show_modif($protectedPost['LBL_GROUP'] ?? '', 'LBL_GROUP', 1, '');
         $addgroup = "<tr><td align=center>" . $l->g(49) . ":</td><td align=left>" . $nom . "</td></tr>";
         $addgroup .= "<tr><td align=center>" . $l->g(53) . ":</td><td align=left>" . $lbl . "</td></tr>";
         $addgroup .= $valid;
         echo $addgroup;
     }
-    if ($protectedPost['NEW_RAZ'] == "RAZ" || $protectedPost['NEW_RAZ'] == "DEL" || $protectedPost['NEW_RAZ'] == "ADD") {
+    if (!empty($protectedPost['NEW_RAZ']) && ($protectedPost['NEW_RAZ'] == "RAZ" || $protectedPost['NEW_RAZ'] == "DEL" || $protectedPost['NEW_RAZ'] == "ADD")) {
         $select = show_modif($List, 'group_list', 2, '');
         //list of choise
         $groupList = "<tr><td align =center>";
