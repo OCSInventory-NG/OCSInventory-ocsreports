@@ -35,12 +35,16 @@ function look_config_default_values($field_name, $like = '', $default_values = '
         $arg['ARG'] = $field_name;
     }
     $resdefaultvalues = mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["readServer"], $arg['ARG']);
-    while ($item = mysqli_fetch_object($resdefaultvalues)) {
-        $result['name'][$item->NAME] = $item->NAME;
-        $result['ivalue'][$item->NAME] = $item->IVALUE;
-        $result['tvalue'][$item->NAME] = $item->TVALUE;
-        $result['comments'][$item->NAME] = $item->COMMENTS;
+
+    if ($resdefaultvalues != '') {
+        while ($item = mysqli_fetch_object($resdefaultvalues)) {
+            $result['name'][$item->NAME] = $item->NAME;
+            $result['ivalue'][$item->NAME] = $item->IVALUE;
+            $result['tvalue'][$item->NAME] = $item->TVALUE;
+            $result['comments'][$item->NAME] = $item->COMMENTS;
+        }
     }
+
 
     if (is_array($default_values)) {
         foreach ($default_values as $key => $value) {
@@ -613,8 +617,8 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     }
                                 }else if($inputType == 'number'){
                                     echo "<div class='input-group'>";
-                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' min='1' class='form-control' ".$field['CONFIG']['JAVASCRIPT'].">";
-                                    if($field['COMMENT_AFTER'] == ""){
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' min='1' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
+                                    if(empty($field['COMMENT_AFTER'])){
                                       echo "</div>";
                                     }
                                 }else if($inputType == 'disabled'){
@@ -840,19 +844,21 @@ function check_requirements(){
 /**
  * From a byte value return an int
  *
- * @param type $val
+ * @param $val
  * @return int
  */
 function return_bytes($val) {
     $val = trim($val);
+    $nb = preg_match("/([0-9]+)/", $val, $matches);
+    $nb = $matches[1];
     $last = strtolower($val[strlen($val) - 1]);
     switch ($last) {
         case 'g':
-            $val *= 1024;
+            $nb *= 1024;
         case 'm':
-            $val *= 1024;
+            $nb *= 1024;
         case 'k':
-            $val *= 1024;
+            $nb *= 1024;
     }
 
     return $val;

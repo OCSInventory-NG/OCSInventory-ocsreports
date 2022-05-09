@@ -122,9 +122,9 @@ if (is_object($link_write) && is_object($link_read)) {
 }
 
 /* * *********************************************************LOGS ADMIN************************************************************************ */
-if (!isset($_SESSION['OCS']['LOG_GUI'])) {
+    if (!isset($_SESSION['OCS']['LOG_GUI'])) {
     $values = look_config_default_values(array('LOG_GUI', 'LOG_DIR', 'LOG_SCRIPT'));
-    $_SESSION['OCS']['LOG_DIR'] = $values['tvalue']['LOG_DIR'];
+    $_SESSION['OCS']['LOG_DIR'] = $values['tvalue']['LOG_DIR'] ?? "";
     if ($_SESSION['OCS']['LOG_DIR']) {
         $_SESSION['OCS']['LOG_DIR'] .= '/logs/';
     } else {
@@ -162,7 +162,7 @@ if (!isset($_SESSION['OCS']['CONF_PROFILS_DIR'])) {
 /* * ****************************************Checking sql update******************************************** */
 if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])) {
     $values = look_config_default_values('GUI_VERSION');
-    $_SESSION['OCS']['SQL_BASE_VERS'] = $values['tvalue']['GUI_VERSION'];
+    $_SESSION['OCS']['SQL_BASE_VERS'] = $values['tvalue']['GUI_VERSION'] ?? "";
 }
 if (GUI_VER != $_SESSION['OCS']['SQL_BASE_VERS']) {
     $fromAuto = true;

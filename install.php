@@ -135,8 +135,9 @@ if (isset($_POST["name"])) {
         } else {
             //update
             $res = mysql2_query_secure("select tvalue from config where name='GUI_VERSION'", $link);
-            $item = mysqli_fetch_object($res);
-            if ($item->tvalue < 7006) {
+            
+            $item = $res ? mysqli_fetch_object($res) : null;
+            if (!isset($item) || $item->tvalue < 7006) {
                 $db_file = "files/ocsbase.sql";
                 $name_connect = $_POST["name"];
                 $pass_connect = $_POST["pass"];
@@ -163,7 +164,7 @@ if (isset($_POST["name"])) {
             }
         }
 
-        if (!$error) {
+        if (!isset($error)) {
             ob_flush();
             flush();
             msg_info($l->g(2030));
@@ -185,7 +186,7 @@ if (isset($_POST["name"])) {
             fclose($ch);
 
             $dbc = mysqli_init();
-            if(isset($_POST["enablessl"]) == 1) {
+            if($_POST["enablessl"] == 1) {
                 $dbc->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
                 $dbc->ssl_set($_POST["sslkey"], $_POST["sslcert"], $_POST["cacert"], NULL, NULL);
                 if($_POST["sslmode"] == "MYSQLI_CLIENT_SSL") {
@@ -199,7 +200,7 @@ if (isset($_POST["name"])) {
             $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
             $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
 
-            $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, $_POST["port"], NULL, $connect);
+            $link = mysqli_real_connect($dbc, $_POST["host"], $_POST["name"], $_POST["pass"], NULL, $_POST["port"], NULL, $connect ?? NULL);
 
             if (!$link) {
                 if (mysqli_connect_errno() == 0) {
@@ -308,7 +309,7 @@ if (isset($_POST["name"], $_POST["pass"], $_POST["database"], $_POST["host"])) {
     $value_field = array($valNme, $valPass, $valdatabase, $valServ, $valPort, $valenablessl, $valsslmode, $valsslkey, $valsslcert, $valcacert);
 }
 $tab_typ_champ = show_field($name_field, $type_field, $value_field);
-modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? "", array(
     'button_name' => 'INSTALL',
     'show_button' => 'BUTTON',
     'form_name' => $form_name
