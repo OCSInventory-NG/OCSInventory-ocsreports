@@ -94,9 +94,9 @@ $form_name = 'all_soft';
 echo open_form($form_name, '', '', 'form-horizontal');
 
 $list_cat = $softCat->onglet_cat();
-$first_onglet = $list_cat['first_onglet'];
-$categorie_id = $list_cat['category_name'];
-$os = $list_cat['OS'];
+$first_onglet = $list_cat['first_onglet'] ?? '';
+$categorie_id = $list_cat['category_name'] ?? '';
+$os = $list_cat['OS'] ?? '';
 
 //definition of onglet
 $def_onglets['ALL'] = $l->g(765); //Category list.
