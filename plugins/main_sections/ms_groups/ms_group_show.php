@@ -367,7 +367,7 @@ function print_computers_real($systemid) {
         $tab_list_sql = regeneration_sql($valGroup["xmldef"]);
         $i = 1;
         $tab_id = array();
-        while ($tab_list_sql[$i]) {
+        while (isset($tab_list_sql[$i])) {
             if ($tab_id != array()) {
                 if (strtolower(substr($tab_list_sql[$i], 0, 19)) == "select distinct id ") {
                     $tab_list_sql[$i] .= " and id in (" . implode(",", $tab_id) . ")";
@@ -608,7 +608,7 @@ function print_perso($systemid) {
         }
     } else {
          $supp = '';
-        if ($optdefault['ivalue']["SNMP"] == 1) {
+        if (isset($optdefault['ivalue']["SNMP"]) && $optdefault['ivalue']["SNMP"] == 1) {
             $default = $l->g(205);
         } else {
             $default = $l->g(733);
