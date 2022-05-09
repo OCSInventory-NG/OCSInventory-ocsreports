@@ -444,12 +444,12 @@ function update_default_value($POST) {
         $value_field_modif = '';
         //check AUTO_DUPLICATE_LVL. Particular field
         if (strstr($key, 'AUTO_DUPLICATE_LVL_')) {
-            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_1'] = $POST['AUTO_DUPLICATE_LVL_1'];
-            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_2'] = $POST['AUTO_DUPLICATE_LVL_2'];
-            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_3'] = $POST['AUTO_DUPLICATE_LVL_3'];
-            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_4'] = $POST['AUTO_DUPLICATE_LVL_4'];
-            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_5'] = $POST['AUTO_DUPLICATE_LVL_5'];
-            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_6'] = $POST['AUTO_DUPLICATE_LVL_6'];
+            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_1'] = $POST['AUTO_DUPLICATE_LVL_1'] ?? '';
+            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_2'] = $POST['AUTO_DUPLICATE_LVL_2'] ?? '';
+            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_3'] = $POST['AUTO_DUPLICATE_LVL_3'] ?? '';
+            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_4'] = $POST['AUTO_DUPLICATE_LVL_4'] ?? '';
+            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_5'] = $POST['AUTO_DUPLICATE_LVL_5'] ?? '';
+            $AUTO_DUPLICATE['AUTO_DUPLICATE_LVL_6'] = $POST['AUTO_DUPLICATE_LVL_6'] ?? '';
             $value = auto_duplicate_lvl_poids($AUTO_DUPLICATE, 2);
             $key = 'AUTO_DUPLICATE_LVL';
         }
@@ -594,12 +594,12 @@ function pageGUI($advance) {
       $def = ETC_DIR . '/' . MAIN_SECTIONS_DIR . 'old_conf/';
       ligne('OLD_CONF_DIR', $l->g(1253), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_old_profils), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['OLD_CONF_DIR'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/old_conf"));
       ligne('EXPORT_SEP', $l->g(1213), 'input', array('VALUE' => $values['tvalue']['EXPORT_SEP'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 4));
-      ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE']));
+      ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE'] ?? 0));
       ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
     }else{
-      ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS']));
-      ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
-      ligne('LOG_GUI', $l->g(824), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOG_GUI']));
+      ligne('ACTIVE_NEWS', $l->g(8026), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ACTIVE_NEWS'] ?? 0));
+      ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'] ?? '', 'SELECT_VALUE' => $themes));
+      ligne('LOG_GUI', $l->g(824), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['LOG_GUI'] ?? 0));
     }
 }
 
@@ -671,10 +671,10 @@ function pageteledeploy($advance) {
     ligne('DEPLOY', $l->g(414), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DEPLOY']));
     ligne('DOWNLOAD_URI_FRAG', $l->g(826), 'radio', array('DEFAULT' => $l->g(823) . " (HTTP://localhost/download)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_frag), array('BEGIN' => "http://", 'HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_URI_FRAG'] ?? '', 'SIZE' => 70, 'MAXLENGTH' => 254));
     ligne('DOWNLOAD_URI_INFO', $l->g(827), 'radio', array('DEFAULT' => $l->g(823) . " (HTTPS://localhost/download)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_info), array('BEGIN' => "https://", 'HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_URI_INFO'] ?? '', 'SIZE' => 70, 'MAXLENGTH' => 254));
-    ligne('DOWNLOAD_ACTIVATE_FRAG', $l->g(9203), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD_ACTIVATE_FRAG']));
-    ligne('DOWNLOAD_RATIO_FRAG', $l->g(9204), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_RATIO_FRAG'], 'END' => 'MB', 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
-    ligne('DOWNLOAD_AUTO_ACTIVATE', $l->g(9205), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD_AUTO_ACTIVATE']));
-    ligne('DOWNLOAD_PROTOCOL', $l->g(9106), 'select', array('VALUE' => $values['tvalue']['DOWNLOAD_PROTOCOL'], 'SELECT_VALUE' => $protocol));
+    ligne('DOWNLOAD_ACTIVATE_FRAG', $l->g(9203), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD_ACTIVATE_FRAG'] ?? 0));
+    ligne('DOWNLOAD_RATIO_FRAG', $l->g(9204), 'input', array('VALUE' => $values['ivalue']['DOWNLOAD_RATIO_FRAG'] ?? '', 'END' => 'MB', 'SIZE' => 2, 'MAXLENGTH' => 4, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+    ligne('DOWNLOAD_AUTO_ACTIVATE', $l->g(9205), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['DOWNLOAD_AUTO_ACTIVATE'] ?? 0));
+    ligne('DOWNLOAD_PROTOCOL', $l->g(9106), 'select', array('VALUE' => $values['tvalue']['DOWNLOAD_PROTOCOL'] ?? '', 'SELECT_VALUE' => $protocol));
 }
 
 function pagegroups() {
@@ -740,7 +740,7 @@ function pageserveur($advance) {
     }
     ligne('TRACE_DELETED', $l->g(415), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TRACE_DELETED']));
     ligne('INVENTORY_ON_STARTUP', $l->g(2121), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_ON_STARTUP']));
-    ligne('ADVANCE_CONFIGURATION', $l->g(1700), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ADVANCE_CONFIGURATION']));
+    ligne('ADVANCE_CONFIGURATION', $l->g(1700), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['ADVANCE_CONFIGURATION'] ?? 0));
 }
 
 function pageinventory($advance) {
@@ -779,7 +779,7 @@ function pageinventory($advance) {
       ligne('INVENTORY_DIFF', $l->g(741), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_DIFF']));
       ligne('INVENTORY_TRANSACTION', $l->g(742), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_TRANSACTION']));
       ligne('INVENTORY_WRITE_DIFF', $l->g(743), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_WRITE_DIFF']));
-      ligne('INVENTORY_SESSION_ONLY', $l->g(744), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SESSION_ONLY']));
+      ligne('INVENTORY_SESSION_ONLY', $l->g(744), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SESSION_ONLY'] ?? 0));
       ligne('INVENTORY_CACHE_REVALIDATE', $l->g(745), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INVENTORY_CACHE_REVALIDATE'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
       ligne('INVENTORY_CACHE_ENABLED', $l->g(1265), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_CACHE_ENABLED']));
     }else{
@@ -793,7 +793,7 @@ function pageinventory($advance) {
     $category = new SoftwareCategory();
     $list_cat = $category->search_all_cat();
 
-    ligne('INVENTORY_SAAS_ENABLED', $l->g(8108), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SAAS_ENABLED']));
+    ligne('INVENTORY_SAAS_ENABLED', $l->g(8108), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INVENTORY_SAAS_ENABLED'] ?? 0));
     ligne('DEFAULT_CATEGORY', $l->g(1505), 'select', array('VALUE' => $values['ivalue']['DEFAULT_CATEGORY'], 'SELECT_VALUE' => $list_cat));
 
 }
@@ -902,11 +902,11 @@ function pageVulnerability() {
     $list_cat = $category->search_all_cat();
 
     // Display configuration items
-    ligne('VULN_CVESEARCH_ENABLE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE']));
-    ligne('VULN_CVESEARCH_HOST', $l->g(1462), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'], 'SELECT_VALUE' => $list_cat));
-    ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE']));
-    ligne('VULN_CVESEARCH_ALL', $l->g(1471), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL']));
+    ligne('VULN_CVESEARCH_ENABLE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE'] ?? 0));
+    ligne('VULN_CVESEARCH_HOST', $l->g(1462), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'] ?? 0, 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'] ?? 0, 'SELECT_VALUE' => $list_cat));
+    ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE'] ?? 0));
+    ligne('VULN_CVESEARCH_ALL', $l->g(1471), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL'] ?? 0));
     ligne('VULN_CVE_EXPIRE_TIME', $l->g(1484), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_EXPIRE_TIME'] ?? null, 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(730)));
     ligne('VULN_CVE_DELAY_TIME', $l->g(1459), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_DELAY_TIME'], 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(511)));
 }
@@ -963,8 +963,8 @@ function pagesnmp() {
     } else {
         $select_rep_creat = 'DEFAULT';
     }
-    ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP']));
-    ligne('SNMP_MIB_DIRECTORY', $l->g(9010), 'input', array('VALUE' => $values['tvalue']['SNMP_MIB_DIRECTORY'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP'] ?? 0));
+    ligne('SNMP_MIB_DIRECTORY', $l->g(9010), 'input', array('VALUE' => $values['tvalue']['SNMP_MIB_DIRECTORY'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
 }
 
 function pageswol() {
