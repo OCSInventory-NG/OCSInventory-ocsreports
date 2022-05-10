@@ -85,9 +85,9 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 
     $list_cat = $softCat->onglet_cat();
     $i = $list_cat['i'];
-    $first_onglet = $list_cat['first_onglet'];
-    $categorie_id = $list_cat['category_name'];
-    $os = $list_cat['OS'];
+    $first_onglet = $list_cat['first_onglet'] ?? '';
+    $categorie_id = $list_cat['category_name'] ?? '';
+    $os = $list_cat['OS'] ?? '';
     unset($list_cat['i']);
     unset($list_cat['first_onglet']);
     unset($list_cat['category_name']);
@@ -111,7 +111,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         unset($protectedPost['SUP_CAT']);
     }
 
-	if ((isset($protectedPost['onglet_soft']) && $protectedPost['onglet_soft'] == "") || !isset($list_cat[$protectedPost['onglet_soft']])) {
+	if ((empty($protectedPost['onglet_soft'])) || !isset($list_cat[$protectedPost['onglet_soft']])) {
 		$protectedPost['onglet_soft'] = $first_onglet;
 	}
 
@@ -130,14 +130,17 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         unset($list_cat[$protectedPost['SUP_PROF']]);
     }
 
-    $reg = $softCat->display_reg($categorie_id[$list_cat[$protectedPost['onglet_soft']]]);
+    if (!empty($protectedPost['onglet_soft'])) {
+        $reg = $softCat->display_reg($categorie_id[$list_cat[$protectedPost['onglet_soft']]]);
+    }
+
 
     //You can delete or not?
     if ($i != 1 && isset($list_cat[$protectedPost['onglet_soft']])) {
         echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a></br>";
     }
 
-    if($os_version[$os[$list_cat[$protectedPost['onglet_soft']]]] != null){
+    if(!empty($protectedPost['onglet_soft'])){
       	echo "<br><br><h4>".$l->g(274)." : ".$os_version[$os[$list_cat[$protectedPost['onglet_soft']]]]."</h4><br>";
     }else{
       	echo "<br><br><h4>".$l->g(274)." : ".$l->g(1515)."</h4><br>";

@@ -86,7 +86,7 @@ if (isset($protectedPost['TRANS']) && $protectedPost['TRANS'] == "TRANS") {
     }
     
     // If list check and protected post are OK for transfer
-    if ($list_check != '' && ( isset($protectedPost['NEW_CAT']) || isset($protectedPost['EXIST_CAT'])  ) ) {
+    if (!empty($list_check) && ( isset($protectedPost['NEW_CAT']) || isset($protectedPost['EXIST_CAT'])  ) ) {
         if(isset($protectedPost['EXIST_CAT']) && $protectedPost['EXIST_CAT'] != "NONE"){
             trans($protectedPost['onglet'], $list_check, $protectedPost['AFFECT_TYPE'], '', $protectedPost['EXIST_CAT']);
             unset($protectedPost['EXIST_CAT']); 
@@ -199,18 +199,18 @@ if ($protectedPost['onglet'] == 'NEW') {
     }
     //execute the query only if necessary
     $_SESSION['OCS']['REQ_ONGLET_SOFT'] = $sql_list_alpha;
-    $_SESSION['OCS']['ONGLET_SOFT'] = $list_alpha;
+    $_SESSION['OCS']['ONGLET_SOFT'] = $list_alpha ?? null;
     $_SESSION['OCS']['FIRST_DICO'] = $first;
     if (!isset($protectedPost['onglet_soft'])) {
         $protectedPost['onglet_soft'] = $_SESSION['OCS']['FIRST_DICO'];
     }
     echo "<p>";
-    onglet($list_alpha, $form_name, "onglet_soft", 20);
+    onglet($list_alpha ?? '', $form_name, "onglet_soft", 20);
     echo "</p>";
     
     //search all soft for the tab as selected
     $search_soft = "select distinct trim(name) name from " . $table . " cache
-    where name like '" . $_SESSION['OCS']['ONGLET_SOFT'][$protectedPost['onglet_soft']] . "%'
+    where name like '" . ($_SESSION['OCS']['ONGLET_SOFT'][$protectedPost['onglet_soft']] ?? '') . "%'
     and name not in (select extracted name from dico_soft)
     and name not in (select extracted name from dico_ignored) " . $search_cache;
     $result_search_soft = mysqli_query($_SESSION['OCS']["readServer"], $search_soft);
@@ -356,7 +356,7 @@ echo "<input type='hidden' name='RESET' id='RESET' value=''>";
 echo "<input type='hidden' name='SUP_CAT' id='SUP_CAT' value=''>";
 echo close_form();
 
-if(isset($protectedPost['custom_search'])){
+if(!empty($protectedPost['custom_search'])){
     unset($tab_options['custom_search']);
 }
 
