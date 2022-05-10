@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<optionsdefinition>
+    <!-- Id of the option -->
+    <id>installpluginlinuxopt</id>
+    <!-- Name of the option (used for header) -->
+    <name>9328</name>
+    <!-- Linked reference id -->
+    <refint>installpluginlinux</refint>
+    <!-- Replace value on xml ? true / false -->
+    <replace>true</replace>
+    <!-- Form options-->
+    <formoption>
+        <!-- 
+            A formblock is constitued of the following values : 
+            - id : id used in the form
+            - label : pretty name
+            - mandatory : required / empty
+            - type : (code / text / textarea / select / hidden / file)
+            - disabled : true / false
+            - defautlvalue : defautl value upon form loading
+            - description : helping hint
+            - specialcharallowed : Are special chars allowed ?
+            - javascript : add javascript function to input
+            - style : add specific css
+        -->
+        <formblock>
+            <id>FORMTYPE</id>
+            <label/>
+            <mandatory/>
+            <type>hidden</type>
+            <disabled>false</disabled>
+            <defaultvalue>installpluginlinuxopt</defaultvalue>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>NAME</id>
+            <label>1037</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>DESCRIPTION</id>
+            <label>53</label>
+            <mandatory>true</mandatory>
+            <type>text</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <specialcharallowed>true</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>additionalfiles</id>
+            <label>9363</label>
+            <mandatory>false</mandatory>
+            <type>file</type>
+            <disabled>false</disabled>
+            <defaultvalue/>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+    </formoption>
+    
+    <!-- Package builder -->
+    <packagebuilder>
+        <!-- 
+            The package builder will create the archive necessary for deployment :
+            - packagename :  will get text typed form block and correspond to the package name
+            - pathfile : will get text typed form block and put it in pahtfile info file
+            - codeasfile : will get code formblock content and put it in a file
+            - filesinarchive : will get file typed form block and put it in the final archive
+        -->
+        <packagename>
+            <!-- Target formblock id-->
+            <targetid>packagename</targetid>
+        </packagename>
+        <pathfile>
+            <!-- Target formblock id-->
+            <targetid>pathfile</targetid>
+        </pathfile>
+        <filesinarchive>
+            <!-- Target formblock id-->
+            <targetid>additionalfiles</targetid>
+            <!-- Force a specific file name in ouput, no action performed if empty -->
+            <filename/>
+        </filesinarchive>
+    </packagebuilder>
+    <!-- Package definition -->
+    <packagedefinition>
+        <!--
+            Package definition will create the info file containing the instructions needed for deployment
+            variables from formoptions can be used with :formblockid 
+        -->
+        <!-- Priority -->
+        <PRI>5</PRI>
+        <!-- Action (EXECUTE / LAUNCH / STORE) -->
+        <ACT>EXECUTE</ACT>
+        <!-- PROCOTOL used either HTTP or HTTPS-->
+        <PROTO>:PROTO:</PROTO>
+        <!-- File command -->
+        <COMMAND>sh installplugin.sh</COMMAND> 
+        <!-- Notify user -->
+        <NOTIFY_USER>:NOTIFY_USER:</NOTIFY_USER>
+        <!-- Notify text -->
+        <NOTIFY_TEXT>:NOTIFY_TEXT:</NOTIFY_TEXT>
+        <!-- Notify popup countdown -->
+        <NOTIFY_COUNTDOWN>:NOTIFY_COUNTDOWN:</NOTIFY_COUNTDOWN>
+        <!-- Can user abort -->
+        <NOTIFY_CAN_ABORT>:NOTIFY_CAN_ABORT:</NOTIFY_CAN_ABORT>
+        <!-- Can user delay -->
+        <NOTIFY_CAN_DELAY>:NOTIFY_CAN_DELAY:</NOTIFY_CAN_DELAY>
+        <!-- Need finish action on deployment -->
+        <NEED_DONE_ACTION>:NEED_DONE_ACTION:</NEED_DONE_ACTION>
+        <!-- End deployment popup -->
+        <NEED_DONE_ACTION_TEXT>:NEED_DONE_ACTION_TEXT:</NEED_DONE_ACTION_TEXT>
+    </packagedefinition>
+</optionsdefinition>

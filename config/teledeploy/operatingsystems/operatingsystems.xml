@@ -69,6 +69,7 @@
                 <interaction order="2">uninstallapplinux</interaction>
                 <interaction order="3">aptrepository</interaction>
                 <interaction order="4">yumrepository</interaction>
+                <interaction order="5">installpluginlinux</interaction>
             </category>
             <category id="scriptslinux">
                 <interaction order="1">bashscript</interaction>
