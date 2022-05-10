@@ -1396,6 +1396,7 @@
 1515 All OS
 1516 All software (but default)
 1517 No category have been selected
+1518 List of regex
 
 1550 Do you really want to archive 
 1551 Archive
