@@ -90,9 +90,9 @@ if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']
         'ID_TAB' => $protectedPost['account_tab'],
         'DEFAULT_VALUE' => $protectedPost['default_value']), $protectedPost['accountinfo']);
     $hidden = $protectedPost['MODIF_OLD'];
-} elseif ($protectedPost['Valid_modif'] != "") {
+} elseif (!empty($protectedPost['Valid_modif'])) {
     //ADD NEW VALUE
-    $msg = add_accountinfo($protectedPost['newfield'], $protectedPost['newtype'], $protectedPost['newlbl'], $protectedPost['account_tab'], $protectedPost['accountinfo'], $protectedPost['default_value']);
+    $msg = add_accountinfo($protectedPost['newfield'], $protectedPost['newtype'] ?? '', $protectedPost['newlbl'] ?? '', $protectedPost['account_tab'] ?? '', $protectedPost['accountinfo'] ?? '', $protectedPost['default_value'] ?? '');
 }
 
 if (isset($msg['ERROR'])) {
@@ -111,7 +111,7 @@ if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']
     }
     $hidden = $protectedPost['MODIF_OLD'];
     $protectedPost['onglet'] = 3;
-} elseif ($protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 4) {
+} elseif (!empty($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 4) {
     //ADD NEW VALUE
     //vérification que le nom du champ n'existe pas pour les nouveaux champs
     if (trim($protectedPost['newfield']) != '') {
@@ -153,7 +153,7 @@ if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']
         mysql2_query_secure($sql_insert, $_SESSION['OCS']["writeServer"], $arg_insert);
         //si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
         msg_success($l->g(1069));
-        if ($protectedGet['form']) {
+        if (isset($protectedGet['form']) && $protectedGet['form']) {
             reloadform_closeme($protectedGet['form']);
         }
         $protectedPost['onglet'] = 3;
@@ -193,13 +193,13 @@ if ($protectedPost['onglet'] == 1) {
         <div class="col col-md-6 col-md-offset-3">
 
             <?php
-            formGroup('select', 'ACCOUNTINFO_CHOISE', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'], '', $accountinfo_choise, $accountinfo_choise, 'onchange="document.admin_info.submit();"');
+            formGroup('select', 'ACCOUNTINFO_CHOISE', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'] ?? '', '', $accountinfo_choise, $accountinfo_choise, 'onchange="document.admin_info.submit();"');
             ?>
         </div>
     </div>
 
     <?php
-    if ($protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP") {
+    if (isset($protectedPost['ACCOUNTINFO_CHOISE']) && $protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP") {
         $account_choise = "SNMP";
     } else {
         $account_choise = "COMPUTERS";
@@ -259,13 +259,13 @@ if ($protectedPost['onglet'] == 1) {
     $config['JAVASCRIPT'][1] = $sql_field;
     $name_field = array("accountinfo", "newfield");
     $tab_name = array($l->g(56) . ": ", $l->g(1070) . ": ");
-    if (isset($protectedPost['MODIF_OLD']) || $protectedPost['MODIF'] != '') {
+    if (isset($protectedPost['MODIF_OLD']) || !empty($protectedPost['MODIF'])) {
         $hidden = ($protectedPost['MODIF'] != '' ? $protectedPost['MODIF'] : $protectedPost['MODIF_OLD']);
         $type_field = array(3, 3);
         $value_field = array($protectedPost['accountinfo'], $protectedPost['newfield']);
     } else {
         $type_field = array(2, 0);
-        $value_field = array($accountinfo_choise, $protectedPost['newfield']);
+        $value_field = array($accountinfo_choise, $protectedPost['newfield'] ?? '');
     }
 
     if (isset($hidden) && is_numeric($hidden)) {
@@ -275,7 +275,7 @@ if ($protectedPost['onglet'] == 1) {
     array_push($name_field, "newlbl");
     array_push($tab_name, $l->g(80) . ":");
     array_push($type_field, 0);
-    array_push($value_field, $protectedPost['newlbl']);
+    array_push($value_field, $protectedPost['newlbl'] ?? '');
 
     array_push($name_field, "newtype");
     array_push($tab_name, $l->g(1071) . ":");
@@ -287,7 +287,7 @@ if ($protectedPost['onglet'] == 1) {
     array_push($type_field, 2);
     array_push($value_field, $array_tab_account);
 
-    if ($protectedPost['newtype'] == 8) { //for QRCODE type
+    if (isset($protectedPost['newtype']) && $protectedPost['newtype'] == 8) { //for QRCODE type
         array_push($name_field, "default_value");
         array_push($tab_name, $l->g(1099) . ":");
         array_push($type_field, 2);
@@ -306,14 +306,14 @@ if ($protectedPost['onglet'] == 1) {
         formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "disabled");
 
     }else{
-        formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'], '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
-        formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+        formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'] ?? '', '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+        formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'] ?? '', '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
     }
-    formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl']);
-    formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost['newtype'], '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "onchange='document.admin_info.submit();'");
-    formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost['account_tab'], '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE'],'', $tab_typ_champ[3]['COMMENT_AFTER']);
+    formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl'] ?? '');
+    formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost['newtype'] ?? '', '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "onchange='document.admin_info.submit();'");
+    formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost['account_tab'] ?? '', '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE'],'', $tab_typ_champ[3]['COMMENT_AFTER']);
 
-    if($protectedPost['newtype'] == 8){
+    if(isset($protectedPost['newtype']) && $protectedPost['newtype'] == 8){
         formGroup('select', 'default_value', $l->g(1099), '', '', $protectedPost['default_value'], '', $tab_typ_champ[5]['DEFAULT_VALUE'], $tab_typ_champ[5]['DEFAULT_VALUE'], '', '');
     }
 
@@ -366,7 +366,7 @@ if ($protectedPost['onglet'] == 1) {
   //traitement par lot
   if ($are_result) {
       del_selection($form_name);
-      if ($protectedGet['form']) {
+      if (isset($protectedGet['form'])) {
           reloadform_closeme($protectedGet['form']);
       }
   }
@@ -377,12 +377,12 @@ if ($protectedPost['onglet'] == 1) {
   $name_field = array("newfield");
   $tab_name[0] = $l->g(80);
   $type_field = array(0);
-  $value_field = array($protectedPost['newfield']);
+  $value_field = array($protectedPost['newfield'] ?? '') ;
 
   $tab_typ_champ = show_field($name_field, $type_field, $value_field);
   $tab_typ_champ[0]['CONFIG']['SIZE'] = 20;
 
-  modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+  modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? '', array(
       'form_name' => 'NO_FORM'
   ));
 
@@ -613,7 +613,7 @@ if ($protectedPost['onglet'] == 1) {
                 <div class='col-sm-10'>";
     
         echo "<br><br>";
-        formGroup('file', 'csv_file', 'Import CSV file :', '', '', $protectedPost['csv_file'], '', '', '', "accept='.csv'");
+        formGroup('file', 'csv_file', 'Import CSV file :', '', '', $protectedPost['csv_file'] ?? '', '', '', '', "accept='.csv'");
         echo "<input type='submit' name='valid_csv' id='valid_csv' class='btn btn-success' value='".$l->g(1479)."'><br><br>";
         echo "</div>";
     }
