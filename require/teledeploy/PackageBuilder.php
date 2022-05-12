@@ -325,7 +325,7 @@ class PackageBuilder
 		$size = @filesize($fname);
 
 		// If package fragmentation disabled, frag = 1
-		if($this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG'] == 1 && $this->downloadConfig['ivalue']['DOWNLOAD_RATIO_FRAG'] != null) {
+		if((isset($this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG']) && $this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG'] == 1) && $this->downloadConfig['ivalue']['DOWNLOAD_RATIO_FRAG'] != null) {
 			$frag = 0;
 			$sizeBis = $size / pow(1024, 2);
 
