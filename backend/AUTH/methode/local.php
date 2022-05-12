@@ -21,51 +21,66 @@
  * MA 02110-1301, USA.
  */
 connexion_local_read();
-$reqOp = "SELECT id,PASSWORD_VERSION FROM operators WHERE id='%s'";
+
+$reqOp = "SELECT ID, PASSWORD_VERSION FROM operators WHERE ID='%s'";
 $arg_reqOp = array($login);
+
 $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
 $rowOp = mysqli_fetch_object($resOp);
-$oldpassword = false;
-if (array_key_exists("PASSWORD_VERSION", $_SESSION['OCS']) && $_SESSION['OCS']['PASSWORD_VERSION'] === false || (isset($rowOp) && $rowOp->PASSWORD_VERSION < $_SESSION['OCS']['PASSWORD_VERSION'])) {
-    $oldpassword = true;
-}
 
-if ($oldpassword && $rowOp->PASSWORD_VERSION === '0') {
-    $reqOp = "SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
+if ($rowOp->PASSWORD_VERSION === '0') {
+    $reqOp = "SELECT ID, USER_GROUP FROM operators WHERE ID='%s' and PASSWD ='%s'";
     $arg_reqOp = array($login, md5($protectedMdp));
+
     $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
     $rowOp = mysqli_fetch_object($resOp);
-    if (isset($rowOp->id)) {
+
+    if (isset($rowOp->ID)) {
         $login_successful = "OK";
-        $user_group = $rowOp->user_group;
+        $user_group = $rowOp->USER_GROUP;
         $type_log = 'CONNEXION';
+
         if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
             require_once('require/function_users.php');
-            updatePassword($login, $mdp);
+            updatePasswordMd5toHash($login, $mdp);
         }
     } else {
         $login_successful = $l->g(180);
         $type_log = 'BAD CONNEXION';
     }
 } else {
-    $reqOp = "SELECT id,user_group,passwd FROM operators WHERE id='%s'";
+    $reqOp = "SELECT ID, USER_GROUP, PASSWD, PASSWORD_VERSION FROM operators WHERE ID = '%s'";
+    
     $arg_reqOp = array($login);
     $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
     $rowOp = mysqli_fetch_object($resOp);
-    if (isset($rowOp->id) && password_verify($mdp, $rowOp->passwd)) {
-        if ($oldpassword) {
+
+    $login_status = false;
+
+    // if password version is set to 1 = md5 version so update to PASSWORD_CRYPT
+    if(isset($rowOp->ID) && $rowOp->PASSWORD_VERSION == 1) {
+        if(password_verify($mdp, $rowOp->PASSWD)) {
             require_once('require/function_users.php');
-            updatePassword($login, $mdp);
+            $update = updatePasswordMd5toHash($login, $mdp);
+            error_log(print_r($update, true));
+            if($update) {
+                $login_status = true;
+            }
         }
+    }
+
+    if ($login_status == true || hash(PASSWORD_CRYPT, $mdp) == $rowOp->PASSWD) {
         $login_successful = "OK";
-        $user_group = $rowOp->user_group;
+        $user_group = $rowOp->USER_GROUP;
         $type_log = 'CONNEXION';
     } else {
         $login_successful = $l->g(180);
         $type_log = 'BAD CONNEXION';
     }
 }
+
 $value_log = 'USER:' . $login;
 $cnx_origine = "LOCAL";
+
 addLog($type_log, $value_log);
 ?>

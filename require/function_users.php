@@ -136,8 +136,8 @@ function add_user($data_user, $list_profil = '') {
                     $data_user['COMMENTS'],
                     $data_user['USER_GROUP']);
                 if (is_defined($data_user['PASSWORD'])) {
-                    $sql_update .= ",passwd ='%s' , password_version ='%s' ";
-                    $arg_update[] = password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
+                    $sql_update .= ", passwd ='%s' , password_version ='%s' ";
+                    $arg_update[] = hash(PASSWORD_CRYPT, $password);
                     $arg_update[] = $_SESSION['OCS']['PASSWORD_VERSION'];
                 }
                 $sql_update .= "	 where ID='%s'";
@@ -161,7 +161,7 @@ function add_user($data_user, $list_profil = '') {
                 $data_user['USER_GROUP']);
             if (isset($password)) {
                 $sql .= ",'%s','%s'";
-                $arg[] = password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
+                $arg[] = hash(PASSWORD_CRYPT, $password);
                 $arg[] = $_SESSION['OCS']['PASSWORD_VERSION'];
             }
             $sql .= ")";
@@ -315,26 +315,33 @@ function admin_user($id_user = null, $is_my_account = false) {
     }
 }
 
-function updatePassword($id_user, $password) {
+/**
+ * updatePasswordMd5toHash
+ *
+ * @param  string $login
+ * @param  string $mdp
+ * @return boolean $result
+ */
+function updatePasswordMd5toHash($login, $mdp) {
+    $sql = "SELECT ID FROM operators WHERE ID = '%s'";
+    $arg = array($login);
 
-    $sql = "select id from operators where id= '%s'";
-    $arg = $id_user;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $row = mysqli_fetch_object($res);
-    if (isset($row->id)) {
-        if (is_defined($password)) {
-            $sql_update = "update operators set passwd ='%s', PASSWORD_VERSION ='%s' ";
-            $newhash = password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
-            // if constant don't exist, or encryption not good
-            if (!empty($newhash)) {
-                $arg_update[] = $newhash;
-                $arg_update[] = $_SESSION['OCS']['PASSWORD_VERSION'];
-                $sql_update .= "	 where ID='%s'";
-                $arg_update[] = $row->id;
-                $res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"], $arg_update);
+
+    if (isset($row->ID)) {
+        if (is_defined($mdp)) {
+            $sql_update = "UPDATE operators SET PASSWD ='%s', PASSWORD_VERSION ='%s' WHERE ID = '%s'";
+            $sql_arg = array(hash(PASSWORD_CRYPT, $mdp), $_SESSION['OCS']['PASSWORD_VERSION'], $row->ID);
+            $res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"], $sql_arg);
+
+            if($res) {
+                return true;
             }
         }
     }
+
+    return false;
 }
 
 ?>

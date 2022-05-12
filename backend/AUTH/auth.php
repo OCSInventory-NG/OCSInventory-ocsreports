@@ -168,7 +168,6 @@ if (isset($login_successful) && $login_successful == "OK" && !$limitAttempt) {
 } else {
     if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
         if ($login != ""){
-            error_log(print_r('TEST', true));
             $sql = "INSERT INTO auth_attempt (`DATETIMEATTEMPT`,`LOGIN`,`IP`,`SUCCESS`)
             VALUES ('%s','%s','%s','%s')";
             $datetime = new DateTime();
@@ -181,7 +180,6 @@ if (isset($login_successful) && $login_successful == "OK" && !$limitAttempt) {
     if ($affich_method == 'HTML') {
         require_once (HEADER_HTML);
         if (isset($protectedPost['Valid_CNX'])) {
-            $login_successful = $l->g(180);
             msg_error($login_successful);
             flush();
             //you can't send a new login/passwd before 2 seconds
@@ -222,6 +220,9 @@ if (isset($login_successful) && $login_successful == "OK" && !$limitAttempt) {
         <?php
         require_once(FOOTER_HTML);
         die();
+    } else if ($list_methode[0] == 'cas.php') {
+        // redirect to CAS login page
+        require_once('methode/' . $list_methode[0]);
     } else {
         header('WWW-Authenticate: Basic realm="OcsinventoryNG"');
         header('HTTP/1.0 401 Unauthorized');

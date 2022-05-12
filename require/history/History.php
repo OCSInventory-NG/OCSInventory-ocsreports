@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
+ * Copyright 2005-2022 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
  *
  * This file is part of OCSInventory-NG/OCSInventory-ocsreports.
@@ -20,9 +20,26 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-// Configuracion de la autenticacion CAS
 
-$cas_host = "put here your server cas";
-$cas_port = 443;
-$cas_uri = "/cas";
-?>
+
+/**
+ * Class for logging actions made on the interface in the history table
+ */
+class History {
+
+    /**
+     * Logs an action in the history table
+     */
+    public function addToHistory($action, $target) {
+        if ($_SESSION['OCS']['LOG_GUI'] == 1) {
+            $datetime = date("Y-m-d H:i:s");
+            $user = $_SESSION['OCS']["loggeduser"];
+            $sql = "INSERT INTO history (USER,DATETIME_ACTION,ACTION,TARGET) VALUES ('%s','%s','%s','%s')";
+            $arg = array($user, $datetime, $action, $target);
+
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+            return $result;
+        }
+	}
+
+}

@@ -224,13 +224,13 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     $list_col_cant_del = array('SHOWACTIVE' => 'SHOWACTIVE', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'CHECK' => 'CHECK');
     $querypack = 'SELECT ';
     foreach ($list_fields as $key => $value) {
-        if ($key != 'Creation date' && $key != 'Total size KB') {
+        if ($key != $l->g(593) && $key != $l->g(462) . " KB") {
             $querypack .= $value . ',';
         }
-        if ($key == 'Creation date') {
+        if ($key == $l->g(593)) {
             $querypack .= ' CAST(from_unixtime(FILEID) AS DATETIME) as ' . $value . ',';
         }
-        if ($key == 'Total size KB') {
+        if ($key == $l->g(462) . " KB") {
             $querypack .= ' round(SIZE/1024,2) as ' . $value . ',';
         }
     }

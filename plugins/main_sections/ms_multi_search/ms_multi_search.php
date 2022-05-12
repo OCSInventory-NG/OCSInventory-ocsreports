@@ -265,9 +265,9 @@ echo close_form();
 
 $isValid = true;
 
-foreach ($_SESSION['OCS']['multi_search'] as $value) {
-	foreach ($value as $v) {
-		if (is_null($v['value'])) {
+foreach ($_SESSION['OCS']['multi_search'] as $key => $value) {
+	foreach ($value as $k => $v) {
+		if (is_null($v['value']) && $v['operator'] != "ISNULL") {
 			$isValid = false;
 		}
 	}

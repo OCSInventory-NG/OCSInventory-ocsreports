@@ -780,7 +780,7 @@
 891 DEVERROUILLER l'interface
 892 se connecter avec un autre compte
 893 PAS DE TAG AFFECTE A VOTRE PROFIL
-894 PAS DE NIVEAU DE DROITS DEFINI POUR VOTRE PROFIL
+894 Aucun niveau de droits n'a été défini pour votre profil, merci de contacter votre administrateur
 895 Modification d'un TAG
 898 Ajouter une annotation
 899 Rédacteur
@@ -995,12 +995,12 @@
 1108 Configuration LDAP
 1109 Filtrer
 1110 L'affectation d'un paquet dépend du statut de la demande
-1111 Nom du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1111 Premier filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1112 Valeur du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1113 Si le premier attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
-1114 Nom du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1113 Si l'utilisateur est trouvé avec le premier filtre, réglez ce profil d'utilisateur automatiquement
+1114 Deuxième filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1115 Valeur du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1116 Si le second attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
+1116 Si l'utilisateur est trouvé avec le second filtre, réglez ce profil d'utilisateur automatiquement
 1117 E-mail
 1118 Editer
 1119 Sélectionner
@@ -1397,6 +1397,7 @@
 1515 Tous les OS
 1516 Tous les logiciels (sauf défaut)
 1517 Aucune catégorie n'a été sélectionnée
+1518 Liste des regex
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver
@@ -1758,6 +1759,8 @@
 9326 Installer avec brew
 9327 Script Apple
 
+9328 Installation plugin
+
 9340 Script
 9341 Fichier MSI
 9342 URL du répertoire
@@ -1781,6 +1784,10 @@
 9360 dnf
 9361 Recharger
 9362 Fichier
+9363 Fichier agent du plugin
+9364 Ligne configuration
+9365 Ligne devant être ajoutée au fichier modules.conf (ex: 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Chemin du répertoire Modules de l'agent
 
 9500 Fusionner la sélection
 9501 Tout fusionner
@@ -1800,3 +1807,18 @@
 9611 Répertoire de fichiers temporaires
 9612 Importer depuis un CSV
 9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS
+
+9650 Nombre de filtres LDAP (minimum 1, maximum égal au nombre de profils)
+
+9651 Historique
+9653 Nom utilisateur
+9654 Date et heure
+9655 Action
+9656 Cible de l'action
+
+9700 Port du serveur CAS, e.g. : 443
+9701 URI du serveur CAS, e.g : /cas
+9702 Adresse du serveur CAS, e.g. : authentication.org
+9703 Profil par défaut, appliqué à la première connexion CAS
+9704 Configuration CAS
+

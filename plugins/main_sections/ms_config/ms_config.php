@@ -79,7 +79,8 @@ echo open_form($form_name, '', '', 'form-horizontal');
 if(isset($values['ivalue']['ADVANCE_CONFIGURATION'])){
   $def_onglets['INV_FILE'] = $l->g(734); //Inventory file
   $def_onglets['FILTER'] = $l->g(735); //Filter
-  $def_onglets['CNX'] = $l->g(1108); //connexion
+  $def_onglets['CNX'] = $l->g(1108); //connexion LDAP
+  $def_onglets['CAS'] = $l->g(9704); // connexion CAS
   $def_onglets['VULN'] = $l->g(1460); //cve-search integration
 }
 
@@ -88,6 +89,9 @@ echo '<div class="col col-md-10">';
 switch ($protectedPost['onglet']) {
     case 'VULN':
         pageVulnerability();
+        break;
+    case 'CAS':
+        pageCas();
         break;
     case 'CNX':
         pageConnexion();

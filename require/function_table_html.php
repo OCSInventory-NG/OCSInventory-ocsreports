@@ -1658,7 +1658,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 			}
 			$row_temp = $row;
 			foreach($row as $rowKey=>$rowValue){
-				$row[$rowKey]=$rowValue;
+				$row[$rowKey]=htmlspecialchars($rowValue, ENT_QUOTES, "UTF-8");
 			}
 			foreach($list_fields as $key=>$column){
 				$name = explode('.',$column);

@@ -84,6 +84,16 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     $inter = interprete_accountinfo($col, array());
     while ($cont = mysqli_fetch_array($result)) {
         unset($cont['MODIF']);
+        if ($protectedGet['tablename'] == "IPDISCOVER") {
+            $query = "SELECT `NAME` FROM subnet WHERE NETID = '" . $cont['ID'] . "'";
+            $ipDiscoverResult = mysql2_query_secure($query, $link);
+            $nameArray = mysqli_fetch_array($ipDiscoverResult);
+            if (!empty($nameArray)) {
+                $data[$i]['LBL_RSX'] = $nameArray[0];
+            } else {
+                $data[$i]['LBL_RSX'] = "";
+            }
+        }
         foreach ($inter as $field => $lbl) {
             if ($lbl == "name_of_machine" && !isset($cont[$field])) {
                 $field = 'name';

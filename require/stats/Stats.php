@@ -95,7 +95,9 @@ class Stats{
 
             if($key == 'SEEN'){
                 //last seen since
-                $date = date("y-m-d",strtotime("-15 day")); 
+                $sql_seen_interval = "SELECT IVALUE FROM `config` WHERE NAME = 'INTERFACE_LAST_CONTACT'";
+                $result_seen_interval = mysqli_fetch_object(mysql2_query_secure($sql_seen_interval, $_SESSION['OCS']["readServer"]))->IVALUE ?: 15;
+                $date = date("Y-m-d",strtotime("-".$result_seen_interval." day"));
                 $sql_seen = "SELECT DATE_FORMAT(h.lastcome, '%Y-%m') AS contact, count(h.lastcome) AS conta FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.LASTCOME < '".$date."' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql_seen .= " AND " . $_SESSION['OCS']["mesmachines"];
@@ -112,7 +114,7 @@ class Stats{
                 }	
                 $seen = "['".implode("','",$seen_name)."']";
                 $quants_seen = "['".implode("','",$seen_quant)."']";
-                $chart[$key]['title'] = $l->g(820).' > 15 '.$l->g(496);
+                $chart[$key]['title'] = $l->g(820).' > '.htmlentities($result_seen_interval, ENT_QUOTES).' '.$l->g(496);
             }
 
             if($key == 'MANUFAC'){

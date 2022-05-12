@@ -779,7 +779,7 @@
 891 Remove interface LOCK
 892 connect with another account
 893 NO TAG ASSIGNED TO YOUR PROFILE
-894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
+894 No rights level defined to your profile, please contact your administrator
 895 TAG Modification
 898 Add an annotation
 899 Writer
@@ -994,12 +994,12 @@
 1108 LDAP configuration
 1109 Filter
 1110 The assignment of a package depends on the status of the request
-1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1111 First LDAP filter that will be used for evaluating the security level of a LDAP user (blank for none)
 1112 Value of the first  attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1113 If the first attribute is found and the value matches, set this user role automatically
-1114 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1113 If the user is found with the first filter, set this user role automatically
+1114 Second LDAP filter that will be used for evaluating the security level of a LDAP user (blank for none)
 1115 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1116 If the second attribute is found and the value matches, set this user role automatically
+1116 If the user is found with the second filter, set this user role automatically
 1117 E-mail
 1118 Edit
 1119 Select
@@ -1396,6 +1396,7 @@
 1515 All OS
 1516 All software (but default)
 1517 No category have been selected
+1518 List of regex
 
 1550 Do you really want to archive 
 1551 Archive
@@ -1624,7 +1625,7 @@
 7015 Select at least one computer!
 7016 MTU
 7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation.
-7018 This extension is allready installed.
+7018 This extension is already installed.
 7019 A PHP error occurred.
 7020 Extension successfully uninstalled!
 7021 Extension "%s" not compliant
@@ -1762,6 +1763,8 @@
 9326 Install with brew
 9327 Apple script
 
+9328 Install plugin
+
 9340 Script
 9341 MSI file
 9342 Repository URL
@@ -1785,6 +1788,10 @@
 9360 dnf
 9361 Reload build
 9362 File
+9363 Plugin agent file
+9364 Configuration line
+9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Path to Modules directory
 
 9500 Merge selected duplicates
 9501 Merge all duplicates
@@ -1804,3 +1811,18 @@
 9611 Directory for temporary files
 9612 Import from CSV
 9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
+
+9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
+
+9651 History
+9653 User name
+9654 Date and time
+9655 Action
+9656 Target of action
+
+9700 CAS server port, e.g. : 443
+9701 CAS server uri, e.g : /cas
+9702 CAS server host, e.g. : authentication.org
+9703 CAS default role, applied on first connection initiated using CAS authentication
+9704 CAS Configuration
+

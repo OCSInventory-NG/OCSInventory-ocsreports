@@ -77,7 +77,7 @@ function show_computer_actions($computer){
     echo "&nbsp;&nbsp;";
 
     // archive btn -> if computer already archived : restore, else : archive
-    if ($_SESSION['OCS']['profile']->getRestriction('ARCHIVE', 'NO') == "NO" && isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
+    if ($_SESSION['OCS']['profile']->getConfigValue('ARCHIVE_COMPUTERS') == "YES" && isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
         $archive = new ArchiveComputer();
         if (mysqli_num_rows($archive->isArchived($computer->ID)) != 0) {
             $archive_action = $l->g(1552);

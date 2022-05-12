@@ -79,11 +79,14 @@ if (isset($protectedPost["WOL"]) && $protectedPost["WOL"] == 'WOL' && $_SESSION[
 
 show_computer_title($item);
 
+
 $archive = new ArchiveComputer();
-if (isset($protectedPost["ARCHIVE"]) && $protectedPost['ARCHIVE'] == 'Archive') {
+if (isset($protectedPost["ARCHIVE"]) && $protectedPost['ARCHIVE'] == $l->g(1551)) {
     $archive->archive($item->ID);
-} elseif (isset($protectedPost["ARCHIVE"]) && $protectedPost['ARCHIVE'] == 'Restore') {
+    unset($protectedPost['ARCHIVE']);
+} elseif (isset($protectedPost["ARCHIVE"]) && $protectedPost['ARCHIVE'] ==  $l->g(1552)) {
     $archive->restore($item->ID);
+    unset($protectedPost['ARCHIVE']);
 }
 
 show_computer_actions($item);

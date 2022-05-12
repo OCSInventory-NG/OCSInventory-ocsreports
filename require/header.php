@@ -53,6 +53,7 @@ require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
 require_once('require/views/forms.php');
 require_once('require/plugin/include.php');
+require_once('require/history/History.php');
 
 if (isset($_SESSION['OCS']['CONF_RESET'])) {
     unset($_SESSION['OCS']['LOG_GUI']);
@@ -71,16 +72,11 @@ if (isset($_POST['RELOAD_CONF']) && $_POST['RELOAD_CONF'] == 'RELOAD') {
 
 /* * ***************************************************LOGOUT******************************************** */
 if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON') {
-    if ($_SESSION['OCS']['cnx_origine'] == "CAS") {
-        require_once(BACKEND . 'require/cas.config.php');
-        $cas = new phpCas();
-        $cas->client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_uri);
-        $cas->logout();
-    }
-    //end contrib
     unset($_SESSION['OCS']);
     unset($_GET);
 }
+    
+
 /* * *************************************************** First installation checking ******************************************************** */
 if ((!is_readable(CONF_MYSQL)) || (!function_exists('session_start')) || (!function_exists('mysqli_real_connect'))) {
     require('install.php');
@@ -120,6 +116,7 @@ if (is_object($link_write) && is_object($link_read)) {
     require_once(FOOTER_HTML);
     die();
 }
+
 
 /* * *********************************************************LOGS ADMIN************************************************************************ */
     if (!isset($_SESSION['OCS']['LOG_GUI'])) {
@@ -395,7 +392,7 @@ if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!$_SESS
 }
 
 if ((!isset($_SESSION['OCS']["loggeduser"]) || !is_defined($_SESSION['OCS']["lvluser"])) && !isset($_SESSION['OCS']['TRUE_USER']) && $no_error != 'YES') {
-    msg_error($LIST_ERROR);
+    msg_error('no loggeduser');
     require_once(FOOTER_HTML);
     die();
 }

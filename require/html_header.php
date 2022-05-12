@@ -96,7 +96,7 @@ if(is_null($value_banniere)){
                     echo "</li>";
                 }
 
-                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER'])) {
+                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER']) && $_SESSION['OCS']['cnx_origine'] != 'CAS') {
                     echo "<li><a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>" . $l->g(251) . "</a></li>";
                 }
                 echo open_form('log_out', 'index.php');
@@ -177,11 +177,12 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     }
 
     //admin user already exist on data base with defaut password?
-    $reqOp = "SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
-    $arg_reqOp = array(DFT_GUI_CMPT, md5(DFT_GUI_PSWD));
+    $reqOp = "SELECT ID, USER_GROUP FROM operators WHERE ID='%s' and PASSWD ='%s'";
+    $arg_reqOp = array(DFT_GUI_CMPT, hash(PASSWORD_CRYPT, DFT_GUI_PSWD));
     $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
     $rowOp = mysqli_fetch_object($resOp);
-    if (isset($rowOp->id)) {
+    
+    if (isset($rowOp->ID)) {
         $msg_header_error[] = $l->g(2026);
         $msg_header_error_sol[] = $l->g(2027);
     }

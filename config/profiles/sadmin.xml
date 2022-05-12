@@ -21,6 +21,7 @@
     <config-elem key="MANAGE_USER_GROUP">YES</config-elem>
     <config-elem key="MANAGE_SMTP_COMMUNITIES">YES</config-elem>
     <config-elem key="DELETE_COMPUTERS">YES</config-elem>
+    <config-elem key="ARCHIVE_COMPUTERS">YES</config-elem>
   </config>
   <blacklist>
     <blacklist-elem>MACADD</blacklist-elem>
@@ -116,5 +117,6 @@
     <page>ms_save_query_list</page>
     <page>ms_snmp_inventory</page>
     <page>ms_cve_history</page>
+    <page>ms_history</page>
   </pages>
 </profile>

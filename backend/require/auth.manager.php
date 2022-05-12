@@ -24,6 +24,8 @@
 function get_affiche_methode(){
     if(AUTH_TYPE == 4){
         return "SSO";
+    } else if (AUTH_TYPE == 6) {
+        return "CAS";
     }else{
         return "HTML";
     }
@@ -58,6 +60,12 @@ function get_list_methode($identity = false){
                     0 => "always_ok.php"
                 );
             }
+            break;
+
+        case 6:
+            return array(
+                0 => "cas.php"
+            );
             break;
         
         default:
