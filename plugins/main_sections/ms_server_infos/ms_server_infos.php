@@ -30,7 +30,7 @@ printEnTete($l->g(1360));
             <div class="col-xs-4">
                 <ul class="server-information-ul">
                     <li><?php echo $l->g(274) ?> :</li>
-                    <li><?php echo $l->g($os == "Linux" ? 1372 : 277) ?> :</li>
+                    <li><?php echo $l->g(isset($os) && $os == "Linux" ? 1372 : 277) ?> :</li>
                     <li><?php echo $l->g(1379); ?> :<li>
                     <li><?php echo $l->g(1378); ?> :</li>
                     <li><?php echo $l->g(1368); ?> :</li>

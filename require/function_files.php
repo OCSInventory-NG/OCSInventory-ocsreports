@@ -54,7 +54,7 @@ function scanDirectory($directory, $filetype = '.') {
         }
     }
     closedir($myDirectory);
-    return $data;
+    return $data ?? '';
 }
 
 /**
