@@ -100,7 +100,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
         $resId = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $id);
         $valId = mysqli_fetch_array($resId);
         $idHard = $id;
-        $did = $valId["deviceid"];
+        $did = $valId["deviceid"] ?? '';
         if ($did) {
             //Deleting a network device
             if (!str_contains($did, "NETWORK_DEVICE-")) {
@@ -152,7 +152,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
         if ($checkLock) {
             unlock($id);
         }
-        return $valId["name"];
+        return $valId["name"] ?? '';
     } else {
         errlock();
     }
