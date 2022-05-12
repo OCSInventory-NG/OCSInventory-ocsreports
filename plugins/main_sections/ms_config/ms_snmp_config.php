@@ -265,7 +265,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation']);
+        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation'] ?? '');
         if($result == 0){
           msg_success($l->g(572));
         }else{
@@ -346,7 +346,7 @@ if($protectedPost['onglet'] == 'SNMP_MIB') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result_oids = $command->get_mib_oid($protectedPost['mib_file']);
+        $result_oids = $command->get_mib_oid($protectedPost['mib_file'] ?? '');
 
         $protectedPost['select_mib'] = true;
         unset($protectedPost['update_snmp']);
