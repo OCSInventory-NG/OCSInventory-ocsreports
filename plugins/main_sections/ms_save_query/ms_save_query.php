@@ -84,18 +84,18 @@ if(isset($protectedPost['query_name'])){
         <div class="col-sm-12">
             <div class="container">
                 <div class="row">
-                    <?php   formGroup('text','query_name',$l->g(49),'','',$search_info['NAME'],'','','','',''); ?>
+                    <?php   formGroup('text','query_name',$l->g(49),'','',$search_info['NAME'] ?? '','','','','',''); ?>
                 </div>
                 <br/>
                 <div class="row">
-                    <?php   formGroup('text','query_description',$l->g(53),'','',$search_info['DESCRIPTION'],'','','','',''); ?>
+                    <?php   formGroup('text','query_description',$l->g(53),'','',$search_info['DESCRIPTION'] ?? '','','','','',''); ?>
                 </div>
                 <br/>
                 <div class="row">
-                    <?php   formGroup('select','query_see',$l->g(2145),'','',$search_info['WHO_CAN_SEE'],'',$who_can_see, $who_can_see,'',''); ?>
+                    <?php   formGroup('select','query_see',$l->g(2145),'','',$search_info['WHO_CAN_SEE'] ?? '','',$who_can_see, $who_can_see,'',''); ?>
                 </div>
                 <br/>
-                <input type="hidden" id="id_search" name= "id_search" value="<?php echo $search_info['ID'] ?>">
+                <input type="hidden" id="id_search" name= "id_search" value="<?php echo $search_info['ID'] ?? ''?>">
                 <br/>
                 <a onClick="verif_champ_name('save_query', 'query_name');">
                     <button type="button" class="btn btn-success"><?php echo $l->g(455) ?></button>
@@ -120,7 +120,7 @@ if(isset($protectedPost['query_name'])){
             <div class="container">
                 <br/>
                 <div class="row">
-                    <?php   formGroup('select','saved_search',$l->g(2141),'','',$protectedPost['saved_search'],'',$query,$query,'',''); ?>
+                    <?php   formGroup('select','saved_search',$l->g(2141),'','',$protectedPost['saved_search'] ?? '','',$query,$query,'',''); ?>
                 </div>
                 <br/>
                 <a onClick="$('#update_query').submit();">
