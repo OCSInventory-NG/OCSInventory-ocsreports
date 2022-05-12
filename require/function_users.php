@@ -97,7 +97,7 @@ function add_user($data_user, $list_profil = '') {
         $ERROR = $l->g(1391) . ' : ' . $l->g(1366);
     }
     // Password ok ?
-    if (trim($data_user['PASSWORD']) == "" && trim($data_user['MODIF']) == "") {
+    if (trim($data_user['PASSWORD']) == "" && (isset($data_user['MODIF']) && trim($data_user['MODIF']) == "")) {
         $ERROR = $l->g(1391) . ' : ' . $l->g(217);
     }
     // Login ok ?
@@ -134,7 +134,7 @@ function add_user($data_user, $list_profil = '') {
                     $data_user['ACCESSLVL'],
                     $data_user['EMAIL'],
                     $data_user['COMMENTS'],
-                    $data_user['USER_GROUP']);
+                    $data_user['USER_GROUP'] ?? '');
                 if (is_defined($data_user['PASSWORD'])) {
                     $sql_update .= ", passwd ='%s' , password_version ='%s' ";
                     $arg_update[] = hash(PASSWORD_CRYPT, $password);
@@ -158,7 +158,7 @@ function add_user($data_user, $list_profil = '') {
                 $data_user['ACCESSLVL'],
                 $data_user['EMAIL'],
                 $data_user['COMMENTS'],
-                $data_user['USER_GROUP']);
+                $data_user['USER_GROUP'] ?? '');
             if (isset($password)) {
                 $sql .= ",'%s','%s'";
                 $arg[] = hash(PASSWORD_CRYPT, $password);
