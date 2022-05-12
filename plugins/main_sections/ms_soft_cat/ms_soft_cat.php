@@ -110,8 +110,8 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 
         $list_cat = $softCat->onglet_cat();
         $i = $list_cat['i'];
-        $first_onglet = $list_cat['first_onglet'];
-        $categorie_id = $list_cat['category_name'];
+        $first_onglet = $list_cat['first_onglet'] ?? '';
+        $categorie_id = $list_cat['category_name'] ?? '';
         $os = $list_cat['OS'];
         unset($list_cat['i']);
         unset($list_cat['first_onglet']);
