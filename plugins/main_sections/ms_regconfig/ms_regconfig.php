@@ -48,7 +48,7 @@ if (is_defined($protectedPost['MODIF'])) {
 $tab_options=$protectedPost;
 show_tabs($tab,$form_name,"tab",true);
 echo '<div class="col col-md-10" >';
-if ($ajax){
+if (isset($ajax)){
 	if (isset($protectedPost['REGKEY'])){
 		$protectedPost['tab']="VIEW";
 	}
@@ -123,13 +123,13 @@ if ($protectedPost['tab'] == 'VIEW'){
              formGroup('hidden', 'id', '', '', '', $protectedPost['MODIF'], '', '', '', '');
          }
          
-         formGroup('text', 'NAME', $l->g(252), '', 255, $protectedPost['NAME']);
+         formGroup('text', 'NAME', $l->g(252), '', 255, $protectedPost['NAME'] ?? '');
 
-         formGroup('select', 'REGTREE', $l->g(253), '', '', $protectedPost['REGTREE'], '', $list_registry_key, $list_registry_key);
+         formGroup('select', 'REGTREE', $l->g(253), '', '', $protectedPost['REGTREE'] ?? '', '', $list_registry_key, $list_registry_key);
 
-         formGroup('text', 'REGKEY', $l->g(254), '', 255, $protectedPost['REGKEY']);
+         formGroup('text', 'REGKEY', $l->g(254), '', 255, $protectedPost['REGKEY'] ?? '');
 
-         formGroup('text', 'REGVALUE', $l->g(255), '', 255, $protectedPost['REGVALUE']);
+         formGroup('text', 'REGVALUE', $l->g(255), '', 255, $protectedPost['REGVALUE'] ?? '');
          ?>
         </div>
     </div>

@@ -55,7 +55,7 @@ function add_update_key($form_values, $update = false) {
         $arg_verif = array($form_values["REGTREE"], $form_values["REGKEY"], $form_values["REGVALUE"]);
         $res = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
         $row = mysqli_fetch_object($res);
-        if (!is_numeric($row->ID)) {
+        if (!isset($row->ID)) {
             $req = "INSERT INTO regconfig (NAME,REGTREE,REGKEY,REGVALUE)
 					VALUES('%s','%s','%s','%s')";
             $arg_req = array($form_values["NAME"], $form_values["REGTREE"],
@@ -87,7 +87,7 @@ function delkey($id) {
     $arg = $id;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $row = mysqli_fetch_object($res);
-    $name = $row->name;
+    $name = $row->name ?? '';
     //delete key
     $sql_reg = "delete from regconfig where id =%s ";
     mysql2_query_secure($sql_reg, $_SESSION['OCS']["writeServer"], $arg);
