@@ -535,10 +535,6 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
  * if $default is set to true, ldap filters will be left untouched but returned
  */
 function nb_ldap_filters($nb, $default = false) {
-    $mini_nb = 1;
-    // at least one filter at all times
-    $nb = $nb_old - $nb == 0 ? $mini_nb : $nb;
-    
 
     if ($default == false) {
         // old values = from config table
@@ -605,7 +601,7 @@ function trait_post($name) {
 }
 
 function pageGUI($advance) {
-    global $l, $values;
+    global $l, $values, $numeric, $sup1;
     //what ligne we need?
     if($advance){
       $champs = array('LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER',
@@ -649,9 +645,9 @@ function pageGUI($advance) {
 
       ligne('CUSTOM_THEME', $l->g(1420), 'select', array('VALUE' => $values['tvalue']['CUSTOM_THEME'], 'SELECT_VALUE' => $themes));
 
-      ligne('INTERFACE_LAST_CONTACT', $l->g(484), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INTERFACE_LAST_CONTACT'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+      ligne('INTERFACE_LAST_CONTACT', $l->g(484), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INTERFACE_LAST_CONTACT'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric, '', '', $sup1));
 
-      ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
+      ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 254));
       $def = VARLIB_DIR . '/download';
       ligne('DOWNLOAD_PACK_DIR', $l->g(775), 'radio', array('DEFAULT' => $l->g(823) . " ($def)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_pack), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['DOWNLOAD_PACK_DIR'], 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/download"));
 
@@ -1009,10 +1005,10 @@ function pageCas() {
     $default_role[''] = '';
     $default_role = array_merge($default_role, $role1);
 
-    ligne('CAS_PORT', $l->g(9700). '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_PORT'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CAS_URI', $l->g(9701) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_URI'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CAS_HOST', $l->g(9702) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_HOST'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CAS_DEFAULT_ROLE', $l->g(9703), 'select', array('VALUE' => $values['tvalue']['CAS_DEFAULT_ROLE'], 'SELECT_VALUE' => $default_role));
+    ligne('CAS_PORT', $l->g(9700). '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_PORT'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CAS_URI', $l->g(9701) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_URI'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CAS_HOST', $l->g(9702) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_HOST'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CAS_DEFAULT_ROLE', $l->g(9703), 'select', array('VALUE' => $values['tvalue']['CAS_DEFAULT_ROLE'] ?? '', 'SELECT_VALUE' => $default_role));
 }
 
 
@@ -1042,15 +1038,15 @@ function pageConnexion() {
     $nb_filters[0] = '';
     $ldap_filters = nb_ldap_filters($nb = $values['tvalue']['CONEX_LDAP_NB_FILTERS']);
 
-    ligne('CONEX_LDAP_SERVEUR', $l->g(830), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_SERVEUR'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_ROOT_DN', $l->g(1016) . '<br>' . $l->g(1018), 'input', array('VALUE' => $values['tvalue']['CONEX_ROOT_DN'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_ROOT_PW', $l->g(1017) . '<br>' . $l->g(1018), 'password', array('VALUE' => $values['tvalue']['CONEX_ROOT_PW'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LDAP_PORT', $l->g(831), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PORT'], 'SIZE' => "30%", 'MAXLENGTH' => 20));
-    ligne('CONEX_DN_BASE_LDAP', $l->g(832), 'input', array('VALUE' => $values['tvalue']['CONEX_DN_BASE_LDAP'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LOGIN_FIELD', $l->g(833), 'input', array('VALUE' => $values['tvalue']['CONEX_LOGIN_FIELD'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
-    ligne('CONEX_LDAP_PROTOCOL_VERSION', $l->g(834), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'], 'SIZE' => "30%", 'MAXLENGTH' => 5));
-    ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'], 'SELECT_VALUE' => $default_role));
-    ligne('CONEX_LDAP_NB_FILTERS', $l->g(9650), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_NB_FILTERS'], 'SELECT_VALUE' => $nb_filters));
+    ligne('CONEX_LDAP_SERVEUR', $l->g(830), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_SERVEUR'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_ROOT_DN', $l->g(1016) . '<br>' . $l->g(1018), 'input', array('VALUE' => $values['tvalue']['CONEX_ROOT_DN'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_ROOT_PW', $l->g(1017) . '<br>' . $l->g(1018), 'password', array('VALUE' => $values['tvalue']['CONEX_ROOT_PW'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LDAP_PORT', $l->g(831), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PORT'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 20));
+    ligne('CONEX_DN_BASE_LDAP', $l->g(832), 'input', array('VALUE' => $values['tvalue']['CONEX_DN_BASE_LDAP'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LOGIN_FIELD', $l->g(833), 'input', array('VALUE' => $values['tvalue']['CONEX_LOGIN_FIELD'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CONEX_LDAP_PROTOCOL_VERSION', $l->g(834), 'input', array('VALUE' => $values['tvalue']['CONEX_LDAP_PROTOCOL_VERSION'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 5));
+    ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'] ?? '', 'SELECT_VALUE' => $default_role));
+    ligne('CONEX_LDAP_NB_FILTERS', $l->g(9650), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_NB_FILTERS'] ?? '', 'SELECT_VALUE' => $nb_filters));
     foreach ($ldap_filters as $filter) {
         ligne($filter[0]['NAME'], $l->g(1111), 'input', array('VALUE' => $filter[0]['TVALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 200));
         ligne($filter[1]['NAME'], $l->g(1116), 'select', array('VALUE' => $filter[1]['TVALUE'], 'SELECT_VALUE' => $role1));
