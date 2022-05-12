@@ -92,14 +92,25 @@ class AllSoftware
     }
 
     private function get_software_informations() {
+        $configToLookOut = [
+            'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
+        ];
+
+        $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+
         $sql = "SELECT CONCAT(n.NAME,';',p.PUBLISHER,';',v.VERSION) as identifier, 
                 s.VERSION_ID, s.NAME_ID, s.PUBLISHER_ID, 
                 COUNT(CONCAT(s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID)) as nb 
                 FROM software s 
                 LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                 LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
-                LEFT JOIN software_version v ON s.VERSION_ID = v.ID
-                GROUP BY s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID";
+                LEFT JOIN software_version v ON s.VERSION_ID = v.ID";
+
+        if($configValues == 1) {
+            $sql .= " LEFT JOIN hardware h ON h.ID = s.HARDWARE_ID WHERE h.ARCHIVE IS NULL";
+        }
+                
+        $sql .= " GROUP BY s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID";
 
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 

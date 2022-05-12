@@ -20,14 +20,25 @@ if($cve->CVE_ACTIVE == 1) {
     $sql = "TRUNCATE TABLE `cve_search_computer`";
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
 
+    $configToLookOut = [
+        'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
+    ];
+
+    $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+
     $sql = 'SELECT *, p.PUBLISHER, c.LINK as id, h.NAME as computer, h.ID as computerid, n.NAME as softname
                 FROM cve_search c 
                 LEFT JOIN software_name n ON n.ID = c.NAME_ID
                 LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                 LEFT JOIN software_version v ON v.ID = c.VERSION_ID
                 LEFT JOIN software s ON s.NAME_ID = n.ID AND p.ID = s.PUBLISHER_ID AND v.ID = s.VERSION_ID
-                INNER JOIN hardware h ON h.ID = s.HARDWARE_ID
-    GROUP BY h.ID, c.LINK, c.CVSS, c.NAME_ID, c.CVE';
+                INNER JOIN hardware h ON h.ID = s.HARDWARE_ID';
+
+    if($configValues == 1) {
+        $sql .= " WHERE h.ARCHIVE IS NULL";
+    }
+
+    $sql .= ' GROUP BY h.ID, c.LINK, c.CVSS, c.NAME_ID, c.CVE';
 
     $response = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], []);
 

@@ -1156,6 +1156,12 @@
           $value = str_replace(substr($value, -5), '00:00', $value);
       }
 
+      $configToLookOut = [
+        'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
+      ];
+
+      $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){
           if(!isset($_SESSION['OCS']['multi_search']['hardware']) || !array_key_exists('HARDWARE-'.$field[1].$comp.preg_replace("/\s+/","", preg_replace("/_/","",$value)).preg_replace("/_/","",$value2),$_SESSION['OCS']['multi_search']['hardware'])){
@@ -1171,6 +1177,12 @@
                   'value' => $value2,
                   'operator' => 'LIKE',
               ];
+          }
+          if($configValues == 1) {
+            $_SESSION['OCS']['multi_search']['hardware']['HARDWARE-ARCHIVE'] = [
+              'fields' => 'ARCHIVE',
+              'operator' => 'ISNULL',
+            ];
           }
         }elseif(strpos($field[0], 'ACCOUNTINFO') !== false){
           if(!isset($_SESSION['OCS']['multi_search']['accountinfo']) || !array_key_exists('ACCOUNTINFO-'.$field[1].$comp.$value,$_SESSION['OCS']['multi_search']['accountinfo'])){
