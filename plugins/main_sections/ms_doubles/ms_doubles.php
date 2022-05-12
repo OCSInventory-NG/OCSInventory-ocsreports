@@ -30,7 +30,7 @@ if (AJAX) {
 require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
 //restriction for profils?
-if ($_SESSION['OCS']['mesmachines']) {
+if (isset($_SESSION['OCS']['mesmachines'])) {
 	$tab_id_mes_machines = computer_list_by_tag('', 'ARRAY');
 	if ($tab_id_mes_machines == "ERROR") {
 		echo $l->g(923);
@@ -55,7 +55,7 @@ printEnTete($l->g(199));
 	}
 
 // merge selected duplicates
-if ($protectedPost['FUSION']) {
+if (isset($protectedPost['FUSION'])) {
 	// if duplicates selection is coming from checkbox "all"
 	if (isset($protectedPost['selected_grp_dupli'])) {
 		foreach ($protectedPost['selected_grp_dupli'] as $dpl) {
@@ -120,7 +120,7 @@ if ($protectedPost['FUSION']) {
 
 
 // merge all duplicates
-if ($protectedPost['FUSION_ALL']) {
+if (isset($protectedPost['FUSION_ALL'])) {
 	// $grpDuplis as already been grouped by criteria and contains all duplicates
 	foreach ($grpDuplis as $dup) {
 		$afus = array();
@@ -309,13 +309,13 @@ foreach ($count_id as $lbl=>$count_value){
 	echo "</div>";
 	echo "</div>";
 
-	if ($protectedPost['detail'] == $lbl and $count_value == 0)
+	if (isset($protectedPost['detail']) && $protectedPost['detail'] == $lbl and $count_value == 0)
 	unset($protectedPost['detail']);
 }
 echo "</table>";
-echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']."'>";
+echo "<input type=hidden name=detail id=detail value='".($protectedPost['detail'] ?? '')."'>";
 //show details for category
-if ($protectedPost['detail'] != '') {
+if (!empty($protectedPost['detail'])) {
 	// category reminder 
 	echo "<h2>". $l->g(9502) ." ".returnTrad($protectedPost['detail'])." </h2>";
 
