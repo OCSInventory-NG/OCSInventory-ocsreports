@@ -304,7 +304,7 @@ function read_files($search, $ms_cfg_file, $writable = '') {
 function msg($txt, $css, $closeid = false) {
     global $protectedPost;
 
-    if (is_defined($protectedPost['close_alert'])) {
+    if (isset($protectedPost['close_alert']) && is_defined($protectedPost['close_alert'])) {
         $_SESSION['OCS']['CLOSE_ALERT'][$protectedPost['close_alert']] = 1;
     }
 

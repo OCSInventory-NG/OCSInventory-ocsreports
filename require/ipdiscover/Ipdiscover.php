@@ -243,19 +243,19 @@ class Ipdiscover
 		$type_field = array(0, 2);
 		$value_field = array($default_value['NAME'], $default_value['VERSION']);
 
-		if ($protectedPost['VERSION'] == '3') {
+		if (isset($protectedPost['VERSION']) && $protectedPost['VERSION'] == '3') {
 			array_push($name_field, "USERNAME", "LEVEL", "AUTHPASSWD", "AUTHPROTO", "PRIVPASSWD", "PRIVPROTO");
 			array_push($tab_name, "USERNAME : ", "LEVEL : ", "AUTHPASSWD :", "AUTHPROTO :", "PRIVPASSWD :", "PRIVPROTO :");
 			array_push($type_field, 0, 2, 0, 2, 0, 2);
 			array_push($value_field, $default_value['USERNAME'], $default_value['LEVEL'], $default_value['AUTHPASSWD'], $default_value['AUTHPROTO'], $default_value['PRIVPASSWD'], $default_value['PRIVPROTO']);
 		}
 
-		$tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
+		$tab_typ_champ = show_field($name_field, $type_field, $value_field);
 
 		foreach ($tab_typ_champ as $id => $values) {
 			$tab_typ_champ[$id]['CONFIG']['SIZE'] = 30;
 			if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
-				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']];
+				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']] ?? '';
 			}
 		}
 
@@ -263,8 +263,8 @@ class Ipdiscover
 		if (is_numeric($protectedPost['MODIF'])) {
 			$tab_hidden['MODIF'] = $protectedPost['MODIF'];
 		}
-		$tab_hidden['ADD_COMM'] = $protectedPost['ADD_COMM'];
-		$tab_hidden['ID'] = $protectedPost['ID'];
+		$tab_hidden['ADD_COMM'] = $protectedPost['ADD_COMM'] ?? '';
+		$tab_hidden['ID'] = $protectedPost['ID'] ?? 0;
 		modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
 			'title' => $title,
 			'show_frame' => false
