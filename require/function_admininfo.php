@@ -447,7 +447,7 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
                         $name_field[$i] = 'fields_' . $value;
                     } else {
                         $name_field[$i] = $v['name'];
-                        $value_field[$i] = $protectedPost[$v['name']];
+                        $value_field[$i] = $protectedPost[$v['name']] ?? '';
                     }
                     break;
                 case "type":
@@ -483,7 +483,7 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
             }
         }
         if (!isset($value_field[$i])) {
-            $value_field[$i] = $protectedPost['fields_' . $v['id']];
+            $value_field[$i] = $protectedPost['fields_' . $v['id']] ?? '';
         }
         $i++;
     }

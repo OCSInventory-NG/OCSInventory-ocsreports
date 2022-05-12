@@ -34,6 +34,8 @@ $form_fields_typeinput = array(
     'SERIAL_GENERIC' => $l->g(36),
     'ADDR_MAC_GENERIC' => $l->g(95)
 );
+
+
 if(isset($protectedPost['Valid_modif'])) {
     $error = '';
     if (!is_numeric($protectedPost['NB_COMPUTERS'])) {
@@ -72,7 +74,7 @@ if(isset($protectedPost['Valid_modif'])) {
         $i = 0;
         while ($i < $protectedPost['NB_COMPUTERS']) {
             $id_computer = insert_manual_computer($protectedPost,$protectedPost['NB_COMPUTERS']);
-            if (!is_array($fields)) {
+            if (!isset($fields)) {
                 $fields[] = 'TAG';
                 $values_fields[] = '';
             }
@@ -87,7 +89,7 @@ if(isset($protectedPost['Valid_modif'])) {
 $i = 0;
 $info_form['FIELDS']['name_field'][$i] = 'NB_COMPUTERS';
 $info_form['FIELDS']['type_field'][$i] = 0;
-$info_form['FIELDS']['value_field'][$i] = ($protectedPost['NB_COMPUTERS'] != '' ? $protectedPost['NB_COMPUTERS']:'1');
+$info_form['FIELDS']['value_field'][$i] = (!empty($protectedPost['NB_COMPUTERS']) ? $protectedPost['NB_COMPUTERS']:'1');
 $info_form['FIELDS']['tab_name'][$i] = $l->g(28);
 $config[$i]['CONFIG']['SIZE'] = 4;
 $config[$i]['CONFIG']['MAXLENGTH'] = 4;
@@ -120,7 +122,7 @@ foreach($config as $key=>$value) {
     $tab_typ_champ[$key]['COMMENT_AFTER'] = $other_data['COMMENT_AFTER'][$key];
 }
 if(isset($tab_typ_champ)) {
-    modif_values($info_form['FIELDS']['tab_name'], $tab_typ_champ,$tab_hidden, array(
+    modif_values($info_form['FIELDS']['tab_name'], $tab_typ_champ,$tab_hidden ?? '', array(
         'show_frame' => false
     ));
 }
