@@ -116,19 +116,19 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
 
                 $result = $ipdiscover->find_info_subnet($protectedPost['MODIF']);
                 if (!isset($protectedPost['RSX_NAME'])) {
-                    $protectedPost['RSX_NAME'] = $result->NAME;
+                    $protectedPost['RSX_NAME'] = $result->NAME ?? '';
                 }
                 if (!isset($protectedPost['ID_NAME'])) {
-                    $protectedPost['ID_NAME'] = $result->ID;
+                    $protectedPost['ID_NAME'] = $result->ID ?? 0;
                 }
                 if (!isset($protectedPost['ADD_TAG'])) {
-                    $protectedPost['ADD_TAG'] = $result->TAG;
+                    $protectedPost['ADD_TAG'] = $result->TAG ?? '';
                 }
                 if (!isset($protectedPost['ADD_IP'])) {
-                    $protectedPost['ADD_IP'] = $result->NETID;
+                    $protectedPost['ADD_IP'] = $result->NETID ?? '';
                 }
                 if (!isset($protectedPost['ADD_SX_RSX'])) {
-                    $protectedPost['ADD_SX_RSX'] = $result->MASK;
+                    $protectedPost['ADD_SX_RSX'] = $result->MASK ?? '';
                 }
                 if (is_defined($protectedGet['value'])) {
                     $explode = explode(";", $protectedGet['value']);
