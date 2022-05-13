@@ -34,6 +34,13 @@ echo open_form($form_name, '', '', 'form-horizontal');
 if (!is_defined($protectedPost['TAG_CHOISE'])) {
     $protectedPost['TAG_CHOISE'] = 'a.TAG';
 }
+
+$configToLookOut = [
+    'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
+];
+
+$excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
 $accountinfo_value = interprete_accountinfo($list_fields ?? null, $tab_options);
@@ -69,13 +76,26 @@ $tab_options['NO_SEARCH']['c'] = 'c';
 
 $list_col_cant_del = $list_fields;
 $default_fields = $list_fields;
-$queryDetails = "SELECT count(hardware_id) c, %s as ID, %s from accountinfo a where %s !='' ";
+$queryDetails = "SELECT count(hardware_id) c, %s as ID, %s from accountinfo a";
+
+if($excludeArchived == 1) {
+    $queryDetails .= " left join hardware h on h.id = a.hardware_id";
+}
+
+$queryDetails .= " where %s !='' ";
+
 $tab_options['ARG_SQL'] = array($tag, $tag, $tag);
+
 if (is_defined($_SESSION['OCS']["mesmachines"])) {
     $queryDetails .= " AND " . $_SESSION['OCS']["mesmachines"];
 }
+
+if($excludeArchived == 1) {
+    $queryDetails .= " AND h.archive is null";
+}
+
 $tab_options['ARG_SQL'][] = $tag;
-$queryDetails .= "group by $tag";
+$queryDetails .= " group by $tag";
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();

@@ -60,11 +60,21 @@ class Stats{
         global $l;
         global $protectedPost;
 
+        $configToLookOut = [
+            'INTERFACE_LAST_CONTACT' => 'INTERFACE_LAST_CONTACT',
+            'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
+        ];
+
+        $configValues = look_config_default_values($configToLookOut);
+
         foreach($form as $key => $value){
             if ($key == 'NB_OS') {
                 $sql = "select count(h.osname) c,h.osname as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.osname != '' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql .= " AND h.archive IS NULL";
                 }
                 $sql .= " group by h.osname order by count(h.osname) DESC ";
                 $height_legend = 300;
@@ -72,6 +82,9 @@ class Stats{
                 $sql = "select count(h.useragent) c, upper(h.useragent) as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.useragent != '' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql .= " AND h.archive IS NULL";
                 }
                 $sql .= " group by h.useragent order by count(h.useragent) DESC ";
                 $height_legend = 300;
@@ -94,13 +107,14 @@ class Stats{
             }
 
             if($key == 'SEEN'){
-                //last seen since
-                $sql_seen_interval = "SELECT IVALUE FROM `config` WHERE NAME = 'INTERFACE_LAST_CONTACT'";
-                $result_seen_interval = mysqli_fetch_object(mysql2_query_secure($sql_seen_interval, $_SESSION['OCS']["readServer"]))->IVALUE ?: 15;
+                $result_seen_interval = $configValues['ivalue']['INTERFACE_LAST_CONTACT'] ?: 15;
                 $date = date("Y-m-d",strtotime("-".$result_seen_interval." day"));
                 $sql_seen = "SELECT DATE_FORMAT(h.lastcome, '%Y-%m') AS contact, count(h.lastcome) AS conta FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.LASTCOME < '".$date."' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql_seen .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql_seen .= " AND h.archive IS NULL";
                 }
                 $sql_seen .= " GROUP BY contact ORDER BY contact ASC";
 
@@ -119,8 +133,13 @@ class Stats{
 
             if($key == 'MANUFAC'){
                 $sql_man = "SELECT b.SMANUFACTURER AS man, count(b.SMANUFACTURER) AS c_man FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
-                if (is_defined($_SESSION['OCS']["mesmachines"])) {
+                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql_man .= " LEFT JOIN hardware h ON h.ID = b.HARDWARE_ID WHERE h.ARCHIVE IS NULL";
+                }
+                if (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] != 1) {
                     $sql_man .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                } elseif (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql_man .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
                 $sql_man .= " group by b.SMANUFACTURER ORDER BY count(b.SMANUFACTURER)  DESC LIMIT 10";
                 $result_man = mysql2_query_secure($sql_man, $_SESSION['OCS']["readServer"]);
@@ -138,8 +157,13 @@ class Stats{
 
             if($key == 'TYPE'){
                 $sql_type = "SELECT CASE WHEN TRIM(b.type) ='' THEN 'Unknow' ELSE b.type END as type, count(b.type) AS conta FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
-                if (is_defined($_SESSION['OCS']["mesmachines"])) {
-                    $sql_type .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql_type .= " LEFT JOIN hardware h ON h.ID = b.HARDWARE_ID WHERE h.ARCHIVE IS NULL";
+                }
+                if (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] != 1) {
+                    $sql_man .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                } elseif (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql_man .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
                 $sql_type .= " GROUP BY type";
                 $result_type = mysql2_query_secure($sql_type, $_SESSION['OCS']["readServer"]);
