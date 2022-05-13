@@ -782,6 +782,7 @@
 893 PAS DE TAG AFFECTE A VOTRE PROFIL
 894 Aucun niveau de droits n'a été défini pour votre profil, merci de contacter votre administrateur
 895 Modification d'un TAG
+896 Vous n'avez pas accès à cette page, veuillez contacter votre administrateur
 898 Ajouter une annotation
 899 Rédacteur
 900 Etes-vous sûr de vouloir supprimer la sélection?
