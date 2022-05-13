@@ -40,7 +40,8 @@ if (strpos($ids, ',') == true) {
     $ids = explode(',', $ids);
 } else {
     $ids = (array)$ids;
-    if (info($protectedGet, $ids)->DEVICEID == '_SYSTEMGROUP_') {
+    $info = info($protectedGet, $ids);
+    if (isset($info) && $info->DEVICEID == '_SYSTEMGROUP_') {
         $text_selection = $l->g(9202);
     } else {
         $text_selection = $l->g(9200);
@@ -56,15 +57,10 @@ foreach ($ids as $value) {
 
 echo "<h3> $text_selection : </h3>"; 
 
-?>
+echo "<div class='col col-md-10 col-md-offset-1' style='overflow-y: auto; height:50px; width:80%%;'>
+        {$name}
+    </div>";
 
-<?php 
-    echo "<div class='col col-md-10 col-md-offset-1' style='overflow-y: auto; height:50px; width:80%%;'>
-            {$name}
-        </div>"
-?>
-
-<?php
 $form_name = "pack_affect";
 $table_name = "LIST_PACK_SEARCH";
 $tab_options = $protectedPost;

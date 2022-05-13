@@ -558,7 +558,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
                 } else {
                     $choise_req_selection['SEL'] = $l->g(585);
                 }
-                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
+                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'] ?? '', '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
             }
             if ((isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] == 'REQ') || $protectedGet['idchecked'] == '') {
                 msg_info($l->g(901));
@@ -568,7 +568,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
                 }
                 $list_id = $_SESSION['OCS']['ID_REQ'];
             }
-            if ($protectedPost['CHOISE'] == 'SEL') {
+            if (isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] == 'SEL') {
                 msg_info($l->g(902));
                 $list_id = $protectedGet['idchecked'];
             }

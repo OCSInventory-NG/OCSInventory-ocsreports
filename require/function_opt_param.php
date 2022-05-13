@@ -64,7 +64,7 @@ function insert($NAME, $IVALUE, $TVALUE = "") {
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
     } else {//else : request
         $i = 0;
-        while ($tab_hadware_id[$i]) {
+        while (isset($tab_hadware_id[$i]) && $tab_hadware_id[$i]) {
             $arg = array($tab_hadware_id[$i], $NAME, $IVALUE);
             if ($TVALUE != "") {
                 $sql = "INSERT INTO devices(HARDWARE_ID,NAME,IVALUE,TVALUE) VALUES ('%s', '%s', '%s', '%s')";

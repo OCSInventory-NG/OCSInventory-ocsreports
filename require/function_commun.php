@@ -611,7 +611,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     }else{
                                         echo "<div class='input-group'>";
                                     }
-                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".($field['DEFAULT_VALUE'] ?? '')."' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
                                     if(empty($field['COMMENT_AFTER'])){
                                       echo "</div>";
                                     }

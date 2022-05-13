@@ -47,7 +47,7 @@
                      //cas of checkboxtag_search
                      foreach ($protectedPost as $field2 => $value2) {
                          $casofcheck = explode('_', $field2);
-                         if ($casofcheck[0] . '_' . $casofcheck[1] == $temp) {
+                         if (isset($casofcheck[1]) && $casofcheck[0] . '_' . $casofcheck[1] == $temp) {
                              if (isset($casofcheck[2])) {
                                  $data_fields_account[$temp] .= $casofcheck[2] . "&&&";
                              }
@@ -143,7 +143,7 @@
         $def_onglets['ARCHIVE'] = $l->g(1556);
      }
 
-     if ($protectedPost['onglet'] == "") {
+     if (empty($protectedPost['onglet'])) {
          $protectedPost['onglet'] = "TAG";
      }
      //show onglet
@@ -187,13 +187,13 @@
                      }
                      $tab_typ_champ[$i]['INPUT_NAME'] = $truename;
                      $tab_typ_champ[$i]['INPUT_TYPE'] = $field_of_accountinfo['LIST_TYPE'][$id];
-                     $tab_typ_champ[$i]['CONFIG']['JAVASCRIPT'] = $java . " onclick='document.getElementById(\"check" . $truename . "\").checked = true' ";
+                     $tab_typ_champ[$i]['CONFIG']['JAVASCRIPT'] = ($java ?? '') . " onclick='document.getElementById(\"check" . $truename . "\").checked = true' ";
 
                      $tab_name[$i] = $lbl;
                      $i++;
                  }
              }
-             modif_values($tab_name, $tab_typ_champ, array('TAG_MODIF' => $protectedPost['MODIF'], 'FIELD_FORMAT' => $type_field[$protectedPost['MODIF']]), array(
+             modif_values($tab_name, $tab_typ_champ, array('TAG_MODIF' => $protectedPost['MODIF'] ?? '', 'FIELD_FORMAT' => $type_field[$protectedPost['MODIF'] ?? ''] ?? ''), array(
                  'title' => $l->g(895)
              ));
          } elseif ($protectedPost['onglet'] == "SUP_PACK") {

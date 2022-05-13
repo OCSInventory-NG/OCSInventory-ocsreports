@@ -64,7 +64,7 @@ function info($GET, $post_systemid) {
         $systemid = $GET['systemid'];
     }
     //problème sur l'id
-    if ($systemid == "" || !is_numeric($systemid)) {
+    if (empty($systemid) || !is_numeric($systemid)) {
         return $l->g(837);
     }
     //recherche des infos de la machine

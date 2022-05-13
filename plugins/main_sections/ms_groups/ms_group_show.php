@@ -478,7 +478,6 @@ function print_perso($systemid) {
     echo open_form($form_name, '', '', 'form-horizontal');
 
     while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
-        error_log($item['IVALUE']);
         $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
         $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
     }
