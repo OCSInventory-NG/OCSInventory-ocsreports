@@ -73,7 +73,7 @@ class Stats{
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
-                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
                     $sql .= " AND h.archive IS NULL";
                 }
                 $sql .= " group by h.osname order by count(h.osname) DESC ";
@@ -83,7 +83,7 @@ class Stats{
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
-                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
                     $sql .= " AND h.archive IS NULL";
                 }
                 $sql .= " group by h.useragent order by count(h.useragent) DESC ";
@@ -113,7 +113,7 @@ class Stats{
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql_seen .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
-                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
                     $sql_seen .= " AND h.archive IS NULL";
                 }
                 $sql_seen .= " GROUP BY contact ORDER BY contact ASC";
@@ -133,7 +133,7 @@ class Stats{
 
             if($key == 'MANUFAC'){
                 $sql_man = "SELECT b.SMANUFACTURER AS man, count(b.SMANUFACTURER) AS c_man FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
-                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
                     $sql_man .= " LEFT JOIN hardware h ON h.ID = b.HARDWARE_ID WHERE h.ARCHIVE IS NULL";
                 }
                 if (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] != 1) {
@@ -157,7 +157,7 @@ class Stats{
 
             if($key == 'TYPE'){
                 $sql_type = "SELECT CASE WHEN TRIM(b.type) ='' THEN 'Unknow' ELSE b.type END as type, count(b.type) AS conta FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
-                if ($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
                     $sql_type .= " LEFT JOIN hardware h ON h.ID = b.HARDWARE_ID WHERE h.ARCHIVE IS NULL";
                 }
                 if (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] != 1) {
