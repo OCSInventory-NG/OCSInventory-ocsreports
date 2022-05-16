@@ -260,7 +260,7 @@ class Ipdiscover
 		}
 
 		$tab_typ_champ[1]['RELOAD'] = $form;
-		if (is_numeric($protectedPost['MODIF'])) {
+		if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF'])) {
 			$tab_hidden['MODIF'] = $protectedPost['MODIF'];
 		}
 		$tab_hidden['ADD_COMM'] = $protectedPost['ADD_COMM'] ?? '';

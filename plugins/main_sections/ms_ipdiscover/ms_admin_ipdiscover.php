@@ -111,7 +111,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         }
 
         if (isset($protectedPost['ADD_SUB']) || !empty($protectedPost['MODIF'])) {
-            if ($protectedPost['MODIF']) {
+            if (isset($protectedPost['MODIF'])) {
                 $title = $l->g(931);
 
                 $result = $ipdiscover->find_info_subnet($protectedPost['MODIF']);
