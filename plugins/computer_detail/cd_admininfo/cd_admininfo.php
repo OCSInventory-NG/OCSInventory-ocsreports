@@ -157,7 +157,7 @@ if (!is_array($info_account_id)) {
                     or $val_admin_info['TYPE'] == 11) {
                 array_push($config['JAVASCRIPT'], '');
                 array_push($config['SIZE'], '');
-                if ($admin_accountinfo) {
+                if (isset($admin_accountinfo)) {
                     array_push($config['COMMENT_AFTER'], $up_png . "<a href=# onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_adminvalues'] . "&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\")><img src=image/plus.png></a>");
                 } else {
                     array_push($config['COMMENT_AFTER'], '');
