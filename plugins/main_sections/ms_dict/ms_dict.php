@@ -128,53 +128,58 @@ if ($protectedPost['onglet'] == 'CAT') {
         $i++;
     }
 
-    if(!empty($list_cat)) {
+    $list_fields = array('SOFT_NAME' => 'EXTRACTED',
+    'ID' => 'ID',
+    'SUP' => 'ID',
+    'CHECK' => 'ID'
+    );
+
+
         //delete categorie
         if (is_defined($protectedPost['SUP_CAT'])) {
-            if ($protectedPost['SUP_CAT'] == 1) {
-                $first_onglet = 2;
-            }
+
             $reqDcat = "DELETE FROM dico_soft WHERE formatted='" . $list_cat[$protectedPost['SUP_CAT']] . "'";
             mysqli_query($_SESSION['OCS']["writeServer"], $reqDcat) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
             unset($list_cat[$protectedPost['SUP_CAT']]);
+            if ($protectedPost['SUP_CAT'] == 1) {
+                $first_onglet = 2;
+            }
+            unset($protectedPost['SUP_CAT']);
         }
+
+
         //no selected? default=>first onglet
 
-        if ((isset($protectedPost['onglet_soft']) && $protectedPost['onglet_soft'] == "") || !isset($list_cat[$protectedPost['onglet_soft']])) {
+        if ((!empty($first_onglet)) && ((isset($protectedPost['onglet_soft']) && $protectedPost['onglet_soft'] == "") || !isset($list_cat[$protectedPost['onglet_soft']]))) {
             $protectedPost['onglet_soft'] = $first_onglet;
         }
         //show all categories
-        if ($i <= 20) {
-            echo "<p>";  
+        if ($i <= 20 && isset($protectedPost['onglet_soft'])) {
+            echo "<p>";
             onglet($list_cat, $form_name, "onglet_soft", 5);
             echo "</p>";
-        } else {
+        } elseif(isset($protectedPost['onglet_soft'])) {
             echo "<p>" . $l->g(398) . ": " . show_modif($list_cat, 'onglet_soft', 2, $form_name) . "</p>";
         }
         //You can delete or not?
         if ($i != 1 && isset($list_cat[$protectedPost['onglet_soft']])) {
             echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a>";
         }
-        $list_fields = array('SOFT_NAME' => 'EXTRACTED',
-            'ID' => 'ID',
-            'SUP' => 'ID',
-            'CHECK' => 'ID'
-        );
+
         $table_name = "CAT_EXIST";
         $default_fields = array('SOFT_NAME' => 'SOFT_NAME', 'SUP' => 'SUP', 'CHECK' => 'CHECK');
         $list_col_cant_del = array('SOFT_NAME' => 'SOFT_NAME', 'SUP' => 'SUP', 'CHECK' => 'CHECK');
-        $querydico = 'SELECT ';
-        foreach ($list_fields as $key => $value) {
-            if ($key != 'SUP' && $key != 'CHECK') {
-                $querydico .= $value . ',';
+        if (!empty($list_cat)) {  
+            $querydico = 'SELECT ';
+            foreach ($list_fields as $key => $value) {
+                if ($key != 'SUP' && $key != 'CHECK') {
+                    $querydico .= $value . ',';
+                }
             }
+            $querydico = substr($querydico, 0, -1);
+            $querydico .= " from dico_soft left join " . $table . " cache on dico_soft.extracted=cache.name
+                        where formatted='" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $list_cat[$protectedPost['onglet_soft']] ?? '') . "' " . $search_count . " group by EXTRACTED";
         }
-        $querydico = substr($querydico, 0, -1);
-        $querydico .= " from dico_soft left join " . $table . " cache on dico_soft.extracted=cache.name
-                    where formatted='" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $list_cat[$protectedPost['onglet_soft']]) . "' " . $search_count . " group by EXTRACTED";
-    }else{
-		msg_warning($l->g(1506));
-	}
 }
 /* ******************************************************CAS OF NEW****************************************************** */
 if ($protectedPost['onglet'] == 'NEW') {
@@ -299,6 +304,8 @@ if (isset($querydico)) {
     $tab_options['LBL']['SOFT_NAME'] = $l->g(382);
     $tab_options['LBL']['QTE'] = $l->g(55);
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+} else {
+    msg_warning($l->g(1506));
 }
 
 //récupération de toutes les catégories
