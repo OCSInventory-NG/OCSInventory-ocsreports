@@ -1797,7 +1797,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						}
 						if(!empty($tab_options['VALUE'][$key])){
 							if(!empty($tab_options['LIEN_CHAMP'][$key])){
-								$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
+								$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]] ?? '';
 							}else{
 								if(isset($tab_options['VALUE'][$key][$row['ID']])) {
 								$row[$column] = $tab_options['VALUE'][$key][$row['ID']];

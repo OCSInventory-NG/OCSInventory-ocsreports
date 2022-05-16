@@ -325,7 +325,7 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
 
     if(isset($protectedPost['valid_reg'])){
         if($protectedPost['cat_select'] != 0){
-            $result_reg = $softCat->insert_exp($protectedPost['cat_select'], $protectedPost['regular_exp'],$protectedPost['version_sign'], $protectedPost['version_soft'],$protectedPost['vendor_soft']);
+            $result_reg = $softCat->insert_exp($protectedPost['cat_select'], $protectedPost['regular_exp'],$protectedPost['version_sign'] ?? '', $protectedPost['version_soft'] ?? '',$protectedPost['vendor_soft'] ?? '');
             if($result_reg == true){
               msg_success($l->g(572));
               unset($protectedPost['regular_exp']);

@@ -39,7 +39,7 @@ $configToLookOut = [
     'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
 ];
 
-$excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+$excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] ?? '';
 
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
