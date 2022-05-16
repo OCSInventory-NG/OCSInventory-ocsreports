@@ -82,20 +82,20 @@ if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !is
     $hidden = $protectedPost['MODIF'];
 }
 
-if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 2) {
+if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && !empty($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 2) {
     //UPDATE VALUE
     $msg = update_accountinfo($protectedPost['MODIF_OLD'], array('TYPE' => $protectedPost['newtype'],
         'NAME' => $protectedPost['newfield'],
         'COMMENT' => $protectedPost['newlbl'],
         'ID_TAB' => $protectedPost['account_tab'],
-        'DEFAULT_VALUE' => $protectedPost['default_value']), $protectedPost['accountinfo']);
+        'DEFAULT_VALUE' => $protectedPost['default_value'] ?? ''), $protectedPost['accountinfo']);
     $hidden = $protectedPost['MODIF_OLD'];
 } elseif (!empty($protectedPost['Valid_modif'])) {
     //ADD NEW VALUE
     $msg = add_accountinfo($protectedPost['newfield'], $protectedPost['newtype'] ?? '', $protectedPost['newlbl'] ?? '', $protectedPost['account_tab'] ?? '', $protectedPost['accountinfo'] ?? '', $protectedPost['default_value'] ?? '');
 }
 
-if (isset($msg['ERROR'])) {
+if (!empty($msg['ERROR'])) {
     msg_error($msg['ERROR']);
 }
 if (isset($msg['SUCCESS'])) {
@@ -103,7 +103,7 @@ if (isset($msg['SUCCESS'])) {
     $protectedPost['onglet'] = 1;
 }
 
-if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 4) {
+if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && !empty($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 4) {
     //UPDATE VALUE
     update_config("TAB_ACCOUNTAG_" . $protectedPost['MODIF_OLD'], 'TVALUE', $protectedPost['newfield']);
     if (isset($protectedPost['2newfield'])) {
@@ -260,7 +260,7 @@ if ($protectedPost['onglet'] == 1) {
     $name_field = array("accountinfo", "newfield");
     $tab_name = array($l->g(56) . ": ", $l->g(1070) . ": ");
     if (isset($protectedPost['MODIF_OLD']) || !empty($protectedPost['MODIF'])) {
-        $hidden = ($protectedPost['MODIF'] != '' ? $protectedPost['MODIF'] : $protectedPost['MODIF_OLD']);
+        $hidden = (!empty($protectedPost['MODIF']) ? $protectedPost['MODIF'] : $protectedPost['MODIF_OLD']);
         $type_field = array(3, 3);
         $value_field = array($protectedPost['accountinfo'], $protectedPost['newfield']);
     } else {
@@ -298,8 +298,8 @@ if ($protectedPost['onglet'] == 1) {
 
     $tab_typ_champ[3]['COMMENT_AFTER']="<input type='image' name='addtab' src='image/plus.png'>";
 
-    if( (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != "") || (isset($protectedPost['MODIF_OLD']) && $protectedPost['MODIF_OLD'] != "") ){
-        formGroup('hidden', 'MODIF_OLD', '', '', '', $protectedPost['MODIF'], '', '', '', '');
+    if( (isset($protectedPost['MODIF']) && !empty($protectedPost['MODIF'])) || (isset($protectedPost['MODIF_OLD']) && !empty($protectedPost['MODIF_OLD'])) ){
+        formGroup('hidden', 'MODIF_OLD', '', '', '', $protectedPost['MODIF'] ?? '', '', '', '', '');
         formGroup('hidden', 'newfield', '', '', '', $protectedPost['newfield']);
         formGroup('hidden', 'accountinfo', '', '', '', $protectedPost['accountinfo']);
         formGroup('text', 'accountinfo', $l->g(56), '', '', $protectedPost['accountinfo'], '', '', '', "disabled");
