@@ -663,7 +663,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     echo "</div>";
                                   }
                                 } else if($inputType == 'radio'){
-                                  if($field["CONFIG"]["SELECTED_VALUE"] != ''){
+                                  if(!empty($field["CONFIG"]["SELECTED_VALUE"])){
                                       $field_radio = explode("&&&", $field["CONFIG"]["SELECTED_VALUE"]);
                                       foreach($field_radio as $values){
                                           if($values != ''){

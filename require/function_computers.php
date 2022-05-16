@@ -262,6 +262,7 @@ function fusionne($afus) {
             
             msg_success($l->g(190) . " " . $afus[$minInd]["deviceid"] . " " . $l->g(206) . " " . $afus[$maxInd]["deviceid"]);
             $i = 0;
+            $lesDel = '';
             foreach ($afus as $a) {
                 if ($i != $maxInd) {
                     deleteDid($a["id"], false, false, true);

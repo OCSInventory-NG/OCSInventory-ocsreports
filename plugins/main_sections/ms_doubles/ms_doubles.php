@@ -62,7 +62,7 @@ if (isset($protectedPost['FUSION'])) {
 			// oh boy
 			$dpl = json_decode(html_entity_decode($dpl), true);
 			$selectedDuplis[] = $dpl;    
-			$dup_grp = groupBy($criteria, $dpl);
+			$dup_grp = groupBy($criteria ?? '', $dpl);
 			foreach ($dup_grp as $grp) { 
 				if (count($grp) >= 2) {
 					$afus = array();
@@ -91,7 +91,7 @@ if (isset($protectedPost['FUSION'])) {
 		}
 
 		// grouping the reconstructed array by criteria to merge duplicates coherently
-		$groupedDuplis = groupBy($criteria, $selectedDuplis);
+		$groupedDuplis = groupBy($criteria ?? '', $selectedDuplis);
 
 		// iterate through each group of duplicates
 		foreach ($groupedDuplis as $correspDuplis) {
@@ -321,8 +321,7 @@ if (!empty($protectedPost['detail'])) {
 
 	//BEGIN SHOW ACCOUNTINFO
 	require_once('require/function_admininfo.php');
-	$accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
-
+	$accountinfo_value = interprete_accountinfo($list_fields ?? array(), $tab_options);
 	if (array($accountinfo_value['TAB_OPTIONS'])) {
 		$tab_options = $accountinfo_value['TAB_OPTIONS'];
 	}
@@ -402,8 +401,7 @@ if (!empty($protectedPost['detail'])) {
 		"ssn" => 'ssn',
 		"macaddress" => 'macaddr',
 	};
-	$grpDuplis = groupBy($criteria, $duplicates);
-
+	$grpDuplis = groupBy($criteria ?? '', $duplicates);
 	$i = 0;
 	// iterate through each group of duplicates to build collapsible
 	foreach ($grpDuplis as $item) {
