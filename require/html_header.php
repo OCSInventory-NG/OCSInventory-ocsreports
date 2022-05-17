@@ -96,7 +96,7 @@ if(is_null($value_banniere)){
                     echo "</li>";
                 }
 
-                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER']) && $_SESSION['OCS']['cnx_origine'] != 'CAS') {
+                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER']) && (isset($_SESSION['OCS']['cnx_origine']) && $_SESSION['OCS']['cnx_origine'] != 'CAS')) {
                     echo "<li><a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>" . $l->g(251) . "</a></li>";
                 }
                 echo open_form('log_out', 'index.php');
@@ -224,7 +224,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     }
 }
 
-if (isset($_SESSION['OCS']['TRUE_USER']) && !$protectedPost['MODE'] == 5 ) {
+if (isset($_SESSION['OCS']['TRUE_USER']) && (isset($protectedPost['MODE']) && !$protectedPost['MODE'] == 5) ) {
     msg_info($_SESSION['OCS']['TRUE_USER'] . " " . $l->g(889) . " " . $_SESSION['OCS']["loggeduser"]);
 }
 

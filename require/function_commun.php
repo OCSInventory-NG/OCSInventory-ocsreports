@@ -219,7 +219,7 @@ function dbGetFTIndex($tableName, $tableAlias) {
 /* * *********************************END SQL FUNCTION***************************************** */
 
 function addLog($type, $value = "", $lbl_sql = '') {
-    if ($_SESSION['OCS']['LOG_GUI'] == 1) {
+    if (isset($_SESSION['OCS']['LOG_GUI']) && $_SESSION['OCS']['LOG_GUI'] == 1) {
         //if (is_writable(LOG_FILE)) {
             $logHandler = fopen(LOG_FILE, "a");
             $dte = getDate();
