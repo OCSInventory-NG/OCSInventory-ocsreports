@@ -90,7 +90,7 @@ if (is_defined($protectedPost['Valid_modif'])) {
         $fragOk = true;
     }
 
-    if ($fragAvail) {
+    if (isset($fragOk) && !is_bool($fragAvail)) {
         fclose($fragOk);
     }
 }
