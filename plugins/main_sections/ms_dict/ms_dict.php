@@ -149,10 +149,10 @@ if ($protectedPost['onglet'] == 'CAT') {
 
 
         //no selected? default=>first onglet
-
-        if ((!empty($first_onglet)) && ((isset($protectedPost['onglet_soft']) && $protectedPost['onglet_soft'] == "") || !isset($list_cat[$protectedPost['onglet_soft']]))) {
+        if ((!empty($first_onglet)) && (empty($protectedPost['onglet_soft']) || !isset($list_cat[$protectedPost['onglet_soft']]))) {
             $protectedPost['onglet_soft'] = $first_onglet;
         }
+
         //show all categories
         if ($i <= 20 && isset($protectedPost['onglet_soft'])) {
             echo "<p>";
