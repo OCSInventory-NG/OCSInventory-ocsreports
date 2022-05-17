@@ -24,7 +24,7 @@
 $form_name = 'debug';
 
 
-if ($protectedPost["MODE"] == 5 && !isset($_SESSION['OCS']['TRUE_USER'])){
+if (isset($protectedPost["MODE"]) && $protectedPost["MODE"] == 5 && !isset($_SESSION['OCS']['TRUE_USER'])){
     msg_info($_SESSION['OCS']['loggeduser'] . " " . $l->g(889) . " " . $protectedPost["FUSER"]);
 }
 
@@ -54,7 +54,7 @@ $tab_typ_champ[0]['CONFIG']['JAVASCRIPT'] = "onChange='fuser_change(this.value)'
 $tab_field_name[0] = "form-group form-group-debug";
 
 //VALUE FOR FUSER INPUT
-$tab_typ_champ[1]['DEFAULT_VALUE'] = $protectedPost['FUSER'];
+$tab_typ_champ[1]['DEFAULT_VALUE'] = $protectedPost['FUSER'] ?? '';
 $tab_typ_champ[1]['INPUT_NAME'] = "FUSER";
 $tab_typ_champ[1]['INPUT_TYPE'] = 0;
 $tab_name[1] = $l->g(926) . " ";
