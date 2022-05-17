@@ -112,7 +112,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         $i = $list_cat['i'];
         $first_onglet = $list_cat['first_onglet'] ?? '';
         $categorie_id = $list_cat['category_name'] ?? '';
-        $os = $list_cat['OS'];
+        $os = $list_cat['OS'] ?? '';
         unset($list_cat['i']);
         unset($list_cat['first_onglet']);
         unset($list_cat['category_name']);
@@ -184,14 +184,14 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 	}
 }
 
-/*******************************************LIST OF REAGEX*****************************************************/
+/*******************************************LIST OF REGEX*****************************************************/
 if($protectedPost['onglet'] == 'REG_LIST'){
 
     $list_cat = $softCat->onglet_cat();
     $i = $list_cat['i'];
-    $first_onglet = $list_cat['first_onglet'];
-    $categorie_id = $list_cat['category_name'];
-    $os = $list_cat['OS'];
+    $first_onglet = $list_cat['first_onglet'] ?? '';
+    $categorie_id = $list_cat['category_name'] ?? '';
+    $os = $list_cat['OS'] ?? '';
     unset($list_cat['i']);
     unset($list_cat['first_onglet']);
     unset($list_cat['category_name']);
@@ -222,15 +222,15 @@ if($protectedPost['onglet'] == 'REG_LIST'){
         unset($list_cat['OS']);
     }
 
-	if ($protectedPost['onglet_soft'] == "" || !isset($list_cat[$protectedPost['onglet_soft']])) {
+	if (!empty($list_cat) && (empty($protectedPost['onglet_soft']) || !isset($list_cat[$protectedPost['onglet_soft']]))) {
 		$protectedPost['onglet_soft'] = $first_onglet;
 	}
 
-	if ($i <= 10) {
+	if ($i <= 10 && isset($protectedPost['onglet_soft'])) {
 		echo "<p>";
 		onglet($list_cat, $form_name, "onglet_soft", 5);
 		echo "</p>";
-	} else {
+	} elseif(isset($protectedPost['onglet_soft'])) {
 		echo "<p>" . $l->g(398) . ": " . show_modif($list_cat, 'onglet_soft', 2, $form_name) . "</p>";
 	}
 
@@ -259,7 +259,7 @@ if($protectedPost['onglet'] == 'REG_LIST'){
         echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a></br>";
     }
 
-    if($os_version[$os[$list_cat[$protectedPost['onglet_soft']]]] != null){
+    if(!empty($protectedPost['onglet_soft']) && isset($os_version[$os[$list_cat[$protectedPost['onglet_soft']]]])){
       	echo "<br><br><h4>".$l->g(274)." : ".$os_version[$os[$list_cat[$protectedPost['onglet_soft']]]]."</h4><br>";
     }else{
       	echo "<br><br><h4>".$l->g(274)." : ".$l->g(1515)."</h4><br>";
