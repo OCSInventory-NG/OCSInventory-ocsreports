@@ -24,7 +24,7 @@ if($cve->CVE_ACTIVE == 1) {
         'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
     ];
 
-    $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+    $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] ?? '';
 
     $sql = 'SELECT *, p.PUBLISHER, c.LINK as id, h.NAME as computer, h.ID as computerid, n.NAME as softname
                 FROM cve_search c 

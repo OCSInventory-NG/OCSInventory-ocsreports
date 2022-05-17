@@ -174,7 +174,7 @@ function dbconnect($server, $compte_base, $pswd_base, $db = DB_NAME, $sslkey = S
                 $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
             }
         } else {
-            $connect = NULL;
+            $connect = 0;
         }
 
         $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
