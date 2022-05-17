@@ -210,7 +210,7 @@
              echo $select;
              echo "<div class='col-md-12'>";
 
-             if ($protectedPost['pack_list'] != "") {
+             if (!empty($protectedPost['pack_list'])) {
                  $sql = "select count(*) c, tvalue from download_enable d_e,devices d
            							where d.name='DOWNLOAD' and d.IVALUE=d_e.ID and d_e.fileid='%s'
            							and d.hardware_id in ";
@@ -240,10 +240,10 @@
             $tab_name = array($l->g(8202));
             $name_field = array("WOL_DATE");
             $type_field = array(14);
-            $value_field = '';
+            $value_field = array();
             
             $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
-            modif_values($tab_name, $tab_typ_champ, $tab_hidden, array('show_button' => false));
+            modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? '', array('show_button' => false));
             echo "<input type='submit' name='WOL_PROGRAM' value='" . $l->g(8201) . "' class='btn'>";
             echo "</div></div></div>";
          } elseif ($protectedPost['onglet'] == "ARCHIVE") {
