@@ -67,7 +67,7 @@ if (isset($protectedGet['tablename']) && isset($_SESSION['OCS']['csv']['SQL'][$p
         }
     }
 
-    if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']]) {
+    if (isset($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])) {
         $arg = $_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
     } else {
         $arg = '';
