@@ -180,6 +180,9 @@ if (isset($login_successful) && $login_successful == "OK" && !$limitAttempt) {
     if ($affich_method == 'HTML') {
         require_once (HEADER_HTML);
         if (isset($protectedPost['Valid_CNX'])) {
+            if (empty($_SESSION['OCS']["loggeduser"])) {
+                $login_successful = "No user provided";
+            }
             msg_error($login_successful);
             flush();
             //you can't send a new login/passwd before 2 seconds
