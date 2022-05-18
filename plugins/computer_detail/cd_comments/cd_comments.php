@@ -94,9 +94,11 @@ if (isset($protectedPost['ADD_NOTE'])) {
     $tab_typ_champ[2]['DEFAULT_VALUE'] = $_SESSION['OCS']["loggeduser"];
     $tab_typ_champ[1]['INPUT_TYPE'] = 0;
     $tab_typ_champ[2]['INPUT_TYPE'] = 13;
+    $tab_typ_champ[1]['INPUT_NAME'] = 'NOTE';
+    $tab_typ_champ[2]['INPUT_NAME'] = 'NOTE';
     $tab_typ_champ[3]['INPUT_NAME'] = 'NOTE';
     $tab_typ_champ[3]['INPUT_TYPE'] = 1;
-    modif_values($tab_name, $tab_typ_champ, $tab_hidden);
+    modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? '');
 }
 
 $queryDetails = "SELECT ID,DATE_INSERT,USER_INSERT,COMMENTS,ACTION FROM itmgmt_comments WHERE (visible is null or visible =1) and hardware_id=$systemid";
@@ -138,6 +140,8 @@ if (is_defined($protectedPost['MODIF'])) {
     $tab_typ_champ[3]['DEFAULT_VALUE'] = $item['COMMENTS'];
     $tab_typ_champ[1]['INPUT_TYPE'] = 0;
     $tab_typ_champ[2]['INPUT_TYPE'] = 13;
+    $tab_typ_champ[1]['INPUT_NAME'] = 'NOTE_MODIF';
+    $tab_typ_champ[2]['INPUT_NAME'] = 'NOTE_MODIF';
     $tab_typ_champ[3]['INPUT_NAME'] = 'NOTE_MODIF';
     $tab_typ_champ[3]['INPUT_TYPE'] = 1;
     $tab_hidden['USER_INSERT'] = $item['USER_INSERT'];
