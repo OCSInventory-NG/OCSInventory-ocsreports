@@ -42,7 +42,7 @@ if (!is_array($info_account_id)) {
 
     $list_tab = find_all_account_tab('TAB_ACCOUNTAG', 'COMPUTERS', 1);
     if ($list_tab != '') {
-        if (isset($protectedPost['Valid_modif']) && $protectedPost['NOTE'] == "" && $protectedPost['NOTE_MODIF'] == "") {
+        if (isset($protectedPost['Valid_modif']) && empty($protectedPost['NOTE']) && empty($protectedPost['NOTE_MODIF'])) {
             if (!is_defined($protectedPost['onglet']) || !is_numeric($protectedPost['onglet'])) {
                 $protectedPost['onglet'] = $list_tab['FIRST'];
             }
@@ -62,7 +62,7 @@ if (!is_array($info_account_id)) {
 
             foreach ($protectedPost as $field => $value) {
                 $temp_field = explode('_', $field);
-                if (array_key_exists($temp_field[0] . '_' . $temp_field[1], $info_account_id) || $temp_field[0] == 'TAG') {
+                if ((isset($temp_field[1]) && (array_key_exists($temp_field[0] . '_' . $temp_field[1], $info_account_id))) || $temp_field[0] == 'TAG') {
                     //cas of checkbox
                     if (isset($temp_field[2])) {
                         $data_fields_account[$temp_field[0] . "_" . $temp_field[1]] .= $temp_field[2] . "&&&";
@@ -70,6 +70,7 @@ if (!is_array($info_account_id)) {
                         $data_fields_account[$field] = $value;
                     }
                 }
+
             }
             updateinfo_computer($systemid, $data_fields_account);
             //search all admininfo for this computer
