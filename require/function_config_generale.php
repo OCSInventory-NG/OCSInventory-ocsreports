@@ -278,7 +278,7 @@ function verif_champ() {
                     $tab_error[$key] = array('FILE_NOT_EXIST' => $protectedPost[$value['FIELD_READ']] . $value['END'] . $value['FILE']);
                 }
                 //Try to find a directory
-            } elseif (!is_dir($protectedPost[$value['FIELD_READ']] . $value['END'])) {
+            } elseif (isset($protectedPost[$value['FIELD_READ']]) && !is_dir($protectedPost[$value['FIELD_READ']] . $value['END'])) {
                 if ($protectedPost[$value['FIELD_READ']] != '') {
                     $tab_error[$key] = array('FILE_NOT_EXIST' => $protectedPost[$value['FIELD_READ']] . $value['END']);
                 }
