@@ -530,8 +530,10 @@ class OCSSnmp
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
 		$infos = [];
-		while($item = mysqli_fetch_array($result)) {
-			$infos[$item['ID']] = $item;
+		if (!empty($result)) {
+			while($item = mysqli_fetch_array($result)) {
+				$infos[$item['ID']] = $item;
+			}
 		}
 
 		return $infos;
