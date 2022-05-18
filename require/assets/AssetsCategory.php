@@ -45,7 +45,7 @@ class AssetsCategory
     }
 
     public function get_computer_assets($list_asset){
-        $nb_computer = 0;
+        $nb_computer = array();
         foreach($list_asset as $values){
             $nb = [];
             $asset = explode(",", $values['SQL_ARGS']);
