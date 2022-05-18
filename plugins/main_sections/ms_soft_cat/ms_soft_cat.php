@@ -366,8 +366,8 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
     echo '<div><input style="display:initial;width:20px;height:14px;" type="checkbox" name="advanced" value="0" id="advanced" class="form-control" '.$check.' onClick="this.form.submit();">'.$l->g(1509).'</div><br/>';
 
     if(isset($protectedPost['advanced'])){
-      $version = $softCat->search_version($protectedPost['regular_exp']);
-      $vendor = $softCat->search_vendor($protectedPost['regular_exp']);
+      $version = $softCat->search_version($protectedPost['regular_exp'] ?? '');
+      $vendor = $softCat->search_vendor($protectedPost['regular_exp'] ?? '');
 
       formGroup('select', 'version_sign', $l->g(1510).' :', '', '',$protectedPost['version_sign'] ?? 0, '', $operatorsArray, $operatorsArray);
       formGroup('select', 'version_soft', $l->g(1507).' :', '', '', $protectedPost['version_soft'] ?? 0, '', $version, $version);
