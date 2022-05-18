@@ -210,7 +210,7 @@ if ($protectedPost['onglet'] == 1) {
         $list = $protectedPost['del_check'];
         $tab_values = explode(',', $list);
         $i = 0;
-        while ($tab_values[$i]) {
+        while (isset($tab_values[$i])) {
             del_accountinfo($tab_values[$i]);
             $i++;
         }

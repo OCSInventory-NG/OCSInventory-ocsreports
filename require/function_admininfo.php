@@ -110,9 +110,9 @@ function del_accountinfo($id) {
     $arg_found_account_type = $id;
     $result = mysql2_query_secure($sql_found_account_type, $_SESSION['OCS']["readServer"], $arg_found_account_type);
     $val = mysqli_fetch_array($result);
-    if ($val['account_type'] == "SNMP") {
+    if (isset($val['account_type']) && $val['account_type'] == "SNMP") {
         $table = "snmp_accountinfo";
-    } elseif ($val['account_type'] == "COMPUTERS") {
+    } elseif (isset($val['account_type']) && $val['account_type'] == "COMPUTERS") {
         $table = "accountinfo";
     } else {
         return false;
@@ -158,7 +158,7 @@ function find_all_account_tab($tab_value, $onlyactiv = '', $first = '') {
         }
         $array_tab_account[$val_tab_account['IVALUE']] = $val_tab_account['TVALUE'];
     }
-    return $array_tab_account;
+    return $array_tab_account ?? '';
 }
 
 function find_value_field($name, $type = null) {
