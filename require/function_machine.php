@@ -312,11 +312,11 @@ function checkForComputerPackagesAction(){
     if (isset($protectedGet["suppack"]) & $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
 
         if ($_SESSION['OCS']["justAdded"] == false) {
-            desactive_packet($systemid, $protectedGet["suppack"]);
+            desactive_packet($systemid ?? '', $protectedGet["suppack"]);
         } else {
             $_SESSION['OCS']["justAdded"] = false;
         }
-        addLog($l->g(512), $l->g(886) . " " . $protectedGet["suppack"] . " => " . $systemid);
+        addLog($l->g(512), $l->g(886) . " " . $protectedGet["suppack"] . " => " . $_GET["systemid"]);
     } else {
         $_SESSION['OCS']["justAdded"] = false;
     }
