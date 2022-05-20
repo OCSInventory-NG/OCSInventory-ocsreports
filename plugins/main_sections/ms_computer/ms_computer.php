@@ -142,7 +142,7 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
         $file_extension = EXT_DL_DIR . $protectedGet['option'] . "/cd_" . $protectedGet['option'] . "/cd_" . $protectedGet['option'] .".php";
     }
 
-    if (isset($plugin_file) && (file_exists($plugin_file) || file_exists($file_extension))) {
+    if ((isset($plugin_file) && (file_exists($plugin_file)) || file_exists($file_extension))) {
         if (!AJAX) {
             if(file_exists($file_extension)){
                 echo '<div class="plugin-name-' . $protectedGet['option'] . '">';
