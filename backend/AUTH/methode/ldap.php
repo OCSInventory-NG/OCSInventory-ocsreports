@@ -107,11 +107,11 @@ function search_on_loginnt($login) {
     }
 
     // save user fields in session
-    $_SESSION['OCS']['details']['givenname'] = $info[0]['givenname'][0];
-    $_SESSION['OCS']['details']['sn'] = $info[0]['sn'][0];
-    $_SESSION['OCS']['details']['cn'] = $info[0]['cn'][0];
-    $_SESSION['OCS']['details']['mail'] = $info[0]['mail'][0];
-    $_SESSION['OCS']['details']['title'] = $info[0]['title'][0];
+    $_SESSION['OCS']['details']['givenname'] = $info[0]['givenname'][0] ?? '';
+    $_SESSION['OCS']['details']['sn'] = $info[0]['sn'][0] ?? '';
+    $_SESSION['OCS']['details']['cn'] = $info[0]['cn'][0] ?? '';
+    $_SESSION['OCS']['details']['mail'] = $info[0]['mail'][0] ?? '';
+    $_SESSION['OCS']['details']['title'] = $info[0]['title'][0] ?? '';
     
     return $info;
 }

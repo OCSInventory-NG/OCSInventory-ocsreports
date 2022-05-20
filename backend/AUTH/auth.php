@@ -167,7 +167,7 @@ if (isset($login_successful) && $login_successful == "OK" && !$limitAttempt) {
     }
 } else {
     if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
-        if ($login != ""){
+        if (!empty($login)){
             $sql = "INSERT INTO auth_attempt (`DATETIMEATTEMPT`,`LOGIN`,`IP`,`SUCCESS`)
             VALUES ('%s','%s','%s','%s')";
             $datetime = new DateTime();

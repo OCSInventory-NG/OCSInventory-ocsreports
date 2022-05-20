@@ -28,7 +28,7 @@ $arg_reqOp = array($login);
 $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
 $rowOp = mysqli_fetch_object($resOp);
 
-if ($rowOp->PASSWORD_VERSION === '0') {
+if (isset($rowOp->PASSWORD_VERSION) && $rowOp->PASSWORD_VERSION === '0') {
     $reqOp = "SELECT ID, USER_GROUP FROM operators WHERE ID='%s' and PASSWD ='%s'";
     $arg_reqOp = array($login, md5($protectedMdp));
 
@@ -69,7 +69,7 @@ if ($rowOp->PASSWORD_VERSION === '0') {
         }
     }
 
-    if ($login_status == true || hash(PASSWORD_CRYPT, $mdp) == $rowOp->PASSWD) {
+    if ($login_status == true || (isset($rowOp->PASSWD) && hash(PASSWORD_CRYPT, $mdp) == $rowOp->PASSWD)) {
         $login_successful = "OK";
         $user_group = $rowOp->USER_GROUP;
         $type_log = 'CONNEXION';
