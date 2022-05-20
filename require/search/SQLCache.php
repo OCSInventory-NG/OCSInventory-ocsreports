@@ -114,7 +114,7 @@
 
                 if($p == 0 && isset($operator[$p+1]) && $operator[$p+1] == 'OR'){
                     $open = "(";
-                }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
+                }if($operator[$p] =='OR' && (!isset($operator[$p+1]) || $operator[$p+1] !='OR')){
                     $close=")";
                 }if($p != 0 && $operator[$p] !='OR' && isset($operator[$p+1]) && $operator[$p+1] =='OR'){
                     $open = "(";
