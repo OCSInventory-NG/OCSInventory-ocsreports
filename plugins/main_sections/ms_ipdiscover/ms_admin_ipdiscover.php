@@ -133,7 +133,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 if (is_defined($protectedGet['value'])) {
                     $explode = explode(";", $protectedGet['value']);
                     $protectedPost['ADD_IP'] = $explode[0];
-                    $protectedPost['ADD_TAG'] = $explode[1];
+                    $protectedPost['ADD_TAG'] = $explode[1] ?? '';
                 }
             } else {
                 $title = $l->g(303);
@@ -246,6 +246,7 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
         echo "<input type='submit' class='btn' value='" . $l->g(116) . "' name='ADD_TYPE'>";
+    
     }
 }
 

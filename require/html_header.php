@@ -89,7 +89,7 @@ if(is_null($value_banniere)){
                             echo "<li class='dropdown-header'><span id='tps'>wait...</span></li>";
                         }
                     } else if (!isset($_SESSION['OCS']['DEBUG'])) {
-                        if (($_SESSION['OCS']['profile'] && $_SESSION['OCS']['profile']->hasPage('ms_debug')) || (is_array($_SESSION['OCS']['TRUE_PAGES']) && array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']))) {
+                        if (($_SESSION['OCS']['profile'] && $_SESSION['OCS']['profile']->hasPage('ms_debug')) || (isset($_SESSION['OCS']['TRUE_PAGES']) && is_array($_SESSION['OCS']['TRUE_PAGES']) && array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']))) {
                             echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_debug'] . "&head=1'><font color='green'>" . $l->g(1011) . "</font></a>";
                         }
                     }
