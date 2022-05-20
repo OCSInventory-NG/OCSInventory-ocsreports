@@ -135,14 +135,14 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
     }
 } else if (isset($protectedGet['option'])) {
     // If specific plugin
-    $plugin = $plugins[$protectedGet['option']];
+    $plugin = $plugins[$protectedGet['option']] ?? '';
     if($plugin != null){
         $plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
     }else{
         $file_extension = EXT_DL_DIR . $protectedGet['option'] . "/cd_" . $protectedGet['option'] . "/cd_" . $protectedGet['option'] .".php";
     }
 
-    if (file_exists($plugin_file) || file_exists($file_extension)) {
+    if (isset($plugin_file) && (file_exists($plugin_file) || file_exists($file_extension))) {
         if (!AJAX) {
             if(file_exists($file_extension)){
                 echo '<div class="plugin-name-' . $protectedGet['option'] . '">';
