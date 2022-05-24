@@ -222,14 +222,16 @@ function addLog($type, $value = "", $lbl_sql = '') {
     if (isset($_SESSION['OCS']['LOG_GUI']) && $_SESSION['OCS']['LOG_GUI'] == 1) {
         //if (is_writable(LOG_FILE)) {
             $logHandler = fopen(LOG_FILE, "a");
-            $dte = getDate();
-            $date = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $dte["mday"], $dte["mon"], $dte["year"], $dte["hours"], $dte["minutes"], $dte["seconds"]);
-            if ($lbl_sql != '') {
-                $value = $lbl_sql . ' => ' . $value;
+            if(!empty($logHandler)) {
+                $dte = getDate();
+                $date = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $dte["mday"], $dte["mon"], $dte["year"], $dte["hours"], $dte["minutes"], $dte["seconds"]);
+                if ($lbl_sql != '') {
+                    $value = $lbl_sql . ' => ' . $value;
+                }
+                $towite = $_SESSION['OCS']["loggeduser"] ?? '' . ";" . $date . ";" . DB_NAME . ";" . $type . ";" . $value . ";" . $_SERVER['REMOTE_ADDR'] . ";\n";
+                fwrite($logHandler, $towite);
+                fclose($logHandler);
             }
-            $towite = $_SESSION['OCS']["loggeduser"] ?? '' . ";" . $date . ";" . DB_NAME . ";" . $type . ";" . $value . ";" . $_SERVER['REMOTE_ADDR'] . ";\n";
-            fwrite($logHandler, $towite);
-            fclose($logHandler);
         //}
     }
 }
