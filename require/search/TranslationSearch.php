@@ -264,8 +264,8 @@
         global $l;
 
         $values = explode(".", $string);
-
-        if(!empty($l->g($this->translationArray[$values[0]]))){
+        
+        if(isset($this->translationArray[$values[0]]) && !empty($l->g($this->translationArray[$values[0]]))){
             $table = $l->g($this->translationArray[$values[0]]);
         }else{
             $table = $values[0];

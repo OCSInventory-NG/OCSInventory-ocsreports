@@ -1084,7 +1084,7 @@
             break;
 
           case 'saas':
-            if(!array_key_exists('saas',$_SESSION['OCS']['multi_search']['saas'])){
+            if(!isset($_SESSION['OCS']['multi_search']['saas']) || !array_key_exists('saas',$_SESSION['OCS']['multi_search']['saas'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['saas']['saas'] = [
                     'fields' => 'ENTRY',
