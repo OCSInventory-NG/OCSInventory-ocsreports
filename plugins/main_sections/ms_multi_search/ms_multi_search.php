@@ -143,7 +143,7 @@ if ( isset($protectedPost['del_check']) ){
 }
 
 if(isset($protectedGet['fields'])){
-  $search->link_index($protectedGet['fields'], $protectedGet['comp'], $protectedGet['values'], $protectedGet['values2']);
+  $search->link_index($protectedGet['fields'], $protectedGet['values'], $protectedGet['comp'], $protectedGet['values2']);
 }
 
 if(isset($protectedGet['prov'])){
@@ -267,7 +267,7 @@ $isValid = true;
 
 foreach ($_SESSION['OCS']['multi_search'] as $key => $value) {
 	foreach ($value as $k => $v) {
-		if (is_null($v['value']) && $v['operator'] != "ISNULL") {
+		if (isset($v['value']) && (is_null($v['value'])) && $v['operator'] != "ISNULL") {
 			$isValid = false;
 		}
 	}

@@ -847,7 +847,7 @@
                 break;
 
             case self::DB_INT:
-                $html = '<input class="form-control" type="number" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
+                $html = '<input class="form-control" type="number" name="'.$fieldId.'" id="'.$fieldId.'" value="'.($fieldsInfos[self::SESS_VALUES] ?? '') .'" '.$attr.'>';
                 break;
 
             case self::DB_DATETIME:
@@ -1142,7 +1142,7 @@
         'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
       ];
 
-      $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+      $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] ?? '';
 
       if(empty($field[2])){
         if(str_contains($field[0], 'HARDWARE')){

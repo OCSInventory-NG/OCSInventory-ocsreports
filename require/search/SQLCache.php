@@ -148,7 +148,7 @@
 
                 $argFields = $value[Search::SESS_FIELDS];
                 $argOperators = $value[Search::SESS_OPERATOR];
-                $argValues = $value[Search::SESS_VALUES];
+                $argValues = $value[Search::SESS_VALUES] ?? '';
 
                 if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[Search::SESS_FIELDS] 
                             && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
