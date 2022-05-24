@@ -41,7 +41,7 @@ printEnTete($l->g(7008));
 $extMgr = new ExtensionManager();
 if($extMgr->checkPrerequisites()){
     $extMgr->checkInstallableExtensions();
-    
+    $extensions_errors = '';
 	if (!empty($extMgr->installableExtensions_errors)) {
 		$extensions_errors .= '<ul>';
 		foreach($extMgr->installableExtensions_errors as $error_msg) {

@@ -383,7 +383,7 @@ if (isset($protectedGet[PAG_INDEX])) {
 }
 
 //VERIF ACCESS TO THIS PAGE
-if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!$_SESSION['OCS']['TRUE_PAGES'] || !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES']))
+if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!isset($_SESSION['OCS']['TRUE_PAGES']) || !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES']))
         //force access to profils witch have CONFIGURATION TELEDIFF  == 'YES' for ms_admin_ipdiscover page
         && !($profile->getConfigValue('TELEDIFF') == 'YES' && $url_name == 'ms_admin_ipdiscover')) {
     msg_error("ACCESS DENIED");
