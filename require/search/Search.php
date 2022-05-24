@@ -861,7 +861,7 @@
             case self::HTML_SELECT:
 
                 $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
-                if($accounttype != null) {
+                if(isset($accounttype) && $accounttype != null) {
                   $fieldSelect = $accountInfos->find_accountinfo_values($field, $accounttype);
                 } elseif($field == 'CATEGORY_ID') {
                    $fieldSelect = $this->asset_categories();
