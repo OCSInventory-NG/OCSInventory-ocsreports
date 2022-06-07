@@ -46,7 +46,6 @@ class MainMenuRenderer extends MenuRenderer {
      * @param $value : value to add in profiles pages
      */
     protected function addValueToProfileAndUrls($value, $extMapName){
-        $this->profile->addPage($value);
         $this->urls->addUrl($value, $value, EXT_DL_DIR.$extMapName."/".$value);
     }
 
