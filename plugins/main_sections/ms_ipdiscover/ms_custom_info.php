@@ -29,7 +29,9 @@ if (AJAX) {
 
 require_once('require/function_ipdiscover.php');
 
-echo "<a class='btn btn-info' onClick='history.back();'>".$l->g(188)."</a>";
+if (!isset($protectedPost['MODIF'])) {
+    echo "<a class='btn btn-info' href='index.php?function=show_ipdiscover'>".$l->g(188)."</a></br></br>";
+}
 
 $form_name = 'info_ipdiscover';
 $tab_options = $protectedPost;
