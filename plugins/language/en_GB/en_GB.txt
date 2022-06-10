@@ -1624,7 +1624,7 @@
 7014 There is currently no extensions available for installation
 7015 Select at least one computer!
 7016 MTU
-7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation.
+7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation. <br> You may need to update profiles permissions to access the extension page. 
 7018 This extension is already installed.
 7019 A PHP error occurred.
 7020 Extension successfully uninstalled!
