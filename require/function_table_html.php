@@ -254,6 +254,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 }
                                 ?>
                             </select>
+
                         </div>
                     </div>
                 </div>
@@ -405,6 +406,7 @@ if (empty($cols)) {
     unset($_SESSION['OCS']['visible_col'][$option['table_name']]);
 
 	//Visibility handling
+	$layout_cols = "";
     foreach ($columns as $key => $column) {
         if (!empty($visible_col)) {
             if ((in_array($index, $visible_col))) {
@@ -452,10 +454,15 @@ if (empty($cols)) {
             if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                 $name = $option['REPLACE_COLUMN_KEY'][$key];
             }
+			$layout_cols .= "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
+				'name':'" . $column . "', 'defaultContent': ' ',
+				'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
+
             echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
 'name':'" . $column . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
         }
+
     }
 } else {
 	echo $cols[0];
@@ -543,6 +550,8 @@ if (empty($cols)) {
 
     </script>
     <?php
+	$_SESSION['OCS']['layout_cols'] = json_encode($layout_cols);
+
     if ($titre != "") {
         printEnTete_tab($titre);
     }
@@ -1162,7 +1171,6 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 		$current="";
 
 		foreach($def_onglets as $key=>$value){
-
 			echo "<li ";
 			if (is_numeric($protectedPost[$post_name])){
 				if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
