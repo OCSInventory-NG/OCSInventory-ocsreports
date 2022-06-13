@@ -275,8 +275,14 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                  ?>
         </div>
         <?php
-        echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a>";
-        ?>
+
+        echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.history.replaceState(null, null, window.location.href);window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a><br>";
+
+		// layouts
+		$layout = new Layout($option['table_name']);
+		$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout']);
+		?>
+
     </div>
 
     <script>
@@ -392,6 +398,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 "columns": [
     <?php
 
+if (empty($cols)) {
 		$index = 0;
 
     // Unset visible columns session var
@@ -428,6 +435,12 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                 $key = $option['REPLACE_COLUMN_KEY'][$key];
             }
+
+			$layout_cols .= "{'data' : '" . $key . "' , 'class':'" . $key . "',
+				'name':'" . $key . "', 'defaultContent': ' ',
+				'orderable':  " . $orderable . ",'searchable': false,
+				'visible' : " . $visible . "}, \n";
+
             echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
 'name':'" . $key . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ",'searchable': false,
@@ -444,6 +457,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
         }
     }
+} else {
+	echo $cols[0];
+	
+}
     ?>
                 ],
                 //Translation
@@ -1932,7 +1949,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 	$data = json_encode($tab_options['visible_col']);
 	$customized=false;
-	if (count($tab_options['visible_col'])!=$visible){
+	if (count($tab_options['visible_col'])!=$visible || isset($protectedPost['layout'])){
 		$customized=true;
 		setcookie($tab_options['table_name']."_col",$data,time()+31536000);
 	}
