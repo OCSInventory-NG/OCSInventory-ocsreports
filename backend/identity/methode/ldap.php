@@ -150,7 +150,7 @@ if (isset($defaultRole) && trim($defaultRole) != '') {
         $profile = $profile_serializer->unserialize($lvluser, file_get_contents($profile_config));
 
         $restriction = $profile->getRestriction('GUI');
-
+        $restrictions = $profile->getRestrictions();
         //if this user has RESTRICTION
         //search all tag for this user
         if ($restriction == 'YES') {
@@ -178,6 +178,12 @@ if (isset($defaultRole) && trim($defaultRole) != '') {
             if (!isset($list_tag)) {
                 $ERROR = $l->g(893);
             }
+    
+            // if user is restricted on all pages and has no tag assigned, he has the right to connect but no access
+            if (!isset($list_tag) && !in_array('NO', $restrictions)) {
+                $ERROR = $l->g(896);
+            }
+    
         } elseif (($restriction != 'NO')) {
             $ERROR = $restriction;
         }

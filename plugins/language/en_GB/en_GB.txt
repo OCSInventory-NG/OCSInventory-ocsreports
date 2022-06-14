@@ -781,6 +781,7 @@
 893 NO TAG ASSIGNED TO YOUR PROFILE
 894 No rights level defined to your profile, please contact your administrator
 895 TAG Modification
+896 You do not have rights to access this page, please contact your administrator
 898 Add an annotation
 899 Writer
 900 Do you really want to delete selection?
@@ -1624,7 +1625,7 @@
 7014 There is currently no extensions available for installation
 7015 Select at least one computer!
 7016 MTU
-7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation.
+7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation. <br> You may need to update profiles permissions to access the extension page. 
 7018 This extension is already installed.
 7019 A PHP error occurred.
 7020 Extension successfully uninstalled!
