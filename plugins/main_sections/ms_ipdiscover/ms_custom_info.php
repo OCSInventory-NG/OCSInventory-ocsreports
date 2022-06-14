@@ -129,9 +129,6 @@ if (is_defined($protectedPost['MODIF'])) {
     $tab_hidden['MODIF_ID'] = $protectedPost['MODIF_ID'];
     //si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
     if ($protectedPost['MODIF_ID'] != '') {
-        $tab_typ_champ[3]['DEFAULT_VALUE'] = $protectedPost['USER'];
-        $tab_typ_champ[3]['INPUT_NAME'] = "USER";
-        $tab_typ_champ[3]['INPUT_TYPE'] = 3;
         $tab_name[3] = $l->g(944) . ": ";
 
         $title = $l->g(945);
@@ -139,35 +136,33 @@ if (is_defined($protectedPost['MODIF'])) {
         $title = $l->g(946);
     }
 
-    $tab_typ_champ[0]['DEFAULT_VALUE'] = $protectedPost['MODIF'];
-    $tab_typ_champ[0]['INPUT_NAME'] = "MAC";
-    $tab_typ_champ[0]['INPUT_TYPE'] = 13;
-    $tab_name[0] = $l->g(95) . ": ";
-
-    $tab_typ_champ[1]['DEFAULT_VALUE'] = $protectedPost['COMMENT'];
-    $tab_typ_champ[1]['INPUT_NAME'] = "COMMENT";
-    $tab_typ_champ[1]['INPUT_TYPE'] = 0;
-    $tab_typ_champ[1]['CONFIG']['SIZE'] = 60;
-    $tab_typ_champ[1]['CONFIG']['MAXLENGTH'] = 255;
-    $tab_name[1] = $l->g(53) . ": ";
-
     $sql = "SELECT DISTINCT NAME FROM devicetype ";
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     while ($row = mysqli_fetch_object($res)) {
         $list_type[$row->NAME] = $row->NAME;
     }
-    $tab_typ_champ[2]['DEFAULT_VALUE'] = $list_type;
-    $tab_typ_champ[2]['INPUT_NAME'] = "TYPE";
-    $tab_typ_champ[2]['INPUT_TYPE'] = 2;
-    $tab_name[2] = $l->g(66) . ": ";
 
+    $tab_name = array($l->g(944), $l->g(95), $l->g(53), $l->g(66));
+    $name_field = array('USER', 'MAC', 'COMMENT', 'TYPE');
+    $type_field = array(13, 13, 0, 2);
+    $value_field =  array($protectedPost['USER'], $protectedPost['MODIF'], $protectedPost['COMMENT'], $list_type);
+
+    $tab_typ_champ = show_field($name_field, $type_field, $value_field);
     $tab_hidden['mac'] = $protectedPost['MODIF'];
     if (isset($ERROR)) {
         msg_error($ERROR);
     }
+
+    foreach ($tab_typ_champ as $id => $values) {
+        if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
+            $tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']];
+        }
+    }
+
     modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
         'title' => $title
     ));
+
 } else { //affichage des périphériques
     if (!(isset($protectedPost["pcparpage"]))) {
         $protectedPost["pcparpage"] = 5;
