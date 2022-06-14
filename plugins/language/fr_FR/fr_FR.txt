@@ -1624,7 +1624,7 @@
 7014 Il n'y a aucune extensions disponible
 7015 Sélectionnez au minimum un ordinateur !
 7016 MTU
-7017 L'extension a été installée avec succès ! <br> Merci de vous déconnecter et reconnecter afin de terminer l'installation.
+7017 L'extension a été installée avec succès ! <br> Merci de vous déconnecter et reconnecter afin de terminer l'installation. <br> Il peut être nécessaire de mettre à jour les permissions des profils pour accéder à la page de l'extension.
 7018 Cette extension est déjà installée.
 7019 Une erreur PHP est survenue.
 7020 L'extension a été désinstallée avec succès !
