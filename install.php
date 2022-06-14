@@ -234,7 +234,6 @@ if (isset($_POST["name"])) {
 }
 //use values in mysql config file
 if (is_readable(CONF_MYSQL)) {
-    require(CONF_MYSQL);
     if (defined('COMPTE_BASE')) {
         $valNme = COMPTE_BASE;
     } else {
