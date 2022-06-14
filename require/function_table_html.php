@@ -254,7 +254,13 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 }
                                 ?>
                             </select>
+								<?php
 
+
+								// layouts
+								$layout = new Layout($option['table_name']);
+								$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'], $option['table_name']);
+								?>
                         </div>
                     </div>
                 </div>
@@ -268,6 +274,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         <div id="<?php echo $option['table_name']; ?>_csv_download"
              style="display: none">
                  <?php
+				 
                  //Display of the result count
                  if (!isset($option['no_download_result'])) {
                      echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
@@ -279,9 +286,6 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
         echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.history.replaceState(null, null, window.location.href);window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a><br>";
 
-		// layouts
-		$layout = new Layout($option['table_name']);
-		$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout']);
 		?>
 
     </div>
@@ -399,6 +403,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 "columns": [
     <?php
 
+if ($protectedPost['onglet'] == 'ALL' && isset($protectedPost['layout'])) {
+	// search for this exact line in cols and remove it : the archive option should not be displayed on 'all' tab
+	$cols[0] = str_replace("{'data' : 'ARCHIVER' , 'class':'ARCHIVER', 'name':'ARCHIVER', 'defaultContent': ' ', 'orderable':  false,'searchable': false, 'visible' : false},", '', $cols[0]);
+} 
 if (empty($cols)) {
 		$index = 0;
 
@@ -438,10 +446,7 @@ if (empty($cols)) {
                 $key = $option['REPLACE_COLUMN_KEY'][$key];
             }
 
-			$layout_cols .= "{'data' : '" . $key . "' , 'class':'" . $key . "',
-				'name':'" . $key . "', 'defaultContent': ' ',
-				'orderable':  " . $orderable . ",'searchable': false,
-				'visible' : " . $visible . "}, \n";
+			$layout_cols .= "{'data' : '" . $key . "' , 'class':'" . $key . "', 'name':'" . $key . "', 'defaultContent': ' ', 'orderable':  " . $orderable . ",'searchable': false, 'visible' : " . $visible . "},";
 
             echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
 'name':'" . $key . "', 'defaultContent': ' ',
@@ -454,9 +459,7 @@ if (empty($cols)) {
             if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                 $name = $option['REPLACE_COLUMN_KEY'][$key];
             }
-			$layout_cols .= "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
-				'name':'" . $column . "', 'defaultContent': ' ',
-				'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
+			$layout_cols .= "{'data' : '" . $name . "' , 'class':'" . $name . "', 'name':'" . $column . "', 'defaultContent': ' ', 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},";
 
             echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
 'name':'" . $column . "', 'defaultContent': ' ',
@@ -550,7 +553,7 @@ if (empty($cols)) {
 
     </script>
     <?php
-	$_SESSION['OCS']['layout_cols'] = json_encode($layout_cols);
+	$_SESSION['OCS']['layout_cols'] = json_encode(rtrim($layout_cols, ','));
 
     if ($titre != "") {
         printEnTete_tab($titre);
