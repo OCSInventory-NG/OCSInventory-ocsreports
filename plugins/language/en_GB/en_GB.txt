@@ -781,6 +781,7 @@
 893 NO TAG ASSIGNED TO YOUR PROFILE
 894 No rights level defined to your profile, please contact your administrator
 895 TAG Modification
+896 You do not have rights to access this page, please contact your administrator
 898 Add an annotation
 899 Writer
 900 Do you really want to delete selection?
