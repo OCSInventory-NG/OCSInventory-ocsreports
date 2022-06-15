@@ -15,7 +15,8 @@ class CSV {
 
     function __construct() {
         $values = look_config_default_values($this->champs);
-        $this->separator = $values['tvalue']['EXPORT_SEP'];
+
+        $this->separator = ($values['tvalue']['EXPORT_SEP'] ?? ";");
         // in case tmp dir path has not been set and created yet, tmp dir will be created at /var/lib/ocsinventory-reports/tmp_dir/
         if (isset($values['tvalue']['TMP_DIR'])) {
             $this->file_path = $values['tvalue']['TMP_DIR'];

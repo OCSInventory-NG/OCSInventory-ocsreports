@@ -414,7 +414,7 @@ if ($protectedPost['onglet'] == 1) {
                 msg_info($l->g(9608));
                 msg_success($l->g(9607));
                 // display form for CSV field selection
-                formGroup('select', 'csv_field', $l->g(9600), '', '', $protectedPost['csv_field'], '', $protectedPost['csv_header'], $protectedPost['csv_header']);
+                formGroup('select', 'csv_field', $l->g(9600), '', '', ($protectedPost['csv_field'] ?? 0), '', $protectedPost['csv_header'], $protectedPost['csv_header']);
                 echo "<br><br><input type='submit' name='valid_csv_field' id='valid_csv_field' class='btn btn-success' value=".$l->g(1264)."><br><br>";
                 echo "<input type='hidden' name ='csv_filename' id='csv_filename' value= ".$protectedPost['csv_filename'].">";
                 // close file
@@ -478,7 +478,11 @@ if ($protectedPost['onglet'] == 1) {
         $req = "SELECT ID, NAME from accountinfo_config WHERE account_type = 'computers'";
         $ocs_fields = mysql2_query_secure($req, $_SESSION['OCS']["readServer"]);
         $ocs_fields = mysqli_fetch_all($ocs_fields, MYSQLI_ASSOC);
-        array_unshift($ocs_fields, "----");
+        $emptyfields = [
+            'ID' => 0,
+            'NAME' => "----"
+        ];
+        array_unshift($ocs_fields, $emptyfields);
 
         echo '<div class="col-sm-10">';
         msg_info($l->g(9610));
@@ -496,7 +500,7 @@ if ($protectedPost['onglet'] == 1) {
         echo '                  <td style="width: 40%; text-align:center;">'.$column.'</td>';
         echo '                  <td><select style="width: 100%;" class="form-control" type="text" name="link_'.$key.'">';
                                 foreach($ocs_fields as $ocs_field) {
-                                echo '<option value="'.$ocs_field['ID'].'">'.$ocs_field['NAME'].'</option>';
+                                    echo '<option value="'.$ocs_field['ID'].'">'.$ocs_field['NAME'].'</option>';
                                 }
         echo '                  </td>';
         echo '              </tr>';
