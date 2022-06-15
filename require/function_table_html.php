@@ -890,9 +890,9 @@ function tab_modif_values($field_labels, $fields, $hidden_fields, $options = arr
 function show_field($name_field,$type_field,$value_field,$config=array()){
 	global $protectedPost;
 	foreach($name_field as $key=>$value){
-		$tab_typ_champ[$key]['DEFAULT_VALUE']=$value_field[$key];
-		$tab_typ_champ[$key]['INPUT_NAME']=$name_field[$key];
-		$tab_typ_champ[$key]['INPUT_TYPE']=$type_field[$key];
+		$tab_typ_champ[$key]['DEFAULT_VALUE']=$value_field[$key] ?? "";
+		$tab_typ_champ[$key]['INPUT_NAME']=$name_field[$key] ?? "";
+		$tab_typ_champ[$key]['INPUT_TYPE']=$type_field[$key] ?? "";
 
 
 		if (!isset($config['ROWS'][$key]) or $config['ROWS'][$key] == '')
