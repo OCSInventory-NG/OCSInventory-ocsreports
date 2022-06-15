@@ -37,7 +37,7 @@ if (is_defined($protectedPost['LOCK'])) {
     echo "<script language='javascript'> window.opener.document.multisearch.submit();self.close();</script>";
 }
 
-if ($protectedPost['CHOISE'] != "") {
+if (isset($protectedPost['CHOISE']) &&  $protectedPost['CHOISE'] != "") {
     echo "<p><b>" . $l->g(978) . "</b></p>";
     echo "<p>".$l->g(979)."</p>";
     echo "<input type='submit' value=" . $l->g(977) . " name='LOCK' class='btn'>";
