@@ -176,7 +176,7 @@ if($protectedPost['onglet'] == 'NOTIF_PERSO'){
 
     echo '<input type="radio" name="notif_choice" id="notif_choice" value="DEFAULT" '.$default.' onclick="hide(\'notif_perso\', \'default_mail\', \'perso_mail\')" />'.$l->g(488).'</br>
           <input type="radio" name="notif_choice" id="notif_choice" value="PERSO" '.$perso.' onclick="show(\'notif_perso\', \'default_mail\', \'perso_mail\')"/>'.$l->g(8012).'
-          <div id ="notif_perso" '.$style_perso.' align="center"></br></br>';
+          <div id ="notif_perso" '.($style_perso ?? '').' align="center"></br></br>';
     msg_warning($l->g(8016));
     echo '<input type="file" id="template" name="template"/>
           </div>';
@@ -198,7 +198,7 @@ if($protectedPost['onglet'] == 'NOTIF_PERSO'){
     if(!$output){
         $output = $l->g(8020);
     }
-    echo "<div id=perso_mail ".$style_perso.">";
+    echo "<div id=perso_mail ".($style_perso ?? '').">";
     echo "<div class='form-group'><label class='control-label col-sm-2' for='subject'>".$l->g(8018)."</label><div class='col-sm-8'>
           <input type='text' class='form-control' id='subject' name='subject' size='50' maxlength='255' value='".$info['PERSO']['SUBJECT']."'/></div></div>";
     echo $output;
