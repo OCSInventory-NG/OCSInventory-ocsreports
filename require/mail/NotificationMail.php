@@ -88,6 +88,7 @@
         $infos['NOTIF_PROG_DAY'] = $this->number_day($infos);
         $sql="SELECT * FROM notification_config";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        $verif = [];
         while($row = mysqli_fetch_array($result)){
            $verif[$row['NAME']]= $row['NAME'];
         }
@@ -110,6 +111,7 @@
        * @return string        [description]
        */
       private function number_day($infos){
+        $day = "";
         foreach($infos as $key => $value){
           if(array_key_exists($key, $this->week)){
               $day .= $this->week[$key] . ",";
