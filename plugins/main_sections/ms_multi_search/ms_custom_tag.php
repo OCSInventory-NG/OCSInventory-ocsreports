@@ -201,6 +201,7 @@
  									from download_available d_a, download_enable d_e
  									where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
              $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
+             $List = [];
              while ($val = mysqli_fetch_array($resultDetails)) {
                  $List[$val["fileid"]] = $val["name"];
              }
