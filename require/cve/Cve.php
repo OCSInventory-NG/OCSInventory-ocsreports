@@ -416,8 +416,6 @@ class Cve
     $arg = array($publisher);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
-    if(gettype($this->curlSession) == 'resource') curl_close($this->curlSession);
-
     if($this->CVE_BAN != ""){
       $sql_ban = "SELECT DISTINCT cs.NAME_ID FROM cve_search cs LEFT JOIN software_categories_link as scl ON cs.NAME_ID = scl.NAME_ID WHERE scl.CATEGORY_ID IN (%s)";
       $sql_ban_arg = array($this->CVE_BAN);
