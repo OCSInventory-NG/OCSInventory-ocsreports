@@ -254,11 +254,11 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 ?>
                             </select>
 								<?php
-
-
 								// layouts
 								$layout = new Layout($option['table_name']);
 								$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'], $option['table_name']);
+								$columns = json_decode($cols['COLUMNS'], true) ?? $columns;
+								$visible_col = json_decode($cols['visible_col'], true) ?? $visible_col;
 								?>
                         </div>
                     </div>
@@ -402,18 +402,11 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 "columns": [
     <?php
 
-if ($protectedPost['onglet'] == 'ALL' && isset($protectedPost['layout'])) {
-	// search for this exact line in cols and remove it : the archive option should not be displayed on 'all' tab
-	$cols[0] = str_replace("{'data' : 'ARCHIVER' , 'class':'ARCHIVER', 'name':'ARCHIVER', 'defaultContent': ' ', 'orderable':  false,'searchable': false, 'visible' : false},", '', $cols[0]);
-} 
-if (empty($cols)) {
-		$index = 0;
-
-    // Unset visible columns session var
+	$index = 0;
+	// Unset visible columns session var
     unset($_SESSION['OCS']['visible_col'][$option['table_name']]);
 
 	//Visibility handling
-	$layout_cols = "";
     foreach ($columns as $key => $column) {
         if (!empty($visible_col)) {
             if ((in_array($index, $visible_col))) {
@@ -445,8 +438,6 @@ if (empty($cols)) {
                 $key = $option['REPLACE_COLUMN_KEY'][$key];
             }
 
-			$layout_cols .= "{'data' : '" . $key . "' , 'class':'" . $key . "', 'name':'" . $key . "', 'defaultContent': ' ', 'orderable':  " . $orderable . ",'searchable': false, 'visible' : " . $visible . "},";
-
             echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
 'name':'" . $key . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ",'searchable': false,
@@ -458,7 +449,6 @@ if (empty($cols)) {
             if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                 $name = $option['REPLACE_COLUMN_KEY'][$key];
             }
-			$layout_cols .= "{'data' : '" . $name . "' , 'class':'" . $name . "', 'name':'" . $column . "', 'defaultContent': ' ', 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},";
 
             echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
 'name':'" . $column . "', 'defaultContent': ' ',
@@ -466,12 +456,7 @@ if (empty($cols)) {
         }
 
     }
-} else {
 
-	echo $cols[0];
-
-	
-}
     ?>
                 ],
                 //Translation
@@ -554,8 +539,10 @@ if (empty($cols)) {
 
     </script>
     <?php
-	$layout_cols = json_encode(rtrim($layout_cols, ','));
-	$_SESSION['OCS']['layout_cols'] = $layout_cols == '""' ? json_encode($cols[0]) : $layout_cols;
+	$layout_cols = json_encode($columns);
+	$layout_visib = json_encode($visible_col);
+	$_SESSION['OCS']['layout_cols'] = $layout_cols;
+	$_SESSION['OCS']['layout_visib'] = $layout_visib;
 
     if ($titre != "") {
         printEnTete_tab($titre);
@@ -1962,7 +1949,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 	$data = json_encode($tab_options['visible_col']);
 	$customized=false;
-	if (count($tab_options['visible_col'])!=$visible || isset($protectedPost['layout'])){
+	if (count($tab_options['visible_col'])!=$visible){
 		$customized=true;
 		setcookie($tab_options['table_name']."_col",$data,time()+31536000);
 	}

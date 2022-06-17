@@ -21,10 +21,13 @@
  * MA 02110-1301, USA.
  */
 
-// create a class Layout to manage the layout of the table's columns in ocsreports
-// class will be used to save the current columns being displayed in the table
-// and restore a saved layout when needed
-// not allowing the user to update a layout is a arbitrary choice bc too much trouble
+
+/**
+ * Class Layout
+ * Manage the layout of the table's columns in ocsreports
+ * class will be used to save the current columns being displayed in the table
+ * and restore a saved layout when needed
+ */
 class Layout {
     private $form_name;
 
@@ -33,20 +36,22 @@ class Layout {
     }
 
 
-    public function insertLayout($layout_name, $layout_descr, $user, $cols) {
+    public function insertLayout($layout_name, $layout_descr, $user, $cols, $visib) {
+        global $l;
         // check that we have everything before attempting to insert
         if (!empty($cols) && !empty($layout_name) && !empty($user)) {
             // check for a layout w/ same name or columns already existing for this user
-            $dupli_check = $this->checkLayout($layout_name, $user, $cols);
+            $dupli_check = $this->checkLayout($layout_name, $user, $visib);
             if (empty($dupli_check)) {
-                $query = "INSERT INTO layouts (LAYOUT_NAME, USER, TABLE_NAME, COLUMNS, DESCRIPTION) VALUES ('$layout_name', '$user', '".$this->form_name."', $cols, '$layout_descr')";
+                $query = "INSERT INTO layouts (LAYOUT_NAME, USER, TABLE_NAME, COLUMNS, DESCRIPTION, visible_col) VALUES ('$layout_name', '$user', '".$this->form_name."', '$cols', '$layout_descr', '$visib')";
+                
                 $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
 
                 // check that layout was inserted
                 if ($result) {
-                    msg_success("Layout '$layout_name' created");
+                    msg_success($l->g(9901));
                 } else {
-                    msg_error("Error creating layout '$layout_name'");
+                    msg_error($l->g(9903));
                 }
 
             } else {
@@ -55,13 +60,13 @@ class Layout {
             }
 
         } else {
-            msg_error("Please provide a layout name");
+            msg_error($l->g(9904));
         }
     }
 
 
     public function getLayout($user, $layout_name) {
-        $query = "SELECT COLUMNS FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."' AND LAYOUT_NAME = '".$layout_name."'";
+        $query = "SELECT COLUMNS, visible_col FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."' AND LAYOUT_NAME = '".$layout_name."'";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
         if ($result) {
             $layout = mysqli_fetch_array($result);
@@ -73,22 +78,23 @@ class Layout {
 
 
     public function deleteLayout($id) {
+        global $l;
         $query = "DELETE FROM layouts WHERE ID = '$id'";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
         if ($result) {
-            msg_success("Layout deleted");
+            msg_success($l->g(9902));
         } else {
-            msg_error("Error deleting layout");
+            msg_error($l->g(9905));
         }
     }
 
     // will get layout to be displayed if any selected + show the layouts buttons
     public function displayLayoutButtons($user, $current_tab, $table) {
+        global $l;
         // if user selected a layout, get the correct columns
         if (isset($current_tab) && $current_tab != 'Add new') {
             $colus = $this->getLayout($_SESSION['OCS']['loggeduser'], $current_tab);
         }
-
 
         // display as many buttons as there are layouts for this user + an extra button to add a new layout
         $query = "SELECT * FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."'";
@@ -99,36 +105,37 @@ class Layout {
         foreach ($nb_layouts as $key => $value) {
             $layout_tabs[$value['LAYOUT_NAME']] = $value['LAYOUT_NAME'];
         }
-        array_push($layout_tabs, "Add new");
-        $this->layout_tabs = $layout_tabs;
 
-
-        // loop through layout_tabs and display a link for each one
+        echo '<div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <!-- Dropdown -->
+                <a class="btn btn-info" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">'.$l->g(9900).'</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">';
+        // loop through layout_tabs and display a link for each layout
         foreach ($layout_tabs as $key => $value) {
-            // display buttons ('add new' takes user to layouts page / others display correct layout of cols)
-            if ($value == 'Add new') {
-                // redirect to ms_layouts page
-                $urls = $_SESSION['OCS']['url_service'];
-                $layout_url = $urls->getUrl('ms_layouts');
-                $url = "index.php?function=$layout_url&value=$table&tab=add";
-                echo "<a href='$url' class='btn btn-info'>$value</a>";
-            } else {
-                echo "<small><input type='submit' name='layout' value='".$value."' onclick='delete_cookie(\"" . $this->form_name . "_col\");'></small>";
-            }
+                echo "<input class='dropdown-item' name='layout' type='submit' value=".$value." onclick='delete_cookie(\"" . $this->form_name . "_col\");'>";
+               // echo "<small><input type='submit' name='layout' value='".$value."' onclick='delete_cookie(\"" . $this->form_name . "_col\");'></small>";
 
         }
+        echo '</div>';
+        // redirect to ms_layouts page
+        $urls = $_SESSION['OCS']['url_service'];
+        $layout_url = $urls->getUrl('ms_layouts');
+        $url = "index.php?function=$layout_url&value=$table&tab=add";
+        echo "<a href='$url' class='btn btn-info'>Add new</a>";
+
+        echo '</div>';
 
         return $colus;
     }
 
 
     // checking for duplicate layout (same user and same name and/or columns for same table)
-    private function checkLayout($layout_name, $user, $cols) {
-        $query = "SELECT * FROM layouts WHERE USER = '$user' AND TABLE_NAME = '$this->form_name' AND (COLUMNS = $cols OR LAYOUT_NAME = '$layout_name')";
-        //error_log($query);
+    private function checkLayout($layout_name, $user, $visib) {
+        global $l;
+        $query = "SELECT * FROM layouts WHERE USER = '$user' AND TABLE_NAME = '$this->form_name' AND (visible_col = '$visib' OR LAYOUT_NAME = '$layout_name')";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
         if (mysqli_num_rows($result) > 0) {
-            $dupli = ("A layout with the same name or columns already exists for your user, please choose another name");
+            $dupli = $l->g(9906);
         } else {
             $dupli = false;
         }

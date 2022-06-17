@@ -27,13 +27,14 @@ if (AJAX) {
     ob_start();
 }
 
-printEnTete('Manage layouts');
+printEnTete($l->g(9907));
 $form_name = "layouts";
 
 $layout = new Layout($protectedGet['value']);
 //ADD new layout
-if (isset($protectedPost['Valid_modif']) && (!empty($_SESSION['OCS']['layout_cols']) || !empty($protectedPost['add_layout']) )){
-    $dupli = $layout->insertLayout($protectedPost['LAYOUT_NAME'], $protectedPost['LAYOUT_DESCR'], $_SESSION['OCS']['loggeduser'], $_SESSION['OCS']['layout_cols']);
+if (isset($protectedPost['Valid_modif']) && (!empty($_SESSION['OCS']['layout_cols']))){
+    $dupli = $layout->insertLayout($protectedPost['LAYOUT_NAME'], $protectedPost['LAYOUT_DESCR'], $_SESSION['OCS']['loggeduser'], $_SESSION['OCS']['layout_cols'], $_SESSION['OCS']['layout_visib']);
+    // if dupli, user needs to be redirected to the form and not to the list
     if (!empty($dupli)) {
         unset($protectedPost['Valid_modif']);
     }
@@ -53,7 +54,7 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
     <div class="row">
         <div class="col-md-12">
             <input type="submit" name="Valid_modif" value="<?php echo $l->g(1363) ?>" class="btn btn-success">
-            <input type="submit" name="show_list" value="Show all layouts" class="btn btn-success">
+            <input type="submit" name="show_list" value="<?php echo $l->g(9908) ?>" class="btn btn-info">
         </div>
     </div>
     <?php
@@ -94,7 +95,6 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
     $list_fields['CHECK'] = 'ID';
     
     $default_fields = $list_fields;
-    $tab_options['FILTRE'] = $list_fields;
     $queryDetails = "SELECT ID, LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION FROM `layouts`";
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);

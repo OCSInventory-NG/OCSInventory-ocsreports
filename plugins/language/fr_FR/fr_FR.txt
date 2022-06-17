@@ -1824,3 +1824,12 @@
 
 9800 Exlure les machines archivées des Statistiques, de l'inventaire CVE, du compte de Tous les logiciels, du compte des machines par TAG
 
+9900 Dispositions
+9901 Disposition créée
+9902 Disposition supprimée
+9903 Erreur lors de la création de la disposition
+9904 Veuillez vérifier votre entrée. Répétez le processus si le problème persiste.
+9905 Erreur lors de la suppression de la disposition
+9906 Une disposition avec le même nom ou les mêmes colonnes existe déjà pour votre utilisateur. Veuillez choisir un autre nom ou d'autres colonnes.
+9907 Gestion des dispositions
+9908 Afficher les dispositions
