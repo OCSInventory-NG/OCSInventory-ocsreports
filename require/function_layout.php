@@ -43,7 +43,7 @@ class Layout {
             // check for a layout w/ same name or columns already existing for this user
             $dupli_check = $this->checkLayout($layout_name, $user, $visib);
             if (empty($dupli_check)) {
-                $query = "INSERT INTO layouts (LAYOUT_NAME, USER, TABLE_NAME, COLUMNS, DESCRIPTION, visible_col) VALUES ('$layout_name', '$user', '".$this->form_name."', '$cols', '$layout_descr', '$visib')";
+                $query = "INSERT INTO layouts (LAYOUT_NAME, USER, TABLE_NAME, COLUMNS, DESCRIPTION, VISIBLE_COL) VALUES ('$layout_name', '$user', '".$this->form_name."', '$cols', '$layout_descr', '$visib')";
                 
                 $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
 
@@ -66,7 +66,7 @@ class Layout {
 
 
     public function getLayout($user, $layout_name) {
-        $query = "SELECT COLUMNS, visible_col FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."' AND LAYOUT_NAME = '".$layout_name."'";
+        $query = "SELECT COLUMNS, VISIBLE_COL FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."' AND LAYOUT_NAME = '".$layout_name."'";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
         if ($result) {
             $layout = mysqli_fetch_array($result);
@@ -106,22 +106,24 @@ class Layout {
             $layout_tabs[$value['LAYOUT_NAME']] = $value['LAYOUT_NAME'];
         }
 
-        echo '<div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+        // loop through layout_tabs and display a link for each layout if any 
+        if (sizeof($layout_tabs) > 0) {
+            echo '<div class="collapse navbar-collapse" id="navbarNavDropdown">
             <!-- Dropdown -->
                 <a class="btn btn-info" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">'.$l->g(9900).'</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">';
-        // loop through layout_tabs and display a link for each layout
-        foreach ($layout_tabs as $key => $value) {
-                echo "<input class='dropdown-item' name='layout' type='submit' value=".$value." onclick='delete_cookie(\"" . $this->form_name . "_col\");'>";
-               // echo "<small><input type='submit' name='layout' value='".$value."' onclick='delete_cookie(\"" . $this->form_name . "_col\");'></small>";
 
+            foreach ($layout_tabs as $key => $value) {
+                echo "<input class='dropdown-item' name='layout' type='submit' value=".$value." onclick='delete_cookie(\"" . $this->form_name . "_col\");'>";
+            }
         }
         echo '</div>';
         // redirect to ms_layouts page
         $urls = $_SESSION['OCS']['url_service'];
         $layout_url = $urls->getUrl('ms_layouts');
         $url = "index.php?function=$layout_url&value=$table&tab=add";
-        echo "<a href='$url' class='btn btn-info'>Add new</a>";
+        echo "<a href='$url' class='btn btn-info'>".$l->g(9909)."</a>";
 
         echo '</div>';
 
@@ -132,7 +134,7 @@ class Layout {
     // checking for duplicate layout (same user and same name and/or columns for same table)
     private function checkLayout($layout_name, $user, $visib) {
         global $l;
-        $query = "SELECT * FROM layouts WHERE USER = '$user' AND TABLE_NAME = '$this->form_name' AND (visible_col = '$visib' OR LAYOUT_NAME = '$layout_name')";
+        $query = "SELECT * FROM layouts WHERE USER = '$user' AND TABLE_NAME = '$this->form_name' AND (VISIBLE_COL = '$visib' OR LAYOUT_NAME = '$layout_name')";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
         if (mysqli_num_rows($result) > 0) {
             $dupli = $l->g(9906);
