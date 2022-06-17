@@ -252,7 +252,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                     }
                                 }
                                 ?>
-                            </select>
+                            </select><br>
 								<?php
 								// layouts
 								$layout = new Layout($option['table_name']);
