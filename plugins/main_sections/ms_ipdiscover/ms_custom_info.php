@@ -29,7 +29,7 @@ if (AJAX) {
 
 require_once('require/function_ipdiscover.php');
 
-if (!isset($protectedPost['MODIF'])) {
+if (!isset($protectedPost['MODIF']) || (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] == "")) {
     echo "<a class='btn btn-info' href='index.php?function=show_ipdiscover'>".$l->g(188)."</a></br></br>";
 }
 
@@ -134,9 +134,8 @@ if (is_defined($protectedPost['MODIF'])) {
     }
 
     //si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
-    if ($protectedPost['MODIF_ID'] != '') {
+    if (isset($protectedPost['MODIF_ID']) && $protectedPost['MODIF_ID'] != '') {
         $tab_name[3] = $l->g(944) . ": ";
-
         $title = $l->g(945);
     } else {
         $title = $l->g(946);
@@ -151,7 +150,7 @@ if (is_defined($protectedPost['MODIF'])) {
     $tab_name = array($l->g(944), $l->g(95), $l->g(53), $l->g(66));
     $name_field = array('USER', 'MAC', 'COMMENT', 'TYPE');
     $type_field = array(13, 13, 0, 2);
-    $value_field =  array($protectedPost['USER'], $protectedPost['MODIF'], $protectedPost['COMMENT'], $list_type);
+    $value_field =  array($protectedPost['USER'] ?? '', $protectedPost['MODIF'] ?? '', $protectedPost['COMMENT'] ?? '', $list_type ?? []);
 
     $tab_typ_champ = show_field($name_field, $type_field, $value_field);
     $tab_hidden['mac'] = $protectedPost['MODIF'];
@@ -161,7 +160,7 @@ if (is_defined($protectedPost['MODIF'])) {
 
     foreach ($tab_typ_champ as $id => $values) {
         if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
-            $tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']];
+            $tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']] ?? 0;
         }
     }
 
