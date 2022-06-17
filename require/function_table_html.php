@@ -1949,7 +1949,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 	$data = json_encode($tab_options['visible_col']);
 	$customized=false;
-	if (count($tab_options['visible_col'])!=$visible){
+	if (isset($tab_options['visible_col']) && count($tab_options['visible_col'])!=$visible){
 		$customized=true;
 		setcookie($tab_options['table_name']."_col",$data,time()+31536000);
 	}
