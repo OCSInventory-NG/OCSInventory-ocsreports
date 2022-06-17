@@ -1837,3 +1837,4 @@
 9906 A layout with the same name or columns already exists for your user, please choose another name or set of columns
 9907 Manage layouts
 9908 Show all layouts
+9909 Add new layout

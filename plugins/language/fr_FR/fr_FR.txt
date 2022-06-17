@@ -1833,3 +1833,4 @@
 9906 Une disposition avec le même nom ou les mêmes colonnes existe déjà pour votre utilisateur. Veuillez choisir un autre nom ou d'autres colonnes.
 9907 Gestion des dispositions
 9908 Afficher les dispositions
+9909 Ajouter une disposition
