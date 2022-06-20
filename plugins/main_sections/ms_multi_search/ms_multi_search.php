@@ -160,7 +160,7 @@ if(isset($protectedGet['prov'])){
   }elseif($protectedGet['prov'] == 'stat'){
     $options['idPackage'] = $databaseSearch->get_package_id($protectedGet['id_pack']);
     $options['stat'] = $protectedGet['stat'];
-    $search->link_multi($protectedGet['prov'], $protectedGet['value'], $options);
+    $search->link_multi($protectedGet['prov'], $protectedGet['value'] ?? null, $options);
   }elseif($protectedGet['prov'] == 'saas'){
     $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }elseif($protectedGet['prov'] == 'querysave'){
@@ -187,7 +187,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 			<div class="row" name="<?php echo $uniqid ?>">
         <?php
 			if($i != 0){
-				$htmlComparator = $search->returnFieldHtmlAndOr($uniqid, $values, $infos, $table, $values['comparator']);
+				$htmlComparator = $search->returnFieldHtmlAndOr($uniqid, $values, $infos, $table, $values['comparator'] ?? null);
 				if($htmlComparator != ""){
 				echo "<div class='col-sm-5'></div><div class='col-sm-1'>
 									<div class='form-group'>
