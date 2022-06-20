@@ -180,10 +180,6 @@
         <label>g(1122)</label>
         <url>ms_wiki</url>
       </menu-elem>
-      <menu-elem id="ms_irc">
-        <label>g(1123)</label>
-        <url>ms_irc</url>
-      </menu-elem>
       <menu-elem id="ms_ask">
         <label>g(1376)</label>
         <url>ms_ask</url>
