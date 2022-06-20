@@ -67,6 +67,7 @@ if (isset($protectedGet['value']) && !empty($protectedGet['value'])){
     echo '<div class="col col-md-10">';
 }
 
+
 /************************************* SUBNET *************************************/
 if ($protectedPost['onglet'] == 'ADMIN_RSX') {
     $method = $ipdiscover->verif_base_methode('OCS');
@@ -110,11 +111,13 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             echo "<input type='hidden' name='MODIF' id='MODIF' value='" . $protectedPost['MODIF'] . "'";
         }
 
+
         if (isset($protectedPost['ADD_SUB']) || !empty($protectedPost['MODIF'])) {
-            if (isset($protectedPost['MODIF'])) {
+            if ($protectedPost['MODIF']) {
                 $title = $l->g(931);
 
                 $result = $ipdiscover->find_info_subnet($protectedPost['MODIF']);
+
                 if (!isset($protectedPost['RSX_NAME'])) {
                     $protectedPost['RSX_NAME'] = $result->NAME ?? '';
                 }
@@ -138,6 +141,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             } else {
                 $title = $l->g(303);
             }
+            
             $list_id_subnet = look_config_default_values('ID_IPDISCOVER_%', 'LIKE');
 
             if (isset($list_id_subnet)) {
@@ -162,7 +166,8 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 'ADD_SX_RSX' => $protectedPost['ADD_SX_RSX'] ?? ''
             );
 
-            $ipdiscover->form_add_subnet($default_values, $form_name, $is_tag_linked['ivalue']['IPDISCOVER_LINK_TAG_NETWORK'] ?? '', $title);
+
+            $ipdiscover->form_add_subnet($title, $default_values, $form_name, $is_tag_linked['ivalue']['IPDISCOVER_LINK_TAG_NETWORK'] ?? '', $protectedPost);
         } else {
             $sql = "SELECT NETID, NAME, ID, MASK, TAG, CONCAT(NETID,IFNULL(TAG, '')) as supsub FROM subnet";
 
@@ -205,10 +210,11 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
             msg_error($result);
             $protectedPost['ADD_TYPE'] = "VALID";
         } else {
-            $protectedPost = '';
             $tab_options['CACHE'] = 'RESET';
             $msg_ok = $l->g(1121);
         }
+        unset($protectedPost['Valid_modif']);
+        unset($protectedPost['ADD_TYPE']);
     }
 
     if (!empty($protectedPost['MODIF'])) {
@@ -234,11 +240,15 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
         if (isset($msg_ok)) {
             msg_success($msg_ok);
         }
+
         $sql = "select ID,NAME from devicetype";
-        $list_fields = array('ID' => 'ID',
+        $list_fields = array(
+            'ID' => 'ID',
             $l->g(49) => 'NAME',
             'MODIF' => 'ID',
-            'SUP' => 'ID');
+            'SUP' => 'ID'
+        );
+
         $tab_options['LBL_POPUP']['SUP'] = 'NAME';
         $tab_options['LBL']['SUP'] = $l->g(122);
         $default_fields = $list_fields;

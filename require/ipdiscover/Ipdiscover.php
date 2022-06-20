@@ -62,7 +62,7 @@ class Ipdiscover
 		return mysqli_fetch_object($res);
 	}
 
-	public function form_add_subnet($default_value, $form, $is_tag_linked, $title = '') {
+	public function form_add_subnet($title = '', $default_value, $form, $is_tag_linked, $post) {
 		global $l, $pages_refs;
 	
 		if($is_tag_linked){
@@ -104,12 +104,14 @@ class Ipdiscover
 		}else{
 			$value_field = array($default_value['RSX_NAME'], $default_value['ID_NAME'], $default_value['ADD_IP'], $default_value['ADD_SX_RSX']);
 		}
-		
-	
+
 		$tab_typ_champ = show_field($name_field, $type_field, $value_field);
 
 		foreach ($tab_typ_champ as $id => $values) {
 			$tab_typ_champ[$id]['CONFIG']['SIZE'] = 30;
+			if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
+				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $post[$tab_typ_champ[$id]['INPUT_NAME']];
+			}
 		}
 
 		$tab_typ_champ[1]['COMMENT_AFTER'] = "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_adminvalues'] . "&head=1&tag=ID_IPDISCOVER&form=" . $form . "\"><img src=image/plus.png></a>";
