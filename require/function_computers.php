@@ -65,7 +65,7 @@ function computer_list_by_tag($tag = "", $format = 'LIST') {
         $sql_mycomputers = "select hardware_id from accountinfo a where a.tag in ";
         $sql_mycomputers = mysql2_prepare($sql_mycomputers, $arg_sql, $tag);
     }
-    $res_mycomputers = mysql2_query_secure($sql_mycomputers['SQL'], $_SESSION['OCS']["readServer"], $sql_mycomputers['ARG']);
+    $res_mycomputers = mysql2_query_secure($sql_mycomputers['SQL'], $_SESSION['OCS']["readServer"], $sql_mycomputers['ARG'] ?? []);
     $mycomputers = "(";
     while ($item_mycomputers = mysqli_fetch_object($res_mycomputers)) {
         $mycomputers .= $item_mycomputers->hardware_id . ",";
