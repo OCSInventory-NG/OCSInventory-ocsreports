@@ -64,7 +64,7 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
 } else {
     echo open_form('layouts', '', '', 'form-horizontal');
     //delete layout
-    if ($protectedPost['SUP_PROF'] != '') {
+    if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
         $layout->deleteLayout($protectedPost['SUP_PROF']);
         $tab_options['CACHE'] = 'RESET';
     }

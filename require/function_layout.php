@@ -48,7 +48,7 @@ class Layout {
                 $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
 
                 // check that layout was inserted
-                if ($result) {
+                if (isset($result) && !empty($result)) {
                     msg_success($l->g(9901));
                 } else {
                     msg_error($l->g(9903));
@@ -61,6 +61,7 @@ class Layout {
 
         } else {
             msg_error($l->g(9904));
+            return "wrong input";
         }
     }
 
@@ -68,7 +69,7 @@ class Layout {
     public function getLayout($user, $layout_name) {
         $query = "SELECT COLUMNS, VISIBLE_COL FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."' AND LAYOUT_NAME = '".$layout_name."'";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
-        if ($result) {
+        if (isset($result) && !empty($result)) {
             $layout = mysqli_fetch_array($result);
             return $layout;
         } else {
@@ -81,7 +82,7 @@ class Layout {
         global $l;
         $query = "DELETE FROM layouts WHERE ID = '$id'";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
-        if ($result) {
+        if (isset($result) && !empty($result)) {
             msg_success($l->g(9902));
         } else {
             msg_error($l->g(9905));
@@ -99,16 +100,18 @@ class Layout {
         // display as many buttons as there are layouts for this user + an extra button to add a new layout
         $query = "SELECT * FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."'";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
-        $nb_layouts = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        $layout_tabs = array();
 
-        foreach ($nb_layouts as $key => $value) {
-            $layout_tabs[$value['LAYOUT_NAME']] = $value['LAYOUT_NAME'];
+        if (isset($result) && !empty($result)) {
+            $nb_layouts = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $layout_tabs = array();
+
+            foreach ($nb_layouts as $key => $value) {
+                $layout_tabs[$value['LAYOUT_NAME']] = $value['LAYOUT_NAME'];
+            }
         }
 
-
         // loop through layout_tabs and display a link for each layout if any 
-        if (sizeof($layout_tabs) > 0) {
+        if (isset($layout_tabs) && sizeof($layout_tabs) > 0) {
             echo '<div class="collapse navbar-collapse" id="navbarNavDropdown">
             <!-- Dropdown -->
                 <a class="btn btn-info" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">'.$l->g(9900).'</a>
@@ -136,13 +139,12 @@ class Layout {
         global $l;
         $query = "SELECT * FROM layouts WHERE USER = '$user' AND TABLE_NAME = '$this->form_name' AND (VISIBLE_COL = '$visib' OR LAYOUT_NAME = '$layout_name')";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
-        if (mysqli_num_rows($result) > 0) {
+        if (isset($result) && mysqli_num_rows($result) > 0) {
             $dupli = $l->g(9906);
         } else {
             $dupli = false;
         }
         return $dupli;
     }
-
 }
 ?>
