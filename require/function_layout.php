@@ -109,25 +109,22 @@ class Layout {
                 $layout_tabs[$value['LAYOUT_NAME']] = $value['LAYOUT_NAME'];
             }
         }
-
+        echo '<div class="collapse navbar-collapse" id="navbarNavDropdown">';
         // loop through layout_tabs and display a link for each layout if any 
         if (isset($layout_tabs) && sizeof($layout_tabs) > 0) {
-            echo '<div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <!-- Dropdown -->
-                <a class="btn btn-info" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">'.$l->g(9900).'</a>
+            echo '<a class="btn btn-info" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">'.$l->g(9900).'</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">';
 
             foreach ($layout_tabs as $key => $value) {
                 echo "<input class='dropdown-item' name='layout' type='submit' value=".$value." onclick='delete_cookie(\"" . $this->form_name . "_col\");'>";
             }
+            echo '</div>';
         }
-        echo '</div>';
         // redirect to ms_layouts page
         $urls = $_SESSION['OCS']['url_service'];
         $layout_url = $urls->getUrl('ms_layouts');
         $url = "index.php?function=$layout_url&value=$table&tab=add";
         echo "<a href='$url' class='btn btn-info'>".$l->g(9909)."</a>";
-
         echo '</div>';
 
         return $colus;
