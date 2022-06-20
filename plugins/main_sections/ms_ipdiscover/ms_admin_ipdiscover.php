@@ -67,6 +67,7 @@ if (isset($protectedGet['value']) && $protectedGet['value'] != ''){
     echo '<div class="col col-md-10">';
 }
 
+
 /************************************* SUBNET *************************************/
 if ($protectedPost['onglet'] == 'ADMIN_RSX') {
     $method = $ipdiscover->verif_base_methode('OCS');
@@ -111,10 +112,12 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
         }
 
         if (isset($protectedPost['ADD_SUB']) || $protectedPost['MODIF']) {
+
             if ($protectedPost['MODIF']) {
                 $title = $l->g(931);
 
                 $result = $ipdiscover->find_info_subnet($protectedPost['MODIF']);
+
                 if (!isset($protectedPost['RSX_NAME'])) {
                     $protectedPost['RSX_NAME'] = $result->NAME;
                 }
@@ -138,6 +141,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
             } else {
                 $title = $l->g(303);
             }
+            
             $list_id_subnet = look_config_default_values('ID_IPDISCOVER_%', 'LIKE');
 
             if (isset($list_id_subnet)) {
@@ -162,7 +166,7 @@ if ($protectedPost['onglet'] == 'ADMIN_RSX') {
                 'ADD_SX_RSX' => $protectedPost['ADD_SX_RSX']
             );
 
-            $ipdiscover->form_add_subnet($title, $default_values, $form_name, $is_tag_linked['ivalue']['IPDISCOVER_LINK_TAG_NETWORK']);
+            $ipdiscover->form_add_subnet($title, $default_values, $form_name, $is_tag_linked['ivalue']['IPDISCOVER_LINK_TAG_NETWORK'], $protectedPost);
         } else {
             $sql = "SELECT NETID, NAME, ID, MASK, TAG, CONCAT(NETID,IFNULL(TAG, '')) as supsub FROM subnet";
 
