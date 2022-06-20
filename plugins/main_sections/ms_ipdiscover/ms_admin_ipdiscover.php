@@ -209,10 +209,11 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
             msg_error($result);
             $protectedPost['ADD_TYPE'] = "VALID";
         } else {
-            $protectedPost = '';
             $tab_options['CACHE'] = 'RESET';
             $msg_ok = $l->g(1121);
         }
+        unset($protectedPost['Valid_modif']);
+        unset($protectedPost['ADD_TYPE']);
     }
 
     if (!empty($protectedPost['MODIF'])) {
@@ -238,11 +239,15 @@ if ($protectedPost['onglet'] == 'ADMIN_TYPE') {
         if (isset($msg_ok)) {
             msg_success($msg_ok);
         }
+
         $sql = "select ID,NAME from devicetype";
-        $list_fields = array('ID' => 'ID',
+        $list_fields = array(
+            'ID' => 'ID',
             $l->g(49) => 'NAME',
             'MODIF' => 'ID',
-            'SUP' => 'ID');
+            'SUP' => 'ID'
+        );
+
         $tab_options['LBL_POPUP']['SUP'] = 'NAME';
         $tab_options['LBL']['SUP'] = $l->g(122);
         $default_fields = $list_fields;
