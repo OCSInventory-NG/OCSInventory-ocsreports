@@ -31,7 +31,7 @@
  echo "<div class='col-md-12'>";
 
  $list_id = multi_lot($form_name, $l->g(601));
-
+var_dump($list_id);
  if (is_defined($list_id)) {
 
      echo "<div class='col col-md-12'>";
@@ -111,7 +111,7 @@
      require_once('require/archive/ArchiveComputer.php');
      $archive = new ArchiveComputer();
      if (is_defined($protectedPost['ARCHIVER'])) {
-        $result = $archive->archive($protectedGet['idchecked']);
+        $result = $archive->archive($list_id);
         unset($protectedPost['ARCHIVER']);
         if($result){
             msg_success($l->g(572));
@@ -119,7 +119,7 @@
      }
 
      if (is_defined($protectedPost['RESTORE'])) {
-        $result = $archive->restore($protectedGet['idchecked']);
+        $result = $archive->restore($list_id);
         unset($protectedPost['RESTORE']);
         if($result){
             msg_success($l->g(572));
