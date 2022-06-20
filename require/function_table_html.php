@@ -254,11 +254,14 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                 ?>
                             </select><br>
 								<?php
+								// if user is on multisearch page, do not display layouts buttons
+								if (isset($option['table_name']) && $option['table_name'] != 'affich_multi_crit') {
 								// layouts
 								$layout = new Layout($option['table_name']);
 								$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'], $option['table_name']);
 								$columns = json_decode($cols['COLUMNS'], true) ?? $columns;
 								$visible_col = json_decode($cols['VISIBLE_COL'], true) ?? $visible_col;
+								}
 								?>
                         </div>
                     </div>
