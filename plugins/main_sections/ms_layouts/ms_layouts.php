@@ -95,7 +95,7 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
     $list_fields['CHECK'] = 'ID';
     
     $default_fields = $list_fields;
-    $queryDetails = "SELECT ID, LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION FROM `layouts`";
+    $queryDetails = "SELECT ID, LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION FROM `layouts` WHERE USER = '".$_SESSION['OCS']['loggeduser']."'";
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     $img['image/delete.png'] = $l->g(162);
