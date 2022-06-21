@@ -36,15 +36,15 @@ class Layout {
     }
 
 
-    public function insertLayout($layout_name, $layout_descr, $user, $cols, $visib) {
+    public function insertLayout($layout_name, $layout_descr, $user, $visib) {
         global $l;
         // check that we have everything before attempting to insert
-        if (!empty($cols) && !empty($layout_name) && !empty($user)) {
+        if (!empty($visib) && !empty($layout_name) && !empty($user)) {
             // check for a layout w/ same name or columns already existing for this user
             $dupli_check = $this->checkLayout($layout_name, $user, $visib);
             if (empty($dupli_check)) {
-                $query = "INSERT INTO layouts (LAYOUT_NAME, USER, TABLE_NAME, COLUMNS, DESCRIPTION, VISIBLE_COL) 
-                          VALUES ('$layout_name', '$user', '".$this->form_name."', '".mysqli_real_escape_string($_SESSION['OCS']['readServer'], $cols)."', '$layout_descr', '$visib')";
+                $query = "INSERT INTO layouts (LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION, VISIBLE_COL) 
+                          VALUES ('$layout_name', '$user', '".$this->form_name."', '$layout_descr', '$visib')";
                 
                 $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
 
@@ -68,7 +68,7 @@ class Layout {
 
 
     public function getLayout($user, $layout_name) {
-        $query = "SELECT COLUMNS, VISIBLE_COL FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."' AND LAYOUT_NAME = '".$layout_name."'";
+        $query = "SELECT VISIBLE_COL FROM layouts WHERE USER = '".$user."' AND TABLE_NAME = '".$this->form_name."' AND LAYOUT_NAME = '".$layout_name."'";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
         if (isset($result) && !empty($result)) {
             $layout = mysqli_fetch_array($result);

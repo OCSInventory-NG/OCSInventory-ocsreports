@@ -33,7 +33,7 @@ $form_name = "layouts";
 $layout = new Layout($protectedGet['value']);
 //ADD new layout
 if (isset($protectedPost['Valid_modif']) && (!empty($_SESSION['OCS']['layout_cols']))){
-    $dupli = $layout->insertLayout($protectedPost['LAYOUT_NAME'], $protectedPost['LAYOUT_DESCR'], $_SESSION['OCS']['loggeduser'], $_SESSION['OCS']['layout_cols'], $_SESSION['OCS']['layout_visib']);
+    $dupli = $layout->insertLayout($protectedPost['LAYOUT_NAME'], $protectedPost['LAYOUT_DESCR'], $_SESSION['OCS']['loggeduser'], $_SESSION['OCS']['layout_visib']);
     // if dupli, user needs to be redirected to the form and not to the list
     if (!empty($dupli)) {
         unset($protectedPost['Valid_modif']);
@@ -82,7 +82,6 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
         'USER' => 'USER',
         'TABLE_NAME' => 'TABLE_NAME',
         'DESCRIPTION' => 'DESCRIPTION',
-        'COLUMNS' => 'COLUMNS',
     );
     $list_col_cant_del = array(
                         'LAYOUT_NAME' => 'LAYOUT_NAME',
@@ -96,7 +95,7 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
     $list_fields['CHECK'] = 'ID';
     
     $default_fields = $list_col_cant_del;
-    $queryDetails = "SELECT ID, LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION, COLUMNS FROM `layouts` WHERE USER = '".$_SESSION['OCS']['loggeduser']."'";
+    $queryDetails = "SELECT ID, LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION FROM `layouts` WHERE USER = '".$_SESSION['OCS']['loggeduser']."'";
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     $img['image/delete.png'] = $l->g(162);

@@ -541,9 +541,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
     </script>
     <?php
-	$layout_cols = json_encode($columns);
 	$layout_visib = json_encode($visible_col);
-	$_SESSION['OCS']['layout_cols'] = $layout_cols;
 	$_SESSION['OCS']['layout_visib'] = $layout_visib;
 
     if ($titre != "") {
