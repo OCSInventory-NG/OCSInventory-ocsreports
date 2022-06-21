@@ -43,7 +43,8 @@ class Layout {
             // check for a layout w/ same name or columns already existing for this user
             $dupli_check = $this->checkLayout($layout_name, $user, $visib);
             if (empty($dupli_check)) {
-                $query = "INSERT INTO layouts (LAYOUT_NAME, USER, TABLE_NAME, COLUMNS, DESCRIPTION, VISIBLE_COL) VALUES ('$layout_name', '$user', '".$this->form_name."', '$cols', '$layout_descr', '$visib')";
+                $query = "INSERT INTO layouts (LAYOUT_NAME, USER, TABLE_NAME, COLUMNS, DESCRIPTION, VISIBLE_COL) 
+                          VALUES ('$layout_name', '$user', '".$this->form_name."', '".mysqli_real_escape_string($_SESSION['OCS']['readServer'], $cols)."', '$layout_descr', '$visib')";
                 
                 $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
 
@@ -80,7 +81,7 @@ class Layout {
 
     public function deleteLayout($id) {
         global $l;
-        $query = "DELETE FROM layouts WHERE ID = '$id'";
+        $query = "DELETE FROM layouts WHERE ID IN ($id)";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
         if (isset($result) && !empty($result)) {
             msg_success($l->g(9902));
@@ -135,7 +136,7 @@ class Layout {
     private function checkLayout($layout_name, $user, $visib) {
         global $l;
         $query = "SELECT * FROM layouts WHERE USER = '$user' AND TABLE_NAME = '$this->form_name' AND (VISIBLE_COL = '$visib' OR LAYOUT_NAME = '$layout_name')";
-        $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
+        $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
         if (isset($result) && mysqli_num_rows($result) > 0) {
             $dupli = $l->g(9906);
         } else {
