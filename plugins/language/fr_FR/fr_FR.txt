@@ -1834,3 +1834,4 @@
 9907 Gestion des dispositions
 9908 Afficher les dispositions
 9909 Ajouter une disposition
+9910 Dispositions disponibles :

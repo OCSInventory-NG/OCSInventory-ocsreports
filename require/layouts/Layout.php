@@ -90,7 +90,7 @@ class Layout {
         }
     }
 
-    // will get layout to be displayed if any selected + show the layouts buttons
+    // will get layout to be displayed if any selected + show the layouts select
     public function displayLayoutButtons($user, $current_tab, $table) {
         global $l;
         // if user selected a layout, get the correct columns
@@ -110,23 +110,38 @@ class Layout {
                 $layout_tabs[$value['LAYOUT_NAME']] = $value['LAYOUT_NAME'];
             }
         }
-        echo '<div class="collapse navbar-collapse" id="navbarNavDropdown">';
-        // loop through layout_tabs and display a link for each layout if any 
-        if (isset($layout_tabs) && sizeof($layout_tabs) > 0) {
-            echo '<a class="btn btn-info" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">'.$l->g(9900).'</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">';
 
+        // loop through layout_tabs and display select
+        if (isset($layout_tabs) && sizeof($layout_tabs) > 0) {
+            array_unshift($layout_tabs, '----');
+            
+            echo "<label class='control-label col-sm-4' for='layout'>".$l->g(9910)."</label>";
+            echo "<div class='col-sm-8'>";
+            echo "<select autocomplete='off' name='layout' id='layout' onchange=\"delete_cookie('".$this->form_name."_col');this.form.submit();\" class='form-control'>";
+            
             foreach ($layout_tabs as $key => $value) {
-                echo "<input class='dropdown-item' name='layout' type='submit' value=".$value." onclick='delete_cookie(\"" . $this->form_name . "_col\");'>";
+                echo "<option value='$value'";
+
+                if (isset($current_tab) && $current_tab == $value) {
+                    echo " selected";
+                    error_log('selected');
+                }elseif(!isset($current_tab) && $value == '----'){
+                    error_log('not selected');
+                    echo " selected";
+                }
+                echo ">$value</option>";
             }
-            echo '</div>';
+
+            echo "</select><br>";
+            echo "</div>";
+
         }
+
         // redirect to ms_layouts page
         $urls = $_SESSION['OCS']['url_service'];
         $layout_url = $urls->getUrl('ms_layouts');
         $url = "index.php?function=$layout_url&value=$table&tab=add";
-        echo "<a href='$url' class='btn btn-info'>".$l->g(9909)."</a>";
-        echo '</div>';
+        echo "<a href='$url'>".$l->g(9909)."</a>";
 
         return $colus;
     }

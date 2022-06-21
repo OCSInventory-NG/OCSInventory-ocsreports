@@ -1838,3 +1838,4 @@
 9907 Manage layouts
 9908 Show all layouts
 9909 Add new layout
+9910 Available layouts :
