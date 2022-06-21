@@ -32,7 +32,7 @@ $form_name = "layouts";
 
 $layout = new Layout($protectedGet['value']);
 //ADD new layout
-if (isset($protectedPost['Valid_modif']) && (!empty($_SESSION['OCS']['layout_cols']))){
+if (isset($protectedPost['Valid_modif']) && (!empty($_SESSION['OCS']['layout_visib']))){
     $dupli = $layout->insertLayout($protectedPost['LAYOUT_NAME'], $protectedPost['LAYOUT_DESCR'], $_SESSION['OCS']['loggeduser'], $_SESSION['OCS']['layout_visib']);
     // if dupli, user needs to be redirected to the form and not to the list
     if (!empty($dupli)) {
