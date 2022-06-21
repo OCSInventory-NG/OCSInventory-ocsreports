@@ -81,7 +81,8 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
         'LAYOUT_NAME' => 'LAYOUT_NAME',
         'USER' => 'USER',
         'TABLE_NAME' => 'TABLE_NAME',
-        'DESCRIPTION' => 'DESCRIPTION'
+        'DESCRIPTION' => 'DESCRIPTION',
+        'COLUMNS' => 'COLUMNS',
     );
     $list_col_cant_del = array(
                         'LAYOUT_NAME' => 'LAYOUT_NAME',
@@ -94,8 +95,8 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
     $list_fields['SUP'] = 'ID';
     $list_fields['CHECK'] = 'ID';
     
-    $default_fields = $list_fields;
-    $queryDetails = "SELECT ID, LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION FROM `layouts` WHERE USER = '".$_SESSION['OCS']['loggeduser']."'";
+    $default_fields = $list_col_cant_del;
+    $queryDetails = "SELECT ID, LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION, COLUMNS FROM `layouts` WHERE USER = '".$_SESSION['OCS']['loggeduser']."'";
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     $img['image/delete.png'] = $l->g(162);

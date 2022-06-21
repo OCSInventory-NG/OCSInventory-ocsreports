@@ -259,7 +259,6 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 								// layouts
 								$layout = new Layout($option['table_name']);
 								$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'], $option['table_name']);
-								$columns = json_decode($cols['COLUMNS'], true) ?? $columns;
 								$visible_col = json_decode($cols['VISIBLE_COL'], true) ?? $visible_col;
 								}
 								?>
