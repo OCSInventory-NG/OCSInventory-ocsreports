@@ -50,7 +50,7 @@ class Ipdiscover
 	}
 
 	public function find_info_subnet($netid, $tag = null) {
-		if(strpos($netid,";")) {
+		if(strpos($netid,";") !== false) {
 			$explode = explode(";", $netid);
 			$netid = $explode[0];
 			$tag = $explode[1];

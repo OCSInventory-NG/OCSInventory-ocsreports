@@ -372,7 +372,7 @@ class Cve
           foreach($array as $values) {
             if(isset($values["vulnerable_configuration"])) {
               foreach($values["vulnerable_configuration"] as $vuln){
-                if((!empty(strval($vuln_conf)) && (strpos(strval($vuln), strval($vuln_conf)))) || (!empty(strval($vuln_conf_all)) && (strpos(strval($vuln), strval($vuln_conf_all))))){
+                if((!empty(strval($vuln_conf)) && (strpos(strval($vuln), strval($vuln_conf)) !== false)) || (!empty(strval($vuln_conf_all)) && (strpos(strval($vuln), strval($vuln_conf_all)) !== false))){
                   $result = $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0]);
                   if($result != null) {
                     if($this->CVE_VERBOSE == 1) {

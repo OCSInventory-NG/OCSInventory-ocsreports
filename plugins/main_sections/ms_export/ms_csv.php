@@ -101,7 +101,7 @@ if (isset($protectedGet['tablename']) && isset($_SESSION['OCS']['csv']['SQL'][$p
             $found = false;
             // find value case-insensitive
             foreach ($col as $key => $val) {
-                if (strpos($key, ".")) {
+                if (strpos($key, ".") !== false) {
                     $exploded_key = explode(".", $key);
                     $key = $exploded_key[1];
                 }
@@ -125,7 +125,7 @@ if (isset($protectedGet['tablename']) && isset($_SESSION['OCS']['csv']['SQL'][$p
                     $found = true;
                 } elseif (array_key_exists(strtoupper($key),$cont)){ // in the case key is in lower case and array cont is in upper case
                     $data[$i][strtoupper($key)] = $cont[strtoupper($key)];
-                } elseif (strpos($key, ' AS ') || strpos($key, ' as ')) {
+                } elseif (strpos($key, ' AS ') !== false || strpos($key, ' as ') !== false) {
                     $key_explode  = explode(" ", $key);
                     $data[$i][$key_explode[2]] = $cont[$key_explode[2]];
                 }

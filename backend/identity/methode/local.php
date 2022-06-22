@@ -61,7 +61,7 @@ if (isset($rowOp->accesslvl)) {
         $res = mysql2_query_secure($sql, $link_ocs, $arg);
         while ($row = mysqli_fetch_object($res)) {
             // Check for wildcard
-            if (strpos($row->tag, '*') || strpos($row->tag,'?')) {
+            if (strpos($row->tag, '*') !== false || strpos($row->tag,'?') !== false) {
                 $wildcard = true;
                 $row->tag = str_replace("*", "%", $row->tag);
                 $row->tag = str_replace("?", "_", $row->tag);

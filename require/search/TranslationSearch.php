@@ -275,7 +275,7 @@
 
         if(!empty($this->translationArray[$name])){
             $name = $l->g($this->translationArray[$name]);
-        }elseif(strpos($name, 'fields_')){
+        }elseif(strpos($name, 'fields_') !== false){
             $accountInfoSearch = new AccountinfoSearch();
             $translateAccount = $accountInfoSearch->getAccountInfosList();
             $name = $translateAccount['COMPUTERS'][$name];

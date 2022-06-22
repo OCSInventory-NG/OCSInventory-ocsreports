@@ -73,7 +73,7 @@ echo "<a class='btn btn-info' href='index.php?function=computer&head=1&systemid=
 //activation options
 if(isset($protectedPost['Valid_package'])) {
     foreach ($protectedPost as $key => $value) {
-      if(strpos($key, 'check')){
+      if(strpos($key, 'check') !== false){
           $id[] = substr($key, 5);
       }
     }

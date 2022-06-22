@@ -227,7 +227,7 @@ function fusionne($afus) {
 
             foreach($accountTable as $table) {
                 foreach($table as $key => $value) {
-                    if(strpos($key,"fields_")) {
+                    if(strpos($key,"fields_") !== false) {
                         if($value != null && $value != "") {
                             $accountid = $table['HARDWARE_ID'];
                         }

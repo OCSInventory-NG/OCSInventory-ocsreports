@@ -234,10 +234,10 @@
             }
           }
 
-          if(strpos($template, "{{")){
+          if(strpos($template, "{{") !== false){
             $explode1 = explode("{{", $template);
               foreach($explode1 as $value){
-                if(strpos($value, "}}")){
+                if(strpos($value, "}}") !== false){
                     $explode2[] = explode("}}", $value);
                 }
               }
@@ -251,7 +251,7 @@
               }
 
               foreach ($explode3 as $replace){
-                if(strpos($replace, "g")){
+                if(strpos($replace, "g") !== false){
                     $traduction = explode(".", $replace);
                     $pattern[] = $replace;
                     $replacement[] = $l->g($traduction[1]);
