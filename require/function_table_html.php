@@ -129,7 +129,6 @@ function xml_decode($txt) {
  */
 function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list_col_cant_del) {
     global $protectedPost, $l, $pages_refs;
-
     //Translated name of the column
     $lbl_column = array("ACTIONS" => $l->g(1381),
         "CHECK" => "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
@@ -252,8 +251,18 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                     }
                                 }
                                 ?>
-                            </select>
+                            </select><br>
+
                         </div>
+						<?php
+						// if user is on multisearch page, do not display layouts buttons
+						if (isset($option['table_name']) && $option['table_name'] != 'affich_multi_crit') {
+						// layouts
+						$layout = new Layout($option['table_name']);
+						$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'], $option['table_name']);
+						$visible_col = json_decode($cols['VISIBLE_COL'], true) ?? $visible_col;
+						}
+						?>
                     </div>
                 </div>
             </div>
@@ -266,6 +275,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         <div id="<?php echo $option['table_name']; ?>_csv_download"
              style="display: none">
                  <?php
+				 
                  //Display of the result count
                  if (!isset($option['no_download_result'])) {
                      echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] ."'><small> (" . $l->g(183) . ")</small></a></div>";
@@ -274,8 +284,11 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                  ?>
         </div>
         <?php
-        echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a>";
-        ?>
+
+        echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.history.replaceState(null, null, window.location.href);window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a><br>";
+
+		?>
+
     </div>
 
     <script>
@@ -391,9 +404,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 "columns": [
     <?php
 
-		$index = 0;
-
-    // Unset visible columns session var
+	$index = 0;
+	// Unset visible columns session var
     unset($_SESSION['OCS']['visible_col'][$option['table_name']]);
 
 	//Visibility handling
@@ -427,6 +439,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                 $key = $option['REPLACE_COLUMN_KEY'][$key];
             }
+
             echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
 'name':'" . $key . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ",'searchable': false,
@@ -438,11 +451,14 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                 $name = $option['REPLACE_COLUMN_KEY'][$key];
             }
+
             echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
 'name':'" . $column . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
         }
+
     }
+
     ?>
                 ],
                 //Translation
@@ -525,6 +541,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
     </script>
     <?php
+
+	$layout_visib = json_encode($visible_col);
+	$_SESSION['OCS']['layout_visib'] = $layout_visib;
+
     if (!empty($titre)) {
         printEnTete_tab($titre);
     }
@@ -1142,7 +1162,6 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 		$current="";
 
 		foreach($def_onglets as $key=>$value){
-
 			echo "<li ";
 			if (is_numeric($protectedPost[$post_name])){
 				if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
@@ -1936,7 +1955,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 	$data = json_encode($tab_options['visible_col']);
 	$customized=false;
-	if (count($tab_options['visible_col'])!=$visible){
+	if (isset($tab_options['visible_col']) && count($tab_options['visible_col'])!=$visible){
 		$customized=true;
 		setcookie($tab_options['table_name']."_col",$data,time()+31536000);
 	}

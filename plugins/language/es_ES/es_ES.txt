@@ -347,7 +347,7 @@
 349 Añadir columna
 350 Tipo de CPU
 351 Número de CPU
-352 Último inventario
+352 Último contacto
 353 Calidad
 354 Fidelidad
 355 Entidad
