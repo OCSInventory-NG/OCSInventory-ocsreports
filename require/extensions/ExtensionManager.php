@@ -143,7 +143,7 @@ class ExtensionManager{
 			}
 
             return true;
-        } catch (Exception) {
+        } catch (Exception $ex) {
 			$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.$l->g(7023);
             return false;
         }
