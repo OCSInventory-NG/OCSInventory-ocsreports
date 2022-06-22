@@ -260,11 +260,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 							// layouts
 							$layout = new Layout($option['table_name']);
 							$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'] ?? 0, $option['table_name']);
-							if(!empty($cols['VISIBLE_COL']) || !empty($visible_col)) {
-								$visible_col = json_decode($cols['VISIBLE_COL'] ?? null, true) ?? $visible_col;
-							} else {
-								$visible_col = null;
-							}
+							$visible_col = json_decode($cols['VISIBLE_COL'] ?? null, true) ?? $visible_col ?? null;
 						}
 						?>
                     </div>
@@ -546,10 +542,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     </script>
     <?php
 
-	if(is_defined($visible_col)) {
-		$layout_visib = json_encode($visible_col);
-		$_SESSION['OCS']['layout_visib'] = $layout_visib;
-	}
+	$layout_visib = json_encode($visible_col ?? null);
+	$_SESSION['OCS']['layout_visib'] = $layout_visib;
 
     if (!empty($titre)) {
         printEnTete_tab($titre);
