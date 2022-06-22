@@ -419,7 +419,7 @@ function html_header($noJavascript = false) {
 
 function strip_tags_array($value = '') {
     if (is_object($value)) {
-        $value = $value::class;
+        $value = get_class($value);
         $value = strip_tags($value, "<p><b><i><font><br><center>");
         return "Objet de la classe " . $value;
     }
