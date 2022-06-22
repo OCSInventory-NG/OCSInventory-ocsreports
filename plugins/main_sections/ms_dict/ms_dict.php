@@ -166,7 +166,6 @@ if ($protectedPost['onglet'] == 'CAT') {
             $querydico .= $value . ',';
         }
     }
-    error_log($list_cat[$protectedPost['onglet_soft']]);
     $querydico = substr($querydico, 0, -1);
     $querydico .= " from dico_soft left join " . $table . " cache on dico_soft.extracted=cache.name
 				 where formatted='" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $list_cat[$protectedPost['onglet_soft']]) . "' " . $search_count . " group by EXTRACTED";

@@ -124,9 +124,7 @@ class Layout {
 
                 if (isset($current_tab) && $current_tab == $value) {
                     echo " selected";
-                    error_log('selected');
                 }elseif(!isset($current_tab) && $value == '----'){
-                    error_log('not selected');
                     echo " selected";
                 }
                 echo ">$value</option>";
