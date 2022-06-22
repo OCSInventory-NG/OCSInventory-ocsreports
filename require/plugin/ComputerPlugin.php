@@ -29,7 +29,14 @@ class ComputerPlugin {
     private $available;
     private $hideFrame;
 
-    public function __construct(private $id, private $system, private $label) {
+    private $id;
+    private $system;
+    private $label;
+
+    public function __construct($id, $system, $label) {
+        $this->id = $id;
+        $this->system = $system;
+        $this->label = $label;
         $this->category = 'other';
         $this->available = null;
         $this->hideFrame = false;

@@ -50,9 +50,12 @@ class ExtensionHook{
 
     private $currentScannedExt = "";
 
-    function __construct(public $activatedExt) {
+    public $activatedExt = array();
 
-        foreach ($activatedExt as $extLabel) {
+    function __construct($activatedExt) {
+        $this->activatedExt = $activatedExt;
+
+        foreach ($this->activatedExt as $extLabel) {
             if($this->haveHook($extLabel)){
                 $this->readHookXml($extLabel);
             }

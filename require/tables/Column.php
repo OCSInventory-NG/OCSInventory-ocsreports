@@ -27,13 +27,18 @@ class Column {
     private $searchable;
     private $formatter;
 
-    public function __construct(private $name, private $label, $options = array()) {
+    private $name;
+    private $label;
+
+    public function __construct($name, $label, $options = array()) {
         $options = array_merge(array(
             'required' => false,
             'sortable' => true,
             'searchable' => true,
             'formatter' => null
-                ), $options);
+        ), $options);
+        $this->name = $name;
+        $this->label = $label;
         $this->required = $options['required'];
         $this->sortable = $options['sortable'];
         $this->searchable = $options['searchable'];

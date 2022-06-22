@@ -28,14 +28,18 @@
  *
  */
 class Menu {
+    private $_children;
+    private $_priority;
+
     /**
      * Constructor
      *
      * @param array  $_children An array of MenuElem
      * @param number $_priority The priority of this element to sort
      */
-    public function __construct(private array $_children = array(), private $_priority = 0)
-    {
+    public function __construct($_children = array(), $_priority = 0) {
+        $this->_children = $_children;
+        $this->_priority = $_priority;
     }
 
     /**

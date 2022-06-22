@@ -29,12 +29,16 @@ class Profile {
     private $config;
     private $blacklist;
     private $pages;
+    private $name;
+    private $label;
 
-    public function __construct(private $name, private $label) {
+    public function __construct($name, $label) {
         $this->restrictions = array();
         $this->config = array();
         $this->blacklist = array();
         $this->pages = array();
+        $this->name = $name;
+        $this->label = $label;
     }
 
     public function getName() {

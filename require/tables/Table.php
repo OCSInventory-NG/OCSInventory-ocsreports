@@ -24,8 +24,10 @@
 require_once('require/tables/Column.php');
 class Table {
     private $columns;
+    private $name;
 
-    public function __construct(private $name) {
+    public function __construct($name) {
+        $this->name = $name;
         $this->columns = array();
     }
 

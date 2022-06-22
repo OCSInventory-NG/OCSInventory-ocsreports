@@ -26,6 +26,11 @@
   */
 class PackageBuilderForm
 {
+    private $packageBuildeFormInteractions;
+    private $packageBuilderFormOperatingSystem;
+    private $packageBuilderParseXml;
+    private $packageBuilderFormOptions;
+
     /**
      * Method __construct
      *
@@ -36,8 +41,12 @@ class PackageBuilderForm
      *
      * @return void
      */
-    function __construct(private $packageBuildeFormInteractions, private $packageBuilderFormOperatingSystem, private $packageBuilderParseXml, private $packageBuilderFormOptions)
+    function __construct($packageBuildeFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml, $packageBuilderFormOptions)
     {
+        $this->packageBuilderFormOperatingSystem = $packageBuilderFormOperatingSystem;
+        $this->packageBuildeFormInteractions = $packageBuildeFormInteractions;
+        $this->packageBuilderParseXml = $packageBuilderParseXml;
+        $this->packageBuilderFormOptions = $packageBuilderFormOptions;
     }
     
     /**

@@ -26,8 +26,11 @@
   */
 class PackageBuilderFormInteractions
 {
-    function __construct(private $packageBuilderParseXml)
+    private $packageBuilderParseXml;
+
+    function __construct($packageBuilderParseXml)
     {
+        $this->packageBuilderParseXml = $packageBuilderParseXml;
     }
 
     /**

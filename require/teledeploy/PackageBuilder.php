@@ -27,6 +27,8 @@
 class PackageBuilder
 {
 	private $downloadConfig = [];
+	private $packageBuilderForm;
+	private $packageBuilderParseXml;
 	
 	/**
 	 * Method __construct
@@ -36,7 +38,7 @@ class PackageBuilder
 	 *
 	 * @return void
 	 */
-	function __construct(private $packageBuilderForm, private $packageBuilderParseXml) {
+	function __construct($packageBuilderForm, $packageBuilderParseXml) {
 		$this->downloadConfig = look_config_default_values([
 			'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR',
 			'DOWNLOAD_ACTIVATE_FRAG' => 'DOWNLOAD_ACTIVATE_FRAG',
@@ -56,6 +58,9 @@ class PackageBuilder
 		if (empty($this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'])) {
             $this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'] = "HTTP";
         }
+
+		$this->packageBuilderForm = $packageBuilderForm;
+		$this->packageBuilderParseXml = $packageBuilderParseXml;
 	}
 	
 	/**

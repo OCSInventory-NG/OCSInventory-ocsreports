@@ -31,11 +31,15 @@
     const GROUP_TABLE = "groups_cache";
     private $searchQuery;
     private $columnsQueryConditions;
+    private $search;
+    private $software;
 
     /**
      * @param Search $search
      */
-    function __construct(private $search, private $software) {
+    function __construct($search, $software) {
+        $this->search = $search;
+        $this->software = $software;
         $this->searchQuery = "SELECT DISTINCT hardware.ID FROM hardware ";
     }
 

@@ -27,6 +27,9 @@
  * The class generate one menu element     
  */
 class MenuElem extends Menu {
+    private $_label;
+    private $_url;
+
     /**
      * The constructor
      *
@@ -35,7 +38,10 @@ class MenuElem extends Menu {
      * @param array  $_children Children
      * @param number $_priority The priority of the MenuElem
      */
-    public function __construct(private $_label, private $_url, array $_children = array(), $_priority = 0) {
+    public function __construct($_label, $_url, array $_children = array(), $_priority = 0) {
+        $this->_label = $_label;
+        $this->_url = $_url;
+
         parent::__construct($_children, $_priority);
     }
 

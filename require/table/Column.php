@@ -24,8 +24,18 @@
  * Handle properties of every column of the table
  */
 abstract class Column {
-    public function __construct(private $label, private $visible, private $deletable, private $sortable)
-    {
+    private $label;
+    private $key;
+    private $visible;
+    private $deletable;
+    private $sortable;
+
+    public function __construct($label, $visible, $deletable, $sortable) {
+        $this->key = $key;
+        $this->label = $label;
+        $this->visible = $visible;
+        $this->deletable = $deletable;
+        $this->sortable = $sortable;
     }
 
     /*

@@ -24,10 +24,12 @@
 require_once('require/tables/Column.php');
 class LinkColumn extends Column {
     private $idProperty;
+    private $url;
 
-    public function __construct($name, $label, private $url, $options = array()) {
+    public function __construct($name, $label, $url, $options = array()) {
         $options['formatter'] = array($this, 'formatLink');
         $this->idProperty = $options['idProperty'] ?: 'id';
+        $this->url = $url;
 
         parent::__construct($name, $label, $options);
     }
