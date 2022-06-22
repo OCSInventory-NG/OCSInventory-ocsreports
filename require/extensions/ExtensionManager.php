@@ -143,7 +143,7 @@ class ExtensionManager{
 			}
 
             return true;
-        } catch (Exception $ex) {
+        } catch (Exception $e) {
 			$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.$l->g(7023);
             return false;
         }
@@ -186,7 +186,7 @@ class ExtensionManager{
             $installMethod();
             // TODO : Successfuly instllaed
             return true;
-        } catch (Exception) {
+        } catch (Exception $e) {
             // TODO : PHP Error occured
             return false;
         }
@@ -210,7 +210,7 @@ class ExtensionManager{
             $deleteMethod = self::EXTENSION_DELETE_METHD.$name;
             $deleteMethod();
             return true;
-        } catch (Exception) {
+        } catch (Exception $e) {
             return false;
         }
 

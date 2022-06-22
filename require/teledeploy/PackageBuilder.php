@@ -261,7 +261,7 @@ class PackageBuilder
 			if(file_exists($tarPath)) {
 				unlink($tarPath); 
 			}
-		} catch (Exception) {
+		} catch (Exception $e) {
 			error_log(print_r("error when tar gz file",true));
 		}
 
