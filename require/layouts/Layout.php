@@ -121,12 +121,11 @@ class Layout {
             
             foreach ($layout_tabs as $key => $value) {
                 echo "<option value='$value'";
-
-                if (isset($current_tab) && $current_tab == $value) {
-                    echo " selected";
-                }elseif(!isset($current_tab) && $value == '----'){
+                
+                if ($current_tab == $value) {
                     echo " selected";
                 }
+
                 echo ">$value</option>";
             }
 
