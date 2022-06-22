@@ -234,24 +234,24 @@
             }
           }
 
-          if(str_contains($template, "{{")){
+          if(strpos($template, "{{")){
             $explode1 = explode("{{", $template);
               foreach($explode1 as $value){
-                if(str_contains($value, "}}")){
+                if(strpos($value, "}}")){
                     $explode2[] = explode("}}", $value);
                 }
               }
 
               foreach ($explode2 as $values){
                 foreach ($values as $trad){
-                  if(!str_contains($trad, "<")){
+                  if(!strpos($trad, "<")){
                       $explode3[] = $trad;
                   }
                 }
               }
 
               foreach ($explode3 as $replace){
-                if(str_contains($replace, "g")){
+                if(strpos($replace, "g")){
                     $traduction = explode(".", $replace);
                     $pattern[] = $replace;
                     $replacement[] = $l->g($traduction[1]);

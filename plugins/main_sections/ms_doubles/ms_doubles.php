@@ -424,7 +424,7 @@ if (!empty($protectedPost['detail'])) {
 			echo "<div class='col-md-8'><b>".strtoupper($itemagain['name']). "</b></div><div class='col-md-2'></div><br><br>";
 			echo "<div class='col-md-12 duplicate-details'>";
 			foreach ($itemagain as $key => $info) {
-				if(str_contains($key, "fields_")) {
+				if(strpos($key, "fields_")) {
 					$admininfoId = explode("_", $key);
 					$admininfo = find_info_accountinfo($admininfoId[1]);
 

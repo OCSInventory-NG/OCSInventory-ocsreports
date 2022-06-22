@@ -198,7 +198,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
           	} ?>
 				<div class="col-sm-3">
 					<div class="btn btn-info disabled" style="cursor:default;"><?php
-            if(str_contains($values['fields'], 'fields_')){
+            if(strpos($values['fields'], 'fields_')){
               $fields = $accountInfoSearch->getAccountInfosList();
               echo $translationSearch->getTranslationFor($table)." : ".$fields['COMPUTERS'][$values['fields']];
             }else{
@@ -210,7 +210,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				<div class="col-sm-3">
 					<div class="form-group">
 						<select class="form-control" name="<?php echo $search->getOperatorUniqId($uniqid, $table); ?>" onchange="isnull('<?php echo $search->getOperatorUniqId($uniqid, $table); ?>', '<?php echo $search->getFieldUniqId($uniqid, $table); ?>', '<?php echo $search->getSearchedFieldType($table, $values['fields']); ?>');" id="<?php echo $search->getOperatorUniqId($uniqid, $table);?>">
-						<?php 	if((str_contains($values['fields'], 'fields_')) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY') || (($search->getSearchedFieldType($table, $values['fields']) == 'datetime'))) {
+						<?php 	if((strpos($values['fields'], 'fields_')) || ($values['fields'] == "CATEGORY_ID") || ($values['fields'] == 'CATEGORY') || (($search->getSearchedFieldType($table, $values['fields']) == 'datetime'))) {
 									echo $search->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
 								} else {
 									echo $search->getSelectOptionForOperators($values['operator'], $table);
@@ -220,7 +220,7 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<?php 	if((str_contains($values['fields'], 'fields_')) || array_key_exists($values['fields'], $search->correspondance)){
+						<?php 	if((strpos($values['fields'], 'fields_')) || array_key_exists($values['fields'], $search->correspondance)){
 									echo $search->returnFieldHtml($uniqid, $values, $table, $values['fields']);
 								}else {
 									echo $search->returnFieldHtml($uniqid, $values, $table, null, $values['operator']);

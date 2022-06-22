@@ -1518,7 +1518,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 					if($info_tag[$id_tag[1]]['type'] == 2) {
 						$info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
 						foreach($info as $key => $value) {
-							if(str_contains(strtolower($value), strtolower($search))) {
+							if(strpos(strtolower($value), strtolower($search))) {
 								$acc_select[$key] = $key;
 							}
 						}

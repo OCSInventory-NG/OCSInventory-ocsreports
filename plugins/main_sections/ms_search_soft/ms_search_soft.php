@@ -73,7 +73,7 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
     } else {
         $logiciel = $protectedPost['logiciel_text'];
         // Check for wildcard
-        if (str_contains($logiciel, '*') || str_contains($logiciel,'?')) {
+        if (strpos($logiciel, '*') || strpos($logiciel,'?')) {
             $wildcard = true;
             $logiciel = str_replace("*", "%", $logiciel);
             $logiciel = str_replace("?", "_", $logiciel);

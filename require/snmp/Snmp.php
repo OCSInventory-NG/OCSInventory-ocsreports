@@ -467,7 +467,7 @@ class OCSSnmp
 		$config = null;
 
 		foreach($post as $key => $value) {
-			if(str_contains($key, "checkbox_")) {
+			if(strpos($key, "checkbox_")) {
 				$mib_check = explode("_", $key);
 			}
 			

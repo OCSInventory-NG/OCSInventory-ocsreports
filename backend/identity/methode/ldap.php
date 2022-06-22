@@ -159,7 +159,7 @@ if (isset($defaultRole) && trim($defaultRole) != '') {
             $res = mysql2_query_secure($sql, $link_ocs, $arg);
             while ($row = mysqli_fetch_object($res)) {
                 // Check for wildcard
-                if (str_contains($row->tag, '*') || str_contains($row->tag,'?')) {
+                if (strpos($row->tag, '*') || strpos($row->tag,'?')) {
                     $wildcard = true;
                     $row->tag = str_replace("*", "%", $row->tag);
                     $row->tag = str_replace("?", "_", $row->tag);

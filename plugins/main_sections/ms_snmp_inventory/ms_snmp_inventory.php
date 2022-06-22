@@ -141,7 +141,7 @@ if(empty($typeList)) {
                                     echo '<tr role="row">';
                                     echo '<th>'.$column.'</th>';
                                     echo '<td>';
-                                    if(str_contains($values[$column], " - ")) {
+                                    if(strpos($values[$column], " - ")) {
                                         $list = explode(" - ", $values[$column]);
                                         natsort($list);
                                         foreach($list as $lists) {

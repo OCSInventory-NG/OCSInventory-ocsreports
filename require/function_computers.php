@@ -103,7 +103,7 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
         $did = $valId["deviceid"] ?? '';
         if ($did) {
             //Deleting a network device
-            if (!str_contains($did, "NETWORK_DEVICE-")) {
+            if (!strpos($did, "NETWORK_DEVICE-")) {
                 $sql = "SELECT macaddr FROM networks WHERE hardware_id='%s'";
                 $resNetm = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $idHard);
                 while ($valNetm = mysqli_fetch_array($resNetm)) {
@@ -227,7 +227,7 @@ function fusionne($afus) {
 
             foreach($accountTable as $table) {
                 foreach($table as $key => $value) {
-                    if(str_contains($key,"fields_")) {
+                    if(strpos($key,"fields_")) {
                         if($value != null && $value != "") {
                             $accountid = $table['HARDWARE_ID'];
                         }
