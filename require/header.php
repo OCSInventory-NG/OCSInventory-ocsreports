@@ -51,6 +51,7 @@ require_once('require/function_table_html.php');
 require_once('require/views/forms.php');
 require_once('require/plugin/include.php');
 require_once('require/history/History.php');
+require_once('require/layouts/Layout.php');
 
 if (isset($_SESSION['OCS']['CONF_RESET'])) {
     unset($_SESSION['OCS']['LOG_GUI']);

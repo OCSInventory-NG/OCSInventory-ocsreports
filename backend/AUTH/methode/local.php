@@ -62,7 +62,6 @@ if ($rowOp->PASSWORD_VERSION === '0') {
         if(password_verify($mdp, $rowOp->PASSWD)) {
             require_once('require/function_users.php');
             $update = updatePasswordMd5toHash($login, $mdp);
-            error_log(print_r($update, true));
             if($update) {
                 $login_status = true;
             }

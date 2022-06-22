@@ -328,4 +328,8 @@
         <value>admin_local_import</value>
         <directory>ms_upload_file</directory>
     </url>
+    <url key="ms_layouts">
+        <value>layouts</value>
+        <directory>ms_layouts</directory>
+    </url>
 </urls>
