@@ -351,7 +351,9 @@ function msg_error($txt, $close = false) {
 
 function html_header($noJavascript = false) {
     $value_theme = null;
-    if (isset($_SESSION['OCS']['readServer'])) {
+    if (is_readable(CONF_MYSQL) && isset($_SESSION['OCS']['readServer'])
+        && defined("SERVER_READ") && defined("DB_NAME") && defined("SERVER_WRITE") && defined("COMPTE_BASE") && defined("PSWD_BASE")
+    ) {
         $value_theme = look_config_default_values('CUSTOM_THEME');  
     }
     if (is_null($value_theme)) {
