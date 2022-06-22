@@ -28,7 +28,11 @@ if (AJAX) {
 }
 
 printEnTete($l->g(9907));
+
+$tab_options = $protectedPost;
 $form_name = "layouts";
+$tab_options['form_name'] = $form_name;
+$tab_options['table_name'] = $form_name;
 
 $layout = new Layout($protectedGet['value']);
 //ADD new layout
@@ -38,17 +42,27 @@ if (isset($protectedPost['Valid_modif']) && (!empty($_SESSION['OCS']['layout_vis
     if (!empty($dupli)) {
         unset($protectedPost['Valid_modif']);
     }
+}
 
+//delete layout
+if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
+    $layout->deleteLayout($protectedPost['SUP_PROF']);
+    $tab_options['CACHE'] = 'RESET';
+}
+
+if (is_defined($protectedPost['del_check'])) {
+    $layout->deleteLayout($protectedPost['del_check']);
+    $tab_options['CACHE'] = 'RESET';
 }
 
 // if no layout has been added yet and user did not delete layout : show the form 
 if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($protectedPost['Valid_modif'])) && (!isset($protectedPost['SUP_PROF']) && !isset($protectedPost['del_check'])) && !isset($protectedPost['show_list'])) {
-    echo open_form('layouts', '', '', 'form-horizontal');
+    echo open_form($form_name, '', '', 'form-horizontal');
     ?>
         <div class="col-md-12">
             <?php
-            formGroup('text', 'LAYOUT_NAME', 'Layout name :', '', '', $protectedPost['LAYOUT_NAME']);
-            formGroup('text', 'LAYOUT_DESCR', 'Layout description :', '', '', $protectedPost['LAYOUT_DESCR']);
+            formGroup('text', 'LAYOUT_NAME', $l->g(9911).' :', '', '', $protectedPost['LAYOUT_NAME'] ?? '');
+            formGroup('text', 'LAYOUT_DESCR', $l->g(9912).' :', '', '', $protectedPost['LAYOUT_DESCR'] ?? '');
             ?>
         </div>
     <div class="row">
@@ -62,43 +76,27 @@ if ((isset($protectedGet['tab']) && $protectedGet['tab'] == 'add') && (!isset($p
 
 // show the table
 } else {
-    echo open_form('layouts', '', '', 'form-horizontal');
-    //delete layout
-    if (isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != '') {
-        $layout->deleteLayout($protectedPost['SUP_PROF']);
-        $tab_options['CACHE'] = 'RESET';
-    }
-
-    if (is_defined($protectedPost['del_check'])) {
-        $layout->deleteLayout($protectedPost['del_check']);
-        $tab_options['CACHE'] = 'RESET';
-    }
-    $table_name = $form_name;
-    $tab_options['form_name'] = $form_name;
-    $tab_options['table_name'] = $table_name;
+    echo open_form($form_name, '', '', 'form-horizontal');
     
     $list_fields = array(
-        'LAYOUT_NAME' => 'LAYOUT_NAME',
-        'USER' => 'USER',
-        'TABLE_NAME' => 'TABLE_NAME',
-        'DESCRIPTION' => 'DESCRIPTION',
+        $l->g(9911) => 'LAYOUT_NAME',
+        $l->g(243) => 'USER',
+        $l->g(9913) => 'TABLE_NAME',
+        $l->g(53) => 'DESCRIPTION',
+        'SUP' => 'SUP',
+        'CHECK' => 'CHECK'
     );
-    $list_col_cant_del = array(
-                        'LAYOUT_NAME' => 'LAYOUT_NAME',
-                        'USER' => 'USER',
-                        'TABLE_NAME' => 'TABLE_NAME',
-                        'SUP' => 'SUP',
-                        'CHECK' => 'CHECK'
-                    );
+    
+    $list_col_cant_del = $list_fields;
     
     $list_fields['SUP'] = 'ID';
     $list_fields['CHECK'] = 'ID';
+    $tab_options['LBL_POPUP']['SUP'] = 'LAYOUT_NAME';
     
     $default_fields = $list_col_cant_del;
     $queryDetails = "SELECT ID, LAYOUT_NAME, USER, TABLE_NAME, DESCRIPTION FROM `layouts` WHERE USER = '".$_SESSION['OCS']['loggeduser']."'";
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-    $img['image/delete.png'] = $l->g(162);
     del_selection($form_name);
     echo close_form();
 
