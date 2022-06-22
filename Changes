@@ -1,4 +1,30 @@
 Revision history for ocsreports
+2.10.0
+		* Add PHP8 compatibility
+		* Add layout feature
+		* Add archive/restore actions to GUI LOGS
+		* Add CAS connection feature
+		* Add custom interval configuration to Last Contact in dashboard
+		* Add plugin deployment for unix systems
+		* Add configuration to exclude archive machines from the interface
+		* Improve archive/restore feature
+		* Improve LDAP connection feature
+		* Improve Software category regex display
+		* Update password encryption
+		* Fix subnets loading taking to much time on login
+		* Fix activate package display for every language
+		* Fix archive/restore action
+		* Fix multisearch query if IS NULL operator
+		* Fix software category deletion
+		* Fix SNMP read mib files
+		* Fix save search group for LDAP and CAS users
+		* Fix rights on actions column
+		* Fix CVE 2021-46355
+		* Fix IpDiscover export
+		* Fix IpDiscover bugs
+		* Fix blank page after create networks type
+		* Remove overriding of profile rights on extensions pages
+
 2.9.2
 		* Add archive button on computer details page
 		* Add local import
