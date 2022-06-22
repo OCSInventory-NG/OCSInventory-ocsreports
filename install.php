@@ -232,71 +232,73 @@ if (isset($_POST["name"])) {
     }
     //die();
 }
-//use values in mysql config file
-if (is_readable(CONF_MYSQL)) {
-    if (defined('COMPTE_BASE')) {
-        $valNme = COMPTE_BASE;
-    } else {
-        $valNme = '';
-    }
-    if (defined('PSWD_BASE')) {
-        $valPass = PSWD_BASE;
-    } else {
-        $valPass = '';
-    }
-    if (defined('SERVER_WRITE')) {
-        $valServ = SERVER_WRITE;
-    } else {
-        $valServ = '';
-    }
-    if (defined('SERVER_PORT')) {
-        $valPort = SERVER_PORT;
-    } else {
-        $valPort = 3306;
-    }
-    if (defined('DB_NAME')) {
-        $valdatabase = DB_NAME;
-    } else {
-        $valdatabase = '';
-    }
-    if (defined('ENABLE_SSL')) {
-        $valenablessl = [
-            "1" => $l->g(455),
-            "0" => $l->g(454)
-        ];
-    } else {
-        $valenablessl = [
-            "1" => $l->g(455),
-            "0" => $l->g(454)
-        ];
-    }
-    if (defined('SSL_MODE')) {
-        $valsslmode = [
-            "MYSQLI_CLIENT_SSL" => "MYSQLI_CLIENT_SSL",
-            "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT" => "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT"
-        ];
-    } else {
-        $valsslmode = [
-            "MYSQLI_CLIENT_SSL" => "MYSQLI_CLIENT_SSL",
-            "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT" => "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT"
-        ];
-    }
-    if (defined('SSL_KEY')) {
-        $valsslkey = SSL_KEY;
-    } else {
-        $valsslkey = '';
-    }
-    if (defined('SSL_CERT')) {
-        $valsslcert = SSL_CERT;
-    } else {
-        $valsslcert = '';
-    }
-    if (defined('CA_CERT')) {
-        $valcacert = CA_CERT;
-    } else {
-        $valcacert = '';
-    }
+if(is_readable(CONF_MYSQL)) {
+    require(CONF_MYSQL);
 }
+//use values in mysql config file
+if (defined('COMPTE_BASE')) {
+    $valNme = COMPTE_BASE;
+} else {
+    $valNme = '';
+}
+if (defined('PSWD_BASE')) {
+    $valPass = PSWD_BASE;
+} else {
+    $valPass = '';
+}
+if (defined('SERVER_WRITE')) {
+    $valServ = SERVER_WRITE;
+} else {
+    $valServ = '';
+}
+if (defined('SERVER_PORT')) {
+    $valPort = SERVER_PORT;
+} else {
+    $valPort = 3306;
+}
+if (defined('DB_NAME')) {
+    $valdatabase = DB_NAME;
+} else {
+    $valdatabase = '';
+}
+if (defined('ENABLE_SSL')) {
+    $valenablessl = [
+        "1" => $l->g(455),
+        "0" => $l->g(454)
+    ];
+} else {
+    $valenablessl = [
+        "1" => $l->g(455),
+        "0" => $l->g(454)
+    ];
+}
+if (defined('SSL_MODE')) {
+    $valsslmode = [
+        "MYSQLI_CLIENT_SSL" => "MYSQLI_CLIENT_SSL",
+        "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT" => "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT"
+    ];
+} else {
+    $valsslmode = [
+        "MYSQLI_CLIENT_SSL" => "MYSQLI_CLIENT_SSL",
+        "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT" => "MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT"
+    ];
+}
+if (defined('SSL_KEY')) {
+    $valsslkey = SSL_KEY;
+} else {
+    $valsslkey = '';
+}
+if (defined('SSL_CERT')) {
+    $valsslcert = SSL_CERT;
+} else {
+    $valsslcert = '';
+}
+if (defined('CA_CERT')) {
+    $valcacert = CA_CERT;
+} else {
+    $valcacert = '';
+}
+
 //show first form
 $form_name = 'fsub';
 $name_field = array("name", "pass", "database", "host", "port", "enablessl", "sslmode", "sslkey", "sslcert", "cacert");
