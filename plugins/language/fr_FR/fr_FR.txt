@@ -1836,3 +1836,6 @@
 9908 Afficher les dispositions
 9909 Ajouter une disposition
 9910 Dispositions disponibles :
+9911 Nom de la disposition
+9912 Description de la disposition
+9913 Nom du tableau
