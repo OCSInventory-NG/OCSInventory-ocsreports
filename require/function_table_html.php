@@ -257,10 +257,14 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 						<?php
 						// if user is on multisearch page, do not display layouts buttons
 						if (isset($option['table_name']) && $option['table_name'] != 'affich_multi_crit') {
-						// layouts
-						$layout = new Layout($option['table_name']);
-						$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'], $option['table_name']);
-						$visible_col = json_decode($cols['VISIBLE_COL'], true) ?? $visible_col;
+							// layouts
+							$layout = new Layout($option['table_name']);
+							$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'] ?? 0, $option['table_name']);
+							if(!empty($cols['VISIBLE_COL']) || !empty($visible_col)) {
+								$visible_col = json_decode($cols['VISIBLE_COL'] ?? null, true) ?? $visible_col;
+							} else {
+								$visible_col = null;
+							}
 						}
 						?>
                     </div>
@@ -542,8 +546,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     </script>
     <?php
 
-	$layout_visib = json_encode($visible_col);
-	$_SESSION['OCS']['layout_visib'] = $layout_visib;
+	if(is_defined($visible_col)) {
+		$layout_visib = json_encode($visible_col);
+		$_SESSION['OCS']['layout_visib'] = $layout_visib;
+	}
 
     if (!empty($titre)) {
         printEnTete_tab($titre);
@@ -1953,7 +1959,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			$visible++;
 		}
 	}
-	$data = json_encode($tab_options['visible_col']);
+	$data = json_encode($tab_options['visible_col'] ?? null);
 	$customized=false;
 	if (isset($tab_options['visible_col']) && count($tab_options['visible_col'])!=$visible){
 		$customized=true;
