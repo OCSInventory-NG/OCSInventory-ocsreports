@@ -51,6 +51,7 @@ $list_col_cant_del = $list_fields;
 $queryDetails = "SELECT USER, DATETIME_ACTION, ACTION, TARGET FROM `history`";
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+echo close_form();
 
 
 if (AJAX) {
