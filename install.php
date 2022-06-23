@@ -223,6 +223,7 @@ if (isset($_POST["name"])) {
                 unlink(CONF_MYSQL);
             } else {
                 msg_success("<b>" . $l->g(2050) . "</b><br><br><b><a href='index.php'>" . $l->g(2051) . "</a></b>");
+                require(CONF_MYSQL);
                 unset($_SESSION['OCS']['SQL_BASE_VERS']);
             }
             die();
