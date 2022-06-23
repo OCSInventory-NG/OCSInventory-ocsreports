@@ -525,7 +525,7 @@ if ($protectedPost['onglet'] == 1) {
 
         // get array of links
         foreach ($protectedPost as $key => $value) {
-            if (str_starts_with($key, 'link_')) {
+            if (strpos($key, 'link_') === 0) {
                 $links[$key] = $value;
             }
         }

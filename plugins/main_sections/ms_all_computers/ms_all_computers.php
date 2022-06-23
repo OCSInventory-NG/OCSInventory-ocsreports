@@ -255,7 +255,7 @@ if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
 }
 
 // TAG RESTRICTIONS
-if (is_defined($_GET['value']) && str_starts_with($_GET['filtre'], 'a.fields_')){
+if (is_defined($_GET['value']) && strpos($_GET['filtre'], 'a.fields_') === 0){
     $tag = $_GET['value'];
     $fields = $_GET['filtre'];
     $queryDetails .= "AND ".$fields."= '$tag' ";
