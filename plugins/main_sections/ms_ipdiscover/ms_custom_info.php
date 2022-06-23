@@ -49,7 +49,6 @@ if (isset($protectedPost['SUP_PROF'])) {
     if ($protectedGet['prov'] == "ident") {
         //dismiss manufacturer name and mac to be able to remove it properly.
         $exploded_data = explode(' ', $protectedPost['SUP_PROF']);
-        //var_dump($exploded_data);
         $protectedPost['SUP_PROF'] = $exploded_data[0];
     }
 

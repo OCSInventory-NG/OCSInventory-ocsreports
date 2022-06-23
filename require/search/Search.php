@@ -369,7 +369,6 @@
               if($nameTable == SoftwareSearch::SOFTWARE_TABLE) {
                 $nameTable = $this->softwareSearch->getTableName($value['fields']);
                 $value[self::SESS_FIELDS] = $this->softwareSearch->getColumnName($value['fields']);
-                //var_dump()
               }
 
               foreach(array_count_values($columnName) as $name => $nb){

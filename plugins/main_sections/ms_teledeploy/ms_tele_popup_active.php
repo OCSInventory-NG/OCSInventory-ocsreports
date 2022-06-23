@@ -74,7 +74,6 @@ if (!isset($info_id['ERROR'])) {
         }
     }
 
-    //var_dump($tab_typ_champ);
     //fermeture du formulaire.
     echo close_form();
 } else {

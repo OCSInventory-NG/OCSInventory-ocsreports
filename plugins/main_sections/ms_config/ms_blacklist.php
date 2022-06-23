@@ -126,7 +126,6 @@ switch ($protectedPost['onglet']) {
 
             if ($protectedPost['BLACK_CHOICE'] == 1) {
                 // 6 cases  POST    BASE_NAME   VALUE PER FIELD     SIZE    SEPARATOR : JS
-                //var_dump($MACnb_field, $protectedPost, $MACfield_name, $MACnb_value_by_field, $MACsize, $MACseparat, $javascript_mac);
 
                 ?>
                 <div class="input-group">

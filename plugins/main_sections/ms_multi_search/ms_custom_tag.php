@@ -31,7 +31,6 @@
  echo "<div class='col-md-12'>";
 
  $list_id = multi_lot($form_name, $l->g(601));
-var_dump($list_id);
  if (is_defined($list_id)) {
 
      echo "<div class='col col-md-12'>";
