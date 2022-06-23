@@ -138,12 +138,20 @@ function show_basic_info_frame($data, $errors) {
         ),
     ));
 
-    $action_input_label = match ($data['ACTION']) {
-        'EXECUTE' => $l->g(444),
-        'STORE' => $l->g(445),
-        'LAUNCH' => $l->g(446),
-        default => '',
-    };
+    switch ($data['ACTION']) {
+        case 'EXECUTE':
+            $action_input_label = $l->g(444);
+            break;
+        case 'STORE':
+            $action_input_label = $l->g(445);
+            break;
+        case 'LAUNCH':
+            $action_input_label = $l->g(446);
+            break;
+        default:
+            $action_input_label = '';
+            break;
+    }
     show_form_field($data, $errors, 'input', 'ACTION_INPUT', $action_input_label);
 
     echo '<span style="display: none" class="action-input-EXECUTE">' . $l->g(444) . ' :</span>';

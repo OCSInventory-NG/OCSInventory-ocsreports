@@ -394,13 +394,15 @@ if (!empty($protectedPost['detail'])) {
 	$duplicates = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
 	$duplicates = mysqli_fetch_all($duplicates, MYSQLI_ASSOC);
 
-	$criteria = match ($protectedPost['detail']) {
-		"hostname_serial" => 'name',
-		"hostname_macaddress", "macaddress_serial" => 'macaddr',
-		"hostname" => 'name',
-		"ssn" => 'ssn',
-		"macaddress" => 'macaddr',
-	};
+	// grouping of duplicates is conditional
+	switch($protectedPost['detail']) {
+		case "hostname_serial": $criteria = 'name'; break;
+		case "hostname_macaddress": $criteria = 'macaddr'; break;
+		case "macaddress_serial": $criteria = 'macaddr'; break;
+		case "hostname": $criteria = 'name'; break;
+		case "ssn": $criteria = 'ssn'; break;
+		case "macaddress": $criteria = 'macaddr'; break;
+	}
 	$grpDuplis = groupBy($criteria ?? '', $duplicates);
 	$i = 0;
 	// iterate through each group of duplicates to build collapsible
