@@ -552,6 +552,8 @@ if ($protectedPost['onglet'] == 1) {
         // req to retrieve hardware id
         $sql_h_id = "SELECT %s FROM %s WHERE %s = '%s'";
         $i = 0;
+        $success = null;
+        
         while ($line = $csvObj->readCSVLine()) {
             $i++;
             // first line means header
@@ -601,7 +603,7 @@ if ($protectedPost['onglet'] == 1) {
         $delete_csv = $csvObj->deleteCSV($protectedPost['csv_filename']);
         echo "<br><input type='submit' name='import_new' id='import_new' class='btn btn-success' value=". $l->g(188)."><br><br>";
 
-        if ($success != '') {
+        if (!is_null($success)) {
             msg_info($l->g(9605));
         }
         foreach ($errors as $key => $error) {
