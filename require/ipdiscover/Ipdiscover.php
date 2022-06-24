@@ -110,7 +110,7 @@ class Ipdiscover
 		foreach ($tab_typ_champ as $id => $values) {
 			$tab_typ_champ[$id]['CONFIG']['SIZE'] = 30;
 			if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
-				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $post[$tab_typ_champ[$id]['INPUT_NAME']];
+				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $post[$tab_typ_champ[$id]['INPUT_NAME']] ?? '';
 			}
 		}
 
