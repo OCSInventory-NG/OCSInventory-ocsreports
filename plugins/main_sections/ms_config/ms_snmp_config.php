@@ -347,8 +347,12 @@ if($protectedPost['onglet'] == 'SNMP_MIB') {
 
     if(isset($protectedPost['update_snmp'])) {
         $result_oids = $command->get_mib_oid($protectedPost['mib_file'] ?? '');
-
-        $protectedPost['select_mib'] = true;
+        if(!empty($result_oids)) {
+            $protectedPost['select_mib'] = true;
+        } else {
+            msg_error($l->g(9036));
+        }
+        
         unset($protectedPost['update_snmp']);
     }
 

@@ -38,7 +38,7 @@ class CommandLine
 
         foreach ($result_cmd as $oid) {
             $split = preg_split('/\t/', $oid, null, PREG_SPLIT_NO_EMPTY);
-            if($split[0] != "") {
+            if(isset($split[0]) && $split[0] != "") {
                 $oids[$split[0]] = $split[1]; 
             } 
         }

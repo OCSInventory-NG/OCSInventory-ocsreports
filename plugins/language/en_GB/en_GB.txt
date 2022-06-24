@@ -1715,6 +1715,7 @@
 9033 Authentication Protocol
 9034 Privacy Protocol
 9035 Privacy Password
+9036 No OID found
 
 9100 SSL key path
 9101 SSL certificat path
