@@ -254,7 +254,9 @@
                 if(strpos($replace, "g") !== false){
                     $traduction = explode(".", $replace);
                     $pattern[] = $replace;
-                    $replacement[] = $l->g($traduction[1]);
+                    if(isset($traduction[1])) {
+                      $replacement[] = $l->g($traduction[1]);
+                    }
                 }elseif($replace == 'Report.Asset'){
                     $pattern[] = $replace;
                     $asset->get_assets();
