@@ -29,15 +29,15 @@ debut_tab(array('CELLSPACING' => '5',
     'BORDERCOLOR' => '#9894B5'));
 $mode = 0;
 
-if ($optvalueTvalue['IPDISCOVER'] && $optvalue['IPDISCOVER'] == 1) {
+if (isset($optvalueTvalue['IPDISCOVER']) && $optvalue['IPDISCOVER'] == 1) {
     $select_value = $optvalueTvalue['IPDISCOVER'];
     echo "<br><center><b>" . $l->g(519) . ": " . $optvalueTvalue['IPDISCOVER'] . "</b></center>";
     $mode = 1;
-} else if ($optvalue['IPDISCOVER'] == 2) {
+} else if (isset($optvalue['IPDISCOVER']) && $optvalue['IPDISCOVER'] == 2) {
     $select_value = $optvalueTvalue['IPDISCOVER'];
     echo "<br><center><b>" . $l->g(520) . ": " . $optvalueTvalue['IPDISCOVER'] . "</b></center>";
     $mode = 3;
-} else if ($optvalue['IPDISCOVER'] === "0") {
+} else if (isset($optvalue['IPDISCOVER']) && $optvalue['IPDISCOVER'] === "0") {
     $select_value = "OFF";
     echo "<br><center><b>" . $l->g(521) . "</b></center>";
     $mode = 2;
@@ -62,7 +62,7 @@ if (isset($protectedGet['idchecked']) && is_numeric($protectedGet['idchecked']))
     }
 }
 
-ligne('IPDISCOVER', $l->g(518), 'select', array('SELECT_VALUE' => $lesRez, 'VALUE' => $select_value));
+ligne('IPDISCOVER', $l->g(518), 'select', array('SELECT_VALUE' => $lesRez, 'VALUE' => $select_value ?? ''));
 
 if (!isset($optvalue['SNMP_SWITCH'])) {
     $optvalueselected = 'SERVER DEFAULT';
@@ -80,7 +80,7 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['VALUE'] = 'IGNORED';
 }
 ligne("SNMP_SWITCH", $l->g(1197), 'radio', $champ_value);
-ligne('SNMP_NETWORK', $l->g(1198), 'long_text', array('VALUE' => $optvalueTvalue['SNMP_NETWORK'], 'COLS' => 40, 'ROWS' => 1));
+ligne('SNMP_NETWORK', $l->g(1198), 'long_text', array('VALUE' => $optvalueTvalue['SNMP_NETWORK'] ?? '', 'COLS' => 40, 'ROWS' => 1));
 unset($champ_value);
 
 fin_tab();

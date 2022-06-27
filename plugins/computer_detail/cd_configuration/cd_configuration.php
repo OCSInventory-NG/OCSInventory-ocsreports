@@ -82,8 +82,10 @@ echo open_form($form_name, '', '', 'form-horizontal');
         }
         $reqGroups .= " order by h.name";
         $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
-        while ($valGroups = mysqli_fetch_array($resGroups)) {
-            echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+        if ($resGroups) {
+            while ($valGroups = mysqli_fetch_array($resGroups)) {
+                echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+            }
         }
         ?>
         </select>
@@ -120,7 +122,7 @@ if (isset($optPerso["IPDISCOVER"])) {
 } else {
     $returnIP = $l->g(493);
 }
-optperso("IPDISCOVER", $l->g(489), "IPDISCOVER", $optPerso, '', $returnIP);
+optperso("IPDISCOVER", $l->g(489), "IPDISCOVER", $optPerso ?? '', '', $returnIP);
 
 //FREQUENCY
 if (isset($optPerso["FREQUENCY"])) {
@@ -134,7 +136,7 @@ if (isset($optPerso["FREQUENCY"])) {
 } else {
     $returnFrequency = $l->g(497);
 }
-optperso("FREQUENCY", $l->g(494), "FREQUENCY", $optPerso, '', $returnFrequency);
+optperso("FREQUENCY", $l->g(494), "FREQUENCY", $optPerso ?? '', '', $returnFrequency);
 
 //DOWNLOAD_SWITCH
 if (isset($optPerso["DOWNLOAD_SWITCH"])) {
@@ -152,29 +154,29 @@ if (isset($optPerso["DOWNLOAD_SWITCH"])) {
         $returnDL = $l->g(733);
     }
 }
-optperso("DOWNLOAD", $l->g(417), "DOWNLOAD", $optPerso, '', $returnDL);
+optperso("DOWNLOAD", $l->g(417), "DOWNLOAD", $optPerso ?? '', '', $returnDL);
 
 //DOWNLOAD_CYCLE_LATENCY
-optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
 
 //DOWNLOAD_FRAG_LATENCY
-optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
 
 
 //DOWNLOAD_PERIOD_LATENCY
-optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
 
 //DOWNLOAD_PERIOD_LENGTH
-optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
+optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
 
 //PROLOG_FREQ
-optperso("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
+optperso("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso ?? '', $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
 
 //PROLOG_FREQ
-optperso("DOWNLOAD_TIMEOUT", $l->g(424), "DOWNLOAD_TIMEOUT", $optPerso, $optdefault['ivalue']["DOWNLOAD_TIMEOUT"], $l->g(496));
+optperso("DOWNLOAD_TIMEOUT", $l->g(424), "DOWNLOAD_TIMEOUT", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_TIMEOUT"], $l->g(496));
 
 //DOWNLOAD_SWITCH
-optperso("SNMP_SWITCH", $l->g(1197), "SNMP_SWITCH", $optPerso, '', ($optPerso["SNMP_SWITCH"]["IVALUE"] == 1) ? $l->g(733) : $l->g(205));
+optperso("SNMP_SWITCH", $l->g(1197), "SNMP_SWITCH", $optPerso ?? '', '', (isset($optPerso["SNMP_SWITCH"]["IVALUE"]) && $optPerso["SNMP_SWITCH"]["IVALUE"] == 1) ? $l->g(733) : $l->g(205));
 
 //GROUPS
 $sql_groups = "SELECT static, name, group_id,workgroup

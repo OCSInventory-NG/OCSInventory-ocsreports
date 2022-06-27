@@ -1710,6 +1710,7 @@
 9033 Protocole d'authentification
 9034 Protocole de confidentialité
 9035 Mot de passe de confidentialité
+9036 Aucun OID trouvé
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
@@ -1836,3 +1837,6 @@
 9908 Afficher les dispositions
 9909 Ajouter une disposition
 9910 Dispositions disponibles :
+9911 Nom de la disposition
+9912 Description de la disposition
+9913 Nom du tableau

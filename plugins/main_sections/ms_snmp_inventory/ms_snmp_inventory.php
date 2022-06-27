@@ -41,7 +41,7 @@ if(empty($typeList)) {
     //definition of onglet
     foreach($typeList as $id => $values) {
         $def_onglets[$id] = $values['TYPENAME'];
-        if ($protectedPost['onglet'] == "") {
+        if (empty($protectedPost['onglet'])) {
             $protectedPost['onglet'] = $id;
         }
     }
@@ -55,7 +55,7 @@ if(empty($typeList)) {
 
     //show first lign of onglet
     if($count < 15){
-    show_tabs($def_onglets,$form_name,"onglet",true, $i);
+    show_tabs($def_onglets,$form_name,"onglet",true);
     }
 
     if ($count >= 15) {
@@ -94,7 +94,7 @@ if(empty($typeList)) {
         $tab_options['form_name'] = $form_name;
         $tab_options['table_name'] = $table_name;
 
-        for($i = 0; $columns[$i] != null; $i++) {
+        for($i = 0; !empty($columns[$i]); $i++) {
             if($i <= 3) {
                 $list_fields[$columns[$i]] = $columns[$i];
             } else {
@@ -107,7 +107,7 @@ if(empty($typeList)) {
         $list_col_cant_del = $list_fields;
         $default_fields = $list_fields;
 
-        if($list_fields2 != null) {
+        if(!empty($list_fields2)) {
             $list_fields = array_merge($list_fields,$list_fields2);
         }
         

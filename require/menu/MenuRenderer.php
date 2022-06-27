@@ -62,7 +62,7 @@ class MenuRenderer {
 
         // If extension generate new menu / sub menus
         if($this->extension_hooks->needHookTrigger(ExtensionHook::MENU_HOOK)){
-            foreach ($this->extension_hooks->menuExtensionsHooks as $ext_key => $menus_array) {
+            foreach ($this->extension_hooks->menuExtensionsHooks as $menus_array) {
                 for ($index = 0; $index < count($menus_array); $index++) {
                     $extension_menus_elem = $this->extension_hooks->generateMenuRenderer($menus_array[$index], false);
                     $html .= $this->renderElem($extension_menus_elem, 0, true);
@@ -70,9 +70,7 @@ class MenuRenderer {
             }
         }
 
-        $html .= '</ul>';
-
-        return $html;
+        return $html . '</ul>';
     }
 
     /**
@@ -128,9 +126,7 @@ class MenuRenderer {
             $html .= '</ul>';
         }
 
-        $html .= '</li>';
-
-        return $html;
+        return $html . '</li>';
     }
 
     public function getActiveLink() {
@@ -166,7 +162,7 @@ class MenuRenderer {
     protected function getLabel(MenuElem $menu_elem) {
         $label = $this->translateLabel($menu_elem->getLabel());
 
-        if ($menu_elem->hasChildren() && $level == 0) {
+        if ($menu_elem->hasChildren() && isset($level) && $level == 0) {
             $label .= ' <b class="caret"></b>';
         }
 
@@ -178,7 +174,7 @@ class MenuRenderer {
 
         if ($menu_elem->hasChildren()) {
             //@TODO : buggy code
-            if ($level > 0) {
+            if (isset($level) && $level > 0) {
                 $attr_li['class'][] = 'dropdown-submenu';
 
                 if (!$this->isParentElemClickable()) {

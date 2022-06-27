@@ -20,7 +20,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
  /**
   * This class implement the base behavior for search :
   * - Query generation
@@ -141,18 +140,6 @@
         "OR"
     ];
 
-    /**
-     * Multiples fields search
-     */
-    private $multipleFieldsSearch = [];
-    private $multipleFieldsSearchCache = [];
-
-    /**
-     * Final query and args used for multicrits
-     */
-    private $finalQuery;
-    private $finalArgs;
-
 
     /**
      * Constructor
@@ -216,7 +203,7 @@
     {
         foreach ($postData as $key => $value) {
             $keyExploded = explode("_", $key);
-            if(count($keyExploded) > 1 && !is_null($_SESSION['OCS']['multi_search'][$keyExploded[1]])){
+            if(count($keyExploded) > 1 && isset($_SESSION['OCS']['multi_search'][$keyExploded[1]]) && !is_null($_SESSION['OCS']['multi_search'][$keyExploded[1]])){
                 if ($keyExploded[2] == self::SESS_OPERATOR) {
                     $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] = $value;
                 } elseif($keyExploded[2] == self::SESS_FIELDS && $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] != 'ISNULL') {
@@ -226,7 +213,7 @@
                 }
             }elseif(count($keyExploded) == 4){
                 $keyExplodedBis = $keyExploded[1]."_".$keyExploded[2];
-                if(!is_null($_SESSION['OCS']['multi_search'][$keyExplodedBis])){
+                if(isset ($_SESSION['OCS']['multi_search'][$keyExplodedBis]) && !is_null($_SESSION['OCS']['multi_search'][$keyExplodedBis])){
                   if ($keyExploded[3] == self::SESS_OPERATOR) {
                       $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_OPERATOR] = $value;
                   } elseif($keyExploded[3] == self::SESS_COMPARATOR){
@@ -271,7 +258,7 @@
     public function getSearchedFieldType($tablename, $fieldsname)
     {
         $tableFields = $this->databaseSearch->getColumnsList($tablename);
-        return $tableFields[$fieldsname][DatabaseSearch::TYPE];
+        return $tableFields[$fieldsname][DatabaseSearch::TYPE] ?? '';
     }
 
     /**
@@ -318,7 +305,7 @@
      */
     public function generateSearchQuery($sessData){
 
-        $accountInfos = new AccountinfoSearch();
+        new AccountinfoSearch();
         $this->pushBaseQueryForTable("hardware", null);
         if(!isset($sessData['accountinfo'])) $sessData['accountinfo'] = array();
         foreach ($sessData as $tableName => $searchInfos) {
@@ -346,15 +333,15 @@
 				$this->searchQuery .= "LEFT JOIN software_version on software_version.id = $tableName.version_id ";
             }
 
-            foreach ($searchInfos as $index => $value) {
+            foreach ($searchInfos as $value) {
 				if($tableName == "download_history" && $value['fields'] == "PKG_NAME") {
 					// Generate union
 					$this->searchQuery .= "INNER JOIN download_available on download_available.FILEID = $tableName.PKG_ID ";
 				}
 
-                if($value['comparator'] != null){
+                if(isset($value['comparator'])){
                     $operator[] = $value['comparator'];
-                }elseif($i != 0 && $value['comparator'] == null){
+                }elseif($i != 0 && !isset($value['comparator'])){
                     $operator[] = "AND";
                 }else{
                     $operator[] = "";
@@ -373,7 +360,7 @@
                   $containvalue[$index] = $value['operator'];
             }
 
-            foreach ($searchInfos as $index => $value) {
+            foreach ($searchInfos as $value) {
               $nameTable = $tableName;
               $open="";
               $close="";
@@ -382,7 +369,6 @@
               if($nameTable == SoftwareSearch::SOFTWARE_TABLE) {
                 $nameTable = $this->softwareSearch->getTableName($value['fields']);
                 $value[self::SESS_FIELDS] = $this->softwareSearch->getColumnName($value['fields']);
-                //var_dump()
               }
 
               foreach(array_count_values($columnName) as $name => $nb){
@@ -397,11 +383,11 @@
                 }
               }
 
-              if($p == 0 && $operator[$p+1] == 'OR'){
+              if($p == 0 && isset($operator[$p+1]) && $operator[$p+1] == 'OR'){
                 $open = "(";
-              }if($operator[$p] =='OR' && $operator[$p+1] !='OR'){
+              }if($operator[$p] =='OR' && (!isset($operator[$p+1]) || $operator[$p+1] !='OR')){
                 $close=")";
-              }if($p != 0 && $operator[$p] !='OR' && $operator[$p+1] =='OR'){
+              }if($p != 0 && $operator[$p] !='OR' && isset($operator[$p+1]) && $operator[$p+1] =='OR'){
                 $open = "(";
               }
 
@@ -581,7 +567,7 @@
         }
 
         // has lock machine ?
-        if (isset($_SESSION['OCS']["mesmachines"]) && strpos($_SESSION['OCS']["mesmachines"], 'a.TAG') === false) {
+        if (isset($_SESSION['OCS']["mesmachines"]) && !strpos($_SESSION['OCS']["mesmachines"], 'a.TAG')) {
             $lockResult = str_replace('a.hardware_id', 'accountinfo.hardware_id', $_SESSION['OCS']["mesmachines"]);
             $this->columnsQueryConditions .=  " AND " . $lockResult;
         }
@@ -594,17 +580,15 @@
      * Generate select query for table using session variables generated from the search
      *
      * @param String $tableName
-     * @param Array $sessData
      * @return void
      */
-    private function pushBaseQueryForTable($tableName, $sessData = null){
-        foreach($this->databaseSearch->getColumnsList($tableName) as $index => $fieldsInfos){
-			$name = "";
+				private function pushBaseQueryForTable($tableName){
+        foreach($this->databaseSearch->getColumnsList($tableName) as $fieldsInfos){
+			  $name = "";
             if($tableName == "download_history" && $fieldsInfos['Field'] == "PKG_NAME"){
 				$tableName = "download_available";
 				$fieldsInfos['Field'] = "NAME";
 			}
-
 			if($tableName == "software" && array_key_exists($fieldsInfos['Field'], $this->correspondance)) {
 				if($fieldsInfos['Field'] == "CATEGORY") {
 					$table = $tableName."_name";
@@ -722,14 +706,13 @@
         }
 
         $html = "";
-        $operatorList = array();
         if($table == self::GROUP_TABLE || $field == "CATEGORY_ID" || $field == "CATEGORY") {
             $operatorList = $this->operatorGroup;
         } elseif($accounttype == '2' || $accounttype == '11') {
             $operatorList = $this->operatorAccount;
         } elseif($accounttype == '5') {
             $operatorList = $this->operatorAccountCheckbox;
-        } elseif($this->getSearchedFieldType($table, $field) == 'datetime') {
+        } elseif(isset($field) && $this->getSearchedFieldType($table, $field) == 'datetime') {
             $operatorList = array_merge($this->operatorList, $this->operatorDelay);
         } else {
             $operatorList = $this->operatorList;
@@ -758,7 +741,7 @@
         $html = "<option>----------</option>";
         foreach ($this->databaseSearch->getTablesList() as $tableName) {
             $translation = $this->translationSearch->getTranslationFor($tableName);
-            $sortTable[$tableName] .= $translation;
+            $sortTable[$tableName] = $translation;
         }
         asort($sortTable);
         foreach ($sortTable as $key => $value){
@@ -787,28 +770,28 @@
           $accountFields = $accountinfoList->getAccountInfosList();
           if(isset($accountFields['COMPUTERS']) && is_array($accountFields['COMPUTERS']))
           foreach ($accountFields['COMPUTERS'] as $index => $fieldsInfos) {
-              if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+              // if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $fieldsInfos;
-                  $sortColumn[$index] .= $trField;
-              }
+              $sortColumn[$index] = $trField;
+              // }
           }
         }elseif($tableName == self::GROUP_TABLE){
           $trField = $this->translationSearch->getTranslationFor('NAME');
           $sortColumn['name'] = $trField;
         }else{
           $fields = $this->databaseSearch->getColumnsList($tableName);
-          if(is_array($fields)) foreach ($fields as $index => $fieldsInfos) {
-              if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+          if(is_array($fields)) foreach ($fields as $fieldsInfos) {
+              //if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                   $trField = $this->translationSearch->getTranslationFor($fieldsInfos[DatabaseSearch::FIELD]);
-                  $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] .= $trField;
-              }
+                  $sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] = $trField;
+              //}
           }
         }
         asort($sortColumn);
         foreach ($sortColumn as $key => $value){
-            if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
+            //if(!in_array($fieldsIndefaultTablefos[DatabaseSearch::FIELD], $this->excludedVisuColumns)){
                 $html .= "<option value=".$key." >".$value."</option>";
-            }
+            //}
         }
         return $html;
     }
@@ -838,7 +821,7 @@
           $this->type = self::HTML_SELECT;
         } elseif(array_key_exists($field, $this->correspondance)) {
           $this->type = $this->correspondance[$field];
-        }elseif($accounttype == '2' || $accounttype == '11' || $accounttype =='5') {
+        }elseif(isset($accounttype) && ($accounttype == '2' || $accounttype == '11' || $accounttype =='5')) {
           $this->type = self::HTML_SELECT;
         } else {
           $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
@@ -857,15 +840,13 @@
 
         switch ($this->type) {
             case self::DB_VARCHAR:
-                $html = '<input class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
-                break;
 
             case self::DB_TEXT:
                 $html = '<input class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
                 break;
 
             case self::DB_INT:
-                $html = '<input class="form-control" type="number" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
+                $html = '<input class="form-control" type="number" name="'.$fieldId.'" id="'.$fieldId.'" value="'.($fieldsInfos[self::SESS_VALUES] ?? '') .'" '.$attr.'>';
                 break;
 
             case self::DB_DATETIME:
@@ -879,7 +860,7 @@
             case self::HTML_SELECT:
 
                 $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
-                if($accounttype != null) {
+                if(isset($accounttype) && $accounttype != null) {
                   $fieldSelect = $accountInfos->find_accountinfo_values($field, $accounttype);
                 } elseif($field == 'CATEGORY_ID') {
                    $fieldSelect = $this->asset_categories();
@@ -915,13 +896,13 @@
         global $l;
         $i = 0;
 
-        foreach ($infos as $id => $value){
+        foreach ($infos as $value){
             if($value['fields'] == $fieldsInfos['fields']){
               $i++;
             }
         }
 
-        $fieldId = $this->getFieldUniqId($uniqid, $tableName);
+        $this->getFieldUniqId($uniqid, $tableName);
         $html = "";
 
         if($i > 1){
@@ -1029,7 +1010,7 @@
                     'value' => $value,
                     'operator' => 'EQUAL',
                 ];
-                if($tag != null && $tag != "") {
+                if(isset($tag) && !empty($tag)) {
                   $_SESSION['OCS']['multi_search']['accountinfo']['ipdiscover5'] = [
                     'fields' => 'TAG',
                     'value' => $tag,
@@ -1102,7 +1083,7 @@
             break;
 
           case 'saas':
-            if(!array_key_exists('saas',$_SESSION['OCS']['multi_search']['saas'])){
+            if(!isset($_SESSION['OCS']['multi_search']['saas']) || !array_key_exists('saas',$_SESSION['OCS']['multi_search']['saas'])){
                 $_SESSION['OCS']['multi_search'] = array();
                 $_SESSION['OCS']['multi_search']['saas']['saas'] = [
                     'fields' => 'ENTRY',
@@ -1145,10 +1126,10 @@
      * @param  string $value  [description]
      * @return [type]         [description]
      */
-    public function link_index($fields, $comp = "", $value, $value2 = null){
+    public function link_index($fields, $value, $comp = "", $value2 = null){
       $field = explode("-", $fields) ;
 
-      if($comp== 'small') { $operator = 'LESS'; }
+      if($comp == 'small') { $operator = 'LESS'; }
       elseif($comp == 'tall') { $operator = 'MORE'; }
       elseif($comp == 'exact') { $operator = 'EQUAL'; }
 
@@ -1160,7 +1141,7 @@
         'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
       ];
 
-      $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+      $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] ?? '';
 
       if(empty($field[2])){
         if(strpos($field[0], 'HARDWARE') !== false){
@@ -1300,7 +1281,7 @@
         $fieldname = "ID";
       }
 
-      foreach ($value as $uniqID => $values){
+      foreach ($value as $values){
         if ($values['fields'] == $field && $values['operator'] == "DOESNTCONTAIN"){
           $search[] = $values['value'];
           if($values['comparator'] != null){
@@ -1324,7 +1305,7 @@
 
       for($i = 0; $i != count($comparator)+1; $i++){
         foreach($excluID as $key => $values){
-          foreach($allID as $searching => $compare){
+          foreach($allID as $compare){
             if(!array_key_exists($values, $compare) && $comparator[$i] == "AND"){
               unset($excluID[$key]);
             }

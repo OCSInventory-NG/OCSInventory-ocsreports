@@ -64,7 +64,7 @@ function info($GET, $post_systemid) {
         $systemid = $GET['systemid'];
     }
     //problème sur l'id
-    if ($systemid == "" || !is_numeric($systemid)) {
+    if (empty($systemid) || !is_numeric($systemid)) {
         return $l->g(837);
     }
     //recherche des infos de la machine
@@ -95,7 +95,7 @@ function subnet_name($systemid) {
 
         $returnVal[] = $valSub->NAME . "  (" . $valSub->NETID . ")";
     }
-    return $returnVal;
+    return $returnVal ?? '';
 }
 
 function print_item_header($text) {
@@ -251,7 +251,7 @@ function checkForComputerPackagesAction(){
     }
 
     //affect again a packet
-    if ($protectedPost['Valid_modif']) {
+    if (isset($protectedPost['Valid_modif'])) {
         if (trim($protectedPost['MOTIF'])) {
             if ($protectedPost["ACTION"] == "again") {
                 //delete all info of specific teledeploy
@@ -274,11 +274,11 @@ function checkForComputerPackagesAction(){
         }
     }
 
-    if ($protectedPost['Reset_modif']) {
+    if (isset($protectedPost['Reset_modif'])) {
         unset($protectedGet['affect_again'], $protectedGet['affect_reset']);
     }
 
-    if ($protectedGet['affect_again'] || $protectedGet['affect_reset']) {
+    if (isset($protectedGet['affect_again']) && ($protectedGet['affect_again']) || (isset($protectedGet['affect_reset']) && $protectedGet['affect_reset'])) {
         if ($protectedGet['affect_again']) {
             $id_pack_affect = $protectedGet['affect_again'];
             $hidden_action = 'again';
@@ -312,11 +312,11 @@ function checkForComputerPackagesAction(){
     if (isset($protectedGet["suppack"]) & $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
 
         if ($_SESSION['OCS']["justAdded"] == false) {
-            desactive_packet($systemid, $protectedGet["suppack"]);
+            desactive_packet($systemid ?? '', $protectedGet["suppack"]);
         } else {
             $_SESSION['OCS']["justAdded"] = false;
         }
-        addLog($l->g(512), $l->g(886) . " " . $protectedGet["suppack"] . " => " . $systemid);
+        addLog($l->g(512), $l->g(886) . " " . $protectedGet["suppack"] . " => " . $_GET["systemid"]);
     } else {
         $_SESSION['OCS']["justAdded"] = false;
     }

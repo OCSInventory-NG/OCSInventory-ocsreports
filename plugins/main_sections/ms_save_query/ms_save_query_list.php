@@ -56,7 +56,7 @@ $def_onglets['QUERY_LIST'] = $l->g(2141); //Category list.
 $def_onglets['NEW_QUERY'] = $l->g(2142); //New category
 
 //default => first onglet
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "QUERY_LIST";
 }
 

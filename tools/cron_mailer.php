@@ -14,7 +14,7 @@ $mail = new NotificationMail(DEFAULT_LANGUAGE);
 $week = array('MON' => 'Monday', 'TUE' => 'Tuesday', 'WED' => 'Wednesday', 'THURS' => 'Thursday', 'FRI' => 'Friday', 'SAT' => 'Saturday', 'SUN' => 'Sunday');
 $values = $mail->get_info_smtp();
 
-foreach ($values as $key => $value){
+foreach ($values as $value){
   if(array_key_exists($value, $week)){
     $day[$week[$value]] = $week[$value];
   }

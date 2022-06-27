@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -20,7 +21,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
 //fonction pour avoir tous les groupes
 //$group_type = STATIC,DYNAMIC,SERVER
 //return tableau [id]=group_name
@@ -51,9 +51,8 @@ function all_groups($group_type) {
     while ($valGetId = mysqli_fetch_array($resGetId)) {
         $list_group[$valGetId['id']] = $valGetId['name'];
     }
-    return $list_group;
+    return $list_group ?? '';
 }
-
 //fonction pour sortir les machines d'un groupe
 function remove_of_group($id_group, $list_id) {
     $sql_delcache = "DELETE FROM groups_cache WHERE group_id='%s' and hardware_id in ";
@@ -61,10 +60,8 @@ function remove_of_group($id_group, $list_id) {
     $delcache = mysql2_prepare($sql_delcache, $arg_delcache, $list_id);
 
     mysql2_query_secure($delcache['SQL'], $_SESSION['OCS']["writeServer"], $delcache['ARG']);
-    $cached = mysqli_affected_rows($_SESSION['OCS']["writeServer"]);
-    return $cached;
+    return mysqli_affected_rows($_SESSION['OCS']["writeServer"]);
 }
-
 //fonction de remplacement d'un groupe
 function replace_group($id_group, $list_id, $req, $group_type) {
     //static group?
@@ -82,10 +79,8 @@ function replace_group($id_group, $list_id, $req, $group_type) {
     $sql_updGroup = "UPDATE `groups` set request='', xmldef='%s' where hardware_id=%s";
     $arg_updGroup = array(generate_xml($req), $id_group);
     mysql2_query_secure($sql_updGroup, $_SESSION['OCS']["writeServer"], $arg_updGroup);
-    $nb_computer = add_computers_cache($list_id, $id_group, $static);
-    return $nb_computer;
+    return add_computers_cache($list_id, $id_group, $static);
 }
-
 //create group function
 function creat_group($name, $descr, $list_id, $req, $group_type) {
     global $l;
@@ -131,7 +126,6 @@ function creat_group($name, $descr, $list_id, $req, $group_type) {
 
     return array('RESULT' => 'OK', 'LBL' => $l->g(607) . " " . $l->g(608));
 }
-
 //function to add computer in groups_cache
 function add_computers_cache($list_id, $groupid, $static) {
     require_once('function_computers.php');
@@ -147,7 +141,6 @@ function add_computers_cache($list_id, $groupid, $static) {
         return $cached;
     }
 }
-
 //generation du xml en fonction des requetes
 function generate_xml($req) {
     //si il exite une requete
@@ -167,13 +160,11 @@ function generate_xml($req) {
 
     return $xml;
 }
-
 function clean($txt) {
     $cherche = array("&", "<", ">", "\"", "'");
     $replace = array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;");
     return str_replace($cherche, $replace, $txt);
 }
-
 function delete_group($id_supp) {
     global $l;
     if ($id_supp == "") {
@@ -194,7 +185,6 @@ function delete_group($id_supp) {
         return array('RESULT' => 'ERROR', 'LBL' => $l->g(623));
     }
 }
-
 function group_4_all($id_group) {
     if ($id_group == "") {
         return array('RESULT' => 'ERROR', 'LBL' => "ID IS NULL");
@@ -219,7 +209,6 @@ function group_4_all($id_group) {
     addLog("ACTION VISIBILITY OF GROUPE", $id_group);
     return $return_result;
 }
-
 function show_redistrib_groups_packages($systemid){
 
     global $l;
@@ -278,5 +267,3 @@ function show_redistrib_groups_packages($systemid){
         <?php
     }
 }
-
-?>

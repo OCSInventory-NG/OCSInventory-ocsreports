@@ -49,11 +49,11 @@ $def_onglets['NEW_CAT'] = $l->g(1501); //New category
 $def_onglets['ADD_SOFT'] = $l->g(1503); //add soft to category
 
 //default => first onglet
-if ($protectedPost['onglet'] == "") {
+if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == "") {
     $protectedPost['onglet'] = "CAT_LIST";
 }
 //reset search
-if ($protectedPost['RESET'] == "RESET") {
+if (isset($protectedPost['RESET']) && $protectedPost['RESET'] == "RESET") {
     unset($protectedPost['custom_search']);
 }
 //filtre
@@ -61,7 +61,7 @@ if ( isset($protectedPost['custom_search']) && $protectedPost['custom_search'] !
     $search_cache = " and cache.name like '%" . mysqli_real_escape_string( $_SESSION['OCS']["readServer"], $protectedPost['custom_search']) . "%' ";
     $search_count = " and extracted like '%" . mysqli_real_escape_string($_SESSION['OCS']["readServer"], $protectedPost['custom_search']) . "%' ";
 } else {
-    $search = "";
+    $search_cache = "";
     $search_count = "";
 }
 //show first lign of onglet
@@ -86,9 +86,9 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 
     $list_cat = $softCat->onglet_cat();
     $i = $list_cat['i'];
-    $first_onglet = $list_cat['first_onglet'];
-    $categorie_id = $list_cat['category_name'];
-    $os = $list_cat['OS'];
+    $first_onglet = $list_cat['first_onglet'] ?? '';
+    $categorie_id = $list_cat['category_name'] ?? '';
+    $os = $list_cat['OS'] ?? '';
     unset($list_cat['i']);
     unset($list_cat['first_onglet']);
     unset($list_cat['category_name']);
@@ -110,16 +110,16 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 
         $list_cat = $softCat->onglet_cat();
         $i = $list_cat['i'];
-        $first_onglet = $list_cat['first_onglet'];
-        $categorie_id = $list_cat['category_name'];
-        $os = $list_cat['OS'];
+        $first_onglet = $list_cat['first_onglet'] ?? '';
+        $categorie_id = $list_cat['category_name'] ?? '';
+        $os = $list_cat['OS'] ?? '';
         unset($list_cat['i']);
         unset($list_cat['first_onglet']);
         unset($list_cat['category_name']);
         unset($list_cat['OS']);
     }
 
-	if ($protectedPost['onglet_soft'] == "" || !isset($list_cat[$protectedPost['onglet_soft']])) {
+	if ((empty($protectedPost['onglet_soft'])) || !isset($list_cat[$protectedPost['onglet_soft']])) {
 		$protectedPost['onglet_soft'] = $first_onglet;
 	}
 
@@ -143,7 +143,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
         echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a></br>";
     }
 
-    if($os_version[$os[$list_cat[$protectedPost['onglet_soft']]]] != null){
+    if(!empty($protectedPost['onglet_soft'])){
       	echo "<br><br><h4>".$l->g(274)." : ".$os_version[$os[$list_cat[$protectedPost['onglet_soft']]]]."</h4><br>";
     }else{
       	echo "<br><br><h4>".$l->g(274)." : ".$l->g(1515)."</h4><br>";
@@ -184,14 +184,14 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 	}
 }
 
-/*******************************************LIST OF REAGEX*****************************************************/
+/*******************************************LIST OF REGEX*****************************************************/
 if($protectedPost['onglet'] == 'REG_LIST'){
 
     $list_cat = $softCat->onglet_cat();
     $i = $list_cat['i'];
-    $first_onglet = $list_cat['first_onglet'];
-    $categorie_id = $list_cat['category_name'];
-    $os = $list_cat['OS'];
+    $first_onglet = $list_cat['first_onglet'] ?? '';
+    $categorie_id = $list_cat['category_name'] ?? '';
+    $os = $list_cat['OS'] ?? '';
     unset($list_cat['i']);
     unset($list_cat['first_onglet']);
     unset($list_cat['category_name']);
@@ -222,15 +222,15 @@ if($protectedPost['onglet'] == 'REG_LIST'){
         unset($list_cat['OS']);
     }
 
-	if ($protectedPost['onglet_soft'] == "" || !isset($list_cat[$protectedPost['onglet_soft']])) {
+	if (!empty($list_cat) && (empty($protectedPost['onglet_soft']) || !isset($list_cat[$protectedPost['onglet_soft']]))) {
 		$protectedPost['onglet_soft'] = $first_onglet;
 	}
 
-	if ($i <= 10) {
+	if ($i <= 10 && isset($protectedPost['onglet_soft'])) {
 		echo "<p>";
 		onglet($list_cat, $form_name, "onglet_soft", 5);
 		echo "</p>";
-	} else {
+	} elseif(isset($protectedPost['onglet_soft'])) {
 		echo "<p>" . $l->g(398) . ": " . show_modif($list_cat, 'onglet_soft', 2, $form_name) . "</p>";
 	}
 
@@ -259,7 +259,7 @@ if($protectedPost['onglet'] == 'REG_LIST'){
         echo "<a href=# OnClick='return confirme(\"\",\"" . $protectedPost['onglet_soft'] . "\",\"" . $form_name . "\",\"SUP_CAT\",\"" . $l->g(640) . "\");'>" . $l->g(921) . "</a></br>";
     }
 
-    if($os_version[$os[$list_cat[$protectedPost['onglet_soft']]]] != null){
+    if(!empty($protectedPost['onglet_soft']) && isset($os_version[$os[$list_cat[$protectedPost['onglet_soft']]]])){
       	echo "<br><br><h4>".$l->g(274)." : ".$os_version[$os[$list_cat[$protectedPost['onglet_soft']]]]."</h4><br>";
     }else{
       	echo "<br><br><h4>".$l->g(274)." : ".$l->g(1515)."</h4><br>";
@@ -325,7 +325,7 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
 
     if(isset($protectedPost['valid_reg'])){
         if($protectedPost['cat_select'] != 0){
-            $result_reg = $softCat->insert_exp($protectedPost['cat_select'], $protectedPost['regular_exp'],$protectedPost['version_sign'], $protectedPost['version_soft'],$protectedPost['vendor_soft']);
+            $result_reg = $softCat->insert_exp($protectedPost['cat_select'], $protectedPost['regular_exp'],$protectedPost['version_sign'] ?? '', $protectedPost['version_soft'] ?? '',$protectedPost['vendor_soft'] ?? '');
             if($result_reg == true){
               msg_success($l->g(572));
               unset($protectedPost['regular_exp']);
@@ -359,19 +359,19 @@ if($protectedPost['onglet'] == 'ADD_SOFT'){
         unset($protectedPost['vendor_soft']);
     }
 
-    formGroup('select', 'cat_select', $l->g(388).' :', '', '',$protectedPost['cat_select'] , '', $select_cat, $select_cat, 'required');
-    formGroup('text', 'regular_exp', $l->g(382).' :', '', '', $protectedPost['regular_exp'], '', '', '', $resend);
+    formGroup('select', 'cat_select', $l->g(388).' :', '', '',$protectedPost['cat_select'] ?? 0, '', $select_cat, $select_cat, 'required');
+    formGroup('text', 'regular_exp', $l->g(382).' :', '', '', $protectedPost['regular_exp'] ?? '', '', '', '', $resend);
     echo "<p>".$l->g(358)."</p>";
 
     echo '<div><input style="display:initial;width:20px;height:14px;" type="checkbox" name="advanced" value="0" id="advanced" class="form-control" '.$check.' onClick="this.form.submit();">'.$l->g(1509).'</div><br/>';
 
     if(isset($protectedPost['advanced'])){
-      $version = $softCat->search_version($protectedPost['regular_exp']);
-      $vendor = $softCat->search_vendor($protectedPost['regular_exp']);
+      $version = $softCat->search_version($protectedPost['regular_exp'] ?? '');
+      $vendor = $softCat->search_vendor($protectedPost['regular_exp'] ?? '');
 
-      formGroup('select', 'version_sign', $l->g(1510).' :', '', '',$protectedPost['version_sign'] , '', $operatorsArray, $operatorsArray);
-      formGroup('select', 'version_soft', $l->g(1507).' :', '', '', $protectedPost['version_soft'], '', $version, $version);
-      formGroup('select', 'vendor_soft', $l->g(1508).' :', '', '', $protectedPost['vendor_soft'], '', $vendor, $vendor);
+      formGroup('select', 'version_sign', $l->g(1510).' :', '', '',$protectedPost['version_sign'] ?? 0, '', $operatorsArray, $operatorsArray);
+      formGroup('select', 'version_soft', $l->g(1507).' :', '', '', $protectedPost['version_soft'] ?? 0, '', $version, $version);
+      formGroup('select', 'vendor_soft', $l->g(1508).' :', '', '', $protectedPost['vendor_soft'] ?? 0, '', $vendor, $vendor);
     }
 
     echo "<input type='submit' name='valid_reg' id='valid_reg' class='btn btn-success' value='".$l->g(13)."'>";

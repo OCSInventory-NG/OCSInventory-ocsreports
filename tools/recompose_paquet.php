@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -23,7 +24,6 @@
 @session_start();
 if ($_SESSION['OCS']["lvluser"] == SADMIN) {
     $valid = 'OK';
-    $document_root = $_SERVER["DOCUMENT_ROOT"] . "/download/";
     $rep = $document_root = $_SERVER["DOCUMENT_ROOT"] . "/download/" . $protectedGet['id_pack'];
     $dir = opendir($rep);
     while ($f = readdir($dir)) {
@@ -46,11 +46,9 @@ if ($_SESSION['OCS']["lvluser"] == SADMIN) {
                 //récupération du nom du fichier
                 $name = $info_traite[10];
                 if (substr($name, 0, 4) != 'NAME') {
-                    "<font color=red>PROBLEME AVEC LE NOM DU FICHIER</font><br>";
                     $valid = 'KO';
                 }
                 if (substr($info_traite[6], 0, 5) != 'FRAGS') {
-                    "<font color=red>PROBLEME AVEC LE NOMBRE DE FRAGMENT</font><br>";
                     $valid = 'KO';
                 }
                 $name = substr($name, 6);
@@ -85,4 +83,3 @@ if ($_SESSION['OCS']["lvluser"] == SADMIN) {
 } else {
     echo "PAGE INDISPONIBLE";
 }
-?>

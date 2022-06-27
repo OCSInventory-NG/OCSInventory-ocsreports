@@ -29,11 +29,11 @@ if (!isset($info_id['ERROR'])) {
 
     //ouverture du formulaire
     echo open_form($form_name, $action_redirect, '', 'form-horizontal');
-    if ((!isset($protectedPost['FILE_SERV']) && $protectedPost['choix_activ'] == 'MAN') || !isset($protectedPost['HTTPS_SERV'])) {
+    if ((!isset($protectedPost['FILE_SERV']) && isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] == 'MAN') || !isset($protectedPost['HTTPS_SERV'])) {
         $default = $_SERVER["SERVER_ADDR"] . "/download";
         $values = look_config_default_values(array('DOWNLOAD_URI_INFO', 'DOWNLOAD_URI_FRAG'));
-        $protectedPost['FILE_SERV'] = $values['tvalue']['DOWNLOAD_URI_FRAG'];
-        $protectedPost['HTTPS_SERV'] = $values['tvalue']['DOWNLOAD_URI_INFO'];
+        $protectedPost['FILE_SERV'] = $values['tvalue']['DOWNLOAD_URI_FRAG'] ?? '';
+        $protectedPost['HTTPS_SERV'] = $values['tvalue']['DOWNLOAD_URI_INFO'] ?? '';
         if ($protectedPost['FILE_SERV'] == "") {
             $protectedPost['FILE_SERV'] = $default;
         }
@@ -68,13 +68,12 @@ if (!isset($info_id['ERROR'])) {
                     }
                 }
             }
-            modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+            modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? '', array(
                 'title' => $l->g(465) . ' => ' . $info_id['NAME'] . " (" . $protectedGet["active"] . ")"
             ));
         }
     }
 
-    //var_dump($tab_typ_champ);
     //fermeture du formulaire.
     echo close_form();
 } else {

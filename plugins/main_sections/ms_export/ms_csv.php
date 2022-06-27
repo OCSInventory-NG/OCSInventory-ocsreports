@@ -32,7 +32,7 @@ $link = $_SESSION['OCS']["readServer"];
 $toBeWritten = "";
 
 // Export DB data
-if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
+if (isset($protectedGet['tablename']) && isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
 
     // Gestion des entetes
     foreach ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']] as $name => $nothing) {
@@ -67,7 +67,7 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
         }
     }
 
-    if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']]) {
+    if (isset($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])) {
         $arg = $_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
     } else {
         $arg = '';
@@ -141,15 +141,15 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     }
 
     $i = 0;
-    while ($data[$i]) {
+    while (isset($data[$i])) {
         $toBeWritten .= "\r\n";
-        foreach ($data[$i] as $field_name => $donnee) {
+        foreach ($data[$i] as $donnee) {
           if (substr($donnee, 0 , 1) != "\"") {
             $toBeWritten .= "\"";
           }
           // decode html entities (single and double quotes are preserved)
           $toBeWritten .= htmlspecialchars_decode($donnee, ENT_QUOTES);
-          if ($donnee[strlen($donnee)-1] != "\"") {
+          if (empty($donnee) || $donnee[strlen($donnee)-1] != "\"") {
             $toBeWritten .= "\"";
           }
           $toBeWritten .= $separator;

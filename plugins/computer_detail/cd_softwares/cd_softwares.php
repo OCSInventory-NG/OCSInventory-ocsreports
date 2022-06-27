@@ -45,9 +45,9 @@ $softCat = new SoftwareCategory();
 
 $all_soft = [0 => $l->g(765)];
 $list_cat = $softCat->onglet_cat_cd($systemid);
-$i = $list_cat['i'];
-$first_onglet = $list_cat['first_onglet'];
-$categorie_id = $list_cat['category_name'];
+$i = $list_cat['i'] ?? "";
+$first_onglet = $list_cat['first_onglet'] ?? "";
+$categorie_id = $list_cat['category_name'] ?? "";
 
 unset($list_cat['i']);
 unset($list_cat['first_onglet']);
@@ -96,7 +96,7 @@ if($protectedPost['onglet_soft'] != 0){
 
 $list_fields[$l->g(277)] = 'VERSION';
 $list_fields[$l->g(51)] = 'COMMENTS';
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));

@@ -42,7 +42,7 @@ if (!is_array($info_account_id)) {
 
     $list_tab = find_all_account_tab('TAB_ACCOUNTAG', 'COMPUTERS', 1);
     if ($list_tab != '') {
-        if ($protectedPost['Valid_modif'] != "" && $protectedPost['NOTE'] == "" && $protectedPost['NOTE_MODIF'] == "") {
+        if (isset($protectedPost['Valid_modif']) && empty($protectedPost['NOTE']) && empty($protectedPost['NOTE_MODIF'])) {
             if (!is_defined($protectedPost['onglet']) || !is_numeric($protectedPost['onglet'])) {
                 $protectedPost['onglet'] = $list_tab['FIRST'];
             }
@@ -62,7 +62,7 @@ if (!is_array($info_account_id)) {
 
             foreach ($protectedPost as $field => $value) {
                 $temp_field = explode('_', $field);
-                if (array_key_exists($temp_field[0] . '_' . $temp_field[1], $info_account_id) || $temp_field[0] == 'TAG') {
+                if ((isset($temp_field[1]) && (array_key_exists($temp_field[0] . '_' . $temp_field[1], $info_account_id))) || $temp_field[0] == 'TAG') {
                     //cas of checkbox
                     if (isset($temp_field[2])) {
                         $data_fields_account[$temp_field[0] . "_" . $temp_field[1]] .= $temp_field[2] . "&&&";
@@ -70,6 +70,7 @@ if (!is_array($info_account_id)) {
                         $data_fields_account[$field] = $value;
                     }
                 }
+
             }
             updateinfo_computer($systemid, $data_fields_account);
             //search all admininfo for this computer
@@ -97,7 +98,7 @@ if (!is_array($info_account_id)) {
         unset($list_tab['FIRST']);
 
         echo open_form($form_name, '', '', 'form-horizontal');
-        if (!$show_all_column) {
+        if (!isset($show_all_column)) {
             onglet($list_tab, $form_name, "onglet", 6);
             $sql_admin_info = "select ID,TYPE,NAME,COMMENT,NAME_ACCOUNTINFO,SHOW_ORDER,DEFAULT_VALUE from accountinfo_config where ID_TAB = %s and account_type='COMPUTERS'
 								order by SHOW_ORDER ASC";
@@ -107,7 +108,7 @@ if (!is_array($info_account_id)) {
 								order by SHOW_ORDER ASC";
             $arg_admin_info = array('COMPUTERS');
         }
-        if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && !$show_all_column) {
+        if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES' && !isset($show_all_column)) {
             $show_admin_button = "<a href=# OnClick='pag(\"ADMIN\",\"ADMIN\",\"" . $form_name . "\");'>";
             if (isset($_SESSION['OCS']['ADMIN']['ACCOUNTINFO'])) {
                 $show_admin_button .= "<span class='glyphicon glyphicon-ok'></span></a>";
@@ -157,7 +158,7 @@ if (!is_array($info_account_id)) {
                     or $val_admin_info['TYPE'] == 11) {
                 array_push($config['JAVASCRIPT'], '');
                 array_push($config['SIZE'], '');
-                if ($admin_accountinfo) {
+                if (isset($admin_accountinfo)) {
                     array_push($config['COMMENT_AFTER'], $up_png . "<a href=# onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_adminvalues'] . "&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\")><img src=image/plus.png></a>");
                 } else {
                     array_push($config['COMMENT_AFTER'], '');
@@ -230,7 +231,7 @@ if (!is_array($info_account_id)) {
                 array_push($config['SIZE'], 'width=80 height=80');
             } else {
                 array_push($value_field, $info_account_id[$name_accountinfo]);
-                if ($admin_accountinfo) {
+                if (isset($admin_accountinfo)) {
                     array_push($config['COMMENT_AFTER'], $up_png);
                 } else {
                     array_push($config['COMMENT_AFTER'], "");
@@ -270,7 +271,7 @@ if (!is_array($info_account_id)) {
         if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES') {
             $tab_hidden = array('ADMIN' => '', 'UP' => '', 'DOWN' => '');
         }
-        if ($show_all_column || $admin_accountinfo) {
+        if (isset($show_all_column) || isset($admin_accountinfo)) {
             $showbutton = false;
         } else {
             $showbutton = true;
@@ -288,7 +289,7 @@ if (!is_array($info_account_id)) {
         }
 
         echo "<div class='col col-md-6 col-md-offset-3'>";
-        modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+        modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? [], array(
             'show_button' => $showbutton,
             'form_name' => $form_name = 'NO_FORM',
             'top_action' => $show_admin_button,

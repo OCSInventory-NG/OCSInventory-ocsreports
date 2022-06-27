@@ -69,7 +69,6 @@
         "virtualmachines" => 1266,
         "id" => 1402,
         "hardware_id" => 1433,
-        "userid" => 1434,
         "logdate" => 232,
         "processes" => 1436,
         "location" => 1435,
@@ -107,7 +106,6 @@
         "voltage" => 1319,
         "current_speed" => 1315,
         "socket" => 1316,
-        "comments" => 51,
         "pkg_id" => 512,
         "pkg_name" => 1037,
         "comments" => 51,
@@ -246,7 +244,7 @@
     public function getTranslationFor($name){
         global $l;
         $name = strtolower($name);
-        if(empty($l->g($this->translationArray[$name]))){
+        if(empty($this->translationArray[$name])){
             return $name;
         }
         return $l->g($this->translationArray[$name]);
@@ -266,8 +264,8 @@
         global $l;
 
         $values = explode(".", $string);
-
-        if(!empty($l->g($this->translationArray[$values[0]]))){
+        
+        if(isset($this->translationArray[$values[0]]) && !empty($l->g($this->translationArray[$values[0]]))){
             $table = $l->g($this->translationArray[$values[0]]);
         }else{
             $table = $values[0];
@@ -275,7 +273,7 @@
 
         $name = strtolower($values[1]);
 
-        if(!empty($l->g($this->translationArray[$name]))){
+        if(!empty($this->translationArray[$name])){
             $name = $l->g($this->translationArray[$name]);
         }elseif(strpos($name, 'fields_') !== false){
             $accountInfoSearch = new AccountinfoSearch();

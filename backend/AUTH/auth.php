@@ -38,6 +38,7 @@ $auth = look_config_default_values(['SECURITY_AUTHENTICATION_BLOCK_IP', 'SECURIT
 // You don't have to change these variables anymore, see var.php
 $affich_method = get_affiche_methode();
 $list_methode = get_list_methode();
+$limitAttempt = false;
 
 if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($protectedPost['LOGIN']) != "") {
     $login = $protectedPost['LOGIN'];
@@ -85,7 +86,7 @@ if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
 
 if (isset($login) && isset($mdp)) {
     $i = 0;
-    while ($list_methode[$i]) {
+    while (array_key_exists($i, $list_methode) && $list_methode[$i]) {
         require_once('methode/' . $list_methode[$i]);
         if ($login_successful == "OK")
             break;
@@ -94,7 +95,7 @@ if (isset($login) && isset($mdp)) {
 }
 
 // login ok?
-if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
+if (isset($login_successful) && $login_successful == "OK" && !$limitAttempt) {
     $_SESSION['OCS']["loggeduser"] = $login;
     $_SESSION['OCS']['cnx_origine'] = $cnx_origine;
     $_SESSION['OCS']['user_group'] = $user_group;
@@ -166,7 +167,7 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
     }
 } else {
     if ($auth['ivalue']['SECURITY_AUTHENTICATION_BLOCK_IP'] == 1){
-        if ($login != ""){
+        if (!empty($login)){
             $sql = "INSERT INTO auth_attempt (`DATETIMEATTEMPT`,`LOGIN`,`IP`,`SUCCESS`)
             VALUES ('%s','%s','%s','%s')";
             $datetime = new DateTime();
@@ -179,6 +180,9 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
     if ($affich_method == 'HTML') {
         require_once (HEADER_HTML);
         if (isset($protectedPost['Valid_CNX'])) {
+            if (empty($_SESSION['OCS']["loggeduser"])) {
+                $login_successful = "No user provided";
+            }
             msg_error($login_successful);
             flush();
             //you can't send a new login/passwd before 2 seconds
@@ -204,11 +208,11 @@ if ($login_successful == "OK" && isset($login_successful) && !$limitAttempt) {
 
                     <div class="form-group">
                         <label for="LOGIN"><?php echo $l->g(243); ?> :</label>
-                        <input type="text" class="form-control login-username-input" name="LOGIN" id="LOGIN" value='<?php echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $protectedPost['LOGIN']); ?>' placeholder="<?php echo $l->g(243); ?>">
+                        <input type="text" class="form-control login-username-input" name="LOGIN" id="LOGIN" value='<?php echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $protectedPost['LOGIN'] ?? ""); ?>' placeholder="<?php echo $l->g(243); ?>">
                     </div>
                     <div class="form-group">
                         <label for="PASSWD"><?php echo $l->g(217); ?> :</label>
-                        <input type="password" class="form-control login-password-input" name="PASSWD" id="PASSWD" value='<?php echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $protectedPost['PASSWD']); ?>' placeholder="<?php echo $l->g(217); ?>">
+                        <input type="password" class="form-control login-password-input" name="PASSWD" id="PASSWD" value='<?php echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $protectedPost['PASSWD'] ?? ""); ?>' placeholder="<?php echo $l->g(217); ?>">
                     </div>
 
                     <input type="submit" class="btn btn-lg btn-block btn-success login-btn" id="btn-logon" name="Valid_CNX" value="<?php echo $l->g(13); ?>" />

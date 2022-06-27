@@ -268,10 +268,6 @@
         <value>wiki</value>
         <directory>ms_help</directory>
     </url>
-    <url key="ms_irc">
-        <value>irc</value>
-        <directory>ms_help</directory>
-    </url>
     <url key="ms_offers">
         <value>offers</value>
         <directory>ms_help</directory>

@@ -109,7 +109,7 @@ function desactive_option($name, $list_id, $packid) {
         $res_desactive = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG'], $l->g(512));
     } else {
 	$sql_desactive .= " and hardware_id=%s";
-        $arg_desactive[] = $_GET['systemid'];
+        $arg_desactive[] = $_GET['systemid'] ?? '';
         $res_desactive = mysql2_query_secure($sql_desactive, $_SESSION['OCS']["writeServer"], $arg_desactive, $l->g(512));
     }
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) );
@@ -120,7 +120,7 @@ function active_option($name, $list_id, $packid, $tvalue = '') {
 
 		if(strpos($packid, ',')) {
 			$pack_id = explode(',',$packid);
-			foreach($pack_id as $key => $value){
+			foreach($pack_id as $value){
 				desactive_option($name, $list_id, $value);
 		    $sql_active = "insert into devices (HARDWARE_ID, NAME, IVALUE,TVALUE) select ID,'%s','%s',";
 		    if ($tvalue == '') {
@@ -158,8 +158,7 @@ function desactive_download_option($list_id, $packid) {
 
 function desactive_packet($list_id, $packid) {
     desactive_download_option($list_id, $packid);
-    $nb_line = desactive_option('DOWNLOAD', $list_id, $packid);
-    return $nb_line;
+    return desactive_option('DOWNLOAD', $list_id, $packid);
 }
 
 function active_serv($list_id, $packid, $id_rule) {
@@ -306,7 +305,7 @@ function del_pack($fileid) {
         $list_id[] = $valEnable["id"];
     }
     //delete packet in DEVICES table
-    if ($list_id != "") {
+    if (!empty($list_id)) {
         foreach ($list_id as $v) {
             desactive_packet('', $v);
         }
@@ -609,14 +608,12 @@ function found_info_pack($id) {
 
     $sql = "select NAME,PRIORITY,FRAGMENTS,SIZE,OSNAME,COMMENT from download_available where fileid=%s";
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $id);
-    $val = mysqli_fetch_array($res);
-    return $val;
+    return mysqli_fetch_array($res);
 }
 
 function multiexplode ($delimiters, $date)
 {
 		$ready = str_replace($delimiters, $delimiters[0], $date);
-		$launch = explode($delimiters[0], $ready);
-		return $launch;
+		return explode($delimiters[0], $ready);
 }
 ?>

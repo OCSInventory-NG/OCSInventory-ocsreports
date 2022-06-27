@@ -53,7 +53,7 @@ class XMLUrlsSerializer {
     public function unserialize($xml) {
         $urls_xml = simplexml_load_string($xml);
 
-        $urls = new Urls($urls);
+        $urls = new Urls($urls_xml);
         foreach ($urls_xml->{'url'} as $url_elem_xml) {
             $url_key = (string) $url_elem_xml['key'];
             $url_val = (string) $url_elem_xml->value;

@@ -332,19 +332,25 @@ class OCSSnmp
 	private function drop_column($id){
 		$type = $this->get_config($id);
 		$label = $this->get_label_drop($id);
+		$tableName = [];
 
-		foreach($type as $key => $value){
-			$tableName[] = $this->get_table_type_drop($value);
-		}
-
-		foreach($tableName as $id => $name){
-			$sql_alter_table = "ALTER TABLE `%s` DROP `%s`";
-			$arg_alter_table = array($name, $label);
-			$result_alter = mysql2_query_secure($sql_alter_table, $_SESSION['OCS']["writeServer"], $arg_alter_table);
-			if(!$result_alter){
-				return false;
+		if(!empty($type)) {
+			foreach($type as $key => $value){
+				$tableName[] = $this->get_table_type_drop($value);
 			}
 		}
+
+		if(!empty($tableName)) {
+			foreach($tableName as $id => $name){
+				$sql_alter_table = "ALTER TABLE `%s` DROP `%s`";
+				$arg_alter_table = array($name, $label);
+				$result_alter = mysql2_query_secure($sql_alter_table, $_SESSION['OCS']["writeServer"], $arg_alter_table);
+				if(!$result_alter){
+					return false;
+				}
+			}
+		}
+		
 		return true;
 	}
 
@@ -393,10 +399,14 @@ class OCSSnmp
 	private function get_config($labelID){
 		$sql = "SELECT DISTINCT `TYPE_ID` FROM `snmp_configs` WHERE `LABEL_ID` = %s";
 		$arg = array($labelID);
+		$type = [];
 
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		while ($item = mysqli_fetch_array($result)) {
-			$type[] = $item['TYPE_ID'];
+
+		if($result) {
+			while ($item = mysqli_fetch_array($result)) {
+				$type[] = $item['TYPE_ID'];
+			}
 		}
 
 		return $type;
@@ -446,12 +456,15 @@ class OCSSnmp
 	public function get_mib() {
 		$champs = array('SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
 		$values = look_config_default_values($champs);
+		$mib_name = [];
 
-		$mib_files = glob($values['tvalue']['SNMP_MIB_DIRECTORY'].'/*', GLOB_BRACE);
-		$mib_files = str_replace($values['tvalue']['SNMP_MIB_DIRECTORY']."/", "", $mib_files);
-		
-		foreach($mib_files as $mib) {
-			$mib_name[$mib] = $mib;
+		if(!empty($values['tvalue']['SNMP_MIB_DIRECTORY'])) {
+			$mib_files = glob($values['tvalue']['SNMP_MIB_DIRECTORY'].'/*', GLOB_BRACE);
+			$mib_files = str_replace($values['tvalue']['SNMP_MIB_DIRECTORY']."/", "", $mib_files);
+			
+			foreach($mib_files as $mib) {
+				$mib_name[$mib] = $mib;
+			}
 		}
 
 		return $mib_name;
@@ -465,22 +478,23 @@ class OCSSnmp
 			if(strpos($key, "checkbox_") !== false) {
 				$mib_check = explode("_", $key);
 			}
-			
-			if($key == "label_".$mib_check[1]) {
-				$config[$mib_check[1]]['label'] = $value;
-			}
-			if($key == "oid_".$mib_check[1]) {
-				$config[$mib_check[1]]['oid'] = $value;
-			}
-			if($key == "reconciliation_".$mib_check[1]) {
-				$config[$mib_check[1]]['reconciliation'] = $value;
+			if(!empty($mib_check)) {
+				if($key == "label_".$mib_check[1]) {
+					$config[$mib_check[1]]['label'] = $value;
+				}
+				if($key == "oid_".$mib_check[1]) {
+					$config[$mib_check[1]]['oid'] = $value;
+				}
+				if($key == "reconciliation_".$mib_check[1]) {
+					$config[$mib_check[1]]['reconciliation'] = $value;
+				}
 			}
 		}
 
 		if(!empty($config)) {
 			foreach($config as $key => $value) {
 				if($config[$key]['label'] != null && $config[$key]['oid'] != null) {
-					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation']);
+					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation'] ?? null);
 
 					if($result != 0) {
 						return false;

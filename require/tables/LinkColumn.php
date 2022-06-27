@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -21,16 +22,14 @@
  * MA 02110-1301, USA.
  */
 require_once('require/tables/Column.php');
-
 class LinkColumn extends Column {
-    private $url;
     private $idProperty;
+    private $url;
 
     public function __construct($name, $label, $url, $options = array()) {
         $options['formatter'] = array($this, 'formatLink');
-
-        $this->url = $url;
         $this->idProperty = $options['idProperty'] ?: 'id';
+        $this->url = $url;
 
         parent::__construct($name, $label, $options);
     }
@@ -69,4 +68,3 @@ class LinkColumn extends Column {
     }
 
 }
-?>

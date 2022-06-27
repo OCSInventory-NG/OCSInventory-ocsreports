@@ -40,13 +40,15 @@ if (strpos($ids, ',') == true) {
     $ids = explode(',', $ids);
 } else {
     $ids = (array)$ids;
-    if (info($protectedGet, $ids)->DEVICEID == '_SYSTEMGROUP_') {
+    $info = info($protectedGet, $ids);
+    if (isset($info) && $info->DEVICEID == '_SYSTEMGROUP_') {
         $text_selection = $l->g(9202);
     } else {
         $text_selection = $l->g(9200);
     }
 }
 
+$name = '';
 foreach ($ids as $value) {
     $protectedPost['systemid'] = $value;
     $item = info($protectedGet, $protectedPost['systemid']);
@@ -55,15 +57,10 @@ foreach ($ids as $value) {
 
 echo "<h3> $text_selection : </h3>"; 
 
-?>
+echo "<div class='col col-md-10 col-md-offset-1' style='overflow-y: auto; height:50px; width:80%%;'>
+        {$name}
+    </div>";
 
-<?php 
-    echo "<div class='col col-md-10 col-md-offset-1' style='overflow-y: auto; height:50px; width:80%%;'>
-            {$name}
-        </div>"
-?>
-
-<?php
 $form_name = "pack_affect";
 $table_name = "LIST_PACK_SEARCH";
 $tab_options = $protectedPost;
@@ -85,7 +82,7 @@ if(isset($protectedPost['Valid_package'])) {
     }
 }
 
-if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protectedPost['DWL_OPT'] == "YES") {
+if (!empty($protectedPost['MODIF']) && isset($protectedPost['DWL_OPT']) && $protectedPost['DWL_OPT'] == "YES") {
     // Show form
     $tab_hidden['SELECT'] = $protectedPost['MODIF'];
     $tab_hidden['onglet'] = $protectedPost['onglet'];
@@ -117,7 +114,7 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         $protectedPost['SELECT'] = $protectedPost['MODIF'];
         $protectedPost['Valid_modif'] = true;
     }
-    if ($protectedPost['SELECT'] != '' && isset($protectedPost['Valid_modif'])) {
+    if (!empty($protectedPost['SELECT']) && isset($protectedPost['Valid_modif'])) {
         if (isset($protectedPost['TELE_FORCE_'])) {
             active_option('DOWNLOAD_FORCE', $list_id, $protectedPost['SELECT'], '1');
         }
@@ -162,11 +159,11 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
         }
     }
 
-    if ($protectedPost['sens_' . $table_name] == "") {
+    if (empty($protectedPost['sens_' . $table_name])) {
         $protectedPost['sens_' . $table_name] = 'DESC';
     }
 
-    if ($protectedPost['onglet'] == "") {
+    if (empty($protectedPost['onglet'])) {
         $protectedPost['onglet'] = 'MACH';
     }
 
@@ -201,14 +198,14 @@ if ($protectedPost['MODIF'] != '' && isset($protectedPost['DWL_OPT']) && $protec
 
         if ($protectedPost['onglet'] == 'MACH') {
             $selectValues = array('' => '', 'NO' => $l->g(454), 'YES' => $l->g(455));
-            formGroup('select', 'DWL_OPT', $l->g(1292), '', '', $protectedPost['DWL_OPT'], '', $selectValues, $selectValues);
+            formGroup('select', 'DWL_OPT', $l->g(1292), '', '', $protectedPost['DWL_OPT'] ?? '', '', $selectValues, $selectValues);
             ?>
 
             <p><button class="btn btn-success" onclick="document.<?php echo $form_name; ?>.submit()"><?php echo $l->g(910); ?></button></p>
             <?php
         }
 
-        if (($protectedPost['onglet'] == 'MACH' && $protectedPost['DWL_OPT'] != '') || ($protectedPost['onglet'] == 'SERV_GROUP' && $protectedPost['rule_choise'] != '')) {
+        if (($protectedPost['onglet'] == 'MACH' && !empty($protectedPost['DWL_OPT'])) || ($protectedPost['onglet'] == 'SERV_GROUP' && !empty($protectedPost['rule_choise']))) {
             //recherche de toutes les règles pour les serveurs de redistribution
             $list_fields = array('FILE_ID' => 'e.FILEID',
                 'INFO_LOC' => 'e.INFO_LOC',

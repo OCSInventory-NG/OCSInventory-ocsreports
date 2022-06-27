@@ -22,7 +22,7 @@
  */
 
 if (!AJAX) {
-    if ($_SESSION['OCS']['DEBUG'] == 'ON') {
+    if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') {
         if (isset($_SESSION['OCS']['SQL_DEBUG'])) {
             msg_info("<b>" . $l->g(5001) . "</b><br><br>" . implode('<br><hr>', $_SESSION['OCS']['SQL_DEBUG']));
         }
@@ -45,7 +45,7 @@ if (!AJAX) {
     }
 
     $fin = microtime(true);
-    if ($_SESSION['OCS']["DEBUG"] == "ON") {
+    if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']["DEBUG"] == "ON") {
         echo "<b>CACHE:&nbsp;<font color='" . ($_SESSION['OCS']["usecache"] ? "green'><b>ON</b>" : "red'><b>OFF</b>") . "</font>&nbsp;&nbsp;&nbsp;<font color='black'><b>" . round($fin - $debut, 3) . " secondes</b></font>&nbsp;&nbsp;&nbsp;";
         echo "<script language='javascript'>document.getElementById(\"tps\").innerHTML=\"<b>" . round($fin - $debut, 3) . " secondes</b>\"</script>";
     }

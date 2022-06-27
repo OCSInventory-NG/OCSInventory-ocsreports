@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -20,7 +21,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
 function show_package_form($data, $errors) {
     global $l;
 
@@ -59,7 +59,6 @@ function show_package_form($data, $errors) {
 
     echo close_form();
 }
-
 function show_file_upload_frame($timestamp, $data, $errors) {
     global $l;
 
@@ -114,7 +113,6 @@ function show_file_upload_frame($timestamp, $data, $errors) {
 
     echo '</div>';
 }
-
 function show_basic_info_frame($data, $errors) {
     global $l;
 
@@ -162,7 +160,6 @@ function show_basic_info_frame($data, $errors) {
 
     echo '</div>';
 }
-
 function show_deploy_speed_frame($data, $errors) {
     global $l;
 
@@ -196,8 +193,6 @@ function show_deploy_speed_frame($data, $errors) {
 
     echo '</div>';
 }
-
-
 function show_user_messages_frame($data, $errors) {
     global $l;
 
@@ -258,5 +253,3 @@ function show_user_messages_frame($data, $errors) {
     echo '</div>';
     echo '</div>';
 }
-
-?>

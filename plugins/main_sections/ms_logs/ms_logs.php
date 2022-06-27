@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -26,16 +27,12 @@ if (AJAX) {
 
     ob_start();
 }
-
 require_once('require/function_table_html.php');
 require_once('require/function_files.php');
-// @TODO : buggy code
-$protectedPost['onglet'] == "";
-$tab_options = $protectedPost;
 
+$tab_options = $protectedPost;
 $Directory = $_SESSION['OCS']['LOG_DIR'] . "/";
 $data = scanDirectory($Directory, "csv");
-
 if (is_array($data)) {
     $form_name = "logs";
     echo open_form($form_name);
@@ -85,9 +82,7 @@ if (is_array($data)) {
 } else {
     msg_warning($l->g(766));
 }
-
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $sql, $tab_options);
 }
-?>

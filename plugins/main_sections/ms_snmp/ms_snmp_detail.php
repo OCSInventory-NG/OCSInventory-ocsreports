@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -25,7 +26,6 @@ if (AJAX) {
     $protectedPost += $params;
     ob_start();
 }
-
 require('require/function_opt_param.php');
 require('require/function_graphic.php');
 require_once('require/function_files.php');
@@ -38,7 +38,6 @@ if (!is_array($item['data'])) {
     require_once(FOOTER_HTML);
     die();
 }
-
 $systemid = $item['data']['snmp']->ID;
 // SNMP SUMMARY
 $lbl_affich = array('NAME' => $l->g(49), 'UPTIME' => $l->g(352), 'MACADDR' => $l->g(95), 'IPADDR' => $l->g(34),
@@ -52,79 +51,71 @@ $col = 1;
 
 <div class="container">
     <div class="row">
-        <?php
+        <?php 
+foreach ($info['snmp'] as $k => $v){
 
-        foreach ($info['snmp'] as $k => $v){
-
-            if($k == 'ID'){
-
+    if ($k != 'ID') {
+        if (isset($v)) {
+            if (!isset($lbl_affich[$k])) {
+                $label = $k;
             } else {
+                $label = $lbl_affich[$k];
+            }
+            $value = $v;
 
-                if (isset($v)) {
-                    if (!isset($lbl_affich[$k])) {
-                        $label = $k;
-                    } else {
-                        $label = $lbl_affich[$k];
-                    }
-                    $value = $v;
-
-                    ?>
+            ?>
                     <?php if ($col >= 5): ?>
                         <div class="col-md-6">
-                            <div class="col-xs-4">
-                                <ul class="server-information-ul">
-                                    <li><?php echo $label; ?></li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-8">
-                                <ul class="server-information-ul-li">
-                                    <li><?php echo $value; ?></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <?php $col++; ?>
+                    <div class="col-xs-4">
+                        <ul class="server-information-ul">
+                            <li><?php echo $label; ?></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-8">
+                        <ul class="server-information-ul-li">
+                            <li><?php echo $value; ?></li>
+                        </ul>
+                    </div>
+                </div>
+                <?php $col++; ?>
                     <?php endif; ?>
 
 
-                    <?php if ($col <= 5): ?>
+            <?php if ($col <= 5): ?>
                         <div class="col-md-6">
-                            <div class="col-xs-4">
-                                <ul class="server-information-ul">
-                                    <li><?php echo $label; ?></li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-8">
-                                <ul class="server-information-ul-li">
-                                    <li><?php echo $value; ?></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <?php
+                    <div class="col-xs-4">
+                        <ul class="server-information-ul">
+                            <li><?php echo $label; ?></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-8">
+                        <ul class="server-information-ul-li">
+                            <li><?php echo $value; ?></li>
+                        </ul>
+                    </div>
+                </div>
+                <?php
                         if ($col != 10) {
-                            $col++;
-                        } else {
-                            $col = 1;
-                        }
-                    endif;
+                    $col++;
+                } else {
+                    $col = 1;
                 }
-            }
+            endif;
         }
-        ?>
+    }
+}
+?>
 
     </div>
 
 </div>
-<?php
-
-
+<?php 
 unset($item['data']['snmp']);
 $second_tab = bandeau($item['data'], $lbl_affich, $item['lbl'], 'mvt_bordure');
-
 if ($second_tab) {
     // TODO: I dont know what is this.
     echo $second_tab;
 }
-
 //get plugins when exist
 $Directory = PLUGINS_DIR . "snmp_detail/";
 $ms_cfg_file = $Directory . "snmp_config.txt";
@@ -137,11 +128,9 @@ if (!isset($_SESSION['OCS']['DETAIL_SNMP'])) {
         $_SESSION['OCS']['DETAIL_SNMP']['LIST_AVAIL'] = $plugins_data['ISAVAIL'];
     }
 }
-
 $list_plugins = $_SESSION['OCS']['DETAIL_SNMP']['LIST_PLUGINS'];
 $list_lbl = $_SESSION['OCS']['DETAIL_SNMP']['LIST_LBL'];
 $list_avail = $_SESSION['OCS']['DETAIL_SNMP']['LIST_AVAIL'];
-
 foreach ($list_avail as $key => $value) {
     $sql = "select count(*) c from %s where SNMP_ID=%s";
     $arg = array($value, $systemid);
@@ -171,8 +160,6 @@ if (isset($list_lbl[$protectedPost['onglet_sd']])) {
 }
 echo "</div>";
 echo close_form();
-
 if (AJAX) {
     ob_end_clean();
 }
-?>

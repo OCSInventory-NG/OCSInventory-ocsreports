@@ -29,7 +29,7 @@ if (AJAX) {
 
 require_once('require/function_ipdiscover.php');
 
-if (!isset($protectedPost['MODIF'])) {
+if (!isset($protectedPost['MODIF']) || (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] == "")) {
     echo "<a class='btn btn-info' href='index.php?function=show_ipdiscover'>".$l->g(188)."</a></br></br>";
 }
 
@@ -49,7 +49,6 @@ if (isset($protectedPost['SUP_PROF'])) {
     if ($protectedGet['prov'] == "ident") {
         //dismiss manufacturer name and mac to be able to remove it properly.
         $exploded_data = explode(' ', $protectedPost['SUP_PROF']);
-        //var_dump($exploded_data);
         $protectedPost['SUP_PROF'] = $exploded_data[0];
     }
 
@@ -72,7 +71,7 @@ if (isset($protectedPost['Valid_modif'])) {
     }
 
     if (!isset($ERROR)) {
-        if ($protectedPost['USER_ENTER'] != '') {
+        if (!empty($protectedPost['USER_ENTER'])) {
             $sql = "UPDATE network_devices
 					SET DESCRIPTION = '%s',
 					TYPE = '%s',
@@ -99,7 +98,7 @@ if (isset($protectedPost['Valid_modif'])) {
 }
 
 //del the selection
-if ($protectedPost['DEL_ALL'] != '') {
+if (!empty($protectedPost['DEL_ALL'])) {
     foreach ($protectedPost as $key => $value) {
         $checkbox = explode('check', $key);
         if (isset($checkbox[1])) {
@@ -127,12 +126,15 @@ if (is_defined($protectedPost['MODIF'])) {
         $protectedPost['USER'] = $val['USER'];
         $protectedPost['MODIF_ID'] = $protectedPost['MODIF'];
     }
-    $tab_hidden['USER_ENTER'] = $protectedPost['USER'];
-    $tab_hidden['MODIF_ID'] = $protectedPost['MODIF_ID'];
-    //si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
-    if ($protectedPost['MODIF_ID'] != '') {
-        $tab_name[3] = $l->g(944) . ": ";
 
+    if(isset($protectedPost['USER']) && isset($protectedPost['MODIF_ID'])) {
+        $tab_hidden['USER_ENTER'] = $protectedPost['USER'];
+        $tab_hidden['MODIF_ID'] = $protectedPost['MODIF_ID'];
+    }
+
+    //si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
+    if (isset($protectedPost['MODIF_ID']) && $protectedPost['MODIF_ID'] != '') {
+        $tab_name[3] = $l->g(944) . ": ";
         $title = $l->g(945);
     } else {
         $title = $l->g(946);
@@ -147,7 +149,7 @@ if (is_defined($protectedPost['MODIF'])) {
     $tab_name = array($l->g(944), $l->g(95), $l->g(53), $l->g(66));
     $name_field = array('USER', 'MAC', 'COMMENT', 'TYPE');
     $type_field = array(13, 13, 0, 2);
-    $value_field =  array($protectedPost['USER'], $protectedPost['MODIF'], $protectedPost['COMMENT'], $list_type);
+    $value_field =  array($protectedPost['USER'] ?? '', $protectedPost['MODIF'] ?? '', $protectedPost['COMMENT'] ?? '', $list_type ?? []);
 
     $tab_typ_champ = show_field($name_field, $type_field, $value_field);
     $tab_hidden['mac'] = $protectedPost['MODIF'];
@@ -157,7 +159,7 @@ if (is_defined($protectedPost['MODIF'])) {
 
     foreach ($tab_typ_champ as $id => $values) {
         if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
-            $tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']];
+            $tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']] ?? 0;
         }
     }
 
@@ -172,7 +174,7 @@ if (is_defined($protectedPost['MODIF'])) {
     if (isset($protectedGet['value'])) {
         $explode = explode(";", $protectedGet['value']);
         $value_preg = preg_replace("/[^A-zA-Z0-9\._]/", "", $explode[0]);
-        $tag = addslashes($explode[1]);
+        $tag = addslashes($explode[1] ?? '');
 
         if ($protectedGet['prov'] == "no_inv") {
             $title = $l->g(947);
@@ -231,16 +233,19 @@ if (is_defined($protectedPost['MODIF'])) {
             $default_fields = array($l->g(34) => $l->g(34), $l->g(66) => $l->g(66), $l->g(53) => $l->g(53),
                 $l->g(95)  => 'MAC', $l->g(232) => $l->g(232), $l->g(369) => $l->g(369), 'SUP' => 'SUP', 'MODIF' => 'MODIF');
         } elseif ($protectedGet['prov'] == "inv" || $protectedGet['prov'] == "ipdiscover") {
-            //BEGIN SHOW ACCOUNTINFO
-            require_once('require/function_admininfo.php');
-            $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
-            if (array($accountinfo_value['TAB_OPTIONS']))
-                $tab_options = $accountinfo_value['TAB_OPTIONS'];
-            if (array($accountinfo_value['DEFAULT_VALUE']))
-                $default_fields = $accountinfo_value['DEFAULT_VALUE'];
-            $list_fields = $accountinfo_value['LIST_FIELDS'];
-            $tab_options['FILTRE'] = array_flip($list_fields);
-            //END SHOW ACCOUNTINFO
+            if(isset($list_fields)) {
+                //BEGIN SHOW ACCOUNTINFO
+                require_once('require/function_admininfo.php');
+                    $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+                if (array($accountinfo_value['TAB_OPTIONS']))
+                    $tab_options = $accountinfo_value['TAB_OPTIONS'];
+                if (array($accountinfo_value['DEFAULT_VALUE']))
+                    $default_fields = $accountinfo_value['DEFAULT_VALUE'];
+                $list_fields = $accountinfo_value['LIST_FIELDS'];
+                $tab_options['FILTRE'] = array_flip($list_fields);
+                //END SHOW ACCOUNTINFO
+            }
+            
             $list_fields2 = array($l->g(46) => "h.lastdate",
                 'NAME' => 'h.name',
                 $l->g(24) => "h.userid",
@@ -252,7 +257,7 @@ if (is_defined($protectedPost['MODIF'])) {
                 $l->g(557) => "h.userdomain");
 
             $tab_options["replace_query_arg"]['MD5_DEVICEID'] = " md5(deviceid) ";
-            $list_fields = array_merge($list_fields, $list_fields2);
+            $list_fields = isset($list_fields) ? array_merge($list_fields, $list_fields2) : $list_fields2;
             $sql = prepare_sql_tab($list_fields);
             $list_fields = array_merge($list_fields, array('MD5_DEVICEID' => "MD5_DEVICEID"));
             $tab_options['ARG_SQL'] = $sql['ARG'];

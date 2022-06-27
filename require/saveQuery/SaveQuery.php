@@ -100,7 +100,6 @@ class SaveQuery
      * @return array
      */
     public function get_search_name() {
-        var_dump($_SESSION['OCS']['user_group']);
         $sql = "SELECT ID, QUERY_NAME FROM save_query WHERE WHO_CAN_SEE = 'ALL' OR USER_ID = '%s'";
         $arg = array($_SESSION['OCS']['loggeduser']);
         

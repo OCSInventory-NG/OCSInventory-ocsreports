@@ -29,7 +29,7 @@ class AllSoftware
 
     public function software_link_treatment() {
         // First clean software_link
-        $delSoftLink = $this->delete_software_link();
+        $this->delete_software_link();
         // Get all softwares
         $allSoft = $this->get_software_informations();
         // Get categories
@@ -59,7 +59,7 @@ class AllSoftware
 
         if(!empty($softwareCategory)) {
             foreach($software as $identifier => $values) {
-                foreach($softwareCategory as $key => $infos) {
+                foreach($softwareCategory as $infos) {
                     if($values['NAME_ID'] == $infos['NAME_ID'] && $values['PUBLISHER_ID'] == $infos['PUBLISHER_ID'] && $values['VERSION_ID'] == $infos['VERSION_ID']) {
                         $software[$identifier]['CATEGORY_ID'] = $infos['CATEGORY_ID'];
                     }
@@ -96,7 +96,7 @@ class AllSoftware
             'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
         ];
 
-        $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+        $configValues = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] ?? '';
 
         $sql = "SELECT CONCAT(n.NAME,';',p.PUBLISHER,';',v.VERSION) as identifier, 
                 s.VERSION_ID, s.NAME_ID, s.PUBLISHER_ID, 
@@ -112,16 +112,13 @@ class AllSoftware
                 
         $sql .= " GROUP BY s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID";
 
-        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-
-        return $result;
+        return mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     }
 
     private function get_software_categories_link_informations() {
         $sql = "SELECT * FROM `software_categories_link`";
-        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
-        return $result;
+        return mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     }
 
      /**
@@ -140,7 +137,7 @@ class AllSoftware
             $i++;
         }
 
-        if ($unlinked_hids >= 1) {
+        if (isset($unlinked_hids) && $unlinked_hids >= 1) {
             $sql_del = "DELETE FROM software WHERE HARDWARE_ID IN (%s)";
             $arg_del = implode(",", $unlinked_hids);
             $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);
@@ -161,7 +158,7 @@ class AllSoftware
                 $i++;
             }
 
-            if ($unlinked_ids >= 1) {
+            if (isset($unlinked_hids) && $unlinked_ids >= 1) {
                 $sql_del = "DELETE FROM $table WHERE ID IN (%s)";
                 $arg_del = implode(",", $unlinked_ids);
                 $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);
@@ -182,7 +179,7 @@ class AllSoftware
                 $i++;
             }
 
-            if ($unlinked_ids >= 1) {
+            if (isset($unlinked_hids) && $unlinked_ids >= 1) {
                 $sql_del = "DELETE FROM `software_categories_link` WHERE ID IN (%s)";
                 $arg_del = implode(",", $unlinked_ids);
                 $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);

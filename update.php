@@ -72,7 +72,7 @@ if (isset($_POST['update'])) {
     while ($version_database < GUI_VER) {
         $version_database++;
         if (in_array($version_database . ".sql", $list_fichier['name'])) {
-            if ($_SESSION['OCS']['DEBUG'] == 'ON') {
+            if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') {
                 msg_success("Mise à jour effectuée: " . $version_database . ".sql");
             }
             exec_fichier_sql($rep_maj . '/' . $version_database . ".sql");
@@ -90,7 +90,7 @@ if (isset($_POST['update'])) {
 
     //Logout after update(s)
     //Contrib of FranciX (http://forums.ocsinventory-ng.org/viewtopic.php?pid=41923#p41923)
-    if ($_SESSION['OCS']['cnx_origine'] == "CAS") {
+    if (isset($_SESSION['OCS']['cnx_origine']) && $_SESSION['OCS']['cnx_origine'] == "CAS") {
         $sql_update = 'update';
         require(BACKEND . 'AUTH/methode/cas.php');
         $config = get_cas_config();

@@ -40,7 +40,7 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['IGNORED'] = $l->g(718);
     $champ_value['VALUE'] = 'IGNORED';
 }
-ligne("PROLOG_FREQ", $l->g(724), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['PROLOG_FREQ'], 'END' => $l->g(730), 'JAVASCRIPT' => $numeric));
+ligne("PROLOG_FREQ", $l->g(724), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['PROLOG_FREQ'] ?? '', 'END' => $l->g(730), 'JAVASCRIPT' => $numeric));
 unset($champ_value);
 
 if (!isset($optvalue['INVENTORY_ON_STARTUP'])) {

@@ -67,9 +67,7 @@ class SoftwareCategory
         }else{
             $sql = "INSERT INTO `software_categories` (`CATEGORY_NAME`, `OS`) values('%s', '%s');";
             $arg_sql = array($catName, $osVersion);
-
-            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
-            return ($result);
+            return (mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql));
         }
     }
 
@@ -106,9 +104,7 @@ class SoftwareCategory
 
         $sql_reg = "INSERT INTO `software_category_exp` (`CATEGORY_ID`, `SOFTWARE_EXP`, `SIGN_VERSION`, `VERSION`, `PUBLISHER`) values(%s, '%s', '%s', '%s', '%s')";
         $arg_reg = array($id_cat, $regExp, $sign, $version, $vendor);
-
-        $result = mysql2_query_secure($sql_reg, $_SESSION['OCS']["writeServer"], $arg_reg);
-        return ($result);
+        return (mysql2_query_secure($sql_reg, $_SESSION['OCS']["writeServer"], $arg_reg));
     }
 
     /**
@@ -120,6 +116,7 @@ class SoftwareCategory
         $sql = "SELECT * FROM `software_category_exp` WHERE `CATEGORY_ID`= '%s'";
         $arg_sql = array($onglet_active);
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg_sql);
+        $list = [];
 
         while ($item = mysqli_fetch_array($result)) {
             $list[] = ['ID' => $item['ID'],
@@ -150,11 +147,11 @@ class SoftwareCategory
           while ($computer = mysqli_fetch_array($result)) {
               $nb[$value][] = $computer['NAME'];
           }
-          if($nb[$value] != null){
+          if(isset($nb[$value])){
             $nb_computer[$value] = count($nb[$value]);
           }
         }
-        if($nb_computer != null){
+        if(isset($nb_computer)){
             foreach($nb_computer as $name => $nb){
                 $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
                                 <td style="padding: 0 15px 0 0;">'.$name.'</td>
@@ -162,7 +159,7 @@ class SoftwareCategory
                                 </tr>';
             }
         }else{
-            foreach($cat as $key => $value){
+            foreach($cat as $value){
                 $this->html .= "<tr style='border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;'>
                             <td style='padding: 0 15px 0 0;'>".$value."</td>
                             <td style='padding: 0 0 0 15px;'>0</td>

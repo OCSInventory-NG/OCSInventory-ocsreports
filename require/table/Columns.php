@@ -20,32 +20,16 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
 /**
  * Handle Column Objects arrays for the table
  */
 class Columns {
     private $allcolumns;
-    private $columnscantdel;
-    private $columnscandel;
     private $columnsvisible;
-    private $columnsspecial;
-    private $defaultcolumns;
 
     public function __construct() {
         $this->allcolumns = array();
-        $this->columnscantdel = array();
-        $this->columnscandel = array();
         $this->columnsvisible = array();
-        $this->columnsspecial = array(
-            "CHECK", "SUP",
-            "GROUP_NAME",
-            "NULL", "MODIF",
-            "SELECT", "ZIP",
-            "OTHER", "STAT",
-            "ACTIVE", "MAC",
-            "MD5_DEVICEID",
-        );
     }
 
     /*
@@ -98,9 +82,6 @@ class Columns {
             $this->allcolumns[$key] = new Column($key, $label, $visible, $deletable, $sortable);
             if ($visible) {
                 $this->columnsvisible[] = $key;
-            }
-            if ($cantdel) {
-                $this->columnscantdel[] = $key;
             }
             return $this->allcolumns[$key];
         } else {

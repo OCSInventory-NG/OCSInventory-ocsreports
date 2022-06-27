@@ -33,7 +33,7 @@
  printEnTete($l->g(8100));
  echo "<br/>";
  //ADD new static group
- if ($protectedPost['Valid_modif']) {
+ if (isset($protectedPost['Valid_modif'])) {
      $result = $saas->add_saas($protectedPost['SAAS_NAME'], $protectedPost['DNS_SAAS']);
      if (!$result) {
          msg_error($l->g(8107));
@@ -44,14 +44,14 @@
      $tab_options['CACHE'] = 'RESET';
  }
  //reset add saas
- if ($protectedPost['Reset_modif'] || ($protectedPost['onglet'] != $protectedPost['old_onglet'])) {
+ if (isset($protectedPost['Reset_modif']) ||  (isset($protectedPost['onglet']) && isset($protectedPost['old_onglet']) && ($protectedPost['onglet'] != $protectedPost['old_onglet']))) {
      unset($protectedPost['SAAS_NAME']);
      unset($protectedPost['DNS_SAAS']);
  }
  $tab_options = $protectedPost;
 
  //if delete saas
- if ($protectedPost['SUP_PROF'] != "") {
+ if (!empty($protectedPost['SUP_PROF'])) {
      $sqlQuery = "DELETE FROM `saas_exp` WHERE ID = %s";
      $sqlArg = [$protectedPost['SUP_PROF']];
      mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
@@ -69,7 +69,7 @@
  	$def_onglets['SAAS_LIST']=$l->g(8101); //Dynamic group
  	$def_onglets['SAAS_ADD']=$l->g(8102); //Static group centraux
 
- 	if ($protectedPost['onglet'] == ""){
+ 	if (empty($protectedPost['onglet'])){
    	$protectedPost['onglet']="SAAS_LIST";
  }
 
@@ -94,7 +94,8 @@
      $tab_options['LBL']['nb'] = $l->g(1120);
 
  }elseif($protectedPost['onglet'] == "SAAS_ADD"){
-
+    $protectedPost['SAAS_NAME'] = isset($protectedPost['SAAS_NAME']) ? $protectedPost['SAAS_NAME'] : '';
+    $protectedPost['DNS_SAAS'] = isset($protectedPost['DNS_SAAS']) ? $protectedPost['DNS_SAAS'] : '';
      ?>
      <div class="row">
          <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">

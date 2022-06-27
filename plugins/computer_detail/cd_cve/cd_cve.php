@@ -45,7 +45,7 @@ $list_fields = array(
     $l->g(1467) => 'LINK'
 );
 
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del[$l->g(8104)] = $l->g(8104);

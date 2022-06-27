@@ -34,7 +34,7 @@
       'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
     ];
 
-    $this->excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+    $this->excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] ?? 0;
   } 
 
    /**
@@ -189,10 +189,8 @@
                       <td style="border-right: 1px solid #ddd;"><span>' . $softs. '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(20).'</span></td>                   
                     </tr>';
       }
-        
-       $table .= "</table></div>\n";
 
-       return $table;
+       return $table . "</table></div>\n";
    }
 
    /**
@@ -237,7 +235,7 @@
               }
             }
           }else{
-            foreach($cat as $key => $value){
+            foreach($cat as $value){
               $html .= "<tr class='soft-table'><td class='soft-table-td'>".$value."</td><td style='width: 50%;  text-align: center;'>0</td></tr>";
             }
           }
@@ -264,7 +262,7 @@
 			$list_asset_id[$item_asset['ID']] = $item_asset['ID'];
 		}
 
-		if(is_array($list_asset_id)){
+		if(isset($list_asset_id) && is_array($list_asset_id)){
 			foreach($list_asset_id as $key => $values){
         $sql_assets = "SELECT h.ID as hardwareID FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.CATEGORY_ID = %s";
         if (is_defined($_SESSION['OCS']["mesmachines"])) {

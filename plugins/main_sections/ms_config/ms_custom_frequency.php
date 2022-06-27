@@ -27,9 +27,9 @@ debut_tab(array('CELLSPACING' => '5',
     'CELLPADDING' => '0',
     'BGCOLOR' => '#C7D9F5',
     'BORDERCOLOR' => '#9894B5'));
-if ($optvalue['FREQUENCY'] == 0 && isset($optvalue['FREQUENCY'])) {
+if (isset($optvalue['FREQUENCY']) && $optvalue['FREQUENCY'] == 0) {
     $optvalueselected = 'ALWAYS';
-} elseif ($optvalue['FREQUENCY'] == -1) {
+} elseif (isset($optvalue['FREQUENCY']) && $optvalue['FREQUENCY'] == -1) {
     $optvalueselected = 'NEVER';
 } elseif (!isset($optvalue['FREQUENCY'])) {
     $optvalueselected = 'SERVER DEFAULT';
@@ -45,6 +45,6 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['IGNORED'] = $l->g(718);
     $champ_value['VALUE'] = 'IGNORED';
 }
-ligne("FREQUENCY", $l->g(494), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['FREQUENCY'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
+ligne("FREQUENCY", $l->g(494), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['FREQUENCY'] ?? '', 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
 fin_tab();
 ?>

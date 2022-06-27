@@ -26,9 +26,9 @@
   */
 class PackageBuilder
 {
+	private $downloadConfig = [];
 	private $packageBuilderForm;
 	private $packageBuilderParseXml;
-	private $downloadConfig = [];
 	
 	/**
 	 * Method __construct
@@ -39,9 +39,6 @@ class PackageBuilder
 	 * @return void
 	 */
 	function __construct($packageBuilderForm, $packageBuilderParseXml) {
-		$this->packageBuilderForm = $packageBuilderForm;
-		$this->packageBuilderParseXml = $packageBuilderParseXml;
-
 		$this->downloadConfig = look_config_default_values([
 			'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR',
 			'DOWNLOAD_ACTIVATE_FRAG' => 'DOWNLOAD_ACTIVATE_FRAG',
@@ -52,15 +49,18 @@ class PackageBuilder
 			'DOWNLOAD_PROTOCOL' => 'DOWNLOAD_PROTOCOL'
 		]);
 
-		if ($this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] == "") {
+		if (empty($this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'])) {
             $this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] = $_SERVER["SERVER_ADDR"]."/download";
         }
-        if ($this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] == "") {
+        if (empty($this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'])) {
             $this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] = $_SERVER["SERVER_ADDR"]."/download";
         }
-		if ($this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'] == "") {
+		if (empty($this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'])) {
             $this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'] = "HTTP";
         }
+
+		$this->packageBuilderForm = $packageBuilderForm;
+		$this->packageBuilderParseXml = $packageBuilderParseXml;
 	}
 	
 	/**
@@ -103,7 +103,7 @@ class PackageBuilder
 			fclose($handscript);
 		}
 
-		if($file["additionalfiles"]['size'] != 0 && file_exists($file["additionalfiles"]["tmp_name"])) {
+		if(!empty($file["additionalfiles"]['size']) && file_exists($file["additionalfiles"]["tmp_name"])) {
 			//verif if is an archive file
 			$name_file_extention = explode('.', $file["additionalfiles"]["name"]);
 			$extention = array_pop($name_file_extention);
@@ -167,7 +167,7 @@ class PackageBuilder
 		}
 		
 		// Generate info xml
-		$info = $this->writePackageInfo($xmlDetails, $timestamp, $details['frag'], $digest, $post['pathfile']);
+		$info = $this->writePackageInfo($xmlDetails, $timestamp, $details['frag'], $digest);
 		// Create info file
 		$handinfo = fopen($downloadPath."/info", "w+");
         fwrite($handinfo, $info);
@@ -330,7 +330,7 @@ class PackageBuilder
 		$size = @filesize($fname);
 
 		// If package fragmentation disabled, frag = 1
-		if($this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG'] == 1 && $this->downloadConfig['ivalue']['DOWNLOAD_RATIO_FRAG'] != null) {
+		if((isset($this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG']) && $this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG'] == 1) && $this->downloadConfig['ivalue']['DOWNLOAD_RATIO_FRAG'] != null) {
 			$frag = 0;
 			$sizeBis = $size / pow(1024, 2);
 
@@ -397,17 +397,15 @@ class PackageBuilder
         if ($xmlDetails->packagedefinition->ACT  == 'EXECUTE') {
             $info .= "COMMAND=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
-
-        $info .= "NOTIFY_USER=\"" . $xmlDetails->packagedefinition->NOTIFY_USER  . "\" " .
+				
+		return $info . ("NOTIFY_USER=\"" . $xmlDetails->packagedefinition->NOTIFY_USER  . "\" " .
 				 "NOTIFY_TEXT=\"" . $xmlDetails->packagedefinition->NOTIFY_TEXT . "\" " .
 				 "NOTIFY_COUNTDOWN=\"" . $xmlDetails->packagedefinition->NOTIFY_COUNTDOWN . "\" " .
 				 "NOTIFY_CAN_ABORT=\"" . $xmlDetails->packagedefinition->NOTIFY_CAN_ABORT . "\" " .
 				 "NOTIFY_CAN_DELAY=\"" . $xmlDetails->packagedefinition->NOTIFY_CAN_DELAY . "\" " .
 				 "NEED_DONE_ACTION=\"" . $xmlDetails->packagedefinition->NEED_DONE_ACTION . "\" " .
 				 "NEED_DONE_ACTION_TEXT=\"" . $xmlDetails->packagedefinition->NEED_DONE_ACTION_TEXT . "\" " .
-				 "GARDEFOU=\"rien\" />\n";
-				
-		return $info;
+				 "GARDEFOU=\"rien\" />\n");
 		
 	}
 	

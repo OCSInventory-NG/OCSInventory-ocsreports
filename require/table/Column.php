@@ -20,7 +20,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
 /**
  * Handle properties of every column of the table
  */
@@ -31,7 +30,7 @@ abstract class Column {
     private $deletable;
     private $sortable;
 
-    public function __construct($key, $label, $visible, $deletable, $sortable) {
+    public function __construct($label, $visible, $deletable, $sortable) {
         $this->key = $key;
         $this->label = $label;
         $this->visible = $visible;

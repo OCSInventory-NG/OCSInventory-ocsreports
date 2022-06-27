@@ -56,8 +56,7 @@ if (isset($_SESSION['OCS']["ipdiscover"])) {
         $list_index[$key] = $value;
     }
     asort($list_index);
-
-    if ($protectedPost['onglet'] == "") {
+    if (!isset($protectedPost['onglet'])) {
         $protectedPost['onglet'] = 1;
     }
 

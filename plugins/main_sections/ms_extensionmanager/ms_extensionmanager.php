@@ -41,7 +41,7 @@ printEnTete($l->g(7008));
 $extMgr = new ExtensionManager();
 if($extMgr->checkPrerequisites()){
     $extMgr->checkInstallableExtensions();
-    
+    $extensions_errors = '';
 	if (!empty($extMgr->installableExtensions_errors)) {
 		$extensions_errors .= '<ul>';
 		foreach($extMgr->installableExtensions_errors as $error_msg) {
@@ -60,7 +60,7 @@ if($extMgr->checkPrerequisites()){
                 <div class="col col-sm-5 col-sm-offset-3">
                     <select class="form-control" name="extensions">
                         <?php
-                        foreach ($extMgr->installableExtensionsList as $key => $value) {
+                        foreach ($extMgr->installableExtensionsList as $value) {
                             echo "<option value=$value >$value</option>";
                         }
                         ?>

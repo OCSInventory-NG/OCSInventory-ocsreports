@@ -39,11 +39,11 @@ $configToLookOut = [
     'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
 ];
 
-$excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'];
+$excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] ?? '';
 
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
-$accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+$accountinfo_value = interprete_accountinfo($list_fields ?? null, $tab_options);
 
 $list_fields = $accountinfo_value['LIST_FIELDS'];
 $list_fields_flip = array_flip($list_fields);

@@ -35,7 +35,7 @@ require_once('require/function_files.php');
 require_once('ms_computer_views.php');
 require_once('require/archive/ArchiveComputer.php');
 //recherche des infos de la machine
-$item = info($protectedGet, $protectedPost['systemid']);
+$item = info($protectedGet, $protectedPost['systemid'] ?? '');
 if (!is_object($item)) {
     msg_error($item);
     require_once(FOOTER_HTML);
@@ -135,14 +135,14 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
     }
 } else if (isset($protectedGet['option'])) {
     // If specific plugin
-    $plugin = $plugins[$protectedGet['option']];
+    $plugin = $plugins[$protectedGet['option']] ?? '';
     if($plugin != null){
         $plugin_file = PLUGINS_DIR . "computer_detail/" . $plugin->getId() . "/" . $plugin->getId() . ".php";
     }else{
         $file_extension = EXT_DL_DIR . $protectedGet['option'] . "/cd_" . $protectedGet['option'] . "/cd_" . $protectedGet['option'] .".php";
     }
 
-    if (file_exists($plugin_file) || file_exists($file_extension)) {
+    if ((isset($plugin_file) && (file_exists($plugin_file)) || file_exists($file_extension))) {
         if (!AJAX) {
             if(file_exists($file_extension)){
                 echo '<div class="plugin-name-' . $protectedGet['option'] . '">';
@@ -150,7 +150,7 @@ if (isset($protectedGet['cat']) && in_array($protectedGet['cat'], array('softwar
                 echo '<div class="plugin-name-' . $plugin->getId() . '">';
             }
         }
-        if(file_exists($file_extension)){
+        if(isset($file_extension) && file_exists($file_extension)){
             require $file_extension;
         }else{
             require $plugin_file;

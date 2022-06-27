@@ -37,22 +37,12 @@ $sql_type_accountinfo = array('0' => 'VARCHAR(255)',
     '11' => 'VARCHAR(255)'
   );
 
-$array_qr_values = array('URL' => $l->g(646),
-    'NAME' => $l->g(35),
-    'UID' => $l->g(1268),
-    'IPADDR' => $l->g(34));
-$array_qr_action = array('URL' => array('TYPE' => 'url', 'VALUE' => OCSREPORT_URL . "/index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . $_GET['systemid']),
-    'NAME' => array('TYPE' => 'bdd', 'VALUE' => "hardware.name"),
-    'UID' => array('TYPE' => 'bdd', 'VALUE' => "hardware.uuid"),
-    'IPADDR' => array('TYPE' => 'bdd', 'VALUE' => "hardware.ipaddr"));
-
 function accountinfo_tab($id) {
     $info_tag = find_info_accountinfo($id);
     if ($info_tag[$id]['type'] == 2
             or $info_tag[$id]['type'] == 5
             or $info_tag[$id]['type'] == 11) {
-        $info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id]['name']);
-        return $info;
+        return find_value_field('ACCOUNT_VALUE_' . $info_tag[$id]['name']);
     } elseif ($info_tag[$id]['type'] == 8) {
         return false;
     }
@@ -120,9 +110,9 @@ function del_accountinfo($id) {
     $arg_found_account_type = $id;
     $result = mysql2_query_secure($sql_found_account_type, $_SESSION['OCS']["readServer"], $arg_found_account_type);
     $val = mysqli_fetch_array($result);
-    if ($val['account_type'] == "SNMP") {
+    if (isset($val['account_type']) && $val['account_type'] == "SNMP") {
         $table = "snmp_accountinfo";
-    } elseif ($val['account_type'] == "COMPUTERS") {
+    } elseif (isset($val['account_type']) && $val['account_type'] == "COMPUTERS") {
         $table = "accountinfo";
     } else {
         return false;
@@ -168,7 +158,7 @@ function find_all_account_tab($tab_value, $onlyactiv = '', $first = '') {
         }
         $array_tab_account[$val_tab_account['IVALUE']] = $val_tab_account['TVALUE'];
     }
-    return $array_tab_account;
+    return $array_tab_account ?? '';
 }
 
 function find_value_field($name, $type = null) {
@@ -354,8 +344,6 @@ function dde_exist($name, $id = '', $type) {
         //name can't be null
         return $l->g(1068);
     }
-
-    return;
 }
 
 /*
@@ -431,8 +419,7 @@ function changeDateFormat($lang, $val){
     $tab = array("fr_FR", "br_BR", "it_IT", "pl_PL", "pt_PT", "ru_RU", "si_SI", "es_ES", "tr_TR");
     if(in_array($lang, $tab)){
         $tab2 = explode("/", $val);
-        $ret = $tab2[1]."/".$tab2[0]."/".$tab2[2];
-        return $ret;
+        return $tab2[1]."/".$tab2[0]."/".$tab2[2];
     }else{
         return $val;
     }
@@ -460,7 +447,7 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
                         $name_field[$i] = 'fields_' . $value;
                     } else {
                         $name_field[$i] = $v['name'];
-                        $value_field[$i] = $protectedPost[$v['name']];
+                        $value_field[$i] = $protectedPost[$v['name']] ?? '';
                     }
                     break;
                 case "type":
@@ -496,7 +483,7 @@ function show_accountinfo($id = '', $type = '', $exclu_type = '') {
             }
         }
         if (!isset($value_field[$i])) {
-            $value_field[$i] = $protectedPost['fields_' . $v['id']];
+            $value_field[$i] = $protectedPost['fields_' . $v['id']] ?? '';
         }
         $i++;
     }
@@ -538,7 +525,11 @@ function replace_tag_value($type = '', $option = array()) {
             }
         }
     }
-    return $tab_options;
+
+    if(isset($tab_options)) {
+        return $tab_options;
+    }
+    
 }
 
 function find_value_in_field($tag, $value_2_find, $type = 'COMPUTERS') {
@@ -585,9 +576,7 @@ function interprete_accountinfo($list_fields, $tab_options) {
 *
 */
 function adminData_to_input($typeID){
-
     switch ($typeID){
-
         case '2':
             return 'select';
         case '4':

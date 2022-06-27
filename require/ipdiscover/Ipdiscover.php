@@ -28,7 +28,7 @@
 class Ipdiscover
 {
 
-	public $IPDISCOVER_TAG = null;
+	public $IPDISCOVER_TAG;
 
 	function __construct() {
 		$champs = array('IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK');
@@ -36,7 +36,7 @@ class Ipdiscover
 		// Get configuration values from DB
 		$values = look_config_default_values($champs);
 
-		$this->IPDISCOVER_TAG = $values['ivalue']["IPDISCOVER_LINK_TAG_NETWORK"];
+		$this->IPDISCOVER_TAG = $values['ivalue']["IPDISCOVER_LINK_TAG_NETWORK"] ?? 0;
 	}
 
   	public function verif_base_methode($base) {
@@ -59,8 +59,7 @@ class Ipdiscover
 		$sql = "SELECT NETID, NAME, ID, MASK, TAG FROM subnet WHERE CONCAT(NETID,IFNULL(TAG, '')) = '%s'";
 		$arg = array($netid.$tag);
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		$row = mysqli_fetch_object($res);
-		return $row;
+		return mysqli_fetch_object($res);
 	}
 
 	public function form_add_subnet($title = '', $default_value, $form, $is_tag_linked, $post) {
@@ -111,7 +110,7 @@ class Ipdiscover
 		foreach ($tab_typ_champ as $id => $values) {
 			$tab_typ_champ[$id]['CONFIG']['SIZE'] = 30;
 			if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
-				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $post[$tab_typ_champ[$id]['INPUT_NAME']];
+				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $post[$tab_typ_champ[$id]['INPUT_NAME']] ?? '';
 			}
 		}
 
@@ -191,8 +190,7 @@ class Ipdiscover
 			$arg[] = $update;
 		}
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		$row = mysqli_fetch_object($res);
-		return $row;
+		return mysqli_fetch_object($res);
 	}
 
 	public function add_type($name, $update = '') {
@@ -240,35 +238,35 @@ class Ipdiscover
 		}
 	}
 
-	public function form_add_community($title = '', $default_value, $form) {
+	public function form_add_community($default_value, $form, $title = '') {
 		global $l, $protectedPost;
 		$name_field = array("NAME", "VERSION");
 		$tab_name = array($l->g(49) . ": ", $l->g(1199) . ": ");
 		$type_field = array(0, 2);
 		$value_field = array($default_value['NAME'], $default_value['VERSION']);
 
-		if ($protectedPost['VERSION'] == '3') {
+		if (isset($protectedPost['VERSION']) && $protectedPost['VERSION'] == '3') {
 			array_push($name_field, "USERNAME", "LEVEL", "AUTHPASSWD", "AUTHPROTO", "PRIVPASSWD", "PRIVPROTO");
 			array_push($tab_name, "USERNAME : ", "LEVEL : ", "AUTHPASSWD :", "AUTHPROTO :", "PRIVPASSWD :", "PRIVPROTO :");
 			array_push($type_field, 0, 2, 0, 2, 0, 2);
 			array_push($value_field, $default_value['USERNAME'], $default_value['LEVEL'], $default_value['AUTHPASSWD'], $default_value['AUTHPROTO'], $default_value['PRIVPASSWD'], $default_value['PRIVPROTO']);
 		}
 
-		$tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
+		$tab_typ_champ = show_field($name_field, $type_field, $value_field);
 
 		foreach ($tab_typ_champ as $id => $values) {
 			$tab_typ_champ[$id]['CONFIG']['SIZE'] = 30;
 			if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
-				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']];
+				$tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']] ?? '';
 			}
 		}
 
 		$tab_typ_champ[1]['RELOAD'] = $form;
-		if (is_numeric($protectedPost['MODIF'])) {
+		if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF'])) {
 			$tab_hidden['MODIF'] = $protectedPost['MODIF'];
 		}
-		$tab_hidden['ADD_COMM'] = $protectedPost['ADD_COMM'];
-		$tab_hidden['ID'] = $protectedPost['ID'];
+		$tab_hidden['ADD_COMM'] = $protectedPost['ADD_COMM'] ?? '';
+		$tab_hidden['ID'] = $protectedPost['ID'] ?? 0;
 		modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
 			'title' => $title,
 			'show_frame' => false
@@ -319,11 +317,10 @@ class Ipdiscover
 		$sql = "select * from snmp_communities where id=%s";
 		$arg = $id;
 		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		$row = mysqli_fetch_object($res);
-		return $row;
+		return mysqli_fetch_object($res);
 	}
 
-	public function runCommand($command = "", $fname) {
+	public function runCommand($fname, $command = "") {
 		$command = "perl ipdiscover-util.pl $command -xml -h=" . SERVER_READ . " -P=" . SERVER_PORT . " -u=" . COMPTE_BASE . " -p=" . PSWD_BASE . " -d=" . DB_NAME . " -path=" . $fname;
 		exec($command);
 	}

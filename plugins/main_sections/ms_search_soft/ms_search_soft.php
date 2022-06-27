@@ -97,7 +97,7 @@ if (is_defined($protectedPost['logiciel_select']) || is_defined($protectedPost['
     $default_fields = $list_fields;
     $tab_options['AS']['s.NAME'] = 'SNAME';
     $queryDetails = "SELECT DISTINCT h.ID,";
-    foreach ($list_fields as $lbl => $value) {
+    foreach ($list_fields as $value) {
         if ($value == 's.NAME') {
             $queryDetails .= $value . " as " . $tab_options['AS']['s.NAME'] . ",";
         } else {

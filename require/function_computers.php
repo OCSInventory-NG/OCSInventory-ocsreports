@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -20,7 +21,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
 /**
  * Hardware locking function. Prevents the hardware to be altered by either the server or another administrator using the GUI
  * @param id Hardware identifier to be locked
@@ -37,7 +37,6 @@ function lock($id) {
         return false;
     }
 }
-
 /**
  * Hardware unlocking function
  * @param id Hardware identifier to be unlocked
@@ -48,7 +47,6 @@ function unlock($id) {
     mysql2_query_secure($reqLock, $_SESSION['OCS']["writeServer"], $argLock);
     return( mysqli_affected_rows($_SESSION['OCS']["writeServer"]) == 1 );
 }
-
 /**
  * Show an error message if the locking failed
  */
@@ -56,7 +54,6 @@ function errlock() {
     global $l;
     msg_error($l->g(376));
 }
-
 function computer_list_by_tag($tag = "", $format = 'LIST') {
     $arg_sql = array();
     if ($tag == "") {
@@ -68,7 +65,7 @@ function computer_list_by_tag($tag = "", $format = 'LIST') {
         $sql_mycomputers = "select hardware_id from accountinfo a where a.tag in ";
         $sql_mycomputers = mysql2_prepare($sql_mycomputers, $arg_sql, $tag);
     }
-    $res_mycomputers = mysql2_query_secure($sql_mycomputers['SQL'], $_SESSION['OCS']["readServer"], $sql_mycomputers['ARG']);
+    $res_mycomputers = mysql2_query_secure($sql_mycomputers['SQL'], $_SESSION['OCS']["readServer"], $sql_mycomputers['ARG'] ?? []);
     $mycomputers = "(";
     while ($item_mycomputers = mysqli_fetch_object($res_mycomputers)) {
         $mycomputers .= $item_mycomputers->hardware_id . ",";
@@ -84,7 +81,6 @@ function computer_list_by_tag($tag = "", $format = 'LIST') {
         return $array_mycomputers;
     }
 }
-
 /**
  * Deleting function
  * @param id Hardware identifier to be deleted
@@ -104,10 +100,10 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
         $resId = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $id);
         $valId = mysqli_fetch_array($resId);
         $idHard = $id;
-        $did = $valId["deviceid"];
+        $did = $valId["deviceid"] ?? '';
         if ($did) {
             //Deleting a network device
-            if (strpos($did, "NETWORK_DEVICE-") === false) {
+            if (!strpos($did, "NETWORK_DEVICE-")) {
                 $sql = "SELECT macaddr FROM networks WHERE hardware_id='%s'";
                 $resNetm = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $idHard);
                 while ($valNetm = mysqli_fetch_array($resNetm)) {
@@ -156,12 +152,11 @@ function deleteDid($id, $checkLock = true, $traceDel = true, $silent = false
         if ($checkLock) {
             unlock($id);
         }
-        return $valId["name"];
+        return $valId["name"] ?? '';
     } else {
         errlock();
     }
 }
-
 function fusionne($afus) {
     global $l;
     $i = 0;
@@ -220,7 +215,7 @@ function fusionne($afus) {
             $accountTable = [];
 
             // Check if accountinfo data exist and get ID of the more recent
-            foreach($afus as $key => $values) {
+            foreach($afus as $values) {
                 $sqlverif = "SELECT * FROM accountinfo WHERE hardware_id = '%s' ORDER BY hardware_id ASC";
                 $verif_req = mysql2_query_secure($sqlverif, $_SESSION['OCS']["readServer"], $values["id"]);
                 while($row = mysqli_fetch_array($verif_req)){
@@ -230,7 +225,7 @@ function fusionne($afus) {
                 }
             }
 
-            foreach($accountTable as $id => $table) {
+            foreach($accountTable as $table) {
                 foreach($table as $key => $value) {
                     if(strpos($key,"fields_") !== false) {
                         if($value != null && $value != "") {
@@ -258,7 +253,7 @@ function fusionne($afus) {
             }
 
             // Delete all old accountinfo
-            foreach($afus as $key => $values) {
+            foreach($afus as $values) {
                 if($values["id"] != $afus[$maxInd]["id"]) {
                     $reqDelAccount = "DELETE FROM accountinfo WHERE hardware_id='%s'";
                     mysql2_query_secure($reqDelAccount, $_SESSION['OCS']["writeServer"], $values["id"]);
@@ -267,6 +262,7 @@ function fusionne($afus) {
             
             msg_success($l->g(190) . " " . $afus[$minInd]["deviceid"] . " " . $l->g(206) . " " . $afus[$maxInd]["deviceid"]);
             $i = 0;
+            $lesDel = '';
             foreach ($afus as $a) {
                 if ($i != $maxInd) {
                     deleteDid($a["id"], false, false, true);
@@ -291,7 +287,6 @@ function fusionne($afus) {
     $lesDel .= " => " . $afus[$maxInd]["deviceid"];
     AddLog("FUSION", $lesDel);
 }
-
 function insert_manual_computer($values, $nb = 1) {
     global $i;
     if ($nb == 1) {
@@ -319,12 +314,10 @@ function insert_manual_computer($values, $nb = 1) {
 
     return $id_computer;
 }
-
 /*
  * function to verify if user can access
  * on computer
  */
-
 function is_mine_computer($id) {
     if (isset($_SESSION['OCS']['TAGS']) && is_array($_SESSION['OCS']['TAGS'])) {
         $sql = "select hardware_id from accountinfo where hardware_id = %s and tag in ";
@@ -338,11 +331,11 @@ function is_mine_computer($id) {
     }
     return true;
 }
-
 function RandomMAC() {
     $word = "A,B,C,D,E,F,0,1,2,3,4,5,6,7,8,9";
     $mac = '';
     $array = explode(",", $word);
+    $j = 0;
     while ($j < 8) {
         $i = 0;
         while ($i < 2) {
@@ -356,5 +349,3 @@ function RandomMAC() {
 
     return substr($mac, 0, -1);
 }
-
-?>

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -53,15 +54,12 @@
 if ($_SESSION['OCS']['cnx_origine'] != "LDAP") {
     return false;
 }
-
 require_once ('require/function_files.php');
 // page name
 $name = "ldap.php";
 connexion_local_read();
-
 // select the main database
 mysqli_select_db($link_ocs, $db_ocs);
-
 // retrieve LDAP-related config values into an array
 $sql = "select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
 $arg = array("%CONEX%");
@@ -69,7 +67,6 @@ $res = mysql2_query_secure($sql, $link_ocs, $arg);
 while ($item = mysqli_fetch_object($res)) {
     $config[$item->NAME] = $item->TVALUE;
 }
-
 // checks if the user already exists
 $reqOp = "SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
 $argOp = array($_SESSION['OCS']["loggeduser"]);
@@ -82,14 +79,13 @@ $defaultRole = $config['LDAP_CHECK_DEFAULT_ROLE'];
 if (isset($_SESSION['OCS']['details']["filter"])) {
     $defaultRole = $config[$_SESSION['OCS']['details']["filter"]];
 }
-
 // uncomment this section for DEBUG
 // note: cannot use the global DEBUG variable because this happens before the toggle is available.
 /*
-  echo ("field1: ".$f1_name." value=".$f1_value." condition: ".$config['LDAP_CHECK_FIELD1_VALUE']." role=".$config['LDAP_CHECK_FIELD1_ROLE']." level=".$config['LDAP_CHECK_FIELD1_USERLEVEL']."<br>");
-  echo ("field2: ".$item['CONEX_LDAP_CHECK_FIELD2_NAME']." value=".$f2_value." condition: ".$config['LDAP_CHECK_FIELD2_VALUE']." role=".$config['LDAP_CHECK_FIELD2_ROLE']." level=".$config['LDAP_CHECK_FIELD2_USERLEVEL']."<br>");
-  echo ("user: ".$_SESSION['OCS']["loggeduser"]." will have level=".$defaultLevel." and role=".$defaultRole."<br>");
- */
+ echo ("field1: ".$f1_name." value=".$f1_value." condition: ".$config['LDAP_CHECK_FIELD1_VALUE']." role=".$config['LDAP_CHECK_FIELD1_ROLE']." level=".$config['LDAP_CHECK_FIELD1_USERLEVEL']."<br>");
+ echo ("field2: ".$item['CONEX_LDAP_CHECK_FIELD2_NAME']." value=".$f2_value." condition: ".$config['LDAP_CHECK_FIELD2_VALUE']." role=".$config['LDAP_CHECK_FIELD2_ROLE']." level=".$config['LDAP_CHECK_FIELD2_USERLEVEL']."<br>");
+ echo ("user: ".$_SESSION['OCS']["loggeduser"]." will have level=".$defaultLevel." and role=".$defaultRole."<br>");
+*/
 //if defaultRole is define
 if (isset($defaultRole) && trim($defaultRole) != '') {
     // if it doesn't exist, create the user record

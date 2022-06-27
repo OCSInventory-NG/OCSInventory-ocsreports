@@ -31,15 +31,19 @@ require_once('require/function_opt_param.php');
 //BEGIN SHOW ACCOUNTINFO
 require_once('require/function_admininfo.php');
 
-$accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
-if (array($accountinfo_value['TAB_OPTIONS'])) {
-    $tab_options = $accountinfo_value['TAB_OPTIONS'];
+if(isset($list_fields)) {
+    $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+    if (array($accountinfo_value['TAB_OPTIONS'])) {
+        $tab_options = $accountinfo_value['TAB_OPTIONS'];
+
+    }
+    if (array($accountinfo_value['DEFAULT_VALUE'])) {
+        $default_fields = $accountinfo_value['DEFAULT_VALUE'];
+    }
+    $list_fields = $accountinfo_value['LIST_FIELDS'];
+    //END SHOW ACCOUNTINFO
 }
-if (array($accountinfo_value['DEFAULT_VALUE'])) {
-    $default_fields = $accountinfo_value['DEFAULT_VALUE'];
-}
-$list_fields = $accountinfo_value['LIST_FIELDS'];
-//END SHOW ACCOUNTINFO
+
 
 $list_fields2 = array($l->g(949) => 'h.ID',
     'DEVICEID' => 'h.DEVICEID',
@@ -61,16 +65,15 @@ $list_fields2 = array($l->g(949) => 'h.ID',
     $l->g(24) => 'h.userid',
     $l->g(36) => 'b.ssn',
     'CHECK' => 'h.ID');
-$list_fields = array_merge($list_fields, $list_fields2);
+$list_fields = isset($list_fields) ? array_merge($list_fields, $list_fields2) : $list_fields2;
 $list_col_cant_del = array('NAME' => 'NAME', 'CHECK' => 'CHECK');
 $default_fields2 = array('NAME' => 'NAME', $l->g(46) => $l->g(46), $l->g(820) => $l->g(820), $l->g(34) => $l->g(34), $l->g(24) => $l->g(24));
-$default_fields = array_merge($default_fields, $default_fields2);
+$default_fields = isset($default_fields) ? array_merge($default_fields, $default_fields2) : $default_fields2;
 
 if (isset($protectedGet['systemid'])) {
     $systemid = $protectedGet['systemid'];
     if ($systemid == "") {
         return $l->g(837);
-        die();
     }
 } elseif (isset($protectedPost['systemid'])) {
     $systemid = $protectedPost['systemid'];
@@ -106,7 +109,7 @@ if (isset($protectedGet["suppack"])) {
 }
 
 //update values if user want modify groups' values
-if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif']) && !isset($protectedPost['MODIF'])) {
+if (isset($protectedPost['Valid_modif']) && !isset($protectedPost['modif']) && !isset($protectedPost['MODIF'])) {
     if (trim($protectedPost['NAME']) != '' && trim($protectedPost['DESCR']) != '') {
         $req = "UPDATE hardware SET " .
                 "NAME='%s'," .
@@ -151,7 +154,7 @@ if ($item->CREATE_TIME == "") {
 $tdpopup = "onclick=\"javascript: OuvrirPopup('group_chang_value.php', '', 'resizable=no, location=no, width=400, height=200, menubar=no, status=no, scrollbars=no, menubar=no')";
 
 //if user clic on modify
-if ($protectedPost['MODIF_x']) {
+if (isset($protectedPost['MODIF_x'])) {
     //don't show the botton modify
     $img_modif = "";
     //list of input we can modify
@@ -194,7 +197,7 @@ if (!$pureStat) {
     if ($item->XMLDEF != "") {
         $tab_list_sql = regeneration_sql($item->XMLDEF);
         $i = 1;
-        while ($tab_list_sql[$i]) {
+        foreach ($tab_list_sql as $sql) {
             $temp .= $i . ") => " . $tab_list_sql[$i];
             $i++;
         }
@@ -221,7 +224,7 @@ show_resume($dataValue, $labelValue);
 
         if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
             echo $button_valid;
-            echo $button_reset;
+            echo $button_reset ?? '';
             echo $img_modif;
         }
 
@@ -364,7 +367,7 @@ function print_computers_real($systemid) {
         $tab_list_sql = regeneration_sql($valGroup["xmldef"]);
         $i = 1;
         $tab_id = array();
-        while ($tab_list_sql[$i]) {
+        while (isset($tab_list_sql[$i])) {
             if ($tab_id != array()) {
                 if (strtolower(substr($tab_list_sql[$i], 0, 19)) == "select distinct id ") {
                     $tab_list_sql[$i] .= " and id in (" . implode(",", $tab_id) . ")";
@@ -498,7 +501,7 @@ function print_perso($systemid) {
     }
 
 
-    optpersoGroup('IPDISCOVER', $l->g(489), '', '', $default, $supp);
+    optpersoGroup('IPDISCOVER', $l->g(489), '', '', $default, $supp ?? '');
 
     //FREQUENCY
     if (isset($optPerso["FREQUENCY"])) {
@@ -515,7 +518,7 @@ function print_perso($systemid) {
         $default = $l->g(497);
     }
 
-    optpersoGroup('FREQUENCY', $l->g(494), '', '', $default, $supp);
+    optpersoGroup('FREQUENCY', $l->g(494), '', '', $default, $supp ?? '');
 
     //DOWNLOAD_SWITCH
     if (isset($optPerso["DOWNLOAD_SWITCH"])) {
@@ -538,7 +541,7 @@ function print_perso($systemid) {
     }
 
     //DOWNLOAD
-    optpersoGroup("DOWNLOAD", $l->g(417), "DOWNLOAD", '', $default, $supp);
+    optpersoGroup("DOWNLOAD", $l->g(417), "DOWNLOAD", '', $default, $supp ?? '');
 
     if(isset($optPerso["DOWNLOAD_CYCLE_LATENCY"])){
         $default = '';
@@ -549,7 +552,7 @@ function print_perso($systemid) {
     }
 
     //DOWNLOAD_CYCLE_LATENCY
-    optpersoGroup("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso, $default, $supp);
+    optpersoGroup("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso ?? '', $default, $supp ?? '');
 
     if(isset($optPerso['DOWNLOAD_FRAG_LATENCY']['IVALUE'])){
         $default = '';
@@ -559,7 +562,7 @@ function print_perso($systemid) {
         $supp = '';
     }
     //DOWNLOAD_FRAG_LATENCY
-    optpersoGroup("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso, $default, $supp);
+    optpersoGroup("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso ?? '', $default, $supp ?? '');
 
     if(isset($optPerso['DOWNLOAD_PERIOD_LATENCY']['IVALUE'])){
         $default = '';
@@ -569,7 +572,7 @@ function print_perso($systemid) {
         $supp = '';
     }
     //DOWNLOAD_PERIOD_LATENCY
-    optpersoGroup("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso, $default, $supp);
+    optpersoGroup("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso ?? '', $default, $supp ?? '');
 
 
     if(isset($optPerso['DOWNLOAD_PERIOD_LENGTH']['IVALUE'])){
@@ -580,7 +583,7 @@ function print_perso($systemid) {
         $supp = '';
     }
     //DOWNLOAD_PERIOD_LENGTH
-    optpersoGroup("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso, $default, $supp);
+    optpersoGroup("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso ?? '', $default, $supp ?? '');
 
     if(isset($optPerso['PROLOG_FREQ']['IVALUE'])){
         $default = '';
@@ -590,7 +593,7 @@ function print_perso($systemid) {
         $supp = '';
     }
     //PROLOG_FREQ
-    optpersoGroup("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso, $default, $supp);
+    optpersoGroup("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso ?? '', $default, $supp ?? '');
 
     //SNMP_SWITCH
      if (isset($optPerso["SNMP_SWITCH"])) {
@@ -604,7 +607,7 @@ function print_perso($systemid) {
         }
     } else {
          $supp = '';
-        if ($optdefault['ivalue']["SNMP"] == 1) {
+        if (isset($optdefault['ivalue']["SNMP"]) && $optdefault['ivalue']["SNMP"] == 1) {
             $default = $l->g(205);
         } else {
             $default = $l->g(733);

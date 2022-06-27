@@ -55,9 +55,8 @@ require_once 'require/function_admininfo.php';
     /**
      * Objects
      */
-    private $dbObject = null;
-    private $dbName = null;
-    private $accountInfosStruct = null;
+    private $dbObject;
+    private $accountInfosStruct;
 
 
     /**
@@ -65,7 +64,6 @@ require_once 'require/function_admininfo.php';
      */
     function __construct() {
         $this->dbObject = $_SESSION['OCS']["readServer"];
-        $this->dbName = DB_NAME;
         $this->createAccountInfoStruct();
         $this->retrieveAccountInfosConfig();
     }
@@ -151,9 +149,7 @@ require_once 'require/function_admininfo.php';
           $info = 'ACCOUNT_VALUE_'.$type['NAME'];
         }
 
-        $values = find_value_field($info, $typeInfo);
-
-        return $values;
+        return find_value_field($info, $typeInfo);
     }
 
  }

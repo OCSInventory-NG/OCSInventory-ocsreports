@@ -21,7 +21,7 @@
  * MA 02110-1301, USA.
  */
 //UPDATE/DELETE
-if ($protectedPost['Valid_modif']) {
+if (isset($protectedPost['Valid_modif']) && $protectedPost['Valid_modif'] != "") {
     $sql = "DELETE FROM deploy WHERE name='%s'";
     $arg = "label";
     $msg = $l->g(261);
@@ -49,7 +49,7 @@ echo open_form($form_name);
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <label for="lbl"><?php echo $l->g(262); ?> :</label>
-        <input type="text" class="form-control" name="lbl" value="<?php echo $val->content; ?>">
+        <input type="text" class="form-control" name="lbl" value="<?php echo $val->content ?? ''; ?>">
     </div>
 </div>
 <br />

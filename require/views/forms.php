@@ -25,7 +25,7 @@ function show_form_field($data, $errors, $type, $name, $label, $options = array(
     $id = str_replace(array('[', ']'), '_', $name);
 
     if (isset($errors[$id]) && $errors[$id]) {
-        echo '<div class="field field-has-errors field-' . htmlspecialchars($id . ($options['field_class'] ? ' ' . $options['field_class'] : '')) . '">';
+        echo '<div class="field field-has-errors field-' . htmlspecialchars($id .($options['field_class'] ? ' ' . $options['field_class'] : '')) . '">';
         echo '<ul class="field-error-list">';
 
         foreach ($errors[$id] as $err) {
@@ -34,7 +34,8 @@ function show_form_field($data, $errors, $type, $name, $label, $options = array(
 
         echo '</ul>';
     } else {
-        echo '<div class="field field-' . htmlspecialchars($id . ($options['field_class'] ? ' ' . $options['field_class'] : '')) . '">';
+        $field_class = $options['field_class'] ?? null;
+        echo '<div class="field field-' . htmlspecialchars($id .($field_class ? ' ' . $field_class : '')) . '">';
     }
 
     if (is_defined($data[$name])) {

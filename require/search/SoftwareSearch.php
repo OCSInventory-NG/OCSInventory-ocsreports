@@ -36,8 +36,7 @@
         self::NAME_TABLE,
     ];
 
-    private $dbObject = null;
-    private $dbName = null;
+    private $dbObject;
     private $columnsList = [];
 
     /**
@@ -46,7 +45,6 @@
     function __construct()
     {
         $this->dbObject = $_SESSION['OCS']["readServer"];
-        $this->dbName = DB_NAME;
     }
 
     /**
@@ -82,8 +80,7 @@
      */
     private function normalizeFieldType($type)
     {
-        $splittedType = preg_replace('/\(.*?\)|\s*/', '', $type);
-        return $splittedType;
+        return preg_replace('/\(.*?\)|\s*/', '', $type);
     }
 
     /**

@@ -64,11 +64,11 @@ if (isset($defaultRole) && trim($defaultRole) != '') {
 
         $arg_insert = array($_SESSION['OCS']["loggeduser"],
             'Default',
-            $_SESSION['OCS']['details']['sn'],
+            $_SESSION['OCS']['details']['sn'] ?? '',
             "",
             "CAS",
             $defaultRole,
-            $_SESSION['OCS']['details']['mail'],
+            $_SESSION['OCS']['details']['mail'] ?? '',
             "NULL"
         );
     } else {
@@ -78,7 +78,7 @@ if (isset($defaultRole) && trim($defaultRole) != '') {
                     WHERE ID='%s'";
 
         $arg_insert = array(
-            $_SESSION['OCS']['details']['mail'],
+            $_SESSION['OCS']['details']['mail'] ?? '',
             $_SESSION['OCS']["loggeduser"]);
     }
     connexion_local_write();

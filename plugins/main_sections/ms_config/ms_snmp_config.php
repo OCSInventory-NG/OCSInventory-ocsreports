@@ -54,7 +54,7 @@ if(isset($protectedPost['add_mib'])) {
 }
 
 //default => first onglet
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "SNMP_RULE";
 }
 
@@ -147,7 +147,7 @@ if($protectedPost['onglet'] == 'SNMP_CONDITION') {
         unset($protectedPost['create_type_condition']);
     }
 
-    if($protectedPost['type_filter'] != "empty" && $protectedPost['type_filter'] != null) {
+    if(isset($protectedPost['type_filter']) && $protectedPost['type_filter'] != "empty" && $protectedPost['type_filter'] != null) {
         $filter = " WHERE c.TYPE_ID = ".$protectedPost['type_filter'];
     } else {
         $filter = "";
@@ -174,7 +174,7 @@ if($protectedPost['onglet'] == 'SNMP_CONDITION') {
 
     echo "<div class='row margin-top30'>
             <div class='col-sm-6'>";
-    formGroup('select', 'type_filter', $l->g(9011), '', '', $protectedPost['type_filter'], '', $filter_type, $filter_type);
+    formGroup('select', 'type_filter', $l->g(9011), '', '', $protectedPost['type_filter'] ?? '', '', $filter_type, $filter_type);
     echo "</div>";
     echo "<div class='col-sm-2'>";
     echo "<input type='submit' name='filter_snmp' id='filter_snmp' class='btn btn-info' value='".$l->g(1109)."'>";
@@ -265,7 +265,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation']);
+        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation'] ?? '');
         if($result == 0){
           msg_success($l->g(572));
         }else{
@@ -274,7 +274,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
         unset($protectedPost['update_snmp']);
     }
 
-    if($protectedPost['type_filter'] != "empty" && $protectedPost['type_filter'] != null) {
+    if(isset($protectedPost['type_filter']) && $protectedPost['type_filter'] != "empty" && $protectedPost['type_filter'] != null) {
         $filter = " WHERE c.TYPE_ID ='".$protectedPost['type_filter']."'";
     } else {
         $filter = "";
@@ -302,7 +302,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
 
     echo "<div class='row margin-top30'>
             <div class='col-sm-6'>";
-    formGroup('select', 'type_filter', $l->g(9011), '', '', $protectedPost['type_filter'], '', $filter_type, $filter_type);
+    formGroup('select', 'type_filter', $l->g(9011), '', '', $protectedPost['type_filter'] ?? '', '', $filter_type, $filter_type);
     echo "</div>";
     echo "<div class='col-sm-2'>";
     echo "<input type='submit' name='filter_snmp' id='filter_snmp' class='btn btn-info' value='".$l->g(1109)."'>";
@@ -346,9 +346,13 @@ if($protectedPost['onglet'] == 'SNMP_MIB') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result_oids = $command->get_mib_oid($protectedPost['mib_file']);
-
-        $protectedPost['select_mib'] = true;
+        $result_oids = $command->get_mib_oid($protectedPost['mib_file'] ?? '');
+        if(!empty($result_oids)) {
+            $protectedPost['select_mib'] = true;
+        } else {
+            msg_error($l->g(9036));
+        }
+        
         unset($protectedPost['update_snmp']);
     }
 

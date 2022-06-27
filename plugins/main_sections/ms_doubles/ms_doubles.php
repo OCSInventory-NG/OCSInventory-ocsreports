@@ -1,4 +1,5 @@
 <?php
+
 /*
 * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
 * See the Contributors file for more details about them.
@@ -28,9 +29,8 @@ if (AJAX) {
 }
 require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
-
 //restriction for profils?
-if ($_SESSION['OCS']['mesmachines']) {
+if (isset($_SESSION['OCS']['mesmachines'])) {
 	$tab_id_mes_machines = computer_list_by_tag('', 'ARRAY');
 	if ($tab_id_mes_machines == "ERROR") {
 		echo $l->g(923);
@@ -39,7 +39,6 @@ if ($_SESSION['OCS']['mesmachines']) {
 } else {
 	$tab_id_mes_machines = "";
 }
-
 printEnTete($l->g(199));
 
 	// sort an array by key
@@ -56,14 +55,14 @@ printEnTete($l->g(199));
 	}
 
 // merge selected duplicates
-if ($protectedPost['FUSION']) {
+if (isset($protectedPost['FUSION'])) {
 	// if duplicates selection is coming from checkbox "all"
 	if (isset($protectedPost['selected_grp_dupli'])) {
 		foreach ($protectedPost['selected_grp_dupli'] as $dpl) {
 			// oh boy
 			$dpl = json_decode(html_entity_decode($dpl), true);
 			$selectedDuplis[] = $dpl;    
-			$dup_grp = groupBy($criteria, $dpl);
+			$dup_grp = groupBy($criteria ?? '', $dpl);
 			foreach ($dup_grp as $grp) { 
 				if (count($grp) >= 2) {
 					$afus = array();
@@ -92,7 +91,7 @@ if ($protectedPost['FUSION']) {
 		}
 
 		// grouping the reconstructed array by criteria to merge duplicates coherently
-		$groupedDuplis = groupBy($criteria, $selectedDuplis);
+		$groupedDuplis = groupBy($criteria ?? '', $selectedDuplis);
 
 		// iterate through each group of duplicates
 		foreach ($groupedDuplis as $correspDuplis) {
@@ -121,7 +120,7 @@ if ($protectedPost['FUSION']) {
 
 
 // merge all duplicates
-if ($protectedPost['FUSION_ALL']) {
+if (isset($protectedPost['FUSION_ALL'])) {
 	// $grpDuplis as already been grouped by criteria and contains all duplicates
 	foreach ($grpDuplis as $dup) {
 		$afus = array();
@@ -140,14 +139,12 @@ if ($protectedPost['FUSION_ALL']) {
 /* * **********************  hostname double ************************************** */
 $sql_doublon['hostname'] = "SELECT NAME val FROM hardware ";
 $arg_doublon['hostname'] = array();
-
 if (is_defined($tab_id_mes_machines)) {
 	$sql = mysql2_prepare($sql_doublon['hostname'] . ' WHERE id IN ', $arg_doublon['hostname'], $tab_id_mes_machines);
 	$sql_doublon['hostname'] = $sql['SQL'];
 	$arg_doublon['hostname'] = $sql['ARG'];
 }
 $sql_doublon['hostname'] .= "  GROUP BY NAME HAVING COUNT(NAME)>1";
-
 /* * **********************  serial number double ************************************** */
 $sql_doublon['ssn'] = "SELECT SSN val FROM bios,hardware h WHERE h.id=bios.hardware_id AND SSN NOT IN (SELECT serial FROM blacklist_serials) ";
 $arg_doublon['ssn'] = array();
@@ -157,7 +154,6 @@ if (is_defined($tab_id_mes_machines)) {
 	$arg_doublon['ssn'] = $sql['ARG'];
 }
 $sql_doublon['ssn'] .= " GROUP BY SSN HAVING COUNT(SSN)>1";
-
 /* * **********************  macaddress double ************************************** */
 $sql_doublon['macaddress'] = "SELECT h.id, MACADDR val
 							FROM (SELECT hardware_id,MACADDR FROM networks GROUP BY hardware_id,MACADDR) networks,hardware h
@@ -169,7 +165,6 @@ if (is_defined($tab_id_mes_machines)) {
 	$sql_doublon['macaddress'] = $sql['SQL'];
 	$arg_doublon['macaddress'] = $sql['ARG'];
 }
-
 /* * ***************************request execution**************************************** */
 $sql_doublon['macaddress'] .= " GROUP BY MACADDR HAVING COUNT(MACADDR)>1";
 foreach ($sql_doublon as $name => $sql_value) {
@@ -178,7 +173,6 @@ foreach ($sql_doublon as $name => $sql_value) {
 		$doublon[$name][] = $val->val;
 	}
 }
-
 //search id of computers => serial number
 if (isset($doublon['ssn'])) {
 	$sql_id_doublon['ssn'] = " SELECT DISTINCT hardware_id id,SSN info1 FROM bios,hardware h WHERE h.id=bios.hardware_id AND SSN IN ";
@@ -189,7 +183,6 @@ if (isset($doublon['ssn'])) {
 } else {
 	$count_id['ssn'] = 0;
 }
-
 ////search id of computers => macaddresses
 if (isset($doublon['macaddress'])) {
 $sql_id_doublon['macaddress'] = "SELECT DISTINCT CONCAT(hardware_id,MACADDR), hardware_id id,MACADDR info1
@@ -203,7 +196,6 @@ $sql_id_doublon['macaddress'] = "SELECT DISTINCT CONCAT(hardware_id,MACADDR), ha
 } else {
 	$count_id['macaddress'] = 0;
 }
-
 //search id of computers => hostname
 if (isset($doublon['hostname'])) {
 	$sql_id_doublon['hostname'] = " SELECT id, NAME info1 
@@ -217,7 +209,6 @@ if (isset($doublon['hostname'])) {
 } else {
 	$count_id['hostname'] = 0;
 }
-
 //search id of computers => hostname + serial number
 $sql_id_doublon['hostname_serial'] = "SELECT DISTINCT CONCAT(h.id,h.name,b.ssn), h.id,h.name info1,b.ssn info2
 									FROM hardware h
@@ -227,13 +218,11 @@ $sql_id_doublon['hostname_serial'] = "SELECT DISTINCT CONCAT(h.id,h.name,b.ssn),
 									WHERE  b2.hardware_id = h2.id
 									AND h.id <> h2.id AND b.ssn NOT IN (SELECT serial FROM blacklist_serials) ";
 $arg_id_doublon['hostname_serial'] = array();
-
 if (is_defined($tab_id_mes_machines)) {
 	$sql = mysql2_prepare($sql_id_doublon['hostname_serial'] . ' AND h.id IN ', $arg_id_doublon['hostname_serial'], $tab_id_mes_machines);
 	$sql_id_doublon['hostname_serial'] = $sql['SQL'];
 	$arg_id_doublon['hostname_serial'] = $sql['ARG'];
 }
-
 //search id of computers => hostname + mac address
 $sql_id_doublon['hostname_macaddress'] = "SELECT DISTINCT h.id,n.macaddr info1, h.name info2
 										FROM hardware h
@@ -248,7 +237,6 @@ if (is_defined($tab_id_mes_machines)) {
 	$sql_id_doublon['hostname_macaddress'] = $sql['SQL'];
 	$arg_id_doublon['hostname_macaddress'] = $sql['ARG'];
 }
-
 $sql_id_doublon['macaddress_serial'] = "SELECT DISTINCT h.id, n1.macaddr info1, b.ssn info2
 										FROM hardware h
 										LEFT JOIN bios b ON b.hardware_id = h.id
@@ -261,13 +249,11 @@ $sql_id_doublon['macaddress_serial'] = "SELECT DISTINCT h.id, n1.macaddr info1, 
 										AND b.ssn NOT IN (SELECT serial FROM blacklist_serials)
 										AND n1.macaddr NOT IN (SELECT macaddress FROM blacklist_macaddresses)";
 $arg_id_doublon['macaddress_serial'] = array();
-
 if (is_defined($tab_id_mes_machines)) {
 	$sql = mysql2_prepare($sql_id_doublon['macaddress_serial'] . ' AND h.id IN ', $arg_id_doublon['macaddress_serial'], $tab_id_mes_machines);
 	$sql_id_doublon['macaddress_serial'] = $sql['SQL'];
 	$arg_id_doublon['macaddress_serial'] = $sql['ARG'];
 }
-
 foreach($sql_id_doublon as $name=>$sql_value){
 	$res = mysql2_query_secure($sql_value, $_SESSION['OCS']["readServer"],$arg_id_doublon[$name]);
 	$count_id[$name] = 0;
@@ -284,7 +270,6 @@ foreach($sql_id_doublon as $name=>$sql_value){
 		$list_info[$name][]=$val->info1;
 	}
 }
-
 $form_name='doublon';
 $table_name='DOUBLON';
 $tab_options=$protectedPost;
@@ -292,19 +277,17 @@ $tab_options['form_name']=$form_name;
 $tab_options['table_name']=$table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
 echo "<div class='col col-md-12'>";
-
 function returnTrad($lbl){
 	global $l;
 	switch($lbl) {
-		case "hostname_serial": return $l->g(193); break;
-		case "hostname_macaddress": return $l->g(194); break;
-		case "macaddress_serial": return $l->g(195); break;
-		case "hostname": return $l->g(196); break;
-		case "ssn": return $l->g(197); break;
-		case "macaddress": return $l->g(198); break;
+		case "hostname_serial": return $l->g(193);
+		case "hostname_macaddress": return $l->g(194);
+		case "macaddress_serial": return $l->g(195);
+		case "hostname": return $l->g(196);
+		case "ssn": return $l->g(197);
+		case "macaddress": return $l->g(198);
 	}
 }
-
 // show number of duplis for each category (hostname, serial, etc.)
 foreach ($count_id as $lbl=>$count_value){
 	echo "<div class='row'>";
@@ -326,21 +309,19 @@ foreach ($count_id as $lbl=>$count_value){
 	echo "</div>";
 	echo "</div>";
 
-	if ($protectedPost['detail'] == $lbl and $count_value == 0)
+	if (isset($protectedPost['detail']) && $protectedPost['detail'] == $lbl and $count_value == 0)
 	unset($protectedPost['detail']);
 }
 echo "</table>";
-echo "<input type=hidden name=detail id=detail value='".$protectedPost['detail']."'>";
-
+echo "<input type=hidden name=detail id=detail value='".($protectedPost['detail'] ?? '')."'>";
 //show details for category
-if ($protectedPost['detail'] != '') {
+if (!empty($protectedPost['detail'])) {
 	// category reminder 
 	echo "<h2>". $l->g(9502) ." ".returnTrad($protectedPost['detail'])." </h2>";
 
 	//BEGIN SHOW ACCOUNTINFO
 	require_once('require/function_admininfo.php');
-	$accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
-
+	$accountinfo_value = interprete_accountinfo($list_fields ?? array(), $tab_options);
 	if (array($accountinfo_value['TAB_OPTIONS'])) {
 		$tab_options = $accountinfo_value['TAB_OPTIONS'];
 	}
@@ -422,8 +403,7 @@ if ($protectedPost['detail'] != '') {
 		case "ssn": $criteria = 'ssn'; break;
 		case "macaddress": $criteria = 'macaddr'; break;
 	}
-	$grpDuplis = groupBy($criteria, $duplicates);
-
+	$grpDuplis = groupBy($criteria ?? '', $duplicates);
 	$i = 0;
 	// iterate through each group of duplicates to build collapsible
 	foreach ($grpDuplis as $item) {
@@ -478,11 +458,8 @@ if ($protectedPost['detail'] != '') {
 	# echo "<input type='submit' value='". $l->g(9501)."' name='FUSION_ALL' class='btn btn-success'><br /><br />";
 	echo "<input type=hidden name=old_detail id=old_detail value='".$protectedPost['detail']."'>";
 }
-
 echo close_form();
-
 // END MODIF DUPLICATES
 if (AJAX) {
 	ob_end_clean();
 }
-?>

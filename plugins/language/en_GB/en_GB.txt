@@ -1715,6 +1715,7 @@
 9033 Authentication Protocol
 9034 Privacy Protocol
 9035 Privacy Password
+9036 No OID found
 
 9100 SSL key path
 9101 SSL certificat path
@@ -1840,3 +1841,6 @@
 9908 Show all layouts
 9909 Add new layout
 9910 Available layouts :
+9911 Layout name
+9912 Layout description
+9913 Table name

@@ -35,7 +35,7 @@ $cve = new Cve();
 printEnTete($l->g(1463));
 
 //If RESET
-if ($protectedPost['RESET']) {
+if (isset($protectedPost['RESET'])) {
     unset($protectedPost['FILTRE1']);
     unset($protectedPost['FILTRE2']);
 }
@@ -55,7 +55,7 @@ if($cve->CVE_ACTIVE != 1){
     $def_onglets['BY_COMPUTER'] = $l->g(1486); //All CVE by computer.
 
     //default => first onglet
-    if ($protectedPost['onglet'] == "") {
+    if (empty($protectedPost['onglet'])) {
         $protectedPost['onglet'] = "BY_CVSS";
     }
 
@@ -68,7 +68,7 @@ if($cve->CVE_ACTIVE != 1){
     if($protectedPost['onglet'] == "BY_CVSS"){
 
         //Filter CVSS
-        if ($protectedPost['FILTRE1'] != "" && $protectedPost['FILTRE2'] != "") {
+        if (!empty($protectedPost['FILTRE1']) && !empty($protectedPost['FILTRE2'])) {
             $query = " WHERE c.CVSS BETWEEN %s AND %s ";
             $sql['ARG'] = array($protectedPost['FILTRE1'], $protectedPost['FILTRE2']);
         }
@@ -78,7 +78,7 @@ if($cve->CVE_ACTIVE != 1){
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                     LEFT JOIN software_version v ON v.ID = c.VERSION_ID';
         
-        if($query != null) {
+        if(!empty($query)) {
             $sql['SQL'] .= $query;
         }
 
@@ -141,7 +141,7 @@ if($cve->CVE_ACTIVE != 1){
         $tab_options['LIEN_LBL']['Link'] = ' ';
         $tab_options['LIEN_CHAMP']['Link'] = 'LINK';
         $tab_options['LBL']['Link'] = $l->g(1467);
-        $tab_options['ARG_SQL'] = $sql['ARG'];
+        $tab_options['ARG_SQL'] = $sql['ARG'] ?? '';
         $tab_options['form_name'] = $form_name;
         $tab_options['table_name'] = $form_name;
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
@@ -158,11 +158,11 @@ if($cve->CVE_ACTIVE != 1){
         <div class="col-sm-3"></div>
                 <label class="control-label col-sm-2" for="FILTRE1">'.$l->g(1468).'</label>
                 <div class="col-sm-1">
-                <input name="FILTRE1" id="FILTRE1" type="number" class="form-control" min="0" max="10" value="'.$protectedPost['FILTRE1'].'">';
+                <input name="FILTRE1" id="FILTRE1" type="number" class="form-control" min="0" max="10" value="'.($protectedPost['FILTRE1'] ?? '').'">';
         echo '</div>
             <label class="control-label col-sm-1" for="FILTRE2">'.$l->g(582).'</label>
             <div class="col-sm-1">
-                <input name="FILTRE2" id="FILTRE2" type="number" class="form-control" min="0" max="10" value="'.$protectedPost['FILTRE2'].'">
+                <input name="FILTRE2" id="FILTRE2" type="number" class="form-control" min="0" max="10" value="'.($protectedPost['FILTRE2'] ?? '').'">
             </div>
         </div>
 

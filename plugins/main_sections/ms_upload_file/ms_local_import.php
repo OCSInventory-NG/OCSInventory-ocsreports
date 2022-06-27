@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2021 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -23,15 +24,10 @@
 require_once('require/function_files.php');
 require_once('require/function_computers.php');
 require_once('require/function_admininfo.php');
-
 printEnTete($l->g(1258));
-
 $form_name="insert_computers";
-
 echo open_form($form_name, '', '', 'form-horizontal');
-
 echo "<br><br><div class='col-md-8 col-xs-offset-0 col-md-offset-2'>";
-	
 //list fields for form
 $form_fields_typeinput = array(
     'COMPUTER_NAME_GENERIC' => $l->g(35),
@@ -70,17 +66,15 @@ if(isset($protectedPost['Valid_modif'])) {
             }
         }
         //cas of checkbox
-        if ($check_trait != array()) {
-            foreach ($check_trait as $key => $value) {
-                $fields[] = $key;
-                $values_fields[] = $value;
-            }
+        foreach ($check_trait as $key => $value) {
+            $fields[] = $key;
+            $values_fields[] = $value;
         }
 
         $i = 0;
         while ($i < $protectedPost['NB_COMPUTERS']) {
             $id_computer = insert_manual_computer($protectedPost,$protectedPost['NB_COMPUTERS']);
-            if (!is_array($fields)) {
+            if (!isset($fields)) {
                 $fields[] = 'TAG';
                 $values_fields[] = '';
             }
@@ -92,17 +86,15 @@ if(isset($protectedPost['Valid_modif'])) {
         msg_error($l->g(684)."<br>".$error);
     }    
 }
-
 $i = 0;
 $info_form['FIELDS']['name_field'][$i] = 'NB_COMPUTERS';
 $info_form['FIELDS']['type_field'][$i] = 0;
-$info_form['FIELDS']['value_field'][$i] = ($protectedPost['NB_COMPUTERS'] != '' ? $protectedPost['NB_COMPUTERS']:'1');
+$info_form['FIELDS']['value_field'][$i] = (!empty($protectedPost['NB_COMPUTERS']) ? $protectedPost['NB_COMPUTERS']:'1');
 $info_form['FIELDS']['tab_name'][$i] = $l->g(28);
 $config[$i]['CONFIG']['SIZE'] = 4;
 $config[$i]['CONFIG']['MAXLENGTH'] = 4;
 $other_data['COMMENT_AFTER'][$i] = '';
 $config[$i]['CONFIG']['JAVASCRIPT'] = $chiffres;
-
 foreach ($form_fields_typeinput as $key => $value) {
     $i++;
     $info_form['FIELDS']['name_field'][$i] = $key;
@@ -116,9 +108,7 @@ foreach ($form_fields_typeinput as $key => $value) {
     $config[$i]['CONFIG']['SIZE'] = 30;
     $other_data['COMMENT_AFTER'][$i] = '_M';
 }
-
 $accountinfo_form = show_accountinfo('','COMPUTERS','5');
-
 //merge data
 $info_form['FIELDS']['name_field'] = array_merge($info_form['FIELDS']['name_field'], $accountinfo_form['FIELDS']['name_field']);
 $info_form['FIELDS']['type_field'] = array_merge($info_form['FIELDS']['type_field'], $accountinfo_form['FIELDS']['type_field']);
@@ -126,20 +116,15 @@ $info_form['FIELDS']['value_field'] = array_merge($info_form['FIELDS']['value_fi
 $info_form['FIELDS']['tab_name'] = array_merge($info_form['FIELDS']['tab_name'], $accountinfo_form['FIELDS']['tab_name']);
 $config = array_merge($config, $accountinfo_form['CONFIG']);
 $other_data['COMMENT_AFTER'] = array_merge($other_data['COMMENT_AFTER'], $accountinfo_form['COMMENT_AFTER']);
-
 $tab_typ_champ = show_field($info_form['FIELDS']['name_field'], $info_form['FIELDS']['type_field'], $info_form['FIELDS']['value_field']);
-
 foreach($config as $key=>$value) {
     $tab_typ_champ[$key]['CONFIG'] = $value['CONFIG'];
     $tab_typ_champ[$key]['COMMENT_AFTER'] = $other_data['COMMENT_AFTER'][$key];
 }
-
 if(isset($tab_typ_champ)) {
-    modif_values($info_form['FIELDS']['tab_name'], $tab_typ_champ,$tab_hidden, array(
+    modif_values($info_form['FIELDS']['tab_name'], $tab_typ_champ,$tab_hidden ?? '', array(
         'show_frame' => false
     ));
 }
-
 echo "</div>";
 echo close_form();
-?>

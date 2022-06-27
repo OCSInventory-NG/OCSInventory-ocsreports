@@ -25,17 +25,14 @@
  * Handle tables display
  */
 class Table {
-    private $columns;
     private $params;
 
     public function __construct() {
         include("Columns.php");
-        $this->columns = new Columns();
     }
 
     public function getColumns() {
-        $allcolumns = $this->getColumns();
-        $columnsreturn;
+        $this->getColumns();
     }
 
     /*

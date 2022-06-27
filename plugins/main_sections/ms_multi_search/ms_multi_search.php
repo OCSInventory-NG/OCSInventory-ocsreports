@@ -57,7 +57,7 @@ $groupSearch = new GroupSearch();
 // Get search object to perform action and show result
 //$legacySearch = new LegacySearch();
 
-$search = new Search($translationSearch, $databaseSearch, $accountinfoSearch, $groupSearch, $softwareSearch);
+$search = new Search($translationSearch, $databaseSearch, $accountInfoSearch, $groupSearch, $softwareSearch);
 $sqlCache = new SQLCache($search, $softwareSearch);
 
 $_SESSION['OCS']['DATE_FORMAT_LANG'] = $l->g(1270);
@@ -143,7 +143,7 @@ if ( isset($protectedPost['del_check']) ){
 }
 
 if(isset($protectedGet['fields'])){
-  $search->link_index($protectedGet['fields'], $protectedGet['comp'], $protectedGet['values'], $protectedGet['values2']);
+  $search->link_index($protectedGet['fields'], $protectedGet['values'], $protectedGet['comp'], $protectedGet['values2']);
 }
 
 if(isset($protectedGet['prov'])){
@@ -160,7 +160,7 @@ if(isset($protectedGet['prov'])){
   }elseif($protectedGet['prov'] == 'stat'){
     $options['idPackage'] = $databaseSearch->get_package_id($protectedGet['id_pack']);
     $options['stat'] = $protectedGet['stat'];
-    $search->link_multi($protectedGet['prov'], $protectedGet['value'], $options);
+    $search->link_multi($protectedGet['prov'], $protectedGet['value'] ?? null, $options);
   }elseif($protectedGet['prov'] == 'saas'){
     $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }elseif($protectedGet['prov'] == 'querysave'){
@@ -181,21 +181,21 @@ if (!empty($_SESSION['OCS']['multi_search'])) {
 	}
 
 	foreach ($_SESSION['OCS']['multi_search'] as $table => $infos) {
-    $i = 0;
-
+    	$i = 0;
 		foreach ($infos as $uniqid => $values) {
 			?>
 			<div class="row" name="<?php echo $uniqid ?>">
-        <?php if($i != 0){
-          $htmlComparator = $search->returnFieldHtmlAndOr($uniqid, $values, $infos, $table, $values['comparator']);
-            if($htmlComparator != ""){
-              echo "<div class='col-sm-5'></div><div class='col-sm-1'>
-        					     <div class='form-group'>
-        							        ".$htmlComparator."
-        					     </div>
-        				    </div></br></br></br>";
-            }
-          } ?>
+        <?php
+			if($i != 0){
+				$htmlComparator = $search->returnFieldHtmlAndOr($uniqid, $values, $infos, $table, $values['comparator'] ?? null);
+				if($htmlComparator != ""){
+				echo "<div class='col-sm-5'></div><div class='col-sm-1'>
+									<div class='form-group'>
+												".$htmlComparator."
+									</div>
+								</div></br></br></br>";
+				}
+          	} ?>
 				<div class="col-sm-3">
 					<div class="btn btn-info disabled" style="cursor:default;"><?php
             if(strpos($values['fields'], 'fields_') !== false){
@@ -268,13 +268,13 @@ $isValid = true;
 
 foreach ($_SESSION['OCS']['multi_search'] as $key => $value) {
 	foreach ($value as $k => $v) {
-		if (is_null($v['value']) && $v['operator'] != "ISNULL") {
+		if (isset($v['value']) && (is_null($v['value'])) && $v['operator'] != "ISNULL") {
 			$isValid = false;
 		}
 	}
 }
 
-if(($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['fields']) && $isValid){
+if((isset($protectedPost['search_ok']) || isset($protectedGet['prov']) || isset($protectedGet['fields'])) && $isValid){
   	unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 	/**
 	 * Generate Search fields
@@ -306,7 +306,7 @@ if(($protectedPost['search_ok'] || $protectedGet['prov'] || $protectedGet['field
 	$option_comment['comment_be'] = $l->g(1210)." ";
 	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
   	$tab_options['REPLACE_VALUE'][$l->g(66)] = $type_accountinfo;
-  	$tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
+  	// $tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
 
 
 	ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);

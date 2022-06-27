@@ -280,7 +280,7 @@ function insert_with_rules($list_id, $rule_detail, $fileid) {
 
     $not_found = array();
     if (is_array($not_match) && count($not_match) > 0) {
-        foreach ($not_match as $key => $value) {
+        foreach ($not_match as $value) {
             $not_found[] = $value;
         }
     }

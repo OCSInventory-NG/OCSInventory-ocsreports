@@ -71,7 +71,7 @@ while ($row = mysqli_fetch_object($res)) {
         /*
           applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
          */
-        if (is_array($subnetToBlacklist)) {
+        if (isset($subnetToBlacklist) && is_array($subnetToBlacklist)) {
             foreach ($subnetToBlacklist as $key => $value) {
                 if ($key == $row->ipsubnet) {
                     $id = '--' . $l->g(703) . '--';
@@ -95,7 +95,7 @@ while ($row = mysqli_fetch_object($res)) {
         /*
         applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
         */
-        if (is_array($subnetToBlacklist)) {
+        if (isset($subnetToBlacklist) && is_array($subnetToBlacklist)) {
             foreach ($subnetToBlacklist as $key => $value) {
                 if ($key == $row->ipsubnet) {
                     $id = '--' . $l->g(703) . '--';

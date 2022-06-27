@@ -30,7 +30,7 @@ class PackageBuilderForm
     private $packageBuilderFormOperatingSystem;
     private $packageBuilderParseXml;
     private $packageBuilderFormOptions;
-    
+
     /**
      * Method __construct
      *
@@ -41,7 +41,8 @@ class PackageBuilderForm
      *
      * @return void
      */
-    function __construct($packageBuildeFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml, $packageBuilderFormOptions) {
+    function __construct($packageBuildeFormInteractions, $packageBuilderFormOperatingSystem, $packageBuilderParseXml, $packageBuilderFormOptions)
+    {
         $this->packageBuilderFormOperatingSystem = $packageBuilderFormOperatingSystem;
         $this->packageBuildeFormInteractions = $packageBuildeFormInteractions;
         $this->packageBuilderParseXml = $packageBuilderParseXml;
@@ -60,9 +61,8 @@ class PackageBuilderForm
         foreach($operating->osdefinition as $system) {
             $html .= $this->packageBuilderFormOperatingSystem->generateTile($system);
         }
-        $html .= '</div></div>';
 
-        return $html;
+        return $html . '</div></div>';
     }
     
     /**
@@ -116,9 +116,8 @@ class PackageBuilderForm
         $optionInfos = $this->packageBuilderParseXml->parseOptions($linkedOption);
         
         $html = '<h3 class="text-center">'.$l->g(intval($optionInfos->name)).'</h3></br>';
-        $html .= $this->packageBuilderFormOptions->generateOptions($optionInfos, $l);
 
-        return $html;
+        return $html . $this->packageBuilderFormOptions->generateOptions($optionInfos, $l);
     }
     
     /**
@@ -133,7 +132,7 @@ class PackageBuilderForm
 
         $html = '<h3 class="text-center">Resume</h3><br><br>';
 
-        $html .= '<div class="table-responsive">
+        return $html . ('<div class="table-responsive">
                     <table class="table">
                         <thead style="background-color:#20222e;color:white;">
                             <tr>
@@ -156,8 +155,6 @@ class PackageBuilderForm
                             </tr>
                         </tbody>
                     </table>
-                </div>';
-
-        return $html;
+                </div>');
     }
 }

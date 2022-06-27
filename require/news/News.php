@@ -37,9 +37,9 @@ class News
         $json = file_get_contents(URL_NEWS);
         $obj = json_decode($json);
 
-        foreach($obj->NEWS as $key => $value){
+        foreach($obj->NEWS as $value){
           if(strlen($value->CONTENT) > 150){
-            $value->CONTENTMODIF = (string)substr($value->CONTENT, 0, 150) . " ...";
+            $value->CONTENTMODIF = substr($value->CONTENT, 0, 150) . " ...";
           }
           $value->CONTENT = nl2br($value->CONTENT);
 

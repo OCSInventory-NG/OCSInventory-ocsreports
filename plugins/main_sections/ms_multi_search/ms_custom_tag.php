@@ -31,7 +31,6 @@
  echo "<div class='col-md-12'>";
 
  $list_id = multi_lot($form_name, $l->g(601));
-
  if (is_defined($list_id)) {
 
      echo "<div class='col col-md-12'>";
@@ -47,7 +46,7 @@
                      //cas of checkboxtag_search
                      foreach ($protectedPost as $field2 => $value2) {
                          $casofcheck = explode('_', $field2);
-                         if ($casofcheck[0] . '_' . $casofcheck[1] == $temp) {
+                         if (isset($casofcheck[1]) && $casofcheck[0] . '_' . $casofcheck[1] == $temp) {
                              if (isset($casofcheck[2])) {
                                  $data_fields_account[$temp] .= $casofcheck[2] . "&&&";
                              }
@@ -111,7 +110,7 @@
      require_once('require/archive/ArchiveComputer.php');
      $archive = new ArchiveComputer();
      if (is_defined($protectedPost['ARCHIVER'])) {
-        $result = $archive->archive($protectedGet['idchecked']);
+        $result = $archive->archive($list_id);
         unset($protectedPost['ARCHIVER']);
         if($result){
             msg_success($l->g(572));
@@ -119,7 +118,7 @@
      }
 
      if (is_defined($protectedPost['RESTORE'])) {
-        $result = $archive->restore($protectedGet['idchecked']);
+        $result = $archive->restore($list_id);
         unset($protectedPost['RESTORE']);
         if($result){
             msg_success($l->g(572));
@@ -143,7 +142,7 @@
         $def_onglets['ARCHIVE'] = $l->g(1556);
      }
 
-     if ($protectedPost['onglet'] == "") {
+     if (empty($protectedPost['onglet'])) {
          $protectedPost['onglet'] = "TAG";
      }
      //show onglet
@@ -187,13 +186,13 @@
                      }
                      $tab_typ_champ[$i]['INPUT_NAME'] = $truename;
                      $tab_typ_champ[$i]['INPUT_TYPE'] = $field_of_accountinfo['LIST_TYPE'][$id];
-                     $tab_typ_champ[$i]['CONFIG']['JAVASCRIPT'] = $java . " onclick='document.getElementById(\"check" . $truename . "\").checked = true' ";
+                     $tab_typ_champ[$i]['CONFIG']['JAVASCRIPT'] = ($java ?? '') . " onclick='document.getElementById(\"check" . $truename . "\").checked = true' ";
 
                      $tab_name[$i] = $lbl;
                      $i++;
                  }
              }
-             modif_values($tab_name, $tab_typ_champ, array('TAG_MODIF' => $protectedPost['MODIF'], 'FIELD_FORMAT' => $type_field[$protectedPost['MODIF']]), array(
+             modif_values($tab_name, $tab_typ_champ, array('TAG_MODIF' => $protectedPost['MODIF'] ?? '', 'FIELD_FORMAT' => $type_field[$protectedPost['MODIF'] ?? ''] ?? ''), array(
                  'title' => $l->g(895)
              ));
          } elseif ($protectedPost['onglet'] == "SUP_PACK") {
@@ -201,6 +200,7 @@
  									from download_available d_a, download_enable d_e
  									where d_e.FILEID=d_a.FILEID group by d_a.NAME  order by 1 desc";
              $resultDetails = mysql2_query_secure($queryDetails, $_SESSION['OCS']["readServer"]);
+             $List = [];
              while ($val = mysqli_fetch_array($resultDetails)) {
                  $List[$val["fileid"]] = $val["name"];
              }
@@ -210,7 +210,7 @@
              echo $select;
              echo "<div class='col-md-12'>";
 
-             if ($protectedPost['pack_list'] != "") {
+             if (!empty($protectedPost['pack_list'])) {
                  $sql = "select count(*) c, tvalue from download_enable d_e,devices d
            							where d.name='DOWNLOAD' and d.IVALUE=d_e.ID and d_e.fileid='%s'
            							and d.hardware_id in ";
@@ -240,10 +240,10 @@
             $tab_name = array($l->g(8202));
             $name_field = array("WOL_DATE");
             $type_field = array(14);
-            $value_field = '';
+            $value_field = array();
             
             $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
-            modif_values($tab_name, $tab_typ_champ, $tab_hidden, array('show_button' => false));
+            modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? '', array('show_button' => false));
             echo "<input type='submit' name='WOL_PROGRAM' value='" . $l->g(8201) . "' class='btn'>";
             echo "</div></div></div>";
          } elseif ($protectedPost['onglet'] == "ARCHIVE") {

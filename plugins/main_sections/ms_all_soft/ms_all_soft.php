@@ -35,7 +35,7 @@ require_once('require/softwares/SoftwareCategory.php');
 $softCat = new SoftwareCategory();
 
 //If RESET
-if ($protectedPost['RESET']) {
+if (isset($protectedPost['RESET'])) {
     unset($protectedPost['NAME_RESTRICT']);
     unset($protectedPost['NBRE']);
     unset($protectedPost['CLASS']);
@@ -43,7 +43,7 @@ if ($protectedPost['RESET']) {
 }
 
 //If SUBMIT
-if ($protectedPost['SUBMIT_FORM']) {
+if (isset($protectedPost['SUBMIT_FORM'])) {
     $tab_options['CACHE'] = 'RESET';
 }
 
@@ -94,14 +94,14 @@ $form_name = 'all_soft';
 echo open_form($form_name, '', '', 'form-horizontal');
 
 $list_cat = $softCat->onglet_cat();
-$first_onglet = $list_cat['first_onglet'];
-$categorie_id = $list_cat['category_name'];
-$os = $list_cat['OS'];
+$first_onglet = $list_cat['first_onglet'] ?? '';
+$categorie_id = $list_cat['category_name'] ?? '';
+$os = $list_cat['OS'] ?? '';
 
 //definition of onglet
 $def_onglets['ALL'] = $l->g(765); //Category list.
 $def_onglets['WITHOUT'] = $l->g(1516); //Category list.
-for($i=1; $list_cat[$i] != null; $i++){
+for($i=1; isset($list_cat[$i]); $i++){
   $def_onglets[$list_cat['category_name'][$list_cat[$i]]] = $list_cat[$i];
 }
 
@@ -109,7 +109,7 @@ for($i=1; $list_cat[$i] != null; $i++){
 if (isset($protectedGet['onglet']) && !isset($protectedPost['old_onglet'])){
     $protectedPost['onglet'] = $protectedGet['onglet'];
 }
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "ALL";
 }
 
@@ -169,7 +169,7 @@ if($protectedPost['onglet'] == "ALL"){
         $list_col_cant_del = $default_fields;
         $tab_options['LBL']['name'] = $l->g(847);
         $tab_options['LBL']['nbre'] = $l->g(1120);
-        $tab_options['ARG_SQL'] = $sql['ARG'];
+        $tab_options['ARG_SQL'] = $sql['ARG'] ?? '';
         $tab_options['form_name'] = $form_name;
         $tab_options['table_name'] = $form_name;
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
@@ -300,7 +300,7 @@ echo '<div class="form-group">
         <select name="COMPAR" id="COMPAR" class="form-control">
             <option value=""></option>';
             foreach ($options_compar as $key => $value){
-                if($key == $protectedPost['COMPAR']){
+                if(isset($protectedPost['COMPAR']) && $key == $protectedPost['COMPAR']){
                     echo '<option value="'.$key.'" selected>'.$value.'</option>';
                 }else{
                     echo '<option value="'.$key.'">'.$value.'</option>';
@@ -329,7 +329,7 @@ $tab_options['NO_SEARCH']['id'] = 'id';
 
 // Find out which visible columns are full-text indexed in the DB, and add this information to $tab_options
 $ft_idx = dbGetFTIndex('software', 's');
-if(is_array($tab_options['visible_col'])) {
+if(isset($tab_options['visible_col']) && is_array($tab_options['visible_col'])) {
     foreach($tab_options['visible_col'] as $column) {
         $cname = $tab_options['columns'][$column]['name'];
         if (!empty($ft_idx[$cname])) {

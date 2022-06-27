@@ -38,7 +38,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = array($l->g(49) => 'NAME',
     $l->g(64) => 'MANUFACTURER',
     $l->g(53) => 'DESCRIPTION');
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));

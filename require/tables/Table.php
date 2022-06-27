@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -21,10 +22,9 @@
  * MA 02110-1301, USA.
  */
 require_once('require/tables/Column.php');
-
 class Table {
-    private $name;
     private $columns;
+    private $name;
 
     public function __construct($name) {
         $this->name = $name;
@@ -53,4 +53,3 @@ class Table {
     }
 
 }
-?>

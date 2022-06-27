@@ -157,6 +157,7 @@ echo "<div class='tableContainer'>
       <th tabindex='0' aria-controls='affich_stat' rowspan='1' colspan='1' style='width: 33%;'><font>" . $l->g(55) . "</font></th></tr></thead>
       <tbody>";
 $j = 0;
+$nb = 0;
 while ($j < $i) {
     $nb += $count_value[$j];
     echo "<tr class='odd'>";
