@@ -47,13 +47,13 @@ if (!AJAX) {
             'status' => 'error',
             'message' => $l->g(1407) . ' (config/profiles/' . $_GET['profile_id'] . '.xml)'
         );
-    } else if ($errors = validate_profile_edit_form($_POST)) {
+    } else if ($errors = validate_profile_edit_form($protectedPost)) {
         $response = array(
             'status' => 'error',
             'message' => $l->g(1404),
             'errors' => $errors
         );
-    } else if (update_profile($_GET['profile_id'], $_POST)) {
+    } else if (update_profile($_GET['profile_id'], $protectedPost)) {
         $response = array(
             'status' => 'success',
             'message' => $l->g(1408),
