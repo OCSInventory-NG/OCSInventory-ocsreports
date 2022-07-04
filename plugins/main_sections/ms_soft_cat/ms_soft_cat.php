@@ -132,7 +132,7 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 	}
 
     //delete regex
-    if (is_defined($protectedPost['SUP_PROF'])) {
+    if (is_defined($protectedPost['SUP_PROF']) && is_numeric($protectedPost['SUP_PROF'])) {
         $reqDreg = "DELETE FROM software_category_exp WHERE CATEGORY_ID ='" . $categorie_id[$list_cat[$protectedPost['onglet_soft']]] . "' AND ID = ".$protectedPost['SUP_PROF'];
         mysqli_query($_SESSION['OCS']["writeServer"], $reqDreg) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
         unset($list_cat[$protectedPost['SUP_PROF']]);
