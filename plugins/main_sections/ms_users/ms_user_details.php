@@ -42,7 +42,7 @@ if (isset($protectedPost['Valid_modif'])) {
 }
 echo open_form('my_account', '', '', 'form-horizontal');
 
-admin_user($_GET['user_id']);
+admin_user($protectedtGet['user_id']);
 
 ?>
     <div class="row">
