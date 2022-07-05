@@ -146,7 +146,7 @@ if(isset($protectedGet['fields'])){
   $search->link_index($protectedGet['fields'], $protectedGet['values'], $protectedGet['comp'], $protectedGet['values2']);
 }
 
-if(isset($protectedGet['prov']) && !isset($protectedPost['table_select']) && !isset($protectedPost['columns_select']) && !$protectedPost['search_ok']){
+if(isset($protectedGet['prov']) && !isset($protectedPost['table_select']) && !isset($protectedPost['columns_select']) && !isset($protectedPost['search_ok'])){
   if($protectedGet['prov'] == 'cveNamePublisherVersion'){
     $search->link_multi($protectedGet['prov'], $protectedGet['value']);
   }elseif($protectedGet['prov'] == 'cveNameVersion'){
