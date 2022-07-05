@@ -80,11 +80,13 @@ if (isset($protectedPost['TRANS']) && $protectedPost['TRANS'] == "TRANS") {
 
         foreach ($protectedPost as $key => $value) {
             if (substr($key, 0, 5) == "check") {
-                $list_check[] = substr($key, 5);
+                $id = substr($key, 5);
+                if (is_numeric($id)) {
+                    $list_check[] = $id;
+                }
             }
         }
     }
-    
     // If list check and protected post are OK for transfer
     if (!empty($list_check) && ( isset($protectedPost['NEW_CAT']) || isset($protectedPost['EXIST_CAT'])  ) ) {
         if(isset($protectedPost['EXIST_CAT']) && $protectedPost['EXIST_CAT'] != "NONE"){
