@@ -33,7 +33,7 @@ if (!AJAX) {
 require_once 'require/function_users.php';
 
 if (isset($protectedPost['Valid_modif'])) {
-    $msg = add_user($_POST, get_profile_labels());
+    $msg = add_user($protectedPost, get_profile_labels());
     if ($msg != $l->g(374)) {
         msg_error($msg);
     } else {
