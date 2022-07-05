@@ -1587,8 +1587,8 @@ function ajaxsort(&$tab_options) {
 				$cleanname = $cleanname[0];
 			}
 
-			if (!empty($tab_options["replace_query_arg"][$name])) {
-				$cleanname = $tab_options["replace_query_arg"][$name];
+			if (!empty($tab_options["replace_query_arg"][$name]) && (preg_match('/([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|^[A-Za-z0-9_-]+$)/', $tab_options["replace_query_arg"][$name], $cleanreplace) || preg_match('/(?<!\([^()])(?![^()]*\))(?<=\bas\s)(\w+)/i', $tab_options["replace_query_arg"][$name], $cleanreplace))) {
+				$cleanname = $cleanreplace[0];
 			}
 			// field name is IP format alike
 			if (in_array(mb_strtoupper($cleanname),$tab_iplike)) {
