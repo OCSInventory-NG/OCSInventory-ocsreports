@@ -1844,3 +1844,5 @@
 9911 Layout name
 9912 Layout description
 9913 Table name
+
+9950 You are not allowed to modify this user

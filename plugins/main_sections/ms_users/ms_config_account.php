@@ -22,17 +22,19 @@
  */
 require_once 'require/function_users.php';
 
-if (isset($protectedPost['Valid_modif'])) {
+if (isset($protectedPost['Valid_modif']) && ($_SESSION['OCS']['loggeduser'] == $protectedPost['MODIF'])) {
     $protectedPost['ACCESSLVL'] = $_SESSION['OCS']['lvluser'];
     $protectedPost['ID'] = $_SESSION['OCS']["loggeduser"];
     $protectedPost['MODIF'] = $_SESSION['OCS']["loggeduser"];
 
-    $msg = add_user($_POST, get_profile_labels());
+    $msg = add_user($protectedPost, get_profile_labels());
     if ($msg != $l->g(374)) {
         msg_error($msg);
     } else {
         msg_success($l->g(1186));
     }
+} elseif (isset($protectedPost['Valid_modif']) && ($_SESSION['OCS']['loggeduser'] != $protectedPost['MODIF'])) {
+    msg_error($l->g(9950));
 }
 
 $form_name = "pass";
