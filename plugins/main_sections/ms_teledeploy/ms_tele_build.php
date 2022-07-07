@@ -47,7 +47,7 @@ echo "<br><a href='' class='btn btn-info' role='button' onClick='reload();'>".$l
 
 /*********************** VALID FORM ***********************/
 if(isset($protectedPost['valid'])) {
-    $packageInfos = $packageBuilder->buildPackage($_POST,$_FILES);
+    $packageInfos = $packageBuilder->buildPackage($protectedPost,$_FILES);
     $classOptInt = "triangle active";
     $classSys = "active triangle radius-left";
     $classRes = "active radius-right";
