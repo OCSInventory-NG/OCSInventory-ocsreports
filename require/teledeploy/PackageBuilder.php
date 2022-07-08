@@ -83,7 +83,7 @@ class PackageBuilder
 		];
 		// Get Xml option info
 		$xmlDetails = $this->packageBuilderParseXml->parseOptions($post['FORMTYPE']);
-		
+
 		if(isset($this->downloadConfig['tvalue']['DOWNLOAD_PACK_DIR'])) {
 			$downloadPath = $this->downloadConfig['tvalue']['DOWNLOAD_PACK_DIR'].'/download/'.$timestamp;
 		} else {
@@ -181,12 +181,12 @@ class PackageBuilder
 				VALUES ('%s','%s','%s','%s','%s','%s','%s')";
         $arg = array(
 			$timestamp, 
-			$post['NAME'], 
+			strip_tags_array($post['NAME']), 
 			$xmlDetails->packagedefinition->PRI, 
 			$details['frag'],
 			$details['size'], 
 			strtoupper($post["os_selected"]), 
-			$post['DESCRIPTION']
+			strip_tags_array($post['DESCRIPTION'])
 		);
 			
         mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
@@ -198,8 +198,8 @@ class PackageBuilder
 		unset($_SESSION['OCS']['DATA_CACHE']['LIST_PACK']);
 		unset($_SESSION['OCS']['NUM_ROW']['LIST_PACK']);
 
-		$packageInfos['NAME'] = $post['NAME'];
-		$packageInfos['DESCRIPTION'] = $post['DESCRIPTION'];
+		$packageInfos['NAME'] = strip_tags_array($post['NAME']);
+		$packageInfos['DESCRIPTION'] = strip_tags_array($post['DESCRIPTION']);
 		$packageInfos['FRAG'] = $details['frag'];
 		$packageInfos['SIZE'] = $details['size'];
 		$packageInfos['PRIO'] = $xmlDetails->packagedefinition->PRI;
