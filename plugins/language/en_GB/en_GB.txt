@@ -1813,6 +1813,8 @@
 9611 Directory for temporary files
 9612 Import from CSV
 9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
+9614 Import error. Only CSV files are accepted
+9615 Failed to import data
 
 9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
 
