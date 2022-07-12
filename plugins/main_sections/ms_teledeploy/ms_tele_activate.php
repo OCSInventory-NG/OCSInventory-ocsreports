@@ -59,30 +59,48 @@ if (isset($protectedPost['onglet']) && isset($protectedPost['old_onglet']) && ($
     unset($protectedPost['MODIF']);
 }
 
+// Check GET active value
+$getActive = null;
+if(isset($protectedGet["active"])) {
+    $getActive = preg_replace("/[^0-9]/", "", $protectedGet["active"]);
+}
+
+// Check POST HTTPS server value
+$postHTTPSServ = null;
+if(isset($protectedPost["HTTPS_SERV"])) {
+    $postHTTPSServ = preg_replace("/[^A-Za-z0-9\._\-\/]/", "", $protectedPost["HTTPS_SERV"]);
+}
+
+// Check POST file server value
+$postFileServ = null;
+if(isset($protectedPost["FILE_SERV"])) {
+    $postFileServ = preg_replace("/[^A-Za-z0-9\._\-\/]/", "", $protectedPost["FILE_SERV"]);
+}
+
 if (is_defined($protectedPost['Valid_modif'])) {
     $error = "";
 
     $opensslOk = function_exists("openssl_open");
 
     if ($opensslOk) {
-        $httpsOk = @fopen("https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/info", "r");
+        $httpsOk = @fopen("https://" . $postHTTPSServ . "/" . $getActive . "/info", "r");
     } else {
         $error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
     }
 
     if (!$httpsOk) {
-        $error .= $l->g(466) . " https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/<br>";
+        $error .= $l->g(466) . " https://" . $postHTTPSServ . "/" . $getActive . "/<br>";
     } else {
         fclose($httpsOk);
     }
 
     if ($protectedPost['choix_activ'] == "MAN") {
-        $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $protectedGet["active"] . "'";
+        $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $getActive . "'";
         $resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);
         $valFrags = mysqli_fetch_array($resFrags);
         $fragAvail = ($valFrags["fragments"] > 0);
         if ($fragAvail) {
-            $fragOk = @fopen("http://" . $protectedPost["FILE_SERV"] . "/" . $protectedGet["active"] . "/" . $protectedGet["active"] . "-1", "r");
+            $fragOk = @fopen("http://" . $postFileServ . "/" . $getActive . "/" . $getActive . "-1", "r");
         } else {
             $fragOk = true;
         }
@@ -97,7 +115,7 @@ if (is_defined($protectedPost['Valid_modif'])) {
 
 if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
     if (isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] == "MAN") {
-        activ_pack($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV']);
+        activ_pack($getActive, $postHTTPSServ, $postFileServ);
     }
     echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
 }
