@@ -177,30 +177,6 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $tab_options['SHOW_ONLY']['ZIP'] = 'NULL';
     }
 
-    //only for profils who can activate packet
-    if (!$cant_active) {
-        //javascript for manual activate
-        echo "<script language='javascript'>
-                            function manualActive()
-                             {
-                                    var msg = '';
-                                    var lien = '';
-                                    if( isNaN(document.getElementById('manualActive').value) || document.getElementById('manualActive').value=='' )
-                                            msg = '" . $l->g(473) . "';
-                                    if( document.getElementById('manualActive').value.length != 10 )
-                                            msg = '" . $l->g(474) . "';
-                                    if (msg != ''){
-                                            document.getElementById('manualActive').style.backgroundColor = 'RED';
-                                            alert (msg);
-                                            return false;
-                                    }else{
-                                            lien='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active='+ document.getElementById('manualActive').value;
-                                            window.open(lien,\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\");
-                                    }
-                    }
-                    </script>";
-    }
-
     $list_fields = array($l->g(475) => 'FILEID',
         $l->g(593) => 'CREADATE',
         'SHOWACTIVE' => 'NAME',
@@ -360,24 +336,6 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     if (!$cant_active){
         del_selection($form_name);
     }
-    ?>
-    <div class="row rowMarginTop30">
-        <div class="col-md-6 col-md-offset-3">
-            <?php if ($protectedPost['SHOW_SELECT'] == 'download'): ?>
-            <div class="form-group">
-                <label class="control-label col-sm-4" for="manualActive"><?php echo $l->g(476); ?></label>
-                <div class="col-sm-8">
-                    <div class="input-group">
-                        <input type="text" name="manualActive" id="manualActive" size="" maxlength="10" value="<?php echo isset($protectedPost['manualActive']); ?>" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <a href="#" class="btn btn-success" onclick="manualActive()"><?php echo $l->g(13); ?></a>
-            <?php endif; ?>
-        </div>
-    </div>
-    <?php
-    //only for profils who can activate packet
 
 }elseif ( $protectedPost['onglet'] == "DELETED_PACKET") {
 
