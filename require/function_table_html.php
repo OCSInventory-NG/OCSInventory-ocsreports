@@ -364,7 +364,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 						<?php
 						foreach ($protectedPost as $key => $value) {
 							if (!is_array($value)) {
-								echo "d['" . $key . "'] = '" . $value . "'; \n";
+								echo "d['" . preg_replace("/[^A-Za-z0-9\._]/", "", $key) . "'] = '" . $value . "'; \n";
 							}
 							if($key == "visible_col") {
 								$visible_col = $value;
