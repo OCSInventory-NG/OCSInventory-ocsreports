@@ -1630,12 +1630,14 @@ function ajaxsort(&$tab_options) {
 */
 function ajaxlimit($tab_options){
 	if (isset($tab_options['start'])){
-		$limit = " limit ".$tab_options['start']." , ";
+		// Remove all characters except number in start value
+		$limit = " limit ".preg_replace("/[^0-9]/", "", $tab_options['start'])." , ";
 	}else{
 		$limit = " limit 0 , ";
 	}
 	if (isset($tab_options['length'])){
-		$limit .= $tab_options['length']." ";
+		// Remove all characters except number in length value
+		$limit .= preg_replace("/[^0-9]/", "", $tab_options['length'])." ";
 	}else{
 		$limit .= "10 ";
 	}
