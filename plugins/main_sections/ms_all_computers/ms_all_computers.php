@@ -33,22 +33,37 @@ require_once('require/archive/ArchiveComputer.php');
 
 $archive = new ArchiveComputer();
 
+// declare empty filter and value by default
+$getFilter = null;
+$getValue = null;
+
+// if isset protectedGet, check value in
+if(isset($protectedGet['filtre'])) {
+    // clean filter value like xxx.yyy, xxx or xxx.yy_yy
+    $getFilter = preg_replace("/[^A-Za-z0-9\._]/", "", $protectedGet['filtre']);
+}
+
+if(isset($protectedGet['value'])) {
+    $getValue = htmlspecialchars($protectedGet['value'], ENT_QUOTES, 'UTF-8');
+}
+// End check
+
 //show mac address on the tab
 $show_mac_addr = true;
 $tab_options = $protectedPost;
 $tab_options['form_name'] = "show_all";
 $form_name = $tab_options['form_name'];
 $tab_options['table_name'] = "list_show_all";
-if (isset($protectedGet['filtre']) && !isset($protectedPost['FILTRE'])) {
-    if (substr($protectedGet['filtre'], 0, 9) == "a.fields_") {
-        $values_accountinfo = accountinfo_tab(substr($protectedGet['filtre'], 9));
+if (!is_null($getFilter) && !isset($protectedPost['FILTRE'])) {
+    if (substr($getFilter, 0, 9) == "a.fields_") {
+        $values_accountinfo = accountinfo_tab(substr($getFilter, 9));
         if (is_array($values_accountinfo)) {
-            $protectedPost['FILTRE_VALUE'] = $values_accountinfo[$protectedGet['value']];
+            $protectedPost['FILTRE_VALUE'] = $values_accountinfo[$getValue];
         }
     }
-    $protectedPost['FILTRE'] = $protectedGet['filtre'];
+    $protectedPost['FILTRE'] = $getFilter;
     if (!isset($protectedPost['FILTRE_VALUE'])) {
-        $protectedPost['FILTRE_VALUE'] = $protectedGet['value'];
+        $protectedPost['FILTRE_VALUE'] = $getValue;
     }
 }
 
@@ -248,17 +263,13 @@ if($protectedPost['onglet'] == "ACTIVE") {
 
 
 // TAG RESTRICTIONS
-if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
-    $tag = $_GET['value'];
-    $tag = htmlspecialchars($tag, ENT_QUOTES, 'UTF-8');
-    $queryDetails .= "AND a.TAG= '$tag' ";
+if (!is_null($getValue) && $getFilter == "a.TAG") {
+    $queryDetails .= "AND a.TAG= '$getValue' ";
 }
 
-// TAG RESTRICTIONS
-if (is_defined($_GET['value']) && strpos($_GET['filtre'], 'a.fields_') === 0){
-    $tag = $_GET['value'];
-    $fields = $_GET['filtre'];
-    $queryDetails .= "AND ".$fields."= '$tag' ";
+// ACCOUNTINFO RESTRICTIONS
+if (!is_null($getValue) && strpos($getFilter, 'a.fields_') === 0){
+    $queryDetails .= "AND ".$getFilter."= '$getValue' ";
 }
 
 if (is_defined($_SESSION['OCS']["mesmachines"])) {
