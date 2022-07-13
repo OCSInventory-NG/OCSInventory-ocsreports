@@ -333,6 +333,10 @@ function insert_update($name, $value, $default_value, $field) {
         $value = implode(',', $value);
     }
 
+    if($name == "EXPORT_SEP" && $value != ";" && $value != ",") {
+        $value = ",";
+    } 
+    
     if ($default_value != $value) {
         $arg = array($field, $value, $name);
 
@@ -409,7 +413,8 @@ function update_default_value($POST) {
         'IPDISCOVER_IPD_DIR' => 'IPDISCOVER_IPD_DIR_edit', 'LOG_DIR' => 'LOG_DIR_edit', 'TMP_DIR' => 'TMP_DIR_edit', 'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG_edit',
         'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO_edit',
         'LOG_SCRIPT' => 'LOG_SCRIPT_edit', 'CONF_PROFILS_DIR' => 'CONF_PROFILS_DIR_edit',
-        'OLD_CONF_DIR' => 'OLD_CONF_DIR_edit', 'LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER_edit', 'WOL_BIOS_PASSWD' => 'WOL_BIOS_PASSWD_edit');
+        'OLD_CONF_DIR' => 'OLD_CONF_DIR_edit', 'LOCAL_URI_SERVER' => 'LOCAL_URI_SERVER_edit', 'WOL_BIOS_PASSWD' => 'WOL_BIOS_PASSWD_edit',
+        'EXPORT_SEP' => 'EXPORT_SEP');
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue
     $array_interprete_ivalue = array('FREQUENCY' => 'FREQUENCY_edit', 'IPDISCOVER' => 'IPDISCOVER_edit');
 
@@ -643,7 +648,11 @@ function pageGUI($advance) {
     $select_scripts = trait_post('LOG_SCRIPT');
     $select_profils = trait_post('CONF_PROFILS_DIR');
     $select_old_profils = trait_post('OLD_CONF_DIR');
-    $select_custom_theme = trait_post('CUSTOM_THEME');
+
+    $default_export_sep = [
+        "," => ",",
+        ";" => ";"
+    ];
 
     $themes = get_available_themes();
     if($advance){
@@ -678,7 +687,7 @@ function pageGUI($advance) {
 
       $def = ETC_DIR . '/' . MAIN_SECTIONS_DIR . 'old_conf/';
       ligne('OLD_CONF_DIR', $l->g(1253), 'radio', array('DEFAULT' => $l->g(823) . " (" . $def . ")", 'CUSTOM' => $l->g(822), 'VALUE' => $select_old_profils), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['OLD_CONF_DIR'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 254, 'END' => "/old_conf"));
-      ligne('EXPORT_SEP', $l->g(1213), 'input', array('VALUE' => $values['tvalue']['EXPORT_SEP'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 4));
+      ligne('EXPORT_SEP', $l->g(1213), 'select', array('VALUE' => $values['tvalue']['EXPORT_SEP'] ?? ",", 'SELECT_VALUE' => $default_export_sep));
       ligne('TAB_CACHE', $l->g(1249), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['TAB_CACHE'] ?? 0));
       ligne('WARN_UPDATE', $l->g(2117), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['WARN_UPDATE']));
     }else{
