@@ -1848,3 +1848,6 @@
 9913 Table name
 
 9950 You are not allowed to modify this user
+
+9960 Do you really want to re-affect the package 
+9961 Affect again
