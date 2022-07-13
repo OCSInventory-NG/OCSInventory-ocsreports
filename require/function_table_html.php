@@ -154,6 +154,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"AFFECT_AGAIN"
     );
     //If the column selected are different from the default columns
     if (!empty($_COOKIE[$option['table_name'] . "_col"])) {
@@ -185,6 +186,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"AFFECT_AGAIN"
     );
     $action_visible = false;
 
@@ -574,6 +576,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 	echo "<input type='hidden' id='SHOW_DETAILS' name='SHOW_DETAILS' value=''>";
 	echo "<input type='hidden' id='ARCHIVER' name='ARCHIVER' value=''>";
 	echo "<input type='hidden' id='RESTORE' name='RESTORE' value=''>";
+	echo "<input type='hidden' id='AFFECT_AGAIN' name='AFFECT_AGAIN' value=''>";
 	
     if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') {
         ?><center>
@@ -1707,6 +1710,15 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"RESTORE\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-open' title='".$l->g(1552)."'></span></a>";
 						}	
 						break;
+					case "AFFECT_AGAIN":
+						if ($value_of_field != '&nbsp;'){
+							$explode = explode(";", $value_of_field);
+							if(!is_null($explode[1]) && (strstr($explode[1], 'ERR_') || strstr($explode[1], 'EXIT_CODE'))) {
+								$lbl_msg=$l->g(9960);
+								$row[$key]="&nbsp;<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($explode[0], ENT_QUOTES)."\",\"".$form_name."\",\"AFFECT_AGAIN\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-repeat' title='".$l->g(9961)."'></span></a>";
+							}
+						}
+						break;
 					default :
 						if (substr($key,0,11) == "PERCENT_BAR"){
 							//require_once("function_graphic.php");
@@ -1779,6 +1791,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"AFFECT_AGAIN"
 			);
 
 			$row['ACTIONS'] = '';
@@ -1846,6 +1859,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"SHOW_DETAILS",
 			"ARCHIVER",
 			"RESTORE",
+			"AFFECT_AGAIN"
 	);
 
 
@@ -1859,6 +1873,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"AFFECT_AGAIN"
 	);
 	foreach($actions as $action){
 		if(isset($list_fields[$action])){
