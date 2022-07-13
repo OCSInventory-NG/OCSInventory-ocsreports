@@ -150,12 +150,18 @@
   </plugin>
 
   <!-- TELEDEPLOY -->
-   <plugin id="cd_teledeploy">
-  	<label>g(558)</label>
-  	<system>1</system>
-  	<category>teledeploy</category>
-  	<available>teledeploy</available>
-  </plugin>
+	<plugin id="cd_teledeploymanage">
+		<label>g(481)</label>
+		<system>1</system>
+		<category>teledeploy</category>
+		<available>teledeploymanage</available>
+	</plugin>
+	<plugin id="cd_teledeploy">
+		<label>g(558)</label>
+		<system>1</system>
+		<category>teledeploy</category>
+		<available>teledeploy</available>
+	</plugin>
 
   <!-- OTHER -->
 	<plugin id="cd_vm">
