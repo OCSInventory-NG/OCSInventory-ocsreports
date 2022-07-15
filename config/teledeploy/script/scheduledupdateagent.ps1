@@ -11,7 +11,7 @@ Remove-Item "$path" -Force -Recurse
 New-Item -Path "C:\" -Name "$tempFolder" -ItemType "directory"
 #Create log file
 New-Item -Path "$path" -Name "update.log" -ItemType "file"
-Move-Item "$location\*.exe" -Destination "$path\ocsupdate.exe"
+Move-Item "$location\ocsupdate.exe" -Destination "$path\ocsupdate.exe"
 Move-Item "$location\removeupdateagent.ps1" -Destination "$path\removeupdateagent.ps1"
 
 Add-Content $logFile -value "UPDATE AGENT LOG FILE"

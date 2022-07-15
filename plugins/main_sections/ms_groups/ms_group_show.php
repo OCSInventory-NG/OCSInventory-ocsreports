@@ -405,8 +405,8 @@ function print_computers_real($systemid) {
         $queryDetails .= $value . ",";
     }
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
-						where h.id in (" . implode(",", $tab_id) . ") and deviceid <> '_SYSTEMGROUP_'
-										AND deviceid <> '_DOWNLOADGROUP_'";
+                        LEFT JOIN bios b ON b.hardware_id=h.id 
+						where h.id in (" . implode(",", $tab_id) . ") and deviceid <> '_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_'";
     if (isset($mesmachines) && $mesmachines != '') {
         $queryDetails .= $mesmachines;
     }

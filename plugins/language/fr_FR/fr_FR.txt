@@ -1843,6 +1843,8 @@
 9912 Description de la disposition
 9913 Nom du tableau
 
+9930 DNS
+
 9950 Vous n'êtes pas authorisé à modifier cet utilisateur
 
 9960 Voulez-vous vraiment ré-affecter le paquet 

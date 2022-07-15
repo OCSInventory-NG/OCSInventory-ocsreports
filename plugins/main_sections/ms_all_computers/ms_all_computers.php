@@ -157,6 +157,8 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
     $l->g(34) => "h.ipaddr",
+    $l->g(207) => "h.defaultgateway",
+    $l->g(9930) => "h.dns",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -165,7 +167,6 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
 if ($show_mac_addr) {
     $list_fields2[$l->g(95)] = "n.macaddr";
     $list_fields2[$l->g(208)] = "n.ipmask";
-    $list_fields2[$l->g(207)] = "n.ipgateway";
     $list_fields2[$l->g(331)] = "n.ipsubnet";
 }
 
@@ -199,6 +200,8 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
     $l->g(34) => "h.ipaddr",
+    $l->g(207) => "h.defaultgateway",
+    $l->g(9930) => "h.dns",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
