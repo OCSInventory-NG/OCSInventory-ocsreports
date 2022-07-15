@@ -95,12 +95,12 @@ if (isset($_POST["name"])) {
                 " (" . $l->g(2010) . "=" . $_POST["host"] .
                 " " . $l->g(2011) . "=" . $_POST["name"] .
                 " " . $l->g(2014) . "=" . $_POST["pass"] .
-                " " . $l->g(2014) . "=" . $_POST["port"] .
-                " " . $l->g(2014) . "=" . $_POST["enablessl"] .
-                " " . $l->g(2014) . "=" . $_POST["sslmode"] .
-                " " . $l->g(2014) . "=" . $_POST["sslkey"] .
-                " " . $l->g(2014) . "=" . $_POST["sslcert"] .
-                " " . $l->g(2014) . "=" . $_POST["cacert"] .
+                " " . $l->g(9105) . "=" . $_POST["port"] .
+                " " . $l->g(9102) . "=" . $_POST["enablessl"] .
+                " " . $l->g(9103) . "=" . $_POST["sslmode"] .
+                " " . $l->g(9100) . "=" . $_POST["sslkey"] .
+                " " . $l->g(9101) . "=" . $_POST["sslcert"] .
+                " " . $l->g(9104) . "=" . $_POST["cacert"] .
                 ")<br>" . $link);
     } else {
         //if database not exist
