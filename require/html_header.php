@@ -45,7 +45,7 @@ if(is_null($value_banniere)){
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand header-logo" href="index.php?first">
+            <a class="navbar-brand header-logo" href="index.php">
               <?php
                 echo '<img alt="OCS Inventory" src="themes/'.$value_banniere['tvalue']['CUSTOM_THEME'].'/banniere.png">';
               ?>
