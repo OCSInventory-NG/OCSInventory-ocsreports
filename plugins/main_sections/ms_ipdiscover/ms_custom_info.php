@@ -149,8 +149,7 @@ if (is_defined($protectedPost['MODIF'])) {
     $tab_name = array($l->g(944), $l->g(95), $l->g(53), $l->g(66));
     $name_field = array('USER', 'MAC', 'COMMENT', 'TYPE');
     $type_field = array(13, 13, 0, 2);
-    $value_field =  array($protectedPost['USER'] ?? '', $protectedPost['MODIF'] ?? '', $protectedPost['COMMENT'] ?? '', $list_type ?? []);
-
+    $value_field =  array($_SESSION["OCS"]["loggeduser"] ?? '', $protectedPost['MODIF'] ?? '', $protectedPost['COMMENT'] ?? '', $list_type ?? []);
     $tab_typ_champ = show_field($name_field, $type_field, $value_field);
     $tab_hidden['mac'] = $protectedPost['MODIF'];
     if (isset($ERROR)) {
