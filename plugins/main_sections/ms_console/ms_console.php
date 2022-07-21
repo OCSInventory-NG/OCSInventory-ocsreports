@@ -31,7 +31,6 @@ require('require/stats/Stats.php');
 require('require/console/Console.php');
 require('require/charts/StatsChartsRenderer.php');
 require('require/softwares/SoftwareCategory.php');
-require_once('require/function_console.php');
 require_once('require/function_groups.php');
 require_once('require/function_computers.php');
 require('require/news/News.php');
