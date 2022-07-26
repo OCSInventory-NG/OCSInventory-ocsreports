@@ -96,7 +96,11 @@ if(empty($typeList)) {
 
         for($i = 0; !empty($columns[$i]); $i++) {
             if($i <= 3) {
-                $list_fields[$columns[$i]] = $columns[$i];
+                if($columns[$i] == "LASTDATE") {
+                    $list_fields[$l->g(46)] = $columns[$i];
+                } else {
+                    $list_fields[$columns[$i]] = $columns[$i];
+                }
             } else {
                 $list_fields2[$columns[$i]] = $columns[$i];
             }
@@ -139,7 +143,11 @@ if(empty($typeList)) {
                                 <table style="width:100%" class="table table-striped table-condensed table-hover cell-border dataTable" role="grid">';
                                 foreach($columns as $column) {
                                     echo '<tr role="row">';
-                                    echo '<th>'.$column.'</th>';
+                                    if($column == "LASTDATE") {
+                                        echo '<th>'.$l->g(46).'</th>';
+                                    } else {
+                                        echo '<th>'.$column.'</th>';
+                                    }
                                     echo '<td>';
                                     if(strpos($values[$column], " - ") !== false) {
                                         $list = explode(" - ", $values[$column]);
