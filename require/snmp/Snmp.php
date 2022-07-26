@@ -623,4 +623,40 @@ class OCSSnmp
 		return $html;
 	}
 
+		
+	/**
+	 * getDetails : get snmp equipment details
+	 *
+	 * @param  mixed $type
+	 * @param  mixed $id
+	 * @return array $details
+	 */
+	public function getDetails($type, $id) {
+		$details = [];
+
+		$sql = "SELECT * FROM `%s` WHERE `ID` = %s";
+		$arg = array($type, $id);
+
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+
+		if($result) $details = mysqli_fetch_assoc($result);
+
+		return $details;
+	}
+
+	public function getReconciliationColumn($type) {
+		$reconciliation = "No Name";
+
+		$sql = "SELECT l.LABEL_NAME FROM `snmp_configs` c 
+				LEFT JOIN `snmp_types` t ON t.ID = c.TYPE_ID 
+				LEFT JOIN `snmp_labels` l ON l.ID = c.LABEL_ID
+				WHERE t.TABLE_TYPE_NAME = '%s' AND c.RECONCILIATION = 'Yes'";
+		
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], array($type));
+
+		if($result) $reconciliation = mysqli_fetch_object($result)->LABEL_NAME;
+
+		return $reconciliation;
+	}
+
 }
