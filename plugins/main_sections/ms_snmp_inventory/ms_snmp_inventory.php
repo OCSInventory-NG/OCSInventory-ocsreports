@@ -106,6 +106,7 @@ if(empty($typeList)) {
             }
         }
         $list_fields['SHOW_DETAILS'] = 'ID';
+        $list_fields['NEW_WINDOW'] = 'tablename';
         $list_fields['CHECK'] = 'ID';
         $list_fields['SUP'] = 'ID';
         $list_col_cant_del = $list_fields;
@@ -116,7 +117,7 @@ if(empty($typeList)) {
         }
         
         $tab_options['FILTRE'] = array_flip($list_fields);
-        $queryDetails = "SELECT * FROM ".$typeList[$protectedPost['onglet']]['TABLENAME'];
+        $queryDetails = "SELECT *, CONCAT(ID, ';','".$typeList[$protectedPost['onglet']]['TABLENAME']."') as tablename FROM ".$typeList[$protectedPost['onglet']]['TABLENAME'];
 
         ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
