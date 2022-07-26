@@ -190,6 +190,36 @@ class Stats{
         }
     }
 
+    public function showSNMPForm() {
+        global $l;
+
+        $snmp = new OCSSnmp();
+        $snmpTypes = $snmp->get_all_type();
+        $snmpCountQuery = "SELECT COUNT(*) as nb FROM `%s`";
+
+        $snmpTypeName = [];
+        $snmpTypeCount = [];
+        $snmpLabel = "";
+        $snmpQuant = "";
+
+        if(!empty($snmpTypes)) foreach($snmpTypes as $type) {
+            $snmpTypeName[] = $type['TYPENAME'];
+            $resultCount = mysql2_query_secure($snmpCountQuery, $_SESSION['OCS']["readServer"], $type['TABLENAME']);
+            if($resultCount) foreach($resultCount as $count) {
+                $snmpTypeCount[] = $count['nb'];
+            }
+        }
+
+        $snmpLabel = "['".implode("','",$snmpTypeName)."']";
+        $snmpQuant = "['".implode("','",$snmpTypeCount)."']";
+
+        $stats = new StatsChartsRenderer;
+        $stats->createSNMPChartCanvas();
+        $stats->createSNMPChart($snmpLabel, $snmpQuant, count($snmpTypeName), $l->g(9038));
+
+        return true;
+    }
+
     public function showForm2($form){
 
         global $l;

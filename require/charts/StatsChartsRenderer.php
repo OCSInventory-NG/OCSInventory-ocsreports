@@ -320,4 +320,62 @@ class StatsChartsRenderer {
         }
     }
 
+
+    public function createSNMPChartCanvas(){
+        ?>
+        <div>
+            <div class='col-md-12' style='margin-top: 5%;'>
+                <canvas id="snmp_type_stat" width="400" height="100"/>
+            </div>
+        </div>
+        <?php
+    }
+
+    public function createSNMPChart($label, $quant, $nb, $title){
+        ?>
+        <script>
+            var config = {
+                type: 'bar',
+                data: {
+                    labels: <?php echo $label ?>,
+                    datasets: [{
+                        label: '',
+                        data: <?php echo $quant ?>,
+                        backgroundColor: [<?php self::generateColorList($nb); ?>],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false,
+                        position: 'bottom',
+                        labels: {
+                            fontColor: "#000080",
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: "<?php echo $title ?>"
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks:{
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            }
+
+            var ctx = document.getElementById("snmp_type_stat").getContext("2d");
+            window.mySNMP = new Chart(ctx, config);
+
+        </script>
+        <?php
+    }
+
 }
