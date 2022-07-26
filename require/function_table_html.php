@@ -154,6 +154,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"NEW_WINDOW"
     );
     //If the column selected are different from the default columns
     if (!empty($_COOKIE[$option['table_name'] . "_col"])) {
@@ -185,6 +186,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"NEW_WINDOW"
     );
     $action_visible = false;
 
@@ -574,6 +576,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 	echo "<input type='hidden' id='SHOW_DETAILS' name='SHOW_DETAILS' value=''>";
 	echo "<input type='hidden' id='ARCHIVER' name='ARCHIVER' value=''>";
 	echo "<input type='hidden' id='RESTORE' name='RESTORE' value=''>";
+	echo "<input type='hidden' id='NEW_WINDOW' name='NEW_WINDOW' value=''>";
 	
     if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') {
         ?><center>
@@ -1773,12 +1776,12 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						}
 						break;
 					case "SHOW_DETAILS":
-						$row[$key]='<a href="#'.$value_of_field.'" data-toggle="modal" data-target="#'.$value_of_field.'" title="'.$l->g(9013).'"><span class="glyphicon glyphicon-search"></span></a>';
+						$row[$key]='<a href="#'.$value_of_field.'" data-toggle="modal" data-target="#'.$value_of_field.'" title="'.$l->g(9039).'"><span class="glyphicon glyphicon-search"></span></a>';
 						break;
 					case "ARCHIVER":
 						if ($value_of_field!= '&nbsp;'){
 							$lbl_msg=$l->g(1550)." ".$value_of_field;
-							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"ARCHIVER\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-save' title='".$l->g(1551)."'></span></a>";
+							$row[$key]="&nbsp;<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"ARCHIVER\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-save' title='".$l->g(1551)."'></span></a>";
 						}	
 						break;
 					case "RESTORE":
@@ -1786,6 +1789,12 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$lbl_msg=$l->g(1553)." ".$value_of_field;
 							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"RESTORE\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-open' title='".$l->g(1552)."'></span></a>";
 						}	
+						break;
+					case "NEW_WINDOW":
+						if ($value_of_field!= '&nbsp;'){
+							$explode = explode(";",$value_of_field);
+							$row[$key]="&nbsp;<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_snmp_detail']."&head=1&type=".$explode[1]."&id=".$explode[0]."\"><span class='glyphicon glyphicon-new-window' title='".$l->g(9013)."'></span></a>";
+						}
 						break;
 					default :
 						if (substr($key,0,11) == "PERCENT_BAR"){
@@ -1859,6 +1868,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"NEW_WINDOW"
 			);
 
 			$row['ACTIONS'] = '';
@@ -1926,6 +1936,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"SHOW_DETAILS",
 			"ARCHIVER",
 			"RESTORE",
+			"NEW_WINDOW"
 	);
 
 
@@ -1939,6 +1950,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"NEW_WINDOW"
 	);
 	foreach($actions as $action){
 		if(isset($list_fields[$action])){
