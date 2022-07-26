@@ -216,13 +216,9 @@
         <value>soft_cat_option</value>
         <directory>ms_soft_cat</directory>
     </url>
-    <url key="ms_snmp">
-        <value>snmp</value>
-        <directory>ms_snmp</directory>
-    </url>
     <url key="ms_snmp_detail">
         <value>snmp_detail</value>
-        <directory>ms_snmp</directory>
+        <directory>ms_snmp_inventory</directory>
     </url>
     <url key="jp_teledeploy_stats">
         <value>teledeploy_stats</value>
@@ -242,6 +238,10 @@
     </url>
     <url key="ms_export_ocs">
         <value>export_ocs</value>
+        <directory>ms_export</directory>
+    </url>
+    <url key="ms_export_snmp">
+        <value>export_snmp</value>
         <directory>ms_export</directory>
     </url>
     <url key="ms_qrcode">

@@ -96,6 +96,7 @@
     <page>ms_stats_connexion</page>
     <page>ms_add_key</page>
     <page>ms_export_ocs</page>
+    <page>ms_export_snmp</page>
     <page>ms_qrcode</page>
     <page>ms_extension</page>
     <page>ms_stats_top</page>

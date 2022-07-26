@@ -49,6 +49,7 @@
     <page>ms_csv</page>
     <page>ms_view_file</page>
     <page>ms_export_ocs</page>
+    <page>ms_export_snmp</page>
     <page>ms_qrcode</page>
     <page>ms_server_infos</page>
     <page>ms_wiki</page>
