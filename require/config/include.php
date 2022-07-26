@@ -123,4 +123,34 @@ function migrate_adminData_2_5(){
     }
 }
 
+/**
+ * migrate_snmp_2_10_1 : add lastdate column to existing snmp types
+ *
+ * @return void
+ */
+function migrate_snmp_2_10_1() {
+    // If SNMP is enable
+    $isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'];
+
+    if($isEnable) {
+        $sqlColumnExists = "SELECT COUNT(*) as nb FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%s' AND COLUMN_NAME = 'LASTDATE'";
+        $sqlAlter = "ALTER TABLE `%s` ADD COLUMN `LASTDATE` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `ID`";
+    
+        // Get all table type name
+        $sql = "SELECT DISTINCT `TABLE_TYPE_NAME` FROM `snmp_types`";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+
+        if($result) foreach ($result as $table_name){
+            // Verif if the column already exists
+            $resultColumnExists = mysql2_query_secure($sqlColumnExists, $_SESSION['OCS']["readServer"], array($table_name['TABLE_TYPE_NAME']));
+
+            if($resultColumnExists) foreach ($resultColumnExists as $nb){
+                if(!$nb['nb']) {
+                    mysql2_query_secure($sqlAlter, $_SESSION['OCS']["writeServer"], array($table_name['TABLE_TYPE_NAME']));
+                }
+            }
+        }
+    }
+}
+
 ?>

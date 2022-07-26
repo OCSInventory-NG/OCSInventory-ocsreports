@@ -338,6 +338,9 @@ if (!isset($_SESSION['OCS']["ipdiscover"])) {
 /* * ********************************************************gestion des administrative data*************************************************** */
 migrate_adminData_2_5();
 
+/* * ********************************************************SNMP migration 2.10.1*************************************************** */
+migrate_snmp_2_10_1();
+
 /* * ******************GESTION GUI CONF***************** */
 if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])) {
     $conf_gui = array('usecache' => 'INVENTORY_CACHE_ENABLED',
