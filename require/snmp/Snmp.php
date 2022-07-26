@@ -59,6 +59,7 @@ class OCSSnmp
 
 			$sql_create_table =   "CREATE TABLE IF NOT EXISTS `%s` (
 										`ID` INT(6) NOT NULL AUTO_INCREMENT,
+										`LASTDATE` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 										PRIMARY KEY (`ID`)
 									) ENGINE=InnoDB DEFAULT CHARSET=UTF8;";
 			$sql_arg_table = array($tableTypeName);
