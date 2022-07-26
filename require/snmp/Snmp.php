@@ -581,5 +581,46 @@ class OCSSnmp
 		);
 		return preg_replace(array_keys($utf8), array_values($utf8), $text);
 	}
+	
+	/**
+	 * html_table_equipment : display console SNMP report table
+	 *
+	 * @return String $html
+	 */
+	public function html_table_equipment() {
+		global $l;
+
+		// Retrieve all snmp types
+		$snmpTableType 		= $this->get_all_type();
+
+		// SNMP Queries
+		$sqlCountAll 		= "SELECT COUNT(*) as total FROM `%s`";
+		$sqlCountContacted 	= "SELECT COUNT(*) as contacted FROM `%s` WHERE DATE_FORMAT(`LASTDATE`, '%s') = DATE_FORMAT(NOW(), '%s')";
+
+		// Initialize count
+		$countTotal 		= 0;
+		$countContacted 	= 0;
+
+		if(!empty($snmpTableType)) foreach($snmpTableType as $tableName) {
+			$resultTotal = mysql2_query_secure($sqlCountAll, $_SESSION['OCS']["readServer"], array($tableName['TABLENAME']));
+			if($resultTotal) foreach($resultTotal as $total) {
+				$countTotal += $total['total'];
+			}
+
+			$resultContacted = mysql2_query_secure($sqlCountContacted, $_SESSION['OCS']["readServer"], array($tableName['TABLENAME'], '%Y-%m-%d', '%Y-%m-%d'));
+			if($resultContacted) foreach($resultContacted as $contacted) {
+				$countContacted += $contacted['contacted'];
+			}
+		}
+
+		$html = '	<table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-bottom:0px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
+						<tr>
+							<td style="border-right: 1px solid #ddd; padding: 5px;"><p style="font-size:32px; font-weight:bold;"><span>' . $countTotal . '</span></p><span style="color:#333; font-size:13pt;">'.$l->g(87).'</span></td>
+							<td style="border-right: 1px solid #ddd;"><p style="font-size:32px; font-weight:bold;"><span>' . $countContacted. '</span></p><span style="color:#333; font-size:13pt;">'.$l->g(9037).'</span></td>
+						</tr>
+					</table>';
+
+		return $html;
+	}
 
 }
