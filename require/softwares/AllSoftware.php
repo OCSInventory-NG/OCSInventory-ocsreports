@@ -187,4 +187,251 @@ class AllSoftware
         }
     }
 
+    /**
+     * getOperatingSystemList
+     *
+     * @return Array $os
+     */
+    public function getOperatingSystemList() {
+        GLOBAL $l;
+
+        $query = "SELECT OSNAME FROM hardware WHERE DEVICEID<>'_SYSTEMGROUP_' AND DEVICEID<>'_DOWNLOADGROUP_' GROUP BY OSNAME ORDER BY OSNAME";
+
+        $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
+
+        $os = [
+            0 => "-----",
+            "windows" => $l->g(9305),
+            "unix" => $l->g(9303),
+        ];
+
+        while($item = mysqli_fetch_array($result)){
+            $os[$item['OSNAME']] = $item['OSNAME'];
+        }
+
+        return $os;
+    }
+    
+    /**
+     * getGroupList
+     *
+     * @return Array $group
+     */
+    public function getGroupList() {
+        $query = "SELECT NAME, ID FROM hardware WHERE DEVICEID = '_SYSTEMGROUP_' GROUP BY NAME ORDER BY NAME";
+
+        $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
+
+        $group = [
+            0 => "-----",
+        ];
+
+        while($item = mysqli_fetch_array($result)){
+            $group[$item['ID']] = $item['NAME'];
+        }
+
+        return $group;
+    }
+    
+    /**
+     * getTagList
+     *
+     * @return Array $tag
+     */
+    public function getTagList() {
+        $query = "SELECT TAG FROM accountinfo a "; 
+        
+        // Tag restriction
+        if (is_defined($_SESSION['OCS']["mesmachines"]) && strpos($_SESSION['OCS']["mesmachines"], "a.TAG") !== false) {
+            $query .= "WHERE ".$_SESSION['OCS']["mesmachines"]. " ";
+        }
+
+        $query .= "GROUP BY TAG ORDER BY TAG";
+
+        $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
+
+        $tag = [
+            0 => "-----",
+        ];
+
+        while($item = mysqli_fetch_array($result)){
+            $tag[$item['TAG']] = $item['TAG'];
+        }
+
+        return $tag;
+    }
+    
+    /**
+     * getAssetCategoryList
+     *
+     * @return Array $asset
+     */
+    public function getAssetCategoryList() {
+        $query = "SELECT CATEGORY_NAME, ID FROM assets_categories GROUP BY CATEGORY_NAME ORDER BY CATEGORY_NAME";
+
+        $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
+
+        $asset = [
+            0 => "-----",
+        ];
+
+        while($item = mysqli_fetch_array($result)){
+            $asset[$item['ID']] = $item['CATEGORY_NAME'];
+        }
+
+        return $asset;
+    }
+    
+    /**
+     * generateQueryFilter
+     *
+     * @param  Array $filters
+     * @return Array
+     */
+    public function generateQueryFilter($filters) {
+        $queryFilter = [];
+        $hId = null;
+
+        // if isset OS / GROUP / TAG / ASSET -> initialize SQL beginning
+        if(is_defined($filters['OS']) || is_defined($filters['GROUP']) || is_defined($filters['TAG']) || is_defined($filters['ASSET'])) {
+            // Select
+            $queryFilter['SELECT'] = "SELECT n.NAME, p.PUBLISHER, v.VERSION, c.CATEGORY_NAME, 
+            CONCAT(n.NAME,';',p.PUBLISHER,';',v.VERSION) as id, COUNT(CONCAT(s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID)) as nb ";
+
+            // From
+            $queryFilter['FROM'] = "FROM software s LEFT JOIN software_name n ON n.ID = s.NAME_ID
+            LEFT JOIN software_publisher p ON p.ID = s.PUBLISHER_ID
+            LEFT JOIN software_version v ON v.ID = s.VERSION_ID
+            LEFT JOIN software_categories_link cl ON cl.NAME_ID = n.ID AND cl.PUBLISHER_ID = p.ID AND cl.VERSION_ID = v.ID
+            LEFT JOIN software_categories c ON c.ID = cl.CATEGORY_ID ";
+
+            // Group by
+            $queryFilter['GROUPBY'] = "GROUP BY id ";
+        }
+
+        if(is_defined($filters['OS'])) {
+            $hId = $this->getHidByOs($filters['OS']);
+        }
+
+        if(is_defined($filters['GROUP'])) {
+            $query = "SELECT HARDWARE_ID FROM `groups_cache` WHERE GROUP_ID = '".$filters["GROUP"]."' GROUP BY HARDWARE_ID";
+            $hId = $this->getHidByType($query, $hId);
+        }
+
+        if(is_defined($filters['TAG'])) {
+            $query = "SELECT HARDWARE_ID FROM accountinfo WHERE TAG = '".$filters['TAG']."' GROUP BY HARDWARE_ID";
+            $hId = $this->getHidByType($query, $hId);
+        }
+
+        if(is_defined($filters['ASSET'])) {
+            $query = "SELECT ID as HARDWARE_ID FROM `hardware` WHERE CATEGORY_ID = '".$filters['ASSET']."' GROUP BY HARDWARE_ID";
+            $hId = $this->getHidByType($query, $hId);
+        }
+
+        // If restrictions
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $query = "SELECT HARDWARE_ID FROM accountinfo a WHERE ".$_SESSION['OCS']["mesmachines"]." GROUP BY HARDWARE_ID";
+            $hId = $this->getHidByType($query, $hId);
+        }
+
+        if(!empty($hId)) {
+            // Where
+            $queryFilter['WHERE'] = "WHERE s.HARDWARE_ID IN (".implode(",", $hId).") "; 
+        } else {
+            $queryFilter['WHERE'] = "WHERE s.HARDWARE_ID IN (0) "; 
+        }
+
+        if(is_defined($filters['NBRE']) && is_defined($filters['COMPAR'])) {
+            $comparator = $this->getComparator($filters['COMPAR']);
+            $queryFilter['HAVING'] = "HAVING nb ".$comparator." ".$filters['NBRE']." ";
+        }
+
+        if(is_defined($filters['NAME_RESTRICT'])) {
+            if(is_defined($queryFilter['HAVING'])) {
+                $queryFilter['HAVING'] .= "AND n.NAME LIKE '%".$filters['NAME_RESTRICT']."%' ";
+            } else {
+                $queryFilter['HAVING'] .= "HAVING n.NAME LIKE '%".$filters['NAME_RESTRICT']."%' ";
+            }
+        }
+
+        return $queryFilter;
+    }
+    
+    /**
+     * getComparator
+     *
+     * @param  String $compar
+     * @return String
+     */
+    private function getComparator($compar) {
+        switch ($compar) {
+            case "lt":
+                return "<";
+            case "gt":
+                return ">";
+            case "eq":
+                return "=";
+            default:
+                return "=";
+        }
+    }
+    
+    /**
+     * getHidByType
+     *
+     * @param  String $query
+     * @param  Array $hId
+     * @return Array
+     */
+    private function getHidByType($query, $hId) {
+        $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
+        $tmp = [];
+
+        if($result) while($item = mysqli_fetch_array($result)){
+            $tmp[$item['HARDWARE_ID']] = $item['HARDWARE_ID'];
+        }
+
+        if(!empty($hId) && !empty($tmp)) {
+            foreach($hId as $id) {
+                if(!in_array($id, $tmp)) {
+                    unset($hId[$id]);
+                }
+            }
+        } elseif(!empty($tmp)) {
+            $hId = $tmp;
+        }
+
+        return $hId;
+    }
+    
+    /**
+     * getHidByOs
+     *
+     * @param  String $os
+     * @return Array
+     */
+    private function getHidByOs($os) {
+        $hId = null;
+
+        switch($os) {
+            case 'windows':
+                $getHIDQuery = "SELECT ID FROM hardware WHERE LOWER(OSNAME) LIKE '%$os%' AND DEVICEID<>'_SYSTEMGROUP_' AND DEVICEID<>'_DOWNLOADGROUP_' GROUP BY ID"; 
+                break;
+            case 'unix':
+                $getHIDQuery = "SELECT ID FROM hardware WHERE LOWER(OSNAME) NOT LIKE '%windows%' AND DEVICEID<>'_SYSTEMGROUP_' AND DEVICEID<>'_DOWNLOADGROUP_' GROUP BY ID"; 
+                break;
+            default:
+                $getHIDQuery = "SELECT ID FROM hardware WHERE OSNAME = '$os' GROUP BY ID"; 
+                break;
+        }
+
+        $result = mysql2_query_secure($getHIDQuery, $_SESSION['OCS']["readServer"]);
+
+        if($result) while($item = mysqli_fetch_array($result)){
+            $hId[$item['ID']] = $item['ID'];
+        }
+
+        return $hId;
+    }
+
 }
