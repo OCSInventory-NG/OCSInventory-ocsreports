@@ -542,9 +542,11 @@ function nb_ldap_filters($nb, $default = false) {
         $old_filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         $nb_old = $old_filters->num_rows;
         $old_filters = end(mysqli_fetch_all($old_filters, MYSQLI_ASSOC));
+        // getting number of the last filter to know how many filters have to be deleted/added
         if(isset($old_filters['NAME'])) {
             $last_filter = (int) preg_replace('/[^0-9]/', '', $old_filters['NAME']);
         } else {
+            // if new install, no filters exist in config table, we set it to 0 to force adding the 2 default filters
             $last_filter = 0;
         }
         
