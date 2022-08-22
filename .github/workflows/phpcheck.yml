@@ -1,0 +1,13 @@
+name: PHP Linter Action
+on: push
+
+jobs:
+  linter74:
+    name: Linter7.4
+    uses: StephaneBour/actions-php-lint@7.4
+  linter80:
+    name: Linter8.0
+    uses: StephaneBour/actions-php-lint@8.0
+  linter81:
+    name: Linter8.1
+    uses: StephaneBour/actions-php-lint@8.1
