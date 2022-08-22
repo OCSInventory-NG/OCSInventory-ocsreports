@@ -545,7 +545,7 @@ function nb_ldap_filters($nb, $default = false) {
         if(isset($old_filters['NAME'])) {
             $last_filter = (int) preg_replace('/[^0-9]/', '', $old_filters['NAME']);
         } else {
-            $last_filter = 2;
+            $last_filter = 0;
         }
         
         if ($nb > $nb_old) { // new filters added
