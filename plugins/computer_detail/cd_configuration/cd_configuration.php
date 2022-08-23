@@ -216,7 +216,7 @@ if (mysqli_num_rows($resGroups) > 0) {
         echo ")";
         echo "<br />";
 
-        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
+        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" && $valGroups["workgroup"] == "GROUP_4_ALL") {
             $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration&grp=" . $valGroups["group_id"];
             switch ($valGroups["static"]) {
                 case 0: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=2'>" . $l->g(600) . "</a>";
