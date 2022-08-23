@@ -15,5 +15,7 @@
     "**/libraries",
     "**/js",
     "**/files"
-  ]
+  ],
+  "min-tokens": 100,
+  "min-lines": 20
 }
