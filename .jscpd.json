@@ -1,5 +1,5 @@
 {
-  "threshold": 0,
+  "threshold": 10,
   "reporters": ["html", "markdown"],
   "ignore": [
     "**/node_modules/**",
@@ -14,8 +14,10 @@
     "**/config",
     "**/libraries",
     "**/js",
-    "**/files"
+    "**/files",
+    "**/css",
+    "**/templates"
   ],
-  "min-tokens": 100,
-  "min-lines": 20
+  "min-tokens": 150,
+  "min-lines": 40
 }
