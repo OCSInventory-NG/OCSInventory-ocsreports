@@ -75,7 +75,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
         $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration";
 
         $reqGroups = "SELECT h.name,h.id,h.workgroup
-					  FROM hardware h,groups g
+					  FROM hardware h,`groups` g
 					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
         if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
             $reqGroups .= " and workgroup = 'GROUP_4_ALL'";
