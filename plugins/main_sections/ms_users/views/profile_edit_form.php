@@ -109,6 +109,7 @@ function show_config_frame($profile, $yes_no) {
     show_select_field($config, 'config', 'ACCOUNTINFO', $l->g(1167), $yes_no);
     show_select_field($config, 'config', 'CHANGE_ACCOUNTINFO', $l->g(1168), $yes_no);
     show_select_field($config, 'config', 'CHANGE_USER_GROUP', $l->g(1169), $yes_no);
+    show_select_field($config, 'config', 'MANAGE_SAVED_SEARCHES', $l->g(9940), $yes_no);
     show_select_field($config, 'config', 'MANAGE_PROFIL', $l->g(1170), $yes_no);
     show_select_field($config, 'config', 'MANAGE_USER_GROUP', $l->g(1171), $yes_no);
     show_select_field($config, 'config', 'MANAGE_SMTP_COMMUNITIES', $l->g(1205), $yes_no);
