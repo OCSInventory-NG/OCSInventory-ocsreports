@@ -76,19 +76,14 @@ $tab_options['form_name'] = $form_name;
 
 echo open_form($form_name, '', '', 'form-horizontal');
 //view all groups
-if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
-	$def_onglets['DYNA']=$l->g(810); //Dynamic group
-	$def_onglets['STAT']=$l->g(809); //Static group centraux
-	if (empty($protectedPost['onglet']))
-	$protectedPost['onglet']="STAT";	
-	//show onglet
-	show_tabs($def_onglets,$form_name,"onglet",true);
-	echo '<div class="col col-md-10">';
+$def_onglets['DYNA']=$l->g(810); //Dynamic group
+$def_onglets['STAT']=$l->g(809); //Static group centraux
+if (empty($protectedPost['onglet']))
+$protectedPost['onglet']="STAT";	
+//show onglet
+show_tabs($def_onglets,$form_name,"onglet",true);
+echo '<div class="col col-md-10">';
 
-
-}else{	
-	$protectedPost['onglet']="STAT";
-}
 
 $list_fields = array('GROUP_NAME' => 'h.NAME',
     'GROUP_ID' => 'h.ID',
@@ -97,7 +92,7 @@ $list_fields = array('GROUP_NAME' => 'h.NAME',
     'NBRE' => 'NBRE');
 //only for admins
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
-    if ($protectedPost['onglet'] == "STAT") {
+    if ($protectedPost['onglet'] == "STAT" || $protectedPost['onglet'] == "DYNA") {
         $list_fields['CHECK'] = 'ID';
     }
     $list_fields['SUP'] = 'ID';
@@ -160,7 +155,7 @@ if (!isset($tab_options['VALUE']['NBRE'])) {
     $tab_options['VALUE']['NBRE'][] = 0;
 }
 //on recherche les groupes visible pour cocher la checkbox à l'affichage
-if ($protectedPost['onglet'] == "STAT") {
+if ($protectedPost['onglet'] == "STAT" || $protectedPost['onglet'] == "DYNA") {
     $sql = "select id from hardware where workgroup='GROUP_4_ALL'";
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     while ($item = mysqli_fetch_object($result)) {

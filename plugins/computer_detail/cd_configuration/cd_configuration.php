@@ -64,6 +64,9 @@ echo open_form($form_name, '', '', 'form-horizontal');
         if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
             echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" alt=". $l->g(2122) ." class='btn btn-success'>". $l->g(2122) ."</a>";
         }
+
+        // if user has permission to add devices to groups (Manage groups perm), show the group selector
+        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
         ?>
     </div>
 </div></br></br>
@@ -101,6 +104,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 </div></br></br>
 
 <?php
+}
 while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
     $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
     $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
@@ -212,7 +216,7 @@ if (mysqli_num_rows($resGroups) > 0) {
         echo ")";
         echo "<br />";
 
-        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
+        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" && $valGroups["workgroup"] == "GROUP_4_ALL") {
             $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration&grp=" . $valGroups["group_id"];
             switch ($valGroups["static"]) {
                 case 0: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=2'>" . $l->g(600) . "</a>";
