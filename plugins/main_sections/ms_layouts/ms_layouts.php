@@ -34,7 +34,7 @@ $form_name = "layouts";
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $form_name;
 
-$layout = new Layout($protectedGet['value']);
+$layout = new Layout($protectedGet['value'] ?? '');
 //ADD new layout
 if (isset($protectedPost['CREATE_VALID']) && (!empty($_SESSION['OCS']['layout_visib']))){
     if (isset($protectedPost['LAYOUT_SCOPE']) && $protectedPost['LAYOUT_SCOPE'] == 'GROUP') {
