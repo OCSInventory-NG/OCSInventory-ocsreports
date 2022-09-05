@@ -1849,7 +1849,7 @@
 9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
 9917 Public
 9918 Group
-9919 Personnal
+9919 Personal
 9920 Layout updated successfully
 9921 Is allowed to manage layouts
 
