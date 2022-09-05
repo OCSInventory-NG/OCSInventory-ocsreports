@@ -1712,8 +1712,10 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							}
 							if($form_name == "admins" && $_SESSION['OCS']["loggeduser"] == htmlspecialchars($value_of_field, ENT_QUOTES)) {
 								// Do nothing 
-							} elseif ($form_name == "affich_save_query" && ($row['WHO_CAN_SEE'] == 'ALL' || $row['WHO_CAN_SEE'] == 'GROUP')&& $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SAVED_SEARCHES') == 'NO') {
+							} elseif ($form_name == "affich_save_query" && ($row['WHO_CAN_SEE'] == 'ALL' || $row['WHO_CAN_SEE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SAVED_SEARCHES') == 'NO') {
 								// again do nothing (do not show the delete action if user does not have the right to manage saved searches)
+							} elseif ($form_name == "layouts" && ($row['VISIBILITY_SCOPE'] == 'ALL' || $row['VISIBILITY_SCOPE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_LAYOUTS') == 'NO') {
+								// still nothing
 							} else {
 								$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
 							}	
@@ -1739,7 +1741,11 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="&nbsp";
 						break;
 					case "MODIF":
-						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
+						if ($form_name == "layouts" && ($row['VISIBILITY_SCOPE'] == 'ALL' || $row['VISIBILITY_SCOPE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_LAYOUTS') == 'NO') {
+							
+						} else {
+							$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
+						}
 						break;
 					case "SELECT":
 						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
