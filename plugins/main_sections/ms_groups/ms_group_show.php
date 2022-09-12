@@ -247,7 +247,7 @@ else {
         $opt = stripslashes(urldecode($protectedGet["option"]));
     }
 
-
+    $notif = array($l->g(9950));
     $lblAdm = array($l->g(500));
     $imgAdm = array("ms_config");
     $lblHdw = array($l->g(580), $l->g(581));
@@ -260,6 +260,7 @@ else {
     }
 
     echo img($lblHdw[1], 1);
+    echo img($notif[0], 1);
 
         if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
             echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
@@ -276,6 +277,9 @@ else {
             break;
         case $l->g(580):
             print_computers_real($systemid);
+            break;
+        case $l->g(9950):
+            print_notification_form($systemid, $protectedPost['recurrence'] ?? '');
             break;
         default : print_perso($systemid);
             break;
@@ -333,6 +337,132 @@ function update_computer_group($hardware_id, $group_id, $static) {
         $arg = array($hardware_id, $group_id, $static);
         mysql2_query_secure($reqInsert, $_SESSION['OCS']["writeServer"], $arg);
     }
+}
+
+function print_notification_form($systemid, $recurrence) {
+    global $protectedPost, $l;
+
+    if (isset($protectedPost['SHOW'])) {
+        //$tab_options = $protectedPost;
+        $form_name = "reports_notifications";
+        $table_name = $form_name;
+        $tab_options['form_name'] = $form_name;
+        $tab_options['table_name'] = $table_name;
+        echo open_form($form_name, '', '', 'form-horizontal');
+
+        $list_fields = array(
+            "ID"    => "ID",
+            "GROUP_ID" => "GROUP_ID",
+            "RECURRENCE"    => "RECURRENCE",
+            "END_DATE"  => "END_DATE",
+            "WEEKDAY" => "WEEKDAY",
+            "DATE_CREATED" => "DATE_CREATED",
+        );
+
+        $default_fields = $list_fields;
+        $list_col_cant_del = $list_fields;
+
+        $queryDetails = "SELECT ID, GROUP_ID, RECURRENCE, END_DATE, WEEKDAY, DATE_CREATED FROM `reports_notifications`";
+
+        ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+        echo close_form();
+        if (AJAX) {
+            ob_end_clean();
+            tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+            ob_start();
+        }
+    } else {
+        echo "<div class='col-md-10 col-md-offset-1'>";
+        msg_info('Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work');
+
+        $recurrences['DAILY'] = "daily";
+        $recurrences['MONTHLY'] = "monthly";
+        $recurrences['WEEKLY'] = "weekly";
+        
+        if (isset($protectedPost['VALID_RECURRENCE'])) {
+            // check if report with same recurrence already exists
+            $sql = "SELECT ID FROM `reports_notifications` WHERE GROUP_ID = %s AND RECURRENCE = '%s'";
+            $args_rec = array($systemid, $recurrence);
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
+
+            // if not already existing, insert
+            if (isset($result) && $result->num_rows == 0) {
+                $datetime = date("Y-m-d H:i:s");
+                $end_date = isset($protectedPost['END_DATE_VALUE']) ? (New DateTime($protectedPost['END_DATE_VALUE']))->format('Y-m-d H:i:s') : NULL;
+                $sql = "INSERT INTO `reports_notifications` (GROUP_ID, RECURRENCE, END_DATE, WEEKDAY, DATE_CREATED, LAST_EXEC) VALUES (%s, '%s', '%s', '%s', '%s', '%s')";
+                $args_rec = array($systemid, $recurrence, $end_date, $protectedPost['WEEKDAY'] ?? '', $datetime, $datetime);
+                $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
+    
+                if ($result) {
+                    msg_success('Report created successfully');
+                }
+            } else {
+                msg_error('A report with same recurrence already exists for this group');
+            }
+
+        }
+
+        $recurrence = $protectedPost['recurrence'] ?? 'DAILY';
+        // show form to set a reccurence
+        formGroup('select', 'recurrence', 'Report recurrence :', '', '', $recurrence, '', $recurrences, $recurrences, 'onchange="this.form.submit();"');
+        
+        if (isset($recurrence) && $recurrence == 'DAILY') {
+            $rec_options = array("INTERVAL", "END_DATE");
+        } elseif (isset($recurrence) && $recurrence == 'WEEKLY') {
+            $rec_options = array("INTERVAL", "WEEKDAY", "END_DATE");
+        } elseif (isset($recurrence) && $recurrence == 'MONTHLY') {
+            $rec_options = array("INTERVAL", "END_DATE");
+        }
+
+        foreach ($rec_options as $option) {
+                
+            if ($option == "WEEKDAY") {
+                // show weekday form
+                $recurrence_days = array(0  => "Monday",
+                1  => "Tuesday",
+                2  => "Wednesday",
+                3  => "Thursday",
+                4  => "Friday",
+                5  => "Saturday",
+                6  => "Sunday");
+                formGroup('select', 'WEEKDAY', 'Day of report :', '', '', $protectedPost['WEEKDAY'] ?? '', '', $recurrence_days, $recurrence_days, 'onchange="this.form.submit();"');
+            }
+
+            if ($option == "END_DATE") {
+                // show radiobuttons for end_date options : never / date
+                $is_on = isset($protectedPost['END_DATE']) && $protectedPost['END_DATE'] == 'ON' ? 'checked' : '';
+                $is_off = !isset($protectedPost['END_DATE']) || $protectedPost['END_DATE'] == '0000-00-00 00:00:00' ? 'checked' : '';
+                echo "<label class='control-label col-sm-2' for='END_DATE_ON'>End Date : </label>";
+                echo "<input type='radio' id='END_DATE_ON' name='END_DATE' value='ON' onclick='this.form.submit();' $is_on/>ON";
+                echo "<input type='radio' id='END_DATE_OFF' name='END_DATE' value='0000-00-00 00:00:00' onclick='this.form.submit();' $is_off/>OFF<br>";
+                // show end_date calendar if user checked the ON radio button 
+                if (isset($protectedPost['END_DATE']) && $protectedPost['END_DATE'] == 'ON') {
+                    $curdate =  '';
+                    // report will be sent every 1st
+                    echo "<label class='control-label' for='testid' style='display: inline'>Date : </label>
+                    
+                    <div class='input-group date form_datetime' id='date_form'>
+                                        
+                    <input type='text' class='form-control' name='END_DATE_VALUE' id='end_date' value=''/>
+                    <span class='input-group-addon'>
+                        ".calendars($curdate, $l->g(1270))."
+                    </span>
+                    </div>";
+                }
+
+            }
+
+        }
+    }
+
+    if (isset($protectedPost['SHOW'])) {
+        echo "<br><input title='SHOW_FORM' value='Show form' name='SHOW_FORM' type='submit' class='btn btn-info'>";
+    } else {
+        echo "<br><input title='VALID_RECURRENCE' value='OK' name='VALID_RECURRENCE' type='submit' class='btn btn-success'>";
+        echo "<input title='SHOW' value='Show reports' name='SHOW' type='submit' class='btn btn-info'>";
+        echo "</div>";
+    }
+    
 }
 
 function print_computers_real($systemid) {
