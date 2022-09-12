@@ -346,7 +346,7 @@ function print_notification_form($systemid, $recurrence) {
     echo "<div class='col-md-10 col-md-offset-1'>";
 
     msg_info('Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work');
-
+    $recurrences[''] = "";
     $recurrences['DAILY'] = "daily";
     $recurrences['MONTHLY'] = "monthly";
     $recurrences['WEEKLY'] = "weekly";
@@ -357,7 +357,7 @@ function print_notification_form($systemid, $recurrence) {
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
     $current_rec = mysqli_fetch_assoc($result);
 
-    if (isset($protectedPost['UPDATE_RECURRENCE'])) {
+    if (isset($protectedPost['UPDATE_RECURRENCE']) && $protectedPost['RECURRENCE'] != '') {
         // if not already existing, insert
         if (isset($result) && $result->num_rows == 0) {
             $mails = explode(',', $protectedPost['MAIL']);
@@ -384,6 +384,8 @@ function print_notification_form($systemid, $recurrence) {
             }
         }
 
+    } elseif (isset($protectedPost['UPDATE_RECURRENCE']) && $protectedPost['RECURRENCE'] == '') {
+        msg_error('Please set a recurrence');
     }
 
     $cur_mails = isset($protectedPost['MAIL']) ? $protectedPost['MAIL'] : json_decode($current_rec['MAIL']);
