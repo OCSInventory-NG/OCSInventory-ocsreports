@@ -1848,3 +1848,5 @@
 9930 DNS
 
 9940 Is allowed to manage saved searches
+
+9950 Notifications

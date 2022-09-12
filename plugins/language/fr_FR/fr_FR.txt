@@ -1844,3 +1844,5 @@
 9930 DNS
 
 9940 Est autorisé à gérer les recherches sauvegardées
+
+9950 Notifications
