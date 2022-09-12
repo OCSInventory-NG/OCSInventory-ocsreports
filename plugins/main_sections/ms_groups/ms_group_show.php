@@ -256,11 +256,13 @@ else {
     echo img($lblAdm[0], 1);
 
     if (!$pureStat) {
+        echo img($notif[0], 1);
         echo img($lblHdw[0], 1);
+
     }
 
     echo img($lblHdw[1], 1);
-    echo img($notif[0], 1);
+
 
         if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
             echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
