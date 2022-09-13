@@ -387,6 +387,8 @@ function print_notification_form($systemid, $recurrence) {
 
     } elseif (isset($protectedPost['UPDATE_RECURRENCE']) && $protectedPost['RECURRENCE'] == '') {
         msg_error('Please set a recurrence');
+    } elseif (isset($protectedPost['UPDATE_RECURRENCE']) && isset($protectedPost['MAIL']) && $protectedPost['MAIL'] == '') {
+        msg_error('Please provide at least one recipient, or comma separated recipients');
     }
 
     if (isset($protectedPost['RECURRENCE']) || isset($current_rec)) {
@@ -477,7 +479,7 @@ function print_notification_form($systemid, $recurrence) {
         }
     }
         
-        echo "<br><br><br><input title='UPDATE_RECURRENCE' value='Update' name='UPDATE_RECURRENCE' type='submit' class='btn btn-success'>";
+        echo "<br><br><br><input value='Update' name='UPDATE_RECURRENCE' type='submit' class='btn btn-success'>";
     
 }
 
