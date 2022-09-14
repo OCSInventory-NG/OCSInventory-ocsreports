@@ -393,35 +393,10 @@
 
               unset($value['ignore']);
 
-              if($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && empty($doesntcontainmulti)){
-                $excluID = $this->contain($value, $nameTable);
-                if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
-                $value[self::SESS_FIELDS] = "HARDWARE_ID";
-                }else{
-                $value[self::SESS_FIELDS] = "ID";
-                }
-                
-                $value[self::SESS_VALUES] = implode(',', $excluID);
-                $value[self::SESS_OPERATOR] = "NOT IN";
-
-              }elseif($value[self::SESS_OPERATOR] == "DOESNTCONTAIN" && !empty($isSameColumn) && !empty($doesntcontainmulti)){
-                $excluID = $this->containmulti($isSameColumn, $searchInfos);
-                if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
-                $value[self::SESS_FIELDS] = "HARDWARE_ID";
-                }else{
-                $value[self::SESS_FIELDS] = "ID";
-                }
-                
-                $value[self::SESS_VALUES] = implode(',', $excluID);
-                $value[self::SESS_OPERATOR] = "NOT IN";
-                $value['ignore'] = "";
-              }
-
-              if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[self::SESS_FIELDS] 
-                    && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
+              if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[self::SESS_FIELDS] && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn) && $value[self::SESS_OPERATOR] != "DOESNTCONTAIN"){
                 if($value[self::SESS_OPERATOR] != "IS NULL"){
                   if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE && $nameTable != self::GROUP_TABLE && $value[self::SESS_FIELDS] != 'CATEGORY_ID' && $value[self::SESS_FIELDS] != 'CATEGORY' 
-                  && $value[self::SESS_OPERATOR] != "NOT IN") {
+                  && $value[self::SESS_OPERATOR] != "NOT IN" && $value[self::SESS_OPERATOR] != "ISNOTEMPTY") {
                     $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
                     $this->queryArgs[] = $nameTable;
                     $this->queryArgs[] = $nameTable;
@@ -498,7 +473,7 @@
                   }
                 }
               }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
-                $this->columnsQueryConditions .= "$operator[$p] $open%s.%s IS NULL OR TRIM(%s.%s) = ''$close ";
+                $this->columnsQueryConditions .= "$operator[$p] ($open%s.%s IS NULL OR TRIM(%s.%s) = '')$close ";
                 $this->queryArgs[] = $nameTable;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
                 $this->queryArgs[] = $nameTable;
@@ -513,16 +488,27 @@
                     || $value[self::SESS_OPERATOR] == "NOT IN"){
                 $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s (%s)$close ";
                 if($nameTable == self::GROUP_TABLE){
-                $this->queryArgs[] = 'hardware';
-                $this->queryArgs[] = 'ID';
-                $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
+                  $this->queryArgs[] = 'hardware';
+                  $this->queryArgs[] = 'ID';
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                  $this->queryArgs[] = $this->groupSearch->get_all_id($value[self::SESS_VALUES]);
                 }else{
-                $this->queryArgs[] = $nameTable;
-                $this->queryArgs[] = $value[self::SESS_FIELDS];
-                $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                $this->queryArgs[] = $value[self::SESS_VALUES];
+                  $this->queryArgs[] = $nameTable;
+                  $this->queryArgs[] = $value[self::SESS_FIELDS];
+                  $this->queryArgs[] = 'NOT IN';
+                  $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
+              } elseif ($value[self::SESS_OPERATOR] == "DOESNTCONTAIN"){
+                $result = $this->contain_subquery($nameTable, $value);
+
+                if($tableName == DatabaseSearch::COMPUTER_DEF_TABLE || substr($nameTable, 0, 9) == 'software_'){
+                  $value[self::SESS_FIELDS] = "ID";
+                  }else{
+                  $value[self::SESS_FIELDS] = "HARDWARE_ID";
+                  }
+
+                $this->columnsQueryConditions .= " $operator[$p] $open hardware.ID NOT IN ($result) $close ";
+                
               // test fix datetime in multisearch
               }else if($this->getSearchedFieldType($nameTable, $value[self::SESS_FIELDS]) == 'datetime' && $value[self::SESS_OPERATOR] != "MORETHANXDAY" && $value[self::SESS_OPERATOR] != "LESSTHANXDAY" ){
                 $this->columnsQueryConditions .= "$operator[$p] $open%s.%s %s str_to_date('%s', '%s')$close ";
@@ -1244,22 +1230,36 @@
      * Doesn't contain traitment
      */
     public function contain($value, $tableName){
-      if($tableName != DatabaseSearch::COMPUTER_DEF_TABLE){
-        $field = "HARDWARE_ID";
-      }else{
+       // if table is hardware or table name begins with 'software_' : field name is ID
+      if($tableName == DatabaseSearch::COMPUTER_DEF_TABLE || substr($tableName, 0, 9) == 'software_') {
         $field = "ID";
-      }
-      $sql_search = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
-      $sql_search_arg = array($field, $tableName, $value['fields'], "%".$value['value']."%");
-      $result = mysql2_query_secure($sql_search, $_SESSION['OCS']["readServer"], $sql_search_arg);
-
-      while($notcontain = mysqli_fetch_array($result)){
-        $excluID[] = $notcontain[$field];
+      } elseif ($tableName != DatabaseSearch::COMPUTER_DEF_TABLE) {
+        $field = "HARDWARE_ID";
       }
 
-      if($excluID[0] == null){
-        $excluID[0] = 0;
+      // if search is software related, process is slighty different
+      if (substr($tableName, 0, 9) == 'software_') {
+        $crit = $value['value'];
+        $result = $this->contain_subquery($tableName, $crit);
+      } else {
+        // classic way for other tables
+        $sql_search = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
+        $sql_search_arg = array($field, $tableName, $value['fields'], "%".$value['value']."%");
+        $result = mysql2_query_secure($sql_search, $_SESSION['OCS']["readServer"], $sql_search_arg);
       }
+      
+      if (is_object($result)) {
+        while($notcontain = mysqli_fetch_array($result)) {
+          $excluID[] = $notcontain[$field];
+        }
+  
+        if(!isset($excluID) || $excluID[0] == null){
+          $excluID[0] = 0;
+        }
+      } else {
+        $excluID = $result;
+      }
+
 
       return $excluID;
     }
@@ -1275,10 +1275,11 @@
         $column = $field;
       }
 
-      if($tablename != DatabaseSearch::COMPUTER_DEF_TABLE){
-        $fieldname = "HARDWARE_ID";
-      }else{
+      // if table is hardware or table name begins with 'software_' : field name is ID
+      if($tablename == DatabaseSearch::COMPUTER_DEF_TABLE || substr($tablename, 0, 9) == 'software_') {
         $fieldname = "ID";
+      } elseif ($tablename != DatabaseSearch::COMPUTER_DEF_TABLE) {
+        $fieldname = "HARDWARE_ID";
       }
 
       foreach ($value as $values){
@@ -1291,11 +1292,16 @@
       }
 
       for($i = 0; $i != count($comparator)+1; $i++){
-
-        $sql = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
-        $sql_arg = array($fieldname, $tablename, $column, "%".$search[$i]."%");
-
-        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
+        // if search is software related, process is slighty different
+        if (substr($tablename, 0, 9) == 'software_') {
+          $crit = $search[$i];
+          $result = $this->contain_subquery($tablename, $crit);
+        } else {
+          // classic way for other tables
+          $sql = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
+          $sql_arg = array($fieldname, $tablename, $column, "%".$search[$i]."%");
+          $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
+        }
 
         while($notcontain = mysqli_fetch_array($result)){
           $excluID[$notcontain[$fieldname]] = $notcontain[$fieldname];
@@ -1313,10 +1319,37 @@
         }
       }
 
-      if($excluID == null){
+      if(!isset($excluID) || array_key_first($excluID) == null){
         $excluID[0] = 0;
       }
 
       return $excluID;
     }
- }
+
+    /**
+     * Handling of doesntcontain operator 
+     * Returns : a sql query to use as subquery
+     */
+    public function contain_subquery($tableName, $value) {
+      // software tables
+      if (substr($tableName, 0, 9) == 'software_') {
+        $main_col = substr($tableName, strpos($tableName, "_") + 1);
+        $id_col = $main_col.'_id';
+        $sql_search = "SELECT DISTINCT hardware.ID FROM hardware INNER JOIN software on hardware.id = software.hardware_id LEFT JOIN $tableName on $tableName.id = software.$id_col WHERE $tableName.$main_col LIKE '%s' GROUP BY hardware.id";  
+        $arg = array("%%".$value['value']."%%");
+      // any other table
+      } else {
+        if($tableName == DatabaseSearch::COMPUTER_DEF_TABLE){
+          $field = "ID";
+          }else{
+          $field = "HARDWARE_ID";
+          }
+        $sql_search = "SELECT DISTINCT %s FROM %s WHERE %s LIKE '%s'";
+        $arg = array($field, $tableName, $value['fields'], "%%".$value[self::SESS_VALUES]."%%");
+      }
+
+      $result = generate_secure_sql($sql_search, $arg);
+
+      return $result; 
+    }
+  }

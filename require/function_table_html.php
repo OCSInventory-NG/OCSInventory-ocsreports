@@ -1715,6 +1715,8 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							}
 							if($form_name == "admins" && $_SESSION['OCS']["loggeduser"] == htmlspecialchars($value_of_field, ENT_QUOTES)) {
 								// Do nothing 
+							} elseif ($form_name == "affich_save_query" && ($row['WHO_CAN_SEE'] == 'ALL' || $row['WHO_CAN_SEE'] == 'GROUP')&& $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SAVED_SEARCHES') == 'NO') {
+								// again do nothing (do not show the delete action if user does not have the right to manage saved searches)
 							} else {
 								$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
 							}	

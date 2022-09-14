@@ -541,11 +541,14 @@ function nb_ldap_filters($nb, $default = false) {
         $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
         $old_filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         $nb_old = $old_filters->num_rows;
-        $old_filters = end(mysqli_fetch_all($old_filters, MYSQLI_ASSOC));
+        $filters_result = mysqli_fetch_all($old_filters, MYSQLI_ASSOC);
+        $old_filters = end($filters_result);
+        // getting number of the last filter to know how many filters have to be deleted/added
         if(isset($old_filters['NAME'])) {
             $last_filter = (int) preg_replace('/[^0-9]/', '', $old_filters['NAME']);
         } else {
-            $last_filter = 2;
+            // if new install, no filters exist in config table, we set it to 0 to force adding the 2 default filters
+            $last_filter = 0;
         }
         
         if ($nb > $nb_old) { // new filters added
@@ -560,8 +563,7 @@ function nb_ldap_filters($nb, $default = false) {
                 
             }
         } elseif ($nb < $nb_old) { // filters to be removed
-            $i = $nb_old;
-
+            $i = $last_filter;
             while ($i >= $nb + 1) {
                 $filter_name = "CONEX_LDAP_FILTER$i";
                 $sql = "DELETE FROM config WHERE NAME = 'CONEX_LDAP_FILTER$i' OR NAME = 'CONEX_LDAP_FILTER".$i."_ROLE'";

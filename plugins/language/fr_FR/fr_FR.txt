@@ -1845,3 +1845,5 @@
 9913 Nom du tableau
 
 9930 DNS
+
+9940 Est autorisé à gérer les recherches sauvegardées
