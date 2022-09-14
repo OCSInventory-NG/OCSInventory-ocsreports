@@ -345,11 +345,12 @@ function print_notification_form($systemid, $recurrence) {
     global $protectedPost, $l;
     echo "<div class='col-md-10 col-md-offset-1'>";
 
-    msg_info('Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work');
+    msg_info($l->g(9951));
     $recurrences[''] = "";
-    $recurrences['DAILY'] = "daily";
-    $recurrences['MONTHLY'] = "monthly";
-    $recurrences['WEEKLY'] = "weekly";
+    $recurrences['DAILY'] = $l->g(9956);
+    $recurrences['WEEKLY'] = $l->g(9957);
+    $recurrences['MONTHLY'] = $l->g(9958);
+
     
     // check if group already has a report
     $sql = "SELECT * FROM `reports_notifications` WHERE GROUP_ID = %s";
@@ -369,7 +370,7 @@ function print_notification_form($systemid, $recurrence) {
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
 
             if ($result) {
-                msg_success('Report created successfully');
+                msg_success($l->g(9952));
             }
         } else {
             $status = $protectedPost['STATUS'] ?? 'ON';
@@ -381,14 +382,14 @@ function print_notification_form($systemid, $recurrence) {
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
             
             if ($result) {
-                msg_success('Report updated successfully');
+                msg_success($l->g(9953));
             }
         }
 
     } elseif (isset($protectedPost['UPDATE_RECURRENCE']) && $protectedPost['RECURRENCE'] == '') {
-        msg_error('Please set a recurrence');
+        msg_error($l->g(9954));
     } elseif (isset($protectedPost['UPDATE_RECURRENCE']) && isset($protectedPost['MAIL']) && $protectedPost['MAIL'] == '') {
-        msg_error('Please provide at least one recipient, or comma separated recipients');
+        msg_error($l->g(9955));
     }
 
     if (isset($protectedPost['RECURRENCE']) || isset($current_rec)) {
@@ -405,12 +406,12 @@ function print_notification_form($systemid, $recurrence) {
     // status button
     $activate['ON'] = 'ON';
     $activate['OFF'] = 'OFF';
-    formGroup('select', 'STATUS', 'Activate :', '', '', $cur_status ?? '', '', $activate, $activate);
+    formGroup('select', 'STATUS', $l->g(9959), '', '', $cur_status ?? '', '', $activate, $activate);
 
 
     // show form to set a reccurence
-    formGroup('select', 'RECURRENCE', 'Report recurrence :', '', '', $cur_rec ?? '', '', $recurrences, $recurrences, 'onchange="this.form.submit();"');
-    formGroup('text', 'MAIL', 'Recipient(s) : ', '', '', $cur_mails ?? '', '', '', "disabled");
+    formGroup('select', 'RECURRENCE', $l->g(9960), '', '', $cur_rec ?? '', '', $recurrences, $recurrences, 'onchange="this.form.submit();"');
+    formGroup('text', 'MAIL', $l->g(9961), '', '', $cur_mails ?? '', '', '', '', "placeholder='example@example.com, another@example.com'");
     
     if (isset($recurrence) && $recurrence == 'DAILY') {
         $rec_options = array("END_DATE");
@@ -426,18 +427,18 @@ function print_notification_form($systemid, $recurrence) {
                 
             if ($option == "WEEKDAY") {
                 // show weekday form
-                $recurrence_days = array(0  => "Monday",
-                1  => "Tuesday",
-                2  => "Wednesday",
-                3  => "Thursday",
-                4  => "Friday",
-                5  => "Saturday",
-                6  => "Sunday");
-                formGroup('select', 'WEEKDAY', 'Day of report :', '', '', $cur_weekday ?? '', '', $recurrence_days, $recurrence_days, 'onchange="this.form.submit();"');
+                $recurrence_days = array(0  => $l->g(540),
+                1  => $l->g(541),
+                2  => $l->g(542),
+                3  => $l->g(543),
+                4  => $l->g(544),
+                5  => $l->g(545),
+                6  => $l->g(539));
+                formGroup('select', 'WEEKDAY', $l->g(9962), '', '', $cur_weekday ?? '', '', $recurrence_days, $recurrence_days, 'onchange="this.form.submit();"');
             }
 
             if ($option == "END_DATE") {
-                echo "<label class='control-label col-sm-2' for='END_DATE_ON'>End Date : </label>
+                echo "<label class='control-label col-sm-2' for='END_DATE_ON'>".$l->g(9963)."</label>
                 <div class='col-sm-3'>";
                 
                 if (isset($protectedPost['END_DATE_RADIO']) && $protectedPost['END_DATE_RADIO'] == 'OFF') {
@@ -479,7 +480,7 @@ function print_notification_form($systemid, $recurrence) {
         }
     }
         
-        echo "<br><br><br><input value='Update' name='UPDATE_RECURRENCE' type='submit' class='btn btn-success'>";
+        echo "<br><br><br><input value='".$l->g(103)."' name='UPDATE_RECURRENCE' type='submit' class='btn btn-success'>";
     
 }
 
