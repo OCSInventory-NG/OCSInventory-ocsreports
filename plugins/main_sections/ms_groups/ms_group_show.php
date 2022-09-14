@@ -358,15 +358,23 @@ function print_notification_form($systemid, $recurrence) {
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
     $current_rec = mysqli_fetch_assoc($result);
 
-    if (isset($protectedPost['UPDATE_RECURRENCE']) && $protectedPost['RECURRENCE'] != '') {
+    if ((isset($protectedPost['UPDATE_RECURRENCE']) && $protectedPost['RECURRENCE'] != '') && (isset($protectedPost['MAIL']) && $protectedPost['MAIL'] != '')) {
         // if not already existing, insert
         if (isset($result) && $result->num_rows == 0) {
             $status = $protectedPost['STATUS'] ?? 'ON';
             $mails = json_encode($protectedPost['MAIL']);
             $datetime = date("Y-m-d H:i:s");
+
+            if (isset($protectedPost['RECURRENCE']) && $protectedPost['RECURRENCE'] == 'MONTHLY') {
+                // set the last_exec date to first of this month if monthly recurrence
+                $last_exec = date("Y-m-01 H:i:s");
+            } else {
+                $last_exec = $datetime;
+            }
+
             $end_date = isset($protectedPost['END_DATE_VALUE']) ? (New DateTime($protectedPost['END_DATE_VALUE']))->format('Y-m-d H:i:s') : NULL;
             $sql = "INSERT INTO `reports_notifications` (GROUP_ID, RECURRENCE, END_DATE, WEEKDAY, DATE_CREATED, LAST_EXEC, MAIL, STATUS) VALUES (%s, '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
-            $args_rec = array($systemid, $recurrence, $end_date, $protectedPost['WEEKDAY'] ?? '', $datetime, $datetime, $mails, $status);
+            $args_rec = array($systemid, $recurrence, $end_date, $protectedPost['WEEKDAY'] ?? '', $datetime, $last_exec, $mails, $status);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
 
             if ($result) {
@@ -376,9 +384,15 @@ function print_notification_form($systemid, $recurrence) {
             $status = $protectedPost['STATUS'] ?? 'ON';
             $mails = json_encode($protectedPost['MAIL']);
             $datetime = date("Y-m-d H:i:s");
+            if (isset($protectedPost['RECURRENCE']) && $protectedPost['RECURRENCE'] == 'MONTHLY') {
+                // set the last_exec date to first of this month if monthly recurrence
+                $last_exec = date("Y-m-01 H:i:s");
+            } else {
+                $last_exec = $datetime;
+            }
             $end_date = isset($protectedPost['END_DATE_VALUE']) ? (New DateTime($protectedPost['END_DATE_VALUE']))->format('Y-m-d H:i:s') : NULL;
             $sql = "UPDATE `reports_notifications` SET RECURRENCE = '%s', END_DATE = '%s', WEEKDAY = '%s', DATE_CREATED = '%s', LAST_EXEC = '%s', MAIL = '%s', STATUS = '%s' WHERE ID = %s";
-            $args_rec = array($recurrence, $end_date, $protectedPost['WEEKDAY'] ?? '', $datetime, $datetime, $mails, $status, $current_rec['ID']);
+            $args_rec = array($recurrence, $end_date, $protectedPost['WEEKDAY'] ?? '', $datetime, $last_exec, $mails, $status, $current_rec['ID']);
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
             
             if ($result) {
@@ -400,7 +414,6 @@ function print_notification_form($systemid, $recurrence) {
         $cur_status = isset($protectedPost['STATUS']) ? $protectedPost['STATUS'] ?? '': $current_rec['STATUS'] ?? '';
     }
 
-    // new to handle the default rec
     $recurrence = $cur_rec ?? '';
 
     // status button
