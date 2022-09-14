@@ -52,6 +52,7 @@
     <page>ms_config_account</page>
     <page>ms_soft_csv</page>
     <page>ms_csv</page>
+    <page>ms_csv_snmp</page>
     <page>ms_tele_stats</page>
     <page>ms_view_file</page>
     <page>ms_snmp</page>

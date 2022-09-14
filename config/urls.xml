@@ -188,6 +188,10 @@
         <value>export_csv</value>
         <directory>ms_export</directory>
     </url>
+    <url key="ms_csv_snmp">
+        <value>export_csv_snmp</value>
+        <directory>ms_export</directory>
+    </url>
     <url key="ms_tele_stats">
         <value>tele_stat</value>
         <directory>ms_teledeploy</directory>
