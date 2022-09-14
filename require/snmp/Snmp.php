@@ -629,17 +629,31 @@ class OCSSnmp
 	 *
 	 * @param  mixed $type
 	 * @param  mixed $id
+	 * @param mixed $full
 	 * @return array $details
 	 */
-	public function getDetails($type, $id) {
+	public function getDetails($type, $id, $full=null) {
 		$details = [];
 
 		$sql = "SELECT * FROM `%s` WHERE `ID` = %s";
 		$arg = array($type, $id);
 
+		if($full) {
+			$sql = "SELECT * FROM `%s`";
+			$arg = array($type);
+		}
+
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
-		if($result) $details = mysqli_fetch_assoc($result);
+		if($result) {
+			if($full) {
+				while($snpmDetails = mysqli_fetch_assoc($result)) {
+					$details[$snpmDetails['ID']] = $snpmDetails;
+				}
+			} else {
+				$details = mysqli_fetch_assoc($result);
+			}
+		}
 
 		return $details;
 	}
