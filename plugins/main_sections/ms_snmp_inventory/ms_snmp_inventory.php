@@ -55,7 +55,7 @@ if(empty($typeList)) {
 
     //show first lign of onglet
     if($count < 15){
-    show_tabs($def_onglets,$form_name,"onglet",true);
+        show_tabs($def_onglets,$form_name,"onglet",true);
     }
 
     if ($count >= 15) {
@@ -86,7 +86,7 @@ if(empty($typeList)) {
             }
             unset($protectedPost['DEL_ALL']);
         }
-
+        echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv_snmp'] . "&no_header=1&tablename=all_snmp_export' class='btn btn-action'>".$l->g(9040)."</a>";
         print_item_header($typeList[$protectedPost['onglet']]['TYPENAME']);
         $columns = $snmp->show_columns($typeList[$protectedPost['onglet']]['TABLENAME']);
 
