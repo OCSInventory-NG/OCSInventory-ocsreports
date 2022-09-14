@@ -174,13 +174,14 @@ class GroupReport {
     }
 
     /**
-     * Update LAST_EXEC field + remove files after they were sent
+     * Update LAST_EXEC field
      */
-    public function updateLastExec($id) {
+    public function updateLastExec($id, $date) {
     
         if (isset($id)) {
-            $updateQuery = "UPDATE `reports_notifications` SET LAST_EXEC = NOW() WHERE ID = $id";
-            $reportResult = mysql2_query_secure($updateQuery, $_SESSION['OCS']["writeServer"]);
+            $date = (New DateTime(str_replace("_", "", $date)))->format('Y-m-d H:i:s');
+            $updateQuery = "UPDATE `reports_notifications` SET LAST_EXEC = '$date' WHERE ID = $id";
+            $updateResult = mysql2_query_secure($updateQuery, $_SESSION['OCS']["writeServer"]);
         }
     }
 
@@ -254,7 +255,7 @@ class GroupReport {
                 if ($send) {
                     echo "[".date("Y-m-d H:i:s")."] Message has been sent successfully \n";
                     // updating last_exec datetime + removes generated files from tmp_dir
-                    $groupReport->updateLastExec($report['ID']);
+                    $groupReport->updateLastExec($report['ID'], $report['DATE']);
                     echo "[".date("Y-m-d H:i:s")."] Files removed from tmp_dir/ \n";
                 } else {
                     echo "[".date("Y-m-d H:i:s")."] Mailer Error: " . $mail->ErrorInfo . "\n";
