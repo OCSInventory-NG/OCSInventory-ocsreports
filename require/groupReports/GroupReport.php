@@ -253,14 +253,14 @@ class GroupReport {
                 $send = $mail->send();
                 
                 if ($send) {
-                    echo "[".date("Y-m-d H:i:s")."] Message has been sent successfully \n";
+                    echo "[".date("Y-m-d H:i:s")."] Notification sent successfully for group ".$report['TITLE']." \n";
                     // updating last_exec datetime + removes generated files from tmp_dir
                     $groupReport->updateLastExec($report['ID'], $report['DATE']);
-                    echo "[".date("Y-m-d H:i:s")."] Files removed from tmp_dir/ \n";
                 } else {
                     echo "[".date("Y-m-d H:i:s")."] Mailer Error: " . $mail->ErrorInfo . "\n";
                 }
                 unlink($report['FILEPATH']);
+                echo "[".date("Y-m-d H:i:s")."] Files removed from tmp_dir/ \n";
             }
         }
     }
