@@ -40,11 +40,10 @@ if(isset($protectedGet['tablename']) && $protectedGet['tablename'] == "all_snmp_
 
     if(!empty($snmpType)) {
         foreach($snmpType as $id => $values) {
-            // First line -> type name
-            $toBeWritten .= $values['TYPENAME'].$separator."\r\n";
-            // Seconde line -> column names
+            // First line -> column names
             $colums = $snmp->show_columns($values['TABLENAME']);
             if(!empty($colums)) {
+                $toBeWritten .= "TYPE".$separator;
                 foreach($colums as $name) {
                     $toBeWritten .= $name.$separator;
                 }
@@ -54,6 +53,7 @@ if(isset($protectedGet['tablename']) && $protectedGet['tablename'] == "all_snmp_
             $details = $snmp->getDetails($values['TABLENAME'], 0, true);
             if(!empty($details)) {
                 foreach($details as $detail) {
+                    $toBeWritten .= "\"".$values['TYPENAME']."\"".$separator;
                     foreach($detail as $columnName => $columnValue) {
                         if($columnName != "ID") {
                             $toBeWritten .= "\"".$columnValue."\"".$separator;
