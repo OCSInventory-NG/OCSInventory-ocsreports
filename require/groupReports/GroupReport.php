@@ -26,7 +26,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
 /**
- * Class for generating and sending dynamic group reports
+ * Class for generating and sending group reports
  */
 class GroupReport {
     /**
@@ -264,7 +264,7 @@ class GroupReport {
 
                 // set report in attachment
                 $mail->addAttachment($report['FILEPATH']);
-                $mail->Subject = "OCS Inventory dynamic group report : ".$report['TITLE'];
+                $mail->Subject = "OCS Inventory group report : ".$report['TITLE'];
                 // html format
                 $mail->isHTML(true); 
                 $mail->Body = $groupReport->mailTemplate($report, TEMPLATE.'OCS_group_notif.html');
