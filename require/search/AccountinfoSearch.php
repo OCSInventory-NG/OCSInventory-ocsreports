@@ -21,7 +21,7 @@
  * MA 02110-1301, USA.
  */
 
-require_once 'require/function_admininfo.php';
+require_once 'require/admininfo/Admininfo.php';
 
  /**
   * This class implement basic behavior for accountinfo search management
@@ -149,7 +149,9 @@ require_once 'require/function_admininfo.php';
           $info = 'ACCOUNT_VALUE_'.$type['NAME'];
         }
 
-        return find_value_field($info, $typeInfo);
+        $Admininfo = new Admininfo();
+
+        return $Admininfo->find_value_field($info, $typeInfo);
     }
 
  }

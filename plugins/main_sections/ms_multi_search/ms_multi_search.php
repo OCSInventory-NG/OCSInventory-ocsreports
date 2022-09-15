@@ -37,7 +37,9 @@ require("require/search/GroupSearch.php");
 require("require/search/LegacySearch.php");
 require("require/search/Search.php");
 require("require/search/SQLCache.php");
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
+
+$Admininfo = new Admininfo();
 
 // Get tables and columns infos
 $softwareSearch = new SoftwareSearch();
@@ -304,8 +306,8 @@ if((isset($protectedPost['search_ok']) || isset($protectedGet['prov']) || isset(
 
   	//BEGIN SHOW ACCOUNTINFO
 	$option_comment['comment_be'] = $l->g(1210)." ";
-	$tab_options['REPLACE_VALUE'] = replace_tag_value('',$option_comment);
-  	$tab_options['REPLACE_VALUE'][$l->g(66)] = $type_accountinfo;
+	$tab_options['REPLACE_VALUE'] = $Admininfo->replace_tag_value('',$option_comment);
+  	$tab_options['REPLACE_VALUE'][$l->g(66)] = $Admininfo->type_accountinfo;
   	// $tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
 
 
