@@ -488,7 +488,7 @@ function print_notification_form($systemid, $recurrence) {
                         ".calendars('END_DATE_VALUE', $l->g(1270))."
                     </span>
 
-                    </div></div>";
+                    </div>";
                 }
 
             }
