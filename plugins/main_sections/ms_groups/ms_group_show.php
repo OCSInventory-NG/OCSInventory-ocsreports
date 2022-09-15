@@ -254,8 +254,11 @@ else {
     $imgHdw = array("ms_all_computersred", "ms_all_computers",);
         echo "<div class='row rowMarginTop30'>";
     echo img($lblAdm[0], 1);
-    echo img($notif[0], 1);
-    if (!$pureStat) {
+    
+    if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
+        echo img($notif[0], 1);
+    }
+        if (!$pureStat) {
         echo img($lblHdw[0], 1);
 
     }
