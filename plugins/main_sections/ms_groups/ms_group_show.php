@@ -29,10 +29,12 @@ if (AJAX) {
 $tab_options = $protectedPost;
 require_once('require/function_opt_param.php');
 //BEGIN SHOW ACCOUNTINFO
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
+
+$Admininfo = new Admininfo();
 
 if(isset($list_fields)) {
-    $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+    $accountinfo_value = $Admininfo->interprete_accountinfo($list_fields, $tab_options);
     if (array($accountinfo_value['TAB_OPTIONS'])) {
         $tab_options = $accountinfo_value['TAB_OPTIONS'];
 

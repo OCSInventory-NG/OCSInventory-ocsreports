@@ -28,8 +28,10 @@ if (AJAX) {
 
 require_once('require/snmp/Snmp.php');
 require_once('require/function_machine.php');
+require_once('require/admininfo/Admininfo.php');
 
 $snmp = new OCSSnmp();
+$Admininfo = new Admininfo();
 
 $typeList = $snmp->get_all_type();
 $columns = [];
@@ -62,6 +64,7 @@ if(empty($typeList)) {
         echo "<div class='col col-md-2'>";
         echo show_modif($def_onglets, 'onglet', 2, $form_name) . "</div>";
     }
+
     echo '<div class="col col-md-10" >';
 
     if($protectedPost['onglet'] != "") {
@@ -93,6 +96,10 @@ if(empty($typeList)) {
         $tab_options = $protectedPost;
         $tab_options['form_name'] = $form_name;
         $tab_options['table_name'] = $table_name;
+
+        $accountinfo_value = $Admininfo->interprete_accountinfo($list_fields ?? null, $tab_options, 'SNMP');
+
+        var_dump($accountinfo_value);
 
         for($i = 0; !empty($columns[$i]); $i++) {
             if($i <= 3) {
