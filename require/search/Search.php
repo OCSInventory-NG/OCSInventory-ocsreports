@@ -553,7 +553,7 @@
         }
 
         // has lock machine ?
-        if (isset($_SESSION['OCS']["mesmachines"]) && !strpos($_SESSION['OCS']["mesmachines"], 'a.TAG')) {
+        if (isset($_SESSION['OCS']["mesmachines"]) && strpos($_SESSION['OCS']["mesmachines"], 'a.TAG') === false) {
             $lockResult = str_replace('a.hardware_id', 'accountinfo.hardware_id', $_SESSION['OCS']["mesmachines"]);
             $this->columnsQueryConditions .=  " AND " . $lockResult;
         }
