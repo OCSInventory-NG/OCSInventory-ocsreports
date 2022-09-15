@@ -122,7 +122,7 @@ class GroupReport {
             // report title is built from grp name
             $report['TITLE'] = $groupData[$report['GROUP_ID']]['NAME'];
             $now = date("Y-m-d_H:i:s");
-            $fileName = $report['TITLE']."_".$now.".xlsx";
+            $fileName = $report['TITLE']."_".$now.".csv";
             $filePath = VARLIB_DIR."/tmp_dir/$fileName";
             $heading = false;
 
