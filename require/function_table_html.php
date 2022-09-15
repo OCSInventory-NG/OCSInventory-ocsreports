@@ -979,13 +979,15 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 		}else
 		$temp_query[0].= " where ";
 	if (substr($protectedPost['FILTRE'],0,2) == 'a.'){
-		require_once('require/function_admininfo.php');
+		require_once('require/admininfo/Admininfo.php');
+		$Admininfo = new Admininfo();
+
 		$id_tag=explode('_',substr($protectedPost['FILTRE'],2));
 		if (!isset($id_tag[1]))
 			$tag=1;
 		else
 			$tag=$id_tag[1];
-		$list_tag_id= find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
+		$list_tag_id= $Admininfo->find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
 	}
 	if ($list_tag_id){
 		$query_end= " in (".implode(',',$list_tag_id).")";
@@ -1508,12 +1510,15 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 			// Special treatment if accountinfo select type
 			if (substr($cname,0,2) == 'a.'){
-				require_once('require/function_admininfo.php');
+				require_once('require/admininfo/Admininfo.php');
+
+				$Admininfo = new Admininfo();
+
 				$id_tag=explode('_',substr($cname,2));
 				if($id_tag[0] != 'TAG') {
-					$info_tag = find_info_accountinfo($id_tag[1]);
+					$info_tag = $Admininfo->find_info_accountinfo($id_tag[1]);
 					if($info_tag[$id_tag[1]]['type'] == 2) {
-						$info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
+						$info = $Admininfo->find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
 						foreach($info as $key => $value) {
 							if(strpos(strtolower($value), strtolower($search)) !== false) {
 								$acc_select[$key] = $key;
