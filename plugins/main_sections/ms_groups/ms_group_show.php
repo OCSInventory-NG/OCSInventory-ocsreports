@@ -254,9 +254,8 @@ else {
     $imgHdw = array("ms_all_computersred", "ms_all_computers",);
         echo "<div class='row rowMarginTop30'>";
     echo img($lblAdm[0], 1);
-
+    echo img($notif[0], 1);
     if (!$pureStat) {
-        echo img($notif[0], 1);
         echo img($lblHdw[0], 1);
 
     }
@@ -343,6 +342,7 @@ function update_computer_group($hardware_id, $group_id, $static) {
 
 function print_notification_form($systemid, $recurrence) {
     global $protectedPost, $l;
+    echo open_form('notification_form');
     echo "<div class='col-md-10 col-md-offset-1'>";
 
     msg_info($l->g(9951));
@@ -492,9 +492,10 @@ function print_notification_form($systemid, $recurrence) {
 
         }
     }
-        
-        echo "<br><br><br><input value='".$l->g(103)."' name='UPDATE_RECURRENCE' type='submit' class='btn btn-success'>";
-    
+    echo close_form();
+    echo "<br><br><br><input value='".$l->g(103)."' name='UPDATE_RECURRENCE' type='submit' class='btn btn-success'>";
+
+
 }
 
 function print_computers_real($systemid) {

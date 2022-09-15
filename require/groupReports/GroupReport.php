@@ -58,13 +58,13 @@ class GroupReport {
             // get group ids associated with reports
             $strIds = implode(",", $ids);
             $scheduledCount = count($ids);
-            error_log("[".date("Y-m-d H:i:s")."] Found $scheduledCount reports scheduled to run. Now getting related group data ..");
+            echo ("[".date("Y-m-d H:i:s")."] Found $scheduledCount reports scheduled to run. Now getting related group data .. \n");
             $groupData = $this->getGroupData($strIds);
-            error_log("[".date("Y-m-d H:i:s")."] Now generating $scheduledCount reports");
+            echo ("[".date("Y-m-d H:i:s")."] Now generating $scheduledCount reports \n");
             $reports = $this->generateReport($reportsData, $groupData);
-            error_log("[".date("Y-m-d H:i:s")."] Reports generated to ".VARLIB_DIR."/tmp_dir/, sending notifications .. ");
+            echo ("[".date("Y-m-d H:i:s")."] Reports generated to ".VARLIB_DIR."/tmp_dir/, sending notifications .. \n");
         } else {
-            error_log("[".date("Y-m-d H:i:s")."] No reports scheduled to be sent today, exiting script.");
+            echo ("[".date("Y-m-d H:i:s")."] No reports scheduled to be sent today, exiting script. \n");
         }
 
         return $reports ?? '';
@@ -77,12 +77,22 @@ class GroupReport {
         $sqlGroup = "SELECT HARDWARE_ID, XMLDEF, hardware.NAME FROM `groups` LEFT JOIN hardware ON `groups`.hardware_id = hardware.ID WHERE hardware_id IN ($ids)";
         $result = mysql2_query_secure($sqlGroup, $_SESSION['OCS']["readServer"]);
         $groupData = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
+        
         // restructuring the array
         foreach ($groupData as $key => $value) {
+            // check if grp dyna or static (xmldef will be empty for static grps)
+            if (empty($value['XMLDEF'])) {
+                // grp is static if empty, needs to query group_cache
+                $static = "SELECT HARDWARE_ID AS ID FROM `groups_cache` WHERE GROUP_ID = ".$value['HARDWARE_ID'];
+                $staticResult = mysql2_query_secure($static, $_SESSION['OCS']["readServer"]);
+                $staticData = mysqli_fetch_all($staticResult, MYSQLI_ASSOC);
+                // keep the array of all devices ids for this grp
+                $value['STATIC']= $staticData;
+                
+            }
             $groupInfo[$value['HARDWARE_ID']] = $value;
         }
-        
+
         return $groupInfo;
     }
 
@@ -109,62 +119,70 @@ class GroupReport {
         $reports = array();
         
         foreach ($reportsData as $report) {
-            // report title is built from dynamic grp name
+            // report title is built from grp name
             $report['TITLE'] = $groupData[$report['GROUP_ID']]['NAME'];
             $now = date("Y-m-d_H:i:s");
             $fileName = $report['TITLE']."_".$now.".xlsx";
             $filePath = VARLIB_DIR."/tmp_dir/$fileName";
             $heading = false;
-            
 
             if(is_writable(dirname($fileName))) {
                 $fp = fopen(VARLIB_DIR."/tmp_dir/$fileName", 'w');
-                foreach ($groupData as $data) {
-                    $ids = array();
-                    $lines = array();
-                    $query = $this->regeneration_sql($data['XMLDEF']);
-                    $reportResult = mysql2_query_secure($query[1], $_SESSION['OCS']["readServer"]);
-    
-                    while ($value = mysqli_fetch_array($reportResult)) {
-                        $ids[] = $value["ID"];
-                    }
-                    
-                    
-                    $strIds = implode(",", $ids);
-                    // from list of IDs, get all hardware info for these devices
-                    $deviceQuery = "SELECT SQL_CALC_FOUND_ROWS h.ID,h.DEVICEID,h.name,h.OSNAME,h.OSVERSION,h.OSCOMMENTS,h.PROCESSORT,h.PROCESSORS,h.PROCESSORN,h.MEMORY,h.SWAP,h.LASTDATE,h.LASTCOME,h.QUALITY,h.FIDELITY,h.DESCRIPTION,h.IPADDR,h.userid,b.ssn,h.ID 
-                                    FROM hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id LEFT JOIN bios b ON b.hardware_id=h.id where h.id in ($strIds) and deviceid <> '_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_'";
-                    $reportResult = mysql2_query_secure($deviceQuery, $_SESSION['OCS']["readServer"]);
-    
-                    while( $row = mysqli_fetch_assoc($reportResult)) {
-                        $lines[] = $row;
-                    }
-                    
 
-                    // fetching the export sep from OCS configuration
-                    $sep = look_config_default_values("EXPORT_SEP");
-                    $sep = !empty($sep['tvalue']['EXPORT_SEP']) ? $sep['tvalue']['EXPORT_SEP'] : ';';
-                    // writing the file
-                    if(!empty($lines)) {
-                        foreach($lines as $line) {
-                            if(!$heading) {
-                                fwrite($fp, implode($sep, array_keys($line)) . "\n");
-                                $heading = true;
-                            } else {
-                                fwrite($fp, implode($sep, array_values($line)) . "\n");
-                            }
+                $ids = array();
+                $lines = array();
+                // if dyna -> generate SQL query
+                if (!empty($groupData[$report['GROUP_ID']]['XMLDEF']) && !isset($groupData[$report['GROUP_ID']]['STATIC'])) {
+                    $query = $this->regeneration_sql($groupData[$report['GROUP_ID']]['XMLDEF']);
+                    $reportResult = mysql2_query_secure($query[1], $_SESSION['OCS']["readServer"]);
+                    $value = mysqli_fetch_all($reportResult, MYSQLI_ASSOC);
+                // if static, skip to query
+                } else {
+                    foreach($groupData[$report['GROUP_ID']]['STATIC'] as $key => $id) {
+                        $value[] = $id['ID'];
+                    }
+                    $value = $groupData[$report['GROUP_ID']]['STATIC'];
+                }
+
+                foreach ($value as $key => $device_id) {
+                    $ids[] = $device_id['ID'];
+                }
+
+                $strIds = implode(",", $ids);
+                // from list of IDs, get all hardware info for these devices
+                $deviceQuery = "SELECT SQL_CALC_FOUND_ROWS h.ID,h.DEVICEID,h.name,h.OSNAME,h.OSVERSION,h.OSCOMMENTS,h.PROCESSORT,h.PROCESSORS,h.PROCESSORN,h.MEMORY,h.SWAP,h.LASTDATE,h.LASTCOME,h.QUALITY,h.FIDELITY,h.DESCRIPTION,h.IPADDR,h.userid,b.ssn,h.ID 
+                                FROM hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id LEFT JOIN bios b ON b.hardware_id=h.id where h.id in ($strIds) and deviceid <> '_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_'";
+                $reportResult = mysql2_query_secure($deviceQuery, $_SESSION['OCS']["readServer"]);
+
+                while( $row = mysqli_fetch_assoc($reportResult)) {
+                    $lines[] = $row;
+                }
+
+                // fetching the export sep from OCS configuration
+                $sep = look_config_default_values("EXPORT_SEP");
+                $sep = !empty($sep['tvalue']['EXPORT_SEP']) ? $sep['tvalue']['EXPORT_SEP'] : ';';
+                // writing the file
+                if(!empty($lines)) {
+                    foreach($lines as $line) {
+                        if(!$heading) {
+                            fwrite($fp, implode($sep, array_keys($line)) . "\n");
+                            fwrite($fp, implode($sep, array_values($line)) . "\n");
+                            $heading = true;
+                        } else {
+                            fwrite($fp, implode($sep, array_values($line)) . "\n");
                         }
                     }
                 }
-                
+
                 fclose($fp);
+
                 $report['FILE'] = $fileName;
                 $report['FILEPATH'] = $filePath;
                 $report['DATE'] = $now;
                 $reports[$report['GROUP_ID']] = $report;
 
             } else {
-                error_log("[".date("Y-m-d H:i:s")."] Error writing file to ".VARLIB_DIR."/tmp_dir/ for report ".$report['TITLE']);
+                echo ("[".date("Y-m-d H:i:s")."] Error writing file to ".VARLIB_DIR."/tmp_dir/ for report ".$report['TITLE']."\n");
             }
 
         }
