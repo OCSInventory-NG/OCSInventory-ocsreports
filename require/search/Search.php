@@ -473,7 +473,7 @@
                   }
                 }
               }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
-                $this->columnsQueryConditions .= "$operator[$p] ($open%s.%s IS NULL OR TRIM(%s.%s) = '')$close ";
+                $this->columnsQueryConditions .= "$operator[$p] $open(%s.%s IS NULL OR TRIM(%s.%s) = '')$close ";
                 $this->queryArgs[] = $nameTable;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
                 $this->queryArgs[] = $nameTable;
