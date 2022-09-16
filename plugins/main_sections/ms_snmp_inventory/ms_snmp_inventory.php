@@ -99,36 +99,54 @@ if(empty($typeList)) {
 
         $accountinfo_value = $Admininfo->interprete_accountinfo($list_fields ?? null, $tab_options, 'SNMP');
 
-        var_dump($accountinfo_value);
+        if (array($accountinfo_value['TAB_OPTIONS'])) {
+            $tab_options = $accountinfo_value['TAB_OPTIONS'];
+        }
+        if (array($accountinfo_value['DEFAULT_VALUE'])) {
+            $default_fields = $accountinfo_value['DEFAULT_VALUE'];
+        }
+
+        $list_fields = $accountinfo_value['LIST_FIELDS'];
 
         for($i = 0; !empty($columns[$i]); $i++) {
             if($i <= 3) {
                 if($columns[$i] == "LASTDATE") {
-                    $list_fields[$l->g(46)] = $columns[$i];
+                    $list_fields2[$l->g(46)] = "s.".$columns[$i];
                 } else {
-                    $list_fields[$columns[$i]] = $columns[$i];
+                    $list_fields2[$columns[$i]] = "s.".$columns[$i];
                 }
             } else {
-                $list_fields2[$columns[$i]] = $columns[$i];
+                $list_fields3[$columns[$i]] = "s.".$columns[$i];
             }
         }
-        $list_fields['SHOW_DETAILS'] = 'ID';
-        $list_fields['NEW_WINDOW'] = 'tablename';
-        $list_fields['CHECK'] = 'ID';
-        $list_fields['SUP'] = 'ID';
-        $list_col_cant_del = $list_fields;
-        $default_fields = $list_fields;
+        $list_fields2['SHOW_DETAILS'] = 'snmp_id';
+        $list_fields2['NEW_WINDOW'] = 'tablename';
+        $list_fields2['CHECK'] = 'snmp_id';
+        $list_fields2['SUP'] = 'snmp_id';
+        $list_col_cant_del = $list_fields2;
 
-        if(!empty($list_fields2)) {
-            $list_fields = array_merge($list_fields,$list_fields2);
+        $list_fields = array_merge($list_fields, $list_fields2);
+        $default_fields = array_merge($default_fields, $list_fields2);
+
+        if(!empty($list_fields3)) {
+            $list_fields = array_merge($list_fields,$list_fields3);
         }
+
+        $sql = prepare_sql_tab($list_fields, array('SUP', 'CHECK', 'SHOW_DETAILS', 'NEW_WINDOW'));
         
         $tab_options['FILTRE'] = array_flip($list_fields);
-        $queryDetails = "SELECT *, CONCAT(ID, ';','".$typeList[$protectedPost['onglet']]['TABLENAME']."') as tablename FROM ".$typeList[$protectedPost['onglet']]['TABLENAME'];
+
+        $queryDetails = $sql['SQL'].", CONCAT(s.ID, ';','".$typeList[$protectedPost['onglet']]['TABLENAME']."') as tablename, s.ID as snmp_id 
+                        FROM ".$typeList[$protectedPost['onglet']]['TABLENAME']." s 
+                        LEFT JOIN snmp_accountinfo a ON a.SNMP_RECONCILIATION_VALUE = s.".$snmp->getReconciliationColumn($typeList[$protectedPost['onglet']]['TABLENAME'])."
+                        AND a.SNMP_TYPE = '".$typeList[$protectedPost['onglet']]['TABLENAME']."'";
+        
+        $tab_options['ARG_SQL'] = $sql['ARG'];
 
         ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
         $infos = $snmp->get_infos($typeList[$protectedPost['onglet']]['TABLENAME'], $columns);
+        $snmpAdminInfo = $Admininfo->admininfo_snmp(null, $typeList[$protectedPost['onglet']]['TABLENAME']);
 
         foreach ($infos as $key => $values) {
             echo '<div class="modal fade" id="'.$key.'" tabindex="-1" role="dialog" aria-labelledby="detailLabel" aria-hidden="true">
@@ -149,26 +167,26 @@ if(empty($typeList)) {
                             </div>
                             <div class="modal-body" style="text-align:left;">
                                 <table style="width:100%" class="table table-striped table-condensed table-hover cell-border dataTable" role="grid">';
-                                foreach($columns as $column) {
-                                    echo '<tr role="row">';
-                                    if($column == "LASTDATE") {
-                                        echo '<th>'.$l->g(46).'</th>';
-                                    } else {
-                                        echo '<th>'.$column.'</th>';
-                                    }
-                                    echo '<td>';
-                                    if(strpos($values[$column], " - ") !== false) {
-                                        $list = explode(" - ", $values[$column]);
-                                        natsort($list);
-                                        foreach($list as $lists) {
-                                            echo $lists.'<br>';
+                                    foreach($columns as $column) {
+                                        echo '<tr role="row">';
+                                        if($column == "LASTDATE") {
+                                            echo '<th>'.$l->g(46).'</th>';
+                                        } else {
+                                            echo '<th>'.$column.'</th>';
                                         }
-                                    } else {
-                                        echo $values[$column];
+                                        echo '<td>';
+                                        if(strpos($values[$column], " - ") !== false) {
+                                            $list = explode(" - ", $values[$column]);
+                                            natsort($list);
+                                            foreach($list as $lists) {
+                                                echo $lists.'<br>';
+                                            }
+                                        } else {
+                                            echo $values[$column];
+                                        }
+                                        echo '</td>';
+                                        echo '</tr>';
                                     }
-                                    echo '</td>';
-                                    echo '</tr>';
-                                }
             echo '              </table>
                             </div>
                         </div>
