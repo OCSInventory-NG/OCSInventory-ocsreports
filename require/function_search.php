@@ -495,10 +495,17 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 
 }
 
-function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
+function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false,$snmp_type=null)
 {
 	global 	$l;
 	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
+
+    $maybesnmp = "";
+
+    if(!is_null($snmp_type)) {
+        $maybesnmp = "+\"&maybesnmp=".$snmp_type."\"";
+    }
+
 	echo "<script language=javascript>
 		function garde_check(image,id,computer)
 		 {
@@ -525,7 +532,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 			if(!computer){
 				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked,\"rollo\");
 			}else{
-				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked+\"&comp=\"+computer,\"rollo\");
+				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked+\"&comp=\"+computer".$maybesnmp.",\"rollo\");
 			}
 		}
 	</script>";

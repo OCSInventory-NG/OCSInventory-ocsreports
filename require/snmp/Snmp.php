@@ -538,9 +538,15 @@ class OCSSnmp
 		return $columns;
 	}
 
-	public function get_infos($tablename, $columns) {
+	public function get_infos($tablename, $columns, $id=null) {
 		$column = implode(",",$columns);
-		$sql = "SELECT ID,".$column." FROM %s";
+		$where = null;
+
+		if(!is_null($id)) {
+			$where = "WHERE ID IN (".$id.")";
+		}
+
+		$sql = "SELECT ID,".$column." FROM %s ".$where;
 		$arg = array($tablename);
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 

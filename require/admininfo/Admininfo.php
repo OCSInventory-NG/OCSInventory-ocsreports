@@ -806,17 +806,78 @@ class Admininfo
 
 		if (!is_array($reconciliation_value) && !is_null($type)) {
 			$sql_account_data .= " WHERE SNMP_RECONCILIATION_VALUE='%s' AND SNMP_TYPE = '%s'";
+			array_push($arg_account_data, $reconciliation_value);
+			array_push($arg_account_data, $type);
 		}
 
 		if (is_array($reconciliation_value) && !is_null($type)) {
 			$sql_account_data .= " WHERE SNMP_RECONCILIATION_VALUE IN (%s) AND SNMP_TYPE = '%s'";
+			array_push($arg_account_data, $reconciliation_value);
+			array_push($arg_account_data, $type);
+		}
+
+		// Mass procressing
+		if(is_array($reconciliation_value) && is_null($type)) {
+			require_once('require/snmp/Snmp.php');
+			$snmp = new OCSSnmp();
+
+			$reconciliation = $snmp->getReconciliationColumn($reconciliation_value['snmp_type']);
+			$infos = $snmp->get_infos($reconciliation_value['snmp_type'], array($reconciliation), $reconciliation_value['id']);
+			
+			foreach($infos as $update) {
+				$snmpToUpdate[] = $update[$reconciliation];
+			}
+
+			$sql_account_data .= " WHERE SNMP_TYPE='%s' AND SNMP_RECONCILIATION_VALUE IN ('".implode("','",$snmpToUpdate)."')";
+			array_push($arg_account_data, $reconciliation_value['snmp_type']);
 		}
 	
-		array_push($arg_account_data, $reconciliation_value);
-		array_push($arg_account_data, $type);
 		mysql2_query_secure($sql_account_data, $_SESSION['OCS']["writeServer"], $arg_account_data);
 
 		return $l->g(1121);
+	}
+	
+	/**
+	 * multi_lot_snmp
+	 *
+	 * @param  mixed $form_name
+	 * @param  mixed $lbl_choise
+	 * @return array
+	 */
+	public function multi_lot_snmp($form_name, $lbl_choise) {
+		global $protectedPost, $protectedGet, $l;
+
+		echo "<div class='row'>";
+        echo "<div class='col col-md-10 col-md-offset-1'>";
+
+        $list_id = [];
+
+		if (!isset($protectedGet['origine'])) {
+            if (is_defined($protectedGet['idchecked'])) {
+                $choise_req_selection['NONE'] = " ";
+                if (!isset($protectedGet['comp'])) {
+                    $choise_req_selection['REQ'] = $l->g(584);
+                    $choise_req_selection['SEL'] = $l->g(585);
+                } else {
+                    $choise_req_selection['SEL'] = $l->g(585);
+                }
+                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'] ?? '', '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
+            }
+            if (isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] == 'SEL') {
+                msg_info($l->g(902));
+                $list_id['id'] = $protectedGet['idchecked'];
+				$list_id['snmp_type'] = $protectedGet['maybesnmp'];
+            }
+        }
+
+        echo "</div>";
+        echo "</div>";
+
+        if (!empty($list_id)) {
+            return $list_id;
+        } else {
+            return false;
+        }
 	}
 	
 

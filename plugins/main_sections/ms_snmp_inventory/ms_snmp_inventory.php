@@ -145,6 +145,7 @@ if(empty($typeList)) {
 
         ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
+
         $infos = $snmp->get_infos($typeList[$protectedPost['onglet']]['TABLENAME'], $columns);
         $snmpAdminInfo = $Admininfo->admininfo_snmp(null, $typeList[$protectedPost['onglet']]['TABLENAME']);
 
@@ -197,6 +198,13 @@ if(empty($typeList)) {
     }
 
     echo '</div>';
+
+    require_once('require/function_search.php');
+
+    $list_fonct["image/mass_affect.png"] = $l->g(430);
+    $list_pag["image/mass_affect.png"] = $pages_refs["ms_custom_tag_snmp"];
+    add_trait_select($list_fonct, $list_id ?? null, $form_name, $list_pag, true,$typeList[$protectedPost['onglet']]['TABLENAME']);
+    echo "<br><br>";
 
     echo "<a href=# OnClick='confirme(\"\",\"DEL_SEL\",\"" . $form_name . "\",\"DEL_ALL\",\"" . $l->g(900) . "\");'><span class='glyphicon glyphicon-remove delete-span'></span></a>";
     echo "<input type='hidden' id='DEL_ALL' name='DEL_ALL' value=''>";
