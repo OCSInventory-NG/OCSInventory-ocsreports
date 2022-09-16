@@ -32,31 +32,59 @@ $toBeWritten = "";
 
 // Export all snmp data
 if(isset($protectedGet['tablename']) && $protectedGet['tablename'] == "all_snmp_export") {
-	require('require/snmp/Snmp.php');
+	require_once('require/snmp/Snmp.php');
+    require_once('require/admininfo/Admininfo.php');
+
+    $Admininfo = new Admininfo();
 	$snmp = new OCSSnmp();
 
 	// Get all type registered
 	$snmpType = $snmp->get_all_type();
+    // Get accountinfo
+    $inter = $Admininfo->interprete_accountinfo($col, array(), 'SNMP');
 
     if(!empty($snmpType)) {
         foreach($snmpType as $id => $values) {
+            $sortAccount = [];
+            $replace = [];
             // First line -> column names
             $colums = $snmp->show_columns($values['TABLENAME']);
             if(!empty($colums)) {
                 $toBeWritten .= "TYPE".$separator;
+                // SNMP AccountInfo columns
+                foreach($inter['LIST_FIELDS'] as $key => $string) {
+                    $toBeWritten .= $key.$separator;
+                    $sortAccount[$string] = $string;
+                    if(!is_null($inter['TAB_OPTIONS']['REPLACE_VALUE'][$key])) {
+                        $replace[$string] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$key];
+                    }
+                }
+                // SNMP type columns
                 foreach($colums as $name) {
                     $toBeWritten .= $name.$separator;
+                    $sortAccount[$name] = $name;
                 }
                 $toBeWritten .= "\r\n";
             }
+
             // Next lines -> datas
-            $details = $snmp->getDetails($values['TABLENAME'], 0, true);
+            $reconciliations = $snmp->getReconciliationColumn($values['TABLENAME']);
+            $details = $snmp->getDetails($values['TABLENAME'], 0, true, $sortAccount, $reconciliations);
+            $adminDetails = $Admininfo->admininfo_snmp(null, $values['TABLENAME'], null, true);
+
             if(!empty($details)) {
                 foreach($details as $detail) {
                     $toBeWritten .= "\"".$values['TYPENAME']."\"".$separator;
+                    // SNMP type data
                     foreach($detail as $columnName => $columnValue) {
                         if($columnName != "ID") {
-                            $toBeWritten .= "\"".$columnValue."\"".$separator;
+                            if(strpos($columnValue, "&&&") !== false) {
+                                $toBeWritten .= "\"".implode(" ", explode("&&&", $columnValue))."\"".$separator;
+                            } elseif(array_key_exists("a.".$columnName, $replace)) {
+                                $toBeWritten .= "\"".$replace["a.".$columnName][$columnValue]."\"".$separator;
+                            } else {
+                                $toBeWritten .= "\"".$columnValue."\"".$separator;
+                            }
                         }
                     }
                     $toBeWritten .= "\r\n";

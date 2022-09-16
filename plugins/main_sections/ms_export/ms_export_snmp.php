@@ -34,6 +34,7 @@ if(isset($protectedGet['id']))      $getId = preg_replace("/[^0-9]/", "", $prote
 
 // Retrieve all equipment informations
 $equipmentDetails   = $snmp->getDetails($getType, $getId);
+$reconciliation     = $snmp->getReconciliationColumn($getType);
 
 $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 $xml .= "<REQUEST>\n";
@@ -53,6 +54,25 @@ foreach ($equipmentDetails as $field_name => $field_value) {
     }
 }
 $xml .= "\t\t</DETAILS>\n";
+
+//ACCOUNTINFO VALUES
+$sql = "SELECT * FROM snmp_accountinfo WHERE SNMP_RECONCILIATION_VALUE='%s' AND SNMP_TYPE='%s'";
+$arg = array($equipmentDetails[$reconciliation], $getType);
+$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+$item_accountinfo = mysqli_fetch_object($res);
+
+foreach ($_SESSION['OCS']['SQL_TABLE']['snmp_accountinfo'] as $field_name => $field_type) {
+    if ($field_name != 'SNMP_TYPE' && $field_name != 'ID' && $field_name != 'SNMP_RECONCILIATION_FIELD' && $field_name != 'SNMP_RECONCILIATION_VALUE') {
+        $xml .= "\t\t<ACCOUNTINFO>\n";
+        $xml .= "\t\t\t<KEYNAME>" . $field_name . "</KEYNAME>\n";
+        if (replace_entity_xml($item_accountinfo->$field_name) != '') {
+            $xml .= "\t\t\t<KEYVALUE>" . replace_entity_xml($item_accountinfo->$field_name) . "</KEYVALUE>\n";
+        } else {
+            $xml .= "\t\t\t<KEYVALUE />\n";
+        }
+        $xml .= "\t\t</ACCOUNTINFO>\n";
+    }
+}
 
 $xml .= "\t</CONTENT>\n";
 $xml .= "\t<QUERY>SNMP</QUERY>\n";
