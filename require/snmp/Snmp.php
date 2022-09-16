@@ -630,16 +630,25 @@ class OCSSnmp
 	 * @param  mixed $type
 	 * @param  mixed $id
 	 * @param mixed $full
+	 * @param mixed $accountdata
 	 * @return array $details
 	 */
-	public function getDetails($type, $id, $full=null) {
+	public function getDetails($type, $id, $full=null, $accountdata=[], $reconciliation=null) {
 		$details = [];
+
+		$select = "*";
+		$from = null;
 
 		$sql = "SELECT * FROM `%s` WHERE `ID` = %s";
 		$arg = array($type, $id);
 
+		if(!empty($accountdata)) {
+			$select = implode(',', $accountdata);
+			$from = "LEFT JOIN snmp_accountinfo a ON a.SNMP_TYPE = '".$type."' AND a.SNMP_RECONCILIATION_VALUE = ".$type.".".$reconciliation;
+		}
+
 		if($full) {
-			$sql = "SELECT * FROM `%s`";
+			$sql = "SELECT $select FROM `%s` $from";
 			$arg = array($type);
 		}
 
@@ -648,7 +657,7 @@ class OCSSnmp
 		if($result) {
 			if($full) {
 				while($snpmDetails = mysqli_fetch_assoc($result)) {
-					$details[$snpmDetails['ID']] = $snpmDetails;
+					$details[$snpmDetails[$reconciliation]] = $snpmDetails;
 				}
 			} else {
 				$details = mysqli_fetch_assoc($result);

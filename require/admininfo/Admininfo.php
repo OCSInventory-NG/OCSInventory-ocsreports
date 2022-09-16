@@ -111,11 +111,13 @@ class Admininfo
 	 * @param  mixed $id
 	 * @return boolean
 	 */
-	public function accountinfo_tab($id) {
+	public function accountinfo_tab($id, $type='COMPUTERS') {
 		$info_tag = $this->find_info_accountinfo($id);
 
-		if ($info_tag[$id]['type'] == 2 || $info_tag[$id]['type'] == 5 || $info_tag[$id]['type'] == 11) {
+		if ($type == 'COMPUTERS' && ($info_tag[$id]['type'] == 2 || $info_tag[$id]['type'] == 5 || $info_tag[$id]['type'] == 11)) {
 			return $this->find_value_field('ACCOUNT_VALUE_' . $info_tag[$id]['name']);
+		} elseif($type == 'SNMP' && ($info_tag[$id]['type'] == 2 || $info_tag[$id]['type'] == 5 || $info_tag[$id]['type'] == 11)) {
+			return $this->find_value_field('ACCOUNT_SNMP_VALUE_' . $info_tag[$id]['name']);
 		} elseif ($info_tag[$id]['type'] == 8) {
 			return false;
 		}
@@ -667,7 +669,11 @@ class Admininfo
 	 */
 	public function find_value_in_field($tag, $value_2_find, $type = 'COMPUTERS') {
 		$p = $this->find_info_accountinfo($tag, $type);
-		$values = look_config_default_values('ACCOUNT_VALUE_' . $p[$tag]['name'] . "_%", true);
+		if($type == 'SNMP') {
+			$values = look_config_default_values('ACCOUNT_SNMP_VALUE_' . $p[$tag]['name'] . "_%", true);
+		} else {
+			$values = look_config_default_values('ACCOUNT_VALUE_' . $p[$tag]['name'] . "_%", true);
+		}
 
 		if (is_array($values['tvalue'])) {
 			foreach ($values['tvalue'] as $key => $value) {
@@ -700,7 +706,7 @@ class Admininfo
 		if (is_array($info_tag)) {
 			foreach ($info_tag as $value) {
 				$value['comment'] = $l->g(1210) . " " . $value['comment'];
-				$info_value_tag = $this->accountinfo_tab($value['id']);
+				$info_value_tag = $this->accountinfo_tab($value['id'], $type);
 
 				if (is_array($info_value_tag)) {
 					$tab_options['REPLACE_VALUE'][$value['comment']] = $info_value_tag;
@@ -716,6 +722,101 @@ class Admininfo
 		}
 
 		return array('TAB_OPTIONS' => $tab_options, 'LIST_FIELDS' => $list_fields, 'DEFAULT_VALUE' => $default_value);
+	}
+	
+	/**
+	 * admininfo_snmp
+	 *
+	 * @param  mixed $reconciliation_value
+	 * @param  mixed $type
+	 * @return array
+	 */
+	public function admininfo_snmp($reconciliation_value = null, $type = null, $id = null, $export = false) {
+		$snmp_account_data = array();
+
+		$arg_account_data = array();
+		$sql_account_data = "SELECT * FROM ".self::ACCOUNT_INFO_SNMP;
+
+		if(!is_null($reconciliation_value)) {
+			$sql_account_data .= " WHERE SNMP_RECONCILIATION_VALUE='%s'";
+			$arg_account_data = array($reconciliation_value);
+		}
+
+		if(!is_null($reconciliation_value) && !is_null($type)) {
+			$sql_account_data .= " AND SNMP_TYPE = '%s'";
+			array_push($arg_account_data, $type);
+		} elseif(!is_null($type) && is_null($reconciliation_value)) {
+			$sql_account_data .= " WHERE SNMP_TYPE = '%s'";
+			array_push($arg_account_data, $type);
+		}
+
+		$res_account_data = mysql2_query_secure($sql_account_data, $_SESSION['OCS']["writeServer"], $arg_account_data);
+		
+		if($res_account_data) {
+			while($val_account_data = mysqli_fetch_assoc($res_account_data)) {
+				if(!is_null($id)) {
+					$snmp_account_data[$val_account_data['SNMP_TYPE']][$id] = $val_account_data;
+				} elseif($export) {
+					$tmp = $val_account_data;
+					unset($tmp['ID']);
+					unset($tmp['SNMP_TYPE']);
+					unset($tmp['SNMP_RECONCILIATION_FIELD']);
+					unset($tmp['SNMP_RECONCILIATION_VALUE']);
+					$snmp_account_data[$val_account_data['SNMP_TYPE']][$val_account_data['SNMP_RECONCILIATION_VALUE']] = $tmp;
+				} else {
+					$snmp_account_data[$val_account_data['SNMP_TYPE']][$val_account_data['ID']] = $val_account_data;
+				}
+			}
+		}
+		
+		return $snmp_account_data;
+	}
+
+	public function updateinfo_snmp($reconciliation_value = null, $type = null, $values) {
+		global $l;
+
+		$arg_account_data = array();
+		$sql_account_data = "UPDATE ".self::ACCOUNT_INFO_SNMP." SET ";
+
+		foreach ($values as $field => $val) {
+			// Check account info
+			$accountinfo_id = explode("_", $field);
+			$date_accountinfo = false;
+
+			if($accountinfo_id != false and $field != "TAG"){
+				$accountinfo_datas = $this->find_info_accountinfo($accountinfo_id[1], 'SNMP');
+	
+				if($accountinfo_datas[$accountinfo_id[1]]['type'] === '14'){
+					$date_accountinfo = true;
+				}
+			}
+	
+			$sql_account_data .= " %s='%s', ";
+
+			array_push($arg_account_data, $field);
+			if($date_accountinfo) { // If date
+				array_push($arg_account_data, date("Y-m-d", strtotime($this->changeDateFormat($_SESSION["OCS"]["LANGUAGE"], $val))));
+			} else { // If not date
+				array_push($arg_account_data, $val);
+			}
+	
+		}
+
+		$sql_account_data = substr($sql_account_data, 0, -2);
+
+		if (!is_array($reconciliation_value) && !is_null($type)) {
+			$sql_account_data .= " WHERE SNMP_RECONCILIATION_VALUE='%s' AND SNMP_TYPE = '%s'";
+		}
+
+		if (is_array($reconciliation_value) && !is_null($type)) {
+			$sql_account_data .= " WHERE SNMP_RECONCILIATION_VALUE IN (%s) AND SNMP_TYPE = '%s'";
+		}
+	
+		array_push($arg_account_data, $reconciliation_value);
+		array_push($arg_account_data, $type);
+		mysql2_query_secure($sql_account_data, $_SESSION['OCS']["writeServer"], $arg_account_data);
+
+		return $l->g(1121);
 	}
 	
 
