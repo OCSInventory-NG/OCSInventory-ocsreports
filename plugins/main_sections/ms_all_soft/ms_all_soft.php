@@ -50,6 +50,8 @@ if (isset($protectedPost['RESET'])) {
     unset($protectedPost['GROUP']);
     unset($protectedPost['TAG']);
     unset($protectedPost['ASSET']);
+    unset($_SESSION['OCS']['AllSoftware']['filter']['csv_data']);
+    unset($_FILES['csv_file']);
 }
 
 // If SUBMIT
@@ -75,12 +77,20 @@ if(is_defined($protectedPost['TAG']) && $protectedPost['TAG'] != "0")
 if(is_defined($protectedPost['ASSET']) && $protectedPost['ASSET'] != "0")
     $filters['ASSET'] = $protectedPost['ASSET'];
 
+if(is_defined($_FILES['csv_file'])){
+    $allSoft->verifyCsv($_FILES['csv_file']);
+}
+
+if (is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data'])) {
+    $filters['CSV'] = $_SESSION['OCS']['AllSoftware']['filter']['csv_data']['result'];
+}
+
 $sqlFilter = $allSoft->generateQueryFilter($filters);
 
 //form name
 $form_name = 'all_soft';
 //form open
-echo open_form($form_name, '', '', 'form-horizontal');
+echo open_form($form_name, '', 'enctype="multipart/form-data"', 'form-horizontal'); //TODO: verif si autre fct tjrs
 
 $list_cat = $softCat->onglet_cat();
 $first_onglet = $list_cat['first_onglet'] ?? '';
@@ -118,8 +128,20 @@ if (is_defined($protectedPost['NAME_RESTRICT']) ||
     is_defined($protectedPost['OS']) || 
     is_defined($protectedPost['GROUP']) || 
     is_defined($protectedPost['TAG']) ||
-    is_defined($protectedPost['ASSET'])) {
+    is_defined($protectedPost['ASSET']) ||
+    is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data'])) {
     msg_warning($l->g(767));
+}
+if (is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data']['missing'])) {
+    $txt = $l->g(1519);
+    $txt .= "<ul>";
+    foreach ($_SESSION['OCS']['AllSoftware']['filter']['csv_data']['missing'] as $key => $value) {
+        $txt .= "<li>";
+        $txt .= $value . "\n";
+        $txt .= "<li>";
+    }
+    $txt .= "</ul>";
+    msg_error($txt);
 }
 
 /****************************************** ALL SOFTWARE ******************************************/
@@ -399,6 +421,15 @@ echo "</div>";
 echo "</div>";
 
 // END FILTER OS/GROUP/TAG/ASSET
+
+// FILTER BY CSV
+echo "<div class='form_group'>";
+echo "<div class='col-sm-12'>";
+formGroup('file', 'csv_file', $l->g(1478).' :', '', '', $protectedPost['csv_file'] ?? '', '', '', '', "accept='.csv'");
+
+echo "</div>"; 
+echo "</div>"; 
+// END FILTER CSV
 
 echo '<input type="submit" class="btn btn-success" value="'.$l->g(393).'" name="SUBMIT_FORM">';
 echo '<input type="submit" class="btn btn-danger" value="'.$l->g(396).'" name="RESET">';

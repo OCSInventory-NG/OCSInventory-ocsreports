@@ -1399,6 +1399,7 @@
 1516 Tous les logiciels (sauf défaut)
 1517 Aucune catégorie n'a été sélectionnée
 1518 Liste des regex
+1519 Machines manquantes : 
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver

@@ -293,7 +293,7 @@ class AllSoftware
         $hId = null;
 
         // if isset OS / GROUP / TAG / ASSET -> initialize SQL beginning
-        if(is_defined($filters['OS']) || is_defined($filters['GROUP']) || is_defined($filters['TAG']) || is_defined($filters['ASSET'])) {
+        if(is_defined($filters['OS']) || is_defined($filters['GROUP']) || is_defined($filters['TAG']) || is_defined($filters['ASSET']) || is_defined($filters['CSV'])) {
             // Select
             $queryFilter['SELECT'] = "SELECT n.NAME, p.PUBLISHER, v.VERSION, c.CATEGORY_NAME, 
             CONCAT(n.NAME,';',p.PUBLISHER,';',v.VERSION) as id, COUNT(CONCAT(s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID)) as nb ";
@@ -326,6 +326,18 @@ class AllSoftware
         if(is_defined($filters['ASSET'])) {
             $query = "SELECT ID as HARDWARE_ID FROM `hardware` WHERE CATEGORY_ID = '".$filters['ASSET']."' GROUP BY HARDWARE_ID";
             $hId = $this->getHidByType($query, $hId);
+        }
+
+        if(is_defined($filters['CSV'])) {
+            if (is_array($hId)) {
+                $tmp = array_unique(array_merge($hId, $filters['CSV']));
+            } else {
+                $tmp = $filters['CSV'];
+            }
+            $hId = [];
+            foreach ($tmp as $key => $value) {
+                $hId[$value] = $value;
+            }
         }
 
         // If restrictions
@@ -432,6 +444,34 @@ class AllSoftware
         }
 
         return $hId;
+    }
+
+    public function verifyCsv($file){
+        if ($file['type'] != "text/csv") {
+            return false;
+        }
+        $content = file_get_contents($file['tmp_name']);
+        $names = explode("\n", $content);
+        $hardware = [];
+        foreach ($names as $key => $name) {
+            if ($name != "") {
+                $sql = "SELECT ID FROM hardware WHERE NAME = '" . addslashes($name) . "'";
+    
+                $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+                $test = $result->num_rows;
+    
+
+                if($result && $test > 0){
+                    while($item = mysqli_fetch_array($result)){
+                        $hardware['result'][$item['ID']] = $item['ID'];
+                    }
+                } else {
+                    $hardware['missing'][] = $name;
+                }
+            }
+        }
+        $_SESSION['OCS']['AllSoftware']['filter']['csv_data'] = $hardware;
+        return true;
     }
 
 }
