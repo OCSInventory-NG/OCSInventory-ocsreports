@@ -44,6 +44,10 @@
         <value>tag_search</value>
         <directory>ms_multi_search</directory>
     </url>
+    <url key="ms_custom_tag_snmp">
+        <value>tag_search_snmp</value>
+        <directory>ms_multi_search</directory>
+    </url>
     <url key="ms_dict">
         <value>admin_dico</value>
         <directory>ms_dict</directory>
