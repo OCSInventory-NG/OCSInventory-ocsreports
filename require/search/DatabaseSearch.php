@@ -40,16 +40,14 @@ class DatabaseSearch
     const EXTRA = 'Extra';
 
     /**
-     * SNMP / COMPUTER ref columns constant
+     * COMPUTER ref columns constant
      */
     const COMPUTER_COL_RED = 'HARDWARE_ID';
-    const SNMP_COL_REF = 'SNMP_ID';
 
     /**
      * Default table
      */
     const COMPUTER_DEF_TABLE = "hardware";
-    const SNMP_DEF_TABLE = "snmp";
 
     /**
      * Excluded tables
@@ -69,12 +67,19 @@ class DatabaseSearch
      */
     private $tableList = [];
     private $columnsList = [];
+    private $tableSnmpList = [];
+    private $columnsSnmpList = [];
 
     /**
-     * Default query
+     * Default computers query
      */
     private $tableQuery = "SHOW TABLES FROM `%s`";
     private $columnsQuery = "SHOW COLUMNS FROM `%s`";
+
+    /**
+     * Default snmp query
+     */
+    private $tableSnmpQuery = "SELECT * FROM `snmp_types` ORDER BY TYPE_NAME";
 
     /**
      * Objects
@@ -91,6 +96,7 @@ class DatabaseSearch
         $this->dbName = DB_NAME;
         $this->softwareSearch = $softwareSearch;
         $this->retrieveTablesList();
+        $this->retrieveTablesSnmpList();
     }
 
     /**
@@ -108,6 +114,20 @@ class DatabaseSearch
     }
 
     /**
+     * Get the database columns of snmp $tableName
+     *
+     * @param String $tableName
+     * @return Array columnsList
+     */
+    public function getColumnsSnmpList($tableName)
+    {
+        if(isset($this->columnsSnmpList[$tableName])) {
+            return $this->columnsSnmpList[$tableName];
+        }
+
+    }
+
+    /**
     * Get tables list of the current database
     *
     * @return Array tablesList
@@ -115,6 +135,16 @@ class DatabaseSearch
     public function getTablesList()
     {
         return $this->tableList;
+    }
+
+    /**
+    * Get tables snmp list of the current database
+    *
+    * @return Array tablesList
+    */
+    public function getTablesSnmpList()
+    {
+        return $this->tableSnmpList;
     }
 
     /**
@@ -135,6 +165,25 @@ class DatabaseSearch
             $this->retireveColumnsList($tableInfos[0]);
         }
     }
+    
+    /**
+     * retrieveTablesSnmpList
+     *
+     * @return void
+     */
+    private function retrieveTablesSnmpList()
+    {
+        if (empty($this->dbObject) || empty($this->dbName)) {
+            return;
+        }
+
+        $tableList = mysql2_query_secure($this->tableSnmpQuery, $this->dbObject);
+
+        while ($tableInfos = mysqli_fetch_assoc($tableList)) {
+            $this->tableSnmpList[$tableInfos['TABLE_TYPE_NAME']] = $tableInfos['TYPE_NAME'];
+            $this->retireveColumnsSnmpList($tableInfos['TABLE_TYPE_NAME']);
+        }
+    }
 
     /**
      * Retrieve columns list from the current database
@@ -150,6 +199,7 @@ class DatabaseSearch
         if (!in_array($tableName, $this->excludedTables)) {
             if($tableName != SoftwareSearch::SOFTWARE_TABLE) {
                 $columnsList = mysql2_query_secure($this->columnsQuery, $this->dbObject, $tableName);
+            
                 while ($columnsInfos = mysqli_fetch_array($columnsList)) {
                     $columnsInfos[self::TYPE] = $this->normalizeFieldType($columnsInfos['Type']);
                     $this->columnsList[$tableName][$columnsInfos['Field']] = [
@@ -174,6 +224,37 @@ class DatabaseSearch
             $this->removeValueFromTableList($tableName);
         }
     }
+
+    /**
+     * Retrieve columns list from the current database
+     *
+     * Will use excludedTales property and COMPUTER_COL_RED const
+     * to see if columns need to be retrieved
+     *
+     * @param String $tableName
+     * @return void
+     */
+    private function retireveColumnsSnmpList($tableName)
+    {
+        if (!in_array($tableName, $this->excludedTables)) {
+            $columnsList = mysql2_query_secure($this->columnsQuery, $this->dbObject, $tableName);
+        
+            while ($columnsInfos = mysqli_fetch_array($columnsList)) {
+                $columnsInfos[self::TYPE] = $this->normalizeFieldType($columnsInfos['Type']);
+                $this->columnsSnmpList[$tableName][$columnsInfos['Field']] = [
+                    self::FIELD => $columnsInfos[self::FIELD],
+                    self::TYPE => $columnsInfos[self::TYPE],
+                    self::NULLABLE => $columnsInfos[self::NULLABLE],
+                    self::KEY => $columnsInfos[self::KEY],
+                    self::DEFAULT_VAL => $columnsInfos[self::DEFAULT_VAL],
+                    self::EXTRA => $columnsInfos[self::EXTRA],
+                ];
+            }
+        } else {
+            $this->removeValueFromTableList($tableName);
+        }
+    }
+
 
     /**
      * Get an list of id of the current multi search (needed for buttons at the bottom of the page)
