@@ -90,7 +90,7 @@ $sqlFilter = $allSoft->generateQueryFilter($filters);
 //form name
 $form_name = 'all_soft';
 //form open
-echo open_form($form_name, '', 'enctype="multipart/form-data"', 'form-horizontal'); //TODO: verif si autre fct tjrs
+echo open_form($form_name, '', 'enctype="multipart/form-data"', 'form-horizontal');
 
 $list_cat = $softCat->onglet_cat();
 $first_onglet = $list_cat['first_onglet'] ?? '';
