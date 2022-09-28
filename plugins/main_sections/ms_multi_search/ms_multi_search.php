@@ -73,8 +73,10 @@ $multisearchChoise['COMPUTERS'] = strtoupper($l->g(729));
 $isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'];
 if($isEnable) $multisearchChoise['SNMP'] = $l->g(1136);
 
-if (empty($protectedPost['onglet'])) {
+if (empty($protectedPost['onglet']) && !isset($protectedGet['onglet'])) {
     $protectedPost['onglet'] = "COMPUTERS";
+} elseif(isset($protectedGet['onglet']) && empty($protectedPost['onglet'])) {
+	$protectedPost['onglet'] = "SNMP";
 }
 
 //show onglet
@@ -129,6 +131,7 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 					<div class="col-sm-2"></div>
 				</div>
 	
+				<input name="onglet" type="hidden" value="COMPUTERS">
 				<input name="old_table" type="hidden" value="<?php echo $defaultTable ?>">
 				<div><a href="?function=save_query_list"><?php echo $l->g(2140) ?></a></div>
 				<?php echo close_form();?>
@@ -271,6 +274,7 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 		?>
 		
 		<div class="col-sm-12">
+			<input name="onglet" type="hidden" value="COMPUTERS">
 			<input id="search_ok" name="search_ok" type="hidden" value="OK">
 			<input type="submit" class="btn btn-success" value="<?php echo $l->g(13) ?>">
 		</div>
@@ -382,6 +386,11 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 		<?php
 	}
 } elseif($protectedPost['onglet'] == "SNMP") {
+	/**
+	 * ========================
+	 * = TYPE SELECTION PANEL =
+	 * ========================
+	 */
 	echo '<div class="panel panel-default">';
 
 	printEnTete($l->g(1136)." : ".$l->g(9));
@@ -391,11 +400,31 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 
 	echo open_form('addSearchCrit', '', '', '');
 
+	// Add var to snmp session datamap
+	if (isset($protectedPost['old_table']) && isset($protectedPost['columns_select']) && !isset($protectedPost['search_ok'])) {
+		if(!AJAX){
+			$snmpSearch->addSessionsInfos($protectedPost);
+		}
+	}
+
+	if(isset($protectedGet['delete_row'])){
+		if(!AJAX){
+			$snmpSearch->removeSessionsInfos($protectedGet['delete_row']);
+		}
+	}
+
+	if (!empty($_SESSION['OCS']['SNMP']['multi_search'])) {
+		$disabled = 'disabled';
+		$defaultTable = key($_SESSION['OCS']['SNMP']['multi_search']);
+	} else {
+		$disabled = null;
+	}
+
 	echo '<div class="row">';
 	echo '<div class="col-sm-2"></div>';
 	echo '<div class="col-sm-3">';
 	echo '<div class="form-group">';
-	echo '<select class="form-control" name="table_select" onchange="this.form.submit()">';
+	echo '<select class="form-control" name="table_select" onchange="this.form.submit()" '.$disabled.'>';
 	echo $snmpSearch->getSelectOptionForTables($defaultTable);
 	echo '</select>';
 	echo '</div>';
@@ -418,11 +447,149 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 	echo '</div>';
 
 	echo '<input name="old_table" type="hidden" value="'.$defaultTable.'">';
+	echo '<input name="old_table_name" type="hidden" value="'.$databaseSearch->getTypeName($defaultTable).'">';
 	echo '<input name="onglet" type="hidden" value="SNMP">';
 	echo close_form();
 	echo '</div>';
 	echo '</div>';
 	echo '</div>';
+	/**
+	 * ============================
+	 * = END TYPE SELECTION PANEL =
+	 * ============================
+	 */
+
+	/**
+	 * ======================
+	 * = CRITERIA INSERTION =
+	 * ======================
+	 */
+	echo '<div name="multiSearchCritsDiv">';
+	echo open_form('multiSearchCrits', '', '', '');
+
+	if (!empty($_SESSION['OCS']['SNMP']['multi_search'])) {
+		if(isset($protectedPost['search_ok'])){
+			$snmpSearch->updateSessionsInfos($protectedPost);
+		}
+
+		foreach ($_SESSION['OCS']['SNMP']['multi_search'] as $table => $infos) {
+			$i = 0;
+			foreach ($infos as $uniqid => $values) {
+				echo '<div class="row" name="'.$uniqid.'">';
+
+				if($i != 0){
+					$htmlComparator = $search->returnFieldHtmlAndOr($uniqid, $values, $infos, $table, $values['comparator'] ?? null);
+					if($htmlComparator != ""){
+					echo "<div class='col-sm-5'></div><div class='col-sm-1'>
+						  <div class='form-group'>".$htmlComparator."</div>
+						  </div></br></br></br>";
+					}
+				}
+				// DISPLAY TABLE : COLUMN
+				echo '<div class="col-sm-3">';
+				echo '<div class="btn btn-info disabled" style="cursor:default;">';
+
+				if($values['fields'] == "LASTDATE" || $values['fields'] == "ID") {
+					echo $values['table']." : ".$translationSearch->getTranslationFor($values['fields']);
+				} else {
+					echo $values['table']." : ".$values['fields'];
+				}
+
+				echo '</div></div>';
+
+				// DISPLAY OPERATORS
+				echo '<div class="col-sm-3">';
+				echo '<div class="form-group">';
+				echo '<select class="form-control" name="'.$search->getOperatorUniqId($uniqid, $table).'" onchange="isnull(\''.$search->getOperatorUniqId($uniqid, $table).'\', \''.$search->getFieldUniqId($uniqid, $table).'\', \''.$snmpSearch->getSearchedFieldType($table, $values['fields']).'\');" id="'.$search->getOperatorUniqId($uniqid, $table).'">';
+				
+				if($snmpSearch->getSearchedFieldType($table, $values['fields']) == 'datetime') {
+					echo $snmpSearch->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
+				} else {
+					echo $snmpSearch->getSelectOptionForOperators($values['operator'], $table);
+				}
+
+				echo '</select>';
+				echo '</div></div>';
+
+				// DISPLAY INPUT FIELD
+				echo '<div class="col-sm-3">';
+				echo '<div class="form-group">';
+				echo $snmpSearch->returnFieldHtml($uniqid, $values, $table, null, $values['operator']);
+				echo '</div></div>';
+
+				// DISPLAY DELETE CROSS
+				echo '<div class="col-sm-3">';
+				echo '<div class="form-group">';
+				echo '<a href="?function=visu_search&delete_row='.$uniqid."_".$table.'&onglet=SNMP">';
+				echo '<button type="button" class="btn btn-danger" aria-label="Close" style="padding: 10px;">';
+				echo '<span class="glyphicon glyphicon-remove"></span>';
+				echo '</button></a>';
+				echo '</div></div>';
+
+				echo '</div>';
+				$i++;
+			}
+		}
+
+		// SEARCH BUTTON
+		echo '<div class="col-sm-12">';
+		if(!is_null($disabled)) echo '<input name="table_select" type="hidden" value="'.$defaultTable.'">';
+		echo '<input id="onglet" name="onglet" type="hidden" value="SNMP">';
+		echo '<input id="search_ok" name="search_ok" type="hidden" value="OK">';
+		echo '<input type="submit" class="btn btn-success" value="'.$l->g(13).'">';
+		echo '</div>';
+	}
+
+	echo close_form();
+	echo '</div>';
+
+	if(!empty($_SESSION['OCS']['SNMP']['multi_search'])){
+		echo '<br><br><hr>';
+
+		$isValid = true;
+		
+		foreach ($_SESSION['OCS']['SNMP']['multi_search'] as $key => $value) {
+			foreach ($value as $k => $v) {
+				if (isset($v['value']) && (is_null($v['value'])) && $v['operator'] != "ISNULL") {
+					$isValid = false;
+				}
+			}
+		}
+
+		echo '<div class="row">';
+		echo '<div class="col-sm-12">';
+
+		if(isset($protectedPost['search_ok']) && $isValid){
+			/**
+			 * =========================
+			 * = GENERATE SEARCH QUERY =
+			 * =========================
+			 */
+			$snmpSearch->generateSearchQuery($_SESSION['OCS']['SNMP']['multi_search'], $defaultTable);
+			$sql = $snmpSearch->baseQuery.$snmpSearch->searchQuery.$snmpSearch->columnsQueryConditions;
+			
+			$form_name = "affich_multi_crit";
+			$table_name = $form_name;
+			$tab_options = $protectedPost;
+			$tab_options['form_name'] = $form_name;
+			$tab_options['table_name'] = $table_name;
+
+			echo open_form($form_name, '', '', 'form-horizontal');
+		
+			$list_fields = $snmpSearch->fieldsList;
+			$list_col_cant_del = $snmpSearch->fieldsList;
+			$default_fields = $snmpSearch->fieldsList;
+	
+			$tab_options['ARG_SQL'] = $snmpSearch->queryArgs;
+			$tab_options['CACHE'] = 'RESET';
+
+			ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+		
+			echo close_form();
+		}
+
+		echo '</div></div>';
+	}
 }
 
 if (AJAX) {
