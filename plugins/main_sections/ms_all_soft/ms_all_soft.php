@@ -142,6 +142,21 @@ if($protectedPost['onglet'] == "ALL"){
         $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
                         LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
                         WHERE ".$_SESSION['OCS']["mesmachines"];
+
+        if (isset($protectedPost['SUBMIT_FORM_RESTRICT'])) {
+            $sql['SQL'] =  "SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, 
+                                sl.COUNT as nb, COUNT(DISTINCT s.HARDWARE_ID) as nb2
+                            FROM software_link sl 
+                            LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
+                            LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
+                            LEFT JOIN software_version v ON sl.VERSION_ID = v.ID 
+                            LEFT JOIN software_categories sc ON sl.CATEGORY_ID = sc.ID 
+                            LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
+                            LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
+                            WHERE " . $_SESSION['OCS']["mesmachines"];
+        }
+
+        $sql['SQL'] .= " GROUP BY id";
     }
 
     if (isset($sql)) {
@@ -163,6 +178,12 @@ if($protectedPost['onglet'] == "ALL"){
         } else {
             $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
             $tab_options['LIEN_CHAMP']['name'] = 'id';
+
+            if (isset($protectedPost['SUBMIT_FORM_RESTRICT'])) {
+                $list_fields['nbre'] = 'nb2';
+                $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+            }
         }
 
         $default_fields = $list_fields;
@@ -194,6 +215,21 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
         $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID
                         LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
                         WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID != %s";
+
+        if (isset($protectedPost['SUBMIT_FORM_RESTRICT'])) {
+            $sql['SQL'] =  "SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, 
+                                sl.COUNT as nb, COUNT(DISTINCT s.HARDWARE_ID) as nb2
+                            FROM software_link sl 
+                            LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
+                            LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
+                            LEFT JOIN software_version v ON sl.VERSION_ID = v.ID 
+                            LEFT JOIN software_categories sc ON sl.CATEGORY_ID = sc.ID 
+                            LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
+                            LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
+                            WHERE " . $_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID != %s";
+        }
+
+        $sql['SQL'] .= " GROUP BY id";
     } else {
         $sql['SQL'] .= ' WHERE scl.CATEGORY_ID != %s';
     }
@@ -217,6 +253,12 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
         } else {
             $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
             $tab_options['LIEN_CHAMP']['name'] = 'id';
+
+            if (isset($protectedPost['SUBMIT_FORM_RESTRICT'])) {
+                $list_fields['nbre'] = 'nb2';
+                $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+            }
         }
 
         $default_fields = $list_fields;
@@ -245,6 +287,22 @@ else {
         $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID
                         LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
                         WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID = %s";
+
+
+        if (isset($protectedPost['SUBMIT_FORM_RESTRICT'])) {
+            $sql['SQL'] =  "SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, 
+                                sl.COUNT as nb, COUNT(DISTINCT s.HARDWARE_ID) as nb2
+                            FROM software_link sl 
+                            LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
+                            LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
+                            LEFT JOIN software_version v ON sl.VERSION_ID = v.ID 
+                            LEFT JOIN software_categories sc ON sl.CATEGORY_ID = sc.ID 
+                            LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
+                            LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
+                            WHERE " . $_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID = %s";
+        }
+
+        $sql['SQL'] .= " GROUP BY id";
     } else {
         $sql['SQL'] .= ' WHERE scl.CATEGORY_ID = %s';
     }
@@ -268,6 +326,12 @@ else {
         } else {
             $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
             $tab_options['LIEN_CHAMP']['name'] = 'id';
+
+            if (isset($protectedPost['SUBMIT_FORM_RESTRICT'])) {
+                $list_fields['nbre'] = 'nb2';
+                $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+            }
         }
 
         $default_fields = $list_fields;
@@ -319,6 +383,15 @@ echo '</select>
 echo "</div>";
 
 echo "</div>";
+
+if(is_defined($_SESSION['OCS']["mesmachines"])) {
+    echo "<div class=' col col-md-2'></div>";
+    echo "<div class=' col col-md-10'>";
+    echo "</br>";
+    echo "<input type='submit' class='btn btn-success' value='".$l->g(1519)."' name='SUBMIT_FORM_RESTRICT'>";
+    echo "</div>";
+}
+
 echo close_form();
 
 // Prevents searching in some columns (Allows using full-text search by default)
