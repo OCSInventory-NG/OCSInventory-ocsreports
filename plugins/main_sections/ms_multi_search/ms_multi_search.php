@@ -39,8 +39,10 @@ require("require/search/Search.php");
 require("require/search/SnmpSearch.php");
 require("require/search/SQLCache.php");
 require_once('require/admininfo/Admininfo.php');
+require_once('require/snmp/Snmp.php');
 
 $Admininfo = new Admininfo();
+$OcsSnmp = new OCSSnmp();
 
 // Get tables and columns infos
 $softwareSearch = new SoftwareSearch();
@@ -62,7 +64,7 @@ $groupSearch = new GroupSearch();
 
 $search = new Search($translationSearch, $databaseSearch, $accountInfoSearch, $groupSearch, $softwareSearch);
 
-$snmpSearch = new SnmpSearch($search, $accountInfoSearch, $databaseSearch, $translationSearch);
+$snmpSearch = new SnmpSearch($search, $accountInfoSearch, $databaseSearch, $translationSearch, $OcsSnmp);
 
 $sqlCache = new SQLCache($search, $softwareSearch);
 
@@ -429,6 +431,9 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 	echo '</select>';
 	echo '</div>';
 	echo '</div>';
+
+	$snmpSearch->getSelectOptionForColumns($defaultTable);
+
 	echo '<div class="col-sm-3">';
 	echo '<div class="form-group">';
 	echo '<select class="form-control" name="columns_select">';
@@ -491,6 +496,9 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 
 				if($values['fields'] == "LASTDATE" || $values['fields'] == "ID") {
 					echo $values['table']." : ".$translationSearch->getTranslationFor($values['fields']);
+				} elseif(strpos($values['fields'], 'fields_') !== false || $values['fields'] == "TAG") {
+					$fields = $accountInfoSearch->getAccountInfosList();
+					echo $translationSearch->getTranslationFor('snmp_accountinfo')." : ".$fields['SNMP'][$values['fields']];
 				} else {
 					echo $values['table']." : ".$values['fields'];
 				}
@@ -502,7 +510,7 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 				echo '<div class="form-group">';
 				echo '<select class="form-control" name="'.$search->getOperatorUniqId($uniqid, $table).'" onchange="isnull(\''.$search->getOperatorUniqId($uniqid, $table).'\', \''.$search->getFieldUniqId($uniqid, $table).'\', \''.$snmpSearch->getSearchedFieldType($table, $values['fields']).'\');" id="'.$search->getOperatorUniqId($uniqid, $table).'">';
 				
-				if($snmpSearch->getSearchedFieldType($table, $values['fields']) == 'datetime') {
+				if((strpos($values['fields'], 'fields_') !== false) || (($snmpSearch->getSearchedFieldType($table, $values['fields']) == 'datetime')) || (($accountInfoSearch->getSearchAccountInfo($values['fields']) == '14'))) {
 					echo $snmpSearch->getSelectOptionForOperators($values['operator'], $table, $values['fields']);
 				} else {
 					echo $snmpSearch->getSelectOptionForOperators($values['operator'], $table);
@@ -514,7 +522,13 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 				// DISPLAY INPUT FIELD
 				echo '<div class="col-sm-3">';
 				echo '<div class="form-group">';
-				echo $snmpSearch->returnFieldHtml($uniqid, $values, $table, null, $values['operator']);
+
+				if((strpos($values['fields'], 'fields_') !== false)){
+					echo $snmpSearch->returnFieldHtml($uniqid, $values, $table, $values['fields']);
+				} else {
+					echo $snmpSearch->returnFieldHtml($uniqid, $values, $table, null, $values['operator']);
+				}
+
 				echo '</div></div>';
 
 				// DISPLAY DELETE CROSS
@@ -566,8 +580,8 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 			 * =========================
 			 */
 			$snmpSearch->generateSearchQuery($_SESSION['OCS']['SNMP']['multi_search'], $defaultTable);
-			$sql = $snmpSearch->baseQuery.$snmpSearch->searchQuery.$snmpSearch->columnsQueryConditions;
-			
+			$sql = $snmpSearch->baseQuery.$snmpSearch->searchQuery.$snmpSearch->searchQueryAccount.$snmpSearch->columnsQueryConditions;
+
 			$form_name = "affich_multi_crit";
 			$table_name = $form_name;
 			$tab_options = $protectedPost;
@@ -577,8 +591,8 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 			echo open_form($form_name, '', '', 'form-horizontal');
 		
 			$list_fields = $snmpSearch->fieldsList;
-			$list_col_cant_del = $snmpSearch->fieldsList;
-			$default_fields = $snmpSearch->fieldsList;
+			$list_col_cant_del = $snmpSearch->listColCantDel;
+			$default_fields = $snmpSearch->defaultFields;
 	
 			$tab_options['ARG_SQL'] = $snmpSearch->queryArgs;
 			$tab_options['CACHE'] = 'RESET';

@@ -40,24 +40,35 @@ class SnmpSearch
     const DB_INT 		= "int";
     const DB_VARCHAR 	= "varchar";
     const DB_DATETIME 	= "datetime";
+    const DB_DATE       = "date";
+    const HTML_SELECT   = "select";
+
+    const SNMP_ACCOUNT  = "snmp_accountinfo";
 
 	private $databaseSearch;
     private $accountinfoSearch;
 	private $search;
 	private $translationSearch;
+    private $ocsSnmp;
 
 	private $type;
 
 	public $baseQuery 				= "SELECT";
 	public $searchQuery 			= "FROM `%s` ";
+    public $searchQueryAccount      = null;
 	public $queryArgs 				= [];
 	public $columnsQueryConditions 	= "";
 
-	function __construct($search, $accountinfoSearch, $databaseSearch, $translationSearch) {
+    public $fieldsList      = [];
+    public $defaultFields   = [];
+    public $listColCantDel  = [];
+    
+	function __construct($search, $accountinfoSearch, $databaseSearch, $translationSearch, $ocsSnmp) {
 		$this->search = $search;
 		$this->accountinfoSearch = $accountinfoSearch;
 		$this->databaseSearch = $databaseSearch;
 		$this->translationSearch = $translationSearch;
+        $this->ocsSnmp = $ocsSnmp;
 	}
 
 	/**
@@ -94,6 +105,8 @@ class SnmpSearch
         $sortColumn = array();
 
 		$fields = $this->databaseSearch->getColumnsSnmpList($tableName);
+        // Retrieve snmp_accountinfo column
+        $accountinfoFields = $this->accountinfoSearch->getAccountInfosList()['SNMP'];
 
 		if(is_array($fields)) foreach ($fields as $fieldsInfos) {
 			if($fieldsInfos[DatabaseSearch::FIELD] == "LASTDATE" || $fieldsInfos[DatabaseSearch::FIELD] == "ID") {
@@ -104,7 +117,12 @@ class SnmpSearch
 			$sortColumn[$fieldsInfos[DatabaseSearch::FIELD]] = $trField;
 		}
 
+        if(is_array($accountinfoFields)) foreach ($accountinfoFields as $column => $name) {
+            $sortColumn[$column] = $this->translationSearch->getTranslationFor("snmp_accountinfo"). " : ".$name;
+        }
+
         asort($sortColumn);
+
         foreach ($sortColumn as $key => $value){
             $html .= "<option value=".$key." >".$value."</option>";
         }
@@ -201,9 +219,20 @@ class SnmpSearch
      * @return void
      */
     public function getSelectOptionForOperators($defaultValue, $table = null, $field = null) {
+        $accounttype = null;
+
+        if($field != null && $field != "LASTDATE"){
+            $accounttype = $this->accountinfoSearch->getSearchAccountInfo($field);
+        }
+
         $html = "";
-        if(isset($field) && $this->getSearchedFieldType($table, $field) == 'datetime') {
+
+        if(isset($field) && ($this->getSearchedFieldType($table, $field) == 'datetime' || $accounttype == '14')) {
             $operatorList = array_merge($this->search->operatorList, $this->search->operatorDelay);
+        } elseif($accounttype == '2' || $accounttype == '11') {
+            $operatorList = $this->search->operatorAccount;
+        } elseif($accounttype == '5') {
+            $operatorList = $this->search->operatorAccountCheckbox;
         } else {
             $operatorList = $this->search->operatorList;
         }
@@ -233,7 +262,18 @@ class SnmpSearch
         global $l;
 
         $fieldId = $this->search->getFieldUniqId($uniqid, $tableName);
-        $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+
+        if($field != null && $operator == null){
+            $accounttype = $this->accountinfoSearch->getSearchAccountInfo($field);
+        }
+
+        if(isset($accounttype) && ($accounttype == '2' || $accounttype == '11' || $accounttype =='5')) {
+            $this->type = self::HTML_SELECT;
+        } elseif(isset($accounttype) && $accounttype == '14') {
+            $this->type = self::DB_DATE;
+        } else {
+            $this->type = $this->getSearchedFieldType($tableName, $fieldsInfos[self::SESS_FIELDS]);
+        }
 
         if($operator == "MORETHANXDAY" || $operator == "LESSTHANXDAY") {
           	$this->type = self::DB_INT;
@@ -252,6 +292,7 @@ class SnmpSearch
                 break;
 
             case self::DB_DATETIME:
+            case self::DB_DATE:
                 $html = '<div class="input-group date form_datetime">
                             <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'/>
                             <span class="input-group-addon">
@@ -260,6 +301,21 @@ class SnmpSearch
                         </div>';
                 break;
 
+            case self::HTML_SELECT:
+                $html = '<select class="form-control" name="'.$fieldId.'" id="'.$fieldId.'">';
+                $fieldSelect = $this->accountinfoSearch->find_accountinfo_values($field, $accounttype, 'SNMP_');
+                
+                foreach ($fieldSelect as $key => $value){
+                    if ($fieldsInfos[self::SESS_VALUES] == $key) {
+                        $html .= "<option value=".$key." selected >".$value."</option>";
+                    } else {
+                        $html .= "<option value=".$key." >".$value."</option>";
+                    }
+                }
+
+                $html .= '</select>';
+                break;
+    
             default:
                 $html = '<input class="form-control" type="text" name="'.$fieldId.'" id="'.$fieldId.'" value="'.$fieldsInfos[self::SESS_VALUES].'" '.$attr.'>';
                 break;
@@ -275,15 +331,53 @@ class SnmpSearch
      * @return void
      */
 	private function pushBaseQueryForTable($tableName) {
+        $this->fieldsList['CHECK'] = 'ID';
+        $this->defaultFields = $this->fieldsList;
+        $this->listColCantDel = $this->fieldsList;
+        
+        // AccountInfo
+        $accountinfo = $this->accountinfoSearch->getAccountInfosList();
+        
+        if(isset($accountinfo['SNMP'])) foreach ($accountinfo['SNMP'] as $field => $name) {
+            $this->baseQuery .= " snmp_accountinfo.%s ,";
+            $this->queryArgs[] = $field;
+
+            if($field == "TAG") {
+                $this->defaultFields[$this->translationSearch->getTranslationFor('snmp_accountinfo')." : ".$name] = $field;
+            }
+
+            $this->fieldsList[$this->translationSearch->getTranslationFor('snmp_accountinfo')." : ".$name] = $field;
+        }
+
+        // Table columns
+        $reconciliation = $this->ocsSnmp->getReconciliationColumn($tableName);
+
         foreach($this->databaseSearch->getColumnsSnmpList($tableName) as $fieldsInfos) {
-			$selectAs = $tableName.$fieldsInfos['Field'];
+            if($fieldsInfos['Field'] == "ID") {
+                $selectAs = $fieldsInfos['Field'];
+            } else {
+                $selectAs = $tableName.$fieldsInfos['Field'];
+            }
+			
 			$this->baseQuery .= " %s.%s AS ".$selectAs." ,";
 			$this->queryArgs[] = $tableName;
 			$this->queryArgs[] = $fieldsInfos['Field'];
 
+            $index = 1;
+
 			if($fieldsInfos['Field'] == 'LASTDATE' || $fieldsInfos['Field'] == 'ID') {
 				$this->fieldsList[$this->translationSearch->getTranslationFor($fieldsInfos['Field'])] = $selectAs;
+                if($fieldsInfos['Field'] != 'ID') $this->defaultFields[$this->translationSearch->getTranslationFor($fieldsInfos['Field'])] = $selectAs;
 			} else {
+                if($index != 3 && $fieldsInfos['Field'] != $reconciliation) {
+                    $this->defaultFields[$fieldsInfos['Field']] = $selectAs;
+                }
+
+                if($fieldsInfos['Field'] == $reconciliation) {
+                    $this->defaultFields[$fieldsInfos['Field']] = $selectAs;
+                    $this->listColCantDel[$fieldsInfos['Field']] = $selectAs;
+                }
+
 				$this->fieldsList[$fieldsInfos['Field']] = $selectAs;
 			}
         }
@@ -302,6 +396,11 @@ class SnmpSearch
 		$this->pushBaseQueryForTable($tablename, null);
 
 		$this->queryArgs[] = $tablename;
+
+        $this->searchQueryAccount = "LEFT JOIN `snmp_accountinfo` ON `snmp_accountinfo`.`SNMP_TYPE` = '%s' AND `snmp_accountinfo`.`SNMP_RECONCILIATION_VALUE` = `%s`.`%s` ";
+        $this->queryArgs[] = $tablename;
+        $this->queryArgs[] = $tablename;
+        $this->queryArgs[] = $this->ocsSnmp->getReconciliationColumn($tablename);
 
 		foreach ($sessData as $tableName => $searchInfos) {
 			foreach ($searchInfos as $value){
@@ -353,36 +452,62 @@ class SnmpSearch
 					if($value[self::SESS_OPERATOR] != "IS NULL"){
 						if($value[self::SESS_OPERATOR] != "NOT IN" && $value[self::SESS_OPERATOR] != "ISNOTEMPTY") {
 							$this->columnsQueryConditions .= "$operator[$pIndex] $open EXISTS (SELECT 1 FROM `%s` WHERE %s.%s %s '%s') $close ";
-							$this->queryArgs[] = $nameTable;
-							$this->queryArgs[] = $nameTable;
-							$this->queryArgs[] = $value[self::SESS_FIELDS];
+                            if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                            } else {
+                                $this->queryArgs[] = $nameTable;
+                                $this->queryArgs[] = $nameTable;
+                            }
+                            $this->queryArgs[] = $value[self::SESS_FIELDS];
 							$this->queryArgs[] = $value[self::SESS_OPERATOR];
 							$this->queryArgs[] = $value[self::SESS_VALUES];
 						} elseif($value[self::SESS_OPERATOR] == "NOT IN") {
 							$this->columnsQueryConditions .= "$operator[$pIndex] $open EXISTS (SELECT 1 FROM `%s` WHERE %s.%s %s (%s)) $close ";
-							$this->queryArgs[] = $nameTable;
-							$this->queryArgs[] = $nameTable;
+                            if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                            } else {
+                                $this->queryArgs[] = $nameTable;
+                                $this->queryArgs[] = $nameTable;
+                            }
 							$this->queryArgs[] = $value[self::SESS_FIELDS];
 							$this->queryArgs[] = $value[self::SESS_OPERATOR];
 							$this->queryArgs[] = $value[self::SESS_VALUES];
 						} elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
 							$this->columnsQueryConditions .= "$operator[$pIndex] $open EXISTS (SELECT 1 FROM `%s` WHERE %s.%s IS NOT NULL AND TRIM(%s.%s) != '') $close ";
-							$this->queryArgs[] = $nameTable;
-							$this->queryArgs[] = $nameTable;
-							$this->queryArgs[] = $value[self::SESS_FIELDS];
-							$this->queryArgs[] = $nameTable;
+							if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                            } else {
+                                $this->queryArgs[] = $nameTable;
+                                $this->queryArgs[] = $nameTable;
+                                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                                $this->queryArgs[] = $nameTable;
+                            }
 							$this->queryArgs[] = $value[self::SESS_FIELDS];
 						} elseif(in_array($value[self::SESS_OPERATOR], $this->search->operatorDelay)) {
 							$this->columnsQueryConditions .= "$operator[$pIndex] $open EXISTS (SELECT 1 FROM `%s` WHERE %s.%s %s NOW() - INTERVAL %s DAY) $close ";
-							$this->queryArgs[] = $nameTable;
-							$this->queryArgs[] = $nameTable;
+							if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                            } else {
+                                $this->queryArgs[] = $nameTable;
+                                $this->queryArgs[] = $nameTable;
+                            }
 							$this->queryArgs[] = $value[self::SESS_FIELDS];
 							if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
 							$this->queryArgs[] = $op;
 							$this->queryArgs[] = $value[self::SESS_VALUES];
-						} elseif($this->getSearchedFieldType($nameTable, $value[self::SESS_FIELDS]) == 'datetime' && !in_array($value[self::SESS_OPERATOR], $this->search->operatorDelay)) {
+						} elseif(($this->getSearchedFieldType($nameTable, $value[self::SESS_FIELDS]) == 'datetime' || $this->accountinfoSearch->getSearchAccountInfo($value[self::SESS_FIELDS]) == '14') && !in_array($value[self::SESS_OPERATOR], $this->search->operatorDelay)) {
 							$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.%s %s str_to_date('%s', '%s') $close ";
-							$this->queryArgs[] = $nameTable;
+                            if(strpos($value[self::SESS_FIELDS], "fields_") !== false) {
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                            } else {
+                                $this->queryArgs[] = $nameTable;
+                            }
 							$this->queryArgs[] = $value[self::SESS_FIELDS];
 							$this->queryArgs[] = $value[self::SESS_OPERATOR];
 							$this->queryArgs[] = $value[self::SESS_VALUES];
@@ -390,39 +515,68 @@ class SnmpSearch
 							$this->queryArgs[] = $l->g(269);
 						} else {
 							$this->columnsQueryConditions .= "$operator[$pIndex] $open (%s.%s %s '%s') $close ";
-							$this->queryArgs[] = $nameTable;
+                            if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                                $this->queryArgs[] = self::SNMP_ACCOUNT;
+                            } else {
+                                $this->queryArgs[] = $nameTable;
+                            }
 							$this->queryArgs[] = $value[self::SESS_FIELDS];
 							$this->queryArgs[] = $value[self::SESS_OPERATOR];
 							$this->queryArgs[] = $value[self::SESS_VALUES];
 						}
 					} else {
 						$this->columnsQueryConditions .= "$operator[$pIndex] $open EXISTS (SELECT 1 FROM `%s` WHERE %s.%s %s) $close ";
-						$this->queryArgs[] = $nameTable;
-						$this->queryArgs[] = $nameTable;
+                        if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                            $this->queryArgs[] = self::SNMP_ACCOUNT;
+                            $this->queryArgs[] = self::SNMP_ACCOUNT;
+                        } else {
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $nameTable;
+                        }
 						$this->queryArgs[] = $value[self::SESS_FIELDS];
 						$this->queryArgs[] = $value[self::SESS_OPERATOR];
 					}
 				} elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))) {
 					$this->columnsQueryConditions .= "$operator[$pIndex] $open (%s.%s IS NULL OR TRIM(%s.%s) = '') $close ";
-					$this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-					$this->queryArgs[] = $nameTable;
+                    if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                        $this->queryArgs[] = $value[self::SESS_FIELDS];
+                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                    } else {
+                        $this->queryArgs[] = $nameTable;
+                        $this->queryArgs[] = $value[self::SESS_FIELDS];
+                        $this->queryArgs[] = $nameTable;
+                    }
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
 				} elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
 					$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.%s IS NOT NULL AND TRIM(%s.%s) != '' $close ";
-					$this->queryArgs[] = $nameTable;
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-					$this->queryArgs[] = $nameTable;
+                    if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                        $this->queryArgs[] = $value[self::SESS_FIELDS];
+                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                    } else {
+                        $this->queryArgs[] = $nameTable;
+                        $this->queryArgs[] = $value[self::SESS_FIELDS];
+                        $this->queryArgs[] = $nameTable;
+                    }
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
 				} elseif($value[self::SESS_OPERATOR] == "NOT IN" && $value[self::SESS_OPERATOR] == "DOESNTCONTAIN") {
 					$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.%s %s (%s) $close ";
-					$this->queryArgs[] = $nameTable;
+                    if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                    } else {
+                        $this->queryArgs[] = $nameTable;
+                    }
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
 					$this->queryArgs[] = 'NOT IN';
 					$this->queryArgs[] = $value[self::SESS_VALUES];
-				} elseif($this->getSearchedFieldType($nameTable, $value[self::SESS_FIELDS]) == 'datetime' && !in_array($value[self::SESS_OPERATOR], $this->search->operatorDelay)) {
+				} elseif(($this->getSearchedFieldType($nameTable, $value[self::SESS_FIELDS]) == 'datetime' || $this->accountinfoSearch->getSearchAccountInfo($value[self::SESS_FIELDS]) == '14') && !in_array($value[self::SESS_OPERATOR], $this->search->operatorDelay)) {
 					$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.%s %s str_to_date('%s', '%s') $close ";
-					$this->queryArgs[] = $nameTable;
+					if(strpos($value[self::SESS_FIELDS], "fields_") !== false) {
+                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                    } else {
+                        $this->queryArgs[] = $nameTable;
+                    }
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
 					$this->queryArgs[] = $value[self::SESS_OPERATOR];
 					$this->queryArgs[] = $value[self::SESS_VALUES];
@@ -430,14 +584,22 @@ class SnmpSearch
 					$this->queryArgs[] = $l->g(269);
 				} elseif(in_array($value[self::SESS_OPERATOR], $this->search->operatorDelay)) {
 					$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.%s %s NOW() - INTERVAL %s DAY $close ";
-					$this->queryArgs[] = $nameTable;
+                    if(strpos($value[self::SESS_FIELDS], "fields_") !== false) {
+                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                    } else {
+                        $this->queryArgs[] = $nameTable;
+                    }
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
 					if($value[self::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
 					$this->queryArgs[] = $op;
 					$this->queryArgs[] = $value[self::SESS_VALUES];
 				} else {
 					$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.%s %s '%s' $close ";
-					$this->queryArgs[] = $nameTable;
+                    if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
+                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                    } else {
+                        $this->queryArgs[] = $nameTable;
+                    }
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
 					$this->queryArgs[] = $value[self::SESS_OPERATOR];
 					$this->queryArgs[] = $value[self::SESS_VALUES];
@@ -447,7 +609,8 @@ class SnmpSearch
 		}
 
 		$this->columnsQueryConditions = "WHERE".$this->columnsQueryConditions;
-		$this->columnsQueryConditions .= " GROUP BY ID";
+		$this->columnsQueryConditions .= " GROUP BY `%s`.`ID`";
+        $this->queryArgs[] = $tablename;
         $this->baseQuery = substr($this->baseQuery, 0, -1);
 	}
 }

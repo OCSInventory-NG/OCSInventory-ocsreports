@@ -119,7 +119,7 @@
     /**
      * Operator list
      */
-    private $operatorAccount = [
+    public $operatorAccount = [
         "HAVING",
         "NOTHAVING",
     ];
@@ -127,7 +127,7 @@
     /**
      * Operator list
      */
-    private $operatorAccountCheckbox = [
+    public $operatorAccountCheckbox = [
         "HAVINGCHECK",
         "NOTHAVINGCHECK",
     ];

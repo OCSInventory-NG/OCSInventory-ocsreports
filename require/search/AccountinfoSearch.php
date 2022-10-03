@@ -127,7 +127,7 @@ require_once 'require/admininfo/Admininfo.php';
         $arg = array($id[1]);
         $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
-        while ($type = mysqli_fetch_array($result)){
+        if($result) while ($type = mysqli_fetch_array($result)){
           $info = $type['TYPE'];
         }
 
@@ -139,14 +139,14 @@ require_once 'require/admininfo/Admininfo.php';
      * @param  string $field
      * @return array $values
      */
-    public function find_accountinfo_values($field, $typeInfo = null){
+    public function find_accountinfo_values($field, $typeInfo = null, $snmp = null){
         $id = explode("_", $field);
         $sql = "SELECT `NAME` FROM accountinfo_config WHERE ID = %s";
         $arg = array($id[1]);
         $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
-        while ($type = mysqli_fetch_array($result)){
-          $info = 'ACCOUNT_VALUE_'.$type['NAME'];
+        if($result) while ($type = mysqli_fetch_array($result)){
+            $info = 'ACCOUNT_'.$snmp.'VALUE_'.$type['NAME'];
         }
 
         $Admininfo = new Admininfo();
