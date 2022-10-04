@@ -273,6 +273,22 @@ class DatabaseSearch
     }
 
     /**
+     * Get an list of id of the current multi search (needed for buttons at the bottom of the page)
+     *
+     * @return Array list of snmp equipment ID
+     */
+    public function getSnmpIdList(SnmpSearch $searchObj){
+        $query = $searchObj->baseQuery.$searchObj->searchQuery.$searchObj->searchQueryAccount.$searchObj->columnsQueryConditions;
+        $idList = mysql2_query_secure($query, $this->dbObject, $searchObj->queryArgs);
+        $idArray = [];
+
+        if($idList) foreach ($idList as $fields) {
+            $idArray[] = $fields['ID'];
+        }
+        return $idArray;
+    }
+
+    /**
      * Normalize the field type
      * Exemple : from varchar(255) to varchar
      * This will be used to determine generated html

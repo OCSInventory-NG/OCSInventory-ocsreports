@@ -530,7 +530,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false,$snmp
 
 			idchecked = idchecked.substr(0,(idchecked.length -1));
 			if(!computer){
-				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked,\"rollo\");
+				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked".$maybesnmp.",\"rollo\");
 			}else{
 				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked+\"&comp=\"+computer".$maybesnmp.",\"rollo\");
 			}

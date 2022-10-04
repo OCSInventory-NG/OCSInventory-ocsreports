@@ -868,7 +868,18 @@ class Admininfo
                 $list_id['id'] = $protectedGet['idchecked'];
 				$list_id['snmp_type'] = $protectedGet['maybesnmp'];
             }
-        }
+			if ((isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] == 'REQ') || $protectedGet['idchecked'] == '') {
+                msg_info($l->g(901));
+                if ($protectedGet['idchecked'] == '') {
+                    echo "<input type='hidden' name='CHOISE' value='" . ($protectedPost['CHOISE'] ?? '') . "'>";
+                    $protectedPost['CHOISE'] = 'REQ';
+                }
+                $list_id['id'] = implode(",", $_SESSION['OCS']['SNMP']['ID_REQ']);
+				$list_id['snmp_type'] = $protectedGet['maybesnmp'];
+            }
+        } else {
+			$list_id['id'] = $protectedGet['idchecked'];
+		}
 
         echo "</div>";
         echo "</div>";

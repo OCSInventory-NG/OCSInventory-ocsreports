@@ -544,6 +544,11 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 				$i++;
 			}
 		}
+		/**
+		 * ==========================
+		 * = END CRITERIA INSERTION =
+		 * ==========================
+		 */
 
 		// SEARCH BUTTON
 		echo '<div class="col-sm-12">';
@@ -598,6 +603,31 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 			$tab_options['CACHE'] = 'RESET';
 
 			ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+			/**
+			 * =============================
+			 * = END GENERATE SEARCH QUERY =
+			 * =============================
+			 */
+
+			/**
+			 * ===================
+			 * = MASS PROCESSING =
+			 * ===================
+			 */
+			$list_fonct["image/mass_affect.png"]=$l->g(430);
+			$list_pag["image/mass_affect.png"]=$pages_refs["ms_custom_tag_snmp"];
+
+			$list_id = $databaseSearch->getSnmpIdList($snmpSearch);
+			$_SESSION['OCS']['SNMP']['ID_REQ'] = $list_id;
+
+			echo "<div class='row' style='margin: 0'>";
+			add_trait_select($list_fonct, $list_id ?? null, $form_name, $list_pag, false, $defaultTable);
+			echo "</div>";
+			/**
+			 * =======================
+			 * = END MASS PROCESSING =
+			 * =======================
+			 */
 		
 			echo close_form();
 		}
