@@ -1569,6 +1569,7 @@
 2146 Seulement moi
 2147 Mon groupe
 2148 Tous les utilisateurs
+2149 Met à jour la date quand les périphériques sont mis à jour
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
