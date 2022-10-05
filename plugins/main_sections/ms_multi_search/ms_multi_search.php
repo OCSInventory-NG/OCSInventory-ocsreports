@@ -75,6 +75,10 @@ $multisearchChoise['COMPUTERS'] = strtoupper($l->g(729));
 $isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'];
 if($isEnable) $multisearchChoise['SNMP'] = $l->g(1136);
 
+if(empty($protectedPost['onglet']) && isset($_SESSION['OCS']['LAST_MULTI_ONGLET'])) {
+	$protectedPost['onglet'] = $_SESSION['OCS']['LAST_MULTI_ONGLET'];
+}
+
 if (empty($protectedPost['onglet']) && !isset($protectedGet['onglet'])) {
     $protectedPost['onglet'] = "COMPUTERS";
 } elseif(isset($protectedGet['onglet']) && empty($protectedPost['onglet'])) {
@@ -97,6 +101,7 @@ if (isset($protectedPost['table_select'])) {
 }
 
 if($protectedPost['onglet'] == "COMPUTERS") {
+	$_SESSION['OCS']['LAST_MULTI_ONGLET'] = "COMPUTERS";
 	?>
 	<div class="panel panel-default">
 	
@@ -388,6 +393,7 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 		<?php
 	}
 } elseif($protectedPost['onglet'] == "SNMP") {
+	$_SESSION['OCS']['LAST_MULTI_ONGLET'] = "SNMP";
 	/**
 	 * ========================
 	 * = TYPE SELECTION PANEL =
