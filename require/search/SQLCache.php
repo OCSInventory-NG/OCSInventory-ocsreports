@@ -186,7 +186,7 @@
                         }
                     }
                 }elseif($value[Search::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
-                    $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields IS NULL OR TRIM($nameTable.$argFields) = ''$close ";
+                    $this->columnsQueryConditions .= "$operator[$p] $open ($nameTable.$argFields IS NULL OR TRIM($nameTable.$argFields) = '')$close ";
                 }elseif($nameTable == Search::GROUP_TABLE || $value[Search::SESS_FIELDS] == 'CATEGORY_ID' || $value[Search::SESS_FIELDS] == 'CATEGORY' 
                             || $value[Search::SESS_OPERATOR] == "NOT IN"){
                     if($nameTable == Search::GROUP_TABLE){
