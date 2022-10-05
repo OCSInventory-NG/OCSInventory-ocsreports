@@ -560,16 +560,14 @@ class SnmpSearch
                         $this->queryArgs[] = $nameTable;
                     }
 					$this->queryArgs[] = $value[self::SESS_FIELDS];
-				} elseif($value[self::SESS_OPERATOR] == "NOT IN" && $value[self::SESS_OPERATOR] == "DOESNTCONTAIN") {
-					$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.%s %s (%s) $close ";
+				} elseif($value[self::SESS_OPERATOR] == "NOT IN" || $value[self::SESS_OPERATOR] == "DOESNTCONTAIN") {
                     if(strpos($value[self::SESS_FIELDS], "fields_") !== false || $value[self::SESS_FIELDS] == "TAG") {
-                        $this->queryArgs[] = self::SNMP_ACCOUNT;
+                        $subQuery = $this->containSubquery(self::SNMP_ACCOUNT, $value[self::SESS_FIELDS], $value[self::SESS_VALUES], $nameTable);
                     } else {
-                        $this->queryArgs[] = $nameTable;
+                        $subQuery = $this->containSubquery($nameTable, $value[self::SESS_FIELDS], $value[self::SESS_VALUES]);
                     }
-					$this->queryArgs[] = $value[self::SESS_FIELDS];
-					$this->queryArgs[] = 'NOT IN';
-					$this->queryArgs[] = $value[self::SESS_VALUES];
+					$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.ID NOT IN ($subQuery) $close ";
+                    $this->queryArgs[] = $nameTable;
 				} elseif(($this->getSearchedFieldType($nameTable, $value[self::SESS_FIELDS]) == 'datetime' || $this->accountinfoSearch->getSearchAccountInfo($value[self::SESS_FIELDS]) == '14') && !in_array($value[self::SESS_OPERATOR], $this->search->operatorDelay)) {
 					$this->columnsQueryConditions .= "$operator[$pIndex] $open %s.%s %s str_to_date('%s', '%s') $close ";
 					if(strpos($value[self::SESS_FIELDS], "fields_") !== false) {
@@ -613,4 +611,30 @@ class SnmpSearch
         $this->queryArgs[] = $tablename;
         $this->baseQuery = substr($this->baseQuery, 0, -1);
 	}
+
+        
+    /**
+     * Generate subquery for doesn't contain
+     *
+     * @param  mixed $tableName
+     * @param mixed $column
+     * @param  mixed $value
+     * @param mixed $firstTable
+     * @return void
+     */
+    public function containSubquery($tableName, $column, $value, $firstTable = null) {
+        // snmp accountinfo table
+        if ($tableName == self::SNMP_ACCOUNT && !is_null($firstTable)) {
+            $subQuery = "SELECT %s.ID FROM %s LEFT JOIN snmp_accountinfo ON snmp_accountinfo.SNMP_RECONCILIATION_VALUE = %s.%s AND snmp_accountinfo.SNMP_TYPE = '%s' WHERE snmp_accountinfo.%s LIKE '%s'";
+            $subQueryArgs = array($firstTable, $firstTable, $firstTable, $this->ocsSnmp->getReconciliationColumn($firstTable), $firstTable, $column, '%%'.$value.'%%');
+        } else {
+            $subQuery = "SELECT ID FROM %s WHERE %s LIKE '%s'";
+            $subQueryArgs = array($tableName, $column, '%%'.$value.'%%');
+        }
+
+        $result = generate_secure_sql($subQuery, $subQueryArgs);
+
+        return $result; 
+    }
+
 }
