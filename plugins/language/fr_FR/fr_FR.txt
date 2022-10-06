@@ -1853,3 +1853,18 @@
 9930 DNS
 
 9940 Est autorisé à gérer les recherches sauvegardées
+
+9950 Notifications
+9951 Veuillez vérifier que les notifications ont été correctement configurées pour que l'envoi des rapports fonctionne
+9952 Notification de rapport créée avec succès
+9953 Notification de rapport mise à jour avec succès 
+9954 Veuillez choisir une récurrence
+9955 Veuillez ajouter au moins un destinataire, ou plusieurs destinataires séparés par une virgule
+9956 journalière
+9957 hebdomadaire
+9958 mensuelle
+9959 Activation : 
+9960 Récurrence du rapport : 
+9961 Destinataire(s) : 
+9962 Jour de la récurrence : 
+9963 Date de fin : 
