@@ -38,6 +38,7 @@ class Layout {
 
     public function insertLayout($layout_name, $layout_descr, $user, $visib_col, $scope, $grp = '') {
         global $l;
+
         // check that we have everything before attempting to insert
         if (!empty($visib_col) && !empty($layout_name) && !empty($user)) {
             // check for a layout w/ same name or columns already existing for this user
@@ -100,7 +101,7 @@ class Layout {
 
 
     public function getLayout($user, $id) {
-        $query = "SELECT VISIBLE_COL FROM layouts WHERE TABLE_NAME = '".$this->form_name."' AND ID = ".$id;
+        $query = "SELECT VISIBLE_COL FROM layouts WHERE TABLE_NAME = '".$this->form_name."' AND ID = '".$id."'";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
         if (isset($result) && !empty($result)) {
             $layout = mysqli_fetch_array($result);
@@ -222,6 +223,25 @@ class Layout {
             $dupli = false;
         }
         return $dupli;
+    }
+    
+    /**
+     * prepareInsert
+     *
+     * @param  mixed $visibleCol
+     * @param  mixed $protectedPost
+     * @return void
+     */
+    public function prepareInsert($visibleCol = null, $protectedPost) {
+        $resultCol = [];
+
+        if(!is_null($visibleCol)) foreach($visibleCol as $indexCol) {
+            if(!empty($protectedPost[$indexCol])) {
+                $resultCol[] = $protectedPost[$indexCol]['name'];
+            }
+        }
+
+        return $resultCol;
     }
 }
 ?>
