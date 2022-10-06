@@ -129,6 +129,7 @@ function xml_decode($txt) {
  */
 function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list_col_cant_del) {
     global $protectedPost, $l, $pages_refs;
+	$layout = new Layout($option['table_name']);
     //Translated name of the column
     $lbl_column = array("ACTIONS" => $l->g(1381),
         "CHECK" => "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
@@ -187,7 +188,6 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"RESTORE",
     );
     $action_visible = false;
-
     foreach ($actions as $action) {
         if (isset($columns[$action])) {
             $action_visible = true;
@@ -258,9 +258,22 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 						// if user is on multisearch page, do not display layouts buttons
 						if (isset($option['table_name']) && $option['table_name'] != 'affich_multi_crit') {
 							// layouts
-							$layout = new Layout($option['table_name']);
 							$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'] ?? '----', $option['table_name']);
-							$visible_col = json_decode($cols['VISIBLE_COL'] ?? null, true) ?? $visible_col ?? null;
+							$visible_col_tmp = json_decode($cols['VISIBLE_COL'] ?? null, true) ?? $visible_col ?? null;
+
+							if(!is_null(($visible_col_tmp))) {
+								$indexCol = 0;
+								foreach($columns as $key => $value) {
+									if((in_array($key, $visible_col_tmp) || in_array($value, $visible_col_tmp)) && !in_array($indexCol, $visible_col ?? [])) {
+										$visible_col[] = $indexCol;
+									}
+									$indexCol++;
+								}
+							}
+
+							if(empty($visible_col)) {
+								$visible_col = $visible_col_tmp;
+							}
 						}
 						?>
                     </div>
@@ -284,9 +297,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                  ?>
         </div>
         <?php
-
         echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.history.replaceState(null, null, window.location.href);window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a><br>";
-
 		?>
 
     </div>
@@ -541,8 +552,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
     </script>
     <?php
-
-	$layout_visib = json_encode($visible_col ?? null);
+	$layout_visib = json_encode($layout->prepareInsert($visible_col, $protectedPost['columns']) ?? null);
 	$_SESSION['OCS']['layout_visib'] = $layout_visib;
 
     if (!empty($titre)) {
