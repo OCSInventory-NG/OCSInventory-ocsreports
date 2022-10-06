@@ -131,11 +131,12 @@ class GroupReport {
 
                 $ids = array();
                 $lines = array();
+                $value = array();
                 // if dyna -> generate SQL query
                 if (!empty($groupData[$report['GROUP_ID']]['XMLDEF']) && !isset($groupData[$report['GROUP_ID']]['STATIC'])) {
                     $query = $this->regeneration_sql($groupData[$report['GROUP_ID']]['XMLDEF']);
                     $reportResult = mysql2_query_secure($query[1], $_SESSION['OCS']["readServer"]);
-                    $value = mysqli_fetch_all($reportResult, MYSQLI_ASSOC);
+                    if($reportResult) $value = mysqli_fetch_all($reportResult, MYSQLI_ASSOC);
                 // if static, skip to query
                 } else {
                     foreach($groupData[$report['GROUP_ID']]['STATIC'] as $key => $id) {
@@ -154,7 +155,7 @@ class GroupReport {
                                 FROM hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id LEFT JOIN bios b ON b.hardware_id=h.id where h.id in ($strIds) and deviceid <> '_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_'";
                 $reportResult = mysql2_query_secure($deviceQuery, $_SESSION['OCS']["readServer"]);
 
-                while( $row = mysqli_fetch_assoc($reportResult)) {
+                if($reportResult) while( $row = mysqli_fetch_assoc($reportResult)) {
                     $lines[] = $row;
                 }
 
