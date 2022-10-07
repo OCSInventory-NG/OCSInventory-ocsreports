@@ -1569,6 +1569,7 @@
 2146 Seulement moi
 2147 Mon groupe
 2148 Tous les utilisateurs
+2149 Met à jour la date quand les périphériques sont mis à jour
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
@@ -1836,15 +1837,38 @@
 9903 Erreur lors de la création de la disposition
 9904 Veuillez vérifier votre entrée. Répétez le processus si le problème persiste.
 9905 Erreur lors de la suppression de la disposition
-9906 Une disposition avec le même nom ou les mêmes colonnes existe déjà pour votre utilisateur. Veuillez choisir un autre nom ou d'autres colonnes.
+9906 Une disposition avec le même nom ou les mêmes colonnes existe déjà pour votre utilisateur/portée de visibilité. Veuillez choisir un autre nom ou d'autres colonnes.
 9907 Gestion des dispositions
 9908 Afficher les dispositions
 9909 Ajouter une disposition
 9910 Dispositions disponibles :
 9911 Nom de la disposition
 9912 Description de la disposition
-9913 Nom du tableau
+9913 Nom de la table
+9914 Créateur
+9915 Portée de visibilité 
+9916 La mise à jour de la disposition a échoué, veuillez vérifier qu'une autre disposition n'a pas le même nom et la même portée de visibilité
+9917 Public
+9918 Groupe
+9919 Personnel
+9920 Disposition mise à jour
+9921 Est autorisé à gérer les dispositions
 
 9930 DNS
 
 9940 Est autorisé à gérer les recherches sauvegardées
+
+9950 Notifications
+9951 Veuillez vérifier que les notifications ont été correctement configurées pour que l'envoi des rapports fonctionne
+9952 Notification de rapport créée avec succès
+9953 Notification de rapport mise à jour avec succès 
+9954 Veuillez choisir une récurrence
+9955 Veuillez ajouter au moins un destinataire, ou plusieurs destinataires séparés par une virgule
+9956 journalière
+9957 hebdomadaire
+9958 mensuelle
+9959 Activation : 
+9960 Récurrence du rapport : 
+9961 Destinataire(s) : 
+9962 Jour de la récurrence : 
+9963 Date de fin : 

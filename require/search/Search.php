@@ -473,7 +473,7 @@
                   }
                 }
               }elseif($value[self::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
-                $this->columnsQueryConditions .= "$operator[$p] ($open%s.%s IS NULL OR TRIM(%s.%s) = '')$close ";
+                $this->columnsQueryConditions .= "$operator[$p] $open(%s.%s IS NULL OR TRIM(%s.%s) = '')$close ";
                 $this->queryArgs[] = $nameTable;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
                 $this->queryArgs[] = $nameTable;
@@ -553,7 +553,7 @@
         }
 
         // has lock machine ?
-        if (isset($_SESSION['OCS']["mesmachines"]) && !strpos($_SESSION['OCS']["mesmachines"], 'a.TAG')) {
+        if (isset($_SESSION['OCS']["mesmachines"]) && strpos($_SESSION['OCS']["mesmachines"], 'a.TAG') === false) {
             $lockResult = str_replace('a.hardware_id', 'accountinfo.hardware_id', $_SESSION['OCS']["mesmachines"]);
             $this->columnsQueryConditions .=  " AND " . $lockResult;
         }

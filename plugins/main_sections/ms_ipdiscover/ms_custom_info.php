@@ -90,6 +90,20 @@ if (isset($protectedPost['Valid_modif'])) {
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
         }
 
+        $udpate_date = look_config_default_values('IPDISCOVER_UPDATE_DATE');
+
+        if ($udpate_date['ivalue']['IPDISCOVER_UPDATE_DATE']) {
+            $sql = "UPDATE netmap
+                    SET DATE = '%s'
+                    WHERE MAC = '%s'";
+
+            $date = new DateTime();
+            
+            $arg = array($date->format('Y-m-d H:i:s'), $protectedPost['mac']);
+
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        }
+
         //suppression du cache pour prendre en compte la modif
         unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_' . $protectedGet['prov']]);
     } else {
