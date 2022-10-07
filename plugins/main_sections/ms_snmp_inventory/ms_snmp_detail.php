@@ -133,7 +133,7 @@ if(!empty($list_tab)) {
         foreach ($protectedPost as $field => $value) {
             $temp_field = explode('_', $field);
 
-            if ((isset($temp_field[1]) && (array_key_exists($temp_field[0] . '_' . $temp_field[1], $info_account_id[$getType][$getId]))) || $temp_field[0] == 'TAG') {
+            if ((isset($temp_field[1]) && isset($info_account_id[$getType][$getId]) && (array_key_exists($temp_field[0] . '_' . $temp_field[1], $info_account_id[$getType][$getId]))) || $temp_field[0] == 'TAG') {
                 //cas of checkbox
                 if (isset($temp_field[2])) {
                     $data_fields_account[$temp_field[0] . "_" . $temp_field[1]] .= $temp_field[2] . "&&&";
