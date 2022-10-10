@@ -552,7 +552,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
     </script>
     <?php
-	$layout_visib = json_encode($layout->prepareInsert($visible_col, $protectedPost['columns']) ?? null);
+	$layout_visib = json_encode($layout->prepareInsert($visible_col ?? [], $protectedPost['columns'] ?? []) ?? null);
 	$_SESSION['OCS']['layout_visib'] = $layout_visib;
 
     if (!empty($titre)) {
