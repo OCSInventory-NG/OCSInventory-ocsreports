@@ -1398,7 +1398,8 @@
 1516 All software (but default)
 1517 No category have been selected
 1518 List of regex
-1519 Missing computers : 
+1519 Missing computers :
+1520 (CSV datas are imported)
 
 1550 Do you really want to archive 
 1551 Archive
