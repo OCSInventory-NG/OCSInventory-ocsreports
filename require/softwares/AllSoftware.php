@@ -309,8 +309,20 @@ class AllSoftware
             $queryFilter['GROUPBY'] = "GROUP BY id ";
         }
 
+        if(is_defined($filters['CSV'])) {
+            if (is_array($hId)) {
+                $tmp = array_unique(array_merge($hId, $filters['CSV']));
+            } else {
+                $tmp = $filters['CSV'];
+            }
+            $hId = [];
+            foreach ($tmp as $key => $value) {
+                $hId[$value] = $value;
+            }
+        }
+
         if(is_defined($filters['OS'])) {
-            $hId = $this->getHidByOs($filters['OS']);
+            $hId = $this->getHidByOs($filters['OS'], $hId);
         }
 
         if(is_defined($filters['GROUP'])) {
@@ -326,18 +338,6 @@ class AllSoftware
         if(is_defined($filters['ASSET'])) {
             $query = "SELECT ID as HARDWARE_ID FROM `hardware` WHERE CATEGORY_ID = '".$filters['ASSET']."' GROUP BY HARDWARE_ID";
             $hId = $this->getHidByType($query, $hId);
-        }
-
-        if(is_defined($filters['CSV'])) {
-            if (is_array($hId)) {
-                $tmp = array_unique(array_merge($hId, $filters['CSV']));
-            } else {
-                $tmp = $filters['CSV'];
-            }
-            $hId = [];
-            foreach ($tmp as $key => $value) {
-                $hId[$value] = $value;
-            }
         }
 
         // If restrictions
@@ -422,8 +422,8 @@ class AllSoftware
      * @param  String $os
      * @return Array
      */
-    private function getHidByOs($os) {
-        $hId = null;
+    private function getHidByOs($os, $hId) {
+        $tmp = [];
 
         switch($os) {
             case 'windows':
@@ -440,7 +440,17 @@ class AllSoftware
         $result = mysql2_query_secure($getHIDQuery, $_SESSION['OCS']["readServer"]);
 
         if($result) while($item = mysqli_fetch_array($result)){
-            $hId[$item['ID']] = $item['ID'];
+            $tmp[$item['ID']] = $item['ID'];
+        }
+
+        if(!empty($hId) && !empty($tmp)) {
+            foreach($hId as $id) {
+                if(!in_array($id, $tmp)) {
+                    unset($hId[$id]);
+                }
+            }
+        } elseif(!empty($tmp)) {
+            $hId = $tmp;
         }
 
         return $hId;
