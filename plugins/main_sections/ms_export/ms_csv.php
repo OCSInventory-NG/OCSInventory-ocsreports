@@ -80,8 +80,9 @@ if (isset($protectedGet['tablename']) && isset($_SESSION['OCS']['csv']['SQL'][$p
     }
 
     $i = 0;
-    require_once('require/function_admininfo.php');
-    $inter = interprete_accountinfo($col, array());
+    require_once('require/admininfo/Admininfo.php');
+    $Admininfo = new Admininfo();
+    $inter = $Admininfo->interprete_accountinfo($col, array());
     while ($cont = mysqli_fetch_array($result)) {
         unset($cont['MODIF']);
         if ($protectedGet['tablename'] == "IPDISCOVER") {
@@ -186,7 +187,7 @@ if ($toBeWritten != "" || (isset($Directory) && file_exists($Directory . $protec
         header("Content-Length: " . strlen($toBeWritten));
         echo $toBeWritten;
     } else {
-	// Generate output page for log export
+	    // Generate output page for log export
 	$filename = $Directory . $protectedGet['log'];
         header("Content-Disposition: attachment; filename=\"" . $protectedGet['log'] . "\"");
         header("Content-Length: " . filesize($filename));

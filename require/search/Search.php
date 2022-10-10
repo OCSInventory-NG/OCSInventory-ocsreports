@@ -89,7 +89,7 @@
     /**
      * Operator list
      */
-    private $operatorList = [
+    public $operatorList = [
         "EQUAL",
         "MORE",
         "LESS",
@@ -103,7 +103,7 @@
     /**
      * Delay operator list
      */
-    private $operatorDelay = [
+    public $operatorDelay = [
       "MORETHANXDAY",
       "LESSTHANXDAY",
     ];
@@ -119,7 +119,7 @@
     /**
      * Operator list
      */
-    private $operatorAccount = [
+    public $operatorAccount = [
         "HAVING",
         "NOTHAVING",
     ];
@@ -127,7 +127,7 @@
     /**
      * Operator list
      */
-    private $operatorAccountCheckbox = [
+    public $operatorAccountCheckbox = [
         "HAVINGCHECK",
         "NOTHAVINGCHECK",
     ];
@@ -325,7 +325,7 @@
                 } else {
                   $this->searchQuery .= "INNER JOIN $tableName on hardware.id = $tableName.hardware_id ";
                 }
-			} 
+			      } 
 			
 			if($tableName == SoftwareSearch::SOFTWARE_TABLE) {
 				$this->searchQuery .= "LEFT JOIN software_name on software_name.id = $tableName.name_id ";

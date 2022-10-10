@@ -26,12 +26,13 @@ if (AJAX) {
     ob_start();
 }
 require_once('require/function_computers.php');
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
 //intégration des fonctions liées à la recherche multicritère
 require_once('require/function_search.php');
 require_once('require/archive/ArchiveComputer.php');
 
 $archive = new ArchiveComputer();
+$Admininfo = new Admininfo();
 
 //show mac address on the tab
 $show_mac_addr = true;
@@ -41,7 +42,7 @@ $form_name = $tab_options['form_name'];
 $tab_options['table_name'] = "list_show_all";
 if (isset($protectedGet['filtre']) && !isset($protectedPost['FILTRE'])) {
     if (substr($protectedGet['filtre'], 0, 9) == "a.fields_") {
-        $values_accountinfo = accountinfo_tab(substr($protectedGet['filtre'], 9));
+        $values_accountinfo = $Admininfo->accountinfo_tab(substr($protectedGet['filtre'], 9));
         if (is_array($values_accountinfo)) {
             $protectedPost['FILTRE_VALUE'] = $values_accountinfo[$protectedGet['value']];
         }
@@ -106,7 +107,7 @@ if($protectedPost['onglet'] == "ACTIVE") {
 
 //BEGIN SHOW ACCOUNTINFO
 
-$accountinfo_value = interprete_accountinfo($list_fields ?? null, $tab_options);
+$accountinfo_value = $Admininfo->interprete_accountinfo($list_fields ?? null, $tab_options);
 if (array($accountinfo_value['TAB_OPTIONS'])) {
     $tab_options = $accountinfo_value['TAB_OPTIONS'];
 }

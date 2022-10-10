@@ -1712,6 +1712,10 @@
 9034 Protocole de confidentialité
 9035 Mot de passe de confidentialité
 9036 Aucun OID trouvé
+9037 Equipement contacté aujourd'hui
+9038 Nombre d'équipements par type
+9039 Aperçu rapide
+9040 Exporter tous les types SNMP
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL

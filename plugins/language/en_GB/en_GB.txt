@@ -1717,6 +1717,10 @@
 9034 Privacy Protocol
 9035 Privacy Password
 9036 No OID found
+9037 Equipment contacted today
+9038 Number of equipment per type
+9039 Quick view
+9040 Export all SNMP types
 
 9100 SSL key path
 9101 SSL certificat path
