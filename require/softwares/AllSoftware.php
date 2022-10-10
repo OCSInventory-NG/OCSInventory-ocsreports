@@ -360,9 +360,9 @@ class AllSoftware
 
         if(is_defined($filters['NAME_RESTRICT'])) {
             if(is_defined($queryFilter['HAVING'])) {
-                $queryFilter['HAVING'] .= "AND n.NAME LIKE '%".$filters['NAME_RESTRICT']."%' ";
+                $queryFilter['HAVING'] .= "AND n.NAME LIKE '%%".$filters['NAME_RESTRICT']."%%' ";
             } else {
-                $queryFilter['HAVING'] .= "HAVING n.NAME LIKE '%".$filters['NAME_RESTRICT']."%' ";
+                $queryFilter['HAVING'] .= "HAVING n.NAME LIKE '%%".$filters['NAME_RESTRICT']."%%' ";
             }
         }
 

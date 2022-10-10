@@ -156,7 +156,7 @@ if($protectedPost['onglet'] == "ALL"){
 
         //If restriction
         if (is_defined($_SESSION['OCS']["mesmachines"])) {
-        $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
+            $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
                     LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
                     WHERE ".$_SESSION['OCS']["mesmachines"]." ";
         }
@@ -281,6 +281,10 @@ else {
                         WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID = %s ";
         } else {
             $sql['SQL'] .= 'WHERE scl.CATEGORY_ID = %s ';
+        }
+
+        if(is_defined($sqlFilter['HAVING'])) {
+            $sql['SQL'] .= $sqlFilter['HAVING'];
         }
     } else {
         $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID = %s ".$sqlFilter['GROUPBY'];
