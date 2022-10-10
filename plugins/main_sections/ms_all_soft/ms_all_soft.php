@@ -135,7 +135,12 @@ if (is_defined($protectedPost['NAME_RESTRICT']) ||
     is_defined($protectedPost['TAG']) ||
     is_defined($protectedPost['ASSET']) ||
     is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data'])) {
-    msg_warning($l->g(767));
+    if(is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data'])) {
+        $msg = $l->g(767)." ".$l->g(1520);
+    } else {
+        $msg = $l->g(767);
+    }
+    msg_warning($msg);
 }
 if (is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data']['missing'])) {
     $txt = $l->g(1519);
