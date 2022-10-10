@@ -77,7 +77,7 @@ function show_select_field($data, $key, $name, $label, $options) {
     $field_options = array(
         'field_class' => 'big-label small-input',
         'options' => $options,
-        'value' => $data[$name]
+        'value' => $data[$name] ?? null
     );
 
     show_form_field($data, array(), 'select', $key . '[' . $name . ']', $label, $field_options);
