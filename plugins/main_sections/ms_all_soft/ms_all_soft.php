@@ -63,21 +63,26 @@ if (isset($protectedPost['SUBMIT_FORM'])) {
 $filters   = null;
 $sqlFilter = null;
 
-if(is_defined($protectedPost['NAME_RESTRICT']) && trim($protectedPost['NAME_RESTRICT']) != "")
+if(is_defined($protectedPost['NAME_RESTRICT']) && trim($protectedPost['NAME_RESTRICT']) != "") {
     $filters['NAME_RESTRICT'] = $protectedPost['NAME_RESTRICT'];
-if(is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR']))
+}  
+if(is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR'])) {
     $filters['NBRE'] = $protectedPost['NBRE'];
     $filters['COMPAR'] = $protectedPost['COMPAR'];
-if(is_defined($protectedPost['OS']) && $protectedPost['OS'] != "0")
+}
+if(is_defined($protectedPost['OS']) && $protectedPost['OS'] != "0") {
     $filters['OS'] = $protectedPost['OS'];
-if(is_defined($protectedPost['GROUP']) && $protectedPost['GROUP'] != "0")
+}
+if(is_defined($protectedPost['GROUP']) && $protectedPost['GROUP'] != "0") {
     $filters['GROUP'] = $protectedPost['GROUP'];
-if(is_defined($protectedPost['TAG']) && $protectedPost['TAG'] != "0")
+}
+if(is_defined($protectedPost['TAG']) && $protectedPost['TAG'] != "0") {
     $filters['TAG'] = $protectedPost['TAG'];
-if(is_defined($protectedPost['ASSET']) && $protectedPost['ASSET'] != "0")
+}
+if(is_defined($protectedPost['ASSET']) && $protectedPost['ASSET'] != "0") {
     $filters['ASSET'] = $protectedPost['ASSET'];
-
-if(is_defined($_FILES['csv_file'])){
+}
+if(is_defined($_FILES['csv_file'])) {
     $allSoft->verifyCsv($_FILES['csv_file']);
 }
 
