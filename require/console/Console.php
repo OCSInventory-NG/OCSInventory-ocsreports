@@ -110,7 +110,7 @@
       foreach($machine as $key => $value) {
         if($machine[$key] != 0){
           if($title == "CONTACTED"){
-            $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTCOME-TALL']."&values2=".$key."&type_field='>".$value."</a>";
+            $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTDATE-TALL']."&values2=".$key."&type_field='>".$value."</a>";
           }elseif($title == "ALL COMPUTER"){
             if($key == 'others') {
               $machine[$key] = "<p style='font-size:32px; font-weight:bold;'>".$value."</p>";
