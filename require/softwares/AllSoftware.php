@@ -296,7 +296,13 @@ class AllSoftware
         if(is_defined($filters['OS']) || is_defined($filters['GROUP']) || is_defined($filters['TAG']) || is_defined($filters['ASSET']) || is_defined($filters['CSV'])) {
             // Select
             $queryFilter['SELECT'] = "SELECT n.NAME, p.PUBLISHER, v.VERSION, c.CATEGORY_NAME, 
-            CONCAT(n.NAME,';',p.PUBLISHER,';',v.VERSION) as id, COUNT(CONCAT(s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID)) as nb ";
+            CONCAT(n.NAME,';',p.PUBLISHER,';',v.VERSION) as id, COUNT(CONCAT(s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID)) as ";
+            
+            if(is_defined($filters['SUBMIT_FORM_RESTRICT']) && $filters['SUBMIT_FORM_RESTRICT']) {
+                $queryFilter['SELECT'] .= "nb2 ";
+            } else {
+                $queryFilter['SELECT'] .= "nb ";
+            }
 
             // From
             $queryFilter['FROM'] = "FROM software s LEFT JOIN software_name n ON n.ID = s.NAME_ID
