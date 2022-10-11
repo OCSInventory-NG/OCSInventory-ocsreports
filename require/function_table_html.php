@@ -1739,7 +1739,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 					case "AFFECT_AGAIN":
 						if ($value_of_field != '&nbsp;'){
 							$explode = explode(";", $value_of_field);
-							if(!is_null($explode[1]) && (strstr($explode[1], 'ERR_') || strstr($explode[1], 'EXIT_CODE'))) {
+							if(is_defined($explode[1]) && !is_null($explode[1]) && (strstr($explode[1], 'ERR_') || strstr($explode[1], 'EXIT_CODE'))) {
 								$lbl_msg=$l->g(9971);
 								$row[$key]="&nbsp;<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($explode[0], ENT_QUOTES)."\",\"".$form_name."\",\"AFFECT_AGAIN\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-repeat' title='".$l->g(9972)."'></span></a>";
 							}
