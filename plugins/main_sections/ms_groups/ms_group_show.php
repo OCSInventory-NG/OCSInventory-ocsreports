@@ -290,6 +290,7 @@ else {
             break;
         case $l->g(481):
             print_activated_package($systemid);
+            break;
         case $l->g(9950):
             print_notification_form($systemid, $protectedPost['RECURRENCE'] ?? '');
             break;
