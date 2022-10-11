@@ -187,7 +187,7 @@ if($protectedPost['onglet'] == "ALL"){
                     LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
                     WHERE ".$_SESSION['OCS']["mesmachines"]." ";
                 
-            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes" && !is_defined($sqlFilter['GROUPBY'])) {
+            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && !is_defined($sqlFilter['GROUPBY'])) {
                 $sql['SQL'] .= "GROUP BY id ";
             }
         }
