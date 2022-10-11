@@ -1820,6 +1820,8 @@
 9611 Directory for temporary files
 9612 Import from CSV
 9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
+9614 Import error. Only CSV files are accepted
+9615 Failed to import data
 
 9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
 
@@ -1860,7 +1862,6 @@
 9920 Layout updated successfully
 9921 Is allowed to manage layouts
 
-
 9930 DNS
 
 9940 Is allowed to manage saved searches
@@ -1878,4 +1879,8 @@
 9960 Report recurrence : 
 9961 Recipient(s) : 
 9962 Day of reccurence : 
-9963 End Date : 
+9963 End Date :
+
+9970 You are not allowed to modify this user
+9971 Do you really want to re-affect the package 
+9972 Affect again

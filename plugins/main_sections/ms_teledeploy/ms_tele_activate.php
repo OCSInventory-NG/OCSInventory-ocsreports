@@ -59,30 +59,48 @@ if (isset($protectedPost['onglet']) && isset($protectedPost['old_onglet']) && ($
     unset($protectedPost['MODIF']);
 }
 
+// Check GET active value
+$getActive = null;
+if(isset($protectedGet["active"])) {
+    $getActive = preg_replace("/[^0-9]/", "", $protectedGet["active"]);
+}
+
+// Check POST HTTPS server value
+$postHTTPSServ = null;
+if(isset($protectedPost["HTTPS_SERV"])) {
+    $postHTTPSServ = preg_replace("/[^A-Za-z0-9\._\-\/]/", "", $protectedPost["HTTPS_SERV"]);
+}
+
+// Check POST file server value
+$postFileServ = null;
+if(isset($protectedPost["FILE_SERV"])) {
+    $postFileServ = preg_replace("/[^A-Za-z0-9\._\-\/]/", "", $protectedPost["FILE_SERV"]);
+}
+
 if (is_defined($protectedPost['Valid_modif'])) {
     $error = "";
 
     $opensslOk = function_exists("openssl_open");
 
     if ($opensslOk) {
-        $httpsOk = @fopen("https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/info", "r");
+        $httpsOk = @fopen("https://" . $postHTTPSServ . "/" . $getActive . "/info", "r");
     } else {
         $error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
     }
 
     if (!$httpsOk) {
-        $error .= $l->g(466) . " https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/<br>";
+        $error .= $l->g(466) . " https://" . $postHTTPSServ . "/" . $getActive . "/<br>";
     } else {
         fclose($httpsOk);
     }
 
     if ($protectedPost['choix_activ'] == "MAN") {
-        $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $protectedGet["active"] . "'";
+        $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $getActive . "'";
         $resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);
         $valFrags = mysqli_fetch_array($resFrags);
         $fragAvail = ($valFrags["fragments"] > 0);
         if ($fragAvail) {
-            $fragOk = @fopen("http://" . $protectedPost["FILE_SERV"] . "/" . $protectedGet["active"] . "/" . $protectedGet["active"] . "-1", "r");
+            $fragOk = @fopen("http://" . $postFileServ . "/" . $getActive . "/" . $getActive . "-1", "r");
         } else {
             $fragOk = true;
         }
@@ -97,7 +115,7 @@ if (is_defined($protectedPost['Valid_modif'])) {
 
 if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
     if (isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] == "MAN") {
-        activ_pack($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV']);
+        activ_pack($getActive, $postHTTPSServ, $postFileServ);
     }
     echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
 }
@@ -175,30 +193,6 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         }
     } else {
         $tab_options['SHOW_ONLY']['ZIP'] = 'NULL';
-    }
-
-    //only for profils who can activate packet
-    if (!$cant_active) {
-        //javascript for manual activate
-        echo "<script language='javascript'>
-                            function manualActive()
-                             {
-                                    var msg = '';
-                                    var lien = '';
-                                    if( isNaN(document.getElementById('manualActive').value) || document.getElementById('manualActive').value=='' )
-                                            msg = '" . $l->g(473) . "';
-                                    if( document.getElementById('manualActive').value.length != 10 )
-                                            msg = '" . $l->g(474) . "';
-                                    if (msg != ''){
-                                            document.getElementById('manualActive').style.backgroundColor = 'RED';
-                                            alert (msg);
-                                            return false;
-                                    }else{
-                                            lien='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active='+ document.getElementById('manualActive').value;
-                                            window.open(lien,\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\");
-                                    }
-                    }
-                    </script>";
     }
 
     $list_fields = array($l->g(475) => 'FILEID',
@@ -360,24 +354,6 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     if (!$cant_active){
         del_selection($form_name);
     }
-    ?>
-    <div class="row rowMarginTop30">
-        <div class="col-md-6 col-md-offset-3">
-            <?php if ($protectedPost['SHOW_SELECT'] == 'download'): ?>
-            <div class="form-group">
-                <label class="control-label col-sm-4" for="manualActive"><?php echo $l->g(476); ?></label>
-                <div class="col-sm-8">
-                    <div class="input-group">
-                        <input type="text" name="manualActive" id="manualActive" size="" maxlength="10" value="<?php echo isset($protectedPost['manualActive']); ?>" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <a href="#" class="btn btn-success" onclick="manualActive()"><?php echo $l->g(13); ?></a>
-            <?php endif; ?>
-        </div>
-    </div>
-    <?php
-    //only for profils who can activate packet
 
 }elseif ( $protectedPost['onglet'] == "DELETED_PACKET") {
 

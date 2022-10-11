@@ -254,7 +254,9 @@ else {
     $imgAdm = array("ms_config");
     $lblHdw = array($l->g(580), $l->g(581));
     $imgHdw = array("ms_all_computersred", "ms_all_computers",);
-        echo "<div class='row rowMarginTop30'>";
+    $lblTld = array($l->g(481));
+
+    echo "<div class='row rowMarginTop30'>";
     echo img($lblAdm[0], 1);
     
     if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
@@ -266,15 +268,17 @@ else {
     }
 
     echo img($lblHdw[1], 1);
+    echo img($lblTld[0], 1);
+
+    if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
+        echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
+    }
+    echo "</div>";
+
+    echo "<div class='row rowMarginTop30'>";
+    echo "<div class='col-md-10 col-md-offset-1'>";
 
 
-        if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
-            echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
-        }
-        echo "</div>";
-
-        echo "<div class='row rowMarginTop30'>";
-        echo "<div class='col-md-10 col-md-offset-1'>";
     switch ($opt) :
         case $l->g(500): print_perso($systemid);
             break;
@@ -283,6 +287,9 @@ else {
             break;
         case $l->g(580):
             print_computers_real($systemid);
+            break;
+        case $l->g(481):
+            print_activated_package($systemid);
             break;
         case $l->g(9950):
             print_notification_form($systemid, $protectedPost['RECURRENCE'] ?? '');
@@ -518,7 +525,6 @@ function print_computers_real($systemid) {
     $arg = $systemid;
     $resGroup = mysql2_query_secure($sql_group, $_SESSION['OCS']["readServer"], $arg);
     $valGroup = mysqli_fetch_array($resGroup); //group old version
-
     if (!$valGroup["xmldef"]) {
         $sql_group = "SELECT request FROM groups WHERE hardware_id='%s'";
         $arg = $systemid;
@@ -578,6 +584,73 @@ function print_computers_real($systemid) {
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     form_action_group($systemid);
     echo close_form();
+    if (AJAX) {
+        ob_end_clean();
+        tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+        ob_start();
+    }
+}
+
+function print_activated_package($systemid) {
+    global $l, $list_fields, $list_col_cant_del, $default_fields, $tab_options, $protectedPost;
+
+    require('require/function_telediff.php');
+
+    // Delete package
+    if (!empty($protectedPost['SUP_PROF'])) {
+        if ($_SESSION['OCS']["justAdded"] == false) {
+            desactive_packet($systemid, $protectedPost['SUP_PROF']);
+        } else {
+            $_SESSION['OCS']["justAdded"] = false;
+        }
+        addLog($l->g(512), $l->g(886) . " " . $protectedPost['SUP_PROF'] . " => " . $systemid);
+        $tab_options['CACHE'] = 'RESET';
+        unset($protectedPost['SUP_PROF']);
+    }
+
+    $form_name = "print_activate_package";
+    $table_name = $form_name;
+
+    echo open_form($form_name);
+
+    $list_fields = array(
+        $l->g(1037) => 'name',
+        $l->g(475) => 'fileid',
+        $l->g(499) => 'pack_loc',
+        $l->g(1102) => 'tvalue',
+        $l->g(51) => 'comments',
+    );
+
+    if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
+        $list_fields['SUP'] = 'ivalue';
+    }
+
+    $list_col_cant_del = $list_fields;
+    $default_fields = $list_col_cant_del;
+
+    $queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.fileid, e.pack_loc,h.name as name_server,h.id,a.comment
+                    FROM devices d left join download_enable e on e.id=d.ivalue
+                        LEFT JOIN download_available a ON e.fileid=a.fileid
+                        LEFT JOIN hardware h on h.id=e.server_id
+                    WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != ''   AND d.hardware_id=%s
+                    UNION
+                    SELECT '%s', IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.fileid, '%s',h.name,h.id,a.comment
+                    FROM devices d left join download_enable e on e.id=d.ivalue
+                        LEFT JOIN download_available a ON e.fileid=a.fileid
+                        LEFT JOIN hardware h on h.id=e.server_id
+                    WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=%s";
+
+    $arg = array($l->g(482), $systemid, $l->g(1129), $l->g(482), $l->g(1129), $systemid);
+
+    $tab_options['ARG_SQL'] = $arg;
+
+    $tab_options['form_name'] = $form_name;
+    $tab_options['table_name'] = $table_name;
+
+    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+    echo close_form();
+
     if (AJAX) {
         ob_end_clean();
         tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
@@ -784,16 +857,14 @@ function print_perso($systemid) {
 
     optpersoGroup('SNMP_SWITCH', $l->g(1197), 'SNMP_SWITCH', '', $default, $supp);
 
-    //TELEDEPLOY
-    require_once('require/function_machine.php');
-    show_packages($systemid, "ms_group_show");
-
     if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
         echo "<a class='btn btn-success' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
 		" . $l->g(285) . "</a>";
     }
 
     echo close_form();
+
+
 }
 
 function img($a, $avail) {

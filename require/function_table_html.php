@@ -155,6 +155,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"AFFECT_AGAIN",
 		"NEW_WINDOW"
     );
     //If the column selected are different from the default columns
@@ -187,6 +188,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"AFFECT_AGAIN",
 		"NEW_WINDOW"
     );
     $action_visible = false;
@@ -377,7 +379,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 						<?php
 						foreach ($protectedPost as $key => $value) {
 							if (!is_array($value)) {
-								echo "d['" . $key . "'] = '" . $value . "'; \n";
+								echo "d['" . preg_replace("/[^A-Za-z0-9\._]/", "", $key) . "'] = '" . $value . "'; \n";
 							}
 							if($key == "visible_col") {
 								$visible_col = $value;
@@ -586,6 +588,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 	echo "<input type='hidden' id='SHOW_DETAILS' name='SHOW_DETAILS' value=''>";
 	echo "<input type='hidden' id='ARCHIVER' name='ARCHIVER' value=''>";
 	echo "<input type='hidden' id='RESTORE' name='RESTORE' value=''>";
+	echo "<input type='hidden' id='AFFECT_AGAIN' name='AFFECT_AGAIN' value=''>";
 	echo "<input type='hidden' id='NEW_WINDOW' name='NEW_WINDOW' value=''>";
 	
     if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') {
@@ -693,138 +696,56 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 {
 	global $protectedPost, $l, $pages_refs;
 
-  	if ($configinput == "")
+	if ($configinput == "") {
 		$configinput = array('MAXLENGTH' => 100, 'SIZE' => 20, 'JAVASCRIPT' => "", 'DEFAULT' => "YES", 'COLS' => 30, 'ROWS' => 5);
+	}
+
 	//del stripslashes if $name is not an array
 	if (!is_array($name)) {
 		$name = htmlspecialchars($name, ENT_QUOTES);
 	}
-	if ($input_type == 1) {
 
-		return "<textarea name='" . $input_name . "' id='" . $input_name . "' cols='" . $configinput['COLS'] . "' rows='" . $configinput['ROWS'] . "'  class='down' >" . $name . "</textarea>";
+	// Switch input type
+	switch($input_type) {
+		// textarea
+		case 1:
+			return "<textarea name='" . $input_name . "' id='" . $input_name . "' cols='" . $configinput['COLS'] . "' rows='" . $configinput['ROWS'] . "'  class='down' >" . $name . "</textarea>";
+		// select
+		case 2:
+			$champs = "<div class='form-group'>";
+			echo "<div class='col col-sm-10 col-sm-offset-2'>";
+			$champs .= "<select name='" . $input_name . "' id='" . $input_name . "' " . (isset($configinput['JAVASCRIPT']) ? $configinput['JAVASCRIPT'] : '');
+			
+			if ($input_reload != "") {
+				$champs .= " onChange='document." . $input_reload . ".submit();'";
+			} 
 
-	} elseif ($input_type == 0)
-		return "<input type='text' name='" . $input_name . "' id='" . $input_name . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $name . "\" class='form-control'\" " . $configinput['JAVASCRIPT'] . ">";
-	elseif ($input_type == 2) {
-		$champs = "<div class='form-group'>";
+			$champs .= " class='down form-control' >";
 
-
-        echo "<div class='col col-sm-10 col-sm-offset-2'>";
-		$champs .= "<select name='" . $input_name . "' id='" . $input_name . "' " . (isset($configinput['JAVASCRIPT']) ? $configinput['JAVASCRIPT'] : '');
-		if ($input_reload != "") $champs .= " onChange='document." . $input_reload . ".submit();'";
-		$champs .= " class='down form-control' >";
-		if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES")
-			$champs .= "<option value='' class='hi' ></option>";
-		$countHl = 0;
-		if ($name != '') {
-			natcasesort($name);
-			foreach ($name as $key => $value) {
-				$champs .= "<option value=\"" . $key . "\"";
-				if (!empty($protectedPost[$input_name]) && $protectedPost[$input_name] == $key)
-					$champs .= " selected";
-				$champs .= ($countHl % 2 == 1 ? " class='hi'" : " class='down'") . " >" . $value . "</option>";
-				$countHl++;
+			if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES") {
+				$champs .= "<option value='' class='hi' ></option>";
 			}
-		}
-		return $champs . "</select></div></div>";
-	} elseif ($input_type == 3) {
-		$hid = "<input type='hidden' id='" . $input_name . "' name='" . $input_name . "' value='" . $name . "'>";
-		//	echo $name."<br>";
-		return $name . $hid;
-	} elseif ($input_type == 4)
-		return "<input size='" . $configinput['SIZE'] . "' type='password' name='" . $input_name . "' class='hi' />";
-	elseif ($input_type == 5 and isset($name) and is_array($name)) {
-		foreach ($name as $key => $value) {
-			$champs .= "<input type='checkbox' name='" . $input_name . "_" . $key . "' id='" . $input_name . "_" . $key . "' ";
-			if ($protectedPost[$input_name . "_" . $key] == 'on')
-				$champs .= " checked ";
-			if ($input_reload != "") $champs .= " onChange='document." . $input_reload . ".submit();'";
-			$champs .= " >" . $value . " <br>";
-		}
-		return $champs;
-	} elseif ($input_type == 6) {
-		if (isset($configinput['NB_FIELD']))
-			$i = $configinput['NB_FIELD'];
-		else
-			$i = 6;
-		$j = 0;
-		echo $name;
-		while ($j < $i) {
-			$champs .= "<input type='text' name='" . $input_name . "_" . $j . "' id='" . $input_name . "_" . $j . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $protectedPost[$input_name . "_" . $j] . "\" class='down'\" " . $configinput['JAVASCRIPT'] . ">";
-			$j++;
-		}
-		return $champs;
-	} elseif ($input_type == 7)
-		return "<input type='hidden' id='" . $input_name . "' name='" . $input_name . "' value='" . $name . "'>";
-	elseif ($input_type == 8) {
-		return "<input type='button' id='" . $input_name . "' name='" . $input_name . "' value='" . $l->g(1048) . "' OnClick='window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_upload_file_popup'] . "&head=1&n=" . $input_name . "&tab=" . $name . "&dde=" . $configinput['DDE'] . "\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'>";
-	} elseif ($input_type == 9) {
-		$aff = "";
-		if (is_array($name)) {
-			foreach ($name as $key => $value) {
-				$aff .= "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_view_file'] . "&prov=dde_wk&no_header=1&value=" . $key . "\">" .
-					$value . "</a><br>";
-			}
-		}
-		return $aff;
-	} elseif ($input_type == 10) {
-		//le format de de $name doit etre sous la forme d'une requete sql avec éventuellement
-		//des arguments. Dans ce cas, les arguments sont séparés de la requête par $$$$
-		//et les arguments entre eux par des virgules
-		//echo $name;
-		$sql = explode('$$$$', $name);
-		if (isset($sql[1])) {
-			$arg_sql = explode(',', $sql[1]);
-			$i = 0;
-			while ($arg_sql[$i]) {
-				$arg[$i] = $protectedPost[$arg_sql[$i]];
-				$i++;
-			}
-		}
-		if (isset($arg_sql))
-			$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"], $arg);
-		else
-			$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"]);
-		if (isset($result) and $result != '') {
-			$i = 0;
-			while ($colname = mysqli_fetch_field($result))
-				$entete2[$i++] = $colname->name;
+				
+			$countHl = 0;
 
-			$i = 0;
-			while ($item = mysqli_fetch_object($result)) {
-				$j = 0;
-				while ($entete2[$j]) {
-					$data2[$i][$entete2[$j]] = $item->$entete2[$j];
-					$j++;
+			if ($name != '') {
+				natcasesort($name);
+				foreach ($name as $key => $value) {
+					$champs .= "<option value=\"" . $key . "\"";
+
+					if (!empty($protectedPost[$input_name]) && $protectedPost[$input_name] == $key) {
+						$champs .= " selected";
+					}
+
+					$champs .= ($countHl % 2 == 1 ? " class='hi'" : " class='down'") . " >" . $value . "</option>";
+					$countHl++;
 				}
-				$i++;
 			}
-		}
-		return tab_entete_fixe($entete2, $data2, "", 60, 300);
-	} elseif ($input_type == 11 and isset($name) and is_array($name)) {
-		foreach ($name as $key => $value) {
-			$champs .= "<input type='radio' name='" . $input_name . "' id='" . $input_name . "' value='" . $key . "'";
-			if ($protectedPost[$input_name] == $key) {
-				$champs .= " checked ";
-			}
-			$champs .= " >" . $value . " <br>";
-		}
-		return $champs;
-	} elseif ($input_type == 12) { //IMG type
-		$champs = "<img src='" . $configinput['DEFAULT'] . "' ";
-		if ($configinput['SIZE'] != '20')
-			$champs .= $configinput['SIZE'] . " ";
-
-		if ($configinput['JAVASCRIPT'] != '')
-			$champs .= $configinput['JAVASCRIPT'] . " ";
-		return $champs . ">";
-		//"<img src='index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."' width=60 height=60 onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")>";
-
-	} elseif ($input_type == 13) {
-
-		return "<input id='" . $input_name . "' name='" . $input_name . "' type='file' accept='archive/zip'>";
-
-	}
+			return $champs . "</select></div></div>";
+		// Default text
+		default:
+			return "<input type='text' name='" . $input_name . "' id='" . $input_name . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $name . "\" class='form-control'\" " . $configinput['JAVASCRIPT'] . ">";
+	}	
 }
 
 function tab_modif_values($field_labels, $fields, $hidden_fields, $options = array()) {
@@ -1605,8 +1526,8 @@ function ajaxsort(&$tab_options) {
 				$cleanname = $cleanname[0];
 			}
 
-			if (!empty($tab_options["replace_query_arg"][$name])) {
-				$cleanname = $tab_options["replace_query_arg"][$name];
+			if (!empty($tab_options["replace_query_arg"][$name]) && (preg_match('/([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|^[A-Za-z0-9_-]+$)/', $tab_options["replace_query_arg"][$name], $cleanreplace) || preg_match('/(?<!\([^()])(?![^()]*\))(?<=\bas\s)(\w+)/i', $tab_options["replace_query_arg"][$name], $cleanreplace))) {
+				$cleanname = $cleanreplace[0];
 			}
 			// field name is IP format alike
 			if (in_array(mb_strtoupper($cleanname),$tab_iplike)) {
@@ -1648,12 +1569,14 @@ function ajaxsort(&$tab_options) {
 */
 function ajaxlimit($tab_options){
 	if (isset($tab_options['start'])){
-		$limit = " limit ".$tab_options['start']." , ";
+		// Remove all characters except number in start value
+		$limit = " limit ".preg_replace("/[^0-9]/", "", $tab_options['start'])." , ";
 	}else{
 		$limit = " limit 0 , ";
 	}
 	if (isset($tab_options['length'])){
-		$limit .= $tab_options['length']." ";
+		// Remove all characters except number in length value
+		$limit .= preg_replace("/[^0-9]/", "", $tab_options['length'])." ";
 	}else{
 		$limit .= "10 ";
 	}
@@ -1813,6 +1736,15 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"RESTORE\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-open' title='".$l->g(1552)."'></span></a>";
 						}	
 						break;
+					case "AFFECT_AGAIN":
+						if ($value_of_field != '&nbsp;'){
+							$explode = explode(";", $value_of_field);
+							if(is_defined($explode[1]) && !is_null($explode[1]) && (strstr($explode[1], 'ERR_') || strstr($explode[1], 'EXIT_CODE'))) {
+								$lbl_msg=$l->g(9971);
+								$row[$key]="&nbsp;<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($explode[0], ENT_QUOTES)."\",\"".$form_name."\",\"AFFECT_AGAIN\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-repeat' title='".$l->g(9972)."'></span></a>";
+							}
+						}
+						break;
 					case "NEW_WINDOW":
 						if ($value_of_field!= '&nbsp;'){
 							$explode = explode(";",$value_of_field);
@@ -1891,6 +1823,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"AFFECT_AGAIN",
 				"NEW_WINDOW"
 			);
 
@@ -1959,6 +1892,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"SHOW_DETAILS",
 			"ARCHIVER",
 			"RESTORE",
+			"AFFECT_AGAIN",
 			"NEW_WINDOW"
 	);
 
@@ -1973,6 +1907,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"AFFECT_AGAIN",
 				"NEW_WINDOW"
 	);
 	foreach($actions as $action){

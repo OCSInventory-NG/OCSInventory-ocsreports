@@ -225,7 +225,7 @@ function loadInfo($serv, $tstamp) {
 function activ_pack($fileid, $https_server, $file_serv) {
     global $l;
     //checking if corresponding available exists
-    $reqVerif = "SELECT * FROM download_available WHERE fileid=%s";
+    $reqVerif = "SELECT * FROM download_available WHERE fileid='%s'";
     $argVerif = $fileid;
     if (!mysqli_num_rows(mysql2_query_secure($reqVerif, $_SESSION['OCS']["readServer"], $argVerif))) {
 
@@ -239,7 +239,7 @@ function activ_pack($fileid, $https_server, $file_serv) {
         mysql2_query_secure($req1, $_SESSION['OCS']["writeServer"], $arg1);
     }
 
-		$reqEnable = "SELECT * FROM download_enable WHERE fileid=%s";
+		$reqEnable = "SELECT * FROM download_enable WHERE fileid='%s'";
 		$argEnable = array($fileid);
 		$result = mysql2_query_secure($reqEnable, $_SESSION['OCS']["readServer"], $argEnable);
 		$listInfoLoc = array();

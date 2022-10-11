@@ -54,7 +54,7 @@ if (!$cant_active) {
         mysql2_query_secure("DELETE FROM download_enable WHERE ID=%s", $_SESSION['OCS']["writeServer"], $protectedPost['SUP_PROF']);
     }
 }
-$sql_details = "select distinct priority,fragments,size from download_available where fileid=%s";
+$sql_details = "select distinct priority,fragments,size from download_available where fileid='%s'";
 $res_details = mysql2_query_secure($sql_details, $_SESSION['OCS']["readServer"], $protectedGet['timestamp']);
 $val_details = mysqli_fetch_array($res_details);
 $tps = "<br>" . $l->g(992) . " : <b><font color=red>" . tps_estimated($val_details) . "</font></b>";
@@ -86,7 +86,7 @@ foreach ($list_fields as $key => $value) {
 }
 $querypack = substr($querypack, 0, -1);
 $querypack .= " from download_enable e RIGHT JOIN download_available a ON a.fileid = e.fileid
-				where e.FILEID=" . $protectedGet['timestamp'];
+				where e.FILEID='" . $protectedGet['timestamp']. "'";
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);

@@ -56,10 +56,6 @@
         <value>admin_upload</value>
         <directory>ms_upload_file</directory>
     </url>
-    <url key="ms_upload_file_popup">
-        <value>upload_file</value>
-        <directory>ms_upload_file</directory>
-    </url>
     <url key="ms_regconfig">
         <value>admin_reg</value>
         <directory>ms_regconfig</directory>

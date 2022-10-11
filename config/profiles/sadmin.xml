@@ -43,7 +43,6 @@
     <page>ms_custom_tag_snmp</page>
     <page>ms_dict</page>
     <page>ms_upload_file</page>
-    <page>ms_upload_file_popup</page>
     <page>ms_regconfig</page>
     <page>ms_logs</page>
     <page>ms_admininfo</page>

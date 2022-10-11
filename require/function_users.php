@@ -113,6 +113,14 @@ function add_user($data_user, $list_profil = '') {
     if(isset($ERROR) && $ERROR == ""){
         unset($ERROR);
     }
+
+
+    if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES') {
+        $data_user['ACCESSLVL'] = $data_user['ACCESSLVL'];
+    } else {
+        $data_user['ACCESSLVL'] = $_SESSION['OCS']['lvluser'];
+    }
+
     if (!isset($ERROR)) {
         $sql = "select id from operators where id= '%s'";
         $arg = $data_user['ID'];

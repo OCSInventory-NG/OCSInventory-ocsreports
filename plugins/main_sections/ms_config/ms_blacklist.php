@@ -215,8 +215,13 @@ if (isset($list_fields)) {
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
     }
     if (is_defined($protectedPost['del_check'])) {
+        // check that every substring in del_check is a number
+        $del_check = explode(',', $protectedPost['del_check']);
+        $del_check = array_filter($del_check, 'is_numeric');
+        // rebuild the string from cleaned input
+        $del_check = implode(',', $del_check);
         $sql = "delete from %s where id in (%s)";
-        $arg = array($table_name, $protectedPost['del_check']);
+        $arg = array($table_name, $del_check);
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
         $tab_options['CACHE'] = 'RESET';
     }

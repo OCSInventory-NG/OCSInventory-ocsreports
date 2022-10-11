@@ -1816,6 +1816,8 @@
 9611 Répertoire de fichiers temporaires
 9612 Importer depuis un CSV
 9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS
+9614 Erreur d'import. Seuls les fichiers CSV sont acceptés
+9615 Échec de l'import des données
 
 9650 Nombre de filtres LDAP (minimum 1, maximum égal au nombre de profils)
 
@@ -1874,3 +1876,7 @@
 9961 Destinataire(s) : 
 9962 Jour de la récurrence : 
 9963 Date de fin : 
+
+9970 Vous n'êtes pas authorisé à modifier cet utilisateur
+9971 Voulez-vous vraiment ré-affecter le paquet 
+9972 Affecter à nouveau
