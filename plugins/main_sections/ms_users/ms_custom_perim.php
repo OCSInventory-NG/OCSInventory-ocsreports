@@ -36,11 +36,14 @@ $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 //BEGIN SHOW ACCOUNTINFO
 require_once 'require/function_commun.php';
-require_once('require/function_admininfo.php');
-$info_tag = find_info_accountinfo('1', 'COMPUTERS');
+require_once('require/admininfo/Admininfo.php');
+
+$Admininfo = new Admininfo();
+
+$info_tag = $Admininfo->find_info_accountinfo('1', 'COMPUTERS');
 if (is_array($info_tag)) {
     foreach ($info_tag as $value) {
-        $info_value_tag = accountinfo_tab($value['id']);
+        $info_value_tag = $Admininfo->accountinfo_tab($value['id']);
         if (is_array($info_value_tag)) {
             $tab_options['REPLACE_VALUE'][$value['comment']] = $info_value_tag;
         }
@@ -52,7 +55,7 @@ if (isset($protectedPost['newtag']) && $protectedPost['newtag'] != "") {
     if (isset($protectedPost['use_generic_0'])) {
         if (is_array($info_value_tag)) {
             $arg = str_replace(array("*", "?"), "", $protectedPost["newtag"]);
-            $array_result = find_value_in_field(1, $arg);
+            $array_result = $Admininfo->find_value_in_field(1, $arg);
         } else {
             $arg = str_replace(array("*", "?"), array("%", "_"), $protectedPost["newtag"]);
             $sql = "select distinct TAG from accountinfo where TAG like '%s'";

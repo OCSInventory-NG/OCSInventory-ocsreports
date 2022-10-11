@@ -129,6 +129,7 @@ function xml_decode($txt) {
  */
 function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list_col_cant_del) {
     global $protectedPost, $l, $pages_refs;
+	$layout = new Layout($option['table_name']);
     //Translated name of the column
     $lbl_column = array("ACTIONS" => $l->g(1381),
         "CHECK" => "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
@@ -154,6 +155,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"NEW_WINDOW"
     );
     //If the column selected are different from the default columns
     if (!empty($_COOKIE[$option['table_name'] . "_col"])) {
@@ -185,9 +187,9 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"NEW_WINDOW"
     );
     $action_visible = false;
-
     foreach ($actions as $action) {
         if (isset($columns[$action])) {
             $action_visible = true;
@@ -258,9 +260,22 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 						// if user is on multisearch page, do not display layouts buttons
 						if (isset($option['table_name']) && $option['table_name'] != 'affich_multi_crit') {
 							// layouts
-							$layout = new Layout($option['table_name']);
 							$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'] ?? '----', $option['table_name']);
-							$visible_col = json_decode($cols['VISIBLE_COL'] ?? null, true) ?? $visible_col ?? null;
+							$visible_col_tmp = json_decode($cols['VISIBLE_COL'] ?? null, true) ?? $visible_col ?? null;
+
+							if(!is_null(($visible_col_tmp))) {
+								$indexCol = 0;
+								foreach($columns as $key => $value) {
+									if((in_array($key, $visible_col_tmp) || in_array($value, $visible_col_tmp)) && !in_array($indexCol, $visible_col ?? [])) {
+										$visible_col[] = $indexCol;
+									}
+									$indexCol++;
+								}
+							}
+
+							if(empty($visible_col)) {
+								$visible_col = $visible_col_tmp;
+							}
 						}
 						?>
                     </div>
@@ -284,9 +299,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                  ?>
         </div>
         <?php
-
         echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.history.replaceState(null, null, window.location.href);window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a><br>";
-
 		?>
 
     </div>
@@ -541,8 +554,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
     </script>
     <?php
-
-	$layout_visib = json_encode($visible_col ?? null);
+	$layout_visib = json_encode($layout->prepareInsert($visible_col, $protectedPost['columns']) ?? null);
 	$_SESSION['OCS']['layout_visib'] = $layout_visib;
 
     if (!empty($titre)) {
@@ -574,6 +586,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 	echo "<input type='hidden' id='SHOW_DETAILS' name='SHOW_DETAILS' value=''>";
 	echo "<input type='hidden' id='ARCHIVER' name='ARCHIVER' value=''>";
 	echo "<input type='hidden' id='RESTORE' name='RESTORE' value=''>";
+	echo "<input type='hidden' id='NEW_WINDOW' name='NEW_WINDOW' value=''>";
 	
     if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') {
         ?><center>
@@ -976,13 +989,15 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 		}else
 		$temp_query[0].= " where ";
 	if (substr($protectedPost['FILTRE'],0,2) == 'a.'){
-		require_once('require/function_admininfo.php');
+		require_once('require/admininfo/Admininfo.php');
+		$Admininfo = new Admininfo();
+
 		$id_tag=explode('_',substr($protectedPost['FILTRE'],2));
 		if (!isset($id_tag[1]))
 			$tag=1;
 		else
 			$tag=$id_tag[1];
-		$list_tag_id= find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
+		$list_tag_id= $Admininfo->find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
 	}
 	if ($list_tag_id){
 		$query_end= " in (".implode(',',$list_tag_id).")";
@@ -1505,12 +1520,15 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 			// Special treatment if accountinfo select type
 			if (substr($cname,0,2) == 'a.'){
-				require_once('require/function_admininfo.php');
+				require_once('require/admininfo/Admininfo.php');
+
+				$Admininfo = new Admininfo();
+
 				$id_tag=explode('_',substr($cname,2));
 				if($id_tag[0] != 'TAG') {
-					$info_tag = find_info_accountinfo($id_tag[1]);
+					$info_tag = $Admininfo->find_info_accountinfo($id_tag[1]);
 					if($info_tag[$id_tag[1]]['type'] == 2) {
-						$info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
+						$info = $Admininfo->find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
 						foreach($info as $key => $value) {
 							if(strpos(strtolower($value), strtolower($search)) !== false) {
 								$acc_select[$key] = $key;
@@ -1712,8 +1730,10 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							}
 							if($form_name == "admins" && $_SESSION['OCS']["loggeduser"] == htmlspecialchars($value_of_field, ENT_QUOTES)) {
 								// Do nothing 
-							} elseif ($form_name == "affich_save_query" && ($row['WHO_CAN_SEE'] == 'ALL' || $row['WHO_CAN_SEE'] == 'GROUP')&& $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SAVED_SEARCHES') == 'NO') {
+							} elseif ($form_name == "affich_save_query" && ($row['WHO_CAN_SEE'] == 'ALL' || $row['WHO_CAN_SEE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SAVED_SEARCHES') == 'NO') {
 								// again do nothing (do not show the delete action if user does not have the right to manage saved searches)
+							} elseif ($form_name == "layouts" && ($row['VISIBILITY_SCOPE'] == 'ALL' || $row['VISIBILITY_SCOPE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_LAYOUTS') == 'NO') {
+								// still nothing
 							} else {
 								$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
 							}	
@@ -1739,7 +1759,11 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="&nbsp";
 						break;
 					case "MODIF":
-						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
+						if ($form_name == "layouts" && ($row['VISIBILITY_SCOPE'] == 'ALL' || $row['VISIBILITY_SCOPE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_LAYOUTS') == 'NO') {
+							
+						} else {
+							$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
+						}
 						break;
 					case "SELECT":
 						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
@@ -1775,12 +1799,12 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						}
 						break;
 					case "SHOW_DETAILS":
-						$row[$key]='<a href="#'.$value_of_field.'" data-toggle="modal" data-target="#'.$value_of_field.'" title="'.$l->g(9013).'"><span class="glyphicon glyphicon-search"></span></a>';
+						$row[$key]='<a href="#'.$value_of_field.'" data-toggle="modal" data-target="#'.$value_of_field.'" title="'.$l->g(9039).'"><span class="glyphicon glyphicon-search"></span></a>';
 						break;
 					case "ARCHIVER":
 						if ($value_of_field!= '&nbsp;'){
 							$lbl_msg=$l->g(1550)." ".$value_of_field;
-							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"ARCHIVER\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-save' title='".$l->g(1551)."'></span></a>";
+							$row[$key]="&nbsp;<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"ARCHIVER\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-save' title='".$l->g(1551)."'></span></a>";
 						}	
 						break;
 					case "RESTORE":
@@ -1788,6 +1812,12 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$lbl_msg=$l->g(1553)." ".$value_of_field;
 							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"RESTORE\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-open' title='".$l->g(1552)."'></span></a>";
 						}	
+						break;
+					case "NEW_WINDOW":
+						if ($value_of_field!= '&nbsp;'){
+							$explode = explode(";",$value_of_field);
+							$row[$key]="&nbsp;<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_snmp_detail']."&head=1&type=".$explode[1]."&id=".$explode[0]."\"><span class='glyphicon glyphicon-new-window' title='".$l->g(9013)."'></span></a>";
+						}
 						break;
 					default :
 						if (substr($key,0,11) == "PERCENT_BAR"){
@@ -1861,6 +1891,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"NEW_WINDOW"
 			);
 
 			$row['ACTIONS'] = '';
@@ -1928,6 +1959,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"SHOW_DETAILS",
 			"ARCHIVER",
 			"RESTORE",
+			"NEW_WINDOW"
 	);
 
 
@@ -1941,6 +1973,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"NEW_WINDOW"
 	);
 	foreach($actions as $action){
 		if(isset($list_fields[$action])){

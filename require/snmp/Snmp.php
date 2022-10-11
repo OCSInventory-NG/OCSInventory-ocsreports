@@ -59,6 +59,7 @@ class OCSSnmp
 
 			$sql_create_table =   "CREATE TABLE IF NOT EXISTS `%s` (
 										`ID` INT(6) NOT NULL AUTO_INCREMENT,
+										`LASTDATE` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 										PRIMARY KEY (`ID`)
 									) ENGINE=InnoDB DEFAULT CHARSET=UTF8;";
 			$sql_arg_table = array($tableTypeName);
@@ -537,9 +538,15 @@ class OCSSnmp
 		return $columns;
 	}
 
-	public function get_infos($tablename, $columns) {
+	public function get_infos($tablename, $columns, $id=null) {
 		$column = implode(",",$columns);
-		$sql = "SELECT ID,".$column." FROM %s";
+		$where = null;
+
+		if(!is_null($id)) {
+			$where = "WHERE ID IN (".$id.")";
+		}
+
+		$sql = "SELECT ID,".$column." FROM %s ".$where;
 		$arg = array($tablename);
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
@@ -579,6 +586,106 @@ class OCSSnmp
 			"/'/"			=>	 '_',
 		);
 		return preg_replace(array_keys($utf8), array_values($utf8), $text);
+	}
+	
+	/**
+	 * html_table_equipment : display console SNMP report table
+	 *
+	 * @return String $html
+	 */
+	public function html_table_equipment() {
+		global $l;
+
+		// Retrieve all snmp types
+		$snmpTableType 		= $this->get_all_type();
+
+		// SNMP Queries
+		$sqlCountAll 		= "SELECT COUNT(*) as total FROM `%s`";
+		$sqlCountContacted 	= "SELECT COUNT(*) as contacted FROM `%s` WHERE DATE_FORMAT(`LASTDATE`, '%s') = DATE_FORMAT(NOW(), '%s')";
+
+		// Initialize count
+		$countTotal 		= 0;
+		$countContacted 	= 0;
+
+		if(!empty($snmpTableType)) foreach($snmpTableType as $tableName) {
+			$resultTotal = mysql2_query_secure($sqlCountAll, $_SESSION['OCS']["readServer"], array($tableName['TABLENAME']));
+			if($resultTotal) foreach($resultTotal as $total) {
+				$countTotal += $total['total'];
+			}
+
+			$resultContacted = mysql2_query_secure($sqlCountContacted, $_SESSION['OCS']["readServer"], array($tableName['TABLENAME'], '%Y-%m-%d', '%Y-%m-%d'));
+			if($resultContacted) foreach($resultContacted as $contacted) {
+				$countContacted += $contacted['contacted'];
+			}
+		}
+
+		$html = '	<table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-bottom:0px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
+						<tr>
+							<td style="border-right: 1px solid #ddd; padding: 5px;"><p style="font-size:32px; font-weight:bold;"><span>' . $countTotal . '</span></p><span style="color:#333; font-size:13pt;">'.$l->g(87).'</span></td>
+							<td style="border-right: 1px solid #ddd;"><p style="font-size:32px; font-weight:bold;"><span>' . $countContacted. '</span></p><span style="color:#333; font-size:13pt;">'.$l->g(9037).'</span></td>
+						</tr>
+					</table>';
+
+		return $html;
+	}
+
+		
+	/**
+	 * getDetails : get snmp equipment details
+	 *
+	 * @param  mixed $type
+	 * @param  mixed $id
+	 * @param mixed $full
+	 * @param mixed $accountdata
+	 * @return array $details
+	 */
+	public function getDetails($type, $id, $full=null, $accountdata=[], $reconciliation=null) {
+		$details = [];
+
+		$select = "*";
+		$from = null;
+
+		$sql = "SELECT * FROM `%s` WHERE `ID` = %s";
+		$arg = array($type, $id);
+
+		if(!empty($accountdata)) {
+			$select = implode(',', $accountdata);
+			$from = "LEFT JOIN snmp_accountinfo a ON a.SNMP_TYPE = '".$type."' AND a.SNMP_RECONCILIATION_VALUE = ".$type.".".$reconciliation;
+		}
+
+		if($full) {
+			$sql = "SELECT $select FROM `%s` $from";
+			$arg = array($type);
+		}
+
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+
+		if($result) {
+			if($full) {
+				while($snpmDetails = mysqli_fetch_assoc($result)) {
+					$details[$snpmDetails[$reconciliation]] = $snpmDetails;
+				}
+			} else {
+				$details = mysqli_fetch_assoc($result);
+			}
+		}
+
+		return $details;
+	}
+
+	public function getReconciliationColumn($type) {
+		$reconciliation = "No Name";
+
+		$sql = "SELECT l.LABEL_NAME FROM `snmp_configs` c 
+				LEFT JOIN `snmp_types` t ON t.ID = c.TYPE_ID 
+				LEFT JOIN `snmp_labels` l ON l.ID = c.LABEL_ID
+				WHERE t.TABLE_TYPE_NAME = '%s' AND c.RECONCILIATION = 'Yes'";
+		
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], array($type));
+
+		if($result) $reconciliation = mysqli_fetch_object($result)->LABEL_NAME;
+
+		return $reconciliation;
 	}
 
 }

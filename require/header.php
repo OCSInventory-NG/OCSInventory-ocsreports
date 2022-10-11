@@ -338,6 +338,9 @@ if (!isset($_SESSION['OCS']["ipdiscover"])) {
 /* * ********************************************************gestion des administrative data*************************************************** */
 migrate_adminData_2_5();
 
+/* * ********************************************************SNMP migration 2.10.1*************************************************** */
+migrate_snmp_2_10_1();
+
 /* * ******************GESTION GUI CONF***************** */
 if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])) {
     $conf_gui = array('usecache' => 'INVENTORY_CACHE_ENABLED',
@@ -357,8 +360,10 @@ if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])
 
 /* * *******************************************GESTION OF LBL_TAG************************************ */
 if (!isset($_SESSION['OCS']['TAG_LBL'])) {
-    require_once('require/function_admininfo.php');
-    $all_tag_lbl = witch_field_more('COMPUTERS');
+    require_once('require/admininfo/Admininfo.php');
+    $Admininfo = new Admininfo();
+
+    $all_tag_lbl = $Admininfo->witch_field_more('COMPUTERS');
     foreach ($all_tag_lbl['LIST_NAME'] as $key => $value) {
         $_SESSION['OCS']['TAG_LBL'][$value] = $all_tag_lbl['LIST_FIELDS'][$key];
         $_SESSION['OCS']['TAG_ID'][$key] = $value;

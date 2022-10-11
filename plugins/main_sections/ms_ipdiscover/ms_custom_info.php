@@ -90,6 +90,20 @@ if (isset($protectedPost['Valid_modif'])) {
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
         }
 
+        $udpate_date = look_config_default_values('IPDISCOVER_UPDATE_DATE');
+
+        if ($udpate_date['ivalue']['IPDISCOVER_UPDATE_DATE']) {
+            $sql = "UPDATE netmap
+                    SET DATE = '%s'
+                    WHERE MAC = '%s'";
+
+            $date = new DateTime();
+            
+            $arg = array($date->format('Y-m-d H:i:s'), $protectedPost['mac']);
+
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        }
+
         //suppression du cache pour prendre en compte la modif
         unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_' . $protectedGet['prov']]);
     } else {
@@ -234,8 +248,9 @@ if (is_defined($protectedPost['MODIF'])) {
         } elseif ($protectedGet['prov'] == "inv" || $protectedGet['prov'] == "ipdiscover") {
             if(isset($list_fields)) {
                 //BEGIN SHOW ACCOUNTINFO
-                require_once('require/function_admininfo.php');
-                    $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+                require_once('require/admininfo/Admininfo.php');
+                $Admininfo = new Admininfo();
+                $accountinfo_value = $Admininfo->interprete_accountinfo($list_fields, $tab_options);
                 if (array($accountinfo_value['TAB_OPTIONS']))
                     $tab_options = $accountinfo_value['TAB_OPTIONS'];
                 if (array($accountinfo_value['DEFAULT_VALUE']))
