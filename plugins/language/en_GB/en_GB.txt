@@ -1400,6 +1400,7 @@
 1518 List of regex
 1519 Missing computers :
 1520 (CSV datas are imported)
+1521 Display count softwares
 
 1550 Do you really want to archive 
 1551 Archive

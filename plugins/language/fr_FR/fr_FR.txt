@@ -1401,6 +1401,7 @@
 1518 Liste des regex
 1519 Machines manquantes : 
 1520 (des données CSV sont importées)
+1521 Afficher le compte des installations logiciels
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver
