@@ -23,7 +23,10 @@
  */
 require_once('require/function_files.php');
 require_once('require/function_computers.php');
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
+
+$Admininfo = new Admininfo();
+
 printEnTete($l->g(1258));
 $form_name="insert_computers";
 echo open_form($form_name, '', '', 'form-horizontal');
@@ -78,7 +81,7 @@ if(isset($protectedPost['Valid_modif'])) {
                 $fields[] = 'TAG';
                 $values_fields[] = '';
             }
-            insertinfo_computer($id_computer,$fields,$values_fields);
+            $Admininfo->insertinfo_computer($id_computer,$fields,$values_fields);
             $i++;
         }
         msg_success($l->g(881));
@@ -108,7 +111,7 @@ foreach ($form_fields_typeinput as $key => $value) {
     $config[$i]['CONFIG']['SIZE'] = 30;
     $other_data['COMMENT_AFTER'][$i] = '_M';
 }
-$accountinfo_form = show_accountinfo('','COMPUTERS','5');
+$accountinfo_form = $Admininfo->show_accountinfo('','COMPUTERS','5');
 //merge data
 $info_form['FIELDS']['name_field'] = array_merge($info_form['FIELDS']['name_field'], $accountinfo_form['FIELDS']['name_field']);
 $info_form['FIELDS']['type_field'] = array_merge($info_form['FIELDS']['type_field'], $accountinfo_form['FIELDS']['type_field']);

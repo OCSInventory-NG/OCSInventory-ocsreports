@@ -1398,6 +1398,8 @@
 1516 All software (but default)
 1517 No category have been selected
 1518 List of regex
+1519 Missing computers :
+1520 (CSV datas are imported)
 
 1550 Do you really want to archive 
 1551 Archive
@@ -1570,6 +1572,7 @@
 2146 Only me
 2147 My group
 2148 All users
+2149 Update date when peripherals updated
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1716,6 +1719,10 @@
 9034 Privacy Protocol
 9035 Privacy Password
 9036 No OID found
+9037 Equipment contacted today
+9038 Number of equipment per type
+9039 Quick view
+9040 Export all SNMP types
 
 9100 SSL key path
 9101 SSL certificat path
@@ -1838,7 +1845,7 @@
 9903 Error creating layout
 9904 Please check your input. Repeat the process if the problem persists.
 9905 Error deleting layout
-9906 A layout with the same name or columns already exists for your user, please choose another name or set of columns
+9906 A layout with the same name or columns already exists for your user/scope, please choose another name or set of columns
 9907 Manage layouts
 9908 Show all layouts
 9909 Add new layout
@@ -1846,10 +1853,34 @@
 9911 Layout name
 9912 Layout description
 9913 Table name
+9914 Creator
+9915 Visibility scope 
+9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
+9917 Public
+9918 Group
+9919 Personal
+9920 Layout updated successfully
+9921 Is allowed to manage layouts
 
 9930 DNS
 
-9950 You are not allowed to modify this user
+9940 Is allowed to manage saved searches
 
-9960 Do you really want to re-affect the package 
-9961 Affect again
+9950 Notifications
+9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
+9952 Report notification created successfully
+9953 Report notification updated successfully
+9954 Please set a recurrence
+9955 Please provide at least one recipient, or comma separated recipients
+9956 daily
+9957 weekly
+9958 monthly
+9959 Activate : 
+9960 Report recurrence : 
+9961 Recipient(s) : 
+9962 Day of reccurence : 
+9963 End Date :
+
+9970 You are not allowed to modify this user
+9971 Do you really want to re-affect the package 
+9972 Affect again

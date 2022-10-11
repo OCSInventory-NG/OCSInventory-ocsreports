@@ -34,64 +34,68 @@ if (AJAX) {
 require_once('require/softwares/SoftwareCategory.php');
 $softCat = new SoftwareCategory();
 
-//If RESET
+/**
+ * All Software
+ */
+require_once('require/softwares/AllSoftware.php');
+$allSoft = new AllSoftware();
+
+// If RESET
 if (isset($protectedPost['RESET'])) {
     unset($protectedPost['NAME_RESTRICT']);
     unset($protectedPost['NBRE']);
     unset($protectedPost['CLASS']);
     unset($protectedPost['COMPAR']);
+    unset($protectedPost['OS']);
+    unset($protectedPost['GROUP']);
+    unset($protectedPost['TAG']);
+    unset($protectedPost['ASSET']);
+    unset($_SESSION['OCS']['AllSoftware']['filter']['csv_data']);
+    unset($_FILES['csv_file']);
 }
 
-//If SUBMIT
+// If SUBMIT
 if (isset($protectedPost['SUBMIT_FORM'])) {
     $tab_options['CACHE'] = 'RESET';
 }
 
-$sql_fin['SQL'] = "";
-$sql_fin['ARG'] = array();
+// Initialize filter empty value 
+$filters   = null;
+$sqlFilter = null;
 
-if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES']) && $_SESSION['OCS']['USE_NEW_SOFT_TABLES'] == 1) {
-    $info_name_soft = array("table" => "type_softwares_name", "field" => "name", "field_name_soft" => 'name_id');
-} else {
-    $info_name_soft = array("table" => "n", "field" => "name", "field_name_soft" => 'name');
+if(is_defined($protectedPost['NAME_RESTRICT']) && trim($protectedPost['NAME_RESTRICT']) != "") {
+    $filters['NAME_RESTRICT'] = $protectedPost['NAME_RESTRICT'];
+}  
+if(is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR'])) {
+    $filters['NBRE'] = $protectedPost['NBRE'];
+    $filters['COMPAR'] = $protectedPost['COMPAR'];
+}
+if(is_defined($protectedPost['OS']) && $protectedPost['OS'] != "0") {
+    $filters['OS'] = $protectedPost['OS'];
+}
+if(is_defined($protectedPost['GROUP']) && $protectedPost['GROUP'] != "0") {
+    $filters['GROUP'] = $protectedPost['GROUP'];
+}
+if(is_defined($protectedPost['TAG']) && $protectedPost['TAG'] != "0") {
+    $filters['TAG'] = $protectedPost['TAG'];
+}
+if(is_defined($protectedPost['ASSET']) && $protectedPost['ASSET'] != "0") {
+    $filters['ASSET'] = $protectedPost['ASSET'];
+}
+if(is_defined($_FILES['csv_file'])) {
+    $allSoft->verifyCsv($_FILES['csv_file']);
 }
 
-$field_name_soft = $info_name_soft['table'] . "." . $info_name_soft['field'];
-
-//Filter software
-if (is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR'])) {
-    $sql_fin['SQL'] = " HAVING nb %s %s ";
-
-    switch ($protectedPost['COMPAR']) {
-        case "lt":
-            $compar = "<";
-            break;
-        case "gt":
-            $compar = ">";
-            break;
-        case "eq":
-            $compar = "=";
-            break;
-        default:
-            break;
-    }
-    $sql_fin['ARG'] = array($compar, $protectedPost['NBRE']);
+if (is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data'])) {
+    $filters['CSV'] = $_SESSION['OCS']['AllSoftware']['filter']['csv_data']['result'];
 }
 
-if (is_defined($protectedPost['NAME_RESTRICT'])) {
-  if (is_defined($protectedPost['NBRE']) && is_defined($protectedPost['COMPAR'])) {
-    $sql_fin['SQL'] .= " AND " . $field_name_soft . " like '%s' ";
-    $sql_fin['ARG'] = $softCat->array_merge_values($sql_fin['ARG'], array('%' . $protectedPost['NAME_RESTRICT'] . '%'));
-  }else{
-    $sql_fin['SQL'] .= " HAVING " . $field_name_soft . " like '%s' ";
-    $sql_fin['ARG'] = array('%' . $protectedPost['NAME_RESTRICT'] . '%');
-  }
-}
+$sqlFilter = $allSoft->generateQueryFilter($filters);
 
 //form name
 $form_name = 'all_soft';
 //form open
-echo open_form($form_name, '', '', 'form-horizontal');
+echo open_form($form_name, '', 'enctype="multipart/form-data"', 'form-horizontal');
 
 $list_cat = $softCat->onglet_cat();
 $first_onglet = $list_cat['first_onglet'] ?? '';
@@ -124,33 +128,63 @@ if ($i >= 11) {
 }
 echo '<div class="col col-md-10" >';
 
-if (is_defined($protectedPost['NAME_RESTRICT']) || is_defined($protectedPost['NBRE'])) {
-    msg_warning($l->g(767));
+if (is_defined($protectedPost['NAME_RESTRICT']) || 
+    is_defined($protectedPost['NBRE']) || 
+    is_defined($protectedPost['OS']) || 
+    is_defined($protectedPost['GROUP']) || 
+    is_defined($protectedPost['TAG']) ||
+    is_defined($protectedPost['ASSET']) ||
+    is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data'])) {
+    if(is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data'])) {
+        $msg = $l->g(767)." ".$l->g(1520);
+    } else {
+        $msg = $l->g(767);
+    }
+    msg_warning($msg);
+}
+if (is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data']['missing'])) {
+    $txt = $l->g(1519);
+    $txt .= "<ul>";
+    foreach ($_SESSION['OCS']['AllSoftware']['filter']['csv_data']['missing'] as $key => $value) {
+        $txt .= "<li>";
+        $txt .= $value . "\n";
+        $txt .= "<li>";
+    }
+    $txt .= "</ul>";
+    msg_error($txt);
 }
 
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
-    $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb 
-                    FROM software_link sl 
-                    LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
-                    LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
-                    LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
-                    LEFT JOIN software_categories sc ON sl.CATEGORY_ID = sc.ID ';
+    if(!is_defined($sqlFilter['SELECT'])) {
+        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb 
+            FROM software_link sl 
+            LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
+            LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
+            LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
+            LEFT JOIN software_categories sc ON sl.CATEGORY_ID = sc.ID ';
 
-    //If restriction
-    if (is_defined($_SESSION['OCS']["mesmachines"])) {
-        $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
-                        LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
-                        WHERE ".$_SESSION['OCS']["mesmachines"];
+        //If restriction
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID 
+                    LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
+                    WHERE ".$_SESSION['OCS']["mesmachines"]." ";
+        }
+
+        if(is_defined($sqlFilter['HAVING'])) {
+            $sql['SQL'] .= $sqlFilter['HAVING'];
+        }
+    } else {
+        $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE'].$sqlFilter['GROUPBY'];
+
+        if(is_defined($sqlFilter['HAVING'])) {
+            $sql['SQL'] .= $sqlFilter['HAVING'];
+        }
     }
 
     if (isset($sql)) {
-        if ($sql_fin['SQL'] != '') {
-            $sql['SQL'] .= $sql_fin['SQL'];
-            $sql['ARG'] =  $sql_fin['ARG'];
-        }
-
-        $list_fields = array($l->g(69) => 'p.PUBLISHER',
+        $list_fields = array(
+            $l->g(69) => 'p.PUBLISHER',
             'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
@@ -181,29 +215,38 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $champs = array('DEFAULT_CATEGORY' => 'DEFAULT_CATEGORY');
     $values = look_config_default_values($champs);
 
-    $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb
-                    FROM software_link sl
-                    LEFT JOIN software_name n ON sl.NAME_ID = n.ID
-                    LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID
-                    LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
-                    LEFT JOIN software_categories_link scl ON scl.NAME_ID = sl.NAME_ID AND scl.VERSION_ID = sl.VERSION_ID AND scl.PUBLISHER_ID = sl.PUBLISHER_ID
-                    LEFT JOIN software_categories sc ON scl.CATEGORY_ID = sc.ID ';
+    if(!is_defined($sqlFilter['SELECT'])) {
+        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb
+            FROM software_link sl
+            LEFT JOIN software_name n ON sl.NAME_ID = n.ID
+            LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID
+            LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
+            LEFT JOIN software_categories_link scl ON scl.NAME_ID = sl.NAME_ID AND scl.VERSION_ID = sl.VERSION_ID AND scl.PUBLISHER_ID = sl.PUBLISHER_ID
+            LEFT JOIN software_categories sc ON scl.CATEGORY_ID = sc.ID ';
 
-    //If restriction
-    if(is_defined($_SESSION['OCS']["mesmachines"])) {
-        $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID
+        //If restriction
+        if(is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID
                         LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
-                        WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID != %s";
-    } else {
-        $sql['SQL'] .= ' WHERE scl.CATEGORY_ID != %s';
-    }
-
-    $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
-    if (isset($sql)) {
-        if ($sql_fin['SQL'] != '') {
-            $sql['SQL'] .= $sql_fin['SQL'];
-            $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
+                        WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID != %s ";
+        } else {
+            $sql['SQL'] .= ' WHERE scl.CATEGORY_ID != %s ';
         }
+
+        if(is_defined($sqlFilter['HAVING'])) {
+            $sql['SQL'] .= $sqlFilter['HAVING'];
+        }
+    } else {
+        $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID != %s ".$sqlFilter['GROUPBY'];
+
+        if(is_defined($sqlFilter['HAVING'])) {
+            $sql['SQL'] .= $sqlFilter['HAVING'];
+        }
+    }
+    
+    $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
+
+    if (isset($sql)) {
         $list_fields = array($l->g(69) => 'p.PUBLISHER',
             'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
@@ -232,29 +275,38 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 
 /****************************************** SOFTWARE PER CATEGORY ******************************************/
 else {
-    $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb 
-                    FROM software_link sl 
-                    LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
-                    LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
-                    LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
-                    LEFT JOIN software_categories_link scl ON scl.NAME_ID = sl.NAME_ID AND scl.VERSION_ID = sl.VERSION_ID AND scl.PUBLISHER_ID = sl.PUBLISHER_ID
-                    LEFT JOIN software_categories sc ON scl.CATEGORY_ID = sc.ID ';
+    if(!is_defined($sqlFilter['SELECT'])) {
+        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb 
+            FROM software_link sl 
+            LEFT JOIN software_name n ON sl.NAME_ID = n.ID 
+            LEFT JOIN software_publisher p ON sl.PUBLISHER_ID = p.ID 
+            LEFT JOIN software_version v ON sl.VERSION_ID = v.ID
+            LEFT JOIN software_categories_link scl ON scl.NAME_ID = sl.NAME_ID AND scl.VERSION_ID = sl.VERSION_ID AND scl.PUBLISHER_ID = sl.PUBLISHER_ID
+            LEFT JOIN software_categories sc ON scl.CATEGORY_ID = sc.ID ';
 
-    //If restriction
-    if (is_defined($_SESSION['OCS']["mesmachines"])) {
-        $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID
+        //If restriction
+        if (is_defined($_SESSION['OCS']["mesmachines"])) {
+            $sql['SQL'] .= "LEFT JOIN software s ON s.NAME_ID = sl.NAME_ID AND s.VERSION_ID = sl.VERSION_ID AND s.PUBLISHER_ID = sl.PUBLISHER_ID
                         LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
-                        WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID = %s";
-    } else {
-        $sql['SQL'] .= ' WHERE scl.CATEGORY_ID = %s';
-    }
-
-    $sql['ARG'] = array($protectedPost['onglet']);
-    if (isset($sql)) {;
-        if ($sql_fin['SQL'] != '') {
-            $sql['SQL'] .= $sql_fin['SQL'];
-            $sql['ARG'] = $softCat->array_merge_values($sql['ARG'], $sql_fin['ARG']);
+                        WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID = %s ";
+        } else {
+            $sql['SQL'] .= 'WHERE scl.CATEGORY_ID = %s ';
         }
+
+        if(is_defined($sqlFilter['HAVING'])) {
+            $sql['SQL'] .= $sqlFilter['HAVING'];
+        }
+    } else {
+        $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID = %s ".$sqlFilter['GROUPBY'];
+
+        if(is_defined($sqlFilter['HAVING'])) {
+            $sql['SQL'] .= $sqlFilter['HAVING'];
+        }
+    }
+    
+    $sql['ARG'] = array($protectedPost['onglet']);
+
+    if (isset($sql)) {;
         $list_fields = array($l->g(69) => 'p.PUBLISHER',
             'name' => 'NAME',
             $l->g(7003) => 'v.VERSION',
@@ -288,6 +340,11 @@ $options_compar = [
     "eq" => "=",
 ];
 
+$os     = $allSoft->getOperatingSystemList();
+$group  = $allSoft->getGroupList();
+$tag    = $allSoft->getTagList();
+$asset  = $allSoft->getAssetCategoryList();
+
 echo "<button type='button' data-toggle='collapse' data-target='#filter' class='btn'>" . $l->g(735) . "</button>";
 
 echo "<div id='filter' class='collapse'>";
@@ -298,7 +355,7 @@ echo '<div class="form-group">
         <label class="control-label col-sm-2" for="COMPAR">'.$l->g(381).'</label>
         <div class="col-sm-1">
         <select name="COMPAR" id="COMPAR" class="form-control">
-            <option value=""></option>';
+            <option value="">-----</option>';
             foreach ($options_compar as $key => $value){
                 if(isset($protectedPost['COMPAR']) && $key == $protectedPost['COMPAR']){
                     echo '<option value="'.$key.'" selected>'.$value.'</option>';
@@ -309,12 +366,87 @@ echo '<div class="form-group">
 echo '</select>
     </div>
     <div class="col-sm-2">
-        <input name="NBRE" type="text" class="form-control" maxlength="100" value="'.$protectedPost['NBRE'].'">
+        <input name="NBRE" type="number" class="form-control" maxlength="100" value="'.$protectedPost['NBRE'].'">
     </div>
-</div>
+</div>';
 
-<input type="submit" class="btn btn-success" value="'.$l->g(393).'" name="SUBMIT_FORM">
-<input type="submit" class="btn btn-danger" value="'.$l->g(396).'" name="RESET">';
+// FILTER OS/GROUP/TAG/ASSET
+
+// OS
+echo '<div class="form-group">';
+echo "<label class='control-label col-sm-2' for='OS'>".$l->g(25)."</label>";
+echo "<div class='col-sm-3'>";
+echo "<select name='OS' id='OS' class='form-control'>";
+foreach($os as $key => $name) {
+    if(isset($protectedPost['OS']) && $protectedPost['OS'] == $key) {
+        echo "<option value='".$key."' selected>".$name."</option>";
+    } else {
+        echo "<option value='".$key."'>".$name."</option>";
+    }
+}
+echo "</select>";
+echo "</div>";
+
+
+// GROUP
+echo "<label class='control-label col-sm-2' for='GROUP'>".$l->g(583)."</label>";
+echo "<div class='col-sm-3'>";
+echo "<select name='GROUP' id='GROUP' class='form-control'>";
+foreach($group as $key => $name) {
+    if(isset($protectedPost['GROUP']) && $protectedPost['GROUP'] == $key) {
+        echo "<option value='".$key."' selected>".$name."</option>";
+    } else {
+        echo "<option value='".$key."'>".$name."</option>";
+    }
+}
+echo "</select>";
+echo "</div>";
+echo "</div>";
+
+// TAG
+echo '<div class="form-group">';
+echo "<label class='control-label col-sm-2' for='TAG'>".$l->g(1425)."</label>";
+echo "<div class='col-sm-3'>";
+echo "<select name='TAG' id='TAG' class='form-control'>";
+foreach($tag as $key => $name) {
+    if(isset($protectedPost['TAG']) && $protectedPost['TAG'] == $key) {
+        echo "<option value='".$key."' selected>".$name."</option>";
+    } else {
+        echo "<option value='".$key."'>".$name."</option>";
+    }
+}
+echo "</select>";
+echo "</div>";
+
+// ASSET CATEGORY
+echo '<div class="form-group">';
+echo "<label class='control-label col-sm-2' for='ASSET'>".$l->g(2132)."</label>";
+echo "<div class='col-sm-3'>";
+echo "<select name='ASSET' id='ASSET' class='form-control'>";
+foreach($asset as $key => $name) {
+    if(isset($protectedPost['ASSET']) && $protectedPost['ASSET'] == $key) {
+        echo "<option value='".$key."' selected>".$name."</option>";
+    } else {
+        echo "<option value='".$key."'>".$name."</option>";
+    }
+}
+echo "</select>";
+echo "</div>";
+echo "</div>";
+
+// END FILTER OS/GROUP/TAG/ASSET
+
+// FILTER BY CSV
+echo "<div class='form_group'>";
+echo "<div class='col-sm-12'>";
+formGroup('file', 'csv_file', $l->g(1478).' :', '', '', $protectedPost['csv_file'] ?? '', '', '', '', "accept='.csv'");
+
+echo "</div>"; 
+echo "</div>"; 
+// END FILTER CSV
+
+echo '<input type="submit" class="btn btn-success" value="'.$l->g(393).'" name="SUBMIT_FORM">';
+echo '<input type="submit" class="btn btn-danger" value="'.$l->g(396).'" name="RESET">';
 
 echo "</div>";
 

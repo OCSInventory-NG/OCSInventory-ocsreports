@@ -21,7 +21,9 @@
  * MA 02110-1301, USA.
  */
  require_once('require/function_search.php');
- require_once('require/function_admininfo.php');
+ require_once('require/admininfo/Admininfo.php');
+
+ $Admininfo = new Admininfo();
 
  $form_name = "lock_affect";
 
@@ -37,7 +39,7 @@
 
      //cas of TAG INFO
      if (is_defined($protectedPost['Valid_modif'])) {
-         $info_account_id = admininfo_computer();
+         $info_account_id = $Admininfo->admininfo_computer();
 
          foreach ($protectedPost as $field => $value) {
              if (substr($field, 0, 5) == "check") {
@@ -60,7 +62,7 @@
          }
 
          if (isset($data_fields_account)) {
-             updateinfo_computer($list_id, $data_fields_account, 'LIST');
+             $Admininfo->updateinfo_computer($list_id, $data_fields_account, 'LIST');
              unset($_SESSION['OCS']['DATA_CACHE']['TAB_MULTICRITERE']);
              echo "<script language='javascript'> window.opener.document.multisearch.submit();</script>";
              echo "<script language='javascript'> window.opener.document.show_all.submit();</script>";
@@ -153,8 +155,8 @@
      if (is_defined($protectedPost['CHOISE'])) {
 
          if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == "TAG") {
-             require_once('require/function_admininfo.php');
-             $field_of_accountinfo = witch_field_more('COMPUTERS');
+
+             $field_of_accountinfo = $Admininfo->witch_field_more('COMPUTERS');
              $tab_typ_champ = array();
              $i = 0;
              $dont_show_type = array(8, 3);

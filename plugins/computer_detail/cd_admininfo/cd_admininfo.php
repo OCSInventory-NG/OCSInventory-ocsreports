@@ -20,12 +20,14 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
 $form_name = 'admin_info_computer';
 $table_name = $form_name;
 
+$Admininfo = new Admininfo();
+
 //search all admininfo for this computer
-$info_account_id = admininfo_computer($systemid);
+$info_account_id = $Admininfo->admininfo_computer($systemid);
 if (!is_array($info_account_id)) {
     msg_error($info_account_id);
 } else {
@@ -40,7 +42,7 @@ if (!is_array($info_account_id)) {
         $admin_accountinfo = true;
     }
 
-    $list_tab = find_all_account_tab('TAB_ACCOUNTAG', 'COMPUTERS', 1);
+    $list_tab = $Admininfo->find_all_account_tab('TAB_ACCOUNTAG', 'COMPUTERS', 1);
     if ($list_tab != '') {
         if (isset($protectedPost['Valid_modif']) && empty($protectedPost['NOTE']) && empty($protectedPost['NOTE_MODIF'])) {
             if (!is_defined($protectedPost['onglet']) || !is_numeric($protectedPost['onglet'])) {
@@ -72,9 +74,9 @@ if (!is_array($info_account_id)) {
                 }
 
             }
-            updateinfo_computer($systemid, $data_fields_account);
+            $Admininfo->updateinfo_computer($systemid, $data_fields_account);
             //search all admininfo for this computer
-            $info_account_id = admininfo_computer($systemid);
+            $info_account_id = $Admininfo->admininfo_computer($systemid);
         }
         unset($action_updown);
         //UP/DOWN
@@ -86,10 +88,10 @@ if (!is_array($info_account_id)) {
         }
 
         if (isset($action_updown)) {
-            $new_order = find_new_order($action_updown, $protectedPost[$action_updown], 'COMPUTERS', $protectedPost['onglet']);
+            $new_order = $Admininfo->find_new_order($action_updown, $protectedPost[$action_updown], 'COMPUTERS', $protectedPost['onglet']);
             if ($new_order) {
-                update_accountinfo_config($new_order['OLD'], array('SHOW_ORDER' => $new_order['NEW_VALUE']));
-                update_accountinfo_config($new_order['NEW'], array('SHOW_ORDER' => $new_order['OLD_VALUE']));
+                $Admininfo->update_accountinfo_config($new_order['OLD'], array('SHOW_ORDER' => $new_order['NEW_VALUE']));
+                $Admininfo->update_accountinfo_config($new_order['NEW'], array('SHOW_ORDER' => $new_order['OLD_VALUE']));
             }
         }
         if (!is_defined($protectedPost['onglet']) || !is_numeric($protectedPost['onglet'])) {
@@ -147,11 +149,11 @@ if (!is_array($info_account_id)) {
             $up_png = "";
 
             if ($nb_row != 1) {
-                $up_png .= updown($val_admin_info['ID'], 'UP');
+                $up_png .= $Admininfo->updown($val_admin_info['ID'], 'UP');
             }
 
             if ($nb_row != $num_row) {
-                $up_png .= updown($val_admin_info['ID'], 'DOWN');
+                $up_png .= $Admininfo->updown($val_admin_info['ID'], 'DOWN');
             }
             if ($val_admin_info['TYPE'] == 2
                     or $val_admin_info['TYPE'] == 5
@@ -164,7 +166,7 @@ if (!is_array($info_account_id)) {
                     array_push($config['COMMENT_AFTER'], '');
                 }
                 array_push($config['SELECT_DEFAULT'], 'YES');
-                $field_select_values = find_value_field("ACCOUNT_VALUE_" . $val_admin_info['NAME']);
+                $field_select_values = $Admininfo->find_value_field("ACCOUNT_VALUE_" . $val_admin_info['NAME']);
                 asort($field_select_values);
 
                 //cas of checkbox

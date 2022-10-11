@@ -1399,6 +1399,8 @@
 1516 Tous les logiciels (sauf défaut)
 1517 Aucune catégorie n'a été sélectionnée
 1518 Liste des regex
+1519 Machines manquantes : 
+1520 (des données CSV sont importées)
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver
@@ -1569,6 +1571,7 @@
 2146 Seulement moi
 2147 Mon groupe
 2148 Tous les utilisateurs
+2149 Met à jour la date quand les périphériques sont mis à jour
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
@@ -1711,6 +1714,10 @@
 9034 Protocole de confidentialité
 9035 Mot de passe de confidentialité
 9036 Aucun OID trouvé
+9037 Equipement contacté aujourd'hui
+9038 Nombre d'équipements par type
+9039 Aperçu rapide
+9040 Exporter tous les types SNMP
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
@@ -1834,18 +1841,42 @@
 9903 Erreur lors de la création de la disposition
 9904 Veuillez vérifier votre entrée. Répétez le processus si le problème persiste.
 9905 Erreur lors de la suppression de la disposition
-9906 Une disposition avec le même nom ou les mêmes colonnes existe déjà pour votre utilisateur. Veuillez choisir un autre nom ou d'autres colonnes.
+9906 Une disposition avec le même nom ou les mêmes colonnes existe déjà pour votre utilisateur/portée de visibilité. Veuillez choisir un autre nom ou d'autres colonnes.
 9907 Gestion des dispositions
 9908 Afficher les dispositions
 9909 Ajouter une disposition
 9910 Dispositions disponibles :
 9911 Nom de la disposition
 9912 Description de la disposition
-9913 Nom du tableau
+9913 Nom de la table
+9914 Créateur
+9915 Portée de visibilité 
+9916 La mise à jour de la disposition a échoué, veuillez vérifier qu'une autre disposition n'a pas le même nom et la même portée de visibilité
+9917 Public
+9918 Groupe
+9919 Personnel
+9920 Disposition mise à jour
+9921 Est autorisé à gérer les dispositions
 
 9930 DNS
 
-9950 Vous n'êtes pas authorisé à modifier cet utilisateur
+9940 Est autorisé à gérer les recherches sauvegardées
 
-9960 Voulez-vous vraiment ré-affecter le paquet 
-9961 Affecter à nouveau
+9950 Notifications
+9951 Veuillez vérifier que les notifications ont été correctement configurées pour que l'envoi des rapports fonctionne
+9952 Notification de rapport créée avec succès
+9953 Notification de rapport mise à jour avec succès 
+9954 Veuillez choisir une récurrence
+9955 Veuillez ajouter au moins un destinataire, ou plusieurs destinataires séparés par une virgule
+9956 journalière
+9957 hebdomadaire
+9958 mensuelle
+9959 Activation : 
+9960 Récurrence du rapport : 
+9961 Destinataire(s) : 
+9962 Jour de la récurrence : 
+9963 Date de fin : 
+
+9970 Vous n'êtes pas authorisé à modifier cet utilisateur
+9971 Voulez-vous vraiment ré-affecter le paquet 
+9972 Affecter à nouveau

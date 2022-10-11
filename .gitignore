@@ -4,3 +4,4 @@
 .vscode/
 vendor/
 composer.lock
+report/

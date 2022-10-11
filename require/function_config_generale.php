@@ -404,7 +404,7 @@ function update_default_value($POST) {
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
         'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME', 'VULN_CVE_DELAY_TIME',
-        'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME', 'SECURITY_AUTHENTICATION_BLOCK_IP', 
+        'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_UPDATE_DATE','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME', 'SECURITY_AUTHENTICATION_BLOCK_IP', 
         'SECURITY_AUTHENTICATION_NB_ATTEMPT', 'SECURITY_AUTHENTICATION_TIME_BLOCK', 'SECURITY_PASSWORD_ENABLED', 'SECURITY_PASSWORD_MIN_CHAR',
         'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR','EXCLUDE_ARCHIVE_COMPUTER');
 
@@ -546,11 +546,14 @@ function nb_ldap_filters($nb, $default = false) {
         $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
         $old_filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         $nb_old = $old_filters->num_rows;
-        $old_filters = end(mysqli_fetch_all($old_filters, MYSQLI_ASSOC));
+        $filters_result = mysqli_fetch_all($old_filters, MYSQLI_ASSOC);
+        $old_filters = end($filters_result);
+        // getting number of the last filter to know how many filters have to be deleted/added
         if(isset($old_filters['NAME'])) {
             $last_filter = (int) preg_replace('/[^0-9]/', '', $old_filters['NAME']);
         } else {
-            $last_filter = 2;
+            // if new install, no filters exist in config table, we set it to 0 to force adding the 2 default filters
+            $last_filter = 0;
         }
         
         if ($nb > $nb_old) { // new filters added
@@ -565,8 +568,7 @@ function nb_ldap_filters($nb, $default = false) {
                 
             }
         } elseif ($nb < $nb_old) { // filters to be removed
-            $i = $nb_old;
-
+            $i = $last_filter;
             while ($i >= $nb + 1) {
                 $filter_name = "CONEX_LDAP_FILTER$i";
                 $sql = "DELETE FROM config WHERE NAME = 'CONEX_LDAP_FILTER$i' OR NAME = 'CONEX_LDAP_FILTER".$i."_ROLE'";
@@ -914,6 +916,7 @@ function pageipdiscover($advance) {
             'IPDISCOVER_NO_POSTPONE' => 'IPDISCOVER_NO_POSTPONE',
             'IPDISCOVER_USE_GROUPS' => 'IPDISCOVER_USE_GROUPS',
             'IPDISCOVER_LINK_TAG_NETWORK' => 'IPDISCOVER_LINK_TAG_NETWORK',
+            'IPDISCOVER_UPDATE_DATE' => 'IPDISCOVER_UPDATE_DATE',
             'IPDISCOVER_PURGE_OLD' => 'IPDISCOVER_PURGE_OLD',
             'IPDISCOVER_PURGE_VALIDITY_TIME' => 'IPDISCOVER_PURGE_VALIDITY_TIME',   
         );
@@ -940,6 +943,7 @@ function pageipdiscover($advance) {
         ligne('IPDISCOVER_NO_POSTPONE', $l->g(747), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_NO_POSTPONE']));
         ligne('IPDISCOVER_USE_GROUPS', $l->g(748), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_USE_GROUPS']));
         ligne('IPDISCOVER_LINK_TAG_NETWORK', $l->g(1457), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_LINK_TAG_NETWORK'] ?? 0));
+        ligne('IPDISCOVER_UPDATE_DATE', $l->g(2149), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_UPDATE_DATE'] ?? 0));
         ligne('IPDISCOVER_PURGE_OLD', $l->g(1560), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['IPDISCOVER_PURGE_OLD']));
         ligne('IPDISCOVER_PURGE_VALIDITY_TIME', $l->g(1561), 'input', array('VALUE' => $values['ivalue']['IPDISCOVER_PURGE_VALIDITY_TIME'], 'END' => $l->g(496), 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric), '', '', $sup1);
     } else {

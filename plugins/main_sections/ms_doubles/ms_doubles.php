@@ -28,7 +28,10 @@ if (AJAX) {
 	ob_start();
 }
 require_once('require/function_computers.php');
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
+
+$Admininfo = new Admininfo();
+
 //restriction for profils?
 if (isset($_SESSION['OCS']['mesmachines'])) {
 	$tab_id_mes_machines = computer_list_by_tag('', 'ARRAY');
@@ -320,8 +323,10 @@ if (!empty($protectedPost['detail'])) {
 	echo "<h2>". $l->g(9502) ." ".returnTrad($protectedPost['detail'])." </h2>";
 
 	//BEGIN SHOW ACCOUNTINFO
-	require_once('require/function_admininfo.php');
-	$accountinfo_value = interprete_accountinfo($list_fields ?? array(), $tab_options);
+	require_once('require/admininfo/Admininfo.php');
+	$Admininfo = new Admininfo();
+
+	$accountinfo_value = $Admininfo->interprete_accountinfo($list_fields ?? array(), $tab_options);
 	if (array($accountinfo_value['TAB_OPTIONS'])) {
 		$tab_options = $accountinfo_value['TAB_OPTIONS'];
 	}
@@ -428,10 +433,10 @@ if (!empty($protectedPost['detail'])) {
 			foreach ($itemagain as $key => $info) {
 				if(strpos($key, "fields_") !== false) {
 					$admininfoId = explode("_", $key);
-					$admininfo = find_info_accountinfo($admininfoId[1]);
+					$admininfo = $Admininfo->find_info_accountinfo($admininfoId[1]);
 
 					if($admininfo[$admininfoId[1]]['type'] == "11" || $admininfo[$admininfoId[1]]['type'] == 2) {
-						$adminvalue = find_value_field("ACCOUNT_VALUE_".$admininfo[$admininfoId[1]]['name'], $admininfo[$admininfoId[1]]['type']);
+						$adminvalue = $Admininfo->find_value_field("ACCOUNT_VALUE_".$admininfo[$admininfoId[1]]['name'], $admininfo[$admininfoId[1]]['type']);
 						$adminvalue = $adminvalue[$info];
 					} elseif($admininfo[$admininfoId[1]]['type'] == "5") {
 						$checkbox = explode("&&&", $info);

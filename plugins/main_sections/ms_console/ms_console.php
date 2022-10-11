@@ -31,15 +31,16 @@ require('require/stats/Stats.php');
 require('require/console/Console.php');
 require('require/charts/StatsChartsRenderer.php');
 require('require/softwares/SoftwareCategory.php');
-require_once('require/function_console.php');
 require_once('require/function_groups.php');
 require_once('require/function_computers.php');
 require('require/news/News.php');
+require('require/snmp/Snmp.php');
 
 $stats = new Stats();
 $console = new Console();
 $soft = new SoftwareCategory();
 $news = new News();
+$snmp = New OCSSnmp();
 
 PrintEnTete($l->g(1600));
 echo "<div class='col-md-10 col-xs-offset-0 col-md-offset-1'>";
@@ -259,7 +260,37 @@ echo '</div>
       </div></div>';
 
 echo "</div>";
+
 echo close_form();
+
+/********************************************* SNMP ********************************************/
+// If SNMP is enable
+$isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'];
+
+if($isEnable) {
+    echo "<hr>";
+    
+    $form_name = "snmp";
+    echo open_form($form_name, '', '', 'form-horizontal');
+    echo "<div class='tableContainer'>";
+
+    $table = $snmp->html_table_equipment();
+
+    echo "<br><h4>".$l->g(1136)."</h4><br>";
+    echo $table;
+    echo "</div>";
+    echo close_form();
+
+    $form_name = "snmp_graph";
+    echo open_form($form_name, '', '', 'form-horizontal');
+
+    echo "<div class='row'>";
+
+    $result = $stats->showSNMPForm();
+
+    echo "</div>";
+    echo close_form();
+}
 
 echo "</div>";
 

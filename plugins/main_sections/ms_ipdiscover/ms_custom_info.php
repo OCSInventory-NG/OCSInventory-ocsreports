@@ -90,6 +90,20 @@ if (isset($protectedPost['Valid_modif'])) {
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
         }
 
+        $udpate_date = look_config_default_values('IPDISCOVER_UPDATE_DATE');
+
+        if ($udpate_date['ivalue']['IPDISCOVER_UPDATE_DATE']) {
+            $sql = "UPDATE netmap
+                    SET DATE = '%s'
+                    WHERE MAC = '%s'";
+
+            $date = new DateTime();
+            
+            $arg = array($date->format('Y-m-d H:i:s'), $protectedPost['mac']);
+
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        }
+
         //suppression du cache pour prendre en compte la modif
         unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_' . $protectedGet['prov']]);
     } else {
@@ -149,8 +163,7 @@ if (is_defined($protectedPost['MODIF'])) {
     $tab_name = array($l->g(944), $l->g(95), $l->g(53), $l->g(66));
     $name_field = array('USER', 'MAC', 'COMMENT', 'TYPE');
     $type_field = array(13, 13, 0, 2);
-    $value_field =  array($protectedPost['USER'] ?? '', $protectedPost['MODIF'] ?? '', $protectedPost['COMMENT'] ?? '', $list_type ?? []);
-
+    $value_field =  array($_SESSION["OCS"]["loggeduser"] ?? '', $protectedPost['MODIF'] ?? '', $protectedPost['COMMENT'] ?? '', $list_type ?? []);
     $tab_typ_champ = show_field($name_field, $type_field, $value_field);
     $tab_hidden['mac'] = $protectedPost['MODIF'];
     if (isset($ERROR)) {
@@ -235,8 +248,9 @@ if (is_defined($protectedPost['MODIF'])) {
         } elseif ($protectedGet['prov'] == "inv" || $protectedGet['prov'] == "ipdiscover") {
             if(isset($list_fields)) {
                 //BEGIN SHOW ACCOUNTINFO
-                require_once('require/function_admininfo.php');
-                    $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+                require_once('require/admininfo/Admininfo.php');
+                $Admininfo = new Admininfo();
+                $accountinfo_value = $Admininfo->interprete_accountinfo($list_fields, $tab_options);
                 if (array($accountinfo_value['TAB_OPTIONS']))
                     $tab_options = $accountinfo_value['TAB_OPTIONS'];
                 if (array($accountinfo_value['DEFAULT_VALUE']))

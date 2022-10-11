@@ -31,11 +31,11 @@ if (AJAX) {
     ob_start();
 }
 
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
 require_once('require/function_config_generale.php');
 require('require/CSV.class.php');
 
-
+$Admininfo = new Admininfo();
 
 $accountinfo_choise['COMPUTERS'] = $l->g(729);
 $accountinfo_choise['SNMP'] = $l->g(1136);
@@ -62,7 +62,7 @@ $data_on[5] = $l->g(9612);
 
 if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 1) {
     $protectedPost['onglet'] = 2;
-    $accountinfo_detail = find_info_accountinfo($protectedPost['MODIF']);
+    $accountinfo_detail = $Admininfo->find_info_accountinfo($protectedPost['MODIF']);
     $protectedPost['newfield'] = $accountinfo_detail[$protectedPost['MODIF']]['name'];
     $protectedPost['newlbl'] = $accountinfo_detail[$protectedPost['MODIF']]['comment'];
     $protectedPost['newtype'] = $accountinfo_detail[$protectedPost['MODIF']]['type'];
@@ -84,7 +84,7 @@ if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !is
 
 if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && !empty($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 2) {
     //UPDATE VALUE
-    $msg = update_accountinfo($protectedPost['MODIF_OLD'], array('TYPE' => $protectedPost['newtype'],
+    $msg = $Admininfo->update_accountinfo($protectedPost['MODIF_OLD'], array('TYPE' => $protectedPost['newtype'],
         'NAME' => $protectedPost['newfield'],
         'COMMENT' => $protectedPost['newlbl'],
         'ID_TAB' => $protectedPost['account_tab'],
@@ -92,7 +92,7 @@ if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']
     $hidden = $protectedPost['MODIF_OLD'];
 } elseif (!empty($protectedPost['Valid_modif'])) {
     //ADD NEW VALUE
-    $msg = add_accountinfo($protectedPost['newfield'], $protectedPost['newtype'] ?? '', $protectedPost['newlbl'] ?? '', $protectedPost['account_tab'] ?? '', $protectedPost['accountinfo'] ?? '', $protectedPost['default_value'] ?? '');
+    $msg = $Admininfo->add_accountinfo($protectedPost['newfield'], $protectedPost['newtype'] ?? '', $protectedPost['newlbl'] ?? '', $protectedPost['account_tab'] ?? '', $protectedPost['accountinfo'] ?? '', $protectedPost['default_value'] ?? '');
 }
 
 if (!empty($msg['ERROR'])) {
@@ -180,10 +180,10 @@ echo '<div class="col col-md-10" >';
 $table = "accountinfo";
 
 if ((isset($protectedPost['ACCOUNTINFO_CHOISE']) && $protectedPost['ACCOUNTINFO_CHOISE'] == 'SNMP' && $protectedPost['onglet'] == 1) || (isset($protectedPost['accountinfo']) && $protectedPost['accountinfo'] == 'SNMP' && $protectedPost['onglet'] == 2)) {
-    $array_tab_account = find_all_account_tab('TAB_ACCOUNTSNMP');
+    $array_tab_account = $Admininfo->find_all_account_tab('TAB_ACCOUNTSNMP');
     $account_field = "TAB_ACCOUNTSNMP";
 } else {
-    $array_tab_account = find_all_account_tab('TAB_ACCOUNTAG');
+    $array_tab_account = $Admininfo->find_all_account_tab('TAB_ACCOUNTAG');
     $account_field = "TAB_ACCOUNTAG";
 }
 
@@ -211,13 +211,13 @@ if ($protectedPost['onglet'] == 1) {
         $tab_values = explode(',', $list);
         $i = 0;
         while (isset($tab_values[$i])) {
-            del_accountinfo($tab_values[$i]);
+            $Admininfo->del_accountinfo($tab_values[$i]);
             $i++;
         }
     }
 
     if (is_defined($protectedPost['SUP_PROF'])) {
-        del_accountinfo($protectedPost['SUP_PROF']);
+        $Admininfo->del_accountinfo($protectedPost['SUP_PROF']);
     }
     $array_fields = array($l->g(1098) => 'NAME',
         $l->g(1063) => 'COMMENT',
@@ -240,7 +240,7 @@ if ($protectedPost['onglet'] == 1) {
     $list_fields['MODIF'] = 'ID';
     $list_col_cant_del = array($l->g(1063) => $l->g(1063), $l->g(66) => $l->g(66), $l->g(1061) => $l->g(1061), 'SUP' => 'SUP', 'CHECK' => 'CHECK', 'MODIF' => 'MODIF');
     $default_fields = $list_col_cant_del;
-    $tab_options['REPLACE_VALUE'][$l->g(66)] = $type_accountinfo;
+    $tab_options['REPLACE_VALUE'][$l->g(66)] = $Admininfo->type_accountinfo;
     $tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
     $tab_options['LBL_POPUP']['SUP'] = 'NAME';
     $tab_options['REQUEST']['SUP'] = "select name_accountinfo AS FIRST from accountinfo_config where ACCOUNT_TYPE = '" . $account_choise . "'";
@@ -280,7 +280,7 @@ if ($protectedPost['onglet'] == 1) {
     array_push($name_field, "newtype");
     array_push($tab_name, $l->g(1071) . ":");
     array_push($type_field, 2);
-    array_push($value_field, $type_accountinfo);
+    array_push($value_field, $Admininfo->type_accountinfo);
 
     array_push($name_field, "account_tab");
     array_push($tab_name, $l->g(1061) . ":");

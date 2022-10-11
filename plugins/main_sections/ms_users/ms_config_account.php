@@ -34,7 +34,7 @@ if (isset($protectedPost['Valid_modif']) && ($_SESSION['OCS']['loggeduser'] == $
         msg_success($l->g(1186));
     }
 } elseif (isset($protectedPost['Valid_modif']) && ($_SESSION['OCS']['loggeduser'] != $protectedPost['MODIF'])) {
-    msg_error($l->g(9950));
+    msg_error($l->g(9970));
 }
 
 $form_name = "pass";

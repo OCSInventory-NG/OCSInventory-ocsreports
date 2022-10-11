@@ -43,7 +43,7 @@ $i = 0;
 if (!empty($liste)) {
     foreach ($liste as $element) {
         if ($i < $MAX_RETURN && strtolower(substr($element['NAME'], 0, strlen($debut))) == $debut) {
-            echo(utf8_encode("<option>" . $element['NAME'] . "</option>"));
+            echo "<option>" . $element['NAME'] . "</option>";
             $i++;
         }
     }

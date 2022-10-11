@@ -126,39 +126,15 @@
 
                 unset($value['ignore']);
 
-                if($value[Search::SESS_OPERATOR] == "DOESNTCONTAIN" && empty($doesntcontainmulti)){
-                    $excluID = $this->search->contain($value, $nameTable);
-                    if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
-                        $value[Search::SESS_FIELDS] = "HARDWARE_ID";
-                    }else{
-                        $value[Search::SESS_FIELDS] = "ID";
-                    }
-                    
-                    $value[Search::SESS_VALUES] = implode(',', $excluID);
-                    $value[Search::SESS_OPERATOR] = "NOT IN";
-
-                }elseif($value[Search::SESS_OPERATOR] == "DOESNTCONTAIN" && !empty($isSameColumn) && !empty($doesntcontainmulti)){
-                    $excluID = $this->search->containmulti($isSameColumn, $searchInfos);
-                    if($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE){
-                        $value[Search::SESS_FIELDS] = "HARDWARE_ID";
-                    }else{
-                        $value[Search::SESS_FIELDS] = "ID";
-                    }
-                    
-                    $value[Search::SESS_VALUES] = implode(',', $excluID);
-                    $value[Search::SESS_OPERATOR] = "NOT IN";
-                    $value['ignore'] = "";
-                }
-
                 $argFields = $value[Search::SESS_FIELDS];
                 $argOperators = $value[Search::SESS_OPERATOR];
                 $argValues = $value[Search::SESS_VALUES] ?? '';
 
                 if(!empty($isSameColumn) && $isSameColumn[$nameTable] == $value[Search::SESS_FIELDS] 
-                            && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn)){
+                            && !array_key_exists("ignore", $value) && !array_key_exists('devices', $isSameColumn) && $value[Search::SESS_OPERATOR] != "DOESNTCONTAIN"){
                     if($value[Search::SESS_OPERATOR] != "IS NULL"){
                         if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE&& $nameTable != self::GROUP_TABLE && $value[Search::SESS_FIELDS] != 'CATEGORY_ID' && $value[Search::SESS_FIELDS] != 'CATEGORY' 
-                        && $value[Search::SESS_OPERATOR] != "NOT IN") {
+                        && $value[Search::SESS_OPERATOR] != "NOT IN" && $value[Search::SESS_OPERATOR] != "ISNOTEMPTY") {
                             $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
                                     SELECT 1 FROM $nameTable 
                                     WHERE hardware.ID = $nameTable.HARDWARE_ID 
@@ -210,7 +186,7 @@
                         }
                     }
                 }elseif($value[Search::SESS_OPERATOR] == 'IS NULL' && (empty($isSameColumn))){
-                    $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields IS NULL OR TRIM($nameTable.$argFields) = ''$close ";
+                    $this->columnsQueryConditions .= "$operator[$p] $open ($nameTable.$argFields IS NULL OR TRIM($nameTable.$argFields) = '')$close ";
                 }elseif($nameTable == Search::GROUP_TABLE || $value[Search::SESS_FIELDS] == 'CATEGORY_ID' || $value[Search::SESS_FIELDS] == 'CATEGORY' 
                             || $value[Search::SESS_OPERATOR] == "NOT IN"){
                     if($nameTable == Search::GROUP_TABLE){
@@ -227,6 +203,16 @@
                 }elseif($value[Search::SESS_OPERATOR] == "MORETHANXDAY" || $value[Search::SESS_OPERATOR] == "LESSTHANXDAY") {
                     if($value[Search::SESS_OPERATOR] == "MORETHANXDAY") { $op = "<"; } else { $op = ">"; }
                     $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $op NOW() - INTERVAL $argValues DAY $close ";
+                }elseif ($value[Search::SESS_OPERATOR] == "DOESNTCONTAIN"){
+                    $result = $this->search->contain_subquery($nameTable, $value);
+                    if($tableName == DatabaseSearch::COMPUTER_DEF_TABLE || substr($nameTable, 0, 9) == 'software_'){
+                        
+                        $value[Search::SESS_FIELDS] = "ID";
+                        }else{
+                        $value[Search::SESS_FIELDS] = "HARDWARE_ID";
+                        }
+                    $this->columnsQueryConditions .= " $operator[$p] $open hardware.ID NOT IN ($result) $close ";
+
                 }else{
                     if($nameTable == "download_history" && $value[Search::SESS_FIELDS] == "PKG_NAME"){
                         $this->columnsQueryConditions .= "$operator[$p] $open download_available.NAME $argOperators '$argValues' $close ";

@@ -40,6 +40,7 @@
     <page>ms_custom_pack</page>
     <page>ms_custom_sup</page>
     <page>ms_custom_tag</page>
+    <page>ms_custom_tag_snmp</page>
     <page>ms_dict</page>
     <page>ms_upload_file</page>
     <page>ms_regconfig</page>
@@ -78,6 +79,7 @@
     <page>ms_computer</page>
     <page>ms_soft_csv</page>
     <page>ms_csv</page>
+    <page>ms_csv_snmp</page>
     <page>ms_tele_stats</page>
     <page>ms_tele_compress</page>
     <page>ms_speed_stat</page>
@@ -95,6 +97,7 @@
     <page>ms_stats_connexion</page>
     <page>ms_add_key</page>
     <page>ms_export_ocs</page>
+    <page>ms_export_snmp</page>
     <page>ms_qrcode</page>
     <page>ms_extension</page>
     <page>ms_stats_top</page>
