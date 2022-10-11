@@ -300,8 +300,10 @@ class AllSoftware
             
             if(is_defined($filters['SUBMIT_FORM_RESTRICT']) && $filters['SUBMIT_FORM_RESTRICT']) {
                 $queryFilter['SELECT'] .= "nb2 ";
+                $nb = 'nb2 ';
             } else {
                 $queryFilter['SELECT'] .= "nb ";
+                $nb = 'nb ';
             }
 
             // From
@@ -360,8 +362,13 @@ class AllSoftware
         }
 
         if(is_defined($filters['NBRE']) && is_defined($filters['COMPAR'])) {
+            if(is_defined($filters['SUBMIT_FORM_RESTRICT']) && $filters['SUBMIT_FORM_RESTRICT']) {
+                $nb = 'nb2 ';
+            } else {
+                $nb = 'nb ';
+            }
             $comparator = $this->getComparator($filters['COMPAR']);
-            $queryFilter['HAVING'] = "HAVING nb ".$comparator." ".$filters['NBRE']." ";
+            $queryFilter['HAVING'] = "HAVING $nb".$comparator." ".$filters['NBRE']." ";
         }
 
         if(is_defined($filters['NAME_RESTRICT'])) {
