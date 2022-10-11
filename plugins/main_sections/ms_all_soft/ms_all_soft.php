@@ -187,7 +187,7 @@ if($protectedPost['onglet'] == "ALL"){
                     LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
                     WHERE ".$_SESSION['OCS']["mesmachines"]." ";
                 
-            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && !is_defined($sqlFilter['GROUPBY'])) {
+            if (!is_defined($sqlFilter['GROUPBY'])) {
                 $sql['SQL'] .= "GROUP BY id ";
             }
         }
@@ -259,7 +259,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
                     LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
                     WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID != %s ";
 
-            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes" && !is_defined($sqlFilter['GROUPBY'])) {
+            if (!is_defined($sqlFilter['GROUPBY'])) {
                 $sql['SQL'] .= "GROUP BY id ";
             }
         } else {
@@ -334,7 +334,7 @@ else {
                         LEFT JOIN accountinfo AS a ON a.HARDWARE_ID = s.HARDWARE_ID 
                         WHERE ".$_SESSION['OCS']["mesmachines"]." AND scl.CATEGORY_ID = %s ";
             
-            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes" && !is_defined($sqlFilter['GROUPBY'])) {
+            if (!is_defined($sqlFilter['GROUPBY'])) {
                 $sql['SQL'] .= "GROUP BY id ";
             }  
         } else {
