@@ -266,7 +266,7 @@ if (is_defined($protectedPost['SUP_COL']) && isset($_SESSION['OCS']['col_tab'][$
 
 //default values
 if (is_defined($protectedPost['RAZ'])) {
-    cookies_reset($protectedPost['TABLE_NAME']);
+    cookies_reset($protectedPost['TABLE_NAME'] ?? null);
 }
 
 //add column
