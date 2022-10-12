@@ -40,6 +40,7 @@
      //cas of TAG INFO
      if (is_defined($protectedPost['Valid_modif'])) {
          $info_account_id = $Admininfo->admininfo_computer();
+         $data_fields_account = [];
 
          foreach ($protectedPost as $field => $value) {
              if (substr($field, 0, 5) == "check") {
@@ -50,7 +51,11 @@
                          $casofcheck = explode('_', $field2);
                          if (isset($casofcheck[1]) && $casofcheck[0] . '_' . $casofcheck[1] == $temp) {
                              if (isset($casofcheck[2])) {
-                                 $data_fields_account[$temp] .= $casofcheck[2] . "&&&";
+                                if(!is_defined($data_fields_account[$temp])) {
+                                    $data_fields_account[$temp] = $casofcheck[2] . "&&&";
+                                } else {
+                                    $data_fields_account[$temp] .= $casofcheck[2] . "&&&";
+                                }   
                              }
                          }
                      }
@@ -61,7 +66,7 @@
              }
          }
 
-         if (isset($data_fields_account)) {
+         if (!empty($data_fields_account)) {
              $Admininfo->updateinfo_computer($list_id, $data_fields_account, 'LIST');
              unset($_SESSION['OCS']['DATA_CACHE']['TAB_MULTICRITERE']);
              echo "<script language='javascript'> window.opener.document.multisearch.submit();</script>";
