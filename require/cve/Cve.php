@@ -417,14 +417,14 @@ class Cve
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
     if($this->CVE_BAN != ""){
-      $sql_ban = "SELECT DISTINCT cs.NAME_ID FROM cve_search cs LEFT JOIN software_categories_link as scl ON cs.NAME_ID = scl.NAME_ID WHERE scl.CATEGORY_ID IN (%s)";
+      $sql_ban = "SELECT DISTINCT cs.NAME_ID, cs.VERSION_ID FROM cve_search cs LEFT JOIN software_categories_link as scl ON cs.NAME_ID = scl.NAME_ID AND cs.VERSION_ID = scl.VERSION_ID WHERE scl.CATEGORY_ID IN (%s)";
       $sql_ban_arg = array($this->CVE_BAN);
       $result_ban = mysql2_query_secure($sql_ban, $_SESSION['OCS']["readServer"], $sql_ban_arg);
 
       while ($item_ban = mysqli_fetch_array($result_ban)) {
         if($item_ban != null){
-          $sql_remove = "DELETE FROM cve_search WHERE NAME_ID = %s";
-          $sql_remove_arg = array($item_ban["NAME_ID"]);
+          $sql_remove = "DELETE FROM cve_search WHERE NAME_ID = %s AND VERSION_ID = %s";
+          $sql_remove_arg = array($item_ban["NAME_ID"], $item_ban["VERSION_ID"]);
           $result = mysql2_query_secure($sql_remove, $_SESSION['OCS']["writeServer"], $sql_remove_arg);
         }
       }
