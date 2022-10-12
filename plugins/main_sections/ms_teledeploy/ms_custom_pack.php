@@ -138,9 +138,9 @@ if (!empty($protectedPost['MODIF']) && isset($protectedPost['DWL_OPT']) && $prot
             active_option('DOWNLOAD_POSTCMD', $list_id, $protectedPost['SELECT'], $protectedPost['DOWNLOAD_POSTCMD']);
         }
 
-        if ($protectedGet['origine'] == "group") {
+        if (isset($protectedGet['origine']) && $protectedGet['origine'] == "group") {
             $form_to_reload = 'config_group';
-        } elseif ($protectedGet['origine'] == "mach") {
+        } elseif (isset($protectedGet['origine']) && $protectedGet['origine'] == "mach") {
             $form_to_reload = 'config_mach';
         }
         if ($protectedPost['onglet'] == 'MACH') {
