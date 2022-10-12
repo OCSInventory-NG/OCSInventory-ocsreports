@@ -115,7 +115,7 @@ if (isset($protectedGet['tablename']) && isset($_SESSION['OCS']['csv']['SQL'][$p
                           $value_admin = implode(" ", $value_field);
                           $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]] = $value_admin;
                         }
-                        $data[$i][$key] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]];
+                        $data[$i][$key] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]] ?? null;
                     } else {
                         // normal data
                         $data[$i][$key] = $cont[$key];
