@@ -648,7 +648,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                       echo "</div>";
                                     }
                                 } else if($inputType == 'checkbox'){
-                                  if($field["CONFIG"]["SELECTED_VALUE"] != ''){
+                                  if(is_defined($field["CONFIG"]["SELECTED_VALUE"]) &&  $field["CONFIG"]["SELECTED_VALUE"] != ''){
                                       $field_check = explode("&&&", $field["CONFIG"]["SELECTED_VALUE"]);
                                       foreach($field_check as $values){
                                         if($values != ''){
