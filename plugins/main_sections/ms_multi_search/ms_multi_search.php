@@ -309,7 +309,7 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 			}
 		}
 		
-		if((isset($protectedPost['search_ok']) || isset($protectedGet['prov']) || isset($protectedGet['fields'])) && $isValid){
+		if((isset($protectedPost['search_ok']) || isset($protectedGet['prov']) || isset($protectedGet['fields'])) && $isValid && !isset($protectedPost['table_select']) && !isset($protectedPost['columns_select'])){
 			unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 			/**
 			 * Generate Search fields
