@@ -328,6 +328,6 @@ class DatabaseSearch
 		$query = "SELECT TYPE_NAME FROM `snmp_types` WHERE TABLE_TYPE_NAME = '%s'";
         $type = mysql2_query_secure($query, $this->dbObject, $defautTable);
 
-        return mysqli_fetch_assoc($type)['TYPE_NAME'];
+        return mysqli_fetch_assoc($type)['TYPE_NAME'] ?? null;
 	}
 }

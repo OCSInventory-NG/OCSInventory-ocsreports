@@ -124,14 +124,14 @@ require_once 'require/admininfo/Admininfo.php';
     public function getSearchAccountInfo($field_account){
         $id = explode("_", $field_account);
         $sql = "SELECT TYPE FROM accountinfo_config WHERE ID = %s";
-        $arg = array($id[1]);
+        $arg = array($id[1] ?? null);
         $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
         if($result) while ($type = mysqli_fetch_array($result)){
           $info = $type['TYPE'];
         }
 
-        return $info;
+        return $info ?? null;
     }
 
     /**
