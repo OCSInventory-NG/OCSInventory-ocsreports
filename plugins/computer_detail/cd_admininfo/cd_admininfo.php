@@ -179,7 +179,7 @@ if (!is_array($info_account_id)) {
                         if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
                             $protectedPost[$name_accountinfo . '_' . $temp_val[$i]] = 'on';
                         } else {
-                            $tp_readonly .= $field_select_values[$temp_val[$i]] . ";";
+                            $tp_readonly .= $temp_val[$i] . ";";
                         }
                         $i++;
                     }
@@ -194,7 +194,11 @@ if (!is_array($info_account_id)) {
                     if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
                         array_push($value_field, $field_select_values);
                     } else {
-                        array_push($value_field, $field_select_values[$protectedPost[$name_accountinfo]]);
+                        if (array_key_exists($name_accountinfo, $protectedPost) && array_key_exists($protectedPost[$name_accountinfo], $field_select_values)) {
+                            array_push($value_field, $field_select_values[$protectedPost[$name_accountinfo]]);
+                        } else {
+                            array_push($value_field, "");
+                        }
                     }
                 }
             } elseif ($val_admin_info['TYPE'] == 14) {
@@ -259,7 +263,7 @@ if (!is_array($info_account_id)) {
 
         // If is a select get default data
         foreach($name_field as $key => $value){
-            if($config['SELECT_DEFAULT'][$key] == 'YES'){
+            if(isset($config['SELECT_DEFAULT'][$key]) && $config['SELECT_DEFAULT'][$key] == 'YES'){
                 $sql_selected_data = "SELECT ".$value." FROM `accountinfo` WHERE `HARDWARE_ID` = ".$protectedGet['systemid'];
                 $result = mysql2_query_secure($sql_selected_data, $_SESSION['OCS']["readServer"]);
                 while ($admininfo_default_data = mysqli_fetch_array($result)) {
