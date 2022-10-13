@@ -41,7 +41,7 @@ if(isset($protectedGet['tablename']) && $protectedGet['tablename'] == "all_snmp_
 	// Get all type registered
 	$snmpType = $snmp->get_all_type();
     // Get accountinfo
-    $inter = $Admininfo->interprete_accountinfo($col, array(), 'SNMP');
+    $inter = $Admininfo->interprete_accountinfo($col ?? null, array(), 'SNMP');
 
     if(!empty($snmpType)) {
         foreach($snmpType as $id => $values) {
@@ -55,7 +55,7 @@ if(isset($protectedGet['tablename']) && $protectedGet['tablename'] == "all_snmp_
                 foreach($inter['LIST_FIELDS'] as $key => $string) {
                     $toBeWritten .= $key.$separator;
                     $sortAccount[$string] = $string;
-                    if(!is_null($inter['TAB_OPTIONS']['REPLACE_VALUE'][$key])) {
+                    if(isset($inter['TAB_OPTIONS']['REPLACE_VALUE'][$key]) && !is_null($inter['TAB_OPTIONS']['REPLACE_VALUE'][$key])) {
                         $replace[$string] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$key];
                     }
                 }
@@ -80,7 +80,7 @@ if(isset($protectedGet['tablename']) && $protectedGet['tablename'] == "all_snmp_
                         if($columnName != "ID") {
                             if(strpos($columnValue, "&&&") !== false) {
                                 $toBeWritten .= "\"".implode(" ", explode("&&&", $columnValue))."\"".$separator;
-                            } elseif(array_key_exists("a.".$columnName, $replace)) {
+                            } elseif(array_key_exists("a.".$columnName, $replace) && array_key_exists($columnValue, $replace["a.".$columnName])) {
                                 $toBeWritten .= "\"".$replace["a.".$columnName][$columnValue]."\"".$separator;
                             } else {
                                 $toBeWritten .= "\"".$columnValue."\"".$separator;
