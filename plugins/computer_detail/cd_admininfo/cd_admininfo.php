@@ -160,7 +160,7 @@ if (!is_array($info_account_id)) {
                     or $val_admin_info['TYPE'] == 11) {
                 array_push($config['JAVASCRIPT'], '');
                 array_push($config['SIZE'], '');
-                if (isset($admin_accountinfo)) {
+                if (is_defined($admin_accountinfo)) {
                     array_push($config['COMMENT_AFTER'], $up_png . "<a href=# onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_adminvalues'] . "&head=1&tag=ACCOUNT_VALUE_" . $val_admin_info['NAME'] . "\")><img src=image/plus.png></a>");
                 } else {
                     array_push($config['COMMENT_AFTER'], '');
@@ -179,7 +179,7 @@ if (!is_array($info_account_id)) {
                         if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
                             $protectedPost[$name_accountinfo . '_' . $temp_val[$i]] = 'on';
                         } else {
-                            $tp_readonly .= $field_select_values[$temp_val[$i]] . ";";
+                            $tp_readonly .= $temp_val[$i] . ";";
                         }
                         $i++;
                     }
@@ -194,14 +194,18 @@ if (!is_array($info_account_id)) {
                     if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
                         array_push($value_field, $field_select_values);
                     } else {
-                        array_push($value_field, $field_select_values[$protectedPost[$name_accountinfo]]);
+                        if (array_key_exists($name_accountinfo, $protectedPost) && array_key_exists($protectedPost[$name_accountinfo], $field_select_values)) {
+                            array_push($value_field, $field_select_values[$protectedPost[$name_accountinfo]]);
+                        } else {
+                            array_push($value_field, "");
+                        }
                     }
                 }
             } elseif ($val_admin_info['TYPE'] == 14) {
                 $info_account_id[$name_accountinfo] = date($l->g(1242), strtotime($info_account_id[$name_accountinfo]));
                 array_push($value_field, $info_account_id[$name_accountinfo]);
                 if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
-                    if ($admin_accountinfo) {
+                    if (is_defined($admin_accountinfo)) {
                         array_push($config['COMMENT_AFTER'], $up_png . datePick($name_accountinfo));
                     } else {
                         array_push($config['COMMENT_AFTER'], datePick($name_accountinfo));
@@ -212,7 +216,7 @@ if (!is_array($info_account_id)) {
                 }
             } elseif ($val_admin_info['TYPE'] == 5) {
                 array_push($value_field, "accountinfo");
-                if ($admin_accountinfo) {
+                if (is_defined($admin_accountinfo)) {
                     array_push($config['COMMENT_AFTER'], $up_png);
                 } else {
                     array_push($config['COMMENT_AFTER'], "");
@@ -222,7 +226,7 @@ if (!is_array($info_account_id)) {
                 array_push($config['SIZE'], '');
             } elseif ($val_admin_info['TYPE'] == 8) { //QRCODE
                 array_push($value_field, $info_account_id[$name_accountinfo]);
-                if ($admin_accountinfo) {
+                if (is_defined($admin_accountinfo)) {
                     array_push($config['COMMENT_AFTER'], $up_png);
                 } else {
                     array_push($config['COMMENT_AFTER'], "");
@@ -233,7 +237,7 @@ if (!is_array($info_account_id)) {
                 array_push($config['SIZE'], 'width=80 height=80');
             } else {
                 array_push($value_field, $info_account_id[$name_accountinfo]);
-                if (isset($admin_accountinfo)) {
+                if (is_defined($admin_accountinfo)) {
                     array_push($config['COMMENT_AFTER'], $up_png);
                 } else {
                     array_push($config['COMMENT_AFTER'], "");
@@ -259,7 +263,7 @@ if (!is_array($info_account_id)) {
 
         // If is a select get default data
         foreach($name_field as $key => $value){
-            if($config['SELECT_DEFAULT'][$key] == 'YES'){
+            if(isset($config['SELECT_DEFAULT'][$key]) && $config['SELECT_DEFAULT'][$key] == 'YES'){
                 $sql_selected_data = "SELECT ".$value." FROM `accountinfo` WHERE `HARDWARE_ID` = ".$protectedGet['systemid'];
                 $result = mysql2_query_secure($sql_selected_data, $_SESSION['OCS']["readServer"]);
                 while ($admininfo_default_data = mysqli_fetch_array($result)) {
@@ -273,7 +277,7 @@ if (!is_array($info_account_id)) {
         if ($_SESSION['OCS']['profile']->getConfigValue('ACCOUNTINFO') == 'YES') {
             $tab_hidden = array('ADMIN' => '', 'UP' => '', 'DOWN' => '');
         }
-        if (isset($show_all_column) || isset($admin_accountinfo)) {
+        if (isset($show_all_column) || is_defined($admin_accountinfo)) {
             $showbutton = false;
         } else {
             $showbutton = true;

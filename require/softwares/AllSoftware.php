@@ -132,6 +132,7 @@ class AllSoftware
                 WHERE hardware.ID IS NULL GROUP BY software.HARDWARE_ID";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']['readServer']);
         $i = 0;
+
         while ($hid = mysqli_fetch_array($result)) {
             $unlinked_hids[$i] = $hid['HARDWARE_ID'];
             $i++;
@@ -153,6 +154,7 @@ class AllSoftware
             $result = mysql2_query_secure($sql, $_SESSION['OCS']['readServer']);
             $i = 0;
             $unlinked_ids = array();
+
             while ($ids = mysqli_fetch_array($result)) {
                 $unlinked_ids[$i] = $ids['ID'];
                 $i++;
@@ -167,23 +169,25 @@ class AllSoftware
 
         // clean entries in software_categories_link
         // which are no longer linked to any software entry
-        foreach ($target_tables as $table => $field) {
-            $sql = "SELECT scl.ID FROM `software_categories_link` scl
-                LEFT JOIN `$table` ON $table.ID = scl.$field
-                WHERE $table.ID IS NULL GROUP BY scl.ID";
-            $result = mysql2_query_secure($sql, $_SESSION['OCS']['readServer']);
-            $i = 0;
-            $unlinked_ids = array();
-            while ($ids = mysqli_fetch_array($result)) {
-                $unlinked_ids[$i] = $ids['ID'];
-                $i++;
-            }
+        $sql = "SELECT scl.ID FROM `software_categories_link` scl
+            LEFT JOIN `software_name` sn ON sn.ID = scl.NAME_ID
+            LEFT JOIN `software_version` sv ON sv.ID = scl.VERSION_ID
+            LEFT JOIN `software_publisher` sp ON sp.ID = scl.PUBLISHER_ID
+            LEFT JOIN `software` s ON sn.ID = s.NAME_ID AND sv.ID = s.VERSION_ID AND sp.ID = s.PUBLISHER_ID
+            WHERE s.ID IS NULL GROUP BY scl.ID";
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']['readServer']);
+        $i = 0;
+        $unlinked_ids = array();
 
-            if (isset($unlinked_hids) && $unlinked_ids >= 1) {
-                $sql_del = "DELETE FROM `software_categories_link` WHERE ID IN (%s)";
-                $arg_del = implode(",", $unlinked_ids);
-                $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);
-            }
+        while ($ids = mysqli_fetch_array($result)) {
+            $unlinked_ids[$i] = $ids['ID'];
+            $i++;
+        }
+
+        if ($unlinked_ids >= 1) {
+            $sql_del = "DELETE FROM `software_categories_link` WHERE ID IN (%s)";
+            $arg_del = implode(",", $unlinked_ids);
+            $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);
         }
     }
 

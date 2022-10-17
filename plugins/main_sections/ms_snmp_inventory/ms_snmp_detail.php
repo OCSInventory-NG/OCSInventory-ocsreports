@@ -234,7 +234,7 @@ if(!empty($list_tab)) {
             array_push($config['JAVASCRIPT'], '');
             array_push($config['SIZE'], '');
 
-            if ($admin_accountinfo) {
+            if (isset($admin_accountinfo) && $admin_accountinfo) {
                 array_push($config['COMMENT_AFTER'], $up_png . "<a href=# onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_adminvalues'] . "&head=1&tag=ACCOUNT_SNMP_VALUE_" . $val_admin_info['NAME'] . "\")><img src=image/plus.png></a>");
             } else {
                 array_push($config['COMMENT_AFTER'], '');
@@ -278,7 +278,7 @@ if(!empty($list_tab)) {
             array_push($value_field, $info_account_id[$getType][$getId][$name_accountinfo]);
             
             if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_ACCOUNTINFO') == "YES") {
-                if ($admin_accountinfo) {
+                if (isset($admin_accountinfo) && $admin_accountinfo) {
                     array_push($config['COMMENT_AFTER'], $up_png . datePick($name_accountinfo));
                 } else {
                     array_push($config['COMMENT_AFTER'], datePick($name_accountinfo));
@@ -291,7 +291,7 @@ if(!empty($list_tab)) {
         } elseif ($val_admin_info['TYPE'] == 5) {
             array_push($value_field, "accountinfo");
 
-            if ($admin_accountinfo) {
+            if (isset($admin_accountinfo) && $admin_accountinfo) {
                 array_push($config['COMMENT_AFTER'], $up_png);
             } else {
                 array_push($config['COMMENT_AFTER'], "");
@@ -303,7 +303,7 @@ if(!empty($list_tab)) {
         } else {
             array_push($value_field, $info_account_id[$getType][$getId][$name_accountinfo]);
 
-            if ($admin_accountinfo) {
+            if (isset($admin_accountinfo) && $admin_accountinfo) {
                 array_push($config['COMMENT_AFTER'], $up_png);
             } else {
                 array_push($config['COMMENT_AFTER'], "");

@@ -346,7 +346,7 @@ class Admininfo
 		mysql2_query_secure($sql_update_config, $_SESSION['OCS']["writeServer"], $arg_update_config);
 		unset($_SESSION['OCS']['TAG_LBL']);
 
-		return $new_type_field;
+		return $new_type_field ?? null;
 	}
 		
 	/**

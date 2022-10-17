@@ -216,6 +216,17 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 	
 		foreach ($_SESSION['OCS']['multi_search'] as $table => $infos) {
 			$i = 0;
+
+			//Check if all values have fields
+			foreach ($infos as $key => $values) {
+				if (!array_key_exists('fields', $values)) {
+					unset($infos[$key]);
+					if (array_key_exists($key, $_SESSION['OCS']['multi_search'][$table])) {
+						unset($_SESSION['OCS']['multi_search'][$table][$key]);
+					}
+				}
+			}
+			
 			foreach ($infos as $uniqid => $values) {
 				?>
 				<div class="row" name="<?php echo $uniqid ?>">
@@ -309,7 +320,7 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 			}
 		}
 		
-		if((isset($protectedPost['search_ok']) || isset($protectedGet['prov']) || isset($protectedGet['fields'])) && $isValid){
+		if((isset($protectedPost['search_ok']) || isset($protectedGet['prov']) || isset($protectedGet['fields'])) && $isValid && !isset($protectedPost['table_select']) && !isset($protectedPost['columns_select'])){
 			unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
 			/**
 			 * Generate Search fields

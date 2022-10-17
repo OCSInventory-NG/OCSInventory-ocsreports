@@ -495,7 +495,7 @@
                 }else{
                   $this->queryArgs[] = $nameTable;
                   $this->queryArgs[] = $value[self::SESS_FIELDS];
-                  $this->queryArgs[] = 'NOT IN';
+                  $this->queryArgs[] = $value[self::SESS_OPERATOR];
                   $this->queryArgs[] = $value[self::SESS_VALUES];
                 }
               } elseif ($value[self::SESS_OPERATOR] == "DOESNTCONTAIN"){

@@ -627,6 +627,13 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                       echo "</div>";
                                     }
                                 }else if($inputType == 'disabled'){
+                                    if (is_array($field['DEFAULT_VALUE'])) {
+                                        $tmp = "";
+                                        foreach ($field['DEFAULT_VALUE'] as $key => $value) {
+                                            $tmp .= $value . " ";
+                                        }
+                                        $field['DEFAULT_VALUE'] = $tmp;
+                                    }
                                     echo "<div class='input-group'>";
                                     echo "<input type='text' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '')." readonly>";
                                     if(empty($field['COMMENT_AFTER'])){
@@ -648,7 +655,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                       echo "</div>";
                                     }
                                 } else if($inputType == 'checkbox'){
-                                  if($field["CONFIG"]["SELECTED_VALUE"] != ''){
+                                  if(is_defined($field["CONFIG"]["SELECTED_VALUE"]) &&  $field["CONFIG"]["SELECTED_VALUE"] != ''){
                                       $field_check = explode("&&&", $field["CONFIG"]["SELECTED_VALUE"]);
                                       foreach($field_check as $values){
                                         if($values != ''){

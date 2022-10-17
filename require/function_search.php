@@ -615,14 +615,16 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false,$snmp
     }
 
     function id_without_idgroups($list_id) {
-        $sql = "select id from hardware where deviceid <> '_SYSTEMGROUP_'
-										AND deviceid <> '_DOWNLOADGROUP_'
-										AND id in ";
-        $arg = array();
-        $sql = mysql2_prepare($sql, $arg, $list_id);
-        $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
-        if($result) while ($item = mysqli_fetch_object($result)) {
-            $res[$item->id] = $item->id;
+        if(!empty($list_id)) {
+            $sql = "SELECT id FROM hardware WHERE deviceid <> '_SYSTEMGROUP_'
+                AND deviceid <> '_DOWNLOADGROUP_'
+                AND id IN ";
+            $arg = array();
+            $sql = mysql2_prepare($sql, $arg, $list_id);
+            $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
+            if($result) while ($item = mysqli_fetch_object($result)) {
+                $res[$item->id] = $item->id;
+            }
         }
 
         return $res ?? null;

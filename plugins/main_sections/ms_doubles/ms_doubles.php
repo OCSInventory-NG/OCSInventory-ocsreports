@@ -432,20 +432,22 @@ if (!empty($protectedPost['detail'])) {
 			echo "<div class='col-md-12 duplicate-details'>";
 			foreach ($itemagain as $key => $info) {
 				if(strpos($key, "fields_") !== false) {
-					$admininfoId = explode("_", $key);
-					$admininfo = $Admininfo->find_info_accountinfo($admininfoId[1]);
+					if ($info != "") {
+						$admininfoId = explode("_", $key);
+						$admininfo = $Admininfo->find_info_accountinfo($admininfoId[1]);
 
-					if($admininfo[$admininfoId[1]]['type'] == "11" || $admininfo[$admininfoId[1]]['type'] == 2) {
-						$adminvalue = $Admininfo->find_value_field("ACCOUNT_VALUE_".$admininfo[$admininfoId[1]]['name'], $admininfo[$admininfoId[1]]['type']);
-						$adminvalue = $adminvalue[$info];
-					} elseif($admininfo[$admininfoId[1]]['type'] == "5") {
-						$checkbox = explode("&&&", $info);
-						$adminvalue = implode(",",$checkbox);
-					} else {
-						$adminvalue = $info;
+						if($admininfo[$admininfoId[1]]['type'] == "11" || $admininfo[$admininfoId[1]]['type'] == 2) {
+							$adminvalue = $Admininfo->find_value_field("ACCOUNT_VALUE_".$admininfo[$admininfoId[1]]['name'], $admininfo[$admininfoId[1]]['type']);
+							$adminvalue = $adminvalue[$info];
+						} elseif($admininfo[$admininfoId[1]]['type'] == "5") {
+							$checkbox = explode("&&&", $info);
+							$adminvalue = implode(",",$checkbox);
+						} else {
+							$adminvalue = $info;
+						}
+
+						echo "<div class='col-md-3 duplicate-info'><b>".strtoupper($admininfo[$admininfoId[1]]['name']) ." :</b> ". $adminvalue ." </div>";
 					}
-
-					echo "<div class='col-md-3 duplicate-info'><b>".strtoupper($admininfo[$admininfoId[1]]['name']) ." :</b> ". $adminvalue ." </div>";
 				} else {
 					echo "<div class='col-md-3 duplicate-info'><b>". strtoupper($key) ." :</b> ". $info ." </div>";
 				}

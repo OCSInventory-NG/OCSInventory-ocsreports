@@ -111,7 +111,7 @@ foreach ($form_fields_typeinput as $key => $value) {
     $config[$i]['CONFIG']['SIZE'] = 30;
     $other_data['COMMENT_AFTER'][$i] = '_M';
 }
-$accountinfo_form = $Admininfo->show_accountinfo('','COMPUTERS','5');
+$accountinfo_form = $Admininfo->show_accountinfo('','COMPUTERS','5,11,14');
 //merge data
 $info_form['FIELDS']['name_field'] = array_merge($info_form['FIELDS']['name_field'], $accountinfo_form['FIELDS']['name_field']);
 $info_form['FIELDS']['type_field'] = array_merge($info_form['FIELDS']['type_field'], $accountinfo_form['FIELDS']['type_field']);
@@ -122,8 +122,9 @@ $other_data['COMMENT_AFTER'] = array_merge($other_data['COMMENT_AFTER'], $accoun
 $tab_typ_champ = show_field($info_form['FIELDS']['name_field'], $info_form['FIELDS']['type_field'], $info_form['FIELDS']['value_field']);
 foreach($config as $key=>$value) {
     $tab_typ_champ[$key]['CONFIG'] = $value['CONFIG'];
-    $tab_typ_champ[$key]['COMMENT_AFTER'] = $other_data['COMMENT_AFTER'][$key];
+    $tab_typ_champ[$key]['COMMENT_AFTER'] = $other_data['COMMENT_AFTER'][$key] ?? null;
 }
+
 if(isset($tab_typ_champ)) {
     modif_values($info_form['FIELDS']['tab_name'], $tab_typ_champ,$tab_hidden ?? '', array(
         'show_frame' => false

@@ -1455,7 +1455,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$acc_select[$key] = $key;
 							}
 						}
-						if($acc_select != null) {
+						if(is_defined($acc_select) && $acc_select != null) {
 							$account_select = implode(',', $acc_select);
 						}
 					}
