@@ -1,4 +1,49 @@
 Revision history for ocsreports
+2.11.0
+		* Add last inventory date in SNMP type
+		* Add migrate function to add lastdate column on existing SNMP type tables
+		* Add SNMP stats in dashboard (display only if SNMP is enabled)
+		* Add SNMP details page
+		* Add SNMP XML export on details page
+		* Add SNMP multisearch (display only if SNMP is enabled)
+		* Add CSV export all SNMP types
+		* Add administrative data for SNMP
+		* Add filter by OS / group / TAG / asset category in all software page
+		* Add filter by import computer name in CSV file in all software page
+		* Add right to manage saved searches
+		* Add manage layouts page
+		* Add layouts permissions in profile
+		* Add visiblity parameter to layout table (Only me / My group / All users)
+		* Add report notifications for static and dynamic groups
+		* Add all software count for restricted users
+		* Add tab for activated package in group page
+		* Improve and fix security
+		* Update traductions
+		* Update scheduledupdateagent.ps1
+		* Update ipdiscover date when peripherals updated
+		* Display the default DNS and gateway registered in hardware table in all computers page
+		* Get logged user for data entered in ipdiscover identified
+		* Fix adding new multisearch parameter after all software count redirection
+		* Fix wrong OR operator with is null in multisearch
+		* Fix generated query with doesn't contain parameter in multicsearch
+		* Fix multisearch condition for lock result
+		* Fix missing parenthesis with is null parameter in multisearch
+		* Fix user data display after delete profile
+		* Fix all computers replay in dynamic groups
+		* Fix MySQL error traduction in install.php
+		* Fix group dropdown in computer details
+		* Fix CVE vendor normalize
+		* Fix LDAP filter number not displayed correctly
+		* Fix double utf-8 encode for the software dropdown in software category
+		* Fix layout column index changed when create new computer admin data
+		* Fix empty inserted value in EXPORT_SEP parameter
+		* Fix wrong charset on some tables
+		* Fix php warnings
+		* Fix typo
+		* Remove useless function files
+		* Remove all old SNMP details pages
+		* Removed all "All Computers" layouts due to change in saved data structure
+
 2.10.0
 		* Add PHP8 compatibility
 		* Add layout feature
