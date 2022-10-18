@@ -478,6 +478,12 @@
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
                 $this->queryArgs[] = $nameTable;
                 $this->queryArgs[] = $value[self::SESS_FIELDS];
+              }elseif($value[self::SESS_OPERATOR] == 'IS NULL'){
+                $this->columnsQueryConditions .= "$operator[$p] $open(%s.%s IS NULL OR TRIM(%s.%s) = '')$close ";
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
+                $this->queryArgs[] = $nameTable;
+                $this->queryArgs[] = $value[self::SESS_FIELDS];
               } elseif($value[self::SESS_OPERATOR] == "ISNOTEMPTY") {
                 $this->columnsQueryConditions .= "$operator[$p] $open%s.%s IS NOT NULL AND TRIM(%s.%s) != ''$close ";
                 $this->queryArgs[] = $nameTable;
