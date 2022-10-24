@@ -1,4 +1,9 @@
 Revision history for ocsreports
+2.11.1
+		* Fix rename column syntax not supported by MySQL < 8 and MariaDB < 10.5.2
+		* Fix multisearch with is null operator
+		* Fix user display page
+
 2.11.0
 		* Add last inventory date in SNMP type
 		* Add migrate function to add lastdate column on existing SNMP type tables
