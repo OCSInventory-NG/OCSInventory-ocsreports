@@ -205,7 +205,7 @@ class Cve
     $name = preg_replace("/\s*\([^\)]+\)+$/", "", $name);
     $name = preg_replace("/.x86_/", "", $name);
     $name = preg_replace("/\s*\d+-bit$/", "", $name);
-    $name = preg_replace("/\s*(v|version|release)?\s*[\d\.]+(\s+ESR)?$/", "", $name);
+    $name = preg_replace("/\s*(v|version|release)?\s*[\d\.]+(\s+esr)?$/", "", $name);
     $name = preg_replace("/\s*\(r\)/", "", $name);
     $name = preg_replace('/[^\x00-\x7F]/', "", $name);
     $name = trim($name);
@@ -222,9 +222,9 @@ class Cve
     }
     $vendor = strtolower($vendor);
     $vendor = preg_replace("/https?:[^\s]+/", "", $vendor);
-    $vendor = preg_replace("/,?\s*(corporation|gmbh|inc\.|incorporated|LLC|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated|copyright)$/", "", $vendor);
+    $vendor = preg_replace("/,?\s*(corporation|gmbh|inc\.|incorporated|llc|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated|copyright)$/", "", $vendor);
     $vendor = preg_replace("/\s*\(r\)/", "", $vendor);
-    $vendor = preg_replace('/[^\x00-\x7F]/', "", $vendor);
+    $vendor = preg_replace('/[^\x00-\x7f]/', "", $vendor);
     $vendor = preg_replace("/[^A-Za-z0-9\._-]/", "", $vendor);
     $vendor = trim($vendor);
     
