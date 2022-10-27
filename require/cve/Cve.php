@@ -224,7 +224,7 @@ class Cve
     $vendor = preg_replace("/https?:[^\s]+/", "", $vendor);
     $vendor = preg_replace("/,?\s*(corporation|gmbh|inc\.|incorporated|llc|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated|copyright)$/", "", $vendor);
     $vendor = preg_replace("/\s*\(r\)/", "", $vendor);
-    $vendor = preg_replace('/[^\x00-\x7f]/', "", $vendor);
+    $vendor = preg_replace('/[^\x00-\x7F]/', "", $vendor);
     $vendor = preg_replace("/[^A-Za-z0-9\._-]/", "", $vendor);
     $vendor = trim($vendor);
     
