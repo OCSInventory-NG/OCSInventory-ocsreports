@@ -1,4 +1,8 @@
--- If it's a new database
+-- MySQL dump 10.13  Distrib 8.0.31, for Linux (x86_64)
+--
+-- Host: localhost    Database: ocsweb
+-- ------------------------------------------------------
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,7 +31,7 @@ CREATE TABLE `accesslog` (
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`),
   KEY `USERID` (`USERID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +55,7 @@ CREATE TABLE `accountinfo` (
   `TAG` varchar(255) DEFAULT 'NA',
   PRIMARY KEY (`HARDWARE_ID`),
   KEY `TAG` (`TAG`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +85,7 @@ CREATE TABLE `accountinfo_config` (
   `ACCOUNT_TYPE` varchar(255) DEFAULT NULL,
   `DEFAULT_VALUE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +111,7 @@ CREATE TABLE `archive` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `HARDWARE_ID` (`HARDWARE_ID`),
   CONSTRAINT `archive_ibfk_1` FOREIGN KEY (`HARDWARE_ID`) REFERENCES `hardware` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +137,7 @@ CREATE TABLE `assets_categories` (
   `SQL_QUERY` text NOT NULL,
   `SQL_ARGS` text NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,6 +147,32 @@ CREATE TABLE `assets_categories` (
 LOCK TABLES `assets_categories` WRITE;
 /*!40000 ALTER TABLE `assets_categories` DISABLE KEYS */;
 /*!40000 ALTER TABLE `assets_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_attempt`
+--
+
+DROP TABLE IF EXISTS `auth_attempt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `auth_attempt` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `DATETIMEATTEMPT` datetime NOT NULL,
+  `LOGIN` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `IP` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `SUCCESS` int DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_attempt`
+--
+
+LOCK TABLES `auth_attempt` WRITE;
+/*!40000 ALTER TABLE `auth_attempt` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_attempt` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -170,7 +200,7 @@ CREATE TABLE `batteries` (
   KEY `HARDWARE_ID` (`HARDWARE_ID`),
   KEY `NAME` (`NAME`),
   KEY `MANUFACTURER` (`MANUFACTURER`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +235,7 @@ CREATE TABLE `bios` (
   PRIMARY KEY (`HARDWARE_ID`),
   KEY `SSN` (`SSN`),
   KEY `ASSETTAG` (`ASSETTAG`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +259,7 @@ CREATE TABLE `blacklist_macaddresses` (
   `MACADDRESS` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `MACADDRESS` (`MACADDRESS`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,7 +284,7 @@ CREATE TABLE `blacklist_serials` (
   `SERIAL` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `SERIAL` (`SERIAL`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -280,7 +310,7 @@ CREATE TABLE `blacklist_subnet` (
   `MASK` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `SUBNET` (`SUBNET`,`MASK`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -305,7 +335,7 @@ CREATE TABLE `config` (
   `TVALUE` varchar(255) DEFAULT NULL,
   `COMMENTS` text,
   PRIMARY KEY (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,7 +344,7 @@ CREATE TABLE `config` (
 
 LOCK TABLES `config` WRITE;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES ('AUTO_DUPLICATE_LVL',7,'','Duplicates bitmap'),('DEFAULT_CATEGORY',NULL,NULL,NULL),('DEPLOY',1,'','Activates or not the automatic deployment option'),('DOWNLOAD',0,'','Activate softwares auto deployment feature'),('DOWNLOAD_CYCLE_LATENCY',60,'','Time between two cycles (seconds)'),('DOWNLOAD_FRAG_LATENCY',10,'','Time between two downloads (seconds)'),('DOWNLOAD_GROUPS_TRACE_EVENTS',1,'','Specify if you want to track packages affected to a group on computer\'s level'),('DOWNLOAD_PACK_DIR',0,'/var/lib/ocsinventory-reports','Directory for download files'),('DOWNLOAD_PERIOD_LATENCY',1,'','Time between two periods (seconds)'),('DOWNLOAD_PERIOD_LENGTH',10,'','Number of cycles in a period'),('DOWNLOAD_REDISTRIB',0,'','Use redistribution servers'),('DOWNLOAD_SERVER_DOCROOT',0,'d:\\tele_ocs','Server directory used for group of server'),('DOWNLOAD_SERVER_URI',0,'$IP$/local','Server url used for group of server'),('DOWNLOAD_TIMEOUT',30,'','Validity of a package (in days)'),('ENABLE_GROUPS',1,'','Enable the computer\'s groups feature'),('FREQUENCY',0,'','Specify the frequency (days) of inventories. (0: inventory at each login. -1: no inventory)'),('GENERATE_OCS_FILES',0,'','Use with ocsinventory-injector, enable the multi entities feature'),('GROUPS_CACHE_OFFSET',43200,'','Random number computed in the defined range. Designed to avoid computing many groups in the same process'),('GROUPS_CACHE_REVALIDATE',43200,'','Specify the validity of computer\'s groups (default: compute it once a day - see offset)'),('GUI_REPORT_AGIN_MACH',30,'','Filter on lastdate for console page'),('GUI_REPORT_DD_MAX',4000,'','Filter on Hard Drive for console page'),('GUI_REPORT_DD_MINI',500,'','Filter on PROCESSOR for console page'),('GUI_REPORT_NOT_VIEW',3,'','Filter on DAY for console page'),('GUI_REPORT_PROC_MAX',3000,'','Filter on PROCESSOR for console page'),('GUI_REPORT_PROC_MINI',1000,'','Filter on Hard Drive for console page'),('GUI_REPORT_RAM_MAX',512,'','Filter on RAM for console page'),('GUI_REPORT_RAM_MINI',128,'','Filter on RAM for console page'),('GUI_VERSION',0,'7039','Version of the installed GUI and database'),('INVENTORY_CACHE_ENABLED',1,'','Enable some stuff to improve DB queries, especially for GUI multicriteria searching system'),('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures'),('INVENTORY_DIFF',1,'','Activate/Deactivate inventory incremental writing'),('INVENTORY_FILTER_ENABLED',0,'','Enable core filter system to modify some things \"on the fly\"'),('INVENTORY_FILTER_FLOOD_IP',0,'','Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period'),('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',300,'','Period definition for INVENTORY_FILTER_FLOOD_IP'),('INVENTORY_FILTER_ON',0,'','Enable inventory filter stack'),('INVENTORY_ON_STARTUP',1,'1','Launch inventory on agent service statup'),('INVENTORY_TRANSACTION',1,'','Enable/disable db commit at each inventory section'),('INVENTORY_WRITE_DIFF',0,'','Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load'),('IPDISCOVER',2,'','Max number of computers per gateway retrieving IP on the network'),('IPDISCOVER_BETTER_THRESHOLD',1,'','Specify the minimal difference to replace an ipdiscover agent'),('IPDISCOVER_IPD_DIR',0,'/var/lib/ocsinventory-reports','Directory for Ipdiscover files'),('IPDISCOVER_LATENCY',100,'','Default latency between two arp requests'),('IPDISCOVER_MAX_ALIVE',7,'','Max number of days before an Ip Discover computer is replaced'),('IPDISCOVER_NO_POSTPONE',0,'','Disable the time before a first election (not recommended)'),('IPDISCOVER_PURGE_OLD',0,'','Purge of the old IPDiscover data'),('IPDISCOVER_PURGE_VALIDITY_TIME',30,'','IPDiscover data validity time'),('IPDISCOVER_USE_GROUPS',1,'','Enable groups for ipdiscover (for example, you might want to prevent some groups'),('LOCK_REUSE_TIME',600,'','Validity of a computer\'s lock'),('LOGLEVEL',0,'','ocs engine loglevel'),('LOG_DIR',0,'/var/lib/ocsinventory-reports','Directory for logs files'),('LOG_SCRIPT',0,'/var/lib/ocsinventory-reports','Directory for logs scripts files'),('OCS_FILES_FORMAT',0,'OCS','Generate either compressed file or clear XML text'),('OCS_FILES_OVERWRITE',0,'','Specify if you want to keep trace of all inventory between to synchronisation with the higher level server'),('OCS_FILES_PATH',0,'/tmp','Path to ocs files directory (must be writeable)'),('OCS_SERVER_ADDRESS',0,'127.0.0.1','Ocs serveur ip for plugin webservice'),('PASSWORD_VERSION',1,'PASSWORD_BCRYPT','Password encryption version'),('PROLOG_FILTER_ON',0,'','Enable prolog filter stack'),('PROLOG_FREQ',24,'','Specify the frequency (hours) of prolog, on agents'),('REGISTRY',0,'','Activates or not the registry query function'),('SESSION_VALIDITY_TIME',600,'','Validity of a session (prolog=>postinventory)'),('SNMP_INVENTORY_DIFF',1,NULL,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)'),('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo'),('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo'),('TRACE_DELETED',0,'','Trace deleted/duplicated computers (Activated by GLPI)'),('UPDATE',0,'','Activates or not the update feature'),('WARN_UPDATE',1,'1','Warn user if an update is available'),('WOL_PORT',0,'7,9','Wol ports'),('INTERFACE_LAST_CONTACT',15,'','Custom frequency');
+INSERT INTO `config` VALUES ('AUTO_DUPLICATE_LVL',7,'','Duplicates bitmap'),('CONEX_LDAP_FILTER1',NULL,'',NULL),('CONEX_LDAP_FILTER1_ROLE',NULL,'',NULL),('CONEX_LDAP_FILTER2',NULL,'',NULL),('CONEX_LDAP_FILTER2_ROLE',NULL,'',NULL),('CONEX_LDAP_NB_FILTERS',0,'2',''),('DEFAULT_CATEGORY',NULL,NULL,NULL),('DEPLOY',1,'','Activates or not the automatic deployment option'),('DOWNLOAD',0,'','Activate softwares auto deployment feature'),('DOWNLOAD_CYCLE_LATENCY',60,'','Time between two cycles (seconds)'),('DOWNLOAD_FRAG_LATENCY',10,'','Time between two downloads (seconds)'),('DOWNLOAD_GROUPS_TRACE_EVENTS',1,'','Specify if you want to track packages affected to a group on computer\'s level'),('DOWNLOAD_PACK_DIR',0,'/var/lib/ocsinventory-reports','Directory for download files'),('DOWNLOAD_PERIOD_LATENCY',1,'','Time between two periods (seconds)'),('DOWNLOAD_PERIOD_LENGTH',10,'','Number of cycles in a period'),('DOWNLOAD_SERVER_DOCROOT',0,'d:\\tele_ocs','Server directory used for group of server'),('DOWNLOAD_SERVER_URI',0,'$IP$/local','Server url used for group of server'),('DOWNLOAD_TIMEOUT',30,'','Validity of a package (in days)'),('ENABLE_GROUPS',1,'','Enable the computer\'s groups feature'),('FREQUENCY',0,'','Specify the frequency (days) of inventories. (0: inventory at each login. -1: no inventory)'),('GENERATE_OCS_FILES',0,'','Use with ocsinventory-injector, enable the multi entities feature'),('GROUPS_CACHE_OFFSET',43200,'','Random number computed in the defined range. Designed to avoid computing many groups in the same process'),('GROUPS_CACHE_REVALIDATE',43200,'','Specify the validity of computer\'s groups (default: compute it once a day - see offset)'),('GUI_REPORT_AGIN_MACH',30,'','Filter on lastdate for console page'),('GUI_REPORT_DD_MAX',4000,'','Filter on Hard Drive for console page'),('GUI_REPORT_DD_MINI',500,'','Filter on PROCESSOR for console page'),('GUI_REPORT_NOT_VIEW',3,'','Filter on DAY for console page'),('GUI_REPORT_PROC_MAX',3000,'','Filter on PROCESSOR for console page'),('GUI_REPORT_PROC_MINI',1000,'','Filter on Hard Drive for console page'),('GUI_REPORT_RAM_MAX',512,'','Filter on RAM for console page'),('GUI_REPORT_RAM_MINI',128,'','Filter on RAM for console page'),('GUI_VERSION',0,'7068','Version of the installed GUI and database'),('INTERFACE_LAST_CONTACT',15,'','Custom frequency'),('INVENTORY_CACHE_ENABLED',1,'','Enable some stuff to improve DB queries, especially for GUI multicriteria searching system'),('INVENTORY_CACHE_REVALIDATE',7,'','the engine will clean the inventory cache structures'),('INVENTORY_DIFF',1,'','Activate/Deactivate inventory incremental writing'),('INVENTORY_FILTER_ENABLED',0,'','Enable core filter system to modify some things \"on the fly\"'),('INVENTORY_FILTER_FLOOD_IP',0,'','Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period'),('INVENTORY_FILTER_FLOOD_IP_CACHE_TIME',300,'','Period definition for INVENTORY_FILTER_FLOOD_IP'),('INVENTORY_FILTER_ON',0,'','Enable inventory filter stack'),('INVENTORY_ON_STARTUP',1,'1','Launch inventory on agent service statup'),('INVENTORY_TRANSACTION',1,'','Enable/disable db commit at each inventory section'),('INVENTORY_WRITE_DIFF',0,'','Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load'),('IPDISCOVER',2,'','Max number of computers per gateway retrieving IP on the network'),('IPDISCOVER_BETTER_THRESHOLD',1,'','Specify the minimal difference to replace an ipdiscover agent'),('IPDISCOVER_IPD_DIR',0,'/var/lib/ocsinventory-reports','Directory for Ipdiscover files'),('IPDISCOVER_LATENCY',100,'','Default latency between two arp requests'),('IPDISCOVER_MAX_ALIVE',7,'','Max number of days before an Ip Discover computer is replaced'),('IPDISCOVER_NO_POSTPONE',0,'','Disable the time before a first election (not recommended)'),('IPDISCOVER_PURGE_OLD',0,'','Purge of the old IPDiscover data'),('IPDISCOVER_PURGE_VALIDITY_TIME',30,'','IPDiscover data validity time'),('IPDISCOVER_USE_GROUPS',1,'','Enable groups for ipdiscover (for example, you might want to prevent some groups'),('LOCK_REUSE_TIME',600,'','Validity of a computer\'s lock'),('LOGLEVEL',0,'','ocs engine loglevel'),('LOG_DIR',0,'/var/lib/ocsinventory-reports','Directory for logs files'),('LOG_SCRIPT',0,'/var/lib/ocsinventory-reports','Directory for logs scripts files'),('OCS_FILES_FORMAT',0,'OCS','Generate either compressed file or clear XML text'),('OCS_FILES_OVERWRITE',0,'','Specify if you want to keep trace of all inventory between to synchronisation with the higher level server'),('OCS_FILES_PATH',0,'/tmp','Path to ocs files directory (must be writeable)'),('OCS_SERVER_ADDRESS',0,'127.0.0.1','Ocs serveur ip for plugin webservice'),('PASSWORD_VERSION',2,'PASSWORD_BCRYPT','Password encryption version'),('PROLOG_FILTER_ON',0,'','Enable prolog filter stack'),('PROLOG_FREQ',24,'','Specify the frequency (hours) of prolog, on agents'),('REGISTRY',0,'','Activates or not the registry query function'),('SECURITY_AUTHENTICATION_BLOCK_IP',0,'','Block authentication after too many attempt'),('SECURITY_AUTHENTICATION_NB_ATTEMPT',1,'','Define the number of attempt to authenticate'),('SECURITY_AUTHENTICATION_TIME_BLOCK',1,'','Define the block timer'),('SECURITY_PASSWORD_ENABLED',0,'','Enable the password security'),('SECURITY_PASSWORD_FORCE_NB',0,'','Force number in password'),('SECURITY_PASSWORD_FORCE_SPE_CHAR',0,'','Force scpecial characters in password'),('SECURITY_PASSWORD_FORCE_UPPER',0,'','Force uppercase in password'),('SECURITY_PASSWORD_MIN_CHAR',1,'','Set minimal characters in password'),('SESSION_VALIDITY_TIME',600,'','Validity of a session (prolog=>postinventory)'),('SNMP_INVENTORY_DIFF',1,NULL,'Configure engine to update snmp inventory regarding to snmp_laststate table (lower DB backend load)'),('TAB_ACCOUNTAG_1',1,'TAG','Default TAB on computers accountinfo'),('TAB_ACCOUNTSNMP_1',1,'TAG','Default TAB on snmp accountinfo'),('TRACE_DELETED',0,'','Trace deleted/duplicated computers (Activated by GLPI)'),('UPDATE',0,'','Activates or not the update feature'),('VULN_CVE_DELAY_TIME',2,'','Time delay between CVE scans'),('WARN_UPDATE',1,'1','Warn user if an update is available'),('WOL_PORT',0,'7,9','Wol ports');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,7 +359,7 @@ CREATE TABLE `conntrack` (
   `IP` varchar(255) NOT NULL DEFAULT '',
   `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`IP`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -359,7 +389,7 @@ CREATE TABLE `controllers` (
   `TYPE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -396,7 +426,7 @@ CREATE TABLE `cpus` (
   `SOCKET` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -416,13 +446,15 @@ DROP TABLE IF EXISTS `cve_search`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cve_search` (
+  `ID` int NOT NULL AUTO_INCREMENT,
   `PUBLISHER_ID` int NOT NULL,
   `NAME_ID` int NOT NULL,
   `VERSION_ID` int NOT NULL,
   `CVSS` double(4,2) NOT NULL,
   `CVE` varchar(255) DEFAULT NULL,
-  `LINK` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `LINK` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -432,6 +464,36 @@ CREATE TABLE `cve_search` (
 LOCK TABLES `cve_search` WRITE;
 /*!40000 ALTER TABLE `cve_search` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cve_search` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cve_search_computer`
+--
+
+DROP TABLE IF EXISTS `cve_search_computer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cve_search_computer` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int NOT NULL,
+  `HARDWARE_NAME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `PUBLISHER` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `VERSION` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `SOFTWARE_NAME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `CVSS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `CVE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `LINK` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cve_search_computer`
+--
+
+LOCK TABLES `cve_search_computer` WRITE;
+/*!40000 ALTER TABLE `cve_search_computer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cve_search_computer` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -447,7 +509,7 @@ CREATE TABLE `cve_search_correspondance` (
   `PUBLISH_RESULT` varchar(255) DEFAULT NULL,
   `NAME_RESULT` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -472,7 +534,7 @@ CREATE TABLE `cve_search_history` (
   `CVE_NB` int DEFAULT '0',
   `PUBLISHER_ID` int NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -498,7 +560,7 @@ CREATE TABLE `deleted_equiv` (
   `EQUIVALENT` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `DELETED` (`DELETED`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -521,7 +583,7 @@ CREATE TABLE `deploy` (
   `NAME` varchar(255) NOT NULL,
   `CONTENT` longblob NOT NULL,
   PRIMARY KEY (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -552,7 +614,7 @@ CREATE TABLE `devices` (
   KEY `TVALUE` (`TVALUE`),
   KEY `IVALUE` (`IVALUE`),
   KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -575,7 +637,7 @@ CREATE TABLE `devicetype` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `NAME` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -597,7 +659,7 @@ DROP TABLE IF EXISTS `dico_ignored`;
 CREATE TABLE `dico_ignored` (
   `EXTRACTED` varchar(255) NOT NULL,
   PRIMARY KEY (`EXTRACTED`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -620,7 +682,7 @@ CREATE TABLE `dico_soft` (
   `EXTRACTED` varchar(255) NOT NULL,
   `FORMATTED` varchar(255) NOT NULL,
   PRIMARY KEY (`EXTRACTED`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -649,7 +711,7 @@ CREATE TABLE `download_affect_rules` (
   `SERV_VALUE` varchar(20) DEFAULT NULL,
   `RULE_NAME` varchar(200) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -679,7 +741,7 @@ CREATE TABLE `download_available` (
   `ID_WK` int DEFAULT NULL,
   `DELETED` int DEFAULT '0',
   PRIMARY KEY (`FILEID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -709,7 +771,7 @@ CREATE TABLE `download_enable` (
   `GROUP_ID` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FILEID` (`FILEID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -733,7 +795,7 @@ CREATE TABLE `download_history` (
   `PKG_ID` int NOT NULL DEFAULT '0',
   `PKG_NAME` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`HARDWARE_ID`,`PKG_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -759,7 +821,7 @@ CREATE TABLE `download_servers` (
   `ADD_REP` varchar(250) NOT NULL,
   `GROUP_ID` int NOT NULL,
   PRIMARY KEY (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -784,7 +846,7 @@ CREATE TABLE `downloadwk_conf_values` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DEFAULT_FIELD` int DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -815,7 +877,7 @@ CREATE TABLE `downloadwk_fields` (
   `RESTRICTED` int DEFAULT NULL,
   `LINK_STATUS` int DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -842,7 +904,7 @@ CREATE TABLE `downloadwk_history` (
   `DATE` date DEFAULT NULL,
   `ACTION` longtext,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -877,7 +939,7 @@ CREATE TABLE `downloadwk_pack` (
   `fields_9` varchar(255) DEFAULT NULL,
   `fields_10` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -902,7 +964,7 @@ CREATE TABLE `downloadwk_statut_request` (
   `LBL` varchar(255) DEFAULT NULL,
   `ACTIF` int DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -929,7 +991,7 @@ CREATE TABLE `downloadwk_tab_values` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `DEFAULT_FIELD` int DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -962,7 +1024,7 @@ CREATE TABLE `drives` (
   `CREATEDATE` date DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -987,7 +1049,7 @@ CREATE TABLE `engine_mutex` (
   `TAG` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`NAME`,`TAG`),
   KEY `PID` (`PID`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1011,9 +1073,9 @@ CREATE TABLE `engine_persistent` (
   `NAME` varchar(255) NOT NULL DEFAULT '',
   `IVALUE` int DEFAULT NULL,
   `TVALUE` varchar(255) DEFAULT NULL,
-  UNIQUE KEY `NAME` (`NAME`),
-  PRIMARY KEY `ID` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `NAME` (`NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1033,15 +1095,16 @@ DROP TABLE IF EXISTS `extensions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `extensions` (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `version` double NOT NULL,
-  `licence` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `author` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `contributor` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `install_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `licence` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `author` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `contributor` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `install_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1066,7 +1129,7 @@ CREATE TABLE `files` (
   `OS` varchar(70) NOT NULL,
   `CONTENT` longblob NOT NULL,
   PRIMARY KEY (`NAME`,`OS`,`VERSION`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1092,7 +1155,7 @@ CREATE TABLE `groups` (
   `REVALIDATE_FROM` int DEFAULT '0',
   `XMLDEF` longtext,
   PRIMARY KEY (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1116,7 +1179,7 @@ CREATE TABLE `groups_cache` (
   `GROUP_ID` int NOT NULL DEFAULT '0',
   `STATIC` int DEFAULT '0',
   PRIMARY KEY (`HARDWARE_ID`,`GROUP_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1180,7 +1243,7 @@ CREATE TABLE `hardware` (
   KEY `WORKGROUP` (`WORKGROUP`),
   KEY `OSNAME` (`OSNAME`),
   KEY `MEMORY` (`MEMORY`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1204,7 +1267,7 @@ CREATE TABLE `hardware_osname_cache` (
   `OSNAME` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `OSNAME` (`OSNAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1214,6 +1277,32 @@ CREATE TABLE `hardware_osname_cache` (
 LOCK TABLES `hardware_osname_cache` WRITE;
 /*!40000 ALTER TABLE `hardware_osname_cache` DISABLE KEYS */;
 /*!40000 ALTER TABLE `hardware_osname_cache` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `history`
+--
+
+DROP TABLE IF EXISTS `history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `history` (
+  `ID` bigint NOT NULL AUTO_INCREMENT,
+  `USER` varchar(255) NOT NULL,
+  `DATETIME_ACTION` datetime NOT NULL,
+  `ACTION` varchar(255) NOT NULL,
+  `TARGET` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `history`
+--
+
+LOCK TABLES `history` WRITE;
+/*!40000 ALTER TABLE `history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `history` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1234,7 +1323,7 @@ CREATE TABLE `inputs` (
   `POINTTYPE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1263,7 +1352,7 @@ CREATE TABLE `itmgmt_comments` (
   `VISIBLE` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1290,7 +1379,7 @@ CREATE TABLE `javainfo` (
   `JAVACLASSPATH` varchar(255) DEFAULT NULL,
   `JAVAHOME` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1319,7 +1408,7 @@ CREATE TABLE `journallog` (
   `ERRORCODE` int DEFAULT '0',
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1343,7 +1432,7 @@ CREATE TABLE `languages` (
   `IMG` blob,
   `JSON_VALUE` longtext,
   PRIMARY KEY (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1353,6 +1442,91 @@ CREATE TABLE `languages` (
 LOCK TABLES `languages` WRITE;
 /*!40000 ALTER TABLE `languages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `languages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `layouts`
+--
+
+DROP TABLE IF EXISTS `layouts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `layouts` (
+  `ID` bigint NOT NULL AUTO_INCREMENT,
+  `LAYOUT_NAME` varchar(255) NOT NULL,
+  `CREATOR` varchar(255) NOT NULL,
+  `TABLE_NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `VISIBLE_COL` text NOT NULL,
+  `VISIBILITY_SCOPE` varchar(255) DEFAULT 'USER',
+  `GROUP_ID` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `layouts`
+--
+
+LOCK TABLES `layouts` WRITE;
+/*!40000 ALTER TABLE `layouts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `layouts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `local_groups`
+--
+
+DROP TABLE IF EXISTS `local_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `local_groups` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int NOT NULL,
+  `ID_GROUP` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `NAME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `MEMBER` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`,`HARDWARE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `local_groups`
+--
+
+LOCK TABLES `local_groups` WRITE;
+/*!40000 ALTER TABLE `local_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `local_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `local_users`
+--
+
+DROP TABLE IF EXISTS `local_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `local_users` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `HARDWARE_ID` int NOT NULL,
+  `ID_USER` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `GID` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `NAME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `HOME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `SHELL` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `LOGIN` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `MEMBER` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`,`HARDWARE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `local_users`
+--
+
+LOCK TABLES `local_users` WRITE;
+/*!40000 ALTER TABLE `local_users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `local_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1368,7 +1542,7 @@ CREATE TABLE `locks` (
   `SINCE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`HARDWARE_ID`),
   KEY `SINCE` (`SINCE`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1392,7 +1566,7 @@ CREATE TABLE `memories` (
   `HARDWARE_ID` int NOT NULL,
   `CAPTION` varchar(255) DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `CAPACITY` varchar(255) DEFAULT NULL,
+  `CAPACITY` int DEFAULT NULL,
   `PURPOSE` varchar(255) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
   `SPEED` varchar(255) DEFAULT NULL,
@@ -1400,7 +1574,7 @@ CREATE TABLE `memories` (
   `SERIALNUMBER` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1428,7 +1602,7 @@ CREATE TABLE `modems` (
   `TYPE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1457,7 +1631,7 @@ CREATE TABLE `monitors` (
   `SERIAL` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1484,10 +1658,11 @@ CREATE TABLE `netmap` (
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `NAME` varchar(255) DEFAULT NULL,
   `TAG` varchar(255) DEFAULT NULL,
+  `HARDWARE_ID` int DEFAULT NULL,
   PRIMARY KEY (`MAC`),
   KEY `IP` (`IP`),
   KEY `NETID` (`NETID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1514,7 +1689,7 @@ CREATE TABLE `network_devices` (
   `USER` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `MACADDR` (`MACADDR`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1555,7 +1730,7 @@ CREATE TABLE `networks` (
   KEY `IPGATEWAY` (`IPGATEWAY`),
   KEY `IPSUBNET` (`IPSUBNET`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1581,7 +1756,7 @@ CREATE TABLE `notification` (
   `SUBJECT` varchar(255) DEFAULT NULL,
   `ALTBODY` text,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1606,7 +1781,7 @@ CREATE TABLE `notification_config` (
   `NAME` varchar(255) NOT NULL,
   `TVALUE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1637,7 +1812,7 @@ CREATE TABLE `operators` (
   `USER_GROUP` varchar(255) DEFAULT NULL,
   `PASSWORD_VERSION` int DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1646,7 +1821,7 @@ CREATE TABLE `operators` (
 
 LOCK TABLES `operators` WRITE;
 /*!40000 ALTER TABLE `operators` DISABLE KEYS */;
-INSERT INTO `operators` VALUES ('admin','admin','admin','$2y$10$1HpmlSx7CW/nitCCSM5h.Od6m/C8Go2xoPzISnt0jnXKkoM3vFhLi',1,'Default administrator account','sadmin',NULL,NULL,1);
+INSERT INTO `operators` VALUES ('admin','admin','admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',1,'Default administrator account','sadmin',NULL,NULL,2);
 /*!40000 ALTER TABLE `operators` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1666,7 +1841,7 @@ CREATE TABLE `ports` (
   `DESCRIPTION` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1700,7 +1875,7 @@ CREATE TABLE `printers` (
   `NETWORK` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1726,7 +1901,7 @@ CREATE TABLE `prolog_conntrack` (
   `PID` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `DEVICEID` (`DEVICEID`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1753,7 +1928,7 @@ CREATE TABLE `regconfig` (
   `REGVALUE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1776,11 +1951,11 @@ CREATE TABLE `registry` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `HARDWARE_ID` int NOT NULL,
   `NAME` varchar(255) DEFAULT NULL,
-  `REGVALUE` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `REGVALUE` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   PRIMARY KEY (`ID`),
   KEY `NAME` (`NAME`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1804,7 +1979,7 @@ CREATE TABLE `registry_name_cache` (
   `NAME` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1825,10 +2000,9 @@ DROP TABLE IF EXISTS `registry_regvalue_cache`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `registry_regvalue_cache` (
   `ID` int NOT NULL AUTO_INCREMENT,
-  `REGVALUE` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `REGVALUE` (`REGVALUE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `REGVALUE` text,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1838,6 +2012,36 @@ CREATE TABLE `registry_regvalue_cache` (
 LOCK TABLES `registry_regvalue_cache` WRITE;
 /*!40000 ALTER TABLE `registry_regvalue_cache` DISABLE KEYS */;
 /*!40000 ALTER TABLE `registry_regvalue_cache` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reports_notifications`
+--
+
+DROP TABLE IF EXISTS `reports_notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reports_notifications` (
+  `ID` bigint NOT NULL AUTO_INCREMENT,
+  `GROUP_ID` int NOT NULL,
+  `RECURRENCE` varchar(255) NOT NULL,
+  `END_DATE` datetime DEFAULT NULL,
+  `DATE_CREATED` datetime DEFAULT NULL,
+  `WEEKDAY` varchar(255) DEFAULT NULL,
+  `LAST_EXEC` datetime DEFAULT NULL,
+  `MAIL` varchar(255) NOT NULL,
+  `STATUS` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reports_notifications`
+--
+
+LOCK TABLES `reports_notifications` WRITE;
+/*!40000 ALTER TABLE `reports_notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reports_notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1864,7 +2068,7 @@ CREATE TABLE `repository` (
   `UPDATED` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1884,12 +2088,14 @@ DROP TABLE IF EXISTS `saas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `saas` (
+  `ID` int NOT NULL AUTO_INCREMENT,
   `SAAS_EXP_ID` int NOT NULL,
   `HARDWARE_ID` int NOT NULL,
   `ENTRY` varchar(255) NOT NULL,
   `DATA` varchar(255) NOT NULL,
-  `TTL` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `TTL` int NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1913,7 +2119,7 @@ CREATE TABLE `saas_exp` (
   `NAME` varchar(255) NOT NULL,
   `DNS_EXP` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1937,8 +2143,11 @@ CREATE TABLE `save_query` (
   `QUERY_NAME` varchar(255) NOT NULL,
   `DESCRIPTION` text,
   `PARAMETERS` text NOT NULL,
+  `WHO_CAN_SEE` varchar(255) DEFAULT 'ALL',
+  `USER_ID` varchar(255) DEFAULT NULL,
+  `GROUP_ID` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1962,7 +2171,7 @@ CREATE TABLE `schedule_WOL` (
   `MACHINE_ID` varchar(255) NOT NULL,
   `WOL_DATE` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1992,7 +2201,7 @@ CREATE TABLE `sim` (
   `PHONENUMBER` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2022,7 +2231,7 @@ CREATE TABLE `slots` (
   `PSHARE` tinyint DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2032,6 +2241,33 @@ CREATE TABLE `slots` (
 LOCK TABLES `slots` WRITE;
 /*!40000 ALTER TABLE `slots` DISABLE KEYS */;
 /*!40000 ALTER TABLE `slots` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `snmp_accountinfo`
+--
+
+DROP TABLE IF EXISTS `snmp_accountinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `snmp_accountinfo` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `SNMP_TYPE` varchar(255) NOT NULL,
+  `SNMP_RECONCILIATION_FIELD` varchar(255) NOT NULL,
+  `SNMP_RECONCILIATION_VALUE` varchar(255) NOT NULL,
+  `TAG` varchar(255) DEFAULT 'NA',
+  PRIMARY KEY (`ID`),
+  KEY `TAG` (`TAG`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `snmp_accountinfo`
+--
+
+LOCK TABLES `snmp_accountinfo` WRITE;
+/*!40000 ALTER TABLE `snmp_accountinfo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `snmp_accountinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2046,10 +2282,13 @@ CREATE TABLE `snmp_communities` (
   `VERSION` varchar(5) DEFAULT NULL,
   `NAME` varchar(255) DEFAULT NULL,
   `USERNAME` varchar(255) DEFAULT NULL,
-  `AUTHKEY` varchar(255) DEFAULT NULL,
   `AUTHPASSWD` varchar(255) DEFAULT NULL,
+  `AUTHPROTO` varchar(255) DEFAULT NULL,
+  `PRIVPROTO` varchar(255) DEFAULT NULL,
+  `PRIVPASSWD` varchar(255) DEFAULT NULL,
+  `LEVEL` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2075,7 +2314,7 @@ CREATE TABLE `snmp_configs` (
   `OID` varchar(255) NOT NULL,
   `RECONCILIATION` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2084,7 +2323,37 @@ CREATE TABLE `snmp_configs` (
 
 LOCK TABLES `snmp_configs` WRITE;
 /*!40000 ALTER TABLE `snmp_configs` DISABLE KEYS */;
+INSERT INTO `snmp_configs` VALUES (1,1,2,'1.3.6.1.2.1.1.5.0','Yes'),(2,1,1,'1.3.6.1.2.1.1.1.0',NULL),(3,1,4,'1.3.6.1.2.1.1.6.0',NULL),(4,1,3,'1.3.6.1.2.1.1.3.0',NULL),(5,1,5,'1.3.6.1.2.1.4.20.1.1',NULL),(6,1,6,'1.3.6.1.2.1.4.20.1.3',NULL);
 /*!40000 ALTER TABLE `snmp_configs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `snmp_default`
+--
+
+DROP TABLE IF EXISTS `snmp_default`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `snmp_default` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `DefaultName` varchar(255) DEFAULT NULL,
+  `DefaultDescription` varchar(255) DEFAULT NULL,
+  `DefaultLocation` varchar(255) DEFAULT NULL,
+  `DefaultUptime` varchar(255) DEFAULT NULL,
+  `DefaultAddressIP` varchar(255) DEFAULT NULL,
+  `DefaultGateway` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `DefaultName` (`DefaultName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `snmp_default`
+--
+
+LOCK TABLES `snmp_default` WRITE;
+/*!40000 ALTER TABLE `snmp_default` DISABLE KEYS */;
+/*!40000 ALTER TABLE `snmp_default` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2098,7 +2367,7 @@ CREATE TABLE `snmp_labels` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `LABEL_NAME` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2107,32 +2376,8 @@ CREATE TABLE `snmp_labels` (
 
 LOCK TABLES `snmp_labels` WRITE;
 /*!40000 ALTER TABLE `snmp_labels` DISABLE KEYS */;
+INSERT INTO `snmp_labels` VALUES (1,'DefaultDescription'),(2,'DefaultName'),(3,'DefaultUptime'),(4,'DefaultLocation'),(5,'DefaultAddressIP'),(6,'DefaultGateway');
 /*!40000 ALTER TABLE `snmp_labels` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `snmp_links`
---
-
-DROP TABLE IF EXISTS `snmp_links`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `snmp_links` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `TYPE_ID` int NOT NULL,
-  `DEVICE_ID` int NOT NULL,
-  `ACCOUNT_ID` int NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `snmp_links`
---
-
-LOCK TABLES `snmp_links` WRITE;
-/*!40000 ALTER TABLE `snmp_links` DISABLE KEYS */;
-/*!40000 ALTER TABLE `snmp_links` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2150,7 +2395,7 @@ CREATE TABLE `snmp_mibs` (
   `VERSION` varchar(5) DEFAULT NULL,
   `PARSER` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2172,11 +2417,9 @@ DROP TABLE IF EXISTS `snmp_types`;
 CREATE TABLE `snmp_types` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `TYPE_NAME` varchar(255) NOT NULL,
-  `CONDITION_OID` varchar(255) NOT NULL,
-  `CONDITION_VALUE` varchar(255) NOT NULL,
   `TABLE_TYPE_NAME` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2185,7 +2428,34 @@ CREATE TABLE `snmp_types` (
 
 LOCK TABLES `snmp_types` WRITE;
 /*!40000 ALTER TABLE `snmp_types` DISABLE KEYS */;
+INSERT INTO `snmp_types` VALUES (1,'Default','snmp_default');
 /*!40000 ALTER TABLE `snmp_types` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `snmp_types_conditions`
+--
+
+DROP TABLE IF EXISTS `snmp_types_conditions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `snmp_types_conditions` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `TYPE_ID` int NOT NULL,
+  `CONDITION_OID` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `CONDITION_VALUE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `snmp_types_conditions`
+--
+
+LOCK TABLES `snmp_types_conditions` WRITE;
+/*!40000 ALTER TABLE `snmp_types_conditions` DISABLE KEYS */;
+INSERT INTO `snmp_types_conditions` VALUES (1,1,'1.3.6.1.2.1.1.1.0',NULL);
+/*!40000 ALTER TABLE `snmp_types_conditions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2210,12 +2480,13 @@ CREATE TABLE `software` (
   `LANGUAGE` varchar(255) DEFAULT NULL,
   `INSTALLDATE` datetime DEFAULT NULL,
   `BITSWIDTH` int DEFAULT NULL,
+  `ARCHITECTURE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`),
   KEY `NAME_ID` (`NAME_ID`),
   KEY `PUBLISHER_ID` (`PUBLISHER_ID`),
   KEY `VERSION_ID` (`VERSION_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2239,7 +2510,7 @@ CREATE TABLE `software_categories` (
   `CATEGORY_NAME` varchar(255) NOT NULL,
   `OS` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2249,6 +2520,36 @@ CREATE TABLE `software_categories` (
 LOCK TABLES `software_categories` WRITE;
 /*!40000 ALTER TABLE `software_categories` DISABLE KEYS */;
 /*!40000 ALTER TABLE `software_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `software_categories_link`
+--
+
+DROP TABLE IF EXISTS `software_categories_link`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `software_categories_link` (
+  `ID` bigint NOT NULL AUTO_INCREMENT,
+  `NAME_ID` int NOT NULL,
+  `PUBLISHER_ID` int NOT NULL,
+  `VERSION_ID` int NOT NULL,
+  `CATEGORY_ID` int NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `NAME_ID` (`NAME_ID`),
+  KEY `PUBLISHER_ID` (`PUBLISHER_ID`),
+  KEY `VERSION_ID` (`VERSION_ID`),
+  KEY `CATEGORY_ID` (`CATEGORY_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `software_categories_link`
+--
+
+LOCK TABLES `software_categories_link` WRITE;
+/*!40000 ALTER TABLE `software_categories_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `software_categories_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2267,7 +2568,7 @@ CREATE TABLE `software_category_exp` (
   `ID` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`),
   KEY `CATEGORY_ID` (`CATEGORY_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2280,6 +2581,37 @@ LOCK TABLES `software_category_exp` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `software_link`
+--
+
+DROP TABLE IF EXISTS `software_link`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `software_link` (
+  `ID` bigint NOT NULL AUTO_INCREMENT,
+  `NAME_ID` int NOT NULL,
+  `PUBLISHER_ID` int NOT NULL,
+  `VERSION_ID` int NOT NULL,
+  `CATEGORY_ID` int DEFAULT NULL,
+  `IDENTIFIER` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `COUNT` int DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `NAME_ID` (`NAME_ID`),
+  KEY `PUBLISHER_ID` (`PUBLISHER_ID`),
+  KEY `VERSION_ID` (`VERSION_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `software_link`
+--
+
+LOCK TABLES `software_link` WRITE;
+/*!40000 ALTER TABLE `software_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `software_link` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `software_name`
 --
 
@@ -2289,10 +2621,9 @@ DROP TABLE IF EXISTS `software_name`;
 CREATE TABLE `software_name` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `NAME` varchar(255) NOT NULL,
-  `CATEGORY` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2316,7 +2647,7 @@ CREATE TABLE `software_publisher` (
   `PUBLISHER` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `PUBLISHER` (`PUBLISHER`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2341,7 +2672,7 @@ CREATE TABLE `software_version` (
   `VERSION` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `VERSION` (`VERSION`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2366,7 +2697,7 @@ CREATE TABLE `softwares_name_cache` (
   `NAME` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2393,7 +2724,7 @@ CREATE TABLE `sounds` (
   `DESCRIPTION` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2420,7 +2751,7 @@ CREATE TABLE `ssl_store` (
   `FILE_TYPE` varchar(20) DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2452,7 +2783,7 @@ CREATE TABLE `storages` (
   `FIRMWARE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2472,13 +2803,15 @@ DROP TABLE IF EXISTS `subnet`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `subnet` (
+  `PK` int NOT NULL AUTO_INCREMENT,
   `NETID` varchar(15) NOT NULL,
   `NAME` varchar(255) DEFAULT NULL,
   `ID` varchar(255) DEFAULT NULL,
   `MASK` varchar(255) DEFAULT NULL,
   `TAG` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`PK`),
   KEY `ID` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2503,7 +2836,7 @@ CREATE TABLE `tags` (
   PRIMARY KEY (`Tag`,`Login`),
   KEY `Tag` (`Tag`),
   KEY `Login` (`Login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2534,7 +2867,7 @@ CREATE TABLE `temp_files` (
   `FILE_SIZE` int DEFAULT NULL,
   `ID_DDE` int DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2544,38 +2877,6 @@ CREATE TABLE `temp_files` (
 LOCK TABLES `temp_files` WRITE;
 /*!40000 ALTER TABLE `temp_files` DISABLE KEYS */;
 /*!40000 ALTER TABLE `temp_files` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `unixusers`
---
-
-DROP TABLE IF EXISTS `unixusers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `unixusers` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `HARDWARE_ID` int NOT NULL,
-  `ID_USERS` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `GID_USERS` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `NAME_USERS` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HOME_USERS` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SHELL_USERS` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `LOGIN_USERS` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ID_GROUP` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `NAME_GROUP` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `MEMBER_GROUP` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`ID`,`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `unixusers`
---
-
-LOCK TABLES `unixusers` WRITE;
-/*!40000 ALTER TABLE `unixusers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `unixusers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2595,7 +2896,7 @@ CREATE TABLE `usbdevices` (
   `TYPE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2623,7 +2924,7 @@ CREATE TABLE `videos` (
   `RESOLUTION` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2654,7 +2955,7 @@ CREATE TABLE `virtualmachines` (
   `MEMORY` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `HARDWARE_ID` (`HARDWARE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2675,4 +2976,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-01 10:13:28
+-- Dump completed on 2022-10-28  8:12:15
