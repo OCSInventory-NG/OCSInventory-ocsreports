@@ -97,6 +97,11 @@ class PackageBuilder
 
 		if((isset($post['getcode']) && trim($post['getcode']) != "")) {
 			$script = $downloadPath.'/'.$xmlDetails->packagebuilder->codeasfile->filename;
+			
+			// if os is linux or macos, CRLF needs to be replaced by LF
+			if ($post['os_selected'] == 'linux' || $post['os_selected'] == 'macos') {
+				$post['getcode'] = str_replace("\r\n", "\n", $post['getcode']);
+			}
 			// Create script file
 			$handscript = fopen($script, "w+");
 			fwrite($handscript, $post['getcode']);
