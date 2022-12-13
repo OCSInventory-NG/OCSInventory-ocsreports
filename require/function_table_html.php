@@ -263,7 +263,11 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 						if (isset($option['table_name']) && $option['table_name'] != 'affich_multi_crit') {
 							// layouts
 							$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'] ?? '----', $option['table_name']);
-							$visible_col_tmp = json_decode($cols['VISIBLE_COL'] ?? null, true) ?? $visible_col ?? null;
+
+							$visible_col_tmp = null;
+							if(isset($cols['VISIBLE_COL'])) {
+								$visible_col_tmp = json_decode((string)$cols['VISIBLE_COL'] ?? null, true) ?? $visible_col ?? null;
+							}
 
 							if(!is_null(($visible_col_tmp))) {
 								$indexCol = 0;
@@ -1618,7 +1622,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 			}
 			$row_temp = $row;
 			foreach($row as $rowKey=>$rowValue){
-				$row[$rowKey]=htmlspecialchars($rowValue, ENT_QUOTES, "UTF-8");
+				$row[$rowKey]= isset($rowValue) ? htmlspecialchars($rowValue, ENT_QUOTES, "UTF-8") : '';
 			}
 			foreach($list_fields as $key=>$column){
 				$name = explode('.',$column);
