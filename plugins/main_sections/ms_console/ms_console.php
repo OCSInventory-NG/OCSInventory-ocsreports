@@ -265,7 +265,7 @@ echo close_form();
 
 /********************************************* SNMP ********************************************/
 // If SNMP is enable
-$isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'];
+$isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'] ?? 0;
 
 if($isEnable) {
     echo "<hr>";

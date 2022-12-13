@@ -130,7 +130,7 @@ function migrate_adminData_2_5(){
  */
 function migrate_snmp_2_10_1() {
     // If SNMP is enable
-    $isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'];
+    $isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'] ?? 0;
 
     if($isEnable) {
         $sqlColumnExists = "SELECT COUNT(*) as nb FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%s' AND COLUMN_NAME = 'LASTDATE'";
