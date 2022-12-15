@@ -76,7 +76,7 @@ printEnTete($l->g(107));
 $form_name = 'modif_onglet';
 echo open_form($form_name, '', '', 'form-horizontal');
 
-if(isset($values['ivalue']['ADVANCE_CONFIGURATION'])){
+if(isset($values['ivalue']['ADVANCE_CONFIGURATION']) && $values['ivalue']['ADVANCE_CONFIGURATION']){
   $def_onglets['INV_FILE'] = $l->g(734); //Inventory file
   $def_onglets['FILTER'] = $l->g(735); //Filter
   $def_onglets['CNX'] = $l->g(1108); //connexion LDAP
