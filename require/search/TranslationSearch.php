@@ -45,7 +45,7 @@
         "groups_cache" => 1445,
         "hardware" => 23,
         "inputs" => 91,
-        //"itmgmt_comments" => 995,
+        "itmgmt_comments" => 1128,
         //"javainfo" => 995,
         //"journallog" => 995,
         "locks" => 977,

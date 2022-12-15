@@ -55,7 +55,7 @@ class DatabaseSearch
     private $excludedTables = [
         /*"accountinfo",*/
         "download_servers",
-        "itmgmt_comments",
+        /*"itmgmt_comments",*/
         "javainfo",
         "journallog",
         "groups",
