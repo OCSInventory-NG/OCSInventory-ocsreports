@@ -478,7 +478,7 @@ class AllSoftware
             return false;
         }
         $content = file_get_contents($file['tmp_name']);
-        $names = explode("\n", $content);
+        $names = preg_split("/[\r|\n]+/", $content);
         $hardware = [];
         foreach ($names as $key => $name) {
             if ($name != "") {
