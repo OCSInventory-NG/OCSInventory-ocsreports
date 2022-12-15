@@ -82,7 +82,8 @@ if (!empty($protectedPost['MODIF']) || (isset($protectedGet['tab']) && $protecte
         "ALL" => $l->g(2148),
     );
 
-    if($_SESSION['OCS']['user_group'] != null && $_SESSION['OCS']['user_group'] != "") {
+    // added CAS and LDAP exclusion, not considered as groups
+    if($_SESSION['OCS']['user_group'] != null && $_SESSION['OCS']['user_group'] != "" && ($_SESSION['OCS']['user_group'] != "LDAP" && $_SESSION['OCS']['user_group'] != "CAS")) {
         $visib['GROUP'] = $l->g(2147);
     }
 

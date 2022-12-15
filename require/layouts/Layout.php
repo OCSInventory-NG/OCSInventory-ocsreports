@@ -134,7 +134,8 @@ class Layout {
         // display as many buttons as there are layouts for this user + an extra button to add a new layout
         if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_LAYOUTS') == 'YES') {
             $query = "SELECT * FROM layouts WHERE TABLE_NAME = '".$this->form_name."' AND (CREATOR = '".$user."' OR (VISIBILITY_SCOPE = 'GROUP' OR VISIBILITY_SCOPE = 'ALL'))";
-        } elseif ($_SESSION['OCS']['user_group'] != null && $_SESSION['OCS']['user_group'] != "") { 
+        // added CAS and LDAP grp exclusion to avoid issues, group should only be an ID
+        } elseif ($_SESSION['OCS']['user_group'] != null && $_SESSION['OCS']['user_group'] != "" && ($_SESSION['OCS']['user_group'] != "LDAP" && $_SESSION['OCS']['user_group'] != "CAS")) { 
             $query = "SELECT * FROM layouts WHERE TABLE_NAME = '".$this->form_name."' AND (CREATOR = '".$user."' OR (VISIBILITY_SCOPE = 'GROUP' AND GROUP_ID = ".$_SESSION['OCS']['user_group'].") OR VISIBILITY_SCOPE = 'ALL')";
         } else {
             $query = "SELECT * FROM layouts WHERE  TABLE_NAME = '".$this->form_name."' AND (CREATOR = '".$user."' OR VISIBILITY_SCOPE = 'ALL')";
