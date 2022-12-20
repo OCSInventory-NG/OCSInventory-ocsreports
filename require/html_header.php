@@ -148,7 +148,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
                     $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
                 }
             } else {
-                $connect = NULL;
+                $connect = 0;
             }
             $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
             $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");

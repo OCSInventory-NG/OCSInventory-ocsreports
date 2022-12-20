@@ -72,7 +72,7 @@ echo open_form('tab_multi', '', '', '');
 
 $multisearchChoise['COMPUTERS'] = strtoupper($l->g(729));
 // If SNMP is enable
-$isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'];
+$isEnable = look_config_default_values(array("SNMP" => "SNMP"))['ivalue']['SNMP'] ?? 0;
 if($isEnable) $multisearchChoise['SNMP'] = $l->g(1136);
 
 if(empty($protectedPost['onglet']) && isset($_SESSION['OCS']['LAST_MULTI_ONGLET'])) {

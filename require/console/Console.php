@@ -54,13 +54,13 @@
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
           
           while($item = mysqli_fetch_array($result)) {
-            if(strpos($item['USERAGENT'], 'unix') !== false) {
+            if(strpos($item['USERAGENT'] ?? '', 'unix') !== false) {
               $machine['unix'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
-            } elseif(strpos(strtoupper($item['USERAGENT']), 'WINDOWS') !== false) {
+            } elseif(strpos(strtoupper($item['USERAGENT'] ?? ''), 'WINDOWS') !== false) {
               $machine['windows'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
-            } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
+            } elseif(strpos($item['USERAGENT'] ?? '', 'Android') !== false) {
               $machine['android'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
             }
