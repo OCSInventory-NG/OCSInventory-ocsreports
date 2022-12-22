@@ -13,7 +13,7 @@ $today = date('Y-m-d H:i');
 
 $_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
 
-$sql = 'SELECT * FROM schedule_WOL';
+$sql = 'SELECT * FROM schedule_wol';
 $result_wol = mysqli_query($_SESSION['OCS']["readServer"], $sql);
 
 $wol = [];
