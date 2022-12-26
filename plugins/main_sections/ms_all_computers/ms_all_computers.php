@@ -45,7 +45,10 @@ if(isset($protectedGet['filtre'])) {
 }
 
 if(isset($protectedGet['value'])) {
+    // Encode all special html chars
     $getValue = htmlspecialchars($protectedGet['value'], ENT_QUOTES, 'UTF-8');
+    // Decode special html chars except quotes to prevent SQL injection
+    $getValue = htmlspecialchars_decode($getValue, ENT_NOQUOTES);
 }
 // End check
 
