@@ -115,17 +115,37 @@ if($cve->CVE_ACTIVE != 1){
 
     /******************************* BY COMPUTER *******************************/
     if($protectedPost['onglet'] == "BY_COMPUTER"){
-        $sql['SQL'] = 'SELECT *, CONCAT(c.SOFTWARE_NAME,";",c.PUBLISHER,";",c.VERSION) as search FROM cve_search_computer c';
+        $sql['SQL'] = 'SELECT *, CVE as CVE_LINK, CONCAT(c.SOFTWARE_NAME,";",c.PUBLISHER,";",c.VERSION) as search FROM cve_search_computer c';
 
-        $list_fields = array(
-            'computer' => 'HARDWARE_NAME',
-            $l->g(69) => 'PUBLISHER',
-            'soft' => 'SOFTWARE_NAME',
-            'Version' => 'VERSION',
-            'CVSS' => 'CVSS',
-            'CVE' => 'CVE',
-            'Link' => 'LINK'
-        );
+        if($cve->CVE_LINK == 1)
+        {
+            $list_fields = array(
+                'computer' => 'HARDWARE_NAME',
+                $l->g(69) => 'PUBLISHER',
+                'soft' => 'SOFTWARE_NAME',
+                'Version' => 'VERSION',
+                'CVSS' => 'CVSS',
+                'CVE' => 'CVE',
+                'Link' => 'LINK'
+            );
+
+            $list_fields['CVE_SEARCH_LINK'] = 'CVE_LINK';
+            $tab_options['LIEN_LBL']['CVE_SEARCH_LINK'] = $cve->CVE_SEARCH_URL.'/cve/';
+            $tab_options['LIEN_CHAMP']['CVE_SEARCH_LINK'] = 'CVE_LINK';
+        }
+        else
+        {
+            $list_fields = array(
+                'computer' => 'HARDWARE_NAME',
+                $l->g(69) => 'PUBLISHER',
+                'soft' => 'SOFTWARE_NAME',
+                'Version' => 'VERSION',
+                'CVSS' => 'CVSS',
+                'CVE' => 'CVE',
+                'Link' => 'LINK'
+            );
+        }
+
         $multisearch = "cveNamePublisherVersion";
     }
 
@@ -141,6 +161,7 @@ if($cve->CVE_ACTIVE != 1){
         $tab_options['LIEN_LBL']['Link'] = ' ';
         $tab_options['LIEN_CHAMP']['Link'] = 'LINK';
         $tab_options['LBL']['Link'] = $l->g(1467);
+        $tab_options['LBL']['CVE_SEARCH_LINK'] = 'CVE Search Link';
         $tab_options['ARG_SQL'] = $sql['ARG'] ?? '';
         $tab_options['form_name'] = $form_name;
         $tab_options['table_name'] = $form_name;
