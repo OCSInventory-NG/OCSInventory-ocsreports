@@ -239,6 +239,9 @@ if($protectedPost['onglet'] == "ALL"){
 
 /****************************************** ALL SOFTWARE WITH CATEGORY (EXCEPT DEFAULT)******************************************/
 elseif($protectedPost['onglet'] == "WITHOUT") {
+    $filters['ALL_SOFTWARE_WITH_CATEGORY'] = true;
+    $sqlFilter = $allSoft->generateQueryFilter($filters);
+
     if(!is_defined($sqlFilter['SELECT'])) {
         $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb ';
 
@@ -270,7 +273,19 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
             $sql['SQL'] .= $sqlFilter['HAVING'];
         }
     } else {
-        $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID != %s ".$sqlFilter['GROUPBY'];
+        if(is_defined($filters['OS']) ||
+           is_defined($filters['GROUP']) ||
+           is_defined($filters['TAG']) ||
+           is_defined($filters['ASSET']) ||
+           is_defined($filters['CSV'])
+        )
+        {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID != %s ";
+        }
+        else
+        {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID != %s ".$sqlFilter['GROUPBY'];
+        }
 
         if(is_defined($sqlFilter['HAVING'])) {
             $sql['SQL'] .= $sqlFilter['HAVING'];
@@ -280,24 +295,47 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
 
     if (isset($sql)) {
-        $list_fields = array($l->g(69) => 'p.PUBLISHER',
-            'name' => 'n.NAME',
-            $l->g(7003) => 'v.VERSION',
-            $l->g(388) => 'sc.CATEGORY_NAME',
-        );
+        if(
+            is_defined($filters['OS']) ||
+            is_defined($filters['GROUP']) ||
+            is_defined($filters['TAG']) ||
+            is_defined($filters['ASSET']) ||
+            is_defined($filters['CSV'])
+        )
+        {
+            $list_fields = array(
+                $l->g(69) => 'p.PUBLISHER',
+                'name' => 'n.NAME',
+                $l->g(7003) => 'v.VERSION',
+                $l->g(388) => 'sc.CATEGORY_NAME',
+            );
 
-        if(!is_defined($_SESSION['OCS']["mesmachines"])) {
-            $list_fields['nbre'] = 'nb';
-            $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-            $tab_options['LIEN_CHAMP']['nbre'] = 'id';
-        } else {
-            $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-            $tab_options['LIEN_CHAMP']['name'] = 'id';
+            $list_fields[$l->g(23)] = 'HARDWARE_NAME';
+            $tab_options['LIEN_LBL'][$l->g(23)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&systemid=';
+            $tab_options['LIEN_CHAMP'][$l->g(23)] = 'HARDWARE_ID';
+        }
+        else
+        {
+            $list_fields = array(
+                $l->g(69) => 'p.PUBLISHER',
+                'name' => 'n.NAME',
+                $l->g(7003) => 'v.VERSION',
+                $l->g(388) => 'sc.CATEGORY_NAME',
+            );
 
-            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
-                $list_fields['nbre'] = 'nb2';
+            if(!is_defined($_SESSION['OCS']["mesmachines"])) {
+                $list_fields['nbre'] = 'nb';
                 $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
                 $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+            } else {
+                $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                $tab_options['LIEN_CHAMP']['name'] = 'id';
+    
+                if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
+                    $list_fields['nbre'] = 'nb2';
+                    $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                    $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+                }
             }
         }
 
@@ -305,6 +343,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
         $list_col_cant_del = $default_fields;
         $tab_options['LBL']['name'] = $l->g(847);
         $tab_options['LBL']['nbre'] = $l->g(1120);
+        $tab_options['LBL'][$l->g(23)] = $l->g(23);
         $tab_options['ARG_SQL'] = $sql['ARG'];
         $tab_options['form_name'] = $form_name;
         $tab_options['table_name'] = $form_name;
