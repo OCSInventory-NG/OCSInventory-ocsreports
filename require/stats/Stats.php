@@ -55,6 +55,17 @@ class Stats{
     //cyclic iteration to return a color from a given index. The index value is
     //maintained in FC_ColorCounter
 
+    function __construct(){
+        $champs = array(
+            'INTERFACE_BIOS_DIAGRAM_VISIBILITY' => 'INTERFACE_BIOS_DIAGRAM_VISIBILITY'
+        );
+    
+        // Get configuration values from DB
+        $values = look_config_default_values($champs);
+    
+        $this->INTERFACE_BIOS_DIAGRAM_VISIBILITY = $values['ivalue']["INTERFACE_BIOS_DIAGRAM_VISIBILITY"] ?? 0;    
+      }
+
     public function showForm($form){
 
         global $l;

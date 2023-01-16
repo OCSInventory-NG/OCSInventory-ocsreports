@@ -124,13 +124,25 @@ echo open_form($form_name, '', '', 'form-horizontal');
 
 echo "<br><h4>".$l->g(1251)."</h4><br>";
 echo "<div class='row'>";
-$form = [
-  'NB_AGENT' => 'Agent',
-  'NB_OS' => 'OS',
-  'SEEN' => 'Last seen',
-  'MANUFAC' => 'Manufacturer',
-  'TYPE' => 'Type'
-];
+
+if($stats->INTERFACE_BIOS_DIAGRAM_VISIBILITY == 1)
+{
+    $form = [
+      'NB_AGENT' => 'Agent',
+      'NB_OS' => 'OS',
+      'SEEN' => 'Last seen',
+      'MANUFAC' => 'Manufacturer',
+      'TYPE' => 'Type'
+    ];
+}
+else
+{
+    $form = [
+        'NB_AGENT' => 'Agent',
+        'NB_OS' => 'OS',
+        'SEEN' => 'Last seen',
+      ];
+}
 
 $result = $stats->showForm($form);
 
