@@ -247,7 +247,7 @@ class Cve
       //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
       $result = curl_exec ($curl);
       $vars = json_decode($result, true);
-      if($vars['total'] != 0){
+      if(isset($vars['total']) && $vars['total'] != 0){
         $this->search_by_version($vars, $values);
       }
     }
