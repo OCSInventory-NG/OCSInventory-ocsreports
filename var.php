@@ -154,6 +154,13 @@ define('DEV_OPTION', false);
 define('AUTH_TYPE', 1);
 
 /**
+* For LDAP with SSO auth_type, remove the domain of logins like login@domain 
+*
+*/
+
+define('SSO_DEL_DOMAIN',false);
+
+/**
  * Auth Insecure LDAP, skip SSL Cert (not recommended)
  * Note : OCS doesn't manage certificate for Ldaps, please edit "/etc/ldap/ldap.conf" to set proper certificate
  */
