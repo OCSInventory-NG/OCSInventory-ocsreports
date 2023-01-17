@@ -745,6 +745,10 @@ class Admininfo
 		if(!is_null($reconciliation_value) && !is_null($type)) {
 			$sql_account_data .= " AND SNMP_TYPE = '%s'";
 			array_push($arg_account_data, $type);
+
+			// Create first NA TAG admindata if not exist
+			$checkinfo_snmp = $this->checkinfo_snmp($reconciliation_value, $type);
+			if($checkinfo_snmp == 0) $this->createinfo_snmp($reconciliation_value, $type);
 		} elseif(!is_null($type) && is_null($reconciliation_value)) {
 			$sql_account_data .= " WHERE SNMP_TYPE = '%s'";
 			array_push($arg_account_data, $type);
@@ -772,7 +776,7 @@ class Admininfo
 		return $snmp_account_data;
 	}
 
-	private function checkinfo_snmp($reconciliation_value, $type) {
+	public function checkinfo_snmp($reconciliation_value, $type) {
 		$query = "SELECT ID FROM `snmp_accountinfo` WHERE SNMP_RECONCILIATION_VALUE = '%s' AND SNMP_TYPE = '%s'";
 		$args = array($reconciliation_value, $type);
 
@@ -781,7 +785,7 @@ class Admininfo
 		return $result->num_rows;
 	}
 
-	private function createinfo_snmp($reconciliation_value, $type) {
+	public function createinfo_snmp($reconciliation_value, $type) {
 		require_once('require/snmp/Snmp.php');
 		$snmp = new OCSSnmp();
 
@@ -829,8 +833,8 @@ class Admininfo
 			array_push($arg_account_data, $reconciliation_value);
 			array_push($arg_account_data, $type);
 
+			// Create first NA TAG admindata if not exist
 			$checkinfo_snmp = $this->checkinfo_snmp($reconciliation_value, $type);
-
 			if($checkinfo_snmp == 0) $this->createinfo_snmp($reconciliation_value, $type);
 		}
 
@@ -850,8 +854,9 @@ class Admininfo
 			
 			foreach($infos as $update) {
 				$snmpToUpdate[] = $update[$reconciliation];
-				$checkinfo_snmp = $this->checkinfo_snmp($update[$reconciliation], $reconciliation_value['snmp_type']);
 
+				// Create first NA TAG admindata if not exist
+				$checkinfo_snmp = $this->checkinfo_snmp($update[$reconciliation], $reconciliation_value['snmp_type']);
 				if($checkinfo_snmp == 0) $this->createinfo_snmp($update[$reconciliation], $reconciliation_value['snmp_type']);
 			}
 
