@@ -107,6 +107,8 @@ function mysql2_query_secure($sql, $link, $arg = '', $log = false) {
             return false;
         }
     }
+
+    $query = htmlspecialchars_decode($query, ENT_NOQUOTES);
     $result = mysqli_query($link, $query);
     if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON' && !$result) {
         msg_error(mysqli_error($link));
