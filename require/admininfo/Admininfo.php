@@ -772,6 +772,26 @@ class Admininfo
 		return $snmp_account_data;
 	}
 
+	private function checkinfo_snmp($reconciliation_value, $type) {
+		$query = "SELECT ID FROM `snmp_accountinfo` WHERE SNMP_RECONCILIATION_VALUE = '%s' AND SNMP_TYPE = '%s'";
+		$args = array($reconciliation_value, $type);
+
+		$result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"], $args);
+
+		return $result->num_rows;
+	}
+
+	private function createinfo_snmp($reconciliation_value, $type) {
+		require_once('require/snmp/Snmp.php');
+		$snmp = new OCSSnmp();
+
+		$query = "INSERT INTO `snmp_accountinfo` (SNMP_TYPE, SNMP_RECONCILIATION_FIELD, SNMP_RECONCILIATION_VALUE, TAG)
+				  VALUES ('%s', '%s', '%s', 'NA')";
+		$args = array($type, $snmp->getReconciliationColumn($type), $reconciliation_value);
+
+		mysql2_query_secure($query, $_SESSION['OCS']["readServer"], $args);
+	}
+
 	public function updateinfo_snmp($reconciliation_value = null, $type = null, $values) {
 		global $l;
 
@@ -808,6 +828,10 @@ class Admininfo
 			$sql_account_data .= " WHERE SNMP_RECONCILIATION_VALUE='%s' AND SNMP_TYPE = '%s'";
 			array_push($arg_account_data, $reconciliation_value);
 			array_push($arg_account_data, $type);
+
+			$checkinfo_snmp = $this->checkinfo_snmp($reconciliation_value, $type);
+
+			if($checkinfo_snmp == 0) $this->createinfo_snmp($reconciliation_value, $type);
 		}
 
 		if (is_array($reconciliation_value) && !is_null($type)) {
@@ -826,6 +850,9 @@ class Admininfo
 			
 			foreach($infos as $update) {
 				$snmpToUpdate[] = $update[$reconciliation];
+				$checkinfo_snmp = $this->checkinfo_snmp($update[$reconciliation], $reconciliation_value['snmp_type']);
+
+				if($checkinfo_snmp == 0) $this->createinfo_snmp($update[$reconciliation], $reconciliation_value['snmp_type']);
 			}
 
 			$sql_account_data .= " WHERE SNMP_TYPE='%s' AND SNMP_RECONCILIATION_VALUE IN ('".implode("','",$snmpToUpdate)."')";
