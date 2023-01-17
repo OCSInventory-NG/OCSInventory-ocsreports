@@ -1312,7 +1312,8 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 						$rang =0;
 						foreach($tab_options['visible_col'] as $column){
-							if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+
+							if(isset($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]) && $tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
 								$tab_options['columns'][$column]['searchable'] = false;
 							}
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
@@ -1329,7 +1330,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 							
 							if ($searchable){
 
-								if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+								if (isset($tab_options['COL_SEARCH']) && $name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 									if ($rang == 0){
 										$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
 									} else {
@@ -1345,21 +1346,31 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$rang++;
 							}
 						}
-						if ($word == "HAVING"){
-							$queryDetails .= $filtertxt.") AND ".$row;
-						} else {
-							$queryDetails .= $filtertxt.")  ".$row;
-						}
-					}
-					else {
-						if($key>1){
-						 	$queryDetails.=" ".$word." ".$row;
-						}else{
-							$queryDetails = $row;
-						}
 
+						if(!isset($tab_options['SPECIAL_SEARCH'])) {
+							if ($word == "HAVING"){
+								$queryDetails .= $filtertxt.") AND ".$row;
+							} else {
+								$queryDetails .= $filtertxt.")  ".$row;
+							}
+						}
+					} else {
+						if(!isset($tab_options['SPECIAL_SEARCH'])) {
+							if($key>1){
+								$queryDetails.=" ".$word." ".$row;
+							}else{
+								$queryDetails = $row;
+							}
+						}
 					}
 				}
+
+				// Special process for ipdiscover query
+				if(isset($tab_options['SPECIAL_SEARCH']) && $tab_options['SPECIAL_SEARCH'] == "IPD" && !is_null($filtertxt)) {
+					$explodeIPDQuery = explode("non_ident on n.RSX=non_ident.RSX", $queryDetails);
+					$queryDetails = $explodeIPDQuery[0]."non_ident on n.RSX=non_ident.RSX".$filtertxt.")".$explodeIPDQuery[1];
+				}
+
 				return $queryDetails;
 			}
 		}
