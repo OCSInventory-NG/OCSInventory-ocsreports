@@ -242,6 +242,8 @@ if (isset($protectedPost['onglet'])) {
 
     $tab_options['NO_LIEN_CHAMP']['IDENTIFIE'] = array(0);
     $tab_options['NO_TRI']['LBL_RSX'] = 'LBL_RSX';
+    $tab_options['NO_SEARCH']['LBL_RSX'] = 'LBL_RSX';
+    $tab_options['SPECIAL_SEARCH'] = 'IPD';
     
     $strEnTete = "<p>" . $dpt[$protectedPost['onglet']] . " <br><br>";
     printEnTete($strEnTete);
