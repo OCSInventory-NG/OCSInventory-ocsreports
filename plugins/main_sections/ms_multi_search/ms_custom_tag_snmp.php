@@ -21,8 +21,10 @@
  * MA 02110-1301, USA.
  */
 require_once('require/admininfo/Admininfo.php');
+require_once('require/snmp/Snmp.php');
 
 $Admininfo = new Admininfo();
+$snmp = new OCSSnmp();
 
 $form_name = "lock_affect_snmp";
 
@@ -38,7 +40,19 @@ if(!empty($list_id)) {
 
 	//cas of TAG INFO
 	if (is_defined($protectedPost['Valid_modif'])) {
+		$info_account_id = [];
+
+		$reconciliation = $snmp->getReconciliationColumn($list_id['snmp_type']);
+		$infos = $snmp->get_infos($list_id['snmp_type'], array($reconciliation), $list_id['id']);
+
+		foreach($infos as $update) {
+			// Create first NA TAG admindata if not exist
+			$checkinfo_snmp = $Admininfo->checkinfo_snmp($update[$reconciliation], $list_id['snmp_type']);
+			if($checkinfo_snmp == 0) $Admininfo->createinfo_snmp($update[$reconciliation], $list_id['snmp_type']);
+		}
+
 		$info_account_id_tmp = $Admininfo->admininfo_snmp();
+
 		foreach($info_account_id_tmp as $values) {
 			foreach($values as $value) {
 				foreach($value as $key => $data) {
