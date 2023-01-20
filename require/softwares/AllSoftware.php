@@ -320,12 +320,14 @@ class AllSoftware
             // Group by
             $queryFilter['GROUPBY'] = "GROUP BY id ";
         }
-        if((is_defined($filters['OS']) ||
-           is_defined($filters['GROUP']) ||
-           is_defined($filters['TAG']) ||
-           is_defined($filters['ASSET']) ||
-           is_defined($filters['CSV'])) &&
-           is_defined($filters['ALL_SOFTWARE_WITH_CATEGORY'])
+        if(
+            (is_defined($filters['OS']) ||
+            is_defined($filters['GROUP']) ||
+            is_defined($filters['TAG']) ||
+            is_defined($filters['ASSET']) ||
+            is_defined($filters['CSV'])) &&
+            (is_defined($filters['SHOW_METHOD']) &&
+            $filters['SHOW_METHOD'] == true)
         )
         {
             // Select
