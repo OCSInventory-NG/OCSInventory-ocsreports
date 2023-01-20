@@ -613,7 +613,7 @@ if(
 {
     echo "<div class='form_group'>";
     echo "<label class='control-label col-sm-2' for='ASSET'>Show by Count / Computers</label>";
-    echo "<div class='col-sm-1'>";
+    echo "<div class='col-sm-3'>";
     echo "<select name='SHOW_METHOD' id='ASSET' class='form-control'>";
     foreach($showMethods as $key => $name) {
         if(isset($protectedPost['SHOW_METHOD']) && $protectedPost['SHOW_METHOD'] == $key) {
