@@ -626,9 +626,6 @@ if(
     echo "</div>";
     echo "</div>";
 }
-echo "<pre>";
-var_dump($filters);
-echo "</pre>";
 // END FILTER SHOW METHOD
 
 if(is_defined($_SESSION['OCS']["mesmachines"])) {
