@@ -50,6 +50,7 @@ if (isset($protectedPost['RESET'])) {
     unset($protectedPost['GROUP']);
     unset($protectedPost['TAG']);
     unset($protectedPost['ASSET']);
+    unset($protectedPost['SHOW_METHOD']);
     unset($protectedPost['SUBMIT_FORM_RESTRICT']);
     unset($_SESSION['OCS']['AllSoftware']['filter']['csv_data']);
     unset($_FILES['csv_file']);
@@ -206,7 +207,7 @@ if($protectedPost['onglet'] == "ALL"){
             is_defined($filters['ASSET']) ||
             is_defined($filters['CSV'])) &&
             (is_defined($filters['SHOW_METHOD']) &&
-            $filters['SHOW_METHOD'] == true)
+            $filters['SHOW_METHOD'] == 2)
         )
         {
             $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE'].$sqlFilter['GROUPBY'];
@@ -236,7 +237,7 @@ if($protectedPost['onglet'] == "ALL"){
             is_defined($filters['ASSET']) ||
             is_defined($filters['CSV'])) &&
             (is_defined($filters['SHOW_METHOD']) &&
-            $filters['SHOW_METHOD'] == true)
+            $filters['SHOW_METHOD'] == 2)
         )
         {
             $list_fields[$l->g(23)] = 'HARDWARE_NAME';
@@ -315,7 +316,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
             is_defined($filters['ASSET']) ||
             is_defined($filters['CSV'])) &&
             (is_defined($filters['SHOW_METHOD']) &&
-            $filters['SHOW_METHOD'] == true)
+            $filters['SHOW_METHOD'] == 2)
         )
         {
             $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID != %s ";
@@ -346,7 +347,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
             is_defined($filters['ASSET']) ||
             is_defined($filters['CSV'])) &&
             (is_defined($filters['SHOW_METHOD']) &&
-            $filters['SHOW_METHOD'] == true)
+            $filters['SHOW_METHOD'] == 2)
         )
         {
             $list_fields[$l->g(23)] = 'HARDWARE_NAME';
@@ -423,7 +424,7 @@ else {
             is_defined($filters['ASSET']) ||
             is_defined($filters['CSV'])) &&
             (is_defined($filters['SHOW_METHOD']) &&
-            $filters['SHOW_METHOD'] == true)
+            $filters['SHOW_METHOD'] == 2)
         )
         {
             $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID = %s ";
@@ -454,7 +455,7 @@ else {
             is_defined($filters['ASSET']) ||
             is_defined($filters['CSV'])) &&
             (is_defined($filters['SHOW_METHOD']) &&
-            $filters['SHOW_METHOD'] == true)
+            $filters['SHOW_METHOD'] == 2)
         )
         {
             $list_fields[$l->g(23)] = 'HARDWARE_NAME';
@@ -501,6 +502,7 @@ $os     = $allSoft->getOperatingSystemList();
 $group  = $allSoft->getGroupList();
 $tag    = $allSoft->getTagList();
 $asset  = $allSoft->getAssetCategoryList();
+$showMethods  = $allSoft->getShowMethodList();
 
 echo "<button type='button' data-toggle='collapse' data-target='#filter' class='btn'>" . $l->g(735) . "</button>";
 
@@ -612,21 +614,21 @@ if(
     echo "<div class='form_group'>";
     echo "<label class='control-label col-sm-2' for='ASSET'>Show by Count / Computers</label>";
     echo "<div class='col-sm-1'>";
-    echo "<input id='showMethod' name='SHOW_METHOD' type='checkbox'\>";
-    echo "<script>";
-    echo "$('#showMethod').attr('value', '".$protectedPost['SHOW_METHOD']."');";
-    echo "if($('#showMethod') == true) $('#showMethod').checked = true;";
-    echo "$('#showMethod').on('change', function() {";
-    echo "if ($(this).is(':checked')) {";
-    echo "$(this).attr('value', 'true');";
-    echo "} else {";
-    echo "$(this).attr('value', 'false');";
-    echo "}";
-    echo "});";
-    echo "</script>";
+    echo "<select name='SHOW_METHOD' id='ASSET' class='form-control'>";
+    foreach($showMethods as $key => $name) {
+        if(isset($protectedPost['SHOW_METHOD']) && $protectedPost['SHOW_METHOD'] == $key) {
+            echo "<option value='".$key."' selected>".$name."</option>";
+        } else {
+            echo "<option value='".$key."'>".$name."</option>";
+        }
+    }
+    echo "</select>";
     echo "</div>";
     echo "</div>";
 }
+echo "<pre>";
+var_dump($filters);
+echo "</pre>";
 // END FILTER SHOW METHOD
 
 if(is_defined($_SESSION['OCS']["mesmachines"])) {

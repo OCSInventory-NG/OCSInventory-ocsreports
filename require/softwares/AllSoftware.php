@@ -285,6 +285,27 @@ class AllSoftware
 
         return $asset;
     }
+
+    /**
+     * getShowMethodList
+     *
+     * @return Array $showMethod
+     */
+    public function getShowMethodList() {
+        $query = "SELECT ID, METHOD FROM show_methods";
+
+        $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
+
+        $showMethod = [
+            0 => "-----",
+        ];
+
+        while($item = mysqli_fetch_array($result)){
+            $showMethod[$item['ID']] = $item['METHOD'];
+        }
+
+        return $showMethod;
+    }
     
     /**
      * generateQueryFilter
@@ -327,7 +348,7 @@ class AllSoftware
             is_defined($filters['ASSET']) ||
             is_defined($filters['CSV'])) &&
             (is_defined($filters['SHOW_METHOD']) &&
-            $filters['SHOW_METHOD'] == true)
+            $filters['SHOW_METHOD'] == 2)
         )
         {
             // Select
