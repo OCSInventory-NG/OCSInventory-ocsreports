@@ -611,20 +611,17 @@ if(
     is_defined($filters['CSV'])
 )
 {
+    $methods = [
+        0 => "-----",
+        1 => "Count",
+        2 => "By computer",
+    ];
+
     echo "<div class='form_group'>";
-    echo "<label class='control-label col-sm-2' for='ASSET'>Show by Count / Computers</label>";
-    echo "<div class='col-sm-3'>";
-    echo "<select name='SHOW_METHOD' id='ASSET' class='form-control'>";
-    foreach($showMethods as $key => $name) {
-        if(isset($protectedPost['SHOW_METHOD']) && $protectedPost['SHOW_METHOD'] == $key) {
-            echo "<option value='".$key."' selected>".$name."</option>";
-        } else {
-            echo "<option value='".$key."'>".$name."</option>";
-        }
-    }
-    echo "</select>";
-    echo "</div>";
-    echo "</div>";
+    echo "<div class='col-sm-12'>";
+    formGroup('select', 'SHOW_METHOD', 'Show method', '', '', $protectedPost['SHOW_METHOD'] ?? '', '', $methods, $methods, '');
+    echo "</div>"; 
+    echo "</div>"; 
 }
 // END FILTER SHOW METHOD
 
