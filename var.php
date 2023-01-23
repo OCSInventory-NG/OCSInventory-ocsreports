@@ -145,6 +145,7 @@ define('DEV_OPTION', false);
  * - 3 : LDAP Only
  * - 4 : LDAP with SSO
  * - 5 : Always OK, won't ask for user and password
+ * - 7 : SSO Only (using $_SERVER['REMOTE_USER'] / $_SERVER['HTTP_AUTH_USER'])
  * 
  * If LDAP / SSO Basic auth is configured, please configure the LDAP Authentication
  */
