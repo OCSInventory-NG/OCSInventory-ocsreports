@@ -200,21 +200,11 @@ if($protectedPost['onglet'] == "ALL"){
             $sql['SQL'] .= $sqlFilter['HAVING'];
         }
     } else {
-        if(
-            (is_defined($filters['OS']) ||
-            is_defined($filters['GROUP']) ||
-            is_defined($filters['TAG']) ||
-            is_defined($filters['ASSET']) ||
-            is_defined($filters['CSV'])) &&
-            (is_defined($filters['SHOW_METHOD']) &&
-            $filters['SHOW_METHOD'] == 2)
-        )
+        if(isset($sqlFilter['GROUPBY']))
         {
             $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE'].$sqlFilter['GROUPBY'];
-        }
-        else
-        {
-            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE'].$sqlFilter['GROUPBY'];
+        } else {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE'];
         }
 
         if(is_defined($sqlFilter['HAVING'])) {
@@ -509,10 +499,21 @@ echo "<div id='filter' class='collapse'>";
 echo "<br/>";
 formGroup('text', 'NAME_RESTRICT', $l->g(382), 20, 100, $protectedPost['NAME_RESTRICT']);
 
+// if show method is set to 2, disable the compar and nbre fields
+if (!isset($filters['SHOW_METHOD']) || $filters['SHOW_METHOD'] != 2) {
+    $disabled = "";
+} else {
+    unset($protectedPost['COMPAR']);
+    unset($protectedPost['NBRE']);
+    unset($filters['COMPAR']);
+    unset($filters['NBRE']);
+    $disabled = "disabled";
+}
+
 echo '<div class="form-group">
         <label class="control-label col-sm-2" for="COMPAR">'.$l->g(381).'</label>
         <div class="col-sm-1">
-        <select name="COMPAR" id="COMPAR" class="form-control">
+        <select name="COMPAR" id="COMPAR" class="form-control" '.$disabled.'>
             <option value="">-----</option>';
             foreach ($options_compar as $key => $value){
                 if(isset($protectedPost['COMPAR']) && $key == $protectedPost['COMPAR']){
@@ -524,7 +525,7 @@ echo '<div class="form-group">
 echo '</select>
     </div>
     <div class="col-sm-2">
-        <input name="NBRE" type="number" class="form-control" maxlength="100" value="'.$protectedPost['NBRE'].'">
+        <input name="NBRE" type="number" class="form-control" maxlength="100" value="'.($protectedPost['NBRE'] ?? '').'" '.$disabled.'>
     </div>
 </div>';
 
