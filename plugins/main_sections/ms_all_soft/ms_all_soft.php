@@ -50,6 +50,7 @@ if (isset($protectedPost['RESET'])) {
     unset($protectedPost['GROUP']);
     unset($protectedPost['TAG']);
     unset($protectedPost['ASSET']);
+    unset($protectedPost['SHOW_METHOD']);
     unset($protectedPost['SUBMIT_FORM_RESTRICT']);
     unset($_SESSION['OCS']['AllSoftware']['filter']['csv_data']);
     unset($_FILES['csv_file']);
@@ -85,6 +86,9 @@ if(is_defined($protectedPost['ASSET']) && $protectedPost['ASSET'] != "0") {
 }
 if(is_defined($_FILES['csv_file'])) {
     $allSoft->verifyCsv($_FILES['csv_file']);
+}
+if(is_defined($protectedPost['SHOW_METHOD']) && $protectedPost['SHOW_METHOD'] != "0") {
+    $filters['SHOW_METHOD'] = $protectedPost['SHOW_METHOD'];
 }
 if (is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data'])) {
     $filters['CSV'] = $_SESSION['OCS']['AllSoftware']['filter']['csv_data']['result'];
@@ -196,7 +200,12 @@ if($protectedPost['onglet'] == "ALL"){
             $sql['SQL'] .= $sqlFilter['HAVING'];
         }
     } else {
-        $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE'].$sqlFilter['GROUPBY'];
+        if(isset($sqlFilter['GROUPBY']))
+        {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE'].$sqlFilter['GROUPBY'];
+        } else {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE'];
+        }
 
         if(is_defined($sqlFilter['HAVING'])) {
             $sql['SQL'] .= $sqlFilter['HAVING'];
@@ -211,20 +220,38 @@ if($protectedPost['onglet'] == "ALL"){
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
 
-        if(!is_defined($_SESSION['OCS']["mesmachines"])) {
-            $list_fields['nbre'] = 'nb';
-            $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-            $tab_options['LIEN_CHAMP']['nbre'] = 'id';
-        } else {
-            $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-            $tab_options['LIEN_CHAMP']['name'] = 'id';
-
-            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
-                $list_fields['nbre'] = 'nb2';
+        if(
+            (is_defined($filters['OS']) ||
+            is_defined($filters['GROUP']) ||
+            is_defined($filters['TAG']) ||
+            is_defined($filters['ASSET']) ||
+            is_defined($filters['CSV'])) &&
+            (is_defined($filters['SHOW_METHOD']) &&
+            $filters['SHOW_METHOD'] == 2)
+        )
+        {
+            $list_fields[$l->g(23)] = 'HARDWARE_NAME';
+            $tab_options['LIEN_LBL'][$l->g(23)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&systemid=';
+            $tab_options['LIEN_CHAMP'][$l->g(23)] = 'HARDWARE_ID';
+        }
+        else
+        {
+            if(!is_defined($_SESSION['OCS']["mesmachines"])) {
+                $list_fields['nbre'] = 'nb';
                 $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
                 $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+            } else {
+                $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                $tab_options['LIEN_CHAMP']['name'] = 'id';
+    
+                if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
+                    $list_fields['nbre'] = 'nb2';
+                    $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                    $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+                }
             }
         }
+
 
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
@@ -239,6 +266,8 @@ if($protectedPost['onglet'] == "ALL"){
 
 /****************************************** ALL SOFTWARE WITH CATEGORY (EXCEPT DEFAULT)******************************************/
 elseif($protectedPost['onglet'] == "WITHOUT") {
+    $sqlFilter = $allSoft->generateQueryFilter($filters);
+
     if(!is_defined($sqlFilter['SELECT'])) {
         $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb ';
 
@@ -270,7 +299,22 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
             $sql['SQL'] .= $sqlFilter['HAVING'];
         }
     } else {
-        $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID != %s ".$sqlFilter['GROUPBY'];
+        if(
+            (is_defined($filters['OS']) ||
+            is_defined($filters['GROUP']) ||
+            is_defined($filters['TAG']) ||
+            is_defined($filters['ASSET']) ||
+            is_defined($filters['CSV'])) &&
+            (is_defined($filters['SHOW_METHOD']) &&
+            $filters['SHOW_METHOD'] == 2)
+        )
+        {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID != %s ";
+        }
+        else
+        {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID != %s ".$sqlFilter['GROUPBY'];
+        }
 
         if(is_defined($sqlFilter['HAVING'])) {
             $sql['SQL'] .= $sqlFilter['HAVING'];
@@ -280,24 +324,41 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $sql['ARG'] = array($values['ivalue']['DEFAULT_CATEGORY']);
 
     if (isset($sql)) {
-        $list_fields = array($l->g(69) => 'p.PUBLISHER',
+        $list_fields = array(
+            $l->g(69) => 'p.PUBLISHER',
             'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
-
-        if(!is_defined($_SESSION['OCS']["mesmachines"])) {
-            $list_fields['nbre'] = 'nb';
-            $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-            $tab_options['LIEN_CHAMP']['nbre'] = 'id';
-        } else {
-            $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-            $tab_options['LIEN_CHAMP']['name'] = 'id';
-
-            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
-                $list_fields['nbre'] = 'nb2';
+        if(
+            (is_defined($filters['OS']) ||
+            is_defined($filters['GROUP']) ||
+            is_defined($filters['TAG']) ||
+            is_defined($filters['ASSET']) ||
+            is_defined($filters['CSV'])) &&
+            (is_defined($filters['SHOW_METHOD']) &&
+            $filters['SHOW_METHOD'] == 2)
+        )
+        {
+            $list_fields[$l->g(23)] = 'HARDWARE_NAME';
+            $tab_options['LIEN_LBL'][$l->g(23)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&systemid=';
+            $tab_options['LIEN_CHAMP'][$l->g(23)] = 'HARDWARE_ID';
+        }
+        else
+        {
+            if(!is_defined($_SESSION['OCS']["mesmachines"])) {
+                $list_fields['nbre'] = 'nb';
                 $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
                 $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+            } else {
+                $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                $tab_options['LIEN_CHAMP']['name'] = 'id';
+    
+                if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
+                    $list_fields['nbre'] = 'nb2';
+                    $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                    $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+                }
             }
         }
 
@@ -305,6 +366,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
         $list_col_cant_del = $default_fields;
         $tab_options['LBL']['name'] = $l->g(847);
         $tab_options['LBL']['nbre'] = $l->g(1120);
+        $tab_options['LBL'][$l->g(23)] = $l->g(23);
         $tab_options['ARG_SQL'] = $sql['ARG'];
         $tab_options['form_name'] = $form_name;
         $tab_options['table_name'] = $form_name;
@@ -345,7 +407,22 @@ else {
             $sql['SQL'] .= $sqlFilter['HAVING'];
         }
     } else {
-        $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID = %s ".$sqlFilter['GROUPBY'];
+        if(
+            (is_defined($filters['OS']) ||
+            is_defined($filters['GROUP']) ||
+            is_defined($filters['TAG']) ||
+            is_defined($filters['ASSET']) ||
+            is_defined($filters['CSV'])) &&
+            (is_defined($filters['SHOW_METHOD']) &&
+            $filters['SHOW_METHOD'] == 2)
+        )
+        {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID = %s ";
+        }
+        else
+        {
+            $sql['SQL'] = $sqlFilter['SELECT'].$sqlFilter['FROM'].$sqlFilter['WHERE']."AND cl.CATEGORY_ID = %s ".$sqlFilter['GROUPBY'];
+        }
 
         if(is_defined($sqlFilter['HAVING'])) {
             $sql['SQL'] .= $sqlFilter['HAVING'];
@@ -361,18 +438,35 @@ else {
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
 
-        if(!is_defined($_SESSION['OCS']["mesmachines"])) {
-            $list_fields['nbre'] = 'nb';
-            $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-            $tab_options['LIEN_CHAMP']['nbre'] = 'id';
-        } else {
-            $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
-            $tab_options['LIEN_CHAMP']['name'] = 'id';
-
-            if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
-                $list_fields['nbre'] = 'nb2';
+        if(
+            (is_defined($filters['OS']) ||
+            is_defined($filters['GROUP']) ||
+            is_defined($filters['TAG']) ||
+            is_defined($filters['ASSET']) ||
+            is_defined($filters['CSV'])) &&
+            (is_defined($filters['SHOW_METHOD']) &&
+            $filters['SHOW_METHOD'] == 2)
+        )
+        {
+            $list_fields[$l->g(23)] = 'HARDWARE_NAME';
+            $tab_options['LIEN_LBL'][$l->g(23)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&systemid=';
+            $tab_options['LIEN_CHAMP'][$l->g(23)] = 'HARDWARE_ID';
+        }
+        else
+        {
+            if(!is_defined($_SESSION['OCS']["mesmachines"])) {
+                $list_fields['nbre'] = 'nb';
                 $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
                 $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+            } else {
+                $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                $tab_options['LIEN_CHAMP']['name'] = 'id';
+    
+                if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
+                    $list_fields['nbre'] = 'nb2';
+                    $tab_options['LIEN_LBL']['nbre'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+                    $tab_options['LIEN_CHAMP']['nbre'] = 'id';
+                }
             }
         }
 
@@ -405,10 +499,21 @@ echo "<div id='filter' class='collapse'>";
 echo "<br/>";
 formGroup('text', 'NAME_RESTRICT', $l->g(382), 20, 100, $protectedPost['NAME_RESTRICT']);
 
+// if show method is set to 2, disable the compar and nbre fields
+if (!isset($filters['SHOW_METHOD']) || $filters['SHOW_METHOD'] != 2) {
+    $disabled = "";
+} else {
+    unset($protectedPost['COMPAR']);
+    unset($protectedPost['NBRE']);
+    unset($filters['COMPAR']);
+    unset($filters['NBRE']);
+    $disabled = "disabled";
+}
+
 echo '<div class="form-group">
         <label class="control-label col-sm-2" for="COMPAR">'.$l->g(381).'</label>
         <div class="col-sm-1">
-        <select name="COMPAR" id="COMPAR" class="form-control">
+        <select name="COMPAR" id="COMPAR" class="form-control" '.$disabled.'>
             <option value="">-----</option>';
             foreach ($options_compar as $key => $value){
                 if(isset($protectedPost['COMPAR']) && $key == $protectedPost['COMPAR']){
@@ -420,7 +525,7 @@ echo '<div class="form-group">
 echo '</select>
     </div>
     <div class="col-sm-2">
-        <input name="NBRE" type="number" class="form-control" maxlength="100" value="'.$protectedPost['NBRE'].'">
+        <input name="NBRE" type="number" class="form-control" maxlength="100" value="'.($protectedPost['NBRE'] ?? '').'" '.$disabled.'>
     </div>
 </div>';
 
@@ -496,6 +601,29 @@ formGroup('file', 'csv_file', $l->g(1478).' :', '', '', $protectedPost['csv_file
 echo "</div>"; 
 echo "</div>"; 
 // END FILTER CSV
+
+// FILTER SHOW METHOD
+if(
+    is_defined($filters['OS']) ||
+    is_defined($filters['GROUP']) ||
+    is_defined($filters['TAG']) ||
+    is_defined($filters['ASSET']) ||
+    is_defined($filters['CSV'])
+)
+{
+    $methods = [
+        0 => "-----",
+        1 => "Count",
+        2 => "By computer",
+    ];
+
+    echo "<div class='form_group'>";
+    echo "<div class='col-sm-12'>";
+    formGroup('select', 'SHOW_METHOD', 'Show method', '', '', $protectedPost['SHOW_METHOD'] ?? '', '', $methods, $methods, '');
+    echo "</div>"; 
+    echo "</div>"; 
+}
+// END FILTER SHOW METHOD
 
 if(is_defined($_SESSION['OCS']["mesmachines"])) {
     // DISPLAY COUNT FOR RESTRICTED TAG

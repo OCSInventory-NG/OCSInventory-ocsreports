@@ -320,6 +320,34 @@ class AllSoftware
             // Group by
             $queryFilter['GROUPBY'] = "GROUP BY id ";
         }
+        if(
+            (is_defined($filters['OS']) ||
+            is_defined($filters['GROUP']) ||
+            is_defined($filters['TAG']) ||
+            is_defined($filters['ASSET']) ||
+            is_defined($filters['CSV'])) &&
+            (is_defined($filters['SHOW_METHOD']) &&
+            $filters['SHOW_METHOD'] == 2)
+        )
+        {
+            // Select
+            $queryFilter['SELECT'] = "SELECT h.NAME as HARDWARE_NAME, h.ID as HARDWARE_ID, n.NAME, p.PUBLISHER, v.VERSION, c.CATEGORY_NAME,
+            CONCAT(n.NAME,';',p.PUBLISHER,';',v.VERSION) as id ";
+
+            // From
+            $queryFilter['FROM'] = "
+                FROM software s 
+                LEFT JOIN software_name n ON n.ID = s.NAME_ID
+                LEFT JOIN software_publisher p ON p.ID = s.PUBLISHER_ID
+                LEFT JOIN software_version v ON v.ID = s.VERSION_ID
+                LEFT JOIN software_categories_link cl ON cl.NAME_ID = n.ID AND cl.PUBLISHER_ID = p.ID AND cl.VERSION_ID = v.ID
+                LEFT JOIN software_categories c ON c.ID = cl.CATEGORY_ID
+                LEFT JOIN hardware h ON h.ID = s.HARDWARE_ID
+            ";
+
+            // Group by
+            unset($queryFilter['GROUPBY']);
+        }
 
         if(is_defined($filters['CSV'])) {
             if (is_array($hId)) {
