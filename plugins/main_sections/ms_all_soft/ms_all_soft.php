@@ -502,7 +502,6 @@ $os     = $allSoft->getOperatingSystemList();
 $group  = $allSoft->getGroupList();
 $tag    = $allSoft->getTagList();
 $asset  = $allSoft->getAssetCategoryList();
-$showMethods  = $allSoft->getShowMethodList();
 
 echo "<button type='button' data-toggle='collapse' data-target='#filter' class='btn'>" . $l->g(735) . "</button>";
 
