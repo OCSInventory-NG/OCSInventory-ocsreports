@@ -1835,6 +1835,7 @@
 9704 Configuration CAS
 
 9800 Exlure les machines archivées des Statistiques, de l'inventaire CVE, du compte de Tous les logiciels, du compte des machines par TAG
+9801 Afficher le diagramme bios dans le dashboard
 
 9802 Afficher les liens CVE search
 
