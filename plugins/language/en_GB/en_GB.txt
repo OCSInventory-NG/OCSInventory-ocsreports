@@ -1839,6 +1839,7 @@
 9704 CAS Configuration
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
+9801 Show bios diagram in dashboard
 
 9900 Layouts
 9901 Layout created

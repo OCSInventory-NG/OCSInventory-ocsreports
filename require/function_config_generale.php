@@ -667,7 +667,7 @@ function pageGUI($advance) {
 
       ligne('INTERFACE_LAST_CONTACT', $l->g(484), 'input', array('END' => $l->g(496), 'VALUE' => $values['ivalue']['INTERFACE_LAST_CONTACT'], 'SIZE' => 1, 'MAXLENGTH' => 3, 'JAVASCRIPT' => $numeric, '', '', $sup1));
 
-      ligne('INTERFACE_BIOS_DIAGRAM_VISIBILITY', $l->g(1420), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INTERFACE_BIOS_DIAGRAM_VISIBILITY'] ?? 1));
+      ligne('INTERFACE_BIOS_DIAGRAM_VISIBILITY', $l->g(9801), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['INTERFACE_BIOS_DIAGRAM_VISIBILITY'] ?? 1));
 
       ligne('LOCAL_URI_SERVER', $l->g(565), 'radio', array('DEFAULT' => $l->g(823) . " (http://localhost:80/ocsinventory)", 'CUSTOM' => $l->g(822), 'VALUE' => $select_local_uri), array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $values['tvalue']['LOCAL_URI_SERVER'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 254));
       $def = VARLIB_DIR . '/download';
