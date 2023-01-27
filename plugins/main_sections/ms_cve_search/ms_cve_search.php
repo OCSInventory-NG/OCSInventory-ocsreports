@@ -93,6 +93,13 @@ if($cve->CVE_ACTIVE != 1){
             'Link' => 'LINK'
         );
 
+        if($cve->CVE_LINK == 1)
+        {
+            $list_fields['CVE'] = 'CVE';
+            $tab_options['LIEN_LBL']['CVE'] = $cve->CVE_SEARCH_URL.'/cve/';
+            $tab_options['LIEN_CHAMP']['CVE'] = 'CVE';
+        }
+
         $multisearch = "cveNamePublisherVersion";
     }
 
@@ -126,6 +133,14 @@ if($cve->CVE_ACTIVE != 1){
             'CVE' => 'CVE',
             'Link' => 'LINK'
         );
+
+        if($cve->CVE_LINK == 1)
+        {
+            $list_fields['CVE'] = 'CVE';
+            $tab_options['LIEN_LBL']['CVE'] = $cve->CVE_SEARCH_URL.'/cve/';
+            $tab_options['LIEN_CHAMP']['CVE'] = 'CVE';
+        }
+
         $multisearch = "cveNamePublisherVersion";
     }
 

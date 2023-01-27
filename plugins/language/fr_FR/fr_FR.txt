@@ -1836,6 +1836,8 @@
 
 9800 Exlure les machines archivées des Statistiques, de l'inventaire CVE, du compte de Tous les logiciels, du compte des machines par TAG
 
+9802 Afficher les liens CVE search
+
 9900 Dispositions
 9901 Disposition créée
 9902 Disposition supprimée

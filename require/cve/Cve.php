@@ -28,6 +28,7 @@ class Cve
   public $CVE_SEARCH_URL = '';
   public $CVE_ACTIVE;
   private $CVE_BAN;
+  public $CVE_LINK;
   private $CVE_ALL;
   public $CVE_EXPIRE_TIME;
   public $CVE_DELAY_TIME;
@@ -46,6 +47,7 @@ class Cve
     $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
         'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST',
         'VULN_BAN_LIST' => 'VULN_BAN_LIST',
+        'VULN_CVESEARCH_LINK' => 'VULN_CVESEARCH_LINK',
         'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE',
         'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL',
         'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME',
@@ -57,6 +59,7 @@ class Cve
     $this->CVE_ACTIVE = $values['ivalue']["VULN_CVESEARCH_ENABLE"] ?? 0;
     $this->CVE_SEARCH_URL = $values['tvalue']['VULN_CVESEARCH_HOST'] ?? "";
     $this->CVE_BAN = $values['tvalue']["VULN_BAN_LIST"] ?? "";
+    $this->CVE_LINK = $values['ivalue']["VULN_CVESEARCH_LINK"] ?? 0;
     $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"] ?? 0;
     $this->CVE_ALL = $values['ivalue']["VULN_CVESEARCH_ALL"] ?? 0;
     $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"] ?? null;
@@ -527,5 +530,3 @@ class Cve
   }
 
 }
-
-?>
