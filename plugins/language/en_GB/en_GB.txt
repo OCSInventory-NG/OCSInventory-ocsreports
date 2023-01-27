@@ -1840,6 +1840,8 @@
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
 
+9802 Show CVE search links
+
 9900 Layouts
 9901 Layout created
 9902 Layout deleted

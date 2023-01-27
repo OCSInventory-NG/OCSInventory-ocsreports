@@ -1006,7 +1006,7 @@ function pageVulnerability() {
     ligne('VULN_CVESEARCH_ENABLE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ENABLE'] ?? 0));
     ligne('VULN_CVESEARCH_HOST', $l->g(1462), 'input', array('VALUE' => $values['tvalue']['VULN_CVESEARCH_HOST'] ?? 0, 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'] ?? 0, 'SELECT_VALUE' => $list_cat));
-    ligne('VULN_CVESEARCH_LINK', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_LINK'] ?? 0));
+    ligne('VULN_CVESEARCH_LINK', $l->g(9802), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_LINK'] ?? 0));
     ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE'] ?? 0));
     ligne('VULN_CVESEARCH_ALL', $l->g(1471), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL'] ?? 0));
     ligne('VULN_CVE_EXPIRE_TIME', $l->g(1484), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_EXPIRE_TIME'] ?? null, 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(730)));
