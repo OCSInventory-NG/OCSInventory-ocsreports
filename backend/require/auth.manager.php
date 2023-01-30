@@ -76,10 +76,9 @@ function get_list_methode($identity = false){
                 );
             }
             break;
-        case 7:
-            return array(
-                0 => "sso_only.php"
-            );
+	case 7:
+		return array(0=>($identity)?"local.php":"sso_only.php");
+		break;
         default:
             return array(
                 0 => "local.php"
