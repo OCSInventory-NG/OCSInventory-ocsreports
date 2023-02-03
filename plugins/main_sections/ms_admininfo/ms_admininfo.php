@@ -287,13 +287,6 @@ if ($protectedPost['onglet'] == 1) {
     array_push($type_field, 2);
     array_push($value_field, $array_tab_account);
 
-    if (isset($protectedPost['newtype']) && $protectedPost['newtype'] == 8) { //for QRCODE type
-        array_push($name_field, "default_value");
-        array_push($tab_name, $l->g(1099) . ":");
-        array_push($type_field, 2);
-        array_push($value_field, $array_qr_values);
-    }
-
     $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
 
     $tab_typ_champ[3]['COMMENT_AFTER']="<input type='image' name='addtab' src='image/plus.png'>";
@@ -310,12 +303,8 @@ if ($protectedPost['onglet'] == 1) {
         formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'] ?? '', '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
     }
     formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl'] ?? '');
-    formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost['newtype'] ?? '', '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "onchange='document.admin_info.submit();'");
+    formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost['newtype'] ?? '', '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "");
     formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost['account_tab'] ?? '', '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE'],'', $tab_typ_champ[3]['COMMENT_AFTER']);
-
-    if(isset($protectedPost['newtype']) && $protectedPost['newtype'] == 8){
-        formGroup('select', 'default_value', $l->g(1099), '', '', $protectedPost['default_value'], '', $tab_typ_champ[5]['DEFAULT_VALUE'], $tab_typ_champ[5]['DEFAULT_VALUE'], '', '');
-    }
 
 ?>
 
