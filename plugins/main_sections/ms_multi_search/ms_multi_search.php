@@ -352,8 +352,11 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 			$option_comment['comment_be'] = $l->g(1210)." ";
 			$tab_options['REPLACE_VALUE'] = $Admininfo->replace_tag_value('',$option_comment);
 			$tab_options['REPLACE_VALUE'][$l->g(66)] = $Admininfo->type_accountinfo;
-			// $tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
-		
+
+			$accountinfo_value = $Admininfo->interprete_accountinfo($list_fields ?? null, $tab_options);
+			if (array($accountinfo_value['TAB_OPTIONS'])) {
+				$tab_options = $accountinfo_value['TAB_OPTIONS'];
+			}
 		
 			ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 		
