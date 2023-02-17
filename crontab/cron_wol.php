@@ -1,11 +1,11 @@
 #!/usr/bin/php
 <?php
-require_once('../var.php');
+require_once(__DIR__.'/../var.php');
 require_once(CONF_MYSQL);
-require_once('../require/function_commun.php');
-require_once('../require/wol/WakeOnLan.php');
-require_once('../require/config/include.php');
-require_once('../require/fichierConf.class.php');
+require_once(ETC_DIR.'/require/function_commun.php');
+require_once(ETC_DIR.'/require/wol/WakeOnLan.php');
+require_once(ETC_DIR.'/require/config/include.php');
+require_once(ETC_DIR.'/require/fichierConf.class.php');
 
 $wol_class = new Wol();
 
