@@ -86,6 +86,35 @@
             <defaultvalue/>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
+        <formblock>
+            <id>ISCUSTOM</id>
+            <label/>
+            <mandatory/>
+            <type>hidden</type>
+            <disabled>false</disabled>
+            <defaultvalue>false</defaultvalue>
+            <specialcharallowed>false</specialcharallowed>
+        </formblock>
+        <formblock>
+            <id>action</id>
+            <label>9368</label>
+            <mandatory>true</mandatory>
+            <type>select</type>
+            <disabled>false</disabled>
+            <defaultvalue>EXECUTE</defaultvalue>
+            <options>
+                <option>
+                    <id>EXECUTE</id>
+                    <name>9370</name>
+                </option>
+                <option>
+                    <id>LAUNCH</id>
+                    <name>9369</name>
+                </option>
+            </options>
+            <specialcharallowed>false</specialcharallowed>
+            <description>9367</description>
+        </formblock>
     </formoption>
     <!-- Package builder -->
     <packagebuilder>
@@ -119,7 +148,7 @@
         <!-- Priority -->
         <PRI>5</PRI>
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
-        <ACT>EXECUTE</ACT>
+        <ACT>:action:</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
         <PROTO>:PROTO:</PROTO>
         <!-- File command -->
