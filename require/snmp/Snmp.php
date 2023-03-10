@@ -683,7 +683,7 @@ class OCSSnmp
 		
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], array($type));
 
-		if($result) $reconciliation = mysqli_fetch_object($result)->LABEL_NAME;
+		if($result) $reconciliation = mysqli_fetch_object($result)->LABEL_NAME ?? '';
 
 		return $reconciliation;
 	}

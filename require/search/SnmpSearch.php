@@ -153,7 +153,9 @@ class SnmpSearch
      */
     public function updateSessionsInfos($postData) {
         foreach ($postData as $key => $value) {
+
             $keyExploded = explode("_", $key);
+
             if(count($keyExploded) > 1 && isset($_SESSION['OCS']['SNMP']['multi_search'][$keyExploded[1]]) && !is_null($_SESSION['OCS']['SNMP']['multi_search'][$keyExploded[1]])) {
                 if ($keyExploded[2] == self::SESS_OPERATOR) {
                     $_SESSION['OCS']['SNMP']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] = $value;
@@ -162,15 +164,19 @@ class SnmpSearch
                 } elseif($keyExploded[2] == self::SESS_COMPARATOR) {
                   $_SESSION['OCS']['SNMP']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
                 }
-            } elseif(count($keyExploded) == 4) {
-                $keyExplodedBis = $keyExploded[1]."_".$keyExploded[2];
-                if(isset($_SESSION['OCS']['SNMP']['multi_search'][$keyExplodedBis]) && !is_null($_SESSION['OCS']['SNMP']['multi_search'][$keyExplodedBis])) {
-					if ($keyExploded[3] == self::SESS_OPERATOR) {
-						$_SESSION['OCS']['SNMP']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_OPERATOR] = $value;
-					} elseif($keyExploded[3] == self::SESS_COMPARATOR) {
-						$_SESSION['OCS']['SNMP']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
+            } elseif(count($keyExploded) >= 4) {
+                $keyImploded = "";
+
+                for($i = 1; $i < count($keyExploded)-1; $i++) $keyImploded .= $keyExploded[$i]."_";
+                $keyImploded = substr($keyImploded, 0, -1);
+
+                if(isset($_SESSION['OCS']['SNMP']['multi_search'][$keyImploded]) && !is_null($_SESSION['OCS']['SNMP']['multi_search'][$keyImploded])) {
+					if ($keyExploded[count($keyExploded)-1] == self::SESS_OPERATOR) {
+						$_SESSION['OCS']['SNMP']['multi_search'][$keyImploded][$keyExploded[0]][self::SESS_OPERATOR] = $value;
+					} elseif($keyExploded[count($keyExploded)-1] == self::SESS_COMPARATOR) {
+						$_SESSION['OCS']['SNMP']['multi_search'][$keyImploded][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
 					} else {
-						$_SESSION['OCS']['SNMP']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_VALUES] = $value;
+						$_SESSION['OCS']['SNMP']['multi_search'][$keyImploded][$keyExploded[0]][self::SESS_VALUES] = $value;
 					}
                 }
             }
@@ -185,14 +191,19 @@ class SnmpSearch
      */
     public function removeSessionsInfos($rowReference) {
         $explodedRef = explode("_", $rowReference);
+
         if(empty($explodedRef[2])){
             unset($_SESSION['OCS']['SNMP']['multi_search'][$explodedRef[1]][$explodedRef[0]]);
-        }else{
-            $exploded = $explodedRef[1]."_".$explodedRef[2];
-            unset($_SESSION['OCS']['SNMP']['multi_search'][$exploded][$explodedRef[0]]);
+        }elseif(count($explodedRef) >= 3){
+            $implodedRef = "";
+
+            for($i = 1; $i < count($explodedRef); $i++) $implodedRef .= $explodedRef[$i]."_";
+            $implodedRef = substr($implodedRef, 0, -1);
+
+            unset($_SESSION['OCS']['SNMP']['multi_search'][$implodedRef][$explodedRef[0]]);
             
-			if(empty($_SESSION['OCS']['SNMP']['multi_search'][$exploded])){
-                unset($_SESSION['OCS']['SNMP']['multi_search'][$exploded]);
+			if(empty($_SESSION['OCS']['SNMP']['multi_search'][$implodedRef])){
+                unset($_SESSION['OCS']['SNMP']['multi_search'][$implodedRef]);
             }
         }
         if(empty($_SESSION['OCS']['SNMP']['multi_search'][$explodedRef[1]])){
