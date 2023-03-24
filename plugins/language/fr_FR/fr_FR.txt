@@ -1735,7 +1735,8 @@
 9204 Configurer le ratio de fragmentation des paquets
 9205 Activer l'auto activation des paquets
 9206 Activé
-
+9207 Date de déploiement
+9208 En attente de déploiement
 
 9300 Interactions
 9301 Options
