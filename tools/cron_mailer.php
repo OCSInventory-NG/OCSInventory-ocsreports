@@ -1,11 +1,11 @@
 #!/usr/bin/php
 <?php
-require_once('../var.php');
+require_once(__DIR__.'/../var.php');
 require_once(CONF_MYSQL);
-require_once('../require/function_commun.php');
-require_once('../require/mail/NotificationMail.php');
-require_once('../require/config/include.php');
-require_once('../require/fichierConf.class.php');
+require_once(ETC_DIR.'/require/function_commun.php');
+require_once(ETC_DIR.'/require/mail/NotificationMail.php');
+require_once(ETC_DIR.'/require/config/include.php');
+require_once(ETC_DIR.'/require/fichierConf.class.php');
 
 
 $_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
@@ -24,7 +24,7 @@ if($values['NOTIF_FOLLOW'] == 'ON' && $values['NOTIF_PROG_TIME'] == date('H:i') 
     $mail->config_mailer();
     $selected = $mail->get_notif_selected();
     $body_mail = $mail->get_all_information($selected);
-    $mail->send_notification($body_mail[$selected]['SUBJECT'], $body_mail[$selected]['FILE'], $body_mail[$selected]['ALTBODY'], $selected);
+    $mail->send_notification($body_mail[$selected]['SUBJECT'], $body_mail[$selected]['FILE'], $selected);
 }
 
 ?>
