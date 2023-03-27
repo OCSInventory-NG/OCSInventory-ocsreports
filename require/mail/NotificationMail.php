@@ -185,7 +185,7 @@
        * send notification with phpMailer
        * @return void
        */
-     public function send_notification($subject, $body, $selected, $altBody = '', $isHtml = false ){
+     public function send_notification($subject, $body, $selected){
 
             $body = $this->replace_value($body, $selected);
 
@@ -196,10 +196,10 @@
 
             try{
                // Content
-               $this->notif->isHTML(false);
+               $this->notif->isHTML(true);
                $this->notif->Subject = $subject;
                $this->notif->Body    = $body;
-               $this->notif->AltBody = $altBody;
+               $this->notif->AltBody = '';
 
                $this->notif->send();
                error_log('Message has been sent');
