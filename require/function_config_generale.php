@@ -578,12 +578,13 @@ function nb_ldap_filters($nb, $default = false) {
         }
     }
 
+    $ldap_filters = [];
 
     $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*'";
     $filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     $filters = mysqli_fetch_all($filters, MYSQLI_ASSOC);
     // sort ldap filters
-    foreach ($filters as $filter) {
+    if($filters) foreach ($filters as $filter) {
         if (preg_match('/^CONEX_LDAP_FILTER[0-9]*$/', $filter['NAME'])) {
             $ldap_filters[$filter['NAME']][0] = $filter;
             
