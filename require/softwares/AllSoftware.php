@@ -100,7 +100,7 @@ class AllSoftware
 
         $sql = "SELECT CONCAT(n.NAME,';',p.PUBLISHER,';',v.VERSION) as identifier, 
                 s.VERSION_ID, s.NAME_ID, s.PUBLISHER_ID, 
-                COUNT(CONCAT(s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID)) as nb 
+                COUNT(DISTINCT s.HARDWARE_ID) as nb 
                 FROM software s 
                 LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                 LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
