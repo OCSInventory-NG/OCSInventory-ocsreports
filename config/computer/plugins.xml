@@ -108,6 +108,12 @@
   	<category>devices</category>
   	<available>inputs</available>
   </plugin>
+  <plugin id="cd_usbdevices">
+  	<label>g(1444)</label>
+  	<system>1</system>
+  	<category>devices</category>
+  	<available>usbdevices</available>
+  </plugin>
   <plugin id="cd_printers">
   	<label>g(79)</label>
   	<system>1</system>
