@@ -1740,6 +1740,8 @@
 9204 Configure download fragmentation ratio
 9205 Enable auto activation package
 9206 Activated
+9207 Deployment date
+9208 Awaiting deployment
 
 9300 Interactions
 9301 Options

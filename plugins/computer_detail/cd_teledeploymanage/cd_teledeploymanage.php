@@ -68,7 +68,7 @@ $list_fields = array(
     $l->g(475) => 'fileid',
     $l->g(499) => 'pack_loc',
     $l->g(1102) => 'tvalue',
-    $l->g(51) => 'comments',
+    $l->g(9207) => 'comments',
 );
 
 if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
@@ -79,19 +79,19 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
 $list_col_cant_del = $list_fields;
 $default_fields = $list_col_cant_del;
 
-$queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.fileid, e.pack_loc,h.name as name_server,h.id,a.comment, CONCAT(d.ivalue,';',d.tvalue) as status
+$queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,IFNULL(STR_TO_DATE(d.comments, '%s'), '%s') as comments,e.fileid, e.pack_loc,h.name as name_server,h.id,a.comment, CONCAT(d.ivalue,';',d.tvalue) as status
                 FROM devices d left join download_enable e on e.id=d.ivalue
                     LEFT JOIN download_available a ON e.fileid=a.fileid
                     LEFT JOIN hardware h on h.id=e.server_id
-                WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != ''   AND d.hardware_id=%s
+                WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != '' AND d.hardware_id=%s
                 UNION
-                SELECT '%s', IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.fileid, '%s',h.name,h.id,a.comment, CONCAT(d.ivalue,';',d.tvalue) as status
+                SELECT '%s', IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,IFNULL(STR_TO_DATE(d.comments, '%s'), '%s') as comments,e.fileid, '%s',h.name,h.id,a.comment, CONCAT(d.ivalue,';',d.tvalue) as status
                 FROM devices d left join download_enable e on e.id=d.ivalue
                     LEFT JOIN download_available a ON e.fileid=a.fileid
                     LEFT JOIN hardware h on h.id=e.server_id
                 WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=%s";
 
-$arg = array($l->g(482), $systemid, $l->g(1129), $l->g(482), $l->g(1129), $systemid);
+$arg = array($l->g(482), "%a %b %e %H:%i:%S %Y", $l->g(9208), $systemid, $l->g(1129), $l->g(482), "%a %b %e %H:%i:%S %Y", $l->g(9208), $l->g(1129), $systemid);
 
 $tab_options['ARG_SQL'] = $arg;
 
