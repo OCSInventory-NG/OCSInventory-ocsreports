@@ -540,7 +540,10 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
  * if $default is set to true, ldap filters will be left untouched but returned
  */
 function nb_ldap_filters($nb, $default = false) {
-
+    $mini_nb = 1;
+    // at least one filter at all times
+    $nb = $nb == 0 ? $mini_nb : $nb;
+    
     if ($default == false) {
         // old values = from config table
         $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
@@ -578,12 +581,13 @@ function nb_ldap_filters($nb, $default = false) {
         }
     }
 
+    $ldap_filters = [];
 
     $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*'";
     $filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     $filters = mysqli_fetch_all($filters, MYSQLI_ASSOC);
     // sort ldap filters
-    foreach ($filters as $filter) {
+    if($filters) foreach ($filters as $filter) {
         if (preg_match('/^CONEX_LDAP_FILTER[0-9]*$/', $filter['NAME'])) {
             $ldap_filters[$filter['NAME']][0] = $filter;
             
