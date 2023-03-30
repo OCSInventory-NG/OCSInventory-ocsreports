@@ -223,14 +223,14 @@ asort($tab_options['FILTRE']);
 
 if ($protectedPost['onglet'] != "ALL" && $_SESSION['OCS']['profile']->getConfigValue('ARCHIVE_COMPUTERS') == "YES") {
     $list_fields[$icon] = 'h.ID';
-    $list_fields['CHECK'] = 'h.ID';
 
 }
 
 if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
     $list_fields['SUP'] = 'h.ID';
-    $list_fields['CHECK'] = 'h.ID';
 }
+
+$list_fields['CHECK'] = 'h.ID';
 
 $list_col_cant_del = array('SUP' => 'SUP', 'NAME' => 'NAME', 'CHECK' => 'CHECK');
 if($protectedPost['onglet'] != "ALL") {
