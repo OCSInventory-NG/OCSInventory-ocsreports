@@ -540,7 +540,10 @@ function auto_duplicate_lvl_poids($value, $entree_sortie) {
  * if $default is set to true, ldap filters will be left untouched but returned
  */
 function nb_ldap_filters($nb, $default = false) {
-
+    $mini_nb = 1;
+    // at least one filter at all times
+    $nb = $nb == 0 ? $mini_nb : $nb;
+    
     if ($default == false) {
         // old values = from config table
         $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
