@@ -390,7 +390,8 @@ function update_default_value($POST) {
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
-        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY', 'DOWNLOAD_PROTOCOL');
+        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY', 'DOWNLOAD_PROTOCOL',
+        'SCAN_TYPE_IPDISCOVER', 'SCAN_TYPE_SNMP');
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
@@ -406,7 +407,8 @@ function update_default_value($POST) {
         'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE', 'VULN_CVESEARCH_LINK','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME', 'VULN_CVE_DELAY_TIME',
         'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_UPDATE_DATE','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME', 'SECURITY_AUTHENTICATION_BLOCK_IP', 
         'SECURITY_AUTHENTICATION_NB_ATTEMPT', 'SECURITY_AUTHENTICATION_TIME_BLOCK', 'SECURITY_PASSWORD_ENABLED', 'SECURITY_PASSWORD_MIN_CHAR',
-        'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR','EXCLUDE_ARCHIVE_COMPUTER');
+        'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR','EXCLUDE_ARCHIVE_COMPUTER',
+        'SCAN_ARP_BANDWIDTH');
 
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
@@ -1144,6 +1146,20 @@ function pagesSecurity(){
     ligne('SECURITY_PASSWORD_FORCE_NB', $l->g(1493), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_NB']));
     ligne('SECURITY_PASSWORD_FORCE_UPPER', $l->g(1494), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_UPPER']));
     ligne('SECURITY_PASSWORD_FORCE_SPE_CHAR', $l->g(1495), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_SPE_CHAR']));
+}
+
+function pageNetScans() {
+    global $l, $numeric, $sup1;
+    $champs = array('SCAN_TYPE_IPDISCOVER' => 'SCAN_TYPE_IPDISCOVER', 'SCAN_TYPE_SNMP' => 'SCAN_TYPE_SNMP', 'SCAN_ARP_BANDWIDTH' => 'SCAN_ARP_BANDWIDTH');
+    $values = look_config_default_values($champs);
+
+    ligne('SCAN_TYPE_IPDISCOVER', $l->g(9981), 'select', array('VALUE' => $values['tvalue']['SCAN_TYPE_IPDISCOVER'], 'SELECTED' => $values['tvalue']['SCAN_TYPE_IPDISCOVER'], 'SIZE' => 1, 'JAVASCRIPT' => $numeric, 'SELECT_VALUE' => array('NMAP' => 'NMAP', 'ICMP' => 'ICMP', 'ARPSCAN' => 'ARPSCAN')));
+    ligne('SCAN_TYPE_SNMP', $l->g(9982), 'select', array('VALUE' => $values['tvalue']['SCAN_TYPE_SNMP'], 'SELECTED' => $values['tvalue']['SCAN_TYPE_SNMP'], 'SIZE' => 1, 'JAVASCRIPT' => $numeric, 'SELECT_VALUE' => array('NMAP' => 'NMAP', 'ICMP' => 'ICMP', 'ARPSCAN' => 'ARPSCAN')));
+    // only displaying the ARPSCAN_BANDWIDTH field if the user has chosen ARPSCAN as the scan type
+    if ($values['tvalue']['SCAN_TYPE_IPDISCOVER'] == 'ARPSCAN' || $values['tvalue']['SCAN_TYPE_SNMP'] == 'ARPSCAN') {
+        ligne('SCAN_ARP_BANDWIDTH', $l->g(9983), 'input', array('END' => 'kbps', 'VALUE' => $values['ivalue']['SCAN_ARP_BANDWIDTH'], 'SIZE' => 1, 'MAXLENGTH' => 11, 'JAVASCRIPT' => $numeric), '', '', $sup1);    
+    }
+
 }
 
 function pagesdev() {

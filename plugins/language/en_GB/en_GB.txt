@@ -1890,3 +1890,13 @@
 9970 You are not allowed to modify this user
 9971 Do you really want to re-affect the package 
 9972 Affect again
+
+9980 Network Scans
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.
+9988 Configuration Export

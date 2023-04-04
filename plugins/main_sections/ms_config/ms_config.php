@@ -82,6 +82,7 @@ if(isset($values['ivalue']['ADVANCE_CONFIGURATION']) && $values['ivalue']['ADVAN
   $def_onglets['CNX'] = $l->g(1108); //connexion LDAP
   $def_onglets['CAS'] = $l->g(9704); // connexion CAS
   $def_onglets['VULN'] = $l->g(1460); //cve-search integration
+  $def_onglets['NETSCANS'] = $l->g(9980); //Network Scans
 }
 
 show_tabs($def_onglets,$form_name,"onglet",true);
@@ -134,6 +135,9 @@ switch ($protectedPost['onglet']) {
         break;
     case 'SECURITY':
         pagesSecurity();
+        break;
+    case 'NETSCANS':
+        pageNetScans();
         break;
     default:
         pageinventory($values['ivalue']['ADVANCE_CONFIGURATION']);
