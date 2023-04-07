@@ -46,6 +46,14 @@ if (isset($optvalueTvalue['IPDISCOVER']) && $optvalue['IPDISCOVER'] == 1) {
 } elseif (!isset($protectedGet['idchecked'])) {
     $mode = 2;
 }
+
+echo "<br><div class='col-md-6 text-right'>";
+echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=scan&id=".$protectedGet['idchecked']."' class='btn btn-action'>". $l->g(9989)."</a>";
+echo "</div>";
+echo "<div class='col-md-6 text-left'>";
+echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=net&id=".$protectedGet['idchecked']."' class='btn btn-action'>". $l->g(9990)."</a>";
+echo "</div><br><br>";
+
 $lesRez['des'] = $l->g(523);
 $lesRez['OFF'] = $l->g(524);
 if (isset($protectedGet['idchecked']) && is_numeric($protectedGet['idchecked'])) {

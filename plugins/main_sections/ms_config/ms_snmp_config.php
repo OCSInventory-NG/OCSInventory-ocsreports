@@ -375,15 +375,18 @@ if ($protectedPost['onglet'] == 'SNMP_EXPORT') {
     <div class='col-sm-10'>";
     msg_info($l->g(9987));
 
-
     echo "<div class='row justify-content-center margin-top30'>";
 
-    echo "<div class='col col-md-6 text-right'>";
+    echo "<div class='col col-md-4'>";
     echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=comm' class='btn btn-action'>". $l->g(9985)."</a>";
     echo "</div>";
 
-    echo "<div class='col col-md-6 text-left'>";
+    echo "<div class='col col-md-4'>";
     echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=type' class='btn btn-action'>". $l->g(9986)."</a>";
+    echo "</div>";
+
+    echo "<div class='col col-md-4'>";
+    echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=scan' class='btn btn-action'>". $l->g(9989)."</a>";
     echo "</div>";
 
     echo "</div></br></br></br></br>";

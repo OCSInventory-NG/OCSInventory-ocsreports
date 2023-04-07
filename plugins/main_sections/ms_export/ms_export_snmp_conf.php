@@ -27,60 +27,106 @@ require_once('require/snmp/Snmp.php');
 # this exports 2 files:
 # 1. localsnmp_types_conf.xml - the types configuration
 # 2. localsnmp_communities_conf.xml - the communities configuration
+# 3. localsnmp_scans_conf.xml - the scans configuration
+# 4. localsnmp_subnets_conf.xml - list of subnets to scan
 ##############################################################################
 
+// snmp conf to xml general function
+function SnmpConfToXml($conf_choice) {
+    $plural = $conf_choice[0];
+    $singular = $conf_choice[1];
 
-function SnmpTypesToXml() {
-    // get the types configuration from db
-    $sql = "SELECT t.TYPE_NAME, tc.CONDITION_OID, tc.CONDITION_VALUE, t.TABLE_TYPE_NAME, l.LABEL_NAME, c.OID FROM snmp_types t LEFT JOIN snmp_configs c ON t.ID = c.TYPE_ID LEFT JOIN snmp_labels l ON l.ID = c.LABEL_ID LEFT JOIN snmp_types_conditions tc ON tc.TYPE_ID = t.ID";
-    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+    if ($plural == "TYPES") {
+        $sql = "SELECT t.TYPE_NAME, tc.CONDITION_OID, tc.CONDITION_VALUE, t.TABLE_TYPE_NAME, l.LABEL_NAME, c.OID FROM snmp_types t LEFT JOIN snmp_configs c ON t.ID = c.TYPE_ID LEFT JOIN snmp_labels l ON l.ID = c.LABEL_ID LEFT JOIN snmp_types_conditions tc ON tc.TYPE_ID = t.ID";
+    } else if ($plural == "COMMUNITIES") {
+        $sql = "SELECT VERSION,NAME,USERNAME,AUTHPASSWD,LEVEL,AUTHPROTO,PRIVPASSWD,PRIVPROTO FROM snmp_communities";
+    } else if ($plural == "CONFS" && isset($_GET['id']) && $_GET['id'] != "") {
+        // special treatment if we are retrieving the scan configuration for a specific device or group
+        // if the value of conf has been customized, we retrieve it but if not, we use the default value
+        $sql = "SELECT NAME, IVALUE, TVALUE FROM devices WHERE NAME LIKE 'SCAN_%' AND HARDWARE_ID=".$_GET['id'];
 
-    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-    $xml .= "<TYPES>\n";
-    while($row = mysqli_fetch_array($result)) {
-        $xml .= "<TYPE ";
-        foreach ($row as $key => $value) {
-            if (!is_numeric($key)) {
-                $xml .= $key."=\"".$value."\" ";
+        $sql_default = "SELECT NAME, IVALUE, TVALUE FROM config WHERE NAME LIKE 'SCAN_%'";
+        
+    } else if ($plural == "CONFS") { 
+        $sql = "SELECT NAME, IVALUE, TVALUE FROM config WHERE NAME LIKE 'SCAN_%'";
+    } else if ($plural == "SUBNETS") {
+        $sql = "SELECT TVALUE FROM devices WHERE HARDWARE_ID=".$_GET['id']." AND NAME='SNMP_NETWORK'";
+    }
+
+    if (isset($sql) && $sql != "" && !isset($sql_default)) {
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+        $xml .= "<".$plural.">\n";
+        while ($row = mysqli_fetch_array($result)) {
+            $xml .= "<".$singular." ";
+            foreach ($row as $key => $value) {
+                if (!is_numeric($key)) {
+                    $xml .= $key."=\"".$value."\" ";
+                }
+            }
+            $xml .= "TYPE=\"".$singular."\" />\n";
+        }
+        $xml .= "</".$plural.">\n";
+
+        return $xml;
+    // handling conf options 
+    } else if (isset($sql_default) && $sql_default != '') {
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        $result_default = mysql2_query_secure($sql_default, $_SESSION['OCS']["readServer"]);
+
+        $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $result_default = mysqli_fetch_all($result_default, MYSQLI_ASSOC);
+
+        // compare result array and result_default array to generate a conf file with default and customized values if any
+        foreach ($result_default as $default_entry) {
+            $found = false;
+            foreach ($result as $entry) {
+                if ($entry['NAME'] === $default_entry['NAME']) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $result[] = $default_entry;
             }
         }
-        $xml .= "TYPE=\"SNMP_TYPE\" />\n";
-    }
-    $xml .= "</TYPES>\n";
 
-    return $xml;
-}
-
-function SnmpCommunitiesToXml() {
-    // get the communities configuration from db
-    $sql = "SELECT VERSION,NAME,USERNAME,AUTHPASSWD,LEVEL,AUTHPROTO,PRIVPASSWD,PRIVPROTO FROM snmp_communities";
-    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-
-    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-    $xml .= "<COMMUNITIES>\n";
-    while ($row = mysqli_fetch_array($result)) {
-        $xml .= "<COMMUNITY ";
-        foreach ($row as $key => $value) {
-            if (!is_numeric($key)) {
-                $xml .= $key."=\"".$value."\" ";
+        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+        $xml .= "<".$plural.">\n";
+        foreach ($result as $row) {
+            $xml .= "<".$singular." ";
+            foreach ($row as $key => $value) {
+                if (!is_numeric($key)) {
+                    $xml .= $key."=\"".$value."\" ";
+                }
             }
+            $xml .= "TYPE=\"".$singular."\" />\n";
         }
-        $xml .= "TYPE=\"COMMUNITY\" />\n";
-    }
-    $xml .= "</COMMUNITIES>\n";
+        $xml .= "</".$plural.">\n";
 
-    return $xml;
+        return $xml;
+        
+    }
 }
+
+
 
 // 1. localsnmp_types_conf.xml - the types configuration
 if (isset($_GET['conf']) && $_GET['conf'] == "type") {
-    $xml = SnmpTypesToXml();
+    $xml = SnmpConfToXml(array("TYPES", "TYPE"));
     $xml_filename = "localsnmp_types_conf.xml";
-
 // 2. localsnmp_communities_conf.xml - the communities configuration
 } else if (isset($_GET['conf']) && $_GET['conf'] == "comm") {
-    $xml = SnmpCommunitiesToXml();
+    $xml = SnmpConfToXml(array("COMMUNITIES", "COMMUNITY"));
     $xml_filename = "localsnmp_communities_conf.xml";
+// 3. localsnmp_scans_conf.xml - the scans configuration
+} else if (isset($_GET['conf']) && $_GET['conf'] == "scan") {
+    $xml = SnmpConfToXml(array("CONFS", "CONF"));
+    $xml_filename = "localsnmp_scans_conf.xml";
+// 4. localsnmp_subnets_conf.xml - list of subnets to scan
+} else if (isset($_GET['conf']) && $_GET['conf'] == "net") {
+    $xml = SnmpConfToXml(array("SUBNETS", "SUBNET"));
+    $xml_filename = "localsnmp_subnets_conf.xml";
 }
 
 // send the xml file
