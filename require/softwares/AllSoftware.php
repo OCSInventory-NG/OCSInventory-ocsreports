@@ -27,26 +27,13 @@
 class AllSoftware
 {
 
-    public function software_link_treatment() {
+    public function software_link_treatment($chunk) {
         // First clean software_link
         $this->delete_software_link();
-        // Get all softwares
-        $allSoft = $this->get_software_informations();
         // Get categories
         $allSoftCat = $this->get_software_categories_link_informations();
 
-        $software = [];
         $softwareCategory = [];
-
-        if($allSoft && $allSoft->num_rows != 0) {
-            while($item_all_soft = mysqli_fetch_array($allSoft)) {
-                $software[$item_all_soft['identifier']]['NAME_ID'] = intval($item_all_soft['NAME_ID']);
-                $software[$item_all_soft['identifier']]['PUBLISHER_ID'] = intval($item_all_soft['PUBLISHER_ID']);
-                $software[$item_all_soft['identifier']]['VERSION_ID'] = intval($item_all_soft['VERSION_ID']);
-                $software[$item_all_soft['identifier']]['CATEGORY_ID'] = null;
-                $software[$item_all_soft['identifier']]['COUNT'] = intval($item_all_soft['nb']);
-            }
-        }
 
         if($allSoftCat && $allSoftCat->num_rows != 0) {
             while($items = mysqli_fetch_array($allSoftCat)) {
@@ -57,33 +44,66 @@ class AllSoftware
             }
         }
 
-        if(!empty($softwareCategory)) {
-            foreach($software as $identifier => $values) {
-                foreach($softwareCategory as $infos) {
-                    if($values['NAME_ID'] == $infos['NAME_ID'] && $values['PUBLISHER_ID'] == $infos['PUBLISHER_ID'] && $values['VERSION_ID'] == $infos['VERSION_ID']) {
-                        $software[$identifier]['CATEGORY_ID'] = $infos['CATEGORY_ID'];
+        // Initialize numRows to be equal of chunk
+        $numRows = $chunk;
+        $chunkIndex = 1;
+
+        for($limit = 0; $chunk <= $numRows; $limit = $limit+$chunk) {
+            print("[".date("Y-m-d H:i:s"). "] Process pool number ".$chunkIndex."\n");
+
+            // Get all softwares
+            $allSoft = $this->get_software_informations($chunk, $limit);
+
+            if(!$allSoft) {
+                print("[".date("Y-m-d H:i:s"). "] Failed to retrieve software\n");
+                return;
+            }
+
+            $numRows = $allSoft->num_rows;
+
+            if($limit == 0) $limit += 1;
+
+            $software = [];
+
+            if($allSoft && $allSoft->num_rows != 0) {
+                while($item_all_soft = mysqli_fetch_array($allSoft)) {
+                    $software[$item_all_soft['identifier']]['NAME_ID'] = intval($item_all_soft['NAME_ID']);
+                    $software[$item_all_soft['identifier']]['PUBLISHER_ID'] = intval($item_all_soft['PUBLISHER_ID']);
+                    $software[$item_all_soft['identifier']]['VERSION_ID'] = intval($item_all_soft['VERSION_ID']);
+                    $software[$item_all_soft['identifier']]['CATEGORY_ID'] = null;
+                    $software[$item_all_soft['identifier']]['COUNT'] = intval($item_all_soft['nb']);
+                }
+            }
+
+            if(!empty($softwareCategory)) {
+                foreach($software as $identifier => $values) {
+                    foreach($softwareCategory as $infos) {
+                        if($values['NAME_ID'] == $infos['NAME_ID'] && $values['PUBLISHER_ID'] == $infos['PUBLISHER_ID'] && $values['VERSION_ID'] == $infos['VERSION_ID']) {
+                            $software[$identifier]['CATEGORY_ID'] = $infos['CATEGORY_ID'];
+                        }
                     }
                 }
             }
-        }
 
-        foreach($software as $identifier => $values) {
-            $sql = "INSERT INTO `software_link` (`IDENTIFIER`, `NAME_ID`, `PUBLISHER_ID`, `VERSION_ID`, `CATEGORY_ID`, `COUNT`)";
-            if($values['CATEGORY_ID'] == null) {
-                $sql .= " VALUES ('%s', %s, %s, %s, NULL, %s)";
-                $arg = array($identifier, $values['NAME_ID'], $values['PUBLISHER_ID'], $values['VERSION_ID'], $values['COUNT']);
-            } else {
-                $sql .= " VALUES ('%s', %s, %s, %s, %s, %s)";
-                $arg = array($identifier, $values['NAME_ID'], $values['PUBLISHER_ID'], $values['VERSION_ID'], $values['CATEGORY_ID'], $values['COUNT']);
+            foreach($software as $identifier => $values) {
+                $sql = "INSERT INTO `software_link` (`IDENTIFIER`, `NAME_ID`, `PUBLISHER_ID`, `VERSION_ID`, `CATEGORY_ID`, `COUNT`)";
+                if($values['CATEGORY_ID'] == null) {
+                    $sql .= " VALUES ('%s', %s, %s, %s, NULL, %s)";
+                    $arg = array($identifier, $values['NAME_ID'], $values['PUBLISHER_ID'], $values['VERSION_ID'], $values['COUNT']);
+                } else {
+                    $sql .= " VALUES ('%s', %s, %s, %s, %s, %s)";
+                    $arg = array($identifier, $values['NAME_ID'], $values['PUBLISHER_ID'], $values['VERSION_ID'], $values['CATEGORY_ID'], $values['COUNT']);
+                }
+
+                $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+
+                if(!$result) {
+                    print("[".date("Y-m-d H:i:s"). "] Failed to insert software with identifier : ".$identifier."\n");
+                }
             }
 
-            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
-
-            if(!$result) {
-                error_log(print_r("An error occure when attempt to insert software with identifier : ".$identifier, true));
-            }
+            $chunkIndex += 1;
         }
-
     }
 
     private function delete_software_link() {
@@ -91,7 +111,7 @@ class AllSoftware
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
     }
 
-    private function get_software_informations() {
+    private function get_software_informations($chunk, $limit) {
         $configToLookOut = [
             'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
         ];
@@ -110,7 +130,7 @@ class AllSoftware
             $sql .= " LEFT JOIN hardware h ON h.ID = s.HARDWARE_ID WHERE h.ARCHIVE IS NULL";
         }
                 
-        $sql .= " GROUP BY s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID";
+        $sql .= " GROUP BY s.NAME_ID, s.PUBLISHER_ID, s.VERSION_ID LIMIT $limit,$chunk";
 
         return mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     }
