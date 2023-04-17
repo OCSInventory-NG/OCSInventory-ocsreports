@@ -387,6 +387,8 @@ function update_default_value($POST) {
         'CAS_URI' => 'CAS_URI',
         'CAS_HOST' => 'CAS_HOST',
         'CAS_DEFAULT_ROLE' => 'CAS_DEFAULT_ROLE',
+        'CAS_BASEURL' => 'CAS_BASEURL',
+        'CAS_SERVER_CA_CERT_PATH' => 'CAS_SERVER_CA_CERT_PATH',
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
@@ -1030,6 +1032,8 @@ function pageCas() {
         'CAS_URI' => 'CAS_URI',
         'CAS_HOST' => 'CAS_HOST',
         'CAS_DEFAULT_ROLE' => 'CAS_DEFAULT_ROLE',
+        'CAS_BASEURL' => 'CAS_BASEURL',
+        'CAS_SERVER_CA_CERT_PATH' => 'CAS_SERVER_CA_CERT_PATH'
     );
     $values = look_config_default_values($champs);
     $role1 = get_profile_labels();
@@ -1040,6 +1044,8 @@ function pageCas() {
     ligne('CAS_URI', $l->g(9701) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_URI'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CAS_HOST', $l->g(9702) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_HOST'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CAS_DEFAULT_ROLE', $l->g(9703), 'select', array('VALUE' => $values['tvalue']['CAS_DEFAULT_ROLE'] ?? '', 'SELECT_VALUE' => $default_role));
+    ligne('CAS_BASEURL', $l->g(9705) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_BASEURL'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CAS_SERVER_CA_CERT_PATH', $l->g(9706) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_SERVER_CA_CERT_PATH'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
 }
 
 
