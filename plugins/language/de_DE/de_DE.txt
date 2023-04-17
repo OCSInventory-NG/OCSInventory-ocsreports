@@ -1649,7 +1649,7 @@
 9701 CAS Server URI, z.B. : /cas
 9702 CAS Server Host, z.B. : authentication.org
 9705 CAS Basis URI, z.B. : ocs.example.com
-9706 CAS Server CA-Zertifikatspfad, z.B. : /cas/server-ca-certs
+9706 CAS Server CA-Zertifikatspfad, z.B. : /path/to/cachain.pem
 
 9704 CAS Konfiguration
 

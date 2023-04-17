@@ -52,13 +52,13 @@ if (!isset($sql_update)) {
 
     // Set CAS Server CA Cert
     // Strongly recommended for production environments
-    if (!isset($config['CAS_SERVER_CA_PATH'])) {
-        $cas->setCasServerCACert($config['CAS_SERVER_CA_PATH']);
+    if (!isset($config['CAS_SERVER_CA_CERT_PATH'])) {
+        $cas->setCasServerCACert($config['CAS_SERVER_CA_CERT_PATH']);
     } else {
         // if CAS Server CA Cert Path not set, fall back to no validation.
         $cas->setNoCasServerValidation();
     }
-    
+
     // force CAS authentication on any page that includes this file.
     $cas->forceAuthentication();
     $login = $cas->getUser();
