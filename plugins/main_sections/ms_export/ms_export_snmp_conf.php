@@ -58,17 +58,30 @@ function SnmpConfToXml($conf_choice) {
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         $xml .= "<".$plural.">\n";
         while ($row = mysqli_fetch_array($result)) {
-            $xml .= "<".$singular." ";
-            foreach ($row as $key => $value) {
-                if (!is_numeric($key)) {
-                    $xml .= $key."=\"".$value."\" ";
-                }
-            }
-            $xml .= "TYPE=\"".$singular."\" />\n";
-        }
-        $xml .= "</".$plural.">\n";
+            
 
-        return $xml;
+            // the subnets are stored in a single field separated by a comma so we need to split them into different subnet tags
+            if ($plural == "SUBNETS") {
+                $subnets = explode(",", $row['TVALUE']);
+                foreach ($subnets as $subnet) {
+                    $xml .= "<".$singular." ";
+                    $xml .= "TVALUE=\"".$subnet."\" ";
+                    $xml .= "TYPE=\"".$singular."\" />\n";
+                }
+            } else {
+                $xml .= "<".$singular." ";
+                foreach ($row as $key => $value) {
+                    if (!is_numeric($key)) {
+                        $xml .= $key."=\"".$value."\" ";
+                    }
+                }
+                $xml .= "TYPE=\"".$singular."\" />\n";
+            }
+
+            $xml .= "</".$plural.">\n";
+
+            return $xml;
+        }
     // handling conf options 
     } else if (isset($sql_default) && $sql_default != '') {
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
