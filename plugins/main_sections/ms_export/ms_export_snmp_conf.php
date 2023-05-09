@@ -78,10 +78,14 @@ function SnmpConfToXml($conf_choice) {
                 $xml .= "TYPE=\"".$singular."\" />\n";
             }
 
-            $xml .= "</".$plural.">\n";
+            
 
-            return $xml;
+
         }
+        $xml .= "</".$plural.">\n";
+
+        return $xml;
+
     // handling conf options 
     } else if (isset($sql_default) && $sql_default != '') {
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);

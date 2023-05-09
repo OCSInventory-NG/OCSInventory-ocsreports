@@ -1899,6 +1899,6 @@
 9985 Download SNMP Communities Configuration
 9986 Download SNMP Types Configuration
 9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
-9988 Configuration Export
-9989 Download SNMP Scan onfiguration
+9988 Configuration export
+9989 Download SNMP Scan Configuration
 9990 Download SNMP Subnets List
