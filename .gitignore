@@ -5,5 +5,3 @@
 vendor/
 composer.lock
 report/
-extensions/
-config/
