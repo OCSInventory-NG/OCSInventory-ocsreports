@@ -17,11 +17,13 @@
     <config-elem key="ACCOUNTINFO">YES</config-elem>
     <config-elem key="CHANGE_ACCOUNTINFO">YES</config-elem>
     <config-elem key="CHANGE_USER_GROUP">YES</config-elem>
+    <config-elem key="MANAGE_SAVED_SEARCHES">YES</config-elem>
     <config-elem key="MANAGE_PROFIL">YES</config-elem>
     <config-elem key="MANAGE_USER_GROUP">YES</config-elem>
     <config-elem key="MANAGE_SMTP_COMMUNITIES">YES</config-elem>
     <config-elem key="DELETE_COMPUTERS">YES</config-elem>
     <config-elem key="ARCHIVE_COMPUTERS">YES</config-elem>
+    <config-elem key="MANAGE_LAYOUTS">YES</config-elem>
   </config>
   <blacklist>
     <blacklist-elem>MACADD</blacklist-elem>
@@ -29,95 +31,87 @@
     <blacklist-elem>IPDISCOVER</blacklist-elem>
   </blacklist>
   <pages>
-    <page>ms_all_computers</page>
+    <page>ms_snmp_config</page>
+    <page>ms_config_account</page>
+    <page>ms_add_profile</page>
+    <page>ms_add_user</page>
+    <page>ms_blacklist</page>
     <page>ms_config</page>
-    <page>ms_repart_tag</page>
-    <page>ms_groups</page>
-    <page>ms_all_soft</page>
-    <page>ms_multi_search</page>
+    <page>ms_dict</page>
+    <page>ms_doubles</page>
+    <page>ms_admininfo</page>
+    <page>ms_admin_ipdiscover</page>
+    <page>ms_label</page>
+    <page>ms_local_import</page>
+    <page>ms_logs</page>
+    <page>ms_custom_perim</page>
+    <page>ms_profile_details</page>
+    <page>ms_profiles</page>
+    <page>ms_regconfig</page>
+    <page>ms_upload_file</page>
+    <page>ms_users</page>
+    <page>ms_user_details</page>
+    <page>ms_adminvalues</page>
+    <page>ms_ask</page>
+    <page>ms_asset_cat</page>
+    <page>ms_asset_cat_list</page>
+    <page>ms_tele_compress</page>
+    <page>ms_computer</page>
+    <page>ms_console</page>
+    <page>ms_cve_correspondance</page>
+    <page>ms_cve_history</page>
+    <page>ms_cve_search</page>
+    <page>ms_debug</page>
+    <page>ms_csv</page>
+    <page>ms_csv_snmp</page>
+    <page>ms_export_ocs</page>
+    <page>ms_export_snmp</page>
+    <page>ms_soft_csv</page>
+    <page>ms_extension</page>
+    <page>ms_extensionmanager</page>
+    <page>ms_group_show</page>
     <page>ms_custom_groups</page>
+    <page>ms_help</page>
+    <page>ms_history</page>
+    <page>ms_ipdiscover_analyse</page>
+    <page>ms_custom_info</page>
     <page>ms_custom_lock</page>
+    <page>ms_greenit_config</page>
+    <page>ms_greenit_dashboard</page>
+    <page>ms_notification</page>
+    <page>ms_offers</page>
+    <page>ms_custom_param</page>
     <page>ms_custom_pack</page>
+    <page>ms_qrcode</page>
+    <page>ms_saas_soft</page>
+    <page>ms_save_query</page>
+    <page>ms_save_query_list</page>
+    <page>ms_options</page>
+    <page>ms_server_infos</page>
+    <page>ms_ipdiscover</page>
+    <page>ms_snmp_detail</page>
+    <page>ms_snmp_inventory</page>
+    <page>ms_soft_cat</page>
+    <page>ms_options_soft_cat</page>
+    <page>ms_speed_stat</page>
+    <page>ms_stats_connexion</page>
     <page>ms_custom_sup</page>
     <page>ms_custom_tag</page>
     <page>ms_custom_tag_snmp</page>
-    <page>ms_dict</page>
-    <page>ms_upload_file</page>
-    <page>ms_regconfig</page>
-    <page>ms_logs</page>
-    <page>ms_admininfo</page>
-    <page>ms_ipdiscover</page>
-    <page>ms_admin_ipdiscover</page>
-    <page>ms_doubles</page>
-    <page>ms_label</page>
-    <page>ms_users</page>
-    <page>ms_add_user</page>
-    <page>ms_user_details</page>
-    <page>ms_config_account</page>
-    <page>ms_profiles</page>
-    <page>ms_add_profile</page>
-    <page>ms_profile_details</page>
-    <page>ms_custom_perim</page>
-    <page>ms_local_import</page>
-    <page>ms_help</page>
-    <page>ms_stats</page>
-    <page>ms_codes</page>
-    <page>ms_blacklist</page>
-    <page>ms_console</page>
-    <page>ms_components</page>
-    <page>ms_tele_build</page>
     <page>ms_tele_activate</page>
-    <page>ms_tele_popup_active</page>
     <page>ms_tele_actives</page>
+    <page>ms_tele_build</page>
     <page>ms_tele_pack</page>
-    <page>ms_custom_param</page>
-    <page>ms_opt_ipdiscover</page>
-    <page>ms_group_show</page>
-    <page>ms_show_detail</page>
-    <page>ms_custom_info</page>
-    <page>ms_debug</page>
-    <page>ms_computer</page>
-    <page>ms_soft_csv</page>
-    <page>ms_csv</page>
-    <page>ms_csv_snmp</page>
+    <page>ms_tele_popup_active</page>
     <page>ms_tele_stats</page>
-    <page>ms_tele_compress</page>
-    <page>ms_speed_stat</page>
-    <page>ms_admin_management</page>
-    <page>ms_adminvalues</page>
-    <page>ms_view_file</page>
-    <page>ms_options</page>
-    <page>ms_options_soft_cat</page>
-    <page>ms_snmp</page>
-    <page>ms_snmp_detail</page>
-    <page>jp_teledeploy_stats</page>
     <page>jp_teledeploy_speed_stats</page>
-    <page>jp_activity_stats</page>
-    <page>ms_ipdiscover_analyse</page>
-    <page>ms_stats_connexion</page>
-    <page>ms_add_key</page>
-    <page>ms_export_ocs</page>
-    <page>ms_export_snmp</page>
-    <page>ms_qrcode</page>
-    <page>ms_extension</page>
-    <page>ms_stats_top</page>
-    <page>ms_server_infos</page>
+    <page>jp_teledeploy_stats</page>
+    <page>ms_view_file</page>
+    <page>ms_all_soft</page>
+    <page>ms_all_computers</page>
+    <page>ms_groups</page>
+    <page>ms_repart_tag</page>
+    <page>ms_multi_search</page>
     <page>ms_wiki</page>
-    <page>ms_offers</page>
-    <page>ms_ask</page>
-    <page>ms_extensionmanager</page>
-    <page>ms_soft_cat</page>
-    <page>ms_asset_cat</page>
-    <page>ms_asset_cat_list</page>
-    <page>ms_notification</page>
-    <page>ms_cve_search</page>
-    <page>ms_cve_correspondance</page>
-    <page>ms_saas_soft</page>
-    <page>ms_snmp_config</page>
-    <page>ms_save_query</page>
-    <page>ms_save_query_list</page>
-    <page>ms_snmp_inventory</page>
-    <page>ms_cve_history</page>
-    <page>ms_history</page>
   </pages>
 </profile>
