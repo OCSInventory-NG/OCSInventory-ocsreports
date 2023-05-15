@@ -1902,3 +1902,4 @@
 9988 Configuration export
 9989 Download SNMP Scan Configuration
 9990 Download SNMP Subnets List
+9991 Generate SNMP files

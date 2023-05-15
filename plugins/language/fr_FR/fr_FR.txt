@@ -1897,3 +1897,4 @@
 9988 Export de configuration
 9989 Télécharger la configuration du scan SNMP
 9990 Télécharger la liste des réseaux SNMP
+9991 Génère les fichiers SNMP
