@@ -1799,6 +1799,10 @@
 9364 Ligne configuration
 9365 Ligne devant être ajoutée au fichier modules.conf (ex: 'use Ocsinventory::Agent::Modules::Pluginname;'):
 9366 Chemin du répertoire Modules de l'agent
+9367 Mettre l'option ci-dessous sur LANCER retournera le paquet comme en erreur si le code de sortie est différent de 0. La mettre sur EXECUTER retournera le code de sortie avec le statut au serveur. 
+9368 Mode d'éxecution : 
+9369 LANCER
+9370 EXECUTER
 
 9500 Fusionner la sélection
 9501 Tout fusionner

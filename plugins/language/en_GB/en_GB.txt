@@ -1804,6 +1804,10 @@
 9364 Configuration line
 9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
 9366 Path to Modules directory
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
 
 9500 Merge selected duplicates
 9501 Merge all duplicates
