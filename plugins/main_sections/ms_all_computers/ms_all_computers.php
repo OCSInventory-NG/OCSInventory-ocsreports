@@ -96,7 +96,7 @@ if (!empty($protectedPost['ARCHIVER'])) {
     unset($protectedPost['ARCHIVER']);
 }
 
-//archive one computer
+//restore one computer
 if (!empty($protectedPost['RESTORE'])) {
     $archive->restore($protectedPost['RESTORE']);
     $tab_options['CACHE'] = 'RESET';
