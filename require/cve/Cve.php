@@ -379,7 +379,7 @@ class Cve
                   $result = $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0]);
                   if($result != null) {
                     if($this->CVE_VERBOSE == 1) {
-                      error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
+                      print("[".date("Y-m-d H:i:s"). "] ".$values['id']." has been referenced for ".$software["REAL_NAME"]."\n");
                     }
                     $this->cve_history['CVE_NB'] ++;
                     $this->cveNB ++;
@@ -441,25 +441,27 @@ class Cve
     if($config == 1) {
       switch($code) {
         case 1:
-          error_log(print_r($this->CVE_SEARCH_URL." is not reachable.",true));
+          print("[".date("Y-m-d H:i:s"). "] ".$this->CVE_SEARCH_URL." is not reachable\n");
         break;
         case 2:
-          error_log(print_r($this->cveNB." CVE has been added to database",true));
+          print("[".date("Y-m-d H:i:s"). "] ".$this->cveNB." CVE have been added to database\n");
         break;
         case 3:
-          error_log(print_r("CVE feature isn't enabled", true));
+          print("[".date("Y-m-d H:i:s"). "] CVE feature isn't enabled\n");
         break;
         case 4:
-          error_log(print_r("Get software publisher ...", true));
+          print("[".date("Y-m-d H:i:s"). "] Get software publisher\n");
         break;
         case 5:
-          error_log(print_r("Software publisher OK ... \nCVE treatment started ... \nPlease wait, CVE processing is in progress. It could take a few hours", true));
+          print("[".date("Y-m-d H:i:s"). "] Software publisher OK\n");
+          print("[".date("Y-m-d H:i:s"). "] CVE treatment started\n");
+          print("[".date("Y-m-d H:i:s"). "] Please wait, CVE processing is in progress. It could take a few hours\n");
         break;
         case 6:
-          error_log(print_r("Processing ".$this->publisherName." softwares ...", true));
+          print("[".date("Y-m-d H:i:s"). "] Processing ".$this->publisherName." softwares\n");
         break;
         case 7:
-          error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
+          print("[".date("Y-m-d H:i:s"). "] ".$values['id']." has been referenced for ".$software["REAL_NAME"]."\n");
         break;
       }
     }

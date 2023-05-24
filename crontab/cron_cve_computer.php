@@ -16,7 +16,8 @@ $clean = false;
 
 //Check if CVE is activate
 if($cve->CVE_ACTIVE == 1) {
-    print("Please wait, cve processing is in progress. It could take a few minutes ...\n");
+    print("[".date("Y-m-d H:i:s"). "] Please wait, CVE computer processing is in progress. It could take a few minutes\n");
+    
     $sql = "TRUNCATE TABLE `cve_search_computer`";
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
 
@@ -51,9 +52,12 @@ if($cve->CVE_ACTIVE == 1) {
         $res = mysql2_query_secure($sql_insert, $_SESSION['OCS']["writeServer"], $arg_sql);
 
         if (!$res){
+            print("[".date("Y-m-d H:i:s"). "] ERROR when attempt to link ".$value['CVE']." with ".$value['computer']."\n");
         }
     }
+    print("[".date("Y-m-d H:i:s"). "] End of process\n");
 } else {
     $cve->verbose($cve->CVE_VERBOSE, 3);
     exit();
-}?>
+}
+?>
