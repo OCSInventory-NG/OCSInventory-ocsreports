@@ -46,10 +46,6 @@ function build_xml_types_array($xml) {
         $oid = (string)$type['OID'];
         $reconciliation = (string)$type['RECONCILIATION'];
     
-        // if types_to_sync is set and current type is not in the list, skip this iteration
-        if (isset($types_to_sync) && !in_array($typeName, $types_to_sync)) {
-            continue;
-        }
         // check if type already exists
         if (!isset($xmlTypes[$typeName])) {
             $xmlTypes[$typeName] = array();
@@ -218,7 +214,7 @@ function create_snmp_configs($type_config, $type_id, $l) {
                 echo "[".date("Y-m-d H:i:s")."] Error updating config reconciliation for ".$type_config['label_name']." = ".$type_config['OID']." : ".mysqli_error($_SESSION['OCS']["readServer"])."\n";
             }
         }
-
+    
     ############################################ CREATE LABEL ############################################
     } else {
         $label_id = create_label($type_config, $l);
@@ -226,10 +222,9 @@ function create_snmp_configs($type_config, $type_id, $l) {
 
         if ($label_id != 0) {
             ############################################ CREATE CONFIG ############################################
-            $sql = "INSERT INTO snmp_configs (TYPE_ID, LABEL_ID, OID, RECONCILIATION) VALUES (%d, %d, '%s', '%s')";
-            $sql_arg = array($type_id, $label_id, $type_config['OID'], $type_config['reconciliation']);
-            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
-            if ($result) {
+            $snmp = new OCSSnmp();
+            $create = $snmp->snmp_config($type_id, $label_id, $type_config['OID'], $type_config['reconciliation']);
+            if ($create == 0) {
                 echo "[".date("Y-m-d H:i:s")."] Config ".$type_config['label_name']." = ".$type_config['OID']." created successfully\n";
             } else {
                 echo "[".date("Y-m-d H:i:s")."] Error creating config ".$type_config['label_name']." : ".mysqli_error($_SESSION['OCS']["readServer"])."\n";
@@ -289,6 +284,14 @@ function create_label($type_config, $l) {
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
         return mysqli_fetch_assoc($result)['ID'];
 
+    } else if ($create == 9025) {
+        echo "[".date("Y-m-d H:i:s")."] Label ".$type_config['label_name']." already exists\n";
+        // return label id we found
+        $sql = "SELECT ID FROM snmp_labels WHERE LABEL_NAME = '%s'";
+        $sql_arg = array($type_config['label_name']);
+        $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
+        return mysqli_fetch_assoc($result)['ID'];
+
     } else {
         echo "[".date("Y-m-d H:i:s")."] Error creating label ".$type_config['label_name']." = ".$type_config['OID']." : ". $l->g($create). "\n";
         return 0;
@@ -296,15 +299,30 @@ function create_label($type_config, $l) {
 }
 
 function sync_types($xmlTypes, $l) {
-    // existing conditions will be overwritten
-    $sql = "DELETE FROM snmp_types_conditions";
-    $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
-    if ($result) {
-        // echo datetime and msg
-        echo "[".date("Y-m-d H:i:s")."] Existing conditions deleted successfully\n";
-    } else {
-        echo "[".date("Y-m-d H:i:s")."] Error deleting existing conditions : ".mysqli_error($_SESSION['OCS']["readServer"])."\n";
+    $typeNames = array_keys($xmlTypes);
+
+    // get the IDs of the types that exist in the database
+    $sql = "SELECT ID FROM snmp_types WHERE TYPE_NAME IN ('" . implode("','", $typeNames) . "')";
+    $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
+    $typeIds = array();
+    if (mysqli_num_rows($result) > 0) {
+        while ($data = mysqli_fetch_assoc($result)) {
+            $typeIds[] = $data['ID'];
+        }
     }
+
+    // delete any existing conditions for the types
+    if (!empty($typeIds)) {
+        $sql = "DELETE FROM snmp_types_conditions WHERE TYPE_ID IN (" . implode(',', $typeIds) . ")";
+        $result = mysqli_query($_SESSION['OCS']["writeServer"], $sql);
+        if ($result) {
+            echo "[" . date("Y-m-d H:i:s") . "] Existing conditions deleted successfully\n";
+        } else {
+            echo "[" . date("Y-m-d H:i:s") . "] Error deleting existing conditions: " . mysqli_error($_SESSION['OCS']["readServer"]) . "\n";
+        }
+    }
+
+    // Create the new conditions
     create($xmlTypes, $l);
 }
 
