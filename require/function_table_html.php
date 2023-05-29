@@ -562,12 +562,18 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
     <?php
 	$layout_visib = json_encode($layout->prepareInsert($visible_col ?? [], $protectedPost['columns'] ?? []) ?? null);
 	$_SESSION['OCS']['layout_visib'] = $layout_visib;
+	
+	$archiveClass = "";
+
+	if(isset($protectedPost["onglet"]) && $protectedPost["onglet"] == "ARCHIVE") {
+		$archiveClass = "archive";
+	}
 
     if (!empty($titre)) {
         printEnTete_tab($titre);
     }
     echo "<div class='tableContainer'>";
-    echo "<table id='" . $option['table_name'] . "' width='100%' class='table table-striped table-condensed table-hover cell-border'><thead><tr>";
+    echo "<table id='" . $option['table_name'] . "' width='100%' class='table table-striped table-condensed table-hover cell-border $archiveClass'><thead><tr>";
     //titre du tableau
     foreach ($columns as $k => $v) {
         if (array_key_exists($k, $lbl_column)) {
@@ -1100,7 +1106,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 		echo "<ul class=\"nav nav-pills\" style='display: inline-block' role=\"tablist\">";
 
 		$current="";
-
+		
 		foreach($def_onglets as $key=>$value){
 			echo "<li ";
 			if (is_numeric($protectedPost[$post_name])){
@@ -1110,7 +1116,12 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 				}
 			}else{
 				if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
-					echo "class='active'";
+					if($protectedPost[$post_name] == "ARCHIVE") {
+						echo "class='active archive'";
+					} else {
+						echo "class='active'";
+					}
+					
 					$current=1;
 				}
 			}
