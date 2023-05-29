@@ -2,7 +2,9 @@
 
 /**
  * This script is used to synchronize SNMP types configuration of the database with an XML file containing types configuration (exported from another OCS server for example)
- * Script takes argument :
+ * It is recommended to backup the snmp_* tables before running this script
+ * The script will create types, conditions and labels if they don't exist in the database but will not delete them if they are not present in the XML file
+ *  Script takes argument :
  * - --file= the XML file (path)
 */
 
@@ -198,7 +200,7 @@ function create_snmp_configs($type_config, $type_id, $l) {
                 $alter = alter_table_column($type_config['label_name'], $type_config['reconciliation'], $data['LABEL_NAME'], $data['LABEL_ID']);
 
             } else {
-                echo "[".date("Y-m-d H:i:s")."] Error updating label ".$type_config['label_name']." : ".mysqli_error($_SESSION['OCS']["readServer"])."\n";
+                echo "[".date("Y-m-d H:i:s")."] Error updating label ".$type_config['label_name']."\n";
             }
 
         }
@@ -210,8 +212,10 @@ function create_snmp_configs($type_config, $type_id, $l) {
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
             if ($result) {
                 echo "[".date("Y-m-d H:i:s")."] Config reconciliation for ".$type_config['label_name']." = ".$type_config['OID']." updated successfully\n";
+                $alter = alter_table_column($type_config['label_name'], $type_config['reconciliation'], $data['LABEL_NAME'], $data['LABEL_ID']);
+            
             } else {
-                echo "[".date("Y-m-d H:i:s")."] Error updating config reconciliation for ".$type_config['label_name']." = ".$type_config['OID']." : ".mysqli_error($_SESSION['OCS']["readServer"])."\n";
+                echo "[".date("Y-m-d H:i:s")."] Error updating config reconciliation for ".$type_config['label_name']." = ".$type_config['OID']."\n";
             }
         }
     
@@ -227,10 +231,10 @@ function create_snmp_configs($type_config, $type_id, $l) {
             if ($create == 0) {
                 echo "[".date("Y-m-d H:i:s")."] Config ".$type_config['label_name']." = ".$type_config['OID']." created successfully\n";
             } else {
-                echo "[".date("Y-m-d H:i:s")."] Error creating config ".$type_config['label_name']." : ".mysqli_error($_SESSION['OCS']["readServer"])."\n";
+                echo "[".date("Y-m-d H:i:s")."] Error creating config ".$type_config['label_name']."\n";
             }
         } else {
-            echo "[".date("Y-m-d H:i:s")."] Error creating label ".$type_config['label_name']." : ".mysqli_error($_SESSION['OCS']["readServer"])."\n";
+            echo "[".date("Y-m-d H:i:s")."] Error creating label ".$type_config['label_name']."\n";
         }
     }
 }
@@ -252,9 +256,15 @@ function alter_table_column($label_name, $reconciliation, $label_name_old, $labe
         $snmp = new OCSSnmp();
         $table_name = $snmp->get_table_type_drop($type_id);
         ############################################ ALTER TABLE COLUMNS ############################################
+		if ($reconciliation == null) {
+            $sql_unique = "ALTER TABLE `%s` DROP INDEX `%s`";
+            $arg_unique = array($table_name, $label_name_old);
+            $result_unique = mysql2_query_secure($sql_unique, $_SESSION['OCS']["writeServer"], $arg_unique);
+        }
+
         // if reconciliation == 'Yes' then varchar(255) else text
         $sql = "ALTER TABLE %s CHANGE %s %s %s";
-        if ($reconciliation == 'Yes') {
+        if ($reconciliation != null) {
             $arg = "VARCHAR(255)";
         } else {
             $arg = "TEXT";
@@ -265,9 +275,19 @@ function alter_table_column($label_name, $reconciliation, $label_name_old, $labe
 
         if ($result) {
             echo "[".date("Y-m-d H:i:s")."] Column ".$label_name." updated successfully for table ".$table_name."\n";
-            
+            if($reconciliation != null) {
+                $sql_unique = "ALTER TABLE `%s` ADD UNIQUE (`%s`)";
+                $arg_unique = array($table_name, $label_name);
+                $result_unique = mysql2_query_secure($sql_unique, $_SESSION['OCS']["writeServer"], $arg_unique);
+                if ($result_unique) {
+                    echo "[".date("Y-m-d H:i:s")."] Unique index ".$label_name." created successfully for table ".$table_name."\n";
+                } else {
+                    echo "[".date("Y-m-d H:i:s")."] Error creating unique index ".$label_name." for table ".$table_name."\n";
+                }
+
+            }
         } else {
-            echo "[".date("Y-m-d H:i:s")."] Error updating column ".$label_name." for table ".$table_name." : ".mysqli_error($_SESSION['OCS']["readServer"])."\n";
+            echo "[".date("Y-m-d H:i:s")."] Error updating column ".$label_name." for table ".$table_name."\n";
             
         }
     }
@@ -318,7 +338,7 @@ function sync_types($xmlTypes, $l) {
         if ($result) {
             echo "[" . date("Y-m-d H:i:s") . "] Existing conditions deleted successfully\n";
         } else {
-            echo "[" . date("Y-m-d H:i:s") . "] Error deleting existing conditions: " . mysqli_error($_SESSION['OCS']["readServer"]) . "\n";
+            echo "[" . date("Y-m-d H:i:s") . "] Error deleting existing conditions \n";
         }
     }
 
