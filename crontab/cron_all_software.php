@@ -15,7 +15,7 @@ $longOptions = array("chunk:","help::");
 
 $options = getopt($shortOptions, $longOptions);
 
-$chunk = 1000;
+$chunk = 5000;
 
 if(array_key_exists("h", $options) || array_key_exists("help", $options)) {
     echo "Usage: php cron_all_software.php [--] [args...]\n\n";
