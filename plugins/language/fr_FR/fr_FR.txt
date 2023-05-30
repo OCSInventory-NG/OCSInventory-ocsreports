@@ -1889,3 +1889,16 @@
 9970 Vous n'êtes pas authorisé à modifier cet utilisateur
 9971 Voulez-vous vraiment ré-affecter le paquet 
 9972 Affecter à nouveau
+
+9980 Scans réseau
+9981 Méthode utilisée pour les scans IpDiscover effectués par les agents (nmap, ICMP, ARP scan)<br><br>Note : ARP scan ne balayera que le réseau local
+9982 Méthode utilisée pour les scans SNMP effectués par les agents Linux (nmap, ICMP, ARP scan)<br><br>Note : ARP scan ne balayera que le réseau local
+9983 Si ARP scan est sélectionné : bande passante utilisée par ARP scan (en Kbps)
+9984 Exporter la configuration SNMP
+9985 Télécharger la configuration des communautés SNMP
+9986 Télécharger la configuration des types SNMP
+9987 Export de configuration pour le scan SNMP local : La configuration sera téléchargée sous forme de fichier XML pouvant être utilisé pour configurer un agent pour le scan SNMP local. <br> Notez que la configuration du scan SNMP retournera la configuration générale des scans réseau si exporté depuis cette page. Si vous souhaitez obtenir une configuration de groupe ou de machine, rendez vous sur la page du groupe ou de la machine, puis accédez à la configuration.
+9988 Export de configuration
+9989 Télécharger la configuration du scan SNMP
+9990 Télécharger la liste des réseaux SNMP
+9991 Génère les fichiers SNMP

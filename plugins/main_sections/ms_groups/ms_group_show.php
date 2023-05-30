@@ -794,7 +794,7 @@ function print_perso($systemid) {
     }
 
     $field_name = array('DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_FRAG_LATENCY',
-        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP');
+        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP', 'SCAN_TYPE_SNMP', 'SCAN_TYPE_IPDISCOVER', 'SCAN_ARP_BANDWIDTH');
     $optdefault = look_config_default_values($field_name);
 
      //IPDISCOVER
@@ -926,6 +926,47 @@ function print_perso($systemid) {
     }
 
     optpersoGroup('SNMP_SWITCH', $l->g(1197), 'SNMP_SWITCH', '', $default, $supp);
+
+    // SCAN TYPE SNMP
+    if (isset($optPerso["SCAN_TYPE_SNMP"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_SNMP"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_SNMP"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_SNMP"];
+    }
+
+    optpersoGroup('SCAN_TYPE_SNMP', $l->g(9982), 'SCAN_TYPE_SNMP', '', $default, $supp);
+
+    // SCAN TYPE IPDISCOVER
+    if (isset($optPerso["SCAN_TYPE_IPDISCOVER"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_IPDISCOVER"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_IPDISCOVER"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_IPDISCOVER"];
+    }
+
+    optpersoGroup('SCAN_TYPE_IPDISCOVER', $l->g(9981), 'SCAN_TYPE_IPDISCOVER', '', $default, $supp);
+
+    // ARP BANDWIDTH
+    
+    if (isset($optPerso["SCAN_ARP_BANDWIDTH"])) {
+        $default = '';
+        if ($optPerso["SCAN_ARP_BANDWIDTH"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_ARP_BANDWIDTH"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['ivalue']["SCAN_ARP_BANDWIDTH"];
+    }
+
+    optpersoGroup('SCAN_ARP_BANDWIDTH', $l->g(9983), 'SCAN_ARP_BANDWIDTH', '', $default, $supp);
+
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
         echo "<a class='btn btn-success' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">

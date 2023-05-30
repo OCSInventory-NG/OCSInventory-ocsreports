@@ -110,7 +110,7 @@ while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
     $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
 }
 $field_name = array('DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_FRAG_LATENCY',
-    'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP');
+    'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP', 'SCAN_TYPE_IPDISCOVER', 'SCAN_TYPE_SNMP', 'SCAN_ARP_BANDWIDTH');
 $optdefault = look_config_default_values($field_name);
 
 //IPDISCOVER
@@ -181,6 +181,47 @@ optperso("DOWNLOAD_TIMEOUT", $l->g(424), "DOWNLOAD_TIMEOUT", $optPerso ?? '', $o
 
 //DOWNLOAD_SWITCH
 optperso("SNMP_SWITCH", $l->g(1197), "SNMP_SWITCH", $optPerso ?? '', '', (isset($optPerso["SNMP_SWITCH"]["IVALUE"]) && $optPerso["SNMP_SWITCH"]["IVALUE"] == 1) ? $l->g(733) : $l->g(205));
+
+    // SCAN TYPE SNMP
+    if (isset($optPerso["SCAN_TYPE_SNMP"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_SNMP"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_SNMP"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_SNMP"];
+    }
+
+    optpersoGroup('SCAN_TYPE_SNMP', $l->g(9982), 'SCAN_TYPE_SNMP', '', $default, $supp);
+
+    // SCAN TYPE IPDISCOVER
+    if (isset($optPerso["SCAN_TYPE_IPDISCOVER"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_IPDISCOVER"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_IPDISCOVER"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_IPDISCOVER"];
+    }
+
+    optpersoGroup('SCAN_TYPE_IPDISCOVER', $l->g(9981), 'SCAN_TYPE_IPDISCOVER', '', $default, $supp);
+
+    // ARP BANDWIDTH
+    if (isset($optPerso["SCAN_ARP_BANDWIDTH"])) {
+        $default = '';
+        if ($optPerso["SCAN_ARP_BANDWIDTH"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_ARP_BANDWIDTH"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['ivalue']["SCAN_ARP_BANDWIDTH"];
+    }
+
+    optpersoGroup('SCAN_ARP_BANDWIDTH', $l->g(9983), 'SCAN_ARP_BANDWIDTH', '', $default, $supp);
+
+
 
 //GROUPS
 $sql_groups = "SELECT static, name, group_id,workgroup

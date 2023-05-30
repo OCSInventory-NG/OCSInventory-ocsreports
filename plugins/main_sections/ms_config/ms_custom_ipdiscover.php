@@ -46,6 +46,14 @@ if (isset($optvalueTvalue['IPDISCOVER']) && $optvalue['IPDISCOVER'] == 1) {
 } elseif (!isset($protectedGet['idchecked'])) {
     $mode = 2;
 }
+
+echo "<br><div class='col-md-6 text-right'>";
+echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=scan&id=".$protectedGet['idchecked']."' class='btn btn-action'>". $l->g(9989)."</a>";
+echo "</div>";
+echo "<div class='col-md-6 text-left'>";
+echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=net&id=".$protectedGet['idchecked']."' class='btn btn-action'>". $l->g(9990)."</a>";
+echo "</div><br><br>";
+
 $lesRez['des'] = $l->g(523);
 $lesRez['OFF'] = $l->g(524);
 if (isset($protectedGet['idchecked']) && is_numeric($protectedGet['idchecked'])) {
@@ -64,6 +72,11 @@ if (isset($protectedGet['idchecked']) && is_numeric($protectedGet['idchecked']))
 
 ligne('IPDISCOVER', $l->g(518), 'select', array('SELECT_VALUE' => $lesRez, 'VALUE' => $select_value ?? ''));
 
+
+// IPD SCAN TYPE
+ligne('SCAN_TYPE_IPDISCOVER', $l->g(9981), 'select', array('VALUE' => $optvalueTvalue['SCAN_TYPE_IPDISCOVER'] ?? 'SERVER DEFAULT', 'SELECTED' => $optvalueTvalue['SCAN_TYPE_IPDISCOVER'] ?? 'SERVER DEFAULT', 'SIZE' => 1, 'JAVASCRIPT' => $numeric, 'SELECT_VALUE' => array('NMAP' => 'NMAP', 'ICMP' => 'ICMP', 'ARPSCAN' => 'ARPSCAN', 'SERVER DEFAULT' => 'Default')));
+
+
 if (!isset($optvalue['SNMP_SWITCH'])) {
     $optvalueselected = 'SERVER DEFAULT';
 } elseif ($optvalue['SNMP_SWITCH'] == 0) {
@@ -81,6 +94,12 @@ if (!isset($protectedGet['origine'])) {
 }
 ligne("SNMP_SWITCH", $l->g(1197), 'radio', $champ_value);
 ligne('SNMP_NETWORK', $l->g(1198), 'long_text', array('VALUE' => $optvalueTvalue['SNMP_NETWORK'] ?? '', 'COLS' => 40, 'ROWS' => 1));
+
+// SNMP SCAN TYPE
+ligne('SCAN_TYPE_SNMP', $l->g(9982), 'select', array('VALUE' => $optvalueTvalue['SCAN_TYPE_SNMP'] ?? 'SERVER DEFAULT', 'SELECTED' => $values['tvalue']['SCAN_TYPE_SNMP'] ?? 'SERVER DEFAULT', 'SIZE' => 1, 'JAVASCRIPT' => $numeric, 'SELECT_VALUE' => array('NMAP' => 'NMAP', 'ICMP' => 'ICMP', 'ARPSCAN' => 'ARPSCAN', 'SERVER DEFAULT' => 'Default')));
+// ARP SCAN BANDWIDTH
+ligne('SCAN_ARP_BANDWIDTH', $l->g(9983), 'input', array('END' => 'kbps', 'VALUE' => $optvalueTvalue['SCAN_ARP_BANDWIDTH'] ?? 'Default', 'SIZE' => 1, 'MAXLENGTH' => 11, 'JAVASCRIPT' => $numeric), '', '', $sup1);
+
 unset($champ_value);
 
 fin_tab();
