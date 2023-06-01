@@ -142,10 +142,10 @@ class Cve
    *  Get distinct software name by publisher
    */
   private function getSoftwareVersion($name_id) {
-    $sql_soft = " SELECT DISTINCT v.VERSION, v.PRETTY_VERSION, sl.VERSION_ID FROM software_version v 
+    $sql_soft = " SELECT DISTINCT v.VERSION, v.PRETTYVERSION, sl.VERSION_ID FROM software_version v 
                   LEFT JOIN software_link sl ON sl.VERSION_ID = v.ID 
                   WHERE sl.NAME_ID = %s AND sl.VERSION_ID != 1";
-    $sql_soft .= " ORDER BY v.PRETTY_VERSION";
+    $sql_soft .= " ORDER BY v.PRETTYVERSION";
     $arg_soft = array($name_id);
 
     return mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
@@ -331,8 +331,8 @@ class Cve
       $software['VERSION'] = $item_soft['VERSION'];
       $this->cve_history['VERSION_ID'] = $item_soft['VERSION_ID'];
 
-      if(!is_null($item_soft["PRETTY_VERSION"])) {
-        $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$item_soft["PRETTY_VERSION"];
+      if(!is_null($item_soft["PRETTYVERSION"])) {
+        $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$item_soft["PRETTYVERSION"];
       } else {
         $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$item_soft["VERSION"];
       }
