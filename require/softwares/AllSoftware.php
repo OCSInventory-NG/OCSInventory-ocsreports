@@ -180,7 +180,7 @@ class AllSoftware
                 $i++;
             }
 
-            if (isset($unlinked_hids) && $unlinked_ids >= 1) {
+            if (isset($unlinked_ids) && $unlinked_ids >= 1) {
                 $sql_del = "DELETE FROM $table WHERE ID IN (%s)";
                 $arg_del = implode(",", $unlinked_ids);
                 $result = mysql2_query_secure($sql_del, $_SESSION['OCS']["writeServer"], $arg_del);
