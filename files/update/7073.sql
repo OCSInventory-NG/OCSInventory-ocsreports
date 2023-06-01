@@ -6,6 +6,8 @@ ALTER TABLE `software_version` ADD COLUMN `MAJOR` INT DEFAULT NULL;
 ALTER TABLE `software_version` ADD COLUMN `MINOR` INT DEFAULT NULL;
 -- Add patch version column for software_version
 ALTER TABLE `software_version` ADD COLUMN `PATCH` INT DEFAULT NULL;
+-- Update unavailable version and set default pretty version
+UPDATE `software_version` SET `PRETTYVERSION` = "Unavailable", `MAJOR` = 0, `MINOR` = 0, `PATCH` = 0 WHERE `ID` = 1;
 
 -- Remove VULN_CVESEARCH_ALL from config
 DELETE FROM `config` WHERE `NAME` = 'VULN_CVESEARCH_ALL';
