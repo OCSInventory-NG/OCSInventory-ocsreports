@@ -1359,7 +1359,7 @@
 1477 Résultat Nom
 1478 Ou importer un fichier CSV
 1479 Importer
-1480 Télécharger le fichier CSV exemple
+1480 Télécharger le fichier CSV des correspondances les plus connues
 1481 Historiques des CVEs
 1482 Dernière date d'exécution
 1483 Nombre de CVE
