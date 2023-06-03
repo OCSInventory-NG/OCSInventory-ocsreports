@@ -625,7 +625,6 @@
 736 Ativar o recurso de grupos de computadores
 737 Número aleatório calculado no intervalo definido. Projetado para evitar calcular muitos grupos no mesmo processo
 738 Especificar a validade dos grupos de computador (padrão: calcular uma vez por dia - veja offset)
-739 Melhoria futura de segurança
 740 Validade do bloqueio de um computador
 741 Configurar o motor para atualizar o inventário utilizando o valor do CHECKSUM do agente (menor carga no banco de dados)
 742 Fazer o motor considerar o inventário como uma transação (menor concorrência, melhor uso de disco)
@@ -782,6 +781,7 @@
 893 NENHUMA TAG DEFINIDA AO SEU PERFIL
 894 NENHUM DIREITO DEFINIDO AO SEU PERFIL
 895 Alteração de TAG
+896 You do not have rights to access this page, please contact your administrator
 898 Adicionar anotação
 899 Escritor
 900 Você realmente quer apagar a seleção?
@@ -1335,7 +1335,9 @@
 1455 Interface virtual
 1456 Número do telefone
 1457 Associar descoberta de rede a tag do computador</br><b style="color:#d9534f;">Saia e logue novamente depois de atualizar essa configuração</b>
+1458 characters
 
+1459 Time delay between each CVE scan
 1460 Gerenciamento de pesquisa-CVE
 1461 Ativar Relatórios CVE
 1462 URL do servidor de pesquisa-cve para o relatório
@@ -1363,6 +1365,19 @@
 1484 Tempo de validade de um CVE após a varredura do inventário OCS
 1485 Por software
 1486 Por computador
+1487 Authentication has been blocked due to too many failed attempts. (%time% seconds remaining)
+1488 Enable authentication security
+1489 Number of attempts
+1490 Cooldown
+1491 Enable password security
+1492 Set minimal characters in password
+1493 Force number in password
+1494 Force uppercase in password
+1495 Force special characters in password
+1496 The password must contain at least
+1497 The password must contain at least one uppercase
+1498 The password must contain at least one number
+1499 The password must contain at least one special character
 
 1500 Categoria de software
 1501 Nova categoria
@@ -1382,6 +1397,10 @@
 1515 Todos os sistemas operacionais
 1516 Todos softwares
 1517 Nenhuma categoria foi selecionada
+1518 List of regex
+1519 Missing computers :
+1520 (CSV datas are imported)
+1521 Display count softwares
 
 1550 Você realmente deseja arquivar
 1551 Arquivar
@@ -1407,6 +1426,7 @@
 1700 Configuração avançada
 1701 Aba disponível
 1702 Nova aba
+1703 Add selected packages
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRO:
@@ -1549,6 +1569,11 @@
 2142 Crie uma pesquisa
 2143 Pesquisa salva com sucesso
 2144 Atualizar uma pesquisa salva existente
+2145 Who can see ?
+2146 Only me
+2147 My group
+2148 All users
+2149 Update date when peripherals updated
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1680,6 +1705,25 @@
 9019 String de nome OID
 9020 Adicionar ao modelo SNMP
 9021 Pesquisar por linha específica
+9022 Can't create type with empty OID or empty OID string value
+9023 Type name already exists
+9024 An error happened during the SNMP type creation
+9025 Label already exists
+9026 An error happened during the SNMP label creation
+9027 An error happened during the SNMP configuration
+9028 An error happened during the type deletion
+9029 An error happened during the label deletion
+9030 An error happened during the config deletion
+9031 Type conditions
+9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
+9033 Authentication Protocol
+9034 Privacy Protocol
+9035 Privacy Password
+9036 No OID found
+9037 Equipment contacted today
+9038 Number of equipment per type
+9039 Quick view
+9040 Export all SNMP types
 
 9100 Caminho da chave SSL
 9101 Caminho do certificado SSL
@@ -1687,3 +1731,179 @@
 9103 modo SSL
 9104 Caminho do certificado CA
 9105 Porta MySQL
+9106 Default download protocol
+
+9200 Package deployment for computer
+9201 Package deployment for selection
+9202 Package deployment for group
+9203 Activate download fragmentation
+9204 Configure download fragmentation ratio
+9205 Enable auto activation package
+9206 Activated
+9207 Deployment date
+9208 Awaiting deployment
+
+9300 Interactions
+9301 Options
+9302 Resume
+9303 Linux
+9304 MacOS
+9305 Windows
+9306 Powershell script
+9307 Scripts
+9308 Install / Uninstall
+9309 Others
+
+9310 Batch script
+9311 Custom package
+9312 Execute an exe
+9313 Install MSI application
+9314 Powershell script
+9315 Store file/folder 
+9316 Uninstall application
+9317 Update Agent
+9318 Install with WinGet (Powershell)
+
+9319 Install application
+9320 Uninstall application
+9321 Add apt repository
+9322 Add yum repository
+9323 Bash / sh script
+
+9324 Install .app application
+9325 Install .pkg application
+9326 Install with brew
+9327 Apple script
+
+9328 Install plugin
+
+9340 Script
+9341 MSI file
+9342 Repository URL
+9343 .app file
+9344 .pkg file
+9345 HTTP
+9346 HTTPS
+9347 Arguments (optional)
+9348 Packager file
+9349 Application name
+9350 Application identifier
+9351 How to find wmic application identifier : open a cmd as administrator and run "wmic product get name"
+9352 EXE file
+9353 Script file
+9354 Write your script here <b>OR</b> put your script file
+9355 Put your packager file with all parameters inside
+9356 If multiple files, please zip before
+9357 Packager type
+9358 apt
+9359 yum
+9360 dnf
+9361 Reload build
+9362 File
+9363 Plugin agent file
+9364 Configuration line
+9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Path to Modules directory
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
+
+9500 Merge selected duplicates
+9501 Merge all duplicates
+9502 Duplicates by :
+
+9600 CSV reconciliation field :
+9601 OCS reconciliation field :
+9602 Empty value
+9603 No corresponding device found in OCS database
+9604 Update failed
+9605 Admin data was imported from CSV, see below for any errors
+9606 CSV can not be read, please check separator configuration in OCS general configuration
+9607 CSV uploaded successfully
+9608 The CSV reconciliation field must allow the identification of each machine and must correspond to a field already present in the OCS database (machine name or serial number)
+9609 OCS reconciliation field must correspond to the CSV field chose previously 
+9610 Please select corresponding fields :
+9611 Directory for temporary files
+9612 Import from CSV
+9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
+9614 Import error. Only CSV files are accepted
+9615 Failed to import data
+
+9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
+
+9651 History
+9653 User name
+9654 Date and time
+9655 Action
+9656 Target of action
+
+9700 CAS server port, e.g. : 443
+9701 CAS server uri, e.g : /cas
+9702 CAS server host, e.g. : authentication.org
+9703 CAS default role, applied on first connection initiated using CAS authentication
+9704 CAS Configuration
+
+9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
+9801 Show bios diagram in dashboard
+
+9802 Show CVE search links
+
+9900 Layouts
+9901 Layout created
+9902 Layout deleted
+9903 Error creating layout
+9904 Please check your input. Repeat the process if the problem persists.
+9905 Error deleting layout
+9906 A layout with the same name or columns already exists for your user/scope, please choose another name or set of columns
+9907 Manage layouts
+9908 Show all layouts
+9909 Add new layout
+9910 Available layouts :
+9911 Layout name
+9912 Layout description
+9913 Table name
+9914 Creator
+9915 Visibility scope 
+9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
+9917 Public
+9918 Group
+9919 Personal
+9920 Layout updated successfully
+9921 Is allowed to manage layouts
+
+9930 DNS
+
+9940 Is allowed to manage saved searches
+
+9950 Notifications
+9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
+9952 Report notification created successfully
+9953 Report notification updated successfully
+9954 Please set a recurrence
+9955 Please provide at least one recipient, or comma separated recipients
+9956 daily
+9957 weekly
+9958 monthly
+9959 Activate : 
+9960 Report recurrence : 
+9961 Recipient(s) : 
+9962 Day of reccurence : 
+9963 End Date :
+
+9970 You are not allowed to modify this user
+9971 Do you really want to re-affect the package 
+9972 Affect again
+
+9980 Network Scans
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
+9988 Configuration export
+9989 Download SNMP Scan Configuration
+9990 Download SNMP Subnets List
+9991 Generate SNMP files

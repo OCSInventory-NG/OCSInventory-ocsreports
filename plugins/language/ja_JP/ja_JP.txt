@@ -1740,6 +1740,8 @@
 9204 Configure download fragmentation ratio
 9205 Enable auto activation package
 9206 Activated
+9207 Deployment date
+9208 Awaiting deployment
 
 9300 Interactions
 9301 Options
@@ -1782,7 +1784,7 @@
 9344 .pkg file
 9345 HTTP
 9346 HTTPS
-9347 Arguments (optionnal)
+9347 Arguments (optional)
 9348 Packager file
 9349 Application name
 9350 Application identifier
@@ -1802,6 +1804,10 @@
 9364 Configuration line
 9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
 9366 Path to Modules directory
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
 
 9500 Merge selected duplicates
 9501 Merge all duplicates
@@ -1839,6 +1845,9 @@
 9704 CAS Configuration
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
+9801 Show bios diagram in dashboard
+
+9802 Show CVE search links
 
 9900 Layouts
 9901 Layout created
@@ -1885,3 +1894,16 @@
 9970 You are not allowed to modify this user
 9971 Do you really want to re-affect the package 
 9972 Affect again
+
+9980 Network Scans
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
+9988 Configuration export
+9989 Download SNMP Scan Configuration
+9990 Download SNMP Subnets List
+9991 Generate SNMP files

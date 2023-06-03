@@ -1,32 +1,16 @@
-1 Anfragen
 2 Alle Rechner
-3 Rechner mit Software...
-4 Rechner ohne Software...
-5 Unity-Codes unter meiner Verantwortung
-6 Geräte mit abgelaufener Garantie
-7 Details zu Geräten mit abgelaufener Garantie
-8 Wählen Sie Ihre Anfrage
 9 Suche mit verschiedenen Kriterien
-10 Rechner nach TAGS
-11 Rechner nach TAGS
-12 TAG-Wert
 13 Absenden
-14 Verwaltung
-15 TAGS
-16 Admins
 17 Agent
 18 Revision
 19 Software-Version
 20 Software
-21 erstes Datum
-22 Garantiezeit abgelaufen
 23 Rechner
 24 Benutzer
 25 Betriebssystem
 26 Speicher
 27 Speichertakt (MHz)
 28 Anzahl Maschinen
-29 Der LDAP-Server antwortet nicht
 30 Suche
 31 Parameter auswählen
 32 Auswählen
@@ -34,17 +18,11 @@
 34 IP-Addresse
 35 Rechnername
 36 Seriennummer
-37 Befehls-Buchstabe
-38 Auslieferungsreihenfolge
-39 Quelle
-40 Code
 41 Zurücksetzen
 42 Kein Ergebnis
 43 Hauptmenü
-44 Optionen auswählen
 45 Freier Speicherplatz
 46 Letzte Inventarisierung
-47 Letzte Seite
 48 Rechner Details
 49 Name
 50 Auslagerungsdatei
@@ -54,10 +32,6 @@
 54 Prozessor(en)
 55 Anzahl
 56 Administrative Informationen
-57 GB
-58 Auftrags-Datum
-59 Code
-60 Auslieferungsauftrag
 61 Grafikkarte
 62 Auflösung
 63 Plattenspeicher
@@ -65,17 +39,8 @@
 65 Modell
 66 Typ
 67 Festplattenkapazität
-68 Ordner
 69 Hersteller
 70 Verwendung
-71 Garantie
-72 Eingriff(e)
-73 Preis
-74 Anforderungsdatum
-75 Anforderungstyp
-76 Eingriffsdatum
-77 Eingriffstyp
-78 Konto
 79 Drucker
 80 Bezeichnung
 81 Status
@@ -86,7 +51,6 @@
 86 Dateisystem
 87 Gesamt
 88 Frei
-89 Auslieferungsdatum
 90 Ergebnis(se)
 91 Eingabegeräte
 92 Festplatte(n)
@@ -95,60 +59,27 @@
 95 MAC-Adresse
 96 Soundkarte
 97 Bildschirm(e)
-98 Achtung, Sie können nur 8 Optionen wählen!
-99 Rechner-Details
-100 Parameter initialisieren
-101 Sortieren
-102 Neue Suche
 103 Aktualisieren
-104 direkt betroffen
-105 in Einheiten
-106 Konfigurationsoptionen
 107 Konfiguration
 108 Registry-Abfragen
-109 Rechner-Typ
-110 zu
 111 Windows Produkt-Schlüssel
-112 Garantiedatum
 113 Abbrechen
 114 Register
 115 Update
 116 Hinzufügen
-117 Registry
-118 Gehe zu Seite
 119 Wollen Sie wirklich ID löschen
-120 Null
-121 Rechner löschen
 122 Löschen
-123 Rechner-Typ ändern
-124 Neuen Geräte-Typ hinzufügen
-125 Letzte
-126 Nächste
-127 Erste
-128 Zurück
 129 WIE
 130 NICHT GLEICH
-131 Icondatei
-132 Bilddatei
-133 Inventar
 134 Neue Datei in Basis einfügen
 135 Vorsicht, sie sind dabei diese Datei endgültig zu löschen!
-136 Exportieren
 137 Datei
-138 Erstellen
-139 Erstellen / Löschen von
 140 Super-Administratoren
 141 Administratoren
 142 Lokale Administratoren
 143 Software-Verteiler
 162 Auswahl löschen
-163 Service Grade Name
-164 Personen verantwortlich für Unity-Tag
-165 Sie müssen einen Namen oder eine Diffusionsliste für die Suche eingeben!
-166 Sie müssen ein Element aus der Liste wählen!
-167 Details anzeigen
 168 Das Format dieser Datei ist ungültig (Nur .exe-Dateien erlaubt)!
-169 zur Basis hinzufügen
 170 Eine gleiche Datei existiert bereits!
 171 Datei gelöscht
 172 Ein Fehler ist aufgetreten, die Datei
@@ -158,9 +89,7 @@
 176 IPs
 177 Doppelte Geräte zusammenführen
 178 Anzahl der PCs mit Tag(s)
-179 Einheit-Name
 180 Nutzer nicht registriert
-181 Login-Problem
 182 Rechner mit bestimmtem TAG
 183 Exportieren
 184 Diese Datei enthält kein "use constant version"
@@ -367,7 +296,6 @@
 389 Nichts
 390 Verzeichnis-Kategorien
 391 Kategorie-Name
-392 Löschen
 393 Suchen
 394 Kategorie-Suche
 395 Software ÜBERALL suchen
@@ -560,7 +488,6 @@
 596 DYNAMISCH HINZUGEFÜGT
 597 DAUERHAFT ENTFERNT
 598 Hinzufügen
-599 Zurücksetzen
 600 Entfernen
 601 Massen-Verarbeitung
 602 Sie müssen eine Datei übertragen
@@ -662,6 +589,7 @@
 700 Auswahlkriterium für schwarze Liste
 701 Seriennummer zur schwarzen Liste hinzufügen
 702 Geben Sie die Seriennumer ein, die zur schwarzen Liste hinzugefügt werden soll.
+703 Blacklist
 704 Sind Sie sicher?
 705 Aus der schwarzen Liste entfernen?
 706 Entfernen
@@ -670,7 +598,6 @@
 709 Benutzerdefinierte PROLOG_FREQ
 710 Benutzerdefinierter Download
 711 Taken into account modifications
-712 Sprachdatei
 712 Sprachdatei
 713 Wollen Sie diese Sprachdatei wirklich ersetzen?
 714 Referenz-Sprachdatei
@@ -698,7 +625,6 @@
 736 Die Gruppen-Funktion auf diesem Rechner einschalten
 737 Zufallszahl im definierten Bereich erzeugt. Dies dient dazu, die Verarbeitung vieler Gruppen im gleichen Prozess zu verhindern.
 738 Gültigkeitsdauer für Rechner-Gruppen angeben (Standard: ein Tag - siehe Offset)
-739 Zukünftige Sicherheitsmaßnahmen
 740 Gültigkeitsdauer für Rechner-Sperre
 741 OCS-Engine so Konfigurieren, dass die Inventur in Abhängigkeit von der CHECKSUM-Variable des Agenten durchgeführt wird (geringere Belastung der Datenbank).
 742 OCS-Engine so Konfigurieren, dass die Inventur als Transaktion behandelt wird. (Weniger gleichzeitige Zugriffe, bessere Plattenausnutzung).
@@ -1241,6 +1167,8 @@
 1280 Wake On Lan
 1281 On Wake On Lan
 1282 WOL-Anforderung gesendet
+1283 Do you want a Wake On Lan on this computer
+1284 Source IP
 1292 Erweiterte Verteilungsoptionen anzeigen
 1293 Verteilung erzwingen
 1294 Installationszeit
@@ -1252,6 +1180,7 @@
 1300 Teste QRCode
 1301 auf unsichtbaren Seiten
 1302 Entwicklung
+1303 Export
 1304 XML
 1305 On the generation of an XML inventory
 1306 Erweiterungen verwalten
@@ -1277,17 +1206,37 @@
 1326 Freigegeben
 1327 Lokal / Netzwerke
 1328 Verwaltung
+1329 Administration
+1330 Hardware
 1331 Geräte
 1332 Verschiedenes
 1333 Konfiguration
 1334 Keine Daten verfügbar
 1335 Zeige _START_ bis _END_ von _TOTAL_
 1336 Zeige _START_ bis _END_ von _TOTAL_
+1337 (filtered from _MAX_ total entries)
 1338 Zeige _MENU_ Einträge
+1339 Loading...
+1340 Processing...
 1341 Suche
+1342 No matching records found
+1343 First
+1344 Last
 1345 weiter
 1346 zurück
+1347 activate to sort column ascending
+1348 activate to sort column descending
 1349 zeigen/ausblenden
+1350 ,
+1351 .
+1352 Server understood the request but request content was invalid
+1353 Unauthorised access
+1354 Forbidden ressource can't be accessed
+1355 Page not found
+1356 Request-URI Too Long, try to clean Cookies
+1357 Internal Server Error
+1358 Service Unavailable
+1359 User Logged Out
 1360 Server-Informationen
 1361 Mein Konto
 1362 Über
@@ -1300,7 +1249,10 @@
 1369 PHP-Version
 1370 Webserver
 1371 Datenbank-Server
+1372 Kernel
 1373 Distribution
+1374 Access the website
+1375 Old Forums
 1376 FAQ
 1377 Frequently Asked Questions
 1378 Freier Speicher
@@ -1343,10 +1295,48 @@
 1416 Netzbetreiber-Name
 1418 Land
 1417 IMEI/Geräte-ID
-
+1418 Country
 1419 Suche in Spalte
 1420 Benutzerdefiniertes Thema für die Oberfläche
+1421 Repository
+1422 Expire
+1423 File name
+1424 Mirrors
+1425 Tag
+1426 Updated
+1427 Base URL
+1428 Battery
+1429 Sim card
+1430 Equal
+1431 More than
+1432 Less than
+1433 Hardware Link Id
+1434 User Id
+1435 Location
+1436 Process
+1437 Chemistry
+1438 SBDS Version
+1439 Max error
+1440 OEM Specific
+1441 Revalidate time
+1442 XML Definition
+1443 Default Gateway
+1444 USB Devices
+1445 Group
+1446 Model name
+1447 Account info
+1448 Is null
 1449 Generelle Einstellungen
+1450 ID
+1451 Static?
+1452 Warranty begin
+1453 GUID
+1454 Source
+1455 Virtual interface
+1456 Phone number
+1457 Link Ipdiscover network to computer TAG</br><b style="color:#d9534f;">Logout / Login after updating this configuration</b>
+1458 characters
+
 1459 Zeitspanne zwischen einem CVE Scan
 1460 CVE-Sucheinstellungen
 1461 CVE-Berichte aktivieren
@@ -1357,19 +1347,37 @@
 1466 Bitte lesen Sie die Dokumentation zur Verwaltung von CVE-Berichten : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> CVE-Berichte verwalten </a>
 1467 Link
 1468 Schwachstelle 
-
 1469 Software-Kategorien für die keine CVE-Berichte gesucht werden sollen
-
+1470 Enable CVE-search verbose
 1471 Aktivieren, um CVE für alle Software-Versionen zu erhalten
-
+1472 CVE Inventory
 1473 Neue Regex
 1474 Übereinstimmungen
-
+1475 Name or Regex
+1476 Publisher result
+1477 Name result
+1478 Or import CSV file
+1479 Import
+1480 Download CSV file example
 1481 CVE Historie
-
+1482 Latest execution date
+1483 CVE count
 1484 Zeitspanne wie lange ein CVE Scan nach einem OCS Inventory Scan gültig ist
 1485 Nach Software
 1486 Nach Computer
+1487 Authentication has been blocked due to too many failed attempts. (%time% seconds remaining)
+1488 Enable authentication security
+1489 Number of attempts
+1490 Cooldown
+1491 Enable password security
+1492 Set minimal characters in password
+1493 Force number in password
+1494 Force uppercase in password
+1495 Force special characters in password
+1496 The password must contain at least
+1497 The password must contain at least one uppercase
+1498 The password must contain at least one number
+1499 The password must contain at least one special character
 
 1500 Software Kategorie
 1501 Neue Kategorie
@@ -1378,22 +1386,46 @@
 1504 Regulärer Ausdruck oder Software-Name
 1505 Standard-Kategorie für neue Software
 1506 Keine Kategorie erstellt
-
+1507 Software version
+1508 Software vendor
 1509 Erweiterte Einstellungen
-
-
+1510 Software version comparator
+1511 Version comparator
+1512 Less or Equal
+1513 More or Equal
+1514 Category
+1515 All OS
 1516 Gesamte Software (but default)
 1517 Es wurde keine Kategorie ausgewählt
+1518 List of regex
+1519 Missing computers :
+1520 (CSV datas are imported)
+1521 Display count softwares
 
+1550 Do you really want to archive 
+1551 Archive
+1552 Restore
+1553 Do you really want to restore 
 1554 ARCHIVIERTE COMPUTER
 1555 AKTIVE COMPUTER
-
+1556 Archive / Restore
 1557 ALLE COMPUTER
+1558 Archives
+
+1560 Purge old IPDiscover data
+1561 Validity time (in days) of an IPDiscover data
 
 1600 Mein Dashboard
 1601 Dynamische Gruppen
+1602 Doesn't contain
+1603 More than X days
+1604 Less than X days
+1605 Others
+1606 Is not empty
 
 1700 Erweiterte Einstellungen
+1701 Tab available
+1702 New tab
 1703 Ausgewählte Pakete hinzufügen
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
@@ -1425,6 +1457,7 @@
 2026 Sicherheitsproblem: Sie verwenden das Standard-Admin-Passwort für die OCS-GUI!
 2027 Ändern Sie das Admin-Kennwort in der OCS-GUI!
 2028 Authentifizierungs-Schlüssel
+2029 The config directory is not writable
 
 2030 OCS-NG Inventory Installation
 2031 Derzeit installierte Version
@@ -1504,26 +1537,43 @@
 2110 Erwartete Version
 2111 Update durchführen
 2112 Die folgende Datei fehlt oder kann nicht gelesen werden
-
+2113 Your PHP installation is older than version 5.4 and will not be compatible with incoming versions (version&nbsp;:&nbsp;
+2114 No sql file found for version
+2115 The user you typed does not seem to be root
+2116 The config/profiles directory is not writable
 2117 Update-Meldung anzeigen wenn eine neue OCS-Version verfügbar ist
-
+2118 OCSInventory
+2119 is available
+2120 Click here to download
 2121 Inventur beim Start des Dienstes auf Windows-Clients durchführen
-
+2122 Edit
 2123 Verfügbare Pakete
 2124 Gelöschte Pakete
-
+2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
+2126 Assets categorization
+2127 The current multi search query will be used as an asset categorization criteria.
+2128 Are you sure?
+2129 Back to multi search
 2130 Assets Kategorien
 2131 Zahl der Maschinen je Kategorie
 2132 Asset Kategorie
-
 2133 Es wurde noch keine Asset Kategorie angelegt
 2134 Es wurde noch keine Software Kategorie angelegt
-
+2135 No machine has been inventoried
+2136 Update
+2137 Choose a new file if you want to modify the old one
+2138 Save my search
+2139 The current multi search query will be saved. You will be able to retrieve your saved searches on <i><b>Manage > Saved search</b></i> or using <i><b>Use a saved search</b></i> on multi search.
 2140 Eine gespeicherte Suche nutzen
 2141 Gespeicherte Suche
 2142 Eine Suche generieren
 2143 Suche wurde erfolgreich gespeichert
 2144 Eine vorhandene Suche anpassen
+2145 Who can see ?
+2146 Only me
+2147 My group
+2148 All users
+2149 Update date when peripherals updated
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1570,6 +1620,7 @@
 7005 Autor
 7006 Zuletzt aktualisiert
 7007 Sind Sie sicher, dass Sie das Plugin löschen möchten
+7008 Extension Install
 7009 Installierte Erweiterungen
 7010 Diese Erweiterung ist bereits installiert
 7011 ist eine ungültige Erweiterung, bitte Quellen übeprüfen.
@@ -1578,33 +1629,109 @@
 7014 Es sind keine Erweiterungen für die Installation verfügbar
 7015 Wählen Sie zumindest einen Computer aus !
 7016 MTU
-
-7008 Plugin Installation
-7009 Installierte Plugins
-7014 Es wurden keine Plugins gefunden
+7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation. <br> You may need to update profiles permissions to access the extension page. 
+7018 This extension is already installed.
+7019 A PHP error occurred.
+7020 Extension successfully uninstalled!
+7021 Extension "%s" not compliant
+7022 Missing function "%s" in "%s"!
+7023 Unable to include install.php
 
 8000 Benachrichtigungen
-
+8001 Enable notification tracking
+8002 Administrator's email address
+8003 Administrator's name
+8004 Reply email address
+8005 Reply name
+8006 Host SMTP
+8007 SMTP identifier
+8008 SMTP password
+8009 Email send mode
+8010 (Optional)
 8011 Konfiguration
 8012 Template anpassen
-
+8013 Here is the default OCS Inventory summary, it contains a report of the software categories and assets categories :
+8014 Successful upload
+8015 Failed upload
+8016 Here you can download your customized notification template:</br>• The file must be an html file.</br></br>Information:</br>• To get translation put {{g.(number of translation)}} in your html code- Example: {{g.49}} = Name</br>• For the moment you have two choices of report inventory: </br> {{Report.Software}} - Number of software per software category </br> {{Report.Asset}} - Number of machines per asset category
+8017 This file is not an html file
 8018 Betreff
-
+8019 Notification OCSInventory
+8020 WARNING : Mail template file not found
+8021 The uploaded file need to have .html extension to be valid
+8022 See news
+8023 ... Read more
+8024 Close news
+8025 Back to the news menu
 8026 Anzeige von Neuigkeiten zu OCS Inventory im Dash
+8027 A problem of OCS news data recovery has occurred
+8028 You have recent news
+8029 is not writable
 
 8100 Web-Applikations-Verzeichnis
 8101 Web-Applikations-Verzeichnis
 8102 Web-Applikation hinzufügen
+8103 Associated DNS
 8104 Eintrag
 8105 Daten
+8106 Time to live
+8107 This Web application already exists
+8108 Enable Web application Inventory
+
+8200 Schedule a Wake On Lan
+8201 Save
+8202 WOL date/time
+8203 WOL saved!
 
 9000 SNMP-Konfiguration
-
+9001 Create type
+9002 Type configuration
+9003 Create label
+9004 OID
+9005 OID string value
 9106 Standard Download Protokoll
-
+9007 <b>The name is unique and must not contain any special characters except underscore.</b></br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
+9008 Add MIB file
+9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
 9010 SNMP MIBs-Verzeichnis auf dem Server
-
+9011 Filter by type :
+9012 SNMP details
+9013 Show details
 9014 SNMP ist nicht konfiguriert. Lesen Sie die Dokumentation um zu erfahren wie SNMP eingerichtet wird: <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+9015 Use for reconciliation
+9016 Select the type that you want to configure.
+9017 Numeric OID
+9018 Inventory field name
+9019 OID name string
+9020 Add to SNMP Model
+9021 Search for specific row
+9022 Can't create type with empty OID or empty OID string value
+9023 Type name already exists
+9024 An error happened during the SNMP type creation
+9025 Label already exists
+9026 An error happened during the SNMP label creation
+9027 An error happened during the SNMP configuration
+9028 An error happened during the type deletion
+9029 An error happened during the label deletion
+9030 An error happened during the config deletion
+9031 Type conditions
+9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
+9033 Authentication Protocol
+9034 Privacy Protocol
+9035 Privacy Password
+9036 No OID found
+9037 Equipment contacted today
+9038 Number of equipment per type
+9039 Quick view
+9040 Export all SNMP types
+
+9100 SSL key path
+9101 SSL certificate path
+9102 Enable SSL
+9103 SSL mode
+9104 CA certificate path
+9105 MySQL Port
+9106 Default download protocol
 
 9200 Paketverteilung für Computer
 9201 Paketverteilung für Auswahl
@@ -1613,13 +1740,19 @@
 9204 Konfiguration der Fragmentgröße 
 9205 Aktiviere automatische Paketaktivierung
 9206 Aktiviert
+9207 Deployment date
+9208 Awaiting deployment
 
 9300 Interaktionen
 9301 Optionen
 9302 fortsetzen
-
+9303 Linux
+9304 MacOS
+9305 Windows
 9306 Powershell Script
 9307 Scripte
+9308 Install / Uninstall
+9309 Others
 
 9310 Batch Script
 9311 Eigens Paket
@@ -1633,10 +1766,69 @@
 
 9319 Anwendung installieren
 9320 Anwendung deinstallieren
-
+9321 Add apt repository
+9322 Add yum repository
 9323 Bash / sh Script
 
+9324 Install .app application
+9325 Install .pkg application
+9326 Install with brew
+9327 Apple script
+
+9328 Install plugin
+
+9340 Script
+9341 MSI file
+9342 Repository URL
+9343 .app file
+9344 .pkg file
+9345 HTTP
+9346 HTTPS
+9347 Arguments (optional)
+9348 Packager file
+9349 Application name
+9350 Application identifier
+9351 How to find wmic application identifier : open a cmd as administrator and run "wmic product get name"
+9352 EXE file
+9353 Script file
+9354 Write your script here <b>OR</b> put your script file
+9355 Put your packager file with all parameters inside
+9356 If multiple files, please zip before
+9357 Packager type
+9358 apt
+9359 yum
+9360 dnf
 9361 Paketerstellung zurücksetzen
+9362 File
+9363 Plugin agent file
+9364 Configuration line
+9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Path to Modules directory
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
+
+9500 Merge selected duplicates
+9501 Merge all duplicates
+9502 Duplicates by :
+
+9600 CSV reconciliation field :
+9601 OCS reconciliation field :
+9602 Empty value
+9603 No corresponding device found in OCS database
+9604 Update failed
+9605 Admin data was imported from CSV, see below for any errors
+9606 CSV can not be read, please check separator configuration in OCS general configuration
+9607 CSV uploaded successfully
+9608 The CSV reconciliation field must allow the identification of each machine and must correspond to a field already present in the OCS database (machine name or serial number)
+9609 OCS reconciliation field must correspond to the CSV field chose previously 
+9610 Please select corresponding fields :
+9611 Directory for temporary files
+9612 Import from CSV
+9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
+9614 Import error. Only CSV files are accepted
+9615 Failed to import data
 
 9650 Anzahl der LDAP Filter (minimum 1, maximum so viele wie Profile)
 
@@ -1644,14 +1836,18 @@
 9653 Benutzername
 9654 Datum und Uhrzeit
 9655 Aktion
+9656 Target of action
 
 9700 CAS Server Port, z.B. : 443
 9701 CAS Server URI, z.B. : /cas
 9702 CAS Server Host, z.B. : authentication.org
-
+9703 CAS default role, applied on first connection initiated using CAS authentication
 9704 CAS Konfiguration
 
 9800 Ausschluss von archivierten Computern aus der Statistik, CVE-Inventar, Zählung aller Softwares, Zählung der Computer pro TAG
+9801 Show bios diagram in dashboard
+
+9802 Show CVE search links
 
 9900 Layouts
 9901 Layout wurde erstellt
@@ -1667,4 +1863,47 @@
 9911 Layout Name
 9912 Layout Beschreibung
 9913 Tabellenname
+9914 Creator
+9915 Visibility scope 
+9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
+9917 Public
+9918 Group
+9919 Personal
+9920 Layout updated successfully
+9921 Is allowed to manage layouts
 
+9930 DNS
+
+9940 Is allowed to manage saved searches
+
+9950 Notifications
+9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
+9952 Report notification created successfully
+9953 Report notification updated successfully
+9954 Please set a recurrence
+9955 Please provide at least one recipient, or comma separated recipients
+9956 daily
+9957 weekly
+9958 monthly
+9959 Activate : 
+9960 Report recurrence : 
+9961 Recipient(s) : 
+9962 Day of reccurence : 
+9963 End Date :
+
+9970 You are not allowed to modify this user
+9971 Do you really want to re-affect the package 
+9972 Affect again
+
+9980 Network Scans
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
+9988 Configuration export
+9989 Download SNMP Scan Configuration
+9990 Download SNMP Subnets List
+9991 Generate SNMP files

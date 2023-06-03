@@ -1427,6 +1427,7 @@
 1700 Configuration avancée
 1701 Onglet disponible
 1702 Nouvel onglet
+1703 Add selected packages
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1632,6 +1633,9 @@
 7018 Cette extension est déjà installée.
 7019 Une erreur PHP est survenue.
 7020 L'extension a été désinstallée avec succès !
+7021 Extension "%s" not compliant
+7022 Missing function "%s" in "%s"!
+7023 Unable to include install.php
 
 8000 Notifications
 8001 Activer le suivi par courriel
@@ -1652,6 +1656,7 @@
 8016 Ici vous pouvez télécharger votre modèle de notification personnalisé:</br>• Le fichier doit être un fichier html.</br></br>Informations:</br>• Pour avoir les traduction mettez {{g.(numéro de la traduction)}} dans votre code html - Exemple: {{g.49}} = Nom</br>• Pour le moment vous disposez de deux choix de rapport d'inventaire: </br> {{Report.Software}} - Nombre de logiciels par catégorie de logiciel </br> {{Report.Asset}} - Nombre de machines par catégorie d'actifs
 8017 Ce fichier n'est pas un fichier html
 8018 Sujet
+8019 Notification OCSInventory
 8020 WARNING : Fichier de template personnalisé non trouvé
 8021 Le fichier upload doit avoir pour extension .html
 8022 Voir les news
