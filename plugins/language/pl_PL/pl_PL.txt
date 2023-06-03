@@ -1457,7 +1457,7 @@
 2026 Domyślny login/hasło jest aktywne w OCS GUI
 2027 Zmień hasło administratora w OCS GUI
 2028 Authentication key
-
+2029 The config directory is not writable
 
 2030 OCS-NG Inventory Installation
 2031 Current installed version
@@ -1466,8 +1466,8 @@
 2034 DB configuration not completed. Automatic install launched
 2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
-2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php-mysql)
-2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-gd package (Linux).
+2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php5-mysql)
+2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
 2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
@@ -1479,7 +1479,7 @@
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
 2050 Installation finished you can log in index.php with login=admin and password=admin
 2051 Click here to enter OCS-NG GUI
-2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
+2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successful)
 2053 Please wait, database update may take up to 30 minutes...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Database successfully generated
@@ -1524,7 +1524,7 @@
 2097 Leave empty if you don't want a popup to be shown on each agent launch
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
 2099 ERROR: this MySQL login doesn't have the rights to create the database
-2100 Update old account infos
+2100 Update old account info
 2101 Add by script
 2102 OSTRZEŻENIE: Jeśli zmienisz nazwę domyślnej bazy danch (ocsweb), nie zapomnij zaktualizować plików konfiguracyjnych OCS
 2103 Tryb DEMO: nie możesz aktualizować danych
@@ -1578,13 +1578,13 @@
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
-5003 [DEBUG]Rache regeneration[DEBUG]
+5003 [DEBUG]Cache regeneration[DEBUG]
 5004 [DEBUG]forcing cache limit old value[DEBUG]
 5005 [DEBUG]Cache total use[DEBUG]
 5006 [DEBUG]array count request[DEBUG]
 5007 [DEBUG]Cache use for lines number[DEBUG]
 5008 [DEBUG]array request[DEBUG]
-5009 [DEBUG]RAW DATAS[DEBUG]
+5009 [DEBUG]RAW DATA[DEBUG]
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
 5012 [DEBUG]value to search=[DEBUG]
@@ -1601,8 +1601,8 @@
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
 6000 Plugins
-6001 Offices Licences
-6003 Number of licence
+6001 Select columns to show / hide
+6003 Plugin
 6004 Total available
 6005 Power on/off
 6007 Please install the following modules in order to get this feature working&nbsp;:&nbsp;

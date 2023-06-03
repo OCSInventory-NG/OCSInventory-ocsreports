@@ -625,7 +625,6 @@
 736 Active la fonctionnalité de groupes de machines
 737 Nombre aléatoire compris entre 0 et la valeur définie (évite le calcul simultané de tous les groupes)
 738 Spécifie la validité d'un groupe (par défaut : calculé une fois par jour - voir la valeur précédente)
-739 Amélioration future de la sécurité
 740 Validité du lock d'un ordinateur
 741 Configuration du moteur pour mettre à jour les sections d'inventaire en fonction du CHECKSUM (pour baisser la charge de DB backend)
 742 Faire que le moteur considère un inventaire comme une transaction (accès concurrentiel plus bas, meilleure utilisation du disque)
@@ -1459,6 +1458,7 @@
 2027 Changer le mot de passe du compte 'admin' dans l'interface web
 2028 Clé d'authentification
 2029 Le répertoire config n'est pas disponible en écriture
+
 2030 Installation d'OCS-NG Inventory
 2031 version actuellement installée
 2032 est inférieur à cette version

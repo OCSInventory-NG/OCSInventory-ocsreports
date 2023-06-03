@@ -752,7 +752,6 @@
 864 Netzwerk: Typ
 865 Netzwerk: MibTyp
 866 Netzwerk: Geschwindigkeit
-
 867 Netzwerk: MAC-Adresse
 868 Netzwerk: Status
 869 Netzwerk: IP-Adresse
@@ -782,6 +781,7 @@
 893 IHREM PROFIL IST KEIN TAG ZUGEWIESEN
 894 FÜR IHR KONTO SIND KEINE ZUGRIFFSRECHTE DEFINIERT
 895 TAG ändern
+896 You do not have rights to access this page, please contact your administrator
 898 Notiz hinzufügen
 899 Verfasser
 900 Abschnitt wirklich löschen?
