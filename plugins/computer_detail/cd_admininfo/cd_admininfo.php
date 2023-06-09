@@ -67,7 +67,11 @@ if (!is_array($info_account_id)) {
                 if ((isset($temp_field[1]) && (array_key_exists($temp_field[0] . '_' . $temp_field[1], $info_account_id))) || $temp_field[0] == 'TAG') {
                     //cas of checkbox
                     if (isset($temp_field[2])) {
-                        $data_fields_account[$temp_field[0] . "_" . $temp_field[1]] .= $temp_field[2] . "&&&";
+                        $temp_field2 = $temp_field;
+                        unset($temp_field2[0]);
+                        unset($temp_field2[1]);
+                        $new_value = implode(' ', $temp_field2);
+                        $data_fields_account[$temp_field[0] . "_" . $temp_field[1]] .= $new_value . "&&&";
                     } else {
                         $data_fields_account[$field] = $value;
                     }
