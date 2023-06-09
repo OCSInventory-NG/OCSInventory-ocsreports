@@ -80,7 +80,7 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
                     WHERE (hardware_id=$systemid)";
     $list_fields[$l->g(49)] = 's_name.NAME';
 } else {
-    $queryDetails = "SELECT *, c.CATEGORY_NAME as CATEGORY, n.NAME, p.PUBLISHER, v.VERSION 
+    $queryDetails = "SELECT *, c.CATEGORY_NAME as CATEGORY, n.NAME, p.PUBLISHER, v.VERSION, v.PRETTYVERSION, v.MAJOR, v.MINOR, v.PATCH 
                     FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                     LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                     LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
@@ -113,6 +113,10 @@ $list_fields[$l->g(1238)] = 'INSTALLDATE';
 $list_fields[$l->g(1312)] = 'BITSWIDTH';
 $list_fields[$l->g(1247)] = 'ARCHITECTURE';
 $list_fields[$l->g(388)] = 'c.CATEGORY_NAME';
+$list_fields[$l->g(1522)] = 'PRETTYVERSION';
+$list_fields[$l->g(1523)] = 'MAJOR';
+$list_fields[$l->g(1524)] = 'MINOR';
+$list_fields[$l->g(1525)] = 'PATCH';
 
 $tab_options['FILTRE'] = array_flip($list_fields);
 

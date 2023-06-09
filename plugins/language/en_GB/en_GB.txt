@@ -1358,7 +1358,7 @@
 1477 Name result
 1478 Or import CSV file
 1479 Import
-1480 Download CSV file example
+1480 Download the most known matches CSV file
 1481 CVE history
 1482 Latest execution date
 1483 CVE count
@@ -1401,6 +1401,10 @@
 1519 Missing computers :
 1520 (CSV datas are imported)
 1521 Display count softwares
+1522 Standardized version
+1523 Major version
+1524 Minor version
+1525 Patch version
 
 1550 Do you really want to archive 
 1551 Archive
