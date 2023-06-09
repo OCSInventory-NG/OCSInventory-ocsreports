@@ -250,7 +250,8 @@ if ($isNet){
           $name = $1;
         } else {
           $ip = $1;
-          undef $name;
+          #undef $name;
+          $name = "-";
         }
 
         if ($5) {
@@ -267,15 +268,25 @@ if ($isNet){
 
         print "Adding $ip\n";
 
-        #bdd insertion
-        if ($name && $tag){
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME,TAG) VALUES(?,?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name, $tag); 
-        }elsif ($name) {
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,NAME) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $name); 
-        }elsif ($tag){
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $tag); 
-        }else{
-          $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet);
+        my $update_req;
+        my $insert_req;
+
+        if($tag) {
+          $update_req = $dbh->prepare('UPDATE netmap SET MASK=?, NETID=?, DATE=NOW(), NAME=? WHERE MAC=? AND TAG=? AND IP=?');
+          $update_req->execute($mask, $subnet, $name, $ip, $macAddr, $tag);
+
+          unless($update_req->rows) {
+            $insert_req = $dbh->prepare('INSERT INTO netmap(IP, MAC, MASK, NETID, NAME, TAG) VALUES(?,?,?,?,?,?)');
+            $insert_req->execute($ip, $macAddr, $mask, $subnet, $name, $tag);
+          }
+        } else {
+          $update_req = $dbh->prepare('UPDATE netmap SET MASK=?, NETID=?, DATE=NOW(), NAME=? WHERE MAC=? AND IP=?');
+          $update_req->execute($mask, $subnet, $name, $ip, $macAddr);
+
+          unless($update_req->rows) {
+            $insert_req = $dbh->prepare('INSERT INTO netmap(IP, MAC, MASK, NETID, NAME) VALUES(?,?,?,?,?)');
+            $insert_req->execute($ip, $macAddr, $mask, $subnet, $name);
+          }
         }
       }
     } elsif ($scantype eq "ping") { #scan with fping
@@ -292,11 +303,25 @@ if ($isNet){
 
           print "Adding $ip\n";
 
-          #bdd insertion
-          if ($tag){
-            $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID,TAG) VALUES(?,?,?,?,?)', {}, $ip, $macAddr, $mask, $subnet, $tag); 
-          }else{
-            $dbh->do('INSERT IGNORE INTO netmap(IP,MAC,MASK,NETID) VALUES(?,?,?,?) ', {}, $ip, $macAddr, $mask, $subnet);
+          my $update_req;
+          my $insert_req;
+
+          if($tag) {
+            $update_req = $dbh->prepare('UPDATE netmap SET MASK=?, NETID=?, DATE=NOW() WHERE MAC=? AND TAG=? AND IP=?');
+            $update_req->execute($mask, $subnet, $ip, $macAddr, $tag);
+
+            unless($update_req->rows) {
+              $insert_req = $dbh->prepare('INSERT INTO netmap(IP, MAC, MASK, NETID, TAG) VALUES(?,?,?,?,?)');
+              $insert_req->execute($ip, $macAddr, $mask, $subnet, $tag);
+            }
+          } else {
+            $update_req = $dbh->prepare('UPDATE netmap SET MASK=?, NETID=?, DATE=NOW() WHERE MAC=? AND IP=?');
+            $update_req->execute($mask, $subnet, $ip, $macAddr);
+
+            unless($update_req->rows) {
+              $insert_req = $dbh->prepare('INSERT INTO netmap(IP, MAC, MASK, NETID) VALUES(?,?,?,?)');
+              $insert_req->execute($ip, $macAddr, $mask, $subnet);
+            }
           }
         }
       } else {
