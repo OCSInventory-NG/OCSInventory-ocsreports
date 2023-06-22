@@ -30,7 +30,7 @@
  * */
 
 connexion_local_read();
-$sql = "select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
+$sql = "select substr(NAME,7) as NAME,TVALUE from config_ldap where NAME like '%s'";
 $arg = array('%CONEX%');
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
