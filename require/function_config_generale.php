@@ -425,18 +425,29 @@ function update_default_value($POST) {
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue
     $array_interprete_ivalue = array('FREQUENCY' => 'FREQUENCY_edit', 'IPDISCOVER' => 'IPDISCOVER_edit');
 
-    //recherche des valeurs par défaut
-    $sql_exist = " select NAME,ivalue,tvalue from config ";
-    $result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
-    while ($value_exist = mysqli_fetch_array($result_exist)) {
-        if ($value_exist["ivalue"] != null) {
-            $optexist[$value_exist["NAME"]] = $value_exist["ivalue"];
-        } elseif ($value_exist["tvalue"] != null) {
-            $optexist[$value_exist["NAME"]] = $value_exist["tvalue"];
-        } elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null) {
-            $optexist[$value_exist["NAME"]] = 'null';
+    function fetchValues($table_name, $readServer)
+    {
+        $optexist = array();
+    
+        $sql_exist = "SELECT NAME, ivalue, tvalue FROM $table_name";
+        $result_exist = mysql2_query_secure($sql_exist, $readServer);
+    
+        while ($value_exist = mysqli_fetch_array($result_exist)) {
+            if ($value_exist["ivalue"] != null) {
+                $optexist[$value_exist["NAME"]] = $value_exist["ivalue"];
+            } elseif ($value_exist["tvalue"] != null) {
+                $optexist[$value_exist["NAME"]] = $value_exist["tvalue"];
+            } elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null) {
+                $optexist[$value_exist["NAME"]] = 'null';
+            }
         }
+    
+        return $optexist;
     }
+    
+    $optexist = fetchValues("config", $_SESSION['OCS']["readServer"]);
+    $optexist = array_merge($optexist, fetchValues("config_ldap", $_SESSION['OCS']["readServer"]));
+    
     //pour obliger à prendre en compte
     //le AUTO_DUPLICATE_LVL quand il est vide
     //on doit l'initialiser tout le temps
@@ -1086,10 +1097,10 @@ function pageConnexion() {
     ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'] ?? '', 'SELECT_VALUE' => $default_role));
     ligne('CONEX_LDAP_NB_FILTERS', $l->g(9650), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_NB_FILTERS'] ?? '', 'SELECT_VALUE' => $nb_filters));
     foreach ($ldap_filters as $filter) {
-        ligne($filter[0]['NAME'], $l->g(1111), 'input', array('VALUE' => $filter[0]['TVALUE'], 'SIZE' => "30%"));
+        ligne($filter[0]['NAME'], $l->g(1111), 'input', array('VALUE' => $filter[0]['TVALUE'], 'SIZE' => "30%", 'MAXLENGTH' => ''));
         ligne($filter[1]['NAME'], $l->g(1116), 'select', array('VALUE' => $filter[1]['TVALUE'], 'SELECT_VALUE' => $role1));
     }
- 
+
 }
 
 function pagesnmp() {
