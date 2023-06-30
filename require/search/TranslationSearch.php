@@ -215,7 +215,11 @@
         "name_id" => 49,
         "publisher_id" => 69,
         "version_id" => 277,
-        "architecture" => 1247
+        "architecture" => 1247,
+        "prettyversion" => 1522,
+        "major" => 1523,
+        "minor" => 1524,
+        "patch" => 1525,
     ];
 
     private $operatorsArray = [

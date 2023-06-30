@@ -51,7 +51,10 @@
       "PUBLISHER_ID" => self::DB_VARCHAR,
       "VERSION_ID" => self::DB_VARCHAR,
       "CATEGORY_ID" => self::HTML_SELECT,
-      "CATEGORY" => self::HTML_SELECT,
+      "PRETTYVERSION" => self::DB_VARCHAR,
+      "MAJOR" => self::DB_INT,
+      "MINOR" => self::DB_INT,
+      "PATCH" => self::DB_INT,
     ];
 
     private $type;
@@ -582,9 +585,12 @@
 				$fieldsInfos['Field'] = "NAME";
 			}
 			if($tableName == "software" && array_key_exists($fieldsInfos['Field'], $this->correspondance)) {
-				if($fieldsInfos['Field'] == "CATEGORY") {
-					$table = $tableName."_name";
-					$field = "CATEGORY";
+				if($fieldsInfos['Field'] == "PRETTYVERSION"
+        || $fieldsInfos['Field'] == "MAJOR"
+        || $fieldsInfos['Field'] == "MINOR"
+        || $fieldsInfos['Field'] == "PATCH") {
+					$table = $tableName."_version";
+					$field = $fieldsInfos['Field'];
 				} else {
 					$name = explode("_", $fieldsInfos['Field']);
 					$table = $tableName."_".strtolower($name[0]);
