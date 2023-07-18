@@ -95,6 +95,8 @@ $arg = array($l->g(482), "%a %b %e %H:%i:%S %Y", $l->g(9208), $systemid, $l->g(1
 
 $tab_options['ARG_SQL'] = $arg;
 
+$tab_options['NO_SEARCH']['pack_loc'] = 'pack_loc';
+
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 
 echo close_form();
