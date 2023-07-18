@@ -1893,6 +1893,7 @@
 9970 Vous n'êtes pas authorisé à modifier cet utilisateur
 9971 Voulez-vous vraiment ré-affecter le paquet 
 9972 Affecter à nouveau
+9973 Aucune donnée disponible
 
 9980 Scans réseau
 9981 Méthode utilisée pour les scans IpDiscover effectués par les agents (nmap, ICMP, ARP scan)<br><br>Note : ARP scan ne balayera que le réseau local

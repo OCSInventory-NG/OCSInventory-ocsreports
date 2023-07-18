@@ -1898,6 +1898,7 @@
 9970 You are not allowed to modify this user
 9971 Do you really want to re-affect the package 
 9972 Affect again
+9973 No data available
 
 9980 Network Scans
 9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
