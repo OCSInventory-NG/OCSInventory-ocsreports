@@ -92,7 +92,7 @@
             <mandatory/>
             <type>hidden</type>
             <disabled>false</disabled>
-            <defaultvalue>false</defaultvalue>
+            <defaultvalue>true</defaultvalue>
             <specialcharallowed>false</specialcharallowed>
         </formblock>
         <formblock>
