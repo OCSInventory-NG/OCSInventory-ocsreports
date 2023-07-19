@@ -1675,5 +1675,6 @@
 9970 Sie dürfen diesen User nicht ändern
 9971 Wollen Sie das Paket wirklich erneut anwenden
 9972 Erneut anwenden
+9973 Keine Daten verfügbar
 
 9980 Netzwerk Scans
