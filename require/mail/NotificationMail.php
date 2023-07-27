@@ -289,6 +289,14 @@
 
           if($file['template']['type'] == 'text/html'){
             if(is_writable(TEMPLATE)){
+              // Check if script in 
+              $isScriptInside = $this->is_script_content($_FILES['template']['tmp_name']);
+
+              if($isScriptInside) {
+                msg_error($l->g(8030));
+                return false;
+              }
+
               if (move_uploaded_file($_FILES['template']['tmp_name'], $uploadFile)) {
                 $sql = "UPDATE `notification` SET FILE='%s', SUBJECT='%s' WHERE TYPE='PERSO'";
                 $arg = array(TEMPLATE . basename($file['template']['name']), $subject);
@@ -307,6 +315,22 @@
             msg_error($l->g(8017));
             return false;
           }
+      }
+      
+      /**
+       * is_script_content
+       *
+       * @param  mixed $upload_file_tmp
+       * @return boolean
+       */
+      private function is_script_content($upload_file_tmp) {
+        $dom = new DOMDocument();
+        $dom->loadHTML(file_get_contents($upload_file_tmp,true));
+        $script = $dom->getElementsByTagName("script");
+
+        if($script->length > 0) return true;
+
+        return false;
       }
 
       /**
