@@ -40,7 +40,8 @@ class Admininfo
 		'2' => 'VARCHAR(255)',
 		'5' => 'VARCHAR(255)',
 		'14' => 'DATE',
-		'11' => 'VARCHAR(255)'
+		'11' => 'VARCHAR(255)',
+		'15' => 'INT(10)'
 	);
 	// Field type
 	public $type_accountinfo = array(
@@ -49,7 +50,8 @@ class Admininfo
 		'2' => 'SELECT',
 		'5' => 'CHECKBOX',
 		'14' => 'DATE',
-		'11' => 'RADIOBUTTON'
+		'11' => 'RADIOBUTTON',
+		'15' => 'NUMBER'
   	);
 
 	/***************************************

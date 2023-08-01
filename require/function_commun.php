@@ -25,13 +25,18 @@
 //looking for default value of ocs config
 //default_values => replace with your data if config data is null or empty
 //default_values => array(array())// ex: array('LOCAL_SERVER'=>array('TVALUE'=>'http:\\localhost'))
-function look_config_default_values($field_name, $like = '', $default_values = '') {
+function look_config_default_values($field_name, $like = '', $default_values = '', $is_ldap = false) {
+    if ($is_ldap) {
+        $config = 'config_ldap';
+    } else {
+        $config = 'config';
+    }
     if ($like == '') {
-        $sql = "select NAME,IVALUE,TVALUE,COMMENTS from config where NAME in ";
+        $sql = "select NAME,IVALUE,TVALUE,COMMENTS from $config where NAME in ";
         $arg_sql = array();
         $arg = mysql2_prepare($sql, $arg_sql, $field_name);
     } else {
-        $arg['SQL'] = "select NAME,IVALUE,TVALUE,COMMENTS from config where NAME like '%s'";
+        $arg['SQL'] = "select NAME,IVALUE,TVALUE,COMMENTS from $config where NAME like '%s'";
         $arg['ARG'] = $field_name;
     }
     $resdefaultvalues = mysql2_query_secure($arg['SQL'], $_SESSION['OCS']["readServer"], $arg['ARG']);
@@ -624,7 +629,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     }
                                 }else if($inputType == 'number'){
                                     echo "<div class='input-group'>";
-                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' min='1' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
+                                    echo "<input type='".$inputType."' name='".$field['INPUT_NAME']."' id='".$field['INPUT_NAME']."' value='".$field['DEFAULT_VALUE']."' min='0' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
                                     if(empty($field['COMMENT_AFTER'])){
                                       echo "</div>";
                                     }

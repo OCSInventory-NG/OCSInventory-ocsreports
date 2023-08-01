@@ -14,6 +14,10 @@ New-Item -Path "$path" -Name "update.log" -ItemType "file"
 Move-Item "$location\ocsupdate.exe" -Destination "$path\ocsupdate.exe"
 Move-Item "$location\removeupdateagent.ps1" -Destination "$path\removeupdateagent.ps1"
 
+# Remove hidden attributes
+Get-ChildItem "$path\ocsupdate.exe" -Force | ? {$_.mode -match "h"} |  foreach {$_.Attributes = [System.IO.FileAttributes]::Normal}
+Get-ChildItem "$path\removeupdateagent.ps1" -Force | ? {$_.mode -match "h"} |  foreach {$_.Attributes = [System.IO.FileAttributes]::Normal}
+
 Add-Content $logFile -value "UPDATE AGENT LOG FILE"
 $date = (Get-date).ToString("dd/MM/yyyy HH:mm")
 Add-Content $logFile -value "$date - Starting..."

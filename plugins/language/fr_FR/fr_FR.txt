@@ -1358,7 +1358,7 @@
 1477 Résultat Nom
 1478 Ou importer un fichier CSV
 1479 Importer
-1480 Télécharger le fichier CSV exemple
+1480 Télécharger le fichier CSV des correspondances les plus connues
 1481 Historiques des CVEs
 1482 Dernière date d'exécution
 1483 Nombre de CVE
@@ -1401,6 +1401,10 @@
 1519 Machines manquantes : 
 1520 (des données CSV sont importées)
 1521 Afficher le compte des installations logiciels
+1522 Version standardisée
+1523 Version majeure
+1524 Version mineure
+1525 Version patch
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver

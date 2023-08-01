@@ -183,15 +183,15 @@ class SoftwareCategory
         $softName = str_replace("*", "", $softName);
         $softName = str_replace("?", "", $softName);
 
-        $sql = "SELECT DISTINCT s.VERSION_ID, v.VERSION FROM software s 
+        $sql = "SELECT DISTINCT s.VERSION_ID, v.PRETTYVERSION FROM software s 
                 LEFT JOIN software_version v ON v.ID = s.VERSION_ID
                 LEFT JOIN software_name n ON n.ID = s.NAME_ID 
-                WHERE n.NAME LIKE '%$softName%' ORDER BY v.VERSION";
+                WHERE n.NAME LIKE '%$softName%' ORDER BY v.PRETTYVERSION";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 
         $version[0] = " ";
         while ($soft = mysqli_fetch_array($result)) {
-            $version[$soft['VERSION']] = $soft['VERSION'];
+            $version[$soft['PRETTYVERSION']] = $soft['PRETTYVERSION'];
         }
         return $version;
     }

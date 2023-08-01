@@ -173,7 +173,7 @@ if (is_defined($_SESSION['OCS']['AllSoftware']['filter']['csv_data']['missing'])
 /****************************************** ALL SOFTWARE ******************************************/
 if($protectedPost['onglet'] == "ALL"){
     if(!is_defined($sqlFilter['SELECT'])) {
-        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb ';
+        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, v.PRETTYVERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb ';
                 
         if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
             $sql['SQL'] .= ', COUNT(DISTINCT s.HARDWARE_ID) as nb2 ';
@@ -217,6 +217,7 @@ if($protectedPost['onglet'] == "ALL"){
             $l->g(69) => 'p.PUBLISHER',
             'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
+            $l->g(1522) => 'v.PRETTYVERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
 
@@ -269,7 +270,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
     $sqlFilter = $allSoft->generateQueryFilter($filters);
 
     if(!is_defined($sqlFilter['SELECT'])) {
-        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb ';
+        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, v.PRETTYVERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb ';
 
         if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
             $sql['SQL'] .= ', COUNT(DISTINCT s.HARDWARE_ID) as nb2 ';
@@ -328,6 +329,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
             $l->g(69) => 'p.PUBLISHER',
             'name' => 'n.NAME',
             $l->g(7003) => 'v.VERSION',
+            $l->g(1522) => 'v.PRETTYVERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
         if(
@@ -377,7 +379,7 @@ elseif($protectedPost['onglet'] == "WITHOUT") {
 /****************************************** SOFTWARE PER CATEGORY ******************************************/
 else {
     if(!is_defined($sqlFilter['SELECT'])) {
-        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb ';
+        $sql['SQL'] = ' SELECT n.NAME, p.PUBLISHER, v.VERSION, v.PRETTYVERSION, sl.IDENTIFIER as id, sc.CATEGORY_NAME, sl.COUNT as nb ';
 
         if (isset($protectedPost['SUBMIT_FORM_RESTRICT']) && $protectedPost['SUBMIT_FORM_RESTRICT'] == "yes") {
             $sql['SQL'] .= ', COUNT(DISTINCT s.HARDWARE_ID) as nb2 ';
@@ -435,6 +437,7 @@ else {
         $list_fields = array($l->g(69) => 'p.PUBLISHER',
             'name' => 'NAME',
             $l->g(7003) => 'v.VERSION',
+            $l->g(1522) => 'v.PRETTYVERSION',
             $l->g(388) => 'sc.CATEGORY_NAME',
         );
 

@@ -168,9 +168,8 @@
                                 $trad = $l->g(269);
                                 $this->columnsQueryConditions .= "$operator[$p] $open $nameTable.$argFields $argOperators str_to_date('$argValues', '$trad')$close ";
                             } else {
-                                $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (
-                                        SELECT 1 FROM $nameTable 
-                                        WHERE $nameTable.$argFields $argOperators '$argValues')$close ";
+                                $this->columnsQueryConditions .= "$operator[$p] $open
+                                ($nameTable.$argFields $argOperators '$argValues')$close ";
                             }
                         }
                     }else{
