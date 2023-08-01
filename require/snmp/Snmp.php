@@ -379,7 +379,7 @@ class OCSSnmp
 	 * @param int $id
 	 * @return string
 	 */
-	private function get_table_type_drop($id){
+	public function get_table_type_drop($id){
 		$sql_type = "SELECT `TABLE_TYPE_NAME` FROM `snmp_types` WHERE ID = %s";
 		$arg_type = array($id);
 

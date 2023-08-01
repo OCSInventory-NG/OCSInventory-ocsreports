@@ -444,6 +444,7 @@ iframe{
     text-align: left;
 }
 .server-information-ul-li{
+    white-space: nowrap;
     text-align: left;
 }
 

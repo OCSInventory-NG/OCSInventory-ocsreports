@@ -68,13 +68,13 @@ if(isset($protectedGet["active"])) {
 // Check POST HTTPS server value
 $postHTTPSServ = null;
 if(isset($protectedPost["HTTPS_SERV"])) {
-    $postHTTPSServ = preg_replace("/[^A-Za-z0-9\._\-\/]/", "", $protectedPost["HTTPS_SERV"]);
+    $postHTTPSServ = preg_replace("/[^A-Za-z0-9\._\-\/:]/", "", $protectedPost["HTTPS_SERV"]);
 }
 
 // Check POST file server value
 $postFileServ = null;
 if(isset($protectedPost["FILE_SERV"])) {
-    $postFileServ = preg_replace("/[^A-Za-z0-9\._\-\/]/", "", $protectedPost["FILE_SERV"]);
+    $postFileServ = preg_replace("/[^A-Za-z0-9\._\-\/:]/", "", $protectedPost["FILE_SERV"]);
 }
 
 if (is_defined($protectedPost['Valid_modif'])) {

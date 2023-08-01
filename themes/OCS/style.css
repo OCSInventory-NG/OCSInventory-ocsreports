@@ -112,6 +112,10 @@
 	background-color: #961b7e;
 }
 
+.nav-pills>li.archive>a, .nav-pills>li.archive>a:focus, .nav-pills>li.archive>a:hover{
+	background-color: #20222e !important;
+}
+
 .navbar-left li a{
     color: #777;
 }
@@ -183,6 +187,11 @@ table.dataTable .glyphicon-download-alt {
 
 table.dataTable a {
     color: #961b7e  !important;
+    font-weight: bold;
+}
+
+table.archive a {
+    color: #20222e  !important;
     font-weight: bold;
 }
 

@@ -1359,7 +1359,7 @@
 1477 Résultat Nom
 1478 Ou importer un fichier CSV
 1479 Importer
-1480 Télécharger le fichier CSV exemple
+1480 Télécharger le fichier CSV des correspondances les plus connues
 1481 Historiques des CVEs
 1482 Dernière date d'exécution
 1483 Nombre de CVE
@@ -1402,6 +1402,10 @@
 1519 Machines manquantes : 
 1520 (des données CSV sont importées)
 1521 Afficher le compte des installations logiciels
+1522 Version standardisée
+1523 Version majeure
+1524 Version mineure
+1525 Version patch
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver
@@ -1799,6 +1803,10 @@
 9364 Ligne configuration
 9365 Ligne devant être ajoutée au fichier modules.conf (ex: 'use Ocsinventory::Agent::Modules::Pluginname;'):
 9366 Chemin du répertoire Modules de l'agent
+9367 Mettre l'option ci-dessous sur LANCER retournera le paquet comme en erreur si le code de sortie est différent de 0. La mettre sur EXECUTER retournera le code de sortie avec le statut au serveur. 
+9368 Mode d'éxecution : 
+9369 LANCER
+9370 EXECUTER
 
 9500 Fusionner la sélection
 9501 Tout fusionner
@@ -1885,3 +1893,16 @@
 9970 Vous n'êtes pas authorisé à modifier cet utilisateur
 9971 Voulez-vous vraiment ré-affecter le paquet 
 9972 Affecter à nouveau
+
+9980 Scans réseau
+9981 Méthode utilisée pour les scans IpDiscover effectués par les agents (nmap, ICMP, ARP scan)<br><br>Note : ARP scan ne balayera que le réseau local
+9982 Méthode utilisée pour les scans SNMP effectués par les agents Linux (nmap, ICMP, ARP scan)<br><br>Note : ARP scan ne balayera que le réseau local
+9983 Si ARP scan est sélectionné : bande passante utilisée par ARP scan (en Kbps)
+9984 Exporter la configuration SNMP
+9985 Télécharger la configuration des communautés SNMP
+9986 Télécharger la configuration des types SNMP
+9987 Export de configuration pour le scan SNMP local : La configuration sera téléchargée sous forme de fichier XML pouvant être utilisé pour configurer un agent pour le scan SNMP local. <br> Notez que la configuration du scan SNMP retournera la configuration générale des scans réseau si exporté depuis cette page. Si vous souhaitez obtenir une configuration de groupe ou de machine, rendez vous sur la page du groupe ou de la machine, puis accédez à la configuration.
+9988 Export de configuration
+9989 Télécharger la configuration du scan SNMP
+9990 Télécharger la liste des réseaux SNMP
+9991 Génère les fichiers SNMP

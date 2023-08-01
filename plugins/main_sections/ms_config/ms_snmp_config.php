@@ -38,6 +38,7 @@ $def_onglets['SNMP_CONDITION'] = $l->g(9031); // Configure type conditions
 $def_onglets['SNMP_LABEL'] = $l->g(9003); // Create SNMP label
 $def_onglets['SNMP_TYPE'] = $l->g(9002);  // Configure SNMP type
 $def_onglets['SNMP_MIB'] = $l->g(9008);  // Add MIB file
+$def_onglets['SNMP_EXPORT'] = $l->g(9988); // Export configuration for local scan
 
 
 if(isset($protectedPost['add_mib'])) {
@@ -366,6 +367,32 @@ if($protectedPost['onglet'] == 'SNMP_MIB') {
     echo "<input type='submit' name='update_snmp' id='update_snmp' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</div></div></br></br>";
 }
+
+/*******************************************SNMP EXPORT CONFIGURATION *****************************************************/
+if ($protectedPost['onglet'] == 'SNMP_EXPORT') {
+    // show info text for export
+    echo "<div class='row margin-top30'>
+    <div class='col-sm-10'>";
+    msg_info($l->g(9987));
+
+    echo "<div class='row justify-content-center margin-top30'>";
+
+    echo "<div class='col col-md-4'>";
+    echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=comm' class='btn btn-action'>". $l->g(9985)."</a>";
+    echo "</div>";
+
+    echo "<div class='col col-md-4'>";
+    echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=type' class='btn btn-action'>". $l->g(9986)."</a>";
+    echo "</div>";
+
+    echo "<div class='col col-md-4'>";
+    echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=scan' class='btn btn-action'>". $l->g(9989)."</a>";
+    echo "</div>";
+
+    echo "</div></br></br></br></br>";
+    echo "</div></div>";
+}
+
 
 echo "</div>";
 echo close_form();

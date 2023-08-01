@@ -396,9 +396,17 @@ class PackageBuilder
         if ($xmlDetails->packagedefinition->ACT  == 'STORE') {
             $info .= "PATH=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
-        if ($xmlDetails->packagedefinition->ACT  == 'LAUNCH') {
+
+		if ($xmlDetails->packagedefinition->ACT  == 'LAUNCH' && $xmlDetails->formoption->ISCUSTOM == false) {
+			// if pkg built from linux bashscript option and not custom package, 
+			// default retrieved if a command but w/ LAUNCH, the agent will be expecting a name
+			$name = substr($xmlDetails->packagedefinition->COMMAND, strpos($xmlDetails->packagedefinition->COMMAND, ' ') + 1);
+			$info .= "NAME=\"" . $name . "\" ";
+
+		} else if ($xmlDetails->packagedefinition->ACT  == 'LAUNCH') {
             $info .= "NAME=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
+
         if ($xmlDetails->packagedefinition->ACT  == 'EXECUTE') {
             $info .= "COMMAND=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
