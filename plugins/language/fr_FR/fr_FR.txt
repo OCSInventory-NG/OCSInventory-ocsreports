@@ -1406,6 +1406,7 @@
 1523 Version majeure
 1524 Version mineure
 1525 Version patch
+1526 Méthode d'installation
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver
