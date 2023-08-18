@@ -1406,6 +1406,8 @@
 1524 Minor version
 1525 Patch version
 1526 Installation method
+1527 Last version
+1528 Version type
 
 1550 Do you really want to archive 
 1551 Archive

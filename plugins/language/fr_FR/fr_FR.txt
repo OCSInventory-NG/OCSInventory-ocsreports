@@ -1407,6 +1407,8 @@
 1524 Version mineure
 1525 Version patch
 1526 Méthode d'installation
+1527 Dernière mise à jour
+1528 Type de la mise à jour
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver

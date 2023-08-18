@@ -118,6 +118,8 @@ $list_fields[$l->g(1523)] = 'MAJOR';
 $list_fields[$l->g(1524)] = 'MINOR';
 $list_fields[$l->g(1525)] = 'PATCH';
 $list_fields[$l->g(1526)] = 'INSTALLMETHOD';
+$list_fields[$l->g(1527)] = 'LASTUPDATE';
+$list_fields[$l->g(1528)] = 'UPDATETYPE';
 
 $tab_options['FILTRE'] = array_flip($list_fields);
 
