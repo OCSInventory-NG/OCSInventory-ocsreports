@@ -1666,6 +1666,7 @@
 8027 Un problème de récupération des données des news OCS est survenue
 8028 Vous avez des news récentes
 8029 n'a pas les droits d'écriture
+8030 Les balises script ne sont pas autorisées
 
 8100 Inventaire application Web
 8101 Liste application Web

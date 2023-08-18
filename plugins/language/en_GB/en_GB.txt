@@ -1671,6 +1671,7 @@
 8027 A problem of OCS news data recovery has occurred
 8028 You have recent news
 8029 is not writable
+8030 Script tags are not allowed
 
 8100 Web application Inventory
 8101 Web application list
