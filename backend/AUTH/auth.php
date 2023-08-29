@@ -236,7 +236,13 @@ if (isset($login_successful) && $login_successful == "OK" && !$limitAttempt) {
     } else if ($list_methode[0] == 'cas.php') {
         // redirect to CAS login page
         require_once('methode/' . $list_methode[0]);
-    } else {
+    } else if ($affich_method == "SSO_ONLY") {
+        // auth failed in SSO_ONLY mode, we display an error message
+        require_once (HEADER_HTML);
+        msg_error($l->g(180));
+        require_once(FOOTER_HTML);
+        die();
+    }else {
         header('WWW-Authenticate: Basic realm="OcsinventoryNG"');
         header('HTTP/1.0 401 Unauthorized');
         die();

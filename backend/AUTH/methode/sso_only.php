@@ -45,6 +45,4 @@ else
 
 $value_log = 'USER:' . $login;
 $cnx_origine = "SSO_ONLY";
-
-addLog($type_log, $value_log);
 ?>
