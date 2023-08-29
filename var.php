@@ -73,7 +73,7 @@ define('TEMPLATE', __DIR__.'/templates/');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7074');
+define('GUI_VER', '7075');
 
 /**
  * GUI Version
@@ -148,6 +148,7 @@ define('DEV_OPTION', false);
  * - 4 : LDAP with SSO
  * - 5 : Always OK, won't ask for user and password
  * - 6 : CAS authentication
+ * - 7 : SSO Only (using $_SERVER['REMOTE_USER'] / $_SERVER['HTTP_AUTH_USER'])
  * 
  * If LDAP / SSO Basic auth is configured, please configure the LDAP Authentication
  */

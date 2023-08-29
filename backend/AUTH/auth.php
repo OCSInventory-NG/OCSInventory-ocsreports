@@ -56,6 +56,12 @@ if ($affich_method == 'HTML' && isset($protectedPost['Valid_CNX']) && trim($prot
 } elseif ($affich_method == 'SSO' && isset($_SERVER['HTTP_AUTH_USER']) && !empty($_SERVER['HTTP_AUTH_USER'])) {
     $login = $_SERVER['HTTP_AUTH_USER'];
     $mdp = 'NO_PASSWD';
+} elseif ($affich_method == 'SSO_ONLY' && isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER'])) {
+    $login = $_SERVER['REMOTE_USER'];
+    $mdp = 'NO_PASSWD';
+} elseif ($affich_method == 'SSO_ONLY' && isset($_SERVER['HTTP_AUTH_USER']) && !empty($_SERVER['HTTP_AUTH_USER'])) {
+    $login = $_SERVER['HTTP_AUTH_USER'];
+    $mdp = 'NO_PASSWD';
 } elseif ($affich_method != 'HTML' && isset($_SERVER['PHP_AUTH_USER'])) {
     $login = $_SERVER['PHP_AUTH_USER'];
     $mdp = $_SERVER['PHP_AUTH_PW'];
