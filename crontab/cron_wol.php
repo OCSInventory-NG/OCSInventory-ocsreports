@@ -43,3 +43,4 @@ if (!empty($wol)) {
   }
 }
 
+session_destroy();
