@@ -31,3 +31,5 @@ if($queryList) {
 }
 
 print("[".date("Y-m-d H:i:s"). "] End of process\n");
+
+session_destroy();
