@@ -36,3 +36,5 @@ if($ipdiscoverPurgeConfig["ivalue"]["IPDISCOVER_PURGE_OLD"] == "1"){
 
     print("[".date("Y-m-d H:i:s"). "] ".$resultCount->num_rows." devices have been removed\n");
 }
+
+session_destroy();
