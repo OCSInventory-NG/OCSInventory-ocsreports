@@ -60,4 +60,6 @@ if($cve->CVE_ACTIVE == 1) {
     $cve->verbose($cve->CVE_VERBOSE, 3);
     exit();
 }
+
+session_destroy();
 ?>
