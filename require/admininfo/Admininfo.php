@@ -472,6 +472,11 @@ class Admininfo
 		$sql_account_data = "UPDATE ".self::ACCOUNTINFO_COMPUTERS." SET ";
 
 		foreach ($values as $field => $val) {
+			# quotes are not allowed in administrative value
+			if (preg_match('/(&quot;|&#039;|&apos;)/', $val)) {
+				return $l->g(10000);
+			}
+		
 			// Check account info
 			$accountinfo_id = explode("_", $field);
 			$date_accountinfo = false;

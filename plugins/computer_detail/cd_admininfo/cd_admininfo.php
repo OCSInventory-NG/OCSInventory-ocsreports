@@ -78,7 +78,8 @@ if (!is_array($info_account_id)) {
                 }
 
             }
-            $Admininfo->updateinfo_computer($systemid, $data_fields_account);
+            $result = $Admininfo->updateinfo_computer($systemid, $data_fields_account);
+            msg_info($result);
             //search all admininfo for this computer
             $info_account_id = $Admininfo->admininfo_computer($systemid);
         }
