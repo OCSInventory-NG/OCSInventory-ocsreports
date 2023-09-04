@@ -73,7 +73,9 @@ define('TEMPLATE', __DIR__.'/templates/');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7075');
+
+define('GUI_VER', '7076');
+
 
 /**
  * GUI Version
