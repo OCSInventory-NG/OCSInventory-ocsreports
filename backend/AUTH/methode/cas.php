@@ -44,8 +44,22 @@ $cas->setVerbose(true);
 
 if (!isset($sql_update)) {
     $cas->client(CAS_VERSION_2_0, $config['CAS_HOST'], (int)$config['CAS_PORT'], $config['CAS_URI']);
-    // uncomment following line if not using server validation
-    $cas->setNoCasServerValidation();
+    // Set Service URL
+    // required if operating behind a load balancer or reverse proxy.
+    if (!isset($config['CAS_BASEURL'])) {
+        $cas->setFixedServiceURL($config['CAS_BASEURL']);
+    }
+
+    // Set CAS Server CA Cert
+    // Strongly recommended for production environments
+    if (!isset($config['CAS_SERVER_CA_CERT_PATH'])) {
+        $cas->setCasServerCACert($config['CAS_SERVER_CA_CERT_PATH']);
+    } else {
+        // if CAS Server CA Cert Path not set, fall back to no validation.
+        $cas->setNoCasServerValidation();
+    }
+
+    // force CAS authentication on any page that includes this file.
     $cas->forceAuthentication();
     $login = $cas->getUser();
     $mdp = "";

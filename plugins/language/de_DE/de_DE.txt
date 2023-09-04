@@ -378,7 +378,7 @@
 411 Felder dürfen nur Zahlen enthalten!
 412 Schlüssel-Verwaltungs-Funktion
 413 Automatische Aktualisierungs-Funktion
-414 Automatische Entfaltung
+414 Automatische Deployment-Funktion
 415 Lösch-Protokoll-Funktion (benötigt von GLPI)
 416 Protokoll-Funktion
 417 Automatische Software-Verteilung
@@ -1648,6 +1648,8 @@
 9700 CAS Server Port, z.B. : 443
 9701 CAS Server URI, z.B. : /cas
 9702 CAS Server Host, z.B. : authentication.org
+9705 CAS Basis URI, z.B. : ocs.example.com
+9706 CAS Server CA-Zertifikatspfad, z.B. : /path/to/cachain.pem
 
 9704 CAS Konfiguration
 
@@ -1667,4 +1669,14 @@
 9911 Layout Name
 9912 Layout Beschreibung
 9913 Tabellenname
+9914 Ersteller
+9915 Sichtbarkeit
 
+9950 Benachrichtigungen
+
+9970 Sie dürfen diesen User nicht ändern
+9971 Wollen Sie das Paket wirklich erneut anwenden
+9972 Erneut anwenden
+9973 Keine Daten verfügbar
+
+9980 Netzwerk Scans
