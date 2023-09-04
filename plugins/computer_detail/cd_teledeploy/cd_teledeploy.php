@@ -52,8 +52,7 @@ if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "Y
     $queryDetails .= " and a.comment not like '%s'";
     array_push($arg, '%[VISIBLE=0]%');
 }
-$queryDetails .= "	union SELECT PKG_ID,'%s','%s','%s','%s','%s','%s'
-                                        FROM download_history h LEFT JOIN download_available a ON h.pkg_id=a.fileid where hardware_id=%s and name is null";
+$queryDetails .= "	union SELECT PKG_ID, IFNULL(NAME, '%s') as NAME,'%s','%s','%s','%s','%s' FROM download_history h LEFT JOIN download_available a ON h.pkg_id=a.fileid where hardware_id=%s and name is null";
 $i = 0;
 while ($i < 6) {
     array_push($arg, $pack_sup);

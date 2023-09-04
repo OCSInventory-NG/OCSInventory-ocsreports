@@ -124,7 +124,7 @@ require_once 'require/admininfo/Admininfo.php';
     public function getSearchAccountInfo($field_account){
         $id = explode("_", $field_account);
 
-        if(is_int($id)) {
+        if(is_numeric($id[1] ?? null)) {
             $sql = "SELECT TYPE FROM accountinfo_config WHERE ID = %s";
             $arg = array($id[1] ?? null);
             $result = mysql2_query_secure($sql, $this->dbObject, $arg);
@@ -145,7 +145,7 @@ require_once 'require/admininfo/Admininfo.php';
     public function find_accountinfo_values($field, $typeInfo = null, $snmp = null){
         $id = explode("_", $field);
 
-        if(is_int($id)) {
+        if(is_numeric($id[1] ?? null)) {
             $sql = "SELECT `NAME` FROM accountinfo_config WHERE ID = %s";
             $arg = array($id[1]);
             $result = mysql2_query_secure($sql, $this->dbObject, $arg);

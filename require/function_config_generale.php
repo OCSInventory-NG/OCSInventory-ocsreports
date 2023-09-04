@@ -340,10 +340,15 @@ function insert_update($name, $value, $default_value, $field) {
     if ($default_value != $value) {
         $arg = array($field, $value, $name);
 
+        $config = "config";
+        if (strpos($arg[2], "CONEX") !== false) {
+            $config = "config_ldap";
+        }
+
         if ($default_value != '') {
-            $sql = "update config set %s = '%s' where NAME ='%s'";
+            $sql = "update $config set %s = '%s' where NAME ='%s'";
         } else {
-            $sql = "insert into config (%s, NAME) value ('%s','%s')";
+            $sql = "insert into $config (%s, NAME) value ('%s','%s')";
         }
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg, $l->g(821));
 
@@ -387,6 +392,8 @@ function update_default_value($POST) {
         'CAS_URI' => 'CAS_URI',
         'CAS_HOST' => 'CAS_HOST',
         'CAS_DEFAULT_ROLE' => 'CAS_DEFAULT_ROLE',
+        'CAS_BASEURL' => 'CAS_BASEURL',
+        'CAS_SERVER_CA_CERT_PATH' => 'CAS_SERVER_CA_CERT_PATH',
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
@@ -420,18 +427,29 @@ function update_default_value($POST) {
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue
     $array_interprete_ivalue = array('FREQUENCY' => 'FREQUENCY_edit', 'IPDISCOVER' => 'IPDISCOVER_edit');
 
-    //recherche des valeurs par défaut
-    $sql_exist = " select NAME,ivalue,tvalue from config ";
-    $result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
-    while ($value_exist = mysqli_fetch_array($result_exist)) {
-        if ($value_exist["ivalue"] != null) {
-            $optexist[$value_exist["NAME"]] = $value_exist["ivalue"];
-        } elseif ($value_exist["tvalue"] != null) {
-            $optexist[$value_exist["NAME"]] = $value_exist["tvalue"];
-        } elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null) {
-            $optexist[$value_exist["NAME"]] = 'null';
+    function fetchValues($table_name, $readServer)
+    {
+        $optexist = array();
+    
+        $sql_exist = "SELECT NAME, ivalue, tvalue FROM $table_name";
+        $result_exist = mysql2_query_secure($sql_exist, $readServer);
+    
+        while ($value_exist = mysqli_fetch_array($result_exist)) {
+            if ($value_exist["ivalue"] != null) {
+                $optexist[$value_exist["NAME"]] = $value_exist["ivalue"];
+            } elseif ($value_exist["tvalue"] != null) {
+                $optexist[$value_exist["NAME"]] = $value_exist["tvalue"];
+            } elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null) {
+                $optexist[$value_exist["NAME"]] = 'null';
+            }
         }
+    
+        return $optexist;
     }
+    
+    $optexist = fetchValues("config", $_SESSION['OCS']["readServer"]);
+    $optexist = array_merge($optexist, fetchValues("config_ldap", $_SESSION['OCS']["readServer"]));
+    
     //pour obliger à prendre en compte
     //le AUTO_DUPLICATE_LVL quand il est vide
     //on doit l'initialiser tout le temps
@@ -548,7 +566,7 @@ function nb_ldap_filters($nb, $default = false) {
     
     if ($default == false) {
         // old values = from config table
-        $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
+        $sql = "SELECT * FROM config_ldap WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
         $old_filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         $nb_old = $old_filters->num_rows;
         $filters_result = mysqli_fetch_all($old_filters, MYSQLI_ASSOC);
@@ -568,7 +586,7 @@ function nb_ldap_filters($nb, $default = false) {
                 $i++;
                 $filter_name = "CONEX_LDAP_FILTER$i";
                 $filter_role = "CONEX_LDAP_FILTER".$i."_ROLE";
-                $sql = "INSERT INTO config VALUES ('$filter_name', '', '', NULL), ('$filter_role', '', '', NULL)";
+                $sql = "INSERT INTO config_ldap VALUES ('$filter_name', '', '', NULL), ('$filter_role', '', '', NULL)";
                 $ok = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
                 
             }
@@ -576,7 +594,7 @@ function nb_ldap_filters($nb, $default = false) {
             $i = $last_filter;
             while ($i >= $nb + 1) {
                 $filter_name = "CONEX_LDAP_FILTER$i";
-                $sql = "DELETE FROM config WHERE NAME = 'CONEX_LDAP_FILTER$i' OR NAME = 'CONEX_LDAP_FILTER".$i."_ROLE'";
+                $sql = "DELETE FROM config_ldap WHERE NAME = 'CONEX_LDAP_FILTER$i' OR NAME = 'CONEX_LDAP_FILTER".$i."_ROLE'";
                 $ok = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
                 $i--;
             }
@@ -585,7 +603,7 @@ function nb_ldap_filters($nb, $default = false) {
 
     $ldap_filters = [];
 
-    $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*'";
+    $sql = "SELECT * FROM config_ldap WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*'";
     $filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     $filters = mysqli_fetch_all($filters, MYSQLI_ASSOC);
     // sort ldap filters
@@ -1032,6 +1050,8 @@ function pageCas() {
         'CAS_URI' => 'CAS_URI',
         'CAS_HOST' => 'CAS_HOST',
         'CAS_DEFAULT_ROLE' => 'CAS_DEFAULT_ROLE',
+        'CAS_BASEURL' => 'CAS_BASEURL',
+        'CAS_SERVER_CA_CERT_PATH' => 'CAS_SERVER_CA_CERT_PATH'
     );
     $values = look_config_default_values($champs);
     $role1 = get_profile_labels();
@@ -1042,6 +1062,8 @@ function pageCas() {
     ligne('CAS_URI', $l->g(9701) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_URI'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CAS_HOST', $l->g(9702) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_HOST'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
     ligne('CAS_DEFAULT_ROLE', $l->g(9703), 'select', array('VALUE' => $values['tvalue']['CAS_DEFAULT_ROLE'] ?? '', 'SELECT_VALUE' => $default_role));
+    ligne('CAS_BASEURL', $l->g(9705) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_BASEURL'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('CAS_SERVER_CA_CERT_PATH', $l->g(9706) . '<br>' . '', 'input', array('VALUE' => $values['tvalue']['CAS_SERVER_CA_CERT_PATH'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
 }
 
 
@@ -1059,7 +1081,7 @@ function pageConnexion() {
         'CONEX_ROOT_PW' => 'CONEX_ROOT_PW',
         'CONEX_LDAP_NB_FILTERS' => 'CONEX_LDAP_NB_FILTERS',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE' => 'CONEX_LDAP_CHECK_DEFAULT_ROLE');
-    $values = look_config_default_values($champs);
+    $values = look_config_default_values($champs, '', '', true);
 
     $role1 = get_profile_labels();
   
@@ -1081,10 +1103,10 @@ function pageConnexion() {
     ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'] ?? '', 'SELECT_VALUE' => $default_role));
     ligne('CONEX_LDAP_NB_FILTERS', $l->g(9650), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_NB_FILTERS'] ?? '', 'SELECT_VALUE' => $nb_filters));
     foreach ($ldap_filters as $filter) {
-        ligne($filter[0]['NAME'], $l->g(1111), 'input', array('VALUE' => $filter[0]['TVALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 255));
+        ligne($filter[0]['NAME'], $l->g(1111), 'input', array('VALUE' => $filter[0]['TVALUE'], 'SIZE' => "30%", 'MAXLENGTH' => ''));
         ligne($filter[1]['NAME'], $l->g(1116), 'select', array('VALUE' => $filter[1]['TVALUE'], 'SELECT_VALUE' => $role1));
     }
- 
+
 }
 
 function pagesnmp() {

@@ -1524,6 +1524,12 @@ function ajaxfiltre($queryDetails,$tab_options){
 				$index++;
 			}
 		}
+		// Special process for computer details teledeploy query
+		if(isset($tab_options['SPECIAL_SEARCH']) && $tab_options['SPECIAL_SEARCH'] == "COMP_DEPLOY" && !is_null($filter)) {
+			$explodeQuery = explode("d.name='DOWNLOAD' and a.name != '' and pack_loc != '' AND d.hardware_id=%s", $queryDetails);
+			$queryDetails = $explodeQuery[0]."d.name='DOWNLOAD' and a.name != '' and pack_loc != '' AND d.hardware_id=%s HAVING".$filter.")".$explodeQuery[1];
+		}
+
 		$queryDetails .= $filter.") ";
 	}
 	return $queryDetails;

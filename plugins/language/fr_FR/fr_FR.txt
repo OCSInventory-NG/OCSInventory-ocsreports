@@ -1666,6 +1666,7 @@
 8027 Un problème de récupération des données des news OCS est survenue
 8028 Vous avez des news récentes
 8029 n'a pas les droits d'écriture
+8030 Les balises script ne sont pas autorisées
 
 8100 Inventaire application Web
 8101 Liste application Web
@@ -1841,6 +1842,8 @@
 9701 URI du serveur CAS, e.g : /cas
 9702 Adresse du serveur CAS, e.g. : authentication.org
 9703 Profil par défaut, appliqué à la première connexion CAS
+9705 URI de base du CAS, e.g. : ocs.example.com
+9706 Chemin du certificat du serveur CAS, e.g. : /path/to/cachain.pem
 9704 Configuration CAS
 
 9800 Exlure les machines archivées des Statistiques, de l'inventaire CVE, du compte de Tous les logiciels, du compte des machines par TAG
@@ -1893,6 +1896,7 @@
 9970 Vous n'êtes pas authorisé à modifier cet utilisateur
 9971 Voulez-vous vraiment ré-affecter le paquet 
 9972 Affecter à nouveau
+9973 Aucune donnée disponible
 
 9980 Scans réseau
 9981 Méthode utilisée pour les scans IpDiscover effectués par les agents (nmap, ICMP, ARP scan)<br><br>Note : ARP scan ne balayera que le réseau local

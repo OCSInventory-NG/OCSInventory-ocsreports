@@ -79,13 +79,13 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
 $list_col_cant_del = $list_fields;
 $default_fields = $list_col_cant_del;
 
-$queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,IFNULL(STR_TO_DATE(d.comments, '%s'), '%s') as comments,e.fileid, e.pack_loc,h.name as name_server,h.id,a.comment, CONCAT(d.ivalue,';',d.tvalue) as status
+$queryDetails = "SELECT a.name as name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,IFNULL(STR_TO_DATE(d.comments, '%s'), '%s') as comments,e.fileid, e.pack_loc,h.name as name_server,h.id,a.comment, CONCAT(d.ivalue,';',d.tvalue) as status
                 FROM devices d left join download_enable e on e.id=d.ivalue
                     LEFT JOIN download_available a ON e.fileid=a.fileid
                     LEFT JOIN hardware h on h.id=e.server_id
                 WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != '' AND d.hardware_id=%s
                 UNION
-                SELECT '%s', IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,IFNULL(STR_TO_DATE(d.comments, '%s'), '%s') as comments,e.fileid, '%s',h.name,h.id,a.comment, CONCAT(d.ivalue,';',d.tvalue) as status
+                SELECT IFNULL(a.name, '%s') as name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,IFNULL(STR_TO_DATE(d.comments, '%s'), '%s') as comments,e.fileid, '%s',h.name,h.id,a.comment, CONCAT(d.ivalue,';',d.tvalue) as status
                 FROM devices d left join download_enable e on e.id=d.ivalue
                     LEFT JOIN download_available a ON e.fileid=a.fileid
                     LEFT JOIN hardware h on h.id=e.server_id
@@ -94,6 +94,9 @@ $queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,IFNULL
 $arg = array($l->g(482), "%a %b %e %H:%i:%S %Y", $l->g(9208), $systemid, $l->g(1129), $l->g(482), "%a %b %e %H:%i:%S %Y", $l->g(9208), $l->g(1129), $systemid);
 
 $tab_options['ARG_SQL'] = $arg;
+
+$tab_options['NO_SEARCH']['pack_loc'] = 'pack_loc';
+$tab_options['SPECIAL_SEARCH'] = "COMP_DEPLOY";
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 

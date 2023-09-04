@@ -1671,6 +1671,7 @@
 8027 A problem of OCS news data recovery has occurred
 8028 You have recent news
 8029 is not writable
+8030 Script tags are not allowed
 
 8100 Web application Inventory
 8101 Web application list
@@ -1846,6 +1847,8 @@
 9701 CAS server uri, e.g : /cas
 9702 CAS server host, e.g. : authentication.org
 9703 CAS default role, applied on first connection initiated using CAS authentication
+9705 CAS Base URI, e.g. : ocs.example.com
+9706 CAS Server CA Certificate Path, e.g. : /path/to/cachain.pem
 9704 CAS Configuration
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
@@ -1898,6 +1901,7 @@
 9970 You are not allowed to modify this user
 9971 Do you really want to re-affect the package 
 9972 Affect again
+9973 No data available
 
 9980 Network Scans
 9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
