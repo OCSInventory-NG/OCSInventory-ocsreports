@@ -87,6 +87,8 @@ if($protectedPost['onglet'] == "NEW_CORR") {
     echo "<div class='row margin-top30'>
             <div class='col-sm-10'>";
 
+    $dir = dirname($_SERVER['REQUEST_URI']);
+    $url = $url.$dir;
     echo "<a href='".$url."/files/cve/cve_matching_mostknown.csv' download>".$l->g(1480)."</a>";
     echo "<br><br>";
     formGroup('file', 'csv_file', $l->g(1478).' :', '', '', $protectedPost['csv_file'] ?? '', '', '', '', "accept='.csv'");
