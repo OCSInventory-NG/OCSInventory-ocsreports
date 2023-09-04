@@ -615,10 +615,13 @@ function print_activated_package($systemid) {
 
     $list_fields = array(
         $l->g(1037) => 'name',
-        $l->g(475) => 'fileid',
+        $l->g(475) => 'FILEID',
         $l->g(499) => 'pack_loc',
-        $l->g(1102) => 'tvalue',
         $l->g(51) => 'comments',
+        'NO_NOTIF' => 'NO_NOTIF',
+        'NOTI' => 'NOTI', 
+        'SUCC' => 'SUCC', 
+        'ERR_' => 'ERR_',
     );
 
     if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
@@ -628,7 +631,19 @@ function print_activated_package($systemid) {
     $list_col_cant_del = $list_fields;
     $default_fields = $list_col_cant_del;
 
-    $queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.fileid, e.pack_loc,h.name as name_server,h.id,a.comment
+
+    // add percentage stats
+    $tab_options['NO_SEARCH']['NOTI'] = 'NOTI';
+    $tab_options['NO_SEARCH']['SUCC'] = 'SUCC';
+    $tab_options['NO_SEARCH']['ERR_'] = 'ERR_';
+    $tab_options['NO_SEARCH']['NO_NOTIF'] = 'NO_NOTIF';
+    $tab_options['NO_TRI']['NOTI'] = 1;
+    $tab_options['NO_TRI']['NO_NOTIF'] = 1;
+    $tab_options['NO_TRI']['SUCC'] = 1;
+    $tab_options['NO_TRI']['ERR_'] = 1;
+    $tab_options['LBL'] = array('NOTI' => $l->g(1000).' %', 'SUCC' => $l->g(572).' %', 'ERR_' => $l->g(344).' %', 'NO_NOTIF' => ucfirst(strtolower($l->g(482))).' %');
+
+    $queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.FILEID, e.pack_loc,h.name as name_server,h.id,a.comment
                     FROM devices d left join download_enable e on e.id=d.ivalue
                         LEFT JOIN download_available a ON e.fileid=a.fileid
                         LEFT JOIN hardware h on h.id=e.server_id
@@ -642,6 +657,61 @@ function print_activated_package($systemid) {
 
     $arg = array($l->g(482), $systemid, $l->g(1129), $l->g(482), $l->g(1129), $systemid);
 
+    // hIDs of this grp will be used to calculate percentage stats
+    $sql_grp_devices = "select HARDWARE_ID from groups_cache where GROUP_ID = %s";
+    $arg_grp_devices = array($systemid);
+    $res_grp_devices = mysql2_query_secure($sql_grp_devices, $_SESSION['OCS']["readServer"], $arg_grp_devices);
+    $hardware_ids = array();
+    while ($val_grp_devices = mysqli_fetch_array($res_grp_devices)) {
+        $hardware_ids[] = $val_grp_devices['HARDWARE_ID'];
+    }
+
+    $sql_data_fixe = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
+    from devices d,download_enable de
+    where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+    and d.tvalue %s '%s' ";
+    $sql_data_fixe_bis = "select concat(format((%s-count(*))*100/%s, 0), '%s') as %s,de.FILEID
+        from devices d,download_enable de
+        where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+        and hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') and d.tvalue %s  ";
+    $sql_data_fixe_ter = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
+        from devices d,download_enable de
+        where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+        and (d.tvalue %s '%s' or d.tvalue %s '%s') ";
+
+    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_'] = array(count($hardware_ids), '%', 'ERR_', 'LIKE', 'ERR_%', 'LIKE', 'EXIT_CODE%');
+    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC'] = array(count($hardware_ids), '%', 'SUCC', 'LIKE', 'SUCCESS%');
+    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI'] = array(count($hardware_ids), '%', 'NOTI', 'LIKE', 'NOTI%');
+    // to get percent of not notified devices, we compare all devices having a status with the nb of devices in the group
+    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF'] = array(count($hardware_ids), count($hardware_ids), '%', 'NO_NOTIF', 'IS NOT NULL');
+    $sql_data_fixe .= " and d.hardware_id in ";
+    $sql_data_fixe_bis .= " and d.hardware_id in ";
+    $sql_data_fixe_ter .= " and d.hardware_id in ";
+
+    $temp = mysql2_prepare($sql_data_fixe, array(), $hardware_ids);
+    $temp_bis = mysql2_prepare($sql_data_fixe_bis, array(), $hardware_ids);
+    $temp_ter = mysql2_prepare($sql_data_fixe_ter, array(), $hardware_ids);
+    foreach ($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key => $value) {
+
+        if ($key != 'NO_NOTIF' && $key != 'ERR_') {
+            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
+            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL'] . " group by FILEID";
+        } elseif ($key == 'NO_NOTIF') {
+            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
+            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL'] . " group by FILEID";
+        } elseif ($key == 'ERR_') {
+            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_ter['ARG']);
+            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL'] . " group by FILEID";
+        }
+
+    }
+
+
+    $tab_options['COLOR']['ERR_'] = 'RED';
+    $tab_options['COLOR']['SUCC'] = 'GREEN';
+    $tab_options['COLOR']['NOTI'] = 'GREY';
+    $tab_options['COLOR']['NO_NOTIF'] = 'BLACK';
+    $tab_options['FIELD_REPLACE_VALUE_ALL_TIME'] = 'FILEID';
     $tab_options['ARG_SQL'] = $arg;
 
     $tab_options['form_name'] = $form_name;
@@ -724,7 +794,7 @@ function print_perso($systemid) {
     }
 
     $field_name = array('DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_FRAG_LATENCY',
-        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP');
+        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP', 'SCAN_TYPE_SNMP', 'SCAN_TYPE_IPDISCOVER', 'SCAN_ARP_BANDWIDTH');
     $optdefault = look_config_default_values($field_name);
 
      //IPDISCOVER
@@ -856,6 +926,47 @@ function print_perso($systemid) {
     }
 
     optpersoGroup('SNMP_SWITCH', $l->g(1197), 'SNMP_SWITCH', '', $default, $supp);
+
+    // SCAN TYPE SNMP
+    if (isset($optPerso["SCAN_TYPE_SNMP"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_SNMP"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_SNMP"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_SNMP"];
+    }
+
+    optpersoGroup('SCAN_TYPE_SNMP', $l->g(9982), 'SCAN_TYPE_SNMP', '', $default, $supp);
+
+    // SCAN TYPE IPDISCOVER
+    if (isset($optPerso["SCAN_TYPE_IPDISCOVER"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_IPDISCOVER"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_IPDISCOVER"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_IPDISCOVER"];
+    }
+
+    optpersoGroup('SCAN_TYPE_IPDISCOVER', $l->g(9981), 'SCAN_TYPE_IPDISCOVER', '', $default, $supp);
+
+    // ARP BANDWIDTH
+    
+    if (isset($optPerso["SCAN_ARP_BANDWIDTH"])) {
+        $default = '';
+        if ($optPerso["SCAN_ARP_BANDWIDTH"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_ARP_BANDWIDTH"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['ivalue']["SCAN_ARP_BANDWIDTH"];
+    }
+
+    optpersoGroup('SCAN_ARP_BANDWIDTH', $l->g(9983), 'SCAN_ARP_BANDWIDTH', '', $default, $supp);
+
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
         echo "<a class='btn btn-success' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">

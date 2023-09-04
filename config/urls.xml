@@ -192,6 +192,10 @@
         <value>export_csv_snmp</value>
         <directory>ms_export</directory>
     </url>
+    <url key="ms_export_snmp_conf">
+        <value>export_snmp_conf</value>
+        <directory>ms_export</directory>
+    </url>
     <url key="ms_tele_stats">
         <value>tele_stat</value>
         <directory>ms_teledeploy</directory>

@@ -159,9 +159,10 @@ if($protectedPost['onglet'] == 'CAT_LIST'){
 			$l->g(382) => 'NAME',
 			$l->g(69) => 'PUBLISHER',
 			$l->g(277) => 'VERSION',
+            $l->g(1522) => 'PRETTYVERSION'
         );
 
-        $queryDetails = "SELECT n.NAME, p.PUBLISHER, v.VERSION FROM software_categories_link scl
+        $queryDetails = "SELECT n.NAME, p.PUBLISHER, v.VERSION, v.PRETTYVERSION FROM software_categories_link scl
                         LEFT JOIN software_name n ON n.ID = scl.NAME_ID
                         LEFT JOIN software_publisher p ON p.ID = scl.PUBLISHER_ID 
                         LEFT JOIN software_version v ON v.ID = scl.VERSION_ID 

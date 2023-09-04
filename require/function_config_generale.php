@@ -340,10 +340,15 @@ function insert_update($name, $value, $default_value, $field) {
     if ($default_value != $value) {
         $arg = array($field, $value, $name);
 
+        $config = "config";
+        if (strpos($arg[2], "CONEX") !== false) {
+            $config = "config_ldap";
+        }
+
         if ($default_value != '') {
-            $sql = "update config set %s = '%s' where NAME ='%s'";
+            $sql = "update $config set %s = '%s' where NAME ='%s'";
         } else {
-            $sql = "insert into config (%s, NAME) value ('%s','%s')";
+            $sql = "insert into $config (%s, NAME) value ('%s','%s')";
         }
         mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg, $l->g(821));
 
@@ -392,23 +397,25 @@ function update_default_value($POST) {
         'VULN_CVESEARCH_HOST', 'VULN_BAN_LIST',
         'IT_SET_NAME_TEST', 'IT_SET_NAME_LIMIT', 'IT_SET_TAG_NAME',
         'IT_SET_NIV_CREAT', 'IT_SET_NIV_TEST', 'IT_SET_NIV_REST', 'IT_SET_NIV_TOTAL', 'EXPORT_SEP', 'WOL_PORT',
-        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY', 'DOWNLOAD_PROTOCOL');
+        'CUSTOM_THEME', 'SNMP_MIB_DIRECTORY', 'DOWNLOAD_PROTOCOL',
+        'SCAN_TYPE_IPDISCOVER', 'SCAN_TYPE_SNMP');
     //tableau des champs ou il faut juste mettre à jour le ivalue
     $array_simple_ivalue = array('INVENTORY_DIFF', 'INVENTORY_TRANSACTION', 'INVENTORY_WRITE_DIFF',
         'INVENTORY_SESSION_ONLY', 'INVENTORY_CACHE_REVALIDATE', 'LOGLEVEL',
         'PROLOG_FREQ', 'INTERFACE_LAST_CONTACT', 'INTERFACE_BIOS_DIAGRAM_VISIBILITY', 'LOCK_REUSE_TIME', 'TRACE_DELETED', 'SESSION_VALIDITY_TIME',
         'IPDISCOVER_BETTER_THRESHOLD', 'IPDISCOVER_LATENCY', 'IPDISCOVER_MAX_ALIVE',
         'IPDISCOVER_NO_POSTPONE', 'IPDISCOVER_USE_GROUPS', 'ENABLE_GROUPS', 'GROUPS_CACHE_OFFSET', 'GROUPS_CACHE_REVALIDATE',
-        'REGISTRY', 'GENERATE_OCS_FILES', 'OCS_FILES_OVERWRITE', 'PROLOG_FILTER_ON', 'INVENTORY_FILTER_ENABLED',
+        'REGISTRY', 'GENERATE_OCS_FILES', 'GENERATE_OCS_FILES_SNMP', 'OCS_FILES_OVERWRITE', 'PROLOG_FILTER_ON', 'INVENTORY_FILTER_ENABLED',
         'INVENTORY_FILTER_FLOOD_IP', 'INVENTORY_FILTER_FLOOD_IP_CACHE_TIME', 'INVENTORY_FILTER_ON',
         'LOG_GUI', 'DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_FRAG_LATENCY', 'DOWNLOAD_GROUPS_TRACE_EVENTS',
         'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_ACTIVATE_FRAG', 'DOWNLOAD_RATIO_FRAG', 'DOWNLOAD_AUTO_ACTIVATE', 'DEPLOY', 'AUTO_DUPLICATE_LVL',
         'IT_SET_PERIM', 'IT_SET_MAIL', 'IT_SET_MAIL_ADMIN', 'SNMP', 'SNMP_INVENTORY_DIFF', 'TAB_CACHE',
         'INVENTORY_CACHE_ENABLED', 'USE_NEW_SOFT_TABLES', 'WARN_UPDATE', 'INVENTORY_ON_STARTUP', 'DEFAULT_CATEGORY', 'ADVANCE_CONFIGURATION',
-        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE', 'VULN_CVESEARCH_LINK','VULN_CVESEARCH_VERBOSE', 'VULN_CVESEARCH_ALL', 'VULN_CVE_EXPIRE_TIME', 'VULN_CVE_DELAY_TIME',
+        'INVENTORY_SAAS_ENABLED', 'ACTIVE_NEWS', 'VULN_CVESEARCH_ENABLE', 'VULN_CVESEARCH_LINK','VULN_CVESEARCH_VERBOSE', 'VULN_CVE_EXPIRE_TIME', 'VULN_CVE_DELAY_TIME',
         'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_UPDATE_DATE','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME', 'SECURITY_AUTHENTICATION_BLOCK_IP', 
         'SECURITY_AUTHENTICATION_NB_ATTEMPT', 'SECURITY_AUTHENTICATION_TIME_BLOCK', 'SECURITY_PASSWORD_ENABLED', 'SECURITY_PASSWORD_MIN_CHAR',
-        'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR','EXCLUDE_ARCHIVE_COMPUTER');
+        'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR','EXCLUDE_ARCHIVE_COMPUTER',
+        'SCAN_ARP_BANDWIDTH');
 
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
@@ -420,18 +427,29 @@ function update_default_value($POST) {
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour ivalue
     $array_interprete_ivalue = array('FREQUENCY' => 'FREQUENCY_edit', 'IPDISCOVER' => 'IPDISCOVER_edit');
 
-    //recherche des valeurs par défaut
-    $sql_exist = " select NAME,ivalue,tvalue from config ";
-    $result_exist = mysql2_query_secure($sql_exist, $_SESSION['OCS']["readServer"]);
-    while ($value_exist = mysqli_fetch_array($result_exist)) {
-        if ($value_exist["ivalue"] != null) {
-            $optexist[$value_exist["NAME"]] = $value_exist["ivalue"];
-        } elseif ($value_exist["tvalue"] != null) {
-            $optexist[$value_exist["NAME"]] = $value_exist["tvalue"];
-        } elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null) {
-            $optexist[$value_exist["NAME"]] = 'null';
+    function fetchValues($table_name, $readServer)
+    {
+        $optexist = array();
+    
+        $sql_exist = "SELECT NAME, ivalue, tvalue FROM $table_name";
+        $result_exist = mysql2_query_secure($sql_exist, $readServer);
+    
+        while ($value_exist = mysqli_fetch_array($result_exist)) {
+            if ($value_exist["ivalue"] != null) {
+                $optexist[$value_exist["NAME"]] = $value_exist["ivalue"];
+            } elseif ($value_exist["tvalue"] != null) {
+                $optexist[$value_exist["NAME"]] = $value_exist["tvalue"];
+            } elseif ($value_exist["tvalue"] == null && $value_exist["ivalue"] == null) {
+                $optexist[$value_exist["NAME"]] = 'null';
+            }
         }
+    
+        return $optexist;
     }
+    
+    $optexist = fetchValues("config", $_SESSION['OCS']["readServer"]);
+    $optexist = array_merge($optexist, fetchValues("config_ldap", $_SESSION['OCS']["readServer"]));
+    
     //pour obliger à prendre en compte
     //le AUTO_DUPLICATE_LVL quand il est vide
     //on doit l'initialiser tout le temps
@@ -548,7 +566,7 @@ function nb_ldap_filters($nb, $default = false) {
     
     if ($default == false) {
         // old values = from config table
-        $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
+        $sql = "SELECT * FROM config_ldap WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*$'";
         $old_filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         $nb_old = $old_filters->num_rows;
         $filters_result = mysqli_fetch_all($old_filters, MYSQLI_ASSOC);
@@ -568,7 +586,7 @@ function nb_ldap_filters($nb, $default = false) {
                 $i++;
                 $filter_name = "CONEX_LDAP_FILTER$i";
                 $filter_role = "CONEX_LDAP_FILTER".$i."_ROLE";
-                $sql = "INSERT INTO config VALUES ('$filter_name', '', '', NULL), ('$filter_role', '', '', NULL)";
+                $sql = "INSERT INTO config_ldap VALUES ('$filter_name', '', '', NULL), ('$filter_role', '', '', NULL)";
                 $ok = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
                 
             }
@@ -576,7 +594,7 @@ function nb_ldap_filters($nb, $default = false) {
             $i = $last_filter;
             while ($i >= $nb + 1) {
                 $filter_name = "CONEX_LDAP_FILTER$i";
-                $sql = "DELETE FROM config WHERE NAME = 'CONEX_LDAP_FILTER$i' OR NAME = 'CONEX_LDAP_FILTER".$i."_ROLE'";
+                $sql = "DELETE FROM config_ldap WHERE NAME = 'CONEX_LDAP_FILTER$i' OR NAME = 'CONEX_LDAP_FILTER".$i."_ROLE'";
                 $ok = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"]);
                 $i--;
             }
@@ -585,7 +603,7 @@ function nb_ldap_filters($nb, $default = false) {
 
     $ldap_filters = [];
 
-    $sql = "SELECT * FROM config WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*'";
+    $sql = "SELECT * FROM config_ldap WHERE NAME REGEXP '^CONEX_LDAP_FILTER[0-9]*'";
     $filters = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     $filters = mysqli_fetch_all($filters, MYSQLI_ASSOC);
     // sort ldap filters
@@ -965,11 +983,13 @@ function pagefilesInventory() {
     global $l;
     //which line we need?
     $champs = array('GENERATE_OCS_FILES' => 'GENERATE_OCS_FILES',
+        'GENERATE_OCS_FILES_SNMP'   => 'GENERATE_OCS_FILES_SNMP',
         'OCS_FILES_FORMAT' => 'OCS_FILES_FORMAT',
         'OCS_FILES_OVERWRITE' => 'OCS_FILES_OVERWRITE',
         'OCS_FILES_PATH' => 'OCS_FILES_PATH');
     $values = look_config_default_values($champs);
     ligne('GENERATE_OCS_FILES', $l->g(749), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['GENERATE_OCS_FILES']));
+    ligne('GENERATE_OCS_FILES_SNMP', $l->g(9991), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['GENERATE_OCS_FILES_SNMP']));
     ligne('OCS_FILES_FORMAT', $l->g(750), 'select', array('VALUE' => $values['tvalue']['OCS_FILES_FORMAT'], 'SELECT_VALUE' => array('OCS' => 'OCS', 'XML' => 'XML')));
     ligne('OCS_FILES_OVERWRITE', $l->g(751), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['OCS_FILES_OVERWRITE']));
     ligne('OCS_FILES_PATH', $l->g(752), 'input', array('VALUE' => $values['tvalue']['OCS_FILES_PATH'], 'SIZE' => "30%", 'MAXLENGTH' => 254));
@@ -1000,7 +1020,6 @@ function pageVulnerability() {
         'VULN_BAN_LIST' => 'VULN_BAN_LIST',
         'VULN_CVESEARCH_LINK' => 'VULN_CVESEARCH_LINK',
         'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE',
-        'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL',
         'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME',
         'VULN_CVE_DELAY_TIME' => 'VULN_CVE_DELAY_TIME');
     // Get configuration values from DB
@@ -1017,7 +1036,6 @@ function pageVulnerability() {
     ligne('VULN_BAN_LIST[]', $l->g(1469), 'select2', array('VALUE' => $values['tvalue']['VULN_BAN_LIST'] ?? 0, 'SELECT_VALUE' => $list_cat));
     ligne('VULN_CVESEARCH_LINK', $l->g(9802), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_LINK'] ?? 0));
     ligne('VULN_CVESEARCH_VERBOSE', $l->g(1461), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_VERBOSE'] ?? 0));
-    ligne('VULN_CVESEARCH_ALL', $l->g(1471), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['VULN_CVESEARCH_ALL'] ?? 0));
     ligne('VULN_CVE_EXPIRE_TIME', $l->g(1484), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_EXPIRE_TIME'] ?? null, 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(730)));
     ligne('VULN_CVE_DELAY_TIME', $l->g(1459), 'input', array('VALUE' => $values['ivalue']['VULN_CVE_DELAY_TIME'], 'SIZE' => "30%", 'MAXLENGTH' => 3, 'END' => $l->g(511)));
 }
@@ -1063,7 +1081,7 @@ function pageConnexion() {
         'CONEX_ROOT_PW' => 'CONEX_ROOT_PW',
         'CONEX_LDAP_NB_FILTERS' => 'CONEX_LDAP_NB_FILTERS',
         'CONEX_LDAP_CHECK_DEFAULT_ROLE' => 'CONEX_LDAP_CHECK_DEFAULT_ROLE');
-    $values = look_config_default_values($champs);
+    $values = look_config_default_values($champs, '', '', true);
 
     $role1 = get_profile_labels();
   
@@ -1085,10 +1103,10 @@ function pageConnexion() {
     ligne('CONEX_LDAP_CHECK_DEFAULT_ROLE', $l->g(1277), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_CHECK_DEFAULT_ROLE'] ?? '', 'SELECT_VALUE' => $default_role));
     ligne('CONEX_LDAP_NB_FILTERS', $l->g(9650), 'select', array('VALUE' => $values['tvalue']['CONEX_LDAP_NB_FILTERS'] ?? '', 'SELECT_VALUE' => $nb_filters));
     foreach ($ldap_filters as $filter) {
-        ligne($filter[0]['NAME'], $l->g(1111), 'input', array('VALUE' => $filter[0]['TVALUE'], 'SIZE' => "30%", 'MAXLENGTH' => 255));
+        ligne($filter[0]['NAME'], $l->g(1111), 'input', array('VALUE' => $filter[0]['TVALUE'], 'SIZE' => "30%", 'MAXLENGTH' => ''));
         ligne($filter[1]['NAME'], $l->g(1116), 'select', array('VALUE' => $filter[1]['TVALUE'], 'SELECT_VALUE' => $role1));
     }
- 
+
 }
 
 function pagesnmp() {
@@ -1150,6 +1168,20 @@ function pagesSecurity(){
     ligne('SECURITY_PASSWORD_FORCE_NB', $l->g(1493), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_NB']));
     ligne('SECURITY_PASSWORD_FORCE_UPPER', $l->g(1494), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_UPPER']));
     ligne('SECURITY_PASSWORD_FORCE_SPE_CHAR', $l->g(1495), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SECURITY_PASSWORD_FORCE_SPE_CHAR']));
+}
+
+function pageNetScans() {
+    global $l, $numeric, $sup1;
+    $champs = array('SCAN_TYPE_IPDISCOVER' => 'SCAN_TYPE_IPDISCOVER', 'SCAN_TYPE_SNMP' => 'SCAN_TYPE_SNMP', 'SCAN_ARP_BANDWIDTH' => 'SCAN_ARP_BANDWIDTH');
+    $values = look_config_default_values($champs);
+
+    ligne('SCAN_TYPE_IPDISCOVER', $l->g(9981), 'select', array('VALUE' => $values['tvalue']['SCAN_TYPE_IPDISCOVER'], 'SELECTED' => $values['tvalue']['SCAN_TYPE_IPDISCOVER'], 'SIZE' => 1, 'JAVASCRIPT' => $numeric, 'SELECT_VALUE' => array('NMAP' => 'NMAP', 'ICMP' => 'ICMP', 'ARPSCAN' => 'ARPSCAN')));
+    ligne('SCAN_TYPE_SNMP', $l->g(9982), 'select', array('VALUE' => $values['tvalue']['SCAN_TYPE_SNMP'], 'SELECTED' => $values['tvalue']['SCAN_TYPE_SNMP'], 'SIZE' => 1, 'JAVASCRIPT' => $numeric, 'SELECT_VALUE' => array('NMAP' => 'NMAP', 'ICMP' => 'ICMP', 'ARPSCAN' => 'ARPSCAN')));
+    // only displaying the ARPSCAN_BANDWIDTH field if the user has chosen ARPSCAN as the scan type
+    if ($values['tvalue']['SCAN_TYPE_IPDISCOVER'] == 'ARPSCAN' || $values['tvalue']['SCAN_TYPE_SNMP'] == 'ARPSCAN') {
+        ligne('SCAN_ARP_BANDWIDTH', $l->g(9983), 'input', array('END' => 'kbps', 'VALUE' => $values['ivalue']['SCAN_ARP_BANDWIDTH'], 'SIZE' => 1, 'MAXLENGTH' => 11, 'JAVASCRIPT' => $numeric), '', '', $sup1);    
+    }
+
 }
 
 function pagesdev() {

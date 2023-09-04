@@ -26,7 +26,13 @@ if($ipdiscoverPurgeConfig["ivalue"]["IPDISCOVER_PURGE_OLD"] == "1"){
     $datetime->modify($timedelta);
     $purgeDate = $datetime->format($dateformat);
 
+    print("[".date("Y-m-d H:i:s"). "] Start to purge IpDiscover devices that have not been updated since ".$purgeDate."\n");
+
+    $queryCount = "SELECT `MAC` FROM `netmap` WHERE `date` < '%s'";
+    $resultCount = mysql2_query_secure($queryCount, $_SESSION['OCS']["readServer"], $purgeDate);
+
     $purgeQuery = "DELETE FROM `netmap` WHERE `date` < '%s'";
-    
     mysql2_query_secure($purgeQuery, $_SESSION['OCS']["writeServer"], $purgeDate);
+
+    print("[".date("Y-m-d H:i:s"). "] ".$resultCount->num_rows." devices have been removed\n");
 }

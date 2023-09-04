@@ -87,7 +87,9 @@ if($protectedPost['onglet'] == "NEW_CORR") {
     echo "<div class='row margin-top30'>
             <div class='col-sm-10'>";
 
-    echo "<a href='".$url."/ocsreports/files/cve/csv_example.csv' download>".$l->g(1480)."</a>";
+    $dir = dirname($_SERVER['REQUEST_URI']);
+    $url = $url.$dir;
+    echo "<a href='".$url."/files/cve/cve_matching_mostknown.csv' download>".$l->g(1480)."</a>";
     echo "<br><br>";
     formGroup('file', 'csv_file', $l->g(1478).' :', '', '', $protectedPost['csv_file'] ?? '', '', '', '', "accept='.csv'");
     echo "<input type='submit' name='valid_csv' id='valid_csv' class='btn btn-success' value='".$l->g(1479)."'>";

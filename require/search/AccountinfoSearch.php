@@ -123,14 +123,17 @@ require_once 'require/admininfo/Admininfo.php';
      */
     public function getSearchAccountInfo($field_account){
         $id = explode("_", $field_account);
-        $sql = "SELECT TYPE FROM accountinfo_config WHERE ID = %s";
-        $arg = array($id[1] ?? null);
-        $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
-        if($result) while ($type = mysqli_fetch_array($result)){
-          $info = $type['TYPE'];
+        if(is_numeric($id[1] ?? null)) {
+            $sql = "SELECT TYPE FROM accountinfo_config WHERE ID = %s";
+            $arg = array($id[1] ?? null);
+            $result = mysql2_query_secure($sql, $this->dbObject, $arg);
+    
+            if($result) while ($type = mysqli_fetch_array($result)){
+              $info = $type['TYPE'];
+            }
         }
-
+        
         return $info ?? null;
     }
 
@@ -141,17 +144,21 @@ require_once 'require/admininfo/Admininfo.php';
      */
     public function find_accountinfo_values($field, $typeInfo = null, $snmp = null){
         $id = explode("_", $field);
-        $sql = "SELECT `NAME` FROM accountinfo_config WHERE ID = %s";
-        $arg = array($id[1]);
-        $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
-        if($result) while ($type = mysqli_fetch_array($result)){
-            $info = 'ACCOUNT_'.$snmp.'VALUE_'.$type['NAME'];
+        if(is_numeric($id[1] ?? null)) {
+            $sql = "SELECT `NAME` FROM accountinfo_config WHERE ID = %s";
+            $arg = array($id[1]);
+            $result = mysql2_query_secure($sql, $this->dbObject, $arg);
+
+            if($result) while ($type = mysqli_fetch_array($result)){
+                $info = 'ACCOUNT_'.$snmp.'VALUE_'.$type['NAME'];
+            }
+
+            $Admininfo = new Admininfo();
+
+            return $Admininfo->find_value_field($info, $typeInfo);
         }
-
-        $Admininfo = new Admininfo();
-
-        return $Admininfo->find_value_field($info, $typeInfo);
+        return null;
     }
 
  }

@@ -48,7 +48,7 @@ if (isset($protectedPost['Valid']) && $protectedPost['Valid'] == $l->g(103)) {
     if (isset($list_hardware_id) || isset($tab_hadware_id)) {
         foreach ($protectedPost as $key => $value) {
             if ($key != "systemid" && $key != "origine") {
-                if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "") {
+                if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "" || $value == 0) {
                     erase($key);
                 } elseif ($value == "CUSTOM") {
                     insert($key, $protectedPost[$key . '_edit']);
@@ -61,6 +61,10 @@ if (isset($protectedPost['Valid']) && $protectedPost['Valid'] == $l->g(103)) {
                 } elseif ($value == "OFF") {
                     insert($key, 0);
                 } elseif (($key == "IPDISCOVER" && $value != "des" && $value != "OFF") || ($key == "SNMP_NETWORK")) {
+                    insert($key, 2, $value);
+                } elseif (($key == "SCAN_TYPE_IPDISCOVER" && $value != "Default") || ($key == "SCAN_TYPE_SNMP" && $value != "Default")) {
+                    insert($key, 2, $value);
+                } elseif (($key == "SCAN_ARP_BANDWIDTH" && ($value != "" && $value != 0 && $value != "Default"))) {
                     insert($key, 2, $value);
                 }
             }
