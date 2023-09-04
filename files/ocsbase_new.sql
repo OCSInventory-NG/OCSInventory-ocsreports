@@ -2486,6 +2486,7 @@ CREATE TABLE `software` (
   KEY `NAME_ID` (`NAME_ID`),
   KEY `PUBLISHER_ID` (`PUBLISHER_ID`),
   KEY `VERSION_ID` (`VERSION_ID`)
+  KEY `HARDWARE_ID_2` (`HARDWARE_ID`, `NAME_ID`, `VERSION_ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
