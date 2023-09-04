@@ -662,50 +662,57 @@ function print_activated_package($systemid) {
     $arg_grp_devices = array($systemid);
     $res_grp_devices = mysql2_query_secure($sql_grp_devices, $_SESSION['OCS']["readServer"], $arg_grp_devices);
     $hardware_ids = array();
+
     while ($val_grp_devices = mysqli_fetch_array($res_grp_devices)) {
         $hardware_ids[] = $val_grp_devices['HARDWARE_ID'];
     }
 
-    $sql_data_fixe = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
-    from devices d,download_enable de
-    where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-    and d.tvalue %s '%s' ";
-    $sql_data_fixe_bis = "select concat(format((%s-count(*))*100/%s, 0), '%s') as %s,de.FILEID
-        from devices d,download_enable de
-        where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-        and hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') and d.tvalue %s  ";
-    $sql_data_fixe_ter = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
-        from devices d,download_enable de
-        where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-        and (d.tvalue %s '%s' or d.tvalue %s '%s') ";
+    if(!empty($hardware_ids)) {
+        $sql_data_fixe = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
+            from devices d,download_enable de
+            where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+            and d.tvalue %s '%s' ";
 
-    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_'] = array(count($hardware_ids), '%', 'ERR_', 'LIKE', 'ERR_%', 'LIKE', 'EXIT_CODE%');
-    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC'] = array(count($hardware_ids), '%', 'SUCC', 'LIKE', 'SUCCESS%');
-    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI'] = array(count($hardware_ids), '%', 'NOTI', 'LIKE', 'NOTI%');
-    // to get percent of not notified devices, we compare all devices having a status with the nb of devices in the group
-    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF'] = array(count($hardware_ids), count($hardware_ids), '%', 'NO_NOTIF', 'IS NOT NULL');
-    $sql_data_fixe .= " and d.hardware_id in ";
-    $sql_data_fixe_bis .= " and d.hardware_id in ";
-    $sql_data_fixe_ter .= " and d.hardware_id in ";
+        $sql_data_fixe_bis = "select concat(format((%s-count(*))*100/%s, 0), '%s') as %s,de.FILEID
+            from devices d,download_enable de
+            where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+            and hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') 
+            and d.tvalue %s  ";
 
-    $temp = mysql2_prepare($sql_data_fixe, array(), $hardware_ids);
-    $temp_bis = mysql2_prepare($sql_data_fixe_bis, array(), $hardware_ids);
-    $temp_ter = mysql2_prepare($sql_data_fixe_ter, array(), $hardware_ids);
-    foreach ($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key => $value) {
+        $sql_data_fixe_ter = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
+            from devices d,download_enable de
+            where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+            and (d.tvalue %s '%s' or d.tvalue %s '%s') ";
 
-        if ($key != 'NO_NOTIF' && $key != 'ERR_') {
-            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
-            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL'] . " group by FILEID";
-        } elseif ($key == 'NO_NOTIF') {
-            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
-            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL'] . " group by FILEID";
-        } elseif ($key == 'ERR_') {
-            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_ter['ARG']);
-            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL'] . " group by FILEID";
+        $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_'] = array(count($hardware_ids), '%', 'ERR_', 'LIKE', 'ERR_%', 'LIKE', 'EXIT_CODE%');
+        $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC'] = array(count($hardware_ids), '%', 'SUCC', 'LIKE', 'SUCCESS%');
+        $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI'] = array(count($hardware_ids), '%', 'NOTI', 'LIKE', 'NOTI%');
+        // to get percent of not notified devices, we compare all devices having a status with the nb of devices in the group
+        $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF'] = array(count($hardware_ids), count($hardware_ids), '%', 'NO_NOTIF', 'IS NOT NULL');
+        
+        $sql_data_fixe .= " and d.hardware_id in ";
+        $sql_data_fixe_bis .= " and d.hardware_id in ";
+        $sql_data_fixe_ter .= " and d.hardware_id in ";
+
+        $temp = mysql2_prepare($sql_data_fixe, array(), $hardware_ids);
+        $temp_bis = mysql2_prepare($sql_data_fixe_bis, array(), $hardware_ids);
+        $temp_ter = mysql2_prepare($sql_data_fixe_ter, array(), $hardware_ids);
+
+        foreach ($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key => $value) {
+
+            if ($key != 'NO_NOTIF' && $key != 'ERR_') {
+                $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
+                $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL'] . " group by FILEID";
+            } elseif ($key == 'NO_NOTIF') {
+                $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
+                $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL'] . " group by FILEID";
+            } elseif ($key == 'ERR_') {
+                $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_ter['ARG']);
+                $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL'] . " group by FILEID";
+            }
+
         }
-
     }
-
 
     $tab_options['COLOR']['ERR_'] = 'RED';
     $tab_options['COLOR']['SUCC'] = 'GREEN';
