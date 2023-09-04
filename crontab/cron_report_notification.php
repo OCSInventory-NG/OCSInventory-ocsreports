@@ -25,7 +25,4 @@ if ($scheduled != '') {
     $sendNotifs = $groupReport->sendReportNotification($scheduled, $values, $groupReport);
 }
 
-
-
-
-
+session_destroy();

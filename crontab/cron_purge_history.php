@@ -15,4 +15,6 @@ $reqDelHistory = "DELETE FROM `download_history` WHERE PKG_ID NOT IN (SELECT FIL
 mysql2_query_secure($reqDelHistory, $_SESSION['OCS']["writeServer"]);
 
 print("[".date("Y-m-d H:i:s"). "] Download history has been purged of removed packages\n");
+
+session_destroy();
 ?>
