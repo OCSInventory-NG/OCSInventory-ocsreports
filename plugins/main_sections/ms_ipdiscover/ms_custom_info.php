@@ -28,6 +28,7 @@ if (AJAX) {
 }
 
 require_once('require/function_ipdiscover.php');
+require_once('require/snmp/Snmp.php');
 
 if (!isset($protectedPost['MODIF']) || (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] == "")) {
     echo "<a class='btn btn-info' href='index.php?function=show_ipdiscover'>".$l->g(188)."</a></br></br>";
@@ -184,6 +185,11 @@ if (is_defined($protectedPost['MODIF'])) {
     if (!(isset($protectedPost["pcparpage"]))) {
         $protectedPost["pcparpage"] = 5;
     }
+
+    // SNMP filtering
+    $snmp = new OCSSnmp();
+    $snmpTables = $snmp->getIPDReconciliationColumns();
+
     if (isset($protectedGet['value'])) {
         $explode = explode(";", $protectedGet['value']);
         $value_preg = preg_replace("/[^A-zA-Z0-9\._]/", "", $explode[0]);
@@ -192,14 +198,30 @@ if (is_defined($protectedPost['MODIF'])) {
         if ($protectedGet['prov'] == "no_inv") {
             $title = $l->g(947);
             $sql = "SELECT 
-                    ip, mac, mask, date, name, n.TAG
+                    ip, mac, mask, date, n.name, n.TAG
                     FROM netmap n 
-                    LEFT JOIN networks ns ON ns.macaddr=n.mac
-                    WHERE n.mac NOT IN ( 
-                        SELECT DISTINCT(macaddr) FROM network_devices 
-                    ) 
-                    AND (ns.macaddr IS NULL) 
-                    AND n.netid IN ('%s')";
+                    LEFT JOIN networks ns ON ns.macaddr=n.mac";
+            // left join for SNMP tables (excludes SNMP devices)
+            if ($snmpTables) {
+                foreach ($snmpTables as $snmpTable) {
+                    $sql .= " LEFT JOIN $snmpTable[TABLE_TYPE_NAME] ON $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] = n.IP ";
+                }
+            }
+            $sql .= " WHERE ";
+            // adding WHERE clause for SNMP tables (excludes SNMP devices)
+            if ($snmpTables) {
+                foreach($snmpTables as $snmpTable) {
+                    // we want devices which are not in SNMP tables
+                    $sql .= " $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] IS NULL AND ";
+                }
+            }
+
+            $sql .= " n.mac NOT IN ( 
+                SELECT DISTINCT(macaddr) FROM network_devices 
+            ) 
+            AND (ns.macaddr IS NULL) 
+            AND n.netid IN ('%s')";
+
             if($tag != "") {
                 $sql .= " AND n.TAG = '%s'";
             }
@@ -300,7 +322,50 @@ if (is_defined($protectedPost['MODIF'])) {
             $tab_options['FILTRE']['h.userid'] = $l->g(24);
             $tab_options['FILTRE']['h.osname'] = $l->g(25);
             $tab_options['FILTRE']['h.ipaddr'] = $l->g(34);
+        } else if ($protectedGet['prov'] == "snmp") {
+            // display  IPD discovered devices who are also in SNMP tables
+            $title = $l->g(9042);
+
+            $list_fields = array(
+                $l->g(34) => 'IP',
+                $l->g(95) => 'MAC',
+                $l->g(208) => 'MASK',
+                $l->g(316) => 'NETID',
+                $l->g(318) => 'n.NAME',
+                $l->g(232) => 'date',
+                'TAG' => 'TAG'
+            );
+            // TODO : redirect to multisearch ?
+            $tab_options['LIEN_LBL'][$l->g(34)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=snmp&value=';
+            $tab_options['LIEN_CHAMP'][$l->g(34)] = 'IP';
+
+
+            $default_fields = $list_fields;
+            $sql = prepare_sql_tab($list_fields);
+            $tab_options['ARG_SQL'] = $sql['ARG'];
+
+            $snmp = new OCSSnmp();
+            $snmpTables = $snmp->getIPDReconciliationColumns();
+            
+           
+            $sql = $sql['SQL'] . " FROM netmap n ";
+            foreach ($snmpTables as $snmpTable) {
+                $sql .= " LEFT JOIN $snmpTable[TABLE_TYPE_NAME] ON $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] = n.IP ";
+            }
+            $sql .= " WHERE (";
+            foreach($snmpTables as $snmpTable) {
+                $sql .= " $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] IS NOT NULL OR ";
+            }
+            $sql = substr($sql, 0, -3);
+            $sql .= ") AND n.netid = '%s'";
+            if($tag != "") {
+                $sql .= " AND n.TAG = '%s'";
+            }
+            array_push($tab_options['ARG_SQL'], $value_preg, $tag);
+            $tab_options['ARG_SQL_COUNT'] = array($value_preg, $tag);
+
         }
+
         printEnTete($title);
         echo "<br><br>";
 

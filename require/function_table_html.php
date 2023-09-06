@@ -1378,8 +1378,8 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 				// Special process for ipdiscover query
 				if(isset($tab_options['SPECIAL_SEARCH']) && $tab_options['SPECIAL_SEARCH'] == "IPD" && !is_null($filtertxt)) {
-					$explodeIPDQuery = explode("non_ident on n.RSX=non_ident.RSX", $queryDetails);
-					$queryDetails = $explodeIPDQuery[0]."non_ident on n.RSX=non_ident.RSX".$filtertxt.")".$explodeIPDQuery[1];
+					$explodeIPDQuery = explode(") ipd ", $queryDetails);
+					$queryDetails = $explodeIPDQuery[0].$filtertxt.")) ipd ".$explodeIPDQuery[1];
 				}
 
 				return $queryDetails;
