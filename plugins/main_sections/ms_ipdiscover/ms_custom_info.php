@@ -335,24 +335,28 @@ if (is_defined($protectedPost['MODIF'])) {
                 $l->g(232) => 'date',
                 'TAG' => 'TAG'
             );
-            // TODO : redirect to multisearch ?
-            $tab_options['LIEN_LBL'][$l->g(34)] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=snmp&value=';
-            $tab_options['LIEN_CHAMP'][$l->g(34)] = 'IP';
 
-
-            $default_fields = $list_fields;
             $sql = prepare_sql_tab($list_fields);
             $tab_options['ARG_SQL'] = $sql['ARG'];
 
             $snmp = new OCSSnmp();
             $snmpTables = $snmp->getIPDReconciliationColumns();
             
-           
-            $sql = $sql['SQL'] . " FROM netmap n ";
+            $sql = prepare_sql_tab($list_fields);
+            $list_fields = array_merge($list_fields, array('TYPE' => "TYPE"));
+            $default_fields = $list_fields;
+            $sql = $sql['SQL'] . ",CASE ";
+
+            $case = "";
+            $leftjoin = "";
             foreach ($snmpTables as $snmpTable) {
-                $sql .= " LEFT JOIN $snmpTable[TABLE_TYPE_NAME] ON $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] = n.IP ";
+                $case .= "WHEN $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] IS NOT NULL THEN '$snmpTable[TABLE_TYPE_NAME]' ";
+                $leftjoin .= " LEFT JOIN $snmpTable[TABLE_TYPE_NAME] ON $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] = n.IP ";
             }
-            $sql .= " WHERE (";
+            $sql .= $case." ELSE 'Unknown'
+                    END AS `TYPE` FROM netmap n
+                    ".$leftjoin."  
+                    WHERE (";
             foreach($snmpTables as $snmpTable) {
                 $sql .= " $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] IS NOT NULL OR ";
             }
@@ -363,7 +367,6 @@ if (is_defined($protectedPost['MODIF'])) {
             }
             array_push($tab_options['ARG_SQL'], $value_preg, $tag);
             $tab_options['ARG_SQL_COUNT'] = array($value_preg, $tag);
-
         }
 
         printEnTete($title);
