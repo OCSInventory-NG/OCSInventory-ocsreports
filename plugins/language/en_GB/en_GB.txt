@@ -1731,6 +1731,7 @@
 9040 Export all SNMP types
 9041 Use for IpDiscover reconciliation (must be an IP address OID)
 9042 SNMP devices
+9043 An IpDiscover reconciliation field is already set for this type
 
 9100 SSL key path
 9101 SSL certificat path
@@ -1850,6 +1851,8 @@
 9702 CAS server host, e.g. : authentication.org
 9703 CAS default role, applied on first connection initiated using CAS authentication
 9704 CAS Configuration
+9705 CAS Base URI, e.g. : ocs.example.com
+9706 CAS Server CA Certificate Path, e.g. : /path/to/cachain.pem
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
 9801 Show bios diagram in dashboard
