@@ -1910,3 +1910,5 @@
 9989 Télécharger la configuration du scan SNMP
 9990 Télécharger la liste des réseaux SNMP
 9991 Génère les fichiers SNMP
+
+10000 Échec de la mise à jour des données administratives : les simples et doubles guillements ne sont pas autorisés dans la valeur
