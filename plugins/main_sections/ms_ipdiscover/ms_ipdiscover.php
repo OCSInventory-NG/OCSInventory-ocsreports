@@ -27,6 +27,12 @@ if (AJAX) {
 }
 
 require_once('require/ipdiscover/Ipdiscover.php');
+require_once('require/snmp/Snmp.php');
+
+// checking if IPD_RECONCILIATION is set to "Yes" in any snmp config
+// if not there will be no SNMP data in IPD table
+$snmp = new OCSSnmp();
+$snmpTables = $snmp->getIPDReconciliationColumns();
 
 $ipdiscover = new Ipdiscover();
 
@@ -37,8 +43,8 @@ if($ipdiscover->IPDISCOVER_TAG == "1") {
     $identifiant = "PASS";
     $on = "PASS";
 } else {
-    $groupby1 = "d.tvalue";
-    $groupby2 = "n.ipsubnet";
+    $groupby1 = "devices.tvalue";
+    $groupby2 = "networks.ipsubnet";
     $groupby3 = "netid";
     $identifiant = "ID";
     $on = "RSX";
@@ -86,109 +92,181 @@ if (isset($protectedPost['onglet'])) {
     $tab_options['VALUE']['LBL_RSX'] = $_SESSION['OCS']["ipdiscover"][$dpt[$protectedPost['onglet']]];
 
     $arg_sql = array();
+
+    # base query for ipd table
     $sql = "SELECT * FROM 
             (
                 SELECT 
-                n.RSX AS ID, 
-                inv.c AS 'INVENTORIE', 
-                non_ident.c AS 'NON_INVENTORIE', 
-                ipdiscover.c AS 'IPDISCOVER', 
-                ident.c AS 'IDENTIFIE', 
-                n.TAG,
-                n.PASS
-		        FROM 
-                (
-                    SELECT netid AS RSX, 
-                    CONCAT(netid,';',ifnull(tag,'')) AS PASS, 
-                    TAG FROM netmap 
-                    WHERE netid IN ";
+                    base_query.RSX AS ID, 
+                    inventoried.count AS 'INVENTORIE', 
+                    non_identified.count AS 'NON_INVENTORIE', 
+                    ipdiscover.count AS 'IPDISCOVER', 
+                    identified.count AS 'IDENTIFIE', ";
+
+    if ($snmpTables) {
+        $sql .= "SNMP_total.count AS 'SNMP',";
+    }
+
+    $sql.=  "base_query.TAG, 
+            base_query.PASS
+        FROM (
+            SELECT 
+                netid AS RSX, 
+                CONCAT(netid, ';', IFNULL(tag, '')) AS PASS, 
+                TAG 
+            FROM 
+                netmap 
+            WHERE 
+                netid IN ";
+                    
 
     $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
-
+    
+    # IPDISCOVER devices
     $arg['SQL'] .= " GROUP BY netid
-                ) 
-                n LEFT JOIN
-                (
+                ) base_query 
+                LEFT JOIN (
                     SELECT 
-                    COUNT(DISTINCT d.hardware_id) AS c,
-                    'IPDISCOVER' AS TYPE,
-                    d.tvalue AS RSX,
-                    a.tag,
-                    CONCAT(d.tvalue,';',ifnull(a.tag,'')) as PASS
-                    FROM devices d
-                    LEFT JOIN accountinfo a ON a.HARDWARE_ID = d.HARDWARE_ID
-                    WHERE d.name='IPDISCOVER' AND d.tvalue IN ";
+                        COUNT(DISTINCT devices.hardware_id) AS count, 
+                        'IPDISCOVER' AS TYPE, 
+                        devices.tvalue AS RSX, 
+                        accountinfo.tag, 
+                        CONCAT(devices.tvalue, ';', IFNULL(accountinfo.tag, '')) AS PASS
+                    FROM 
+                        devices
+                    LEFT JOIN 
+                        accountinfo ON accountinfo.HARDWARE_ID = devices.HARDWARE_ID
+                    WHERE 
+                        devices.name='IPDISCOVER' AND devices.tvalue IN ";
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
-    $arg['SQL'] .= " GROUP BY $groupby1
-                )
-				ipdiscover ON n.$on=ipdiscover.$on LEFT JOIN 
-				(
-                    SELECT count(DISTINCT h.ID) AS c, 
-                    'INVENTORIE' AS TYPE, 
-                    n.ipsubnet AS RSX, 
-                    s.TAG as TAG, 
-                    CONCAT(n.ipsubnet,';',ifnull(s.tag,'')) as PASS 
-                    FROM networks n 
-                    LEFT JOIN hardware h ON h.ID = n.HARDWARE_ID
-                    LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID
-                    LEFT JOIN subnet s ON a.TAG = s.TAG AND s.NETID = n.IPSUBNET
-                    WHERE n.ipsubnet IN ";
+    # INVENTORIED devices
+    $arg['SQL'] .= " GROUP BY 
+                        $groupby1
+                ) ipdiscover ON base_query.$on=ipdiscover.$on 
+                LEFT JOIN (
+                    SELECT 
+                        COUNT(DISTINCT hardware.ID) AS count, 
+                        'INVENTORIE' AS TYPE, 
+                        networks.ipsubnet AS RSX, 
+                        subnet.TAG, 
+                        CONCAT(networks.ipsubnet, ';', IFNULL(subnet.tag, '')) AS PASS
+                    FROM 
+                        networks
+                    LEFT JOIN 
+                        hardware ON hardware.ID = networks.HARDWARE_ID
+                    LEFT JOIN 
+                        accountinfo ON accountinfo.HARDWARE_ID = hardware.ID
+                    LEFT JOIN 
+                        subnet ON accountinfo.TAG = subnet.TAG AND subnet.NETID = networks.IPSUBNET
+                    WHERE 
+                        networks.ipsubnet IN ";
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
-
-    $arg['SQL'] .= " AND n.status='Up' 
-                    GROUP BY $groupby2
-                )
-				inv ON n.$on=inv.$on LEFT JOIN
-				(
-                    SELECT 
-                    COUNT(DISTINCT mac) AS c,
-                    'IDENTIFIE' AS TYPE,
+    
+    # IDENTIFIED devices
+    $arg['SQL'] .= " AND networks.status='Up' 
+                    GROUP BY 
+                        $groupby2
+                ) inventoried ON base_query.$on=inventoried.$on 
+                LEFT JOIN (
+                SELECT 
+                    COUNT(DISTINCT mac) AS count, 
+                    'IDENTIFIE' AS TYPE, 
                     netid AS RSX, 
-                    TAG,
-                    CONCAT(netid,';',ifnull(tag,'')) as PASS
-                    FROM netmap 
-                    WHERE mac IN 
-                    (
-                        SELECT 
-                        DISTINCT(macaddr) 
-                        FROM network_devices
-                    ) 
+                    TAG, 
+                    CONCAT(netid, ';', IFNULL(tag, '')) AS PASS
+                FROM 
+                    netmap
+                WHERE 
+                    mac IN (SELECT DISTINCT(macaddr) FROM network_devices) 
                     AND netid IN ";
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
-
-    $arg['SQL'] .= " GROUP BY $groupby3
-                )
-				ident ON n.$on=ident.$on LEFT JOIN
-				(
+    
+    # NON IDENTIFIED (NON-INVENTORIED) devices
+    $arg['SQL'] .= " GROUP BY 
+                        $groupby3
+                ) identified ON base_query.$on=identified.$on 
+                LEFT JOIN (
                     SELECT 
-                    COUNT(DISTINCT n.mac) AS c, 
-                    'NON IDENTIFIE' AS TYPE, 
-                    n.netid AS RSX, 
-                    n.TAG,
-                    CONCAT(n.netid,';',ifnull(n.tag,'')) as PASS
-                    FROM netmap n 
-                    LEFT JOIN networks ns ON ns.macaddr=n.mac
-                    LEFT JOIN accountinfo a ON a.TAG = n.TAG 
-                    WHERE n.mac NOT IN ( 
-                        SELECT DISTINCT(macaddr) FROM network_devices 
-                    ) 
-                    AND (ns.macaddr IS NULL) 
-                    AND n.netid IN ";
+                        COUNT(DISTINCT netmap.mac) AS count, 
+                        'NON IDENTIFIE' AS TYPE, 
+                        netmap.netid AS RSX, 
+                        netmap.TAG, 
+                        CONCAT(netmap.netid, ';', IFNULL(netmap.tag, '')) AS PASS
+                    FROM 
+                        netmap
+                    LEFT JOIN 
+                        networks ON networks.macaddr = netmap.mac
+                    LEFT JOIN 
+                        accountinfo ON accountinfo.TAG = netmap.TAG ";
+    // adding LEFT JOINS for SNMP tables
+    if ($snmpTables) {
+        foreach($snmpTables as $snmpTable) {
+            $arg['SQL'] .= " LEFT JOIN $snmpTable[TABLE_TYPE_NAME] ON $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] = netmap.IP ";
+        }
+    }
+
+    $arg['SQL'] .= " WHERE ";
+    // adding WHERE clause for SNMP tables
+    if ($snmpTables) {
+        foreach($snmpTables as $snmpTable) {
+            $arg['SQL'] .= " $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME] IS NULL AND ";
+        }
+    }
+
+    $arg['SQL'] .= " netmap.mac NOT IN (SELECT DISTINCT(macaddr) FROM network_devices) 
+                        AND (networks.macaddr IS NULL) 
+                        AND netmap.netid IN ";
 
     $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
-    $arg['SQL'] .= " GROUP BY $groupby3
-                )
-				non_ident on n.$on=non_ident.$on
-            ) 
-            ipd";
+    if ($snmpTables) {
+        $arg['SQL'] .= " GROUP BY 
+                        $groupby3
+                ) non_identified on base_query.$on=non_identified.$on 
+                LEFT JOIN (
+                    SELECT SUM(count) AS count, RSX
+                    FROM ( ";
+        foreach($snmpTables as $snmpTable) {
+            $arg['SQL'] .= " SELECT 
+                        COUNT(DISTINCT $snmpTable[TABLE_TYPE_NAME].$snmpTable[LABEL_NAME]) AS count, 
+                        'SNMP' AS TYPE, 
+                        CONCAT(SUBSTRING_INDEX($snmpTable[LABEL_NAME], '.', 3), '.0') AS RSX, 
+                        CONCAT(CONCAT(SUBSTRING_INDEX($snmpTable[LABEL_NAME], '.', 3), '.0'), ';', '') AS PASS
+                    FROM 
+                        $snmpTable[TABLE_TYPE_NAME]
+                    WHERE CONCAT(SUBSTRING_INDEX($snmpTable[LABEL_NAME], '.', 3), '.0') IN ";
+            $arg = mysql2_prepare($arg['SQL'], $arg['ARG'], $array_rsx);
 
+           $arg['SQL'] .= " GROUP BY 
+                                RSX" ;
+
+            if (next($snmpTables)) {
+                $arg['SQL'] .= " UNION ALL ";
+            }
+
+        }
+        $arg['SQL'] .= " ) AS snmp_union
+                        GROUP BY RSX
+                    ) SNMP_total ON base_query.RSX=SNMP_total.RSX
+                ";
+
+    } else {
+        $arg['SQL'] .= " GROUP BY 
+                            $groupby3
+                    ) non_identified on base_query.$on=non_identified.$on
+                ";
+
+        $tab_options['ARG_SQL'] = $arg['ARG'];
+    }
+
+    // pls do not remove the space after ipd
+    $arg['SQL'] .= " ) ipd ";
     $tab_options['ARG_SQL'] = $arg['ARG'];
-    
+
     $list_fields = array(
         'LBL_RSX' => 'LBL_RSX',
         'RSX' => 'ID',
@@ -197,6 +275,10 @@ if (isset($protectedPost['onglet'])) {
         'IPDISCOVER' => 'IPDISCOVER',
         'IDENTIFIE' => 'IDENTIFIE',
     );
+
+    if ($snmpTables) {
+        $list_fields['SNMP'] = 'SNMP';
+    }
 
     if($ipdiscover->IPDISCOVER_TAG == "1") {
         $list_fields['TAG'] = "TAG";
@@ -222,10 +304,16 @@ if (isset($protectedPost['onglet'])) {
     $tab_options['LIEN_LBL']['IDENTIFIE'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_custom_info'] . '&prov=ident&head=1&value=';
     $tab_options['LIEN_CHAMP']['IDENTIFIE'] = $identifiant;
 
+    # adding SNMP link
+    $tab_options['LIEN_LBL']['SNMP'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_custom_info'] . '&prov=snmp&head=1&value=';
+    $tab_options['LIEN_CHAMP']['SNMP'] = $identifiant;
+
     $tab_options['REPLACE_WITH_CONDITION']['INVENTORIE']['&nbsp'] = '0';
     $tab_options['REPLACE_WITH_CONDITION']['IPDISCOVER']['&nbsp'] = '0';
     $tab_options['REPLACE_WITH_CONDITION']['NON_INVENTORIE']['&nbsp'] = '0';
     $tab_options['REPLACE_WITH_CONDITION']['IDENTIFIE']['&nbsp'] = '0';
+    # snmp
+    $tab_options['REPLACE_WITH_CONDITION']['SNMP']['&nbsp'] = '0';
 
     $tab_options['LBL']['LBL_RSX'] = $l->g(863);
     $tab_options['LBL']['RSX'] = $l->g(869);
@@ -233,6 +321,7 @@ if (isset($protectedPost['onglet'])) {
     $tab_options['LBL']['NON_INVENTORIE'] = $l->g(365);
     $tab_options['LBL']['IPDISCOVER'] = $l->g(312);
     $tab_options['LBL']['IDENTIFIE'] = $l->g(366);
+    $tab_options['LBL']['SNMP'] = $l->g(1136);
 
     //you can modify your subnet if ipdiscover is local define
     if ($_SESSION['OCS']["ipdiscover_methode"] == "OCS" && $_SESSION['OCS']['profile']->getConfigValue('IPDISCOVER') == "YES") {

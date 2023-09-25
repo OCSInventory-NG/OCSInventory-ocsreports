@@ -266,7 +266,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation'] ?? '');
+        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation'] ?? '', $protectedPost['ipd_reconciliation'] ?? '');
         if($result == 0){
           msg_success($l->g(572));
         }else{
@@ -291,6 +291,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     formGroup('select', 'label_id', 'Label :', '', '', '', '', $label, $label);
     formGroup('text', 'oid', 'OID :', '', '', '', '', '', '', "");
     formGroup('checkbox', 'reconciliation', $l->g(9015).' :', '', '', 'YES', '', '', '');
+    formGroup('checkbox', 'ipd_reconciliation', $l->g(9041).' :', '', '', 'YES', '', '', '');
 
     echo "<input type='submit' name='update_snmp' id='update_snmp' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</br></br><hr></br>";
@@ -314,7 +315,8 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
         "Type" => 't.TYPE_NAME',
         "Label" => 'l.LABEL_NAME',
         "OID" => "c.OID",
-        "RECONCILIATION" => "c.RECONCILIATION"
+        "RECONCILIATION" => "c.RECONCILIATION",
+        "IPD_RECONCILIATION" => "c.IPD_RECONCILIATION",
     );
 
     $list_fields['SUP'] = 'c.ID';
@@ -323,7 +325,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     $default_fields = $list_fields;
     $list_col_cant_del = $list_fields;
 
-    $queryDetails = "SELECT DISTINCT c.ID, t.TYPE_NAME, l.LABEL_NAME, c.OID, c.RECONCILIATION FROM snmp_configs c 
+    $queryDetails = "SELECT DISTINCT c.ID, t.TYPE_NAME, l.LABEL_NAME, c.OID, c.RECONCILIATION, c.IPD_RECONCILIATION FROM snmp_configs c 
                         LEFT JOIN snmp_types t ON c.TYPE_ID = t.ID
                         LEFT JOIN snmp_labels l ON c.LABEL_ID = l.ID". $filter;
 
@@ -433,6 +435,7 @@ if(isset($protectedPost['select_mib'])) {
                                             <th tabindex="0" aria-controls="affich_version" rowspan="1" colspan="1" style="width: 22%;" aria-label="Label"><font>'.$l->g(9018).'</font></th>
                                             <th tabindex="0" aria-controls="affich_publisher" rowspan="1" colspan="1" style="width: 22%;" aria-label="Numeric OID"><font>'.$l->g(9017).'</font></th>
                                             <th tabindex="0" aria-controls="affich_version" rowspan="1" colspan="1" style="width: 12%;" aria-label="Reconciliation"><font>'.$l->g(9015).'</font></th>
+                                            <th tabindex="0" aria-controls="affich_version" rowspan="1" colspan="1" style="width: 12%;" aria-label="IPDReconciliation"><font>'.$l->g(9041).'</font></th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -453,6 +456,7 @@ if(isset($protectedPost['select_mib'])) {
         echo '                      </td>';
         echo '                      <td valign="top" colspan="1" style="width: 22%; text-align:center;" class="affich_publisher">'.$oid.'<input class="form-control" type="hidden" name="oid_'.$name.'" value="'.$oid.'"></td>';
         echo '                      <td valign="top" colspan="1" style="width: 12%; text-align:center;" class="affich_publisher"><input type="checkbox" class="perso_checkbox" id="reconciliation_'.$name.'" name="reconciliation_'.$name.'" value="YES"></td>';
+        echo '                      <td valign="top" colspan="1" style="width: 12%; text-align:center;" class="affich_publisher"><input type="checkbox" class="perso_checkbox" id="ipd_reconciliation_'.$name.'" name="ipd_reconciliation_'.$name.'" value="YES"></td>';
         echo '                  </tr>';
     }
 

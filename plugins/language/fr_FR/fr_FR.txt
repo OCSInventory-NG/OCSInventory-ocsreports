@@ -1724,6 +1724,9 @@
 9038 Nombre d'équipements par type
 9039 Aperçu rapide
 9040 Exporter tous les types SNMP
+9041 Utiliser comme réconciliation pour l'IpDiscover (doit être une adresse IP)
+9042 machines SNMP
+9043 Un champ de réconciliation IpDiscover est déjà configuré pour ce type
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
