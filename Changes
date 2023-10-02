@@ -1,4 +1,64 @@
 Revision history for ocsreports
+2.12.1
+		* Add destroy session at the end of crontabs
+		* Add software index to improve performance
+		* Add reconciliation between IpDiscover and SNMP devices
+		* Update german translation
+		* Improve deployment stats message
+		* Improve CAS connection
+		* Improve SSO connection
+		* Fix launch deployment option
+		* Fix search on computer details deployment page
+		* Fix XSS in uploaded notification template
+		* Fix accountinfo field types
+		* Fix blank page when using SSO_ONLY
+		* Fix prevent use of quotes in admin data
+		* Fix CVE example file URL
+		* Fix package group query if group is empty
+
+2.12.0
+		* Add CVE search link
+		* Add settings to hide bios diagram on dashboard
+		* Add package deployment statistics on group page
+		* Add EXEC mode choice for linux bash script options in build package
+		* Add itmgmt_comments table to multisearch
+		* Add usb devices table in devices tab on computer details
+		* Add visual differenciation between active computers and archived computers
+		* Add no wrap text on server information if it is too long
+		* Add accountinfo type number
+		* Add crontab to clean orphan hardware_id
+		* Improve all software search filters
+		* Improve computer package deployment date format
+		* Improve all software crontab execution
+		* Improve crontab logs
+		* Improve software version
+		* Improve network scans
+		* Update empty-sql files
+		* Fix layouts not displaying for LDAP/CAS users
+		* Fix deployment end of line encoding for linux/macos
+		* Fix php-fpm 8.1 and php 8 warnings
+		* Fix import CSV in all software page if return of line is CR+LF
+		* Fix case sensitive schedule_wol tablename
+		* Fix advance configuration tab not hidden if is off
+		* Fix date format for Russian and Spanish translations
+		* Fix IpDiscover search function
+		* Fix SNMP multisearch
+		* Fix SNMP accountinfo
+		* Fix wrong collation being used for MariaDB
+		* Fix accountinfo type update
+		* Fix display of accountinfo value of type select,checkbox and radiobutton on multicriteria
+		* Fix require file path in all crontabs
+		* Fix notification execution
+		* Fix php warning on LDAP filters
+		* Fix all software count
+		* Fix checkbox not displayed in all computers
+		* Fix activation package if the port is in the URL
+		* Fix groups creation
+		* Fix hidden update agent teledeploy
+		* Fix accountinfo checkbox value with spaces
+		* Fix restrictive size of LDAP filter configuration fields
+		* Decode special html char &, < and >, except quotes to prevent SQL injection
+
 2.11.1
 		* Fix rename column syntax not supported by MySQL < 8 and MariaDB < 10.5.2
 		* Fix multisearch with is null operator
