@@ -56,6 +56,10 @@ define('MAC_FILE', __DIR__ . '/files/oui.txt');
  */
 define('BACKEND', __DIR__ . '/backend/');
 /**
+ * PHP CAS folder (CAS auth)
+ */
+define('PHPCAS', __DIR__ . '/vendor/jasig/phpcas/CAS.php');
+/**
  * Autoload composer
  */
 define('COMPOSER_AUTOLOAD', __DIR__ . '/vendor/autoload.php');
@@ -69,11 +73,12 @@ define('TEMPLATE', __DIR__.'/templates/');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7048');
+define('GUI_VER', '7074');
+
 /**
  * GUI Version
  */
-define('GUI_VER_SHOW', '2.9');
+define('GUI_VER_SHOW', '2.12.0');
 /**
  * Default GUI language
  */
@@ -142,16 +147,30 @@ define('DEV_OPTION', false);
  * - 3 : LDAP Only
  * - 4 : LDAP with SSO
  * - 5 : Always OK, won't ask for user and password
+ * - 6 : CAS authentication
  * 
  * If LDAP / SSO Basic auth is configured, please configure the LDAP Authentication
  */
 define('AUTH_TYPE', 1);
 
 /**
+* For LDAP with SSO auth_type, remove the domain of logins like login@domain 
+*
+*/
+
+define('SSO_DEL_DOMAIN',false);
+
+/**
  * Auth Insecure LDAP, skip SSL Cert (not recommended)
  * Note : OCS doesn't manage certificate for Ldaps, please edit "/etc/ldap/ldap.conf" to set proper certificate
  */
 define('AUTH_LDAP_SKIP_CERT', false);
+
+/**
+ * Define password cryptograpgy
+ * To see all available cryptography, read https://www.php.net/manual/fr/function.hash-algos.php
+ */
+define('PASSWORD_CRYPT', 'sha256');
 
 //====================================================================================
 // Plugins Configuration

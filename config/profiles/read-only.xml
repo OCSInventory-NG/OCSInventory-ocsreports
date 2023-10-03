@@ -21,6 +21,7 @@
     <config-elem key="MANAGE_USER_GROUP">NO</config-elem>
     <config-elem key="MANAGE_SMTP_COMMUNITIES">NO</config-elem>
     <config-elem key="DELETE_COMPUTERS">NO</config-elem>
+    <config-elem key="ARCHIVE_COMPUTERS">NO</config-elem>
   </config>
   <blacklist/>
   <pages>
@@ -31,7 +32,6 @@
     <page>ms_custom_groups</page>
     <page>ms_help</page>
     <page>ms_custom_info</page>
-    <page>ms_irc</page>
     <page>ms_custom_lock</page>
     <page>ms_offers</page>
     <page>ms_opt_ipdiscover</page>

@@ -21,6 +21,7 @@
     <config-elem key="MANAGE_USER_GROUP">NO</config-elem>
     <config-elem key="MANAGE_SMTP_COMMUNITIES">NO</config-elem>
     <config-elem key="DELETE_COMPUTERS">YES</config-elem>
+    <config-elem key="ARCHIVE_COMPUTERS">YES</config-elem>
   </config>
   <blacklist/>
   <pages>
@@ -33,11 +34,10 @@
     <page>ms_custom_lock</page>
     <page>ms_custom_sup</page>
     <page>ms_custom_tag</page>
-    <page>ms_upload_file_popup</page>
+    <page>ms_custom_tag_snmp</page>
     <page>ms_ipdiscover</page>
     <page>ms_doubles</page>
     <page>ms_wiki</page>
-    <page>ms_irc</page>
     <page>ms_offers</page>
     <page>ms_ask</page>
     <page>ms_console</page>
@@ -52,6 +52,7 @@
     <page>ms_config_account</page>
     <page>ms_soft_csv</page>
     <page>ms_csv</page>
+    <page>ms_csv_snmp</page>
     <page>ms_tele_stats</page>
     <page>ms_view_file</page>
     <page>ms_snmp</page>

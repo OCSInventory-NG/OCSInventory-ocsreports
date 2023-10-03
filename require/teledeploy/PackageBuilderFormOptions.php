@@ -20,18 +20,11 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
- /**
-  * Class for PackageBuilderFormOptions
-  */
+/**
+ * Class for PackageBuilderFormOptions
+ */
 class PackageBuilderFormOptions
 {
-    private $packageBuilderParseXml;
-
-    function __construct($packageBuilderParseXml) {
-        $this->packageBuilderParseXml = $packageBuilderParseXml;
-    }
-
     /**
      *  Generate Options
      */
@@ -116,7 +109,6 @@ class PackageBuilderFormOptions
                                 </script>";
                 }
                 return $select;
-            break;
 
             case 'code':
                 return '<div class="editor__body">
@@ -142,7 +134,6 @@ class PackageBuilderFormOptions
                             });
 
                         </script>';
-            break;
 
             default:
                 return '<input type="'.$formblockDetails->type.'" name="'.$formblockDetails->id.'" id="'.$formblockDetails->id.'" value="'.$formblockDetails->defaultvalue.'" class="form-control" '.$formblockDetails->javascript.' '.$formblockDetails->mandatory.'>';

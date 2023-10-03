@@ -70,15 +70,14 @@ function datePick($input, $checkOnClick = false) {
         $cOn = ",'$checkOnClick'";
     }
     $ret = "<span class=\"glyphicon glyphicon-calendar\"></span>";
-    $ret .= "<script type=\"text/javascript\">
+    return $ret . ("<script type=\"text/javascript\">
 	      $(\".form_datetime\").datetimepicker({
 	          format: \"".$dateForm."\",
 	          autoclose: true,
 	          todayBtn: true,
 	          pickerPosition: \"bottom-left\"
 	      });
-	    </script>";
-    return $ret;
+	    </script>");
 }
 
 function replace_entity_xml($txt) {
@@ -130,7 +129,7 @@ function xml_decode($txt) {
  */
 function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list_col_cant_del) {
     global $protectedPost, $l, $pages_refs;
-
+	$layout = new Layout($option['table_name']);
     //Translated name of the column
     $lbl_column = array("ACTIONS" => $l->g(1381),
         "CHECK" => "<input type='checkbox' name='ALL' id='checkboxALL' Onclick='checkall();'>");
@@ -156,10 +155,12 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"AFFECT_AGAIN",
+		"NEW_WINDOW"
     );
     //If the column selected are different from the default columns
     if (!empty($_COOKIE[$option['table_name'] . "_col"])) {
-        $visible_col = unserialize($_COOKIE[$option['table_name'] . "_col"]);
+        $visible_col = json_decode($_COOKIE[$option['table_name'] . "_col"]);
     }
 
     $input = $columns;
@@ -187,9 +188,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 		"SHOW_DETAILS",
 		"ARCHIVER",
 		"RESTORE",
+		"AFFECT_AGAIN",
+		"NEW_WINDOW"
     );
     $action_visible = false;
-
     foreach ($actions as $action) {
         if (isset($columns[$action])) {
             $action_visible = true;
@@ -253,8 +255,35 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                                     }
                                 }
                                 ?>
-                            </select>
+                            </select><br>
+
                         </div>
+						<?php
+						// if user is on multisearch page, do not display layouts buttons
+						if (isset($option['table_name']) && $option['table_name'] != 'affich_multi_crit') {
+							// layouts
+							$cols = $layout->displayLayoutButtons($_SESSION['OCS']['loggeduser'], $protectedPost['layout'] ?? '----', $option['table_name']);
+
+							$visible_col_tmp = null;
+							if(isset($cols['VISIBLE_COL'])) {
+								$visible_col_tmp = json_decode((string)$cols['VISIBLE_COL'] ?? null, true) ?? $visible_col ?? null;
+							}
+
+							if(!is_null(($visible_col_tmp))) {
+								$indexCol = 0;
+								foreach($columns as $key => $value) {
+									if((in_array($key, $visible_col_tmp) || in_array($value, $visible_col_tmp)) && !in_array($indexCol, $visible_col ?? [])) {
+										$visible_col[] = $indexCol;
+									}
+									$indexCol++;
+								}
+							}
+
+							if(empty($visible_col)) {
+								$visible_col = $visible_col_tmp;
+							}
+						}
+						?>
                     </div>
                 </div>
             </div>
@@ -267,16 +296,18 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
         <div id="<?php echo $option['table_name']; ?>_csv_download"
              style="display: none">
                  <?php
+				 
                  //Display of the result count
                  if (!isset($option['no_download_result'])) {
-                     echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&base=" . $tab_options['BASE'] . "'><small> (" . $l->g(183) . ")</small></a></div>";
-                     echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true&base=" . $tab_options['BASE'] . "'><small>(" . $l->g(183) . ")</small></a></div>";
+                     echo "<div id='" . $option['table_name'] . "_csv_page'><label id='infopage_" . $option['table_name'] . "'></label> " . $l->g(90) . "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] ."'><small> (" . $l->g(183) . ")</small></a></div>";
+                     echo "<div id='" . $option['table_name'] . "_csv_total'><label id='infototal_" . $option['table_name'] . "'></label> " . $l->g(90) . " <a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_csv'] . "&no_header=1&tablename=" . $option['table_name'] . "&nolimit=true'><small>(" . $l->g(183) . ")</small></a></div>";
                  }
                  ?>
         </div>
         <?php
-        echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a>";
-        ?>
+        echo "<a href='#' id='reset" . $option['table_name'] . "' onclick='delete_cookie(\"" . $option['table_name'] . "_col\");window.history.replaceState(null, null, window.location.href);window.location.reload();' style='display: none;' >" . $l->g(1380) . "</a><br>";
+		?>
+
     </div>
 
     <script>
@@ -352,7 +383,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 						<?php
 						foreach ($protectedPost as $key => $value) {
 							if (!is_array($value)) {
-								echo "d['" . $key . "'] = '" . $value . "'; \n";
+								echo "d['" . preg_replace("/[^A-Za-z0-9\._]/", "", $key) . "'] = '" . $value . "'; \n";
 							}
 							if($key == "visible_col") {
 								$visible_col = $value;
@@ -392,9 +423,8 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 "columns": [
     <?php
 
-		$index = 0;
-
-    // Unset visible columns session var
+	$index = 0;
+	// Unset visible columns session var
     unset($_SESSION['OCS']['visible_col'][$option['table_name']]);
 
 	//Visibility handling
@@ -428,6 +458,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                 $key = $option['REPLACE_COLUMN_KEY'][$key];
             }
+
             echo "{'data' : '" . $key . "' , 'class':'" . $key . "',
 'name':'" . $key . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ",'searchable': false,
@@ -439,11 +470,14 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
             if (!empty($option['REPLACE_COLUMN_KEY'][$key])) {
                 $name = $option['REPLACE_COLUMN_KEY'][$key];
             }
+
             echo "{ 'data' : '" . $name . "' , 'class':'" . $name . "',
 'name':'" . $column . "', 'defaultContent': ' ',
 'orderable':  " . $orderable . ", 'visible' : " . $visible . "},\n ";
         }
+
     }
+
     ?>
                 ],
                 //Translation
@@ -526,11 +560,20 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 
     </script>
     <?php
-    if ($titre != "") {
+	$layout_visib = json_encode($layout->prepareInsert($visible_col ?? [], $protectedPost['columns'] ?? []) ?? null);
+	$_SESSION['OCS']['layout_visib'] = $layout_visib;
+	
+	$archiveClass = "";
+
+	if(isset($protectedPost["onglet"]) && $protectedPost["onglet"] == "ARCHIVE") {
+		$archiveClass = "archive";
+	}
+
+    if (!empty($titre)) {
         printEnTete_tab($titre);
     }
     echo "<div class='tableContainer'>";
-    echo "<table id='" . $option['table_name'] . "' width='100%' class='table table-striped table-condensed table-hover cell-border'><thead><tr>";
+    echo "<table id='" . $option['table_name'] . "' width='100%' class='table table-striped table-condensed table-hover cell-border $archiveClass'><thead><tr>";
     //titre du tableau
     foreach ($columns as $k => $v) {
         if (array_key_exists($k, $lbl_column)) {
@@ -555,8 +598,10 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
 	echo "<input type='hidden' id='SHOW_DETAILS' name='SHOW_DETAILS' value=''>";
 	echo "<input type='hidden' id='ARCHIVER' name='ARCHIVER' value=''>";
 	echo "<input type='hidden' id='RESTORE' name='RESTORE' value=''>";
+	echo "<input type='hidden' id='AFFECT_AGAIN' name='AFFECT_AGAIN' value=''>";
+	echo "<input type='hidden' id='NEW_WINDOW' name='NEW_WINDOW' value=''>";
 	
-    if ($_SESSION['OCS']['DEBUG'] == 'ON') {
+    if (isset($_SESSION['OCS']['DEBUG']) && $_SESSION['OCS']['DEBUG'] == 'ON') {
         ?><center>
             <div id="<?php echo $option['table_name']; ?>_debug" class="alert alert-info" role="alert">
                 <b>[DEBUG]TABLE REQUEST[DEBUG]</b>
@@ -604,7 +649,7 @@ function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array()
         //titre du tableau
         $i = 1;
 
-        foreach ($entete_colonne as $k => $v) {
+        foreach ($entete_colonne as $v) {
             if (in_array($v, $lien)) {
                 echo "<th class='ta' >" . $v . "</th>";
             } else {
@@ -621,7 +666,7 @@ function tab_entete_fixe($entete_colonne, $data, $titre, $width, $lien = array()
         foreach ($data as $v2) {
             ($j % 2 == 0 ? $color = "#f2f2f2" : $color = "#ffffff");
             echo "<tr class='ta' bgcolor='" . $color . "'  onMouseOver='changerCouleur(this, true);' onMouseOut='changerCouleur(this, false);'>";
-            foreach ($v2 as $k => $v) {
+            foreach ($v2 as $v) {
                 if (isset($option['B'][$i])) {
                     $begin = "<b>";
                     $end = "</b>";
@@ -661,140 +706,56 @@ function show_modif($name, $input_name, $input_type, $input_reload = "", $config
 {
 	global $protectedPost, $l, $pages_refs;
 
-  	if ($configinput == "")
+	if ($configinput == "") {
 		$configinput = array('MAXLENGTH' => 100, 'SIZE' => 20, 'JAVASCRIPT' => "", 'DEFAULT' => "YES", 'COLS' => 30, 'ROWS' => 5);
+	}
+
 	//del stripslashes if $name is not an array
 	if (!is_array($name)) {
 		$name = htmlspecialchars($name, ENT_QUOTES);
 	}
-	if ($input_type == 1) {
 
-		return "<textarea name='" . $input_name . "' id='" . $input_name . "' cols='" . $configinput['COLS'] . "' rows='" . $configinput['ROWS'] . "'  class='down' >" . $name . "</textarea>";
+	// Switch input type
+	switch($input_type) {
+		// textarea
+		case 1:
+			return "<textarea name='" . $input_name . "' id='" . $input_name . "' cols='" . $configinput['COLS'] . "' rows='" . $configinput['ROWS'] . "'  class='down' >" . $name . "</textarea>";
+		// select
+		case 2:
+			$champs = "<div class='form-group'>";
+			echo "<div class='col col-sm-10 col-sm-offset-2'>";
+			$champs .= "<select name='" . $input_name . "' id='" . $input_name . "' " . (isset($configinput['JAVASCRIPT']) ? $configinput['JAVASCRIPT'] : '');
+			
+			if ($input_reload != "") {
+				$champs .= " onChange='document." . $input_reload . ".submit();'";
+			} 
 
-	} elseif ($input_type == 0)
-		return "<input type='text' name='" . $input_name . "' id='" . $input_name . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $name . "\" class='form-control'\" " . $configinput['JAVASCRIPT'] . ">";
-	elseif ($input_type == 2) {
-		$champs = "<div class='form-group'>";
+			$champs .= " class='down form-control' >";
 
-
-        echo "<div class='col col-sm-10 col-sm-offset-2'>";
-		$champs .= "<select name='" . $input_name . "' id='" . $input_name . "' " . (isset($configinput['JAVASCRIPT']) ? $configinput['JAVASCRIPT'] : '');
-		if ($input_reload != "") $champs .= " onChange='document." . $input_reload . ".submit();'";
-		$champs .= " class='down form-control' >";
-		if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES")
-			$champs .= "<option value='' class='hi' ></option>";
-		$countHl = 0;
-		if ($name != '') {
-			natcasesort($name);
-			foreach ($name as $key => $value) {
-				$champs .= "<option value=\"" . $key . "\"";
-				if ($protectedPost[$input_name] == $key)
-					$champs .= " selected";
-				$champs .= ($countHl % 2 == 1 ? " class='hi'" : " class='down'") . " >" . $value . "</option>";
-				$countHl++;
+			if (isset($configinput['DEFAULT']) and $configinput['DEFAULT'] == "YES") {
+				$champs .= "<option value='' class='hi' ></option>";
 			}
-		}
-		$champs .= "</select></div></div>";
-		return $champs;
-	} elseif ($input_type == 3) {
-		$hid = "<input type='hidden' id='" . $input_name . "' name='" . $input_name . "' value='" . $name . "'>";
-		//	echo $name."<br>";
-		return $name . $hid;
-	} elseif ($input_type == 4)
-		return "<input size='" . $configinput['SIZE'] . "' type='password' name='" . $input_name . "' class='hi' />";
-	elseif ($input_type == 5 and isset($name) and is_array($name)) {
-		foreach ($name as $key => $value) {
-			$champs .= "<input type='checkbox' name='" . $input_name . "_" . $key . "' id='" . $input_name . "_" . $key . "' ";
-			if ($protectedPost[$input_name . "_" . $key] == 'on')
-				$champs .= " checked ";
-			if ($input_reload != "") $champs .= " onChange='document." . $input_reload . ".submit();'";
-			$champs .= " >" . $value . " <br>";
-		}
-		return $champs;
-	} elseif ($input_type == 6) {
-		if (isset($configinput['NB_FIELD']))
-			$i = $configinput['NB_FIELD'];
-		else
-			$i = 6;
-		$j = 0;
-		echo $name;
-		while ($j < $i) {
-			$champs .= "<input type='text' name='" . $input_name . "_" . $j . "' id='" . $input_name . "_" . $j . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $protectedPost[$input_name . "_" . $j] . "\" class='down'\" " . $configinput['JAVASCRIPT'] . ">";
-			$j++;
-		}
-		return $champs;
-	} elseif ($input_type == 7)
-		return "<input type='hidden' id='" . $input_name . "' name='" . $input_name . "' value='" . $name . "'>";
-	elseif ($input_type == 8) {
-		return "<input type='button' id='" . $input_name . "' name='" . $input_name . "' value='" . $l->g(1048) . "' OnClick='window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_upload_file_popup'] . "&head=1&n=" . $input_name . "&tab=" . $name . "&dde=" . $configinput['DDE'] . "\",\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\")'>";
-	} elseif ($input_type == 9) {
-		$aff = "";
-		if (is_array($name)) {
-			foreach ($name as $key => $value) {
-				$aff .= "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_view_file'] . "&prov=dde_wk&no_header=1&value=" . $key . "\">" .
-					$value . "</a><br>";
-			}
-		}
-		return $aff;
-	} elseif ($input_type == 10) {
-		//le format de de $name doit etre sous la forme d'une requete sql avec éventuellement
-		//des arguments. Dans ce cas, les arguments sont séparés de la requête par $$$$
-		//et les arguments entre eux par des virgules
-		//echo $name;
-		$sql = explode('$$$$', $name);
-		if (isset($sql[1])) {
-			$arg_sql = explode(',', $sql[1]);
-			$i = 0;
-			while ($arg_sql[$i]) {
-				$arg[$i] = $protectedPost[$arg_sql[$i]];
-				$i++;
-			}
-		}
-		if (isset($arg_sql))
-			$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"], $arg);
-		else
-			$result = mysql2_query_secure($sql[0], $_SESSION['OCS']["readServer"]);
-		if (isset($result) and $result != '') {
-			$i = 0;
-			while ($colname = mysqli_fetch_field($result))
-				$entete2[$i++] = $colname->name;
+				
+			$countHl = 0;
 
-			$i = 0;
-			while ($item = mysqli_fetch_object($result)) {
-				$j = 0;
-				while ($entete2[$j]) {
-					$data2[$i][$entete2[$j]] = $item->$entete2[$j];
-					$j++;
+			if ($name != '') {
+				natcasesort($name);
+				foreach ($name as $key => $value) {
+					$champs .= "<option value=\"" . $key . "\"";
+
+					if (!empty($protectedPost[$input_name]) && $protectedPost[$input_name] == $key) {
+						$champs .= " selected";
+					}
+
+					$champs .= ($countHl % 2 == 1 ? " class='hi'" : " class='down'") . " >" . $value . "</option>";
+					$countHl++;
 				}
-				$i++;
 			}
-		}
-		return tab_entete_fixe($entete2, $data2, "", 60, 300);
-	} elseif ($input_type == 11 and isset($name) and is_array($name)) {
-		foreach ($name as $key => $value) {
-			$champs .= "<input type='radio' name='" . $input_name . "' id='" . $input_name . "' value='" . $key . "'";
-			if ($protectedPost[$input_name] == $key) {
-				$champs .= " checked ";
-			}
-			$champs .= " >" . $value . " <br>";
-		}
-		return $champs;
-	} elseif ($input_type == 12) { //IMG type
-		$champs = "<img src='" . $configinput['DEFAULT'] . "' ";
-		if ($configinput['SIZE'] != '20')
-			$champs .= $configinput['SIZE'] . " ";
-
-		if ($configinput['JAVASCRIPT'] != '')
-			$champs .= $configinput['JAVASCRIPT'] . " ";
-		$champs .= ">";
-		return $champs;
-		//"<img src='index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."' width=60 height=60 onclick=window.open(\"index.php?".PAG_INDEX."=".$pages_refs['ms_qrcode']."&no_header=1&systemid=".$protectedGet['systemid']."\")>";
-
-	} elseif ($input_type == 13) {
-
-		return "<input id='" . $input_name . "' name='" . $input_name . "' type='file' accept='archive/zip'>";
-
-	}
+			return $champs . "</select></div></div>";
+		// Default text
+		default:
+			return "<input type='text' name='" . $input_name . "' id='" . $input_name . "' SIZE='" . $configinput['SIZE'] . "' MAXLENGTH='" . $configinput['MAXLENGTH'] . "' value=\"" . $name . "\" class='form-control'\" " . $configinput['JAVASCRIPT'] . ">";
+	}	
 }
 
 function tab_modif_values($field_labels, $fields, $hidden_fields, $options = array()) {
@@ -893,9 +854,9 @@ function tab_modif_values($field_labels, $fields, $hidden_fields, $options = arr
 function show_field($name_field,$type_field,$value_field,$config=array()){
 	global $protectedPost;
 	foreach($name_field as $key=>$value){
-		$tab_typ_champ[$key]['DEFAULT_VALUE']=$value_field[$key];
-		$tab_typ_champ[$key]['INPUT_NAME']=$name_field[$key];
-		$tab_typ_champ[$key]['INPUT_TYPE']=$type_field[$key];
+		$tab_typ_champ[$key]['DEFAULT_VALUE']=$value_field[$key] ?? "";
+		$tab_typ_champ[$key]['INPUT_NAME']=$name_field[$key] ?? "";
+		$tab_typ_champ[$key]['INPUT_TYPE']=$type_field[$key] ?? "";
 
 
 		if (!isset($config['ROWS'][$key]) or $config['ROWS'][$key] == '')
@@ -959,13 +920,15 @@ function filtre($tab_field,$form_name,$query,$arg='',$arg_count=''){
 		}else
 		$temp_query[0].= " where ";
 	if (substr($protectedPost['FILTRE'],0,2) == 'a.'){
-		require_once('require/function_admininfo.php');
+		require_once('require/admininfo/Admininfo.php');
+		$Admininfo = new Admininfo();
+
 		$id_tag=explode('_',substr($protectedPost['FILTRE'],2));
 		if (!isset($id_tag[1]))
 			$tag=1;
 		else
 			$tag=$id_tag[1];
-		$list_tag_id= find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
+		$list_tag_id= $Admininfo->find_value_in_field($tag,$protectedPost['FILTRE_VALUE']);
 	}
 	if ($list_tag_id){
 		$query_end= " in (".implode(',',$list_tag_id).")";
@@ -1128,7 +1091,7 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 	global $protectedPost;
 	/*	$protectedPost['onglet_soft']=stripslashes($protectedPost['onglet_soft']);
         $protectedPost['old_onglet_soft']=stripslashes($protectedPost['old_onglet_soft']);*/
-	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
+	if (!isset($protectedPost["old_".$post_name]) || $protectedPost["old_".$post_name] != $protectedPost[$post_name]){
 		$protectedPost['page']=0;
 	}
 	if (!isset($protectedPost[$post_name]) and is_array($def_onglets)){
@@ -1143,9 +1106,8 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 		echo "<ul class=\"nav nav-pills\" style='display: inline-block' role=\"tablist\">";
 
 		$current="";
-
+		
 		foreach($def_onglets as $key=>$value){
-
 			echo "<li ";
 			if (is_numeric($protectedPost[$post_name])){
 				if ($protectedPost[$post_name] == $key or (!isset($protectedPost[$post_name]) and $current != 1)){
@@ -1154,7 +1116,12 @@ function onglet($def_onglets,$form_name,$post_name,$ligne)
 				}
 			}else{
 				if (mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($protectedPost[$post_name])) === mysqli_real_escape_string($_SESSION['OCS']["readServer"],stripslashes($key)) or (!isset($protectedPost[$post_name]) and $current != 1)){
-					echo "class='active'";
+					if($protectedPost[$post_name] == "ARCHIVE") {
+						echo "class='active archive'";
+					} else {
+						echo "class='active'";
+					}
+					
 					$current=1;
 				}
 			}
@@ -1173,7 +1140,7 @@ function show_tabs($def_onglets,$form_name,$post_name, $onclick = false)
 {
 	global $protectedPost;
 
-	if ($protectedPost["old_".$post_name] != $protectedPost[$post_name]){
+	if (isset($protectedPost["old_".$post_name]) && $protectedPost["old_".$post_name] != $protectedPost[$post_name]){
 	$protectedPost['page']=0;
 	}
 	if (!isset($protectedPost[$post_name]) and is_array($def_onglets)){
@@ -1224,7 +1191,7 @@ function gestion_col($entete,$data,$list_col_cant_del,$form_name,$tab_name,$list
 	//search in cookies columns values
 	if (isset($_COOKIE[$tab_name]) and $_COOKIE[$tab_name] != '' and !isset($_SESSION['OCS']['col_tab'][$tab_name])){
 		$col_tab=explode("///", $_COOKIE[$tab_name]);
-		foreach ($col_tab as $key=>$value){
+		foreach ($col_tab as $value){
 				$_SESSION['OCS']['col_tab'][$tab_name][$value]=$value;
 		}
 	}
@@ -1299,14 +1266,14 @@ function lbl_column($list_fields){
 	require_once('maps.php');
 	$return_fields=array();
 	$return_default=array();
-	foreach($list_fields as $poub=>$table){
+	foreach($list_fields as $table){
 		if (isset($lbl_column[$table])){
 			foreach($lbl_column[$table] as $field=>$lbl){
 				//echo $field;
 				if (isset($alias_table[$table])){
 					$return_fields[$lbl]=$alias_table[$table].'.'.$field;
 					if (isset($default_column[$table])){
-						foreach($default_column[$table] as $poub2=>$default_field)
+						foreach($default_column[$table] as $default_field)
 							$return_default[$lbl_column[$table][$default_field]]=$lbl_column[$table][$default_field];
 					}else{
 						msg_error($table.' DEFAULT VALUES NOT DEFINE IN MAPS.PHP');
@@ -1355,8 +1322,9 @@ function ajaxfiltre($queryDetails,$tab_options){
 					if ($key == 3){
 
 						$rang =0;
-						foreach($tab_options['visible_col'] as $index=>$column){
-							if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+						foreach($tab_options['visible_col'] as $column){
+
+							if(isset($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]) && $tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
 								$tab_options['columns'][$column]['searchable'] = false;
 							}
 							$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
@@ -1373,7 +1341,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 							
 							if ($searchable){
 
-								if ($name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+								if (isset($tab_options['COL_SEARCH']) && $name != 'c' && $tab_options['COL_SEARCH'] == 'default') {
 									if ($rang == 0){
 										$filtertxt =  " HAVING (( ".$name." LIKE '%%".$search."%%' ) ";
 									} else {
@@ -1389,28 +1357,38 @@ function ajaxfiltre($queryDetails,$tab_options){
 								$rang++;
 							}
 						}
-						if ($word == "HAVING"){
-							$queryDetails .= $filtertxt.") AND ".$row;
-						} else {
-							$queryDetails .= $filtertxt.")  ".$row;
-						}
-					}
-					else {
-						if($key>1){
-						 	$queryDetails.=" ".$word." ".$row;
-						}else{
-							$queryDetails = $row;
-						}
 
+						if(!isset($tab_options['SPECIAL_SEARCH'])) {
+							if ($word == "HAVING"){
+								$queryDetails .= $filtertxt.") AND ".$row;
+							} else {
+								$queryDetails .= $filtertxt.")  ".$row;
+							}
+						}
+					} else {
+						if(!isset($tab_options['SPECIAL_SEARCH'])) {
+							if($key>1){
+								$queryDetails.=" ".$word." ".$row;
+							}else{
+								$queryDetails = $row;
+							}
+						}
 					}
 				}
+
+				// Special process for ipdiscover query
+				if(isset($tab_options['SPECIAL_SEARCH']) && $tab_options['SPECIAL_SEARCH'] == "IPD" && !is_null($filtertxt)) {
+					$explodeIPDQuery = explode("non_ident on n.RSX=non_ident.RSX", $queryDetails);
+					$queryDetails = $explodeIPDQuery[0]."non_ident on n.RSX=non_ident.RSX".$filtertxt.")".$explodeIPDQuery[1];
+				}
+
 				return $queryDetails;
 			}
 		}
 
 		// Check if at least one of the column used in the query if full-text indexed
 		foreach ($tab_options['visible_col'] as $column) {
-			if ($tab_options['columns'][$column]['ft_index'] == 'true') {
+			if (isset($tab_options['columns'][$column]['ft_index']) && $tab_options['columns'][$column]['ft_index'] == 'true') {
 				// Find the correct place where to do the full-text search in the query
 				if (count($sqlword['WHERE'])>1) {
 						$ft_queryDetails1 = $sqlword['WHERE'][0];
@@ -1489,18 +1467,21 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 			// Special treatment if accountinfo select type
 			if (substr($cname,0,2) == 'a.'){
-				require_once('require/function_admininfo.php');
+				require_once('require/admininfo/Admininfo.php');
+
+				$Admininfo = new Admininfo();
+
 				$id_tag=explode('_',substr($cname,2));
 				if($id_tag[0] != 'TAG') {
-					$info_tag = find_info_accountinfo($id_tag[1]);
+					$info_tag = $Admininfo->find_info_accountinfo($id_tag[1]);
 					if($info_tag[$id_tag[1]]['type'] == 2) {
-						$info = find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
+						$info = $Admininfo->find_value_field('ACCOUNT_VALUE_' . $info_tag[$id_tag[1]]['name']);
 						foreach($info as $key => $value) {
-							if(strpos($value, strtolower($search)) !== false) {
+							if(strpos(strtolower($value), strtolower($search)) !== false) {
 								$acc_select[$key] = $key;
 							}
 						}
-						if($acc_select != null) {
+						if(is_defined($acc_select) && $acc_select != null) {
 							$account_select = implode(',', $acc_select);
 						}
 					}
@@ -1508,13 +1489,13 @@ function ajaxfiltre($queryDetails,$tab_options){
 			}
 
 			// (Cyrille: The following 2 tests are used at least 3 times in this file. Wouldn't it be a good time to create a function?)
-			if($tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']]){
+			if(isset($tab_options['NO_SEARCH']) && ((isset($tab_options['columns'][$column]['name']) && isset($tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])) && $tab_options['columns'][$column]['name'] == $tab_options['NO_SEARCH'][$tab_options['columns'][$column]['name']])){
 				$tab_options['columns'][$column]['searchable'] = false;
 			}
 			$searchable =  ($tab_options['columns'][$column]['searchable'] == "true") ? true : false;
 
 			// (Cyrille: What the hell is the purpose of this "HAVING" array?)
-			if(is_array($tab_options['HAVING'])&&isset($tab_options['HAVING'][$column])){
+			if(isset($tab_options['HAVING'][$column]) && is_array($tab_options['HAVING'])){
 				$searchable =true;
 			}
 
@@ -1527,7 +1508,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 			// If column is searchable and doesn't have a full-text index 
 			if ($searchable && (empty($tab_options['columns'][$column]['ft_index']) || $tab_options['columns'][$column]['ft_index'] == 'false')) {
-				if ($cname != 'c' && $tab_options['COL_SEARCH'] == 'default') {
+				if ($cname != 'c' && isset($tab_options['COL_SEARCH']) && $tab_options['COL_SEARCH'] == 'default') {
 						if ($index == 0){
 							$filter =  " (( ".$cname." ".$search_arg." ) ";
 						} else {
@@ -1566,27 +1547,31 @@ function ajaxsort(&$tab_options) {
 		foreach ($tab_options['order'] as $index => $v ) {
 			// get column name
 			$name = $tab_options['columns'][$tab_options['order'][$index]['column']]['name'];
+			// sanitize column name (keep only "xxxx.yyyy", "xxyy" or "xxxx as yyyy" format)
+			if (preg_match('/([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|^[A-Za-z0-9_-]+$)/', $name, $cleanname) || preg_match('/(?<!\([^()])(?![^()]*\))(?<=\bas\s)(\w+)/i', $name, $cleanname)) {
+				$cleanname = $cleanname[0];
+			}
 
-			if (!empty($tab_options["replace_query_arg"][$name])) {
-				$name = $tab_options["replace_query_arg"][$name];
+			if (!empty($tab_options["replace_query_arg"][$name]) && (preg_match('/([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|^[A-Za-z0-9_-]+$)/', $tab_options["replace_query_arg"][$name], $cleanreplace) || preg_match('/(?<!\([^()])(?![^()]*\))(?<=\bas\s)(\w+)/i', $tab_options["replace_query_arg"][$name], $cleanreplace))) {
+				$cleanname = $cleanreplace[0];
 			}
 			// field name is IP format alike
-			if (in_array(mb_strtoupper($name),$tab_iplike)) {
-				$tri .= " INET_ATON(".$name.") ".$v['dir'].", ";
-			} else if($tab_options['TRI']['DATE'][$name]) {
+			if (in_array(mb_strtoupper($cleanname),$tab_iplike)) {
+				$tri .= " INET_ATON(".$cleanname.") ".$v['dir'].", ";
+			} else if(isset($tab_options['TRI']['DATE'][$cleanname])) {
 				if(isset($tab_options['ARG_SQL'])) {
 					$tri .= " STR_TO_DATE(%s,'%s') %s";
-					$tab_options['ARG_SQL'][] = $name;
-					$tab_options['ARG_SQL'][] = $tab_options['TRI']['DATE'][$name];
+					$tab_options['ARG_SQL'][] = $cleanname;
+					$tab_options['ARG_SQL'][] = $tab_options['TRI']['DATE'][$cleanname];
 					$tab_options['ARG_SQL'][] = $v['dir'];
 				} else {
-					$tri .= " STR_TO_DATE(".$name.",'".$tab_options['TRI']['DATE'][$name]."') ".$v['dir'];
+					$tri .= " STR_TO_DATE(".$cleanname.",'".$tab_options['TRI']['DATE'][$cleanname]."') ".$v['dir'];
 				}
 			} else {
-				if ( strpos($name,".") === false ) {
-					$tri .= "".$name." ".$v['dir'].", ";
+				if ( strpos($cleanname,".") === false ) {
+					$tri .= "".$cleanname." ".$v['dir'].", ";
 				} else {
-					$tri .= $name . " ".$v['dir'].", ";
+					$tri .= $cleanname . " ".$v['dir'].", ";
 				}
 			}
 		}
@@ -1610,12 +1595,14 @@ function ajaxsort(&$tab_options) {
 */
 function ajaxlimit($tab_options){
 	if (isset($tab_options['start'])){
-		$limit = " limit ".$tab_options['start']." , ";
+		// Remove all characters except number in start value
+		$limit = " limit ".preg_replace("/[^0-9]/", "", $tab_options['start'])." , ";
 	}else{
 		$limit = " limit 0 , ";
 	}
 	if (isset($tab_options['length'])){
-		$limit .= $tab_options['length']." ";
+		// Remove all characters except number in length value
+		$limit .= preg_replace("/[^0-9]/", "", $tab_options['length'])." ";
 	}else{
 		$limit .= "10 ";
 	}
@@ -1643,7 +1630,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 	$form_name=$tab_options['form_name'];
 	$_SESSION['OCS']['list_fields'][$tab_options['table_name']]=$list_fields;
 	$_SESSION['OCS']['col_tab'][$tab_options['table_name']]= array_flip($list_fields);
-	if($resultDetails){
+	if(!empty($resultDetails->num_rows)){
 		while($row = mysqli_fetch_assoc($resultDetails))
 		{
 			if (isset($tab_options['AS'])){
@@ -1657,12 +1644,12 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 			}
 			$row_temp = $row;
 			foreach($row as $rowKey=>$rowValue){
-				$row[$rowKey]=$rowValue;
+				$row[$rowKey]= isset($rowValue) ? htmlspecialchars($rowValue, ENT_QUOTES, "UTF-8") : '';
 			}
 			foreach($list_fields as $key=>$column){
 				$name = explode('.',$column);
 				$column = end($name);
-				$value_of_field = $row[$column];
+				$value_of_field = $row[$column] ?? '';
 				switch($key){
 					case "CHECK":
 						// condition below added to fix static grp visbility checkbox
@@ -1692,6 +1679,10 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							}
 							if($form_name == "admins" && $_SESSION['OCS']["loggeduser"] == htmlspecialchars($value_of_field, ENT_QUOTES)) {
 								// Do nothing 
+							} elseif ($form_name == "affich_save_query" && ($row['WHO_CAN_SEE'] == 'ALL' || $row['WHO_CAN_SEE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_SAVED_SEARCHES') == 'NO') {
+								// again do nothing (do not show the delete action if user does not have the right to manage saved searches)
+							} elseif ($form_name == "layouts" && ($row['VISIBILITY_SCOPE'] == 'ALL' || $row['VISIBILITY_SCOPE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_LAYOUTS') == 'NO') {
+								// still nothing
 							} else {
 								$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SUP_PROF\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-remove'></span></a>";
 							}	
@@ -1700,12 +1691,12 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 					case "NAME":
 						if ( !isset($tab_options['NO_NAME']['NAME'])){
 							$link_computer="index.php?".PAG_INDEX."=".$pages_refs['ms_computer']."&head=1";
-							if ($row['ID'])
+							if (isset($row['ID']))
 								$link_computer.="&systemid=".$row['ID'];
-							elseif($row['hardwareID'])
+							elseif(isset($row['hardwareID']))
 								$link_computer.="&systemid=".$row['hardwareID'];
 
-							if ($row['MD5_DEVICEID'])
+							if (isset($row['MD5_DEVICEID']))
 								$link_computer.= "&crypt=".$row['MD5_DEVICEID'];
 							$row[$column]="<a href='".$link_computer."'>".$value_of_field."</a>";
 						}
@@ -1717,7 +1708,11 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						$row[$key]="&nbsp";
 						break;
 					case "MODIF":
-						$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
+						if ($form_name == "layouts" && ($row['VISIBILITY_SCOPE'] == 'ALL' || $row['VISIBILITY_SCOPE'] == 'GROUP') && $_SESSION['OCS']['profile']->getConfigValue('MANAGE_LAYOUTS') == 'NO') {
+							
+						} else {
+							$row[$key]="<a href=# OnClick='pag(\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"MODIF\",\"".$form_name."\");'><span class='glyphicon glyphicon-edit'></span></a>";
+						}
 						break;
 					case "SELECT":
 						$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"SELECT\",\"".htmlspecialchars($tab_options['QUESTION']['SELECT'],ENT_QUOTES)."\");'><img src=image/prec16.png></a>";
@@ -1752,16 +1747,13 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$key]="<center><a href='index.php?".PAG_INDEX."=".$pages_refs['ms_custom_perim']."&head=1&id=".$value_of_field."' ><span class='glyphicon glyphicon-edit'></span></a><center>";
 						}
 						break;
-					case "EDIT_DEPLOY":
-						$row[$key]="<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_tele_package']."&head=1&package=".$value_of_field."\"><span class='glyphicon glyphicon-edit'></span></a>";
-						break;
 					case "SHOW_DETAILS":
-						$row[$key]='<a href="#'.$value_of_field.'" data-toggle="modal" data-target="#'.$value_of_field.'" title="'.$l->g(9013).'"><span class="glyphicon glyphicon-search"></span></a>';
+						$row[$key]='<a href="#'.$value_of_field.'" data-toggle="modal" data-target="#'.$value_of_field.'" title="'.$l->g(9039).'"><span class="glyphicon glyphicon-search"></span></a>';
 						break;
 					case "ARCHIVER":
 						if ($value_of_field!= '&nbsp;'){
 							$lbl_msg=$l->g(1550)." ".$value_of_field;
-							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"ARCHIVER\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-save' title='".$l->g(1551)."'></span></a>";
+							$row[$key]="&nbsp;<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"ARCHIVER\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-save' title='".$l->g(1551)."'></span></a>";
 						}	
 						break;
 					case "RESTORE":
@@ -1770,6 +1762,21 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$key]="<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($value_of_field, ENT_QUOTES)."\",\"".$form_name."\",\"RESTORE\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-open' title='".$l->g(1552)."'></span></a>";
 						}	
 						break;
+					case "AFFECT_AGAIN":
+						if ($value_of_field != '&nbsp;'){
+							$explode = explode(";", $value_of_field);
+							if(is_defined($explode[1]) && !is_null($explode[1]) && (strstr($explode[1], 'ERR_') || strstr($explode[1], 'EXIT_CODE'))) {
+								$lbl_msg=$l->g(9971);
+								$row[$key]="&nbsp;<a href=# OnClick='confirme(\"\",\"".htmlspecialchars($explode[0], ENT_QUOTES)."\",\"".$form_name."\",\"AFFECT_AGAIN\",\"".htmlspecialchars($lbl_msg, ENT_QUOTES)."\");'><span class='glyphicon glyphicon-repeat' title='".$l->g(9972)."'></span></a>";
+							}
+						}
+						break;
+					case "NEW_WINDOW":
+						if ($value_of_field!= '&nbsp;'){
+							$explode = explode(";",$value_of_field);
+							$row[$key]="&nbsp;<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_snmp_detail']."&head=1&type=".$explode[1]."&id=".$explode[0]."\"><span class='glyphicon glyphicon-new-window' title='".$l->g(9013)."'></span></a>";
+						}
+						break;
 					default :
 						if (substr($key,0,11) == "PERCENT_BAR"){
 							//require_once("function_graphic.php");
@@ -1777,7 +1784,7 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 							$row[$column]="<CENTER>".percent_bar($value_of_field)."</CENTER>";
 						}
 
-						if (!empty($tab_options['REPLACE_VALUE'][$key])){
+						if (isset($tab_options['REPLACE_VALUE'][$key])){
  							$temp_val=explode('&&&',$value_of_field);
  							if (count($temp_val)==1) {
  								$temp_val=explode('&amp;&amp;&amp;',$value_of_field);
@@ -1794,17 +1801,19 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
  								$row[$column]=$value_of_field;
  							}
  							else {
- 								$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field];
+ 								$row[$column]=$tab_options['REPLACE_VALUE'][$key][$value_of_field] ?? null;
  							}
 						}
 						if(!empty($tab_options['VALUE'][$key])){
 							if(!empty($tab_options['LIEN_CHAMP'][$key])){
-								$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]];
+								$value_of_field=$tab_options['VALUE'][$key][$row[$tab_options['LIEN_CHAMP'][$key]]] ?? '';
 							}else{
+								if(isset($tab_options['VALUE'][$key][$row['ID']])) {
 								$row[$column] = $tab_options['VALUE'][$key][$row['ID']];
 							}
 						}
-						if(!empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])){
+						}
+						if(isset($tab_options['REPLACE_VALUE_ALL_TIME']) && !empty($tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]])){
 							$row[$column]=$tab_options['REPLACE_VALUE_ALL_TIME'][$key][$row[$tab_options['FIELD_REPLACE_VALUE_ALL_TIME']]];
 						}
 						if (!empty($tab_options['LIEN_LBL'][$key])){
@@ -1820,11 +1829,11 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 
 					}
 				if(!empty($tab_options['COLOR'][$key])){
-					$row[$column]= "<font color='".$tab_options['COLOR'][$key]."'>".$row[$column]."</font>";
+					$row[$column]= "<font color='".$tab_options['COLOR'][$key]."'>".($row[$column] ?? '')."</font>";
 				}
 				if(!empty($tab_options['SHOW_ONLY'][$key])){
 					if(empty($tab_options['SHOW_ONLY'][$key][$value_of_field])&& empty($tab_options['EXIST'][$key])
-									||(reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])){
+									||(isset($tab_options['EXIST']) && reset($tab_options['SHOW_ONLY'][$key]) == $row[$tab_options['EXIST'][$key]])){
 						$row[$key]="";
 					}
 				}
@@ -1840,11 +1849,18 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"AFFECT_AGAIN",
+				"NEW_WINDOW"
 			);
-			foreach($actions as $action){
-				$row['ACTIONS'].= " ".$row[$action];
+
+			$row['ACTIONS'] = '';
+			foreach($actions as $action){	
+				if(isset($row[$action])) {
+					$row['ACTIONS'].= " ".$row[$action];
+				}
 			}
 			$rows[] = $row;
+			
 		}
 	}else{
 		$rows = 0;
@@ -1902,6 +1918,8 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			"SHOW_DETAILS",
 			"ARCHIVER",
 			"RESTORE",
+			"AFFECT_AGAIN",
+			"NEW_WINDOW"
 	);
 
 
@@ -1915,6 +1933,8 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				"SHOW_DETAILS",
 				"ARCHIVER",
 				"RESTORE",
+				"AFFECT_AGAIN",
+				"NEW_WINDOW"
 	);
 	foreach($actions as $action){
 		if(isset($list_fields[$action])){
@@ -1929,9 +1949,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 			$visible++;
 		}
 	}
-	$data = serialize($tab_options['visible_col']);
+	$data = json_encode($tab_options['visible_col'] ?? null);
 	$customized=false;
-	if (count($tab_options['visible_col'])!=$visible){
+	if (isset($tab_options['visible_col']) && count($tab_options['visible_col'])!=$visible){
 		$customized=true;
 		setcookie($tab_options['table_name']."_col",$data,time()+31536000);
 	}
@@ -1947,7 +1967,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}
 	if (isset($tab_options['REQUEST'])){
 		foreach ($tab_options['REQUEST'] as $field_name => $value){
-			$resultDetails = mysql2_query_secure($value, $_SESSION['OCS']["readServer"],$tab_options['ARG'][$field_name]);
+			$resultDetails = mysql2_query_secure($value, $_SESSION['OCS']["readServer"],$tab_options['ARG'][$field_name] ?? '');
 			while($item = mysqli_fetch_object($resultDetails)){
 				if ($item -> FIRST != "")
 				$tab_options['SHOW_ONLY'][$field_name][$item -> FIRST]=$item -> FIRST;
@@ -1969,16 +1989,15 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
 			}else{
 				//add sort on column if need it
-				if ($protectedPost['tri_fixe']!='' and strstr($sql,$protectedPost['tri_fixe'])){
+				if (!empty($protectedPost['tri_fixe']) && strstr($sql,$protectedPost['tri_fixe'])){
 					$sql.=" order by '%s' %s";
 					array_push($protectedPost['tri_fixe'],$arg);
 					array_push($protectedPost['sens_'.$table_name],$arg);
 				}
-				$sql.= $limit;
 				$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
 			}
 			while($item = mysqli_fetch_object($result)){
-				if ($item->HARDWARE_ID != "")
+				if (!empty($item->HARDWARE_ID))
 					$champs_index=$item->HARDWARE_ID;
 				elseif($item->FILEID != "")
 				$champs_index=$item->FILEID;
@@ -2019,7 +2038,9 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	$_SESSION['OCS']['csv']['SQLNOLIMIT'][$tab_options['table_name']]=$queryDetails;
 	$queryDetails .= ajaxlimit($tab_options);
 	$_SESSION['OCS']['csv']['SQL'][$tab_options['table_name']]=$queryDetails;
+	if(isset($tab_options['REPLACE_VALUE'])) {
 	$_SESSION['OCS']['csv']['REPLACE_VALUE'][$tab_options['table_name']]=$tab_options['REPLACE_VALUE'];
+	}
 
 	if (isset($tab_options['ARG_SQL']))
 		$_SESSION['OCS']['csv']['ARG'][$tab_options['table_name']]=$tab_options['ARG_SQL'];
@@ -2037,7 +2058,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 		$rows=0;
 	}
 
-	if(is_array($_SESSION['OCS']['SQL_DEBUG']) && ($_SESSION['OCS']['DEBUG'] == 'ON')){
+	if(isset($_SESSION['OCS']['SQL_DEBUG']) && is_array($_SESSION['OCS']['SQL_DEBUG']) && ($_SESSION['OCS']['DEBUG'] == 'ON')){
 		$debug = end($_SESSION['OCS']['SQL_DEBUG']);
 	}
 	// Data set length after filtering
@@ -2056,7 +2077,7 @@ function tab_req($list_fields,$default_fields,$list_col_cant_del,$queryDetails,$
 	}else{
 		$recordsTotal=$recordsFiltered;
 	}
-	if(is_array($_SESSION['OCS']['SQL_DEBUG']) && ($_SESSION['OCS']['DEBUG'] == 'ON')){
+	if(isset($_SESSION['OCS']['SQL_DEBUG']) && is_array($_SESSION['OCS']['SQL_DEBUG']) && ($_SESSION['OCS']['DEBUG'] == 'ON')){
 		$res =  array("draw"=> $tab_options['draw'],"recordsTotal"=> $recordsTotal,
 				"recordsFiltered"=> $recordsFiltered, "data"=>$rows, "customized"=>$customized,
 				"debug"=>$debug);

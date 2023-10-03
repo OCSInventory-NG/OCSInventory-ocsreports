@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -26,17 +27,14 @@ if (AJAX) {
     ob_start();
 }
 $tab_options = $protectedPost;
-
 require_once('require/function_telediff.php');
-
 if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO') {
     $cant_active = false;
 } else {
     $cant_active = true;
 }
-
 if (!$cant_active) {
-    if ($protectedPost['DEL_ALL'] != '') {
+    if (!empty($protectedPost['DEL_ALL'])) {
         $sql_listIDdel = "select distinct ID from download_enable where FILEID=%s";
         $arg_listIDdel = $protectedPost['DEL_ALL'];
         $res_listIDdel = mysql2_query_secure($sql_listIDdel, $_SESSION['OCS']["readServer"], $arg_listIDdel);
@@ -44,19 +42,19 @@ if (!$cant_active) {
             $listIDdel[] = $val_listIDdel['ID'];
         }
         if ($listIDdel != '') {
-            foreach ($listIDdel as $k => $v) {
+            foreach ($listIDdel as $v) {
                 desactive_packet('', $v);
             }
         }
         mysql2_query_secure("DELETE FROM download_enable WHERE FILEID=%s", $_SESSION['OCS']["writeServer"], $protectedPost['DEL_ALL']);
         echo "<script>window.opener.document.packlist.submit(); self.close();</script>";
     }
-    if ($protectedPost['SUP_PROF'] != '') {
+    if (!empty($protectedPost['SUP_PROF'])) {
         desactive_packet('', $protectedPost['SUP_PROF']);
         mysql2_query_secure("DELETE FROM download_enable WHERE ID=%s", $_SESSION['OCS']["writeServer"], $protectedPost['SUP_PROF']);
     }
 }
-$sql_details = "select distinct priority,fragments,size from download_available where fileid=%s";
+$sql_details = "select distinct priority,fragments,size from download_available where fileid='%s'";
 $res_details = mysql2_query_secure($sql_details, $_SESSION['OCS']["readServer"], $protectedGet['timestamp']);
 $val_details = mysqli_fetch_array($res_details);
 $tps = "<br>" . $l->g(992) . " : <b><font color=red>" . tps_estimated($val_details) . "</font></b>";
@@ -88,7 +86,7 @@ foreach ($list_fields as $key => $value) {
 }
 $querypack = substr($querypack, 0, -1);
 $querypack .= " from download_enable e RIGHT JOIN download_available a ON a.fileid = e.fileid
-				where e.FILEID=" . $protectedGet['timestamp'];
+				where e.FILEID='" . $protectedGet['timestamp']. "'";
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
@@ -102,4 +100,3 @@ if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $querypack, $tab_options);
 }
-?>

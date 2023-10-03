@@ -34,9 +34,11 @@ $snmp = new OCSSnmp();
 $command = new CommandLine();
 
 $def_onglets['SNMP_RULE'] = $l->g(9001); // Create SNMP type.
+$def_onglets['SNMP_CONDITION'] = $l->g(9031); // Configure type conditions
 $def_onglets['SNMP_LABEL'] = $l->g(9003); // Create SNMP label
 $def_onglets['SNMP_TYPE'] = $l->g(9002);  // Configure SNMP type
 $def_onglets['SNMP_MIB'] = $l->g(9008);  // Add MIB file
+$def_onglets['SNMP_EXPORT'] = $l->g(9988); // Export configuration for local scan
 
 
 if(isset($protectedPost['add_mib'])) {
@@ -53,7 +55,7 @@ if(isset($protectedPost['add_mib'])) {
 }
 
 //default => first onglet
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "SNMP_RULE";
 }
 
@@ -87,7 +89,7 @@ if($protectedPost['onglet'] == 'SNMP_RULE') {
     }
 
     if(isset($protectedPost['create_type'])) {
-        $result = $snmp->create_type($protectedPost['type_name'], $protectedPost['condition_oid'], $protectedPost['condition_value']);
+        $result = $snmp->create_type($protectedPost['type_name']);
         if($result == 0){
           msg_success($l->g(572));
         }else{
@@ -101,8 +103,6 @@ if($protectedPost['onglet'] == 'SNMP_RULE') {
     msg_info($l->g(9007));
 
     formGroup('text', 'type_name', $l->g(308).' :', '', '', '', '', '', '', "required");
-    formGroup('text', 'condition_oid', $l->g(9004).' :', '', '', '', '', '', '', "required");
-    formGroup('text', 'condition_value', $l->g(9005).' :', '', '', '', '', '', '', "required");
 
     echo "<input type='submit' name='create_type' id='create_type' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</div></div></br></br></br></br>";
@@ -110,8 +110,6 @@ if($protectedPost['onglet'] == 'SNMP_RULE') {
     // Display table of all type created
     $list_fields = array(
         $l->g(49) => 'TYPE_NAME',
-        'OID' => 'CONDITION_OID',
-        'Value' => 'CONDITION_VALUE',
     );
 
     $list_fields['SUP'] = 'ID';
@@ -120,7 +118,84 @@ if($protectedPost['onglet'] == 'SNMP_RULE') {
     $default_fields = $list_fields;
     $list_col_cant_del = $list_fields;
 
-    $queryDetails = "SELECT DISTINCT ID, TYPE_NAME, CONDITION_OID, CONDITION_VALUE FROM snmp_types";
+    $queryDetails = "SELECT DISTINCT ID, TYPE_NAME FROM snmp_types";
+
+    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+}
+
+/*******************************************SNMP CONDITION*****************************************************/
+
+if($protectedPost['onglet'] == 'SNMP_CONDITION') {
+
+    if(isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ""){
+        // Remove type
+        $result_remove = $snmp->delete_type_condition($protectedPost['SUP_PROF']);
+        unset($protectedPost['SUP_PROF']);
+        if($result_remove == 0){
+            msg_success($l->g(572));
+        }else{
+            msg_error($l->g($result_remove));
+        }
+    }
+
+    if(isset($protectedPost['create_type_condition'])) {
+        $result = $snmp->create_type_condition($protectedPost['type_id'], $protectedPost['condition_oid'], $protectedPost['condition_value']);
+        if($result == 0){
+          msg_success($l->g(572));
+        }else{
+          msg_error($l->g($result));
+        }
+        unset($protectedPost['create_type_condition']);
+    }
+
+    if(isset($protectedPost['type_filter']) && $protectedPost['type_filter'] != "empty" && $protectedPost['type_filter'] != null) {
+        $filter = " WHERE c.TYPE_ID = ".$protectedPost['type_filter'];
+    } else {
+        $filter = "";
+    }
+
+    echo "<div class='row margin-top30'>
+            <div class='col-sm-10'>";
+
+    $type = $snmp->get_type();
+
+    formGroup('select', 'type_id', 'Type :', '', '', '', '', $type, $type);
+    formGroup('text', 'condition_oid', $l->g(9004).' :', '', '', '', '', '', '', '');
+    formGroup('text', 'condition_value', $l->g(9005).' :', '', '', '', '', '', '', '');
+    echo "<p>".$l->g(9032)."</p>";
+
+    echo "<input type='submit' name='create_type_condition' id='create_type_condition' class='btn btn-success' value='".$l->g(13)."'>";
+    echo "</br></br><hr></br>";
+    echo "</div></div>";
+
+    $filter_type = ["empty" => "No filter"];
+    foreach($type as $id => $name) {
+        $filter_type[$id] = $name;
+    }
+
+    echo "<div class='row margin-top30'>
+            <div class='col-sm-6'>";
+    formGroup('select', 'type_filter', $l->g(9011), '', '', $protectedPost['type_filter'] ?? '', '', $filter_type, $filter_type);
+    echo "</div>";
+    echo "<div class='col-sm-2'>";
+    echo "<input type='submit' name='filter_snmp' id='filter_snmp' class='btn btn-info' value='".$l->g(1109)."'>";
+    echo "</div></div></br>";
+
+    // Display table of all type created
+    $list_fields = array(
+        $l->g(49) => 't.TYPE_NAME',
+        'OID' => 'c.CONDITION_OID',
+        'Value' => 'c.CONDITION_VALUE',
+    );
+
+    $list_fields['SUP'] = 'ID';
+    $tab_options['LBL_POPUP']['SUP'] = 'CONDITION_VALUE';
+
+    $default_fields = $list_fields;
+    $list_col_cant_del = $list_fields;
+
+    $queryDetails = "SELECT DISTINCT c.ID as ID, t.TYPE_NAME, c.CONDITION_OID, c.CONDITION_VALUE
+                    FROM snmp_types_conditions c LEFT JOIN snmp_types t ON t.ID = c.TYPE_ID".$filter;
 
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
@@ -191,7 +266,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation']);
+        $result = $snmp->snmp_config($protectedPost['type_id'], $protectedPost['label_id'], $protectedPost['oid'], $protectedPost['reconciliation'] ?? '');
         if($result == 0){
           msg_success($l->g(572));
         }else{
@@ -200,7 +275,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
         unset($protectedPost['update_snmp']);
     }
 
-    if($protectedPost['type_filter'] != "empty" && $protectedPost['type_filter'] != null) {
+    if(isset($protectedPost['type_filter']) && $protectedPost['type_filter'] != "empty" && $protectedPost['type_filter'] != null) {
         $filter = " WHERE c.TYPE_ID ='".$protectedPost['type_filter']."'";
     } else {
         $filter = "";
@@ -228,7 +303,7 @@ if($protectedPost['onglet'] == 'SNMP_TYPE') {
 
     echo "<div class='row margin-top30'>
             <div class='col-sm-6'>";
-    formGroup('select', 'type_filter', $l->g(9011), '', '', $protectedPost['type_filter'], '', $filter_type, $filter_type);
+    formGroup('select', 'type_filter', $l->g(9011), '', '', $protectedPost['type_filter'] ?? '', '', $filter_type, $filter_type);
     echo "</div>";
     echo "<div class='col-sm-2'>";
     echo "<input type='submit' name='filter_snmp' id='filter_snmp' class='btn btn-info' value='".$l->g(1109)."'>";
@@ -272,9 +347,13 @@ if($protectedPost['onglet'] == 'SNMP_MIB') {
     }
 
     if(isset($protectedPost['update_snmp'])) {
-        $result_oids = $command->get_mib_oid($protectedPost['mib_file']);
-
-        $protectedPost['select_mib'] = true;
+        $result_oids = $command->get_mib_oid($protectedPost['mib_file'] ?? '');
+        if(!empty($result_oids)) {
+            $protectedPost['select_mib'] = true;
+        } else {
+            msg_error($l->g(9036));
+        }
+        
         unset($protectedPost['update_snmp']);
     }
 
@@ -288,6 +367,32 @@ if($protectedPost['onglet'] == 'SNMP_MIB') {
     echo "<input type='submit' name='update_snmp' id='update_snmp' class='btn btn-success' value='".$l->g(13)."'>";
     echo "</div></div></br></br>";
 }
+
+/*******************************************SNMP EXPORT CONFIGURATION *****************************************************/
+if ($protectedPost['onglet'] == 'SNMP_EXPORT') {
+    // show info text for export
+    echo "<div class='row margin-top30'>
+    <div class='col-sm-10'>";
+    msg_info($l->g(9987));
+
+    echo "<div class='row justify-content-center margin-top30'>";
+
+    echo "<div class='col col-md-4'>";
+    echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=comm' class='btn btn-action'>". $l->g(9985)."</a>";
+    echo "</div>";
+
+    echo "<div class='col col-md-4'>";
+    echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=type' class='btn btn-action'>". $l->g(9986)."</a>";
+    echo "</div>";
+
+    echo "<div class='col col-md-4'>";
+    echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_export_snmp_conf'] . "&no_header=1&conf=scan' class='btn btn-action'>". $l->g(9989)."</a>";
+    echo "</div>";
+
+    echo "</div></br></br></br></br>";
+    echo "</div></div>";
+}
+
 
 echo "</div>";
 echo close_form();

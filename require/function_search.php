@@ -219,8 +219,7 @@ function traitement_cache($sql_temp, $field_modif, $field_value, $field_value_co
             $field_value_complement = $value_complement_temp[0] . " " . $in . " (" . $sql_temp . ") " . $value_complement_temp2[1];
         }
     }
-    $monRetour = array('field_value' => $field_value, 'field_value_complement' => $field_value_complement);
-    return $monRetour;
+    return array('field_value' => $field_value, 'field_value_complement' => $field_value_complement);
 }
 
 //fonction qui permet de passer en SESSION
@@ -230,7 +229,7 @@ function sql_group_cache($cache_sql) {
     //requête de recherche "normale" (ressemble, exactement)
     if ($cache_sql['NORMAL']) {
 
-        foreach ($cache_sql['NORMAL'] as $poids => $list) {
+        foreach ($cache_sql['NORMAL'] as $list) {
             $i = 0;
             while ($list[$i]) {
                 $fin_sql = "";
@@ -246,7 +245,7 @@ function sql_group_cache($cache_sql) {
     }
     //requête de recherche "différent", "n'appartient pas"
     if ($cache_sql['DIFF']) {
-        foreach ($cache_sql['DIFF'] as $poids => $list) {
+        foreach ($cache_sql['DIFF'] as $list) {
             $i = 0;
             while ($list[$i]) {
                 $fin_sql = "";
@@ -496,10 +495,17 @@ function show_ligne($value, $id_field, $ajout, $form_name) {
 
 }
 
-function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
+function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false,$snmp_type=null)
 {
 	global 	$l;
 	$_SESSION['OCS']['ID_REQ']=id_without_idgroups($list_id);
+
+    $maybesnmp = "";
+
+    if(!is_null($snmp_type)) {
+        $maybesnmp = "+\"&maybesnmp=".$snmp_type."\"";
+    }
+
 	echo "<script language=javascript>
 		function garde_check(image,id,computer)
 		 {
@@ -524,9 +530,9 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
 
 			idchecked = idchecked.substr(0,(idchecked.length -1));
 			if(!computer){
-				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked,\"rollo\");
+				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked".$maybesnmp.",\"rollo\");
 			}else{
-				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked+\"&comp=\"+computer,\"rollo\");
+				window.open(\"index.php?" . PAG_INDEX . "=\"+image+\"&head=1&idchecked=\"+idchecked+\"&comp=\"+computer".$maybesnmp.",\"rollo\");
 			}
 		}
 	</script>";
@@ -534,6 +540,7 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
         <div class="btn-group">
             <?php
             foreach ($img as $key => $value) {
+                $list_id = is_array($list_id) ? implode(',', $list_id) : $list_id;
                 echo '<button type="button" onclick=garde_check("' . $list_pag[$key] . '","' . $list_id . '","' . $comp . '") class="btn">' . $value . '</button>';
             }
             ?>
@@ -558,17 +565,17 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
                 } else {
                     $choise_req_selection['SEL'] = $l->g(585);
                 }
-                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'], '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
+                formGroup('select', 'CHOISE', $lbl_choise, '', '', $protectedPost['CHOISE'] ?? '', '', $choise_req_selection, $choise_req_selection, "onchange='$(\"#".$form_name."\").submit();'");
             }
-            if ($protectedPost['CHOISE'] == 'REQ' || $protectedGet['idchecked'] == '') {
+            if ((isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] == 'REQ') || $protectedGet['idchecked'] == '') {
                 msg_info($l->g(901));
                 if ($protectedGet['idchecked'] == '') {
-                    echo "<input type='hidden' name='CHOISE' value='" . $protectedPost['CHOISE'] . "'>";
+                    echo "<input type='hidden' name='CHOISE' value='" . ($protectedPost['CHOISE'] ?? '') . "'>";
                     $protectedPost['CHOISE'] = 'REQ';
                 }
                 $list_id = $_SESSION['OCS']['ID_REQ'];
             }
-            if ($protectedPost['CHOISE'] == 'SEL') {
+            if (isset($protectedPost['CHOISE']) && $protectedPost['CHOISE'] == 'SEL') {
                 msg_info($l->g(902));
                 $list_id = $protectedGet['idchecked'];
             }
@@ -608,15 +615,18 @@ function add_trait_select($img,$list_id,$form_name,$list_pag,$comp = false)
     }
 
     function id_without_idgroups($list_id) {
-        $sql = "select id from hardware where deviceid <> '_SYSTEMGROUP_'
-										AND deviceid <> '_DOWNLOADGROUP_'
-										AND id in ";
-        $arg = array();
-        $sql = mysql2_prepare($sql, $arg, $list_id);
-        $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
-        if($result) while ($item = mysqli_fetch_object($result)) {
-            $res[$item->id] = $item->id;
+        if(!empty($list_id)) {
+            $sql = "SELECT id FROM hardware WHERE deviceid <> '_SYSTEMGROUP_'
+                AND deviceid <> '_DOWNLOADGROUP_'
+                AND id IN ";
+            $arg = array();
+            $sql = mysql2_prepare($sql, $arg, $list_id);
+            $result = mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["readServer"], $sql['ARG']);
+            if($result) while ($item = mysqli_fetch_object($result)) {
+                $res[$item->id] = $item->id;
+            }
         }
-        return $res;
+
+        return $res ?? null;
     }
     ?>

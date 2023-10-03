@@ -36,11 +36,14 @@ require_once('require/config/include.php');
 @session_start();
 error_reporting(E_ALL & ~E_NOTICE);
 /* * ******************************************FIND SERVER URL*************************************** */
-$addr_server = explode('/', $_SERVER['HTTP_REFERER']);
-array_pop($addr_server);
-define("OCSREPORT_URL", implode('/', $addr_server));
+if (isset($_SERVER['HTTP_REFERER'])) {
+    $addr_server = explode('/', $_SERVER['HTTP_REFERER']);
+    array_pop($addr_server);
+    define("OCSREPORT_URL", implode('/', $addr_server));
+}
 
-if ($_SESSION['OCS']['LOG_GUI'] == 1) {
+
+if (isset($_SESSION['OCS']['LOG_GUI']) && $_SESSION['OCS']['LOG_GUI'] == 1) {
     define("LOG_FILE", $_SESSION['OCS']['LOG_DIR'] . "log.csv");
 }
 
@@ -50,18 +53,19 @@ require_once('require/aide_developpement.php');
 require_once('require/function_table_html.php');
 require_once('require/views/forms.php');
 require_once('require/plugin/include.php');
+require_once('require/history/History.php');
+require_once('require/layouts/Layout.php');
 
 if (isset($_SESSION['OCS']['CONF_RESET'])) {
     unset($_SESSION['OCS']['LOG_GUI']);
     unset($_SESSION['OCS']['CONF_DIRECTORY']);
-    unset($_SESSION['OCS']['URL']);
+    unset($_SESSION['OCS']['URL']); 
     unset($_SESSION['OCS']["usecache"]);
-    unset($_SESSION['OCS']["use_redistribution"]);
     unset($_SESSION['OCS']['CONF_RESET']);
 }
 
 //If you have to reload conf
-if ($_POST['RELOAD_CONF'] == 'RELOAD') {
+if (isset($_POST['RELOAD_CONF']) && $_POST['RELOAD_CONF'] == 'RELOAD') {
     $_SESSION['OCS']['CONF_RESET'] = true;
 }
 
@@ -69,16 +73,11 @@ if ($_POST['RELOAD_CONF'] == 'RELOAD') {
 
 /* * ***************************************************LOGOUT******************************************** */
 if (isset($_POST['LOGOUT']) && $_POST['LOGOUT'] == 'ON') {
-    if ($_SESSION['OCS']['cnx_origine'] == "CAS") {
-        require_once(BACKEND . 'require/cas.config.php');
-        $cas = new phpCas();
-        $cas->client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_uri);
-        $cas->logout();
-    }
-    //end contrib
     unset($_SESSION['OCS']);
     unset($_GET);
 }
+    
+
 /* * *************************************************** First installation checking ******************************************************** */
 if ((!is_readable(CONF_MYSQL)) || (!function_exists('session_start')) || (!function_exists('mysqli_real_connect'))) {
     require('install.php');
@@ -119,17 +118,18 @@ if (is_object($link_write) && is_object($link_read)) {
     die();
 }
 
+
 /* * *********************************************************LOGS ADMIN************************************************************************ */
-if (!isset($_SESSION['OCS']['LOG_GUI'])) {
+    if (!isset($_SESSION['OCS']['LOG_GUI'])) {
     $values = look_config_default_values(array('LOG_GUI', 'LOG_DIR', 'LOG_SCRIPT'));
-    $_SESSION['OCS']['LOG_DIR'] = $values['tvalue']['LOG_DIR'];
+    $_SESSION['OCS']['LOG_DIR'] = $values['tvalue']['LOG_DIR'] ?? "";
     if ($_SESSION['OCS']['LOG_DIR']) {
         $_SESSION['OCS']['LOG_DIR'] .= '/logs/';
     } else {
         $_SESSION['OCS']['OLD_CONF_DIR'] = VARLOG_DIR . '/logs/';
     }
-    $_SESSION['OCS']['LOG_GUI'] = $values['ivalue']['LOG_GUI'];
-    if ($_SESSION['OCS']['LOG_SCRIPT']) {
+    $_SESSION['OCS']['LOG_GUI'] = $values['ivalue']['LOG_GUI'] ?? "";
+    if (isset($_SESSION['OCS']['LOG_SCRIPT'])) {
         $_SESSION['OCS']['LOG_SCRIPT'] .= "/scripts/";
     } else {
         $_SESSION['OCS']['OLD_CONF_DIR'] = VARLOG_DIR . '/scripts/';
@@ -140,14 +140,14 @@ if (!isset($_SESSION['OCS']['LOG_GUI'])) {
 /* * *********************************************************CONF DIRECTORY************************************************************************ */
 if (!isset($_SESSION['OCS']['CONF_PROFILS_DIR'])) {
     $values = look_config_default_values(array('CONF_PROFILS_DIR', 'OLD_CONF_DIR'));
-    $_SESSION['OCS']['OLD_CONF_DIR'] = $values['tvalue']['OLD_CONF_DIR'];
+    $_SESSION['OCS']['OLD_CONF_DIR'] = $values['tvalue']['OLD_CONF_DIR'] ?? null;
     if ($_SESSION['OCS']['OLD_CONF_DIR']) {
         $_SESSION['OCS']['OLD_CONF_DIR'] .= '/old_conf/';
     } else {
         $_SESSION['OCS']['CONF_PROFILS_DIR'] = ETC_DIR . '/' . MAIN_SECTIONS_DIR . 'old_conf/';
     }
 
-    $_SESSION['OCS']['CONF_PROFILS_DIR'] = $values['tvalue']['CONF_PROFILS_DIR'];
+    $_SESSION['OCS']['CONF_PROFILS_DIR'] = $values['tvalue']['CONF_PROFILS_DIR'] ?? null;
     if ($_SESSION['OCS']['CONF_PROFILS_DIR']) {
         $_SESSION['OCS']['CONF_PROFILS_DIR'] .= '/conf/';
     } else {
@@ -160,7 +160,7 @@ if (!isset($_SESSION['OCS']['CONF_PROFILS_DIR'])) {
 /* * ****************************************Checking sql update******************************************** */
 if (!isset($_SESSION['OCS']['SQL_BASE_VERS'])) {
     $values = look_config_default_values('GUI_VERSION');
-    $_SESSION['OCS']['SQL_BASE_VERS'] = $values['tvalue']['GUI_VERSION'];
+    $_SESSION['OCS']['SQL_BASE_VERS'] = $values['tvalue']['GUI_VERSION'] ?? "";
 }
 if (GUI_VER != $_SESSION['OCS']['SQL_BASE_VERS']) {
     $fromAuto = true;
@@ -181,7 +181,9 @@ if (!defined("SERVER_READ")) {
 
 //SECURITY
 $protectedPost = strip_tags_array($_POST);
-$protectedGet = strip_tags_array($_GET);
+if(isset($_GET)) {
+    $protectedGet = strip_tags_array($_GET);
+}
 
 @set_time_limit(0);
 
@@ -264,7 +266,7 @@ if (is_defined($protectedPost['SUP_COL']) && isset($_SESSION['OCS']['col_tab'][$
 
 //default values
 if (is_defined($protectedPost['RAZ'])) {
-    cookies_reset($protectedPost['TABLE_NAME']);
+    cookies_reset($protectedPost['TABLE_NAME'] ?? null);
 }
 
 //add column
@@ -336,6 +338,9 @@ if (!isset($_SESSION['OCS']["ipdiscover"])) {
 /* * ********************************************************gestion des administrative data*************************************************** */
 migrate_adminData_2_5();
 
+/* * ********************************************************SNMP migration 2.10.1*************************************************** */
+migrate_snmp_2_10_1();
+
 /* * ******************GESTION GUI CONF***************** */
 if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])) {
     $conf_gui = array('usecache' => 'INVENTORY_CACHE_ENABLED',
@@ -353,21 +358,12 @@ if (!isset($_SESSION['OCS']["usecache"]) || !isset($_SESSION['OCS']["tabcache"])
 
 /* * ******************END GESTION CACHE***************** */
 
-/* * ******************MANAGE DOWNLOAD REDISTRIBUTION***************** */
-if (!isset($_SESSION['OCS']["use_redistribution"])) {
-    $values = look_config_default_values(array('DOWNLOAD_REDISTRIB'));
-    $_SESSION['OCS']['use_redistribution'] = $values['ivalue']['DOWNLOAD_REDISTRIB'];
-    if (!isset($_SESSION['OCS']["use_redistribution"])) {
-        $_SESSION['OCS']["use_redistribution"] = 1;
-    }
-}
-
-/* * ******************END DOWNLOAD REDISTRIBUTION***************** */
-
 /* * *******************************************GESTION OF LBL_TAG************************************ */
 if (!isset($_SESSION['OCS']['TAG_LBL'])) {
-    require_once('require/function_admininfo.php');
-    $all_tag_lbl = witch_field_more('COMPUTERS');
+    require_once('require/admininfo/Admininfo.php');
+    $Admininfo = new Admininfo();
+
+    $all_tag_lbl = $Admininfo->witch_field_more('COMPUTERS');
     foreach ($all_tag_lbl['LIST_NAME'] as $key => $value) {
         $_SESSION['OCS']['TAG_LBL'][$value] = $all_tag_lbl['LIST_FIELDS'][$key];
         $_SESSION['OCS']['TAG_ID'][$key] = $value;
@@ -388,10 +384,12 @@ if (!AJAX and ( !isset($header_html) || $header_html != 'NO') && !isset($protect
     require_once (HEADER_HTML);
 }
 
-$url_name = $urls->getUrlName($protectedGet[PAG_INDEX]);
+if (isset($protectedGet[PAG_INDEX])) {
+    $url_name = $urls->getUrlName($protectedGet[PAG_INDEX]);
+}
 
 //VERIF ACCESS TO THIS PAGE
-if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!$_SESSION['OCS']['TRUE_PAGES'] || !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES']))
+if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!isset($_SESSION['OCS']['TRUE_PAGES']) || !array_search($url_name, $_SESSION['OCS']['TRUE_PAGES']))
         //force access to profils witch have CONFIGURATION TELEDIFF  == 'YES' for ms_admin_ipdiscover page
         && !($profile->getConfigValue('TELEDIFF') == 'YES' && $url_name == 'ms_admin_ipdiscover')) {
     msg_error("ACCESS DENIED");
@@ -400,18 +398,18 @@ if (isset($protectedGet[PAG_INDEX]) && !$profile->hasPage($url_name) && (!$_SESS
 }
 
 if ((!isset($_SESSION['OCS']["loggeduser"]) || !is_defined($_SESSION['OCS']["lvluser"])) && !isset($_SESSION['OCS']['TRUE_USER']) && $no_error != 'YES') {
-    msg_error($LIST_ERROR);
+    msg_error('no loggeduser');
     require_once(FOOTER_HTML);
     die();
 }
 
-if ($url_name) {
+if (isset($url_name)) {
     //CSRF security
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $csrf = true;
         if (isset($_SESSION['OCS']['CSRF'])) {
             foreach ($_SESSION['OCS']['CSRF'] as $k => $v) {
-                if ($v == $protectedPost['CSRF_' . $k]) {
+                if (isset($protectedPost['CSRF_' . $k]) && $v == $protectedPost['CSRF_' . $k]) {
                     $csrf = false;
                 }
             }

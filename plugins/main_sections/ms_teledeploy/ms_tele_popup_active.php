@@ -29,11 +29,11 @@ if (!isset($info_id['ERROR'])) {
 
     //ouverture du formulaire
     echo open_form($form_name, $action_redirect, '', 'form-horizontal');
-    if ((!isset($protectedPost['FILE_SERV']) && $protectedPost['choix_activ'] == 'MAN') || (!isset($protectedPost['FILE_SERV_REDISTRIB']) && $protectedPost['choix_activ'] == 'AUTO') || !isset($protectedPost['HTTPS_SERV'])) {
+    if ((!isset($protectedPost['FILE_SERV']) && isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] == 'MAN') || !isset($protectedPost['HTTPS_SERV'])) {
         $default = $_SERVER["SERVER_ADDR"] . "/download";
         $values = look_config_default_values(array('DOWNLOAD_URI_INFO', 'DOWNLOAD_URI_FRAG'));
-        $protectedPost['FILE_SERV'] = $values['tvalue']['DOWNLOAD_URI_FRAG'];
-        $protectedPost['HTTPS_SERV'] = $values['tvalue']['DOWNLOAD_URI_INFO'];
+        $protectedPost['FILE_SERV'] = $values['tvalue']['DOWNLOAD_URI_FRAG'] ?? '';
+        $protectedPost['HTTPS_SERV'] = $values['tvalue']['DOWNLOAD_URI_INFO'] ?? '';
         if ($protectedPost['FILE_SERV'] == "") {
             $protectedPost['FILE_SERV'] = $default;
         }
@@ -41,37 +41,11 @@ if (!isset($info_id['ERROR'])) {
             $protectedPost['HTTPS_SERV'] = $default;
         }
     }
-    //use redistribution servers?
-    if ($_SESSION['OCS']["use_redistribution"] == 1) {
-        $reqGroupsServers = "SELECT DISTINCT name,id FROM hardware WHERE deviceid='_DOWNLOADGROUP_'";
-        $resGroupsServers = mysql2_query_secure($reqGroupsServers, $_SESSION['OCS']["readServer"]);
-        while ($valGroupsServers = mysqli_fetch_array($resGroupsServers)) {
-            $groupListServers[$valGroupsServers["id"]] = $valGroupsServers["name"];
-        }
-    }
 
-    if ($_SESSION['OCS']["use_redistribution"] == 1) {
-        $list_choise['MAN'] = $l->g(650);
-        $list_choise['AUTO'] = $l->g(649);
-        ?>
-        <div class="row">
 
-            <div class="col col-md-4 col-xs-offset-0 col-md-offset-4">
 
-                <div class="form-group">
-                    <label class="control-label col-sm-4" for="choix_activ>"><?php echo $l->g(514); ?> :</label>
-                    <div class="col-sm-8">
-                        <?php echo show_modif($list_choise, 'choix_activ', 2, $form_name); ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php
-    } else {
-
-        $protectedPost['choix_activ'] = "MAN";
-        echo "<input type='hidden' name='choix_activ' value='MAN'>";
-    }
+    $protectedPost['choix_activ'] = "MAN";
+    echo "<input type='hidden' name='choix_activ' value='MAN'>";
     echo "<br>";
     if (is_defined($protectedPost['choix_activ'])) {
         if ($protectedPost['choix_activ'] == "MAN") {
@@ -79,15 +53,6 @@ if (!isset($info_id['ERROR'])) {
             $name_field = array("FILE_SERV", "HTTPS_SERV");
             $type_field = array(0, 0);
             $value_field = array($protectedPost['FILE_SERV'], $protectedPost['HTTPS_SERV']);
-        } else {
-            if (empty($groupListServers)) {
-                msg_error($l->g(660));
-            } else {
-                $tab_name = array($l->g(651), $l->g(470));
-                $name_field = array("FILE_SERV_REDISTRIB", "HTTPS_SERV");
-                $type_field = array(2, 0);
-                $value_field = array($groupListServers, $protectedPost['HTTPS_SERV']);
-            }
         }
 
         if (isset($name_field)) {
@@ -103,13 +68,12 @@ if (!isset($info_id['ERROR'])) {
                     }
                 }
             }
-            modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+            modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? '', array(
                 'title' => $l->g(465) . ' => ' . $info_id['NAME'] . " (" . $protectedGet["active"] . ")"
             ));
         }
     }
 
-    //var_dump($tab_typ_champ);
     //fermeture du formulaire.
     echo close_form();
 } else {

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -22,14 +23,12 @@
  */
 require_once(BACKEND . 'require/connexion.php');
 require_once(BACKEND . 'require/auth.manager.php');
-
 // You don't have to change these variables anymore, see var.php
 $list_methode = get_list_methode(true);
-
 if (!isset($_SESSION['OCS']["lvluser"])) {
     $i = 0;
     //methode pour le calcul des droits
-    while ($list_methode[$i]) {
+    while (isset($list_methode[$i]) && $list_methode[$i]) {
         require_once('methode/' . $list_methode[$i]);
         //on garde les erreurs présentes
         //entre chaque méthode
@@ -45,16 +44,15 @@ if (!isset($_SESSION['OCS']["lvluser"])) {
         $i++;
     }
 }
-
 if (!isset($tab_tag) && $restriction != 'NO') {
     $LIST_ERROR = "";
-    foreach ($tab_error as $script => $error) {
+    foreach ($tab_error as $error) {
         $LIST_ERROR .= $error;
         addLog('ERROR_IDENTITY', $error);
     }
     $_SESSION['OCS']["mesmachines"] = "NOTAG";
 } elseif (isset($tab_tag)) {
-    foreach ($list_methode as $prio => $script) {
+    foreach ($list_methode as $script) {
         if (isset($tab_tag[$script])) {
             foreach ($tab_tag[$script] as $tag => $lbl) {
                 $list_tag[$tag] = $tag;
@@ -71,7 +69,5 @@ if (!isset($tab_tag) && $restriction != 'NO') {
     $_SESSION['OCS']["mytag"] = $lbl_list_tag;
     $_SESSION['OCS']['TAGS'] = $list_tag;
 }
-
 if (isset($lvluser))
     $_SESSION['OCS']["lvluser"] = $lvluser;
-?>

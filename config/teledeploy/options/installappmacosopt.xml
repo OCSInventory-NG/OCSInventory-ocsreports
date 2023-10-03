@@ -94,7 +94,7 @@
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
         <ACT>STORE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>HTTP</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
         <COMMAND>:pathfile:</COMMAND> 
         <!-- Notify user -->

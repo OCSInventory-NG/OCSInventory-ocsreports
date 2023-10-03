@@ -33,6 +33,8 @@ class AssetsCategory
         $sql = "SELECT * FROM assets_categories";
         $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
 
+        $list_asset = [];
+
         while ($item_asset = mysqli_fetch_array($result)) {
             $list_asset[$item_asset['ID']]['CATEGORY_NAME'] = $item_asset['CATEGORY_NAME'];
             $list_asset[$item_asset['ID']]['SQL_QUERY'] = $item_asset['SQL_QUERY'];
@@ -43,8 +45,8 @@ class AssetsCategory
     }
 
     public function get_computer_assets($list_asset){
- 
-        foreach($list_asset as $key => $values){
+        $nb_computer = array();
+        foreach($list_asset as $values){
             $nb = [];
             $asset = explode(",", $values['SQL_ARGS']);
             $result_computer = mysql2_query_secure($values['SQL_QUERY'], $_SESSION['OCS']["readServer"], $asset);
@@ -68,7 +70,7 @@ class AssetsCategory
                     </tr>';
 
         if($nb_computer != null){
-            foreach($nb_computer as $key => $value){
+            foreach($nb_computer as $value){
                 foreach($value as $name => $nb){
                     $this->html .= '<tr style="border-bottom:1px solid #ecedee; border-left:1px solid #ecedee; border-right:1px solid #ecedee;text-align:center;padding:15px 0;">
                                         <td style="padding: 0 15px 0 0;">'.$name.'</td>

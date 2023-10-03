@@ -27,6 +27,16 @@
  class Console
  {
 
+  private $excludeArchived = null;
+
+  function __construct() {
+    $configToLookOut = [
+      'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
+    ];
+
+    $this->excludeArchived = look_config_default_values($configToLookOut)['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] ?? 0;
+  } 
+
    /**
     * Get all machine contacted todayand all machines and sort by Agent
     * @param  string $title [table name]
@@ -44,13 +54,13 @@
           $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
           
           while($item = mysqli_fetch_array($result)) {
-            if(strpos($item['USERAGENT'], 'unix') !== false) {
+            if(strpos($item['USERAGENT'] ?? '', 'unix') !== false) {
               $machine['unix'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
-            } elseif(strpos(strtoupper($item['USERAGENT']), 'WINDOWS') !== false) {
+            } elseif(strpos(strtoupper($item['USERAGENT'] ?? ''), 'WINDOWS') !== false) {
               $machine['windows'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
-            } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
+            } elseif(strpos($item['USERAGENT'] ?? '', 'Android') !== false) {
               $machine['android'] = intval($item['nb']);
               $machine['all'] = $machine['all'] + intval($item['nb']);
             }
@@ -62,13 +72,16 @@
         if (is_defined($_SESSION['OCS']["mesmachines"])) {
           $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
         }
+        if($this->excludeArchived == 1) {
+          $sql .= " AND h.ARCHIVE IS NULL";
+        }
         $sql .= " GROUP BY h.USERAGENT";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
         while($item = mysqli_fetch_array($result)){
           if(strpos($item['USERAGENT'], 'unix') !== false) {
             $machine['unix'] = $machine['unix'] + intval($item['nb']);
             $machine['all'] = $machine['all'] + intval($item['nb']);
-          } elseif(strpos($item['USERAGENT'], 'WINDOWS') !== false) {
+          } elseif(strpos(strtoupper($item['USERAGENT']), 'WINDOWS') !== false) {
             $machine['windows'] = $machine['windows'] + intval($item['nb']);
             $machine['all'] = $machine['all'] + intval($item['nb']);
           } elseif(strpos($item['USERAGENT'], 'Android') !== false) {
@@ -97,7 +110,7 @@
       foreach($machine as $key => $value) {
         if($machine[$key] != 0){
           if($title == "CONTACTED"){
-            $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTCOME-TALL']."&values2=".$key."&type_field='>".$value."</a>";
+            $machine[$key] = "<a style='font-size:32px; font-weight:bold;' href='index.php?" . PAG_INDEX . "=visu_search&fields=HARDWARE-LASTCOME&comp=tall&values=".$_SESSION['DATE']['HARDWARE-LASTDATE-TALL']."&values2=".$key."&type_field='>".$value."</a>";
           }elseif($title == "ALL COMPUTER"){
             if($key == 'others') {
               $machine[$key] = "<p style='font-size:32px; font-weight:bold;'>".$value."</p>";
@@ -176,10 +189,8 @@
                       <td style="border-right: 1px solid #ddd;"><span>' . $softs. '</span> </p><span style="color:#333; font-size:13pt;">'.$l->g(20).'</span></td>                   
                     </tr>';
       }
-        
-       $table .= "</table></div>\n";
 
-       return $table;
+       return $table . "</table></div>\n";
    }
 
    /**
@@ -224,7 +235,7 @@
               }
             }
           }else{
-            foreach($cat as $key => $value){
+            foreach($cat as $value){
               $html .= "<tr class='soft-table'><td class='soft-table-td'>".$value."</td><td style='width: 50%;  text-align: center;'>0</td></tr>";
             }
           }
@@ -251,7 +262,7 @@
 			$list_asset_id[$item_asset['ID']] = $item_asset['ID'];
 		}
 
-		if(is_array($list_asset_id)){
+		if(isset($list_asset_id) && is_array($list_asset_id)){
 			foreach($list_asset_id as $key => $values){
         $sql_assets = "SELECT h.ID as hardwareID FROM hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.CATEGORY_ID = %s";
         if (is_defined($_SESSION['OCS']["mesmachines"])) {

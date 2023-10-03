@@ -42,8 +42,6 @@ class ExtensionHook{
     public $languageExtensionsHooks = array();
     public $computerDetailExtensionsHooks = array();
 
-    public $activatedExt = array();
-
     // Simple array of menu available in all loaded extension
     public $extDeclaredMenu = array();
     public $computerDeclaredMenu = array();
@@ -52,11 +50,12 @@ class ExtensionHook{
 
     private $currentScannedExt = "";
 
-    function __construct($activatedExtArray) {
+    public $activatedExt = array();
 
-        $this->activatedExt = $activatedExtArray;
+    function __construct($activatedExt) {
+        $this->activatedExt = $activatedExt;
 
-        foreach ($activatedExtArray as $extLabel) {
+        foreach ($this->activatedExt as $extLabel) {
             if($this->haveHook($extLabel)){
                 $this->readHookXml($extLabel);
             }
@@ -161,7 +160,7 @@ class ExtensionHook{
      * @return array : Values
      */
     public function getCdEntryByCategory($catName){
-        return $this->computerDetailExtensionsHooks[$catName];
+        return $this->computerDetailExtensionsHooks[$catName] ?? '';
     }
 
     /**
@@ -302,7 +301,7 @@ class ExtensionHook{
             return false;
         }else{
             $menusElemArray = array();
-            foreach ($subMenus as $extKey => $subMenusInfos) {
+            foreach ($subMenus as $subMenusInfos) {
                 for ($index = 0; $index < count($subMenusInfos); $index++) {
                     $menusElemArray[$subMenusInfos[$index][self::IDENTIFIER]] = $this->generateMenuRenderer($subMenusInfos[$index], true);
                 }

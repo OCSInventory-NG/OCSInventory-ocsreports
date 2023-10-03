@@ -34,10 +34,10 @@
     public $tables = [
         self::SOFTWARE_TABLE,
         self::NAME_TABLE,
+        self::VERSION_TABLE
     ];
 
-    private $dbObject = null;
-    private $dbName = null;
+    private $dbObject;
     private $columnsList = [];
 
     /**
@@ -46,7 +46,6 @@
     function __construct()
     {
         $this->dbObject = $_SESSION['OCS']["readServer"];
-        $this->dbName = DB_NAME;
     }
 
     /**
@@ -56,7 +55,11 @@
         foreach ($this->tables as $table) {
             $columnsList = mysql2_query_secure("SHOW COLUMNS FROM %s", $this->dbObject, $table);
             while ($columnsInfos = mysqli_fetch_array($columnsList)) {
-                if($table == self::SOFTWARE_TABLE || $columnsInfos['Field'] == "CATEGORY") {
+                if($table == self::SOFTWARE_TABLE 
+                || $columnsInfos['Field'] == "PRETTYVERSION"
+                || $columnsInfos['Field'] == "MAJOR"
+                || $columnsInfos['Field'] == "MINOR"
+                || $columnsInfos['Field'] == "PATCH") {
                     $columnsInfos[DatabaseSearch::TYPE] = $this->normalizeFieldType($columnsInfos['Type']);
                     $this->columnsList[self::SOFTWARE_TABLE][$columnsInfos['Field']] = [
                         DatabaseSearch::FIELD => $columnsInfos[DatabaseSearch::FIELD],
@@ -82,8 +85,7 @@
      */
     private function normalizeFieldType($type)
     {
-        $splittedType = preg_replace('/\(.*?\)|\s*/', '', $type);
-        return $splittedType;
+        return preg_replace('/\(.*?\)|\s*/', '', $type);
     }
 
     /**
@@ -99,11 +101,14 @@
             break;
             case "VERSION_ID" :
                 return self::VERSION_TABLE;
-            case "CATEGORY" :
-                return self::NAME_TABLE;
+            case "PRETTYVERSION" :
+            case "MAJOR" :
+            case "MINOR" :
+            case "PATCH" :
+                return self::VERSION_TABLE;
             break;
             default :
-                return SOFTWARE_TABLE;
+                return self::SOFTWARE_TABLE;
             break;
         }
     }

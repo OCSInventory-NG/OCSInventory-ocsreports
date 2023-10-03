@@ -26,12 +26,31 @@ if (AJAX) {
     ob_start();
 }
 require_once('require/function_computers.php');
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
 //intégration des fonctions liées à la recherche multicritère
 require_once('require/function_search.php');
 require_once('require/archive/ArchiveComputer.php');
 
 $archive = new ArchiveComputer();
+$Admininfo = new Admininfo();
+
+// declare empty filter and value by default
+$getFilter = null;
+$getValue = null;
+
+// if isset protectedGet, check value in
+if(isset($protectedGet['filtre'])) {
+    // clean filter value like xxx.yyy, xxx or xxx.yy_yy
+    $getFilter = preg_replace("/[^A-Za-z0-9\._]/", "", $protectedGet['filtre']);
+}
+
+if(isset($protectedGet['value'])) {
+    // Encode all special html chars
+    $getValue = htmlspecialchars($protectedGet['value'], ENT_QUOTES, 'UTF-8');
+    // Decode special html chars except quotes to prevent SQL injection
+    $getValue = htmlspecialchars_decode($getValue, ENT_NOQUOTES);
+}
+// End check
 
 //show mac address on the tab
 $show_mac_addr = true;
@@ -39,21 +58,22 @@ $tab_options = $protectedPost;
 $tab_options['form_name'] = "show_all";
 $form_name = $tab_options['form_name'];
 $tab_options['table_name'] = "list_show_all";
-if (isset($protectedGet['filtre']) && !isset($protectedPost['FILTRE'])) {
-    if (substr($protectedGet['filtre'], 0, 9) == "a.fields_") {
-        $values_accountinfo = accountinfo_tab(substr($protectedGet['filtre'], 9));
+
+if (!is_null($getFilter) && !isset($protectedPost['FILTRE'])) {
+    if (substr($getFilter, 0, 9) == "a.fields_") {
+        $values_accountinfo = $Admininfo->accountinfo_tab(substr($getFilter, 9));
         if (is_array($values_accountinfo)) {
-            $protectedPost['FILTRE_VALUE'] = $values_accountinfo[$protectedGet['value']];
+            $protectedPost['FILTRE_VALUE'] = $values_accountinfo[$getValue];
         }
     }
-    $protectedPost['FILTRE'] = $protectedGet['filtre'];
+    $protectedPost['FILTRE'] = $getFilter;
     if (!isset($protectedPost['FILTRE_VALUE'])) {
-        $protectedPost['FILTRE_VALUE'] = $protectedGet['value'];
+        $protectedPost['FILTRE_VALUE'] = $getValue;
     }
 }
 
 //del the selection
-if ($protectedPost['DEL_ALL'] != '') {
+if (!empty($protectedPost['DEL_ALL'])) {
     foreach ($protectedPost as $key => $value) {
         $checkbox = explode('check', $key);
         if (isset($checkbox[1])) {
@@ -64,34 +84,32 @@ if ($protectedPost['DEL_ALL'] != '') {
 }
 
 //delete one computer
-if ($protectedPost['SUP_PROF'] != '') {
+if (!empty($protectedPost['SUP_PROF'])) {
     deleteDid($protectedPost['SUP_PROF']);
     $tab_options['CACHE'] = 'RESET';
 }
 
 //archive one computer
-if ($protectedPost['ARCHIVER'] != '') {
+if (!empty($protectedPost['ARCHIVER'])) {
     $archive->archive($protectedPost['ARCHIVER']);
     $tab_options['CACHE'] = 'RESET';
+    unset($protectedPost['ARCHIVER']);
 }
 
-//archive one computer
-if ($protectedPost['RESTORE'] != '') {
+//restore one computer
+if (!empty($protectedPost['RESTORE'])) {
     $archive->restore($protectedPost['RESTORE']);
     $tab_options['CACHE'] = 'RESET';
+    unset($protectedPost['RESTORE']);
 }
 
-if (!isset($protectedPost['tri_' . $table_name]) || $protectedPost['tri_' . $table_name] == "") {
-    $protectedPost['tri_' . $table_name] = "h.lastdate";
-    $protectedPost['sens_' . $table_name] = "DESC";
-}
 echo open_form($form_name, '', '', 'form-horizontal');
 
 $def_onglets['ALL'] = $l->g(1557);
 $def_onglets['ACTIVE'] = $l->g(1555);
 $def_onglets['ARCHIVE'] = $l->g(1554);
 
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "ACTIVE";
 }
 
@@ -107,7 +125,8 @@ if($protectedPost['onglet'] == "ACTIVE") {
 }
 
 //BEGIN SHOW ACCOUNTINFO
-$accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
+
+$accountinfo_value = $Admininfo->interprete_accountinfo($list_fields ?? null, $tab_options);
 if (array($accountinfo_value['TAB_OPTIONS'])) {
     $tab_options = $accountinfo_value['TAB_OPTIONS'];
 }
@@ -143,6 +162,8 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
     $l->g(34) => "h.ipaddr",
+    $l->g(207) => "h.defaultgateway",
+    $l->g(9930) => "h.dns",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -151,7 +172,6 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
 if ($show_mac_addr) {
     $list_fields2[$l->g(95)] = "n.macaddr";
     $list_fields2[$l->g(208)] = "n.ipmask";
-    $list_fields2[$l->g(207)] = "n.ipgateway";
     $list_fields2[$l->g(331)] = "n.ipsubnet";
 }
 
@@ -185,6 +205,8 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(65) => "e.smodel",
     $l->g(209) => "e.bversion",
     $l->g(34) => "h.ipaddr",
+    $l->g(207) => "h.defaultgateway",
+    $l->g(9930) => "h.dns",
     $l->g(557) => "h.userdomain",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
@@ -197,13 +219,19 @@ $select_fields = array_merge($list_fields, $select_fields2);
 $tab_options['FILTRE'] = array_flip($list_fields);
 $tab_options['FILTRE']['h.name'] = $l->g(23);
 asort($tab_options['FILTRE']);
+
+
+if ($protectedPost['onglet'] != "ALL" && $_SESSION['OCS']['profile']->getConfigValue('ARCHIVE_COMPUTERS') == "YES") {
+    $list_fields[$icon] = 'h.ID';
+
+}
+
 if ($_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {
-    $list_fields['CHECK'] = 'h.ID';
-    if($protectedPost['onglet'] != "ALL") {
-        $list_fields[$icon] = 'h.ID';
-    }
     $list_fields['SUP'] = 'h.ID';
 }
+
+$list_fields['CHECK'] = 'h.ID';
+
 $list_col_cant_del = array('SUP' => 'SUP', 'NAME' => 'NAME', 'CHECK' => 'CHECK');
 if($protectedPost['onglet'] != "ALL") {
     $list_col_cant_del[$icon] = $icon;
@@ -243,17 +271,13 @@ if($protectedPost['onglet'] == "ACTIVE") {
 
 
 // TAG RESTRICTIONS
-if (is_defined($_GET['value']) && $_GET['filtre'] == "a.TAG") {
-    $tag = $_GET['value'];
-    $tag = htmlspecialchars($tag, ENT_QUOTES, 'UTF-8');
-    $queryDetails .= "AND a.TAG= '$tag' ";
+if (!is_null($getValue) && $getFilter == "a.TAG") {
+    $queryDetails .= "AND a.TAG= '$getValue' ";
 }
 
-// TAG RESTRICTIONS
-if (is_defined($_GET['value']) && strpos($_GET['filtre'], 'a.fields_') === 0){
-    $tag = $_GET['value'];
-    $fields = $_GET['filtre'];
-    $queryDetails .= "AND ".$fields."= '$tag' ";
+// ACCOUNTINFO RESTRICTIONS
+if (!is_null($getValue) && strpos($getFilter, 'a.fields_') === 0){
+    $queryDetails .= "AND ".$getFilter."= '$getValue' ";
 }
 
 if (is_defined($_SESSION['OCS']["mesmachines"])) {
@@ -287,7 +311,7 @@ $list_pag["image/groups_search.png"] = $pages_refs["ms_custom_groups"];
 
 $list_pag["image/cadena_ferme.png"] = $pages_refs["ms_custom_lock"];
 $list_pag["image/mass_affect.png"] = $pages_refs["ms_custom_tag"];
-add_trait_select($list_fonct, $list_id, $form_name, $list_pag, true);
+add_trait_select($list_fonct, $list_id ?? null, $form_name, $list_pag, true);
 echo "<br><br>";
 
 if ($entete && $_SESSION['OCS']['profile']->getConfigValue('DELETE_COMPUTERS') == "YES") {

@@ -780,8 +780,9 @@
 891 DEVERROUILLER l'interface
 892 se connecter avec un autre compte
 893 PAS DE TAG AFFECTE A VOTRE PROFIL
-894 PAS DE NIVEAU DE DROITS DEFINI POUR VOTRE PROFIL
+894 Aucun niveau de droits n'a été défini pour votre profil, merci de contacter votre administrateur
 895 Modification d'un TAG
+896 Vous n'avez pas accès à cette page, veuillez contacter votre administrateur
 898 Ajouter une annotation
 899 Rédacteur
 900 Etes-vous sûr de vouloir supprimer la sélection?
@@ -995,12 +996,12 @@
 1108 Configuration LDAP
 1109 Filtrer
 1110 L'affectation d'un paquet dépend du statut de la demande
-1111 Nom du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1111 Premier filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1112 Valeur du premier attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1113 Si le premier attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
-1114 Nom du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
+1113 Si l'utilisateur est trouvé avec le premier filtre, réglez ce profil d'utilisateur automatiquement
+1114 Deuxième filtre qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
 1115 Valeur du deuxième attribut qui sera utilisé pour évaluer le niveau de sécurité d'un utilisateur LDAP (vide pour aucun)
-1116 Si le second attribut est trouvé et la valeur correspond, réglez ce profil d'utilisateur automatiquement
+1116 Si l'utilisateur est trouvé avec le second filtre, réglez ce profil d'utilisateur automatiquement
 1117 E-mail
 1118 Editer
 1119 Sélectionner
@@ -1358,7 +1359,7 @@
 1477 Résultat Nom
 1478 Ou importer un fichier CSV
 1479 Importer
-1480 Télécharger le fichier CSV exemple
+1480 Télécharger le fichier CSV des correspondances les plus connues
 1481 Historiques des CVEs
 1482 Dernière date d'exécution
 1483 Nombre de CVE
@@ -1397,6 +1398,14 @@
 1515 Tous les OS
 1516 Tous les logiciels (sauf défaut)
 1517 Aucune catégorie n'a été sélectionnée
+1518 Liste des regex
+1519 Machines manquantes : 
+1520 (des données CSV sont importées)
+1521 Afficher le compte des installations logiciels
+1522 Version standardisée
+1523 Version majeure
+1524 Version mineure
+1525 Version patch
 
 1550 Voulez-vous vraiment archiver  
 1551 Archiver
@@ -1563,6 +1572,11 @@
 2142 Créer une recherche
 2143 La recherche a été sauvegardée
 2144 Mettre à jour une recherche existante
+2145 Qui peut voir ?
+2146 Seulement moi
+2147 Mon groupe
+2148 Tous les utilisateurs
+2149 Met à jour la date quand les périphériques sont mis à jour
 
 5000 [DEBUG]requête d'insertion de machines =>[DEBUG]
 5001 [DEBUG]REQUETE JOUEE => [DEBUG]
@@ -1618,7 +1632,7 @@
 7014 Il n'y a aucune extensions disponible
 7015 Sélectionnez au minimum un ordinateur !
 7016 MTU
-7017 L'extension a été installée avec succès ! <br> Merci de vous déconnecter et reconnecter afin de terminer l'installation.
+7017 L'extension a été installée avec succès ! <br> Merci de vous déconnecter et reconnecter afin de terminer l'installation. <br> Il peut être nécessaire de mettre à jour les permissions des profils pour accéder à la page de l'extension.
 7018 Cette extension est déjà installée.
 7019 Une erreur PHP est survenue.
 7020 L'extension a été désinstallée avec succès !
@@ -1699,6 +1713,16 @@
 9028 Une erreur est survenue lors de la suppression du type
 9029 Une erreur est survenue lors de la suppression du label
 9030 Une erreur est survenue lors de la suppression de la configuration
+9031 Conditions du type
+9032 Jokers: * ( plusieurs caractères au début de la valeur de la chaîne OID ou à la fin de la valeur de la chaîne OID )
+9033 Protocole d'authentification
+9034 Protocole de confidentialité
+9035 Mot de passe de confidentialité
+9036 Aucun OID trouvé
+9037 Equipement contacté aujourd'hui
+9038 Nombre d'équipements par type
+9039 Aperçu rapide
+9040 Exporter tous les types SNMP
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
@@ -1706,6 +1730,7 @@
 9103 Mode SSL
 9104 Chemin du certificat CA
 9105 Port MySQL
+9106 Protocole de téléchargement par défaut
 
 9200 Deploiement de paquet pour la machine
 9201 Deploiement de paquet pour la sélection
@@ -1714,7 +1739,8 @@
 9204 Configurer le ratio de fragmentation des paquets
 9205 Activer l'auto activation des paquets
 9206 Activé
-
+9207 Date de déploiement
+9208 En attente de déploiement
 
 9300 Interactions
 9301 Options
@@ -1748,6 +1774,8 @@
 9326 Installer avec brew
 9327 Script Apple
 
+9328 Installation plugin
+
 9340 Script
 9341 Fichier MSI
 9342 URL du répertoire
@@ -1771,6 +1799,14 @@
 9360 dnf
 9361 Recharger
 9362 Fichier
+9363 Fichier agent du plugin
+9364 Ligne configuration
+9365 Ligne devant être ajoutée au fichier modules.conf (ex: 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Chemin du répertoire Modules de l'agent
+9367 Mettre l'option ci-dessous sur LANCER retournera le paquet comme en erreur si le code de sortie est différent de 0. La mettre sur EXECUTER retournera le code de sortie avec le statut au serveur. 
+9368 Mode d'éxecution : 
+9369 LANCER
+9370 EXECUTER
 
 9500 Fusionner la sélection
 9501 Tout fusionner
@@ -1790,3 +1826,83 @@
 9611 Répertoire de fichiers temporaires
 9612 Importer depuis un CSV
 9613 Échec de l'import du CSV, veuillez vérifier la configuration du répertoire de fichiers temporaires dans la configuration générale d'OCS
+9614 Erreur d'import. Seuls les fichiers CSV sont acceptés
+9615 Échec de l'import des données
+
+9650 Nombre de filtres LDAP (minimum 1, maximum égal au nombre de profils)
+
+9651 Historique
+9653 Nom utilisateur
+9654 Date et heure
+9655 Action
+9656 Cible de l'action
+
+9700 Port du serveur CAS, e.g. : 443
+9701 URI du serveur CAS, e.g : /cas
+9702 Adresse du serveur CAS, e.g. : authentication.org
+9703 Profil par défaut, appliqué à la première connexion CAS
+9704 Configuration CAS
+
+9800 Exlure les machines archivées des Statistiques, de l'inventaire CVE, du compte de Tous les logiciels, du compte des machines par TAG
+9801 Afficher le diagramme bios dans le dashboard
+
+9802 Afficher les liens CVE search
+
+9900 Dispositions
+9901 Disposition créée
+9902 Disposition supprimée
+9903 Erreur lors de la création de la disposition
+9904 Veuillez vérifier votre entrée. Répétez le processus si le problème persiste.
+9905 Erreur lors de la suppression de la disposition
+9906 Une disposition avec le même nom ou les mêmes colonnes existe déjà pour votre utilisateur/portée de visibilité. Veuillez choisir un autre nom ou d'autres colonnes.
+9907 Gestion des dispositions
+9908 Afficher les dispositions
+9909 Ajouter une disposition
+9910 Dispositions disponibles :
+9911 Nom de la disposition
+9912 Description de la disposition
+9913 Nom de la table
+9914 Créateur
+9915 Portée de visibilité 
+9916 La mise à jour de la disposition a échoué, veuillez vérifier qu'une autre disposition n'a pas le même nom et la même portée de visibilité
+9917 Public
+9918 Groupe
+9919 Personnel
+9920 Disposition mise à jour
+9921 Est autorisé à gérer les dispositions
+
+9930 DNS
+
+9940 Est autorisé à gérer les recherches sauvegardées
+
+9950 Notifications
+9951 Veuillez vérifier que les notifications ont été correctement configurées pour que l'envoi des rapports fonctionne
+9952 Notification de rapport créée avec succès
+9953 Notification de rapport mise à jour avec succès 
+9954 Veuillez choisir une récurrence
+9955 Veuillez ajouter au moins un destinataire, ou plusieurs destinataires séparés par une virgule
+9956 journalière
+9957 hebdomadaire
+9958 mensuelle
+9959 Activation : 
+9960 Récurrence du rapport : 
+9961 Destinataire(s) : 
+9962 Jour de la récurrence : 
+9963 Date de fin : 
+
+9970 Vous n'êtes pas authorisé à modifier cet utilisateur
+9971 Voulez-vous vraiment ré-affecter le paquet 
+9972 Affecter à nouveau
+
+9980 Scans réseau
+9981 Méthode utilisée pour les scans IpDiscover effectués par les agents (nmap, ICMP, ARP scan)<br><br>Note : ARP scan ne balayera que le réseau local
+9982 Méthode utilisée pour les scans SNMP effectués par les agents Linux (nmap, ICMP, ARP scan)<br><br>Note : ARP scan ne balayera que le réseau local
+9983 Si ARP scan est sélectionné : bande passante utilisée par ARP scan (en Kbps)
+9984 Exporter la configuration SNMP
+9985 Télécharger la configuration des communautés SNMP
+9986 Télécharger la configuration des types SNMP
+9987 Export de configuration pour le scan SNMP local : La configuration sera téléchargée sous forme de fichier XML pouvant être utilisé pour configurer un agent pour le scan SNMP local. <br> Notez que la configuration du scan SNMP retournera la configuration générale des scans réseau si exporté depuis cette page. Si vous souhaitez obtenir une configuration de groupe ou de machine, rendez vous sur la page du groupe ou de la machine, puis accédez à la configuration.
+9988 Export de configuration
+9989 Télécharger la configuration du scan SNMP
+9990 Télécharger la liste des réseaux SNMP
+9991 Génère les fichiers SNMP

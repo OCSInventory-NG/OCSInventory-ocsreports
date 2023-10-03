@@ -55,8 +55,26 @@ $tab_options = $protectedPost;
 $data_on['AVAILABLE_PACKET'] = $l->g(2123);
 $data_on['DELETED_PACKET'] = $l->g(2124);
 
-if ($protectedPost['onglet'] != $protectedPost['old_onglet']) {
+if (isset($protectedPost['onglet']) && isset($protectedPost['old_onglet']) && ($protectedPost['onglet'] != $protectedPost['old_onglet'])) {
     unset($protectedPost['MODIF']);
+}
+
+// Check GET active value
+$getActive = null;
+if(isset($protectedGet["active"])) {
+    $getActive = preg_replace("/[^0-9]/", "", $protectedGet["active"]);
+}
+
+// Check POST HTTPS server value
+$postHTTPSServ = null;
+if(isset($protectedPost["HTTPS_SERV"])) {
+    $postHTTPSServ = preg_replace("/[^A-Za-z0-9\._\-\/:]/", "", $protectedPost["HTTPS_SERV"]);
+}
+
+// Check POST file server value
+$postFileServ = null;
+if(isset($protectedPost["FILE_SERV"])) {
+    $postFileServ = preg_replace("/[^A-Za-z0-9\._\-\/:]/", "", $protectedPost["FILE_SERV"]);
 }
 
 if (is_defined($protectedPost['Valid_modif'])) {
@@ -65,24 +83,24 @@ if (is_defined($protectedPost['Valid_modif'])) {
     $opensslOk = function_exists("openssl_open");
 
     if ($opensslOk) {
-        $httpsOk = @fopen("https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/info", "r");
+        $httpsOk = @fopen("https://" . $postHTTPSServ . "/" . $getActive . "/info", "r");
     } else {
         $error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
     }
 
     if (!$httpsOk) {
-        $error .= $l->g(466) . " https://" . $protectedPost["HTTPS_SERV"] . "/" . $protectedGet["active"] . "/<br>";
+        $error .= $l->g(466) . " https://" . $postHTTPSServ . "/" . $getActive . "/<br>";
     } else {
         fclose($httpsOk);
     }
 
     if ($protectedPost['choix_activ'] == "MAN") {
-        $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $protectedGet["active"] . "'";
+        $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $getActive . "'";
         $resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);
         $valFrags = mysqli_fetch_array($resFrags);
         $fragAvail = ($valFrags["fragments"] > 0);
         if ($fragAvail) {
-            $fragOk = @fopen("http://" . $protectedPost["FILE_SERV"] . "/" . $protectedGet["active"] . "/" . $protectedGet["active"] . "-1", "r");
+            $fragOk = @fopen("http://" . $postFileServ . "/" . $getActive . "/" . $getActive . "-1", "r");
         } else {
             $fragOk = true;
         }
@@ -90,18 +108,14 @@ if (is_defined($protectedPost['Valid_modif'])) {
         $fragOk = true;
     }
 
-    if ($fragAvail) {
+    if (isset($fragOk) && !is_bool($fragAvail)) {
         fclose($fragOk);
     }
 }
 
 if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
-    if ($protectedPost['choix_activ'] == "MAN") {
-        activ_pack($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV']);
-    }
-
-    if ($protectedPost['choix_activ'] == "AUTO") {
-        activ_pack_server($protectedGet["active"], $protectedPost["HTTPS_SERV"], $protectedPost['FILE_SERV_REDISTRIB']);
+    if (isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] == "MAN") {
+        activ_pack($getActive, $postHTTPSServ, $postFileServ);
     }
     echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
 }
@@ -113,12 +127,12 @@ echo '<div class="col col-md-10" >';
 if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     //only for profils who can activate packet
     if (!$cant_active) {
-        if ($protectedPost["SUP_PROF"] != "") {
+        if (!empty($protectedPost["SUP_PROF"])) {
             del_pack($protectedPost["SUP_PROF"]);
             $tab_options['CACHE'] = 'RESET';
         }
         //delete more than one packet
-        if ($protectedPost['del_check'] != '') {
+        if (!empty($protectedPost['del_check'])) {
             foreach (explode(",", $protectedPost['del_check']) as $key) {
                 del_pack($key);
                 $tab_options['CACHE'] = 'RESET';
@@ -126,7 +140,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         }
     }
 
-    if (!$protectedPost['SHOW_SELECT']) {
+    if (!isset($protectedPost['SHOW_SELECT'])) {
         $protectedPost['SHOW_SELECT'] = 'download';
         $tab_options['SHOW_SELECT'] = 'download';
     }
@@ -152,7 +166,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
             $config_document_root = "DOWNLOAD_REP_CREAT";
         }
         $info_document_root = look_config_default_values($config_document_root);
-        $document_root = $info_document_root["tvalue"][$config_document_root];
+        $document_root = $info_document_root["tvalue"][$config_document_root] ?? '';
         //if no directory in base, take $_SERVER["DOCUMENT_ROOT"]
         if (!isset($document_root)) {
             $document_root = VARLIB_DIR . '/download';
@@ -171,7 +185,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
                     $tab_options['SHOW_ONLY']['ZIP'][$f] = $f;
                 }
             }
-            if (!$tab_options['SHOW_ONLY']['ZIP']) {
+            if (isset($tab_options['SHOW_ONLY']['ZIP']) && !$tab_options['SHOW_ONLY']['ZIP']) {
                 $tab_options['SHOW_ONLY']['ZIP'] = 'NULL';
             }
         } else {
@@ -181,44 +195,41 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $tab_options['SHOW_ONLY']['ZIP'] = 'NULL';
     }
 
-    //only for profils who can activate packet
-    if (!$cant_active) {
-        //javascript for manual activate
-        echo "<script language='javascript'>
-                            function manualActive()
-                             {
-                                    var msg = '';
-                                    var lien = '';
-                                    if( isNaN(document.getElementById('manualActive').value) || document.getElementById('manualActive').value=='' )
-                                            msg = '" . $l->g(473) . "';
-                                    if( document.getElementById('manualActive').value.length != 10 )
-                                            msg = '" . $l->g(474) . "';
-                                    if (msg != ''){
-                                            document.getElementById('manualActive').style.backgroundColor = 'RED';
-                                            alert (msg);
-                                            return false;
-                                    }else{
-                                            lien='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_tele_popup_active'] . "&head=1&active='+ document.getElementById('manualActive').value;
-                                            window.open(lien,\"active\",\"location=0,status=0,scrollbars=0,menubar=0,resizable=0,width=550,height=350\");
-                                    }
-                    }
-                    </script>";
-    }
-
     $list_fields = array($l->g(475) => 'FILEID',
-        $l->g(593) => 'CAST(from_unixtime(FILEID) AS DATETIME)',
+        $l->g(593) => 'CREADATE',
         'SHOWACTIVE' => 'NAME',
         $l->g(440) => 'PRIORITY',
         $l->g(464) => 'FRAGMENTS',
-        $l->g(462) . " KB" => 'round(SIZE/1024,2)',
+        $l->g(462) . " KB" => 'WEIGHT',
         $l->g(25) => 'OSNAME',
         $l->g(53) => 'COMMENT');
-    $tab_options['REPLACE_COLUMN_KEY'][$l->g(593)] = 'CREADATE';
-    $tab_options['REPLACE_COLUMN_KEY'][$l->g(462) . " KB"] = 'WEIGHT';
+
     // Prevents searching in these 3 columns
     $tab_options['NO_SEARCH']['NOTI'] = 'NOTI';
     $tab_options['NO_SEARCH']['SUCC'] = 'SUCC';
     $tab_options['NO_SEARCH']['ERR_'] = 'ERR_';
+
+    $table_name = "LIST_PACK";
+    $default_fields = array('Timestamp' => 'Timestamp',
+        $l->g(593) => $l->g(593),
+        'SHOWACTIVE' => 'SHOWACTIVE',
+        'CHECK' => 'CHECK', 'NOTI' => 'NOTI', 'SUCC' => 'SUCC',
+        'ERR_' => 'ERR_', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP');
+    $list_col_cant_del = array('SHOWACTIVE' => 'SHOWACTIVE', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'CHECK' => 'CHECK');
+    $querypack = 'SELECT ';
+    foreach ($list_fields as $key => $value) {
+        if ($key != $l->g(593) && $key != $l->g(462) . " KB") {
+            $querypack .= $value . ',';
+        }
+        if ($key == $l->g(593)) {
+            $querypack .= ' CAST(from_unixtime(FILEID) AS DATETIME) as ' . $value . ',';
+        }
+        if ($key == $l->g(462) . " KB") {
+            $querypack .= ' round(SIZE/1024,2) as ' . $value . ',';
+        }
+    }
+    $querypack = substr($querypack, 0, -1);
+
     if ($show_stats) {
         $list_fields['NO_NOTIF'] = 'NO_NOTIF';
         $list_fields['NOTI'] = 'NOTI';
@@ -240,31 +251,19 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     }
     $list_fields['STAT'] = 'FILEID';
 
-    $table_name = "LIST_PACK";
-    $default_fields = array('Timestamp' => 'Timestamp',
-        $l->g(593) => $l->g(593),
-        'SHOWACTIVE' => 'SHOWACTIVE',
-        'CHECK' => 'CHECK', 'NOTI' => 'NOTI', 'SUCC' => 'SUCC',
-        'ERR_' => 'ERR_', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP');
-    $list_col_cant_del = array('SHOWACTIVE' => 'SHOWACTIVE', 'SUP' => 'SUP', 'ACTIVE' => 'ACTIVE', 'STAT' => 'STAT', 'ZIP' => 'ZIP', 'CHECK' => 'CHECK');
-    $querypack = prepare_sql_tab($list_fields, array('SELECT', 'ZIP', 'STAT', 'ACTIVE', 'SUP', 'CHECK', 'NO_NOTIF', 'NOTI', 'SUCC', 'ERR_'));
-
-    $querypack['SQL'] .= " from download_available ";
+    $querypack .= " from download_available ";
     if ($protectedPost['SHOW_SELECT'] == 'download') {
-        $querypack['SQL'] .= " where (comment not like '%s' or comment is null or comment = '')";
+        $querypack .= " where (comment not like '[PACK REDISTRIBUTION%' or comment is null or comment = '')";
     } else {
-        $querypack['SQL'] .= " where comment like '%s'";
+        $querypack .= " where comment like '[PACK REDISTRIBUTION%'";
     }
-    $querypack['SQL'] .= " and DELETED = 0";
-    array_push($querypack['ARG'], "[PACK REDISTRIBUTION%");
+
+    $querypack .= " and DELETED = 0";
     $arg_count = array("[PACK REDISTRIBUTION%");
     if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_VISIBLE', 'YES') == "YES") {
-        $querypack['SQL'] .= " and comment not like '%s'";
-        array_push($querypack['ARG'], "%[VISIBLE=0]%");
-        array_push($arg_count, "%[VISIBLE=0]%");
+        $querypack .= " and comment not like '%[VISIBLE=0]%'";
     }
 
-    $tab_options['ARG_SQL'] = $querypack['ARG'];
     $tab_options['ARG_SQL_COUNT'] = $arg_count;
     $tab_options['LBL'] = array('ZIP' => "Archives",
         'STAT' => $l->g(574),
@@ -275,7 +274,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         'SUCC' => $l->g(572),
         'ERR_' => $l->g(344));
     $tab_options['REQUEST']['STAT'] = 'select distinct fileid AS FIRST from devices d,download_enable de where d.IVALUE=de.ID ';
-    if ($restrict_computers) {
+    if (isset($restrict_computers)) {
         $tab_options['REQUEST']['STAT'] .= 'and d.hardware_id in ';
         $temp = mysql2_prepare($tab_options['REQUEST']['STAT'], array(), $restrict_computers);
         $tab_options['ARG']['STAT'] = $temp['ARG'];
@@ -286,7 +285,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     $tab_options['REQUEST']['SHOWACTIVE'] = 'select distinct fileid AS FIRST from download_enable';
     $tab_options['FIELD']['SHOWACTIVE'] = 'FILEID';
     //on force le tri desc pour l'ordre des paquets
-    if (!$protectedPost['sens_' . $table_name]) {
+    if (!isset($protectedPost['sens_' . $table_name])) {
         $protectedPost['sens_' . $table_name] = 'DESC';
     }
 
@@ -309,7 +308,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI'] = array('NOTI', 'LIKE', 'NOTI%');
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF'] = array('NO_NOTIF', 'IS NULL');
 
-        if ($restrict_computers) {
+        if (isset($restrict_computers)) {
             $sql_data_fixe .= " and d.hardware_id in ";
             $sql_data_fixe_bis .= " and d.hardware_id in ";
             $sql_data_fixe_ter .= " and d.hardware_id in ";
@@ -318,7 +317,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
             $temp_ter = mysql2_prepare($sql_data_fixe_ter, array(), $restrict_computers);
         }
         foreach ($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key => $value) {
-            if ($restrict_computers) {
+            if (isset($restrict_computers)) {
                 if ($key != 'NO_NOTIF' && $key != 'ERR_') {
                     $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL'] . " group by FILEID";
@@ -355,24 +354,6 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     if (!$cant_active){
         del_selection($form_name);
     }
-    ?>
-    <div class="row rowMarginTop30">
-        <div class="col-md-6 col-md-offset-3">
-            <?php if ($protectedPost['SHOW_SELECT'] == 'download'): ?>
-            <div class="form-group">
-                <label class="control-label col-sm-4" for="manualActive"><?php echo $l->g(476); ?></label>
-                <div class="col-sm-8">
-                    <div class="input-group">
-                        <input type="text" name="manualActive" id="manualActive" size="" maxlength="10" value="<?php echo isset($protectedPost['manualActive']); ?>" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <a href="#" class="btn btn-success" onclick="manualActive()"><?php echo $l->g(13); ?></a>
-            <?php endif; ?>
-        </div>
-    </div>
-    <?php
-    //only for profils who can activate packet
 
 }elseif ( $protectedPost['onglet'] == "DELETED_PACKET") {
 
@@ -398,7 +379,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
     $list_col_cant_del = $list_fields;
     $default_fields = $list_fields;
 
-    $querypack['SQL'] = "SELECT * FROM download_available WHERE DELETED = 1";
+    $querypack = "SELECT * FROM download_available WHERE DELETED = 1";
     $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 }
 
@@ -407,6 +388,6 @@ echo "</div>";
 
 if (AJAX) {
     ob_end_clean();
-    tab_req($list_fields, $default_fields, $list_col_cant_del, $querypack['SQL'], $tab_options);
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $querypack, $tab_options);
 }
 ?>

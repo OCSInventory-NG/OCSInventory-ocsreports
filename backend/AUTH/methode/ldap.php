@@ -30,7 +30,7 @@
  * */
 
 connexion_local_read();
-$sql = "select substr(NAME,7) as NAME,TVALUE from config where NAME like '%s'";
+$sql = "select substr(NAME,7) as NAME,TVALUE from config_ldap where NAME like '%s'";
 $arg = array('%CONEX%');
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
@@ -43,6 +43,22 @@ while ($item = mysqli_fetch_object($res)) {
 $_SESSION['OCS']['config'] = $config;
 
 $login_successful = verif_pw_ldap($login, $mdp);
+
+if($login_successful == "BAD LOGIN OR PASSWORD") {
+    $login_successful = $l->g(180);
+}
+// Check if defaultRole is not empty
+if($login_successful == "OK") {
+    $defaultRole = $config['LDAP_CHECK_DEFAULT_ROLE'];
+
+    if (isset($_SESSION['OCS']['details']["filter"])) {
+        $defaultRole = $config[$_SESSION['OCS']['details']["filter"]];
+    }
+    
+    if(trim($defaultRole) == "") {
+        $login_successful = $l->g(894);
+    }
+}
 $cnx_origine = "LDAP";
 $user_group = "LDAP";
 
@@ -56,48 +72,46 @@ function verif_pw_ldap($login, $pw) {
 }
 
 function search_on_loginnt($login) {
-    $f1_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD1_NAME'];
-    $f2_name = $_SESSION['OCS']['config']['LDAP_CHECK_FIELD2_NAME'];
-
     // default attributes for query
     $attributs = array("dn", "cn", "givenname", "sn", "mail", "title", "memberof");
+    foreach ($_SESSION['OCS']['config'] as $config_elem => $value) {
+        if (preg_match('/^LDAP_FILTER[0-9]*$/', $config_elem)) {
+            if(trim($value) != "" && $value != null) {
+                $filter = str_replace("&amp;", "&", $value);
+                $ds = ldap_connection();
+                $filtre = "(".$filter."(".LOGIN_FIELD."={$login}))";
+                $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
+                $lce = ldap_count_entries($ds, $sr);
+                $info = ldap_get_entries($ds, $sr);
+                ldap_close($ds);
+                $info["nbResultats"] = $lce;
 
-    // search for the custom user level attributes if they're defined
-    if ($f1_name != '') {
-        array_push($attributs, strtolower($f1_name));
-    }
+                $filter_num = (int) preg_replace('/[^0-9]/', '', $config_elem);
 
-    if ($f2_name != '') {
-        array_push($attributs, strtolower($f2_name));
-    }
-
-    $ds = ldap_connection();
-    $filtre = "(" . LOGIN_FIELD . "={$login})";
-    $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
-    $lce = ldap_count_entries($ds, $sr);
-    $info = ldap_get_entries($ds, $sr);
-    ldap_close($ds);
-    $info["nbResultats"] = $lce;
-
-    // save user fields in session
-    $_SESSION['OCS']['details']['givenname'] = $info[0]['givenname'][0];
-    $_SESSION['OCS']['details']['sn'] = $info[0]['sn'][0];
-    $_SESSION['OCS']['details']['cn'] = $info[0]['cn'][0];
-    $_SESSION['OCS']['details']['mail'] = $info[0]['mail'][0];
-    $_SESSION['OCS']['details']['title'] = $info[0]['title'][0];
-
-    if (strtolower($f1_name) == "memberof") {    
-        $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)];
-    } else {
-        $_SESSION['OCS']['details'][$f1_name] = $info[0][strtolower($f1_name)][0];
+                if($info["nbResultats"] == 1) {
+                    $_SESSION['OCS']['details']["filter"] = "LDAP_FILTER".$filter_num."_ROLE";
+                }
+            } 
+        }
     }
     
-
-    if (strtolower($f2_name) == "memberof") {
-        $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)];
-    } else {
-        $_SESSION['OCS']['details'][$f2_name] = $info[0][strtolower($f2_name)][0];
+    // Default login ldap
+    if((trim($filter) == "" && $filter == null) || (isset($info["nbResultats"]) && $info["nbResultats"] != 1)) {
+        $ds = ldap_connection();
+        $filtre = "(".LOGIN_FIELD."={$login})";
+        $sr = ldap_search($ds, DN_BASE_LDAP, $filtre, $attributs);
+        $lce = ldap_count_entries($ds, $sr);
+        $info = ldap_get_entries($ds, $sr);
+        ldap_close($ds);
+        $info["nbResultats"] = $lce;
     }
+
+    // save user fields in session
+    $_SESSION['OCS']['details']['givenname'] = $info[0]['givenname'][0] ?? '';
+    $_SESSION['OCS']['details']['sn'] = $info[0]['sn'][0] ?? '';
+    $_SESSION['OCS']['details']['cn'] = $info[0]['cn'][0] ?? '';
+    $_SESSION['OCS']['details']['mail'] = $info[0]['mail'][0] ?? '';
+    $_SESSION['OCS']['details']['title'] = $info[0]['title'][0] ?? '';
     
     return $info;
 }
@@ -125,8 +139,8 @@ function ldap_connection() {
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, LDAP_PROTOCOL_VERSION);
     ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
-    if (ROOT_DN != '' && defined('ROOT_DN')) {
-        $b = ldap_bind($ds, ROOT_DN, ROOT_PW);
+    if (defined('ROOT_DN') && ROOT_DN != '') {
+        $b = ldap_bind($ds, ROOT_DN, htmlspecialchars_decode(ROOT_PW));
     } else { //Anonymous bind
         $b = ldap_bind($ds);
     }

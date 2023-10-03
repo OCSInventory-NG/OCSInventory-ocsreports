@@ -44,16 +44,16 @@
         <value>tag_search</value>
         <directory>ms_multi_search</directory>
     </url>
+    <url key="ms_custom_tag_snmp">
+        <value>tag_search_snmp</value>
+        <directory>ms_multi_search</directory>
+    </url>
     <url key="ms_dict">
         <value>admin_dico</value>
         <directory>ms_dict</directory>
     </url>
     <url key="ms_upload_file">
         <value>admin_upload</value>
-        <directory>ms_upload_file</directory>
-    </url>
-    <url key="ms_upload_file_popup">
-        <value>upload_file</value>
         <directory>ms_upload_file</directory>
     </url>
     <url key="ms_regconfig">
@@ -67,6 +67,10 @@
     <url key="ms_cve_history">
         <value>cve_history</value>
         <directory>ms_cve_history</directory>
+    </url>
+    <url key="ms_history">
+        <value>history</value>
+        <directory>ms_history</directory>
     </url>
     <url key="ms_admininfo">
         <value>admin_info</value>
@@ -156,10 +160,6 @@
         <value>tele_pack</value>
         <directory/>
     </url>
-    <url key="ms_rules_redistrib">
-        <value>rules_redistrib</value>
-        <directory>ms_teledeploy</directory>
-    </url>
     <url key="ms_custom_param">
         <value>opt_param</value>
         <directory>ms_config</directory>
@@ -186,6 +186,14 @@
     </url>
     <url key="ms_csv">
         <value>export_csv</value>
+        <directory>ms_export</directory>
+    </url>
+    <url key="ms_csv_snmp">
+        <value>export_csv_snmp</value>
+        <directory>ms_export</directory>
+    </url>
+    <url key="ms_export_snmp_conf">
+        <value>export_snmp_conf</value>
         <directory>ms_export</directory>
     </url>
     <url key="ms_tele_stats">
@@ -216,17 +224,9 @@
         <value>soft_cat_option</value>
         <directory>ms_soft_cat</directory>
     </url>
-    <url key="ms_snmp">
-        <value>snmp</value>
-        <directory>ms_snmp</directory>
-    </url>
     <url key="ms_snmp_detail">
         <value>snmp_detail</value>
-        <directory>ms_snmp</directory>
-    </url>
-    <url key="ms_server_redistrib">
-        <value>server_redistrib</value>
-        <directory>ms_teledeploy</directory>
+        <directory>ms_snmp_inventory</directory>
     </url>
     <url key="jp_teledeploy_stats">
         <value>teledeploy_stats</value>
@@ -246,6 +246,10 @@
     </url>
     <url key="ms_export_ocs">
         <value>export_ocs</value>
+        <directory>ms_export</directory>
+    </url>
+    <url key="ms_export_snmp">
+        <value>export_snmp</value>
         <directory>ms_export</directory>
     </url>
     <url key="ms_qrcode">
@@ -270,10 +274,6 @@
     </url>
     <url key="ms_wiki">
         <value>wiki</value>
-        <directory>ms_help</directory>
-    </url>
-    <url key="ms_irc">
-        <value>irc</value>
         <directory>ms_help</directory>
     </url>
     <url key="ms_offers">
@@ -327,5 +327,13 @@
     <url key="ms_snmp_inventory">
         <value>snmp_inventory</value>
         <directory>ms_snmp_inventory</directory>
+    </url>
+    <url key="ms_local_import">
+        <value>admin_local_import</value>
+        <directory>ms_upload_file</directory>
+    </url>
+    <url key="ms_layouts">
+        <value>layouts</value>
+        <directory>ms_layouts</directory>
     </url>
 </urls>

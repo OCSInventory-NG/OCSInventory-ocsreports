@@ -43,20 +43,22 @@ foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $tablename) {
         $arg = array($tablename, $protectedGet['systemid']);
 
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($item = mysqli_fetch_object($res)) {
-            $xml .= "\t\t<" . mb_strtoupper($tablename) . ">\n";
-            foreach ($_SESSION['OCS']['SQL_TABLE'][$tablename] as $field_name => $field_type) {
-                if ($field_name != 'HARDWARE_ID') {
-                    if (replace_entity_xml($item->$field_name) != '') {
-                        $xml .= "\t\t\t<" . $field_name . ">";
-                        $xml .= replace_entity_xml($item->$field_name);
-                        $xml .= "</" . $field_name . ">\n";
-                    } else {
-                        $xml .= "\t\t\t<" . $field_name . " />\n";
+        if($res) {
+            while ($item = mysqli_fetch_object($res)) {
+                $xml .= "\t\t<" . mb_strtoupper($tablename) . ">\n";
+                foreach ($_SESSION['OCS']['SQL_TABLE'][$tablename] as $field_name => $field_type) {
+                    if ($field_name != 'HARDWARE_ID') {
+                        if (replace_entity_xml($item->$field_name) != '') {
+                            $xml .= "\t\t\t<" . $field_name . ">";
+                            $xml .= replace_entity_xml($item->$field_name);
+                            $xml .= "</" . $field_name . ">\n";
+                        } else {
+                            $xml .= "\t\t\t<" . $field_name . " />\n";
+                        }
                     }
                 }
+                $xml .= "\t\t</" . mb_strtoupper($tablename) . ">\n";
             }
-            $xml .= "\t\t</" . mb_strtoupper($tablename) . ">\n";
         }
     }
 }

@@ -64,6 +64,9 @@ echo open_form($form_name, '', '', 'form-horizontal');
         if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
             echo "<a href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=machine\" alt=". $l->g(2122) ." class='btn btn-success'>". $l->g(2122) ."</a>";
         }
+
+        // if user has permission to add devices to groups (Manage groups perm), show the group selector
+        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
         ?>
     </div>
 </div></br></br>
@@ -75,15 +78,17 @@ echo open_form($form_name, '', '', 'form-horizontal');
         $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration";
 
         $reqGroups = "SELECT h.name,h.id,h.workgroup
-					  FROM hardware h,groups g
+					  FROM hardware h,`groups` g
 					  WHERE  g.hardware_id=h.id  and h.deviceid='_SYSTEMGROUP_'";
         if (!($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES")) {
             $reqGroups .= " and workgroup = 'GROUP_4_ALL'";
         }
         $reqGroups .= " order by h.name";
         $resGroups = mysql2_query_secure($reqGroups, $_SESSION['OCS']["readServer"]);
-        while ($valGroups = mysqli_fetch_array($resGroups)) {
-            echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+        if ($resGroups) {
+            while ($valGroups = mysqli_fetch_array($resGroups)) {
+                echo "<option value='" . $valGroups["id"] . "'>" . $valGroups["name"] . "</option>";
+            }
         }
         ?>
         </select>
@@ -99,12 +104,13 @@ echo open_form($form_name, '', '', 'form-horizontal');
 </div></br></br>
 
 <?php
+}
 while ($item = mysqli_fetch_array($resultDetails, MYSQLI_ASSOC)) {
     $optPerso[$item["NAME"]]["IVALUE"] = $item["IVALUE"];
     $optPerso[$item["NAME"]]["TVALUE"] = $item["TVALUE"];
 }
 $field_name = array('DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_FRAG_LATENCY',
-    'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP');
+    'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP', 'SCAN_TYPE_IPDISCOVER', 'SCAN_TYPE_SNMP', 'SCAN_ARP_BANDWIDTH');
 $optdefault = look_config_default_values($field_name);
 
 //IPDISCOVER
@@ -120,7 +126,7 @@ if (isset($optPerso["IPDISCOVER"])) {
 } else {
     $returnIP = $l->g(493);
 }
-optperso("IPDISCOVER", $l->g(489), "IPDISCOVER", $optPerso, '', $returnIP);
+optperso("IPDISCOVER", $l->g(489), "IPDISCOVER", $optPerso ?? '', '', $returnIP);
 
 //FREQUENCY
 if (isset($optPerso["FREQUENCY"])) {
@@ -134,7 +140,7 @@ if (isset($optPerso["FREQUENCY"])) {
 } else {
     $returnFrequency = $l->g(497);
 }
-optperso("FREQUENCY", $l->g(494), "FREQUENCY", $optPerso, '', $returnFrequency);
+optperso("FREQUENCY", $l->g(494), "FREQUENCY", $optPerso ?? '', '', $returnFrequency);
 
 //DOWNLOAD_SWITCH
 if (isset($optPerso["DOWNLOAD_SWITCH"])) {
@@ -152,29 +158,70 @@ if (isset($optPerso["DOWNLOAD_SWITCH"])) {
         $returnDL = $l->g(733);
     }
 }
-optperso("DOWNLOAD", $l->g(417), "DOWNLOAD", $optPerso, '', $returnDL);
+optperso("DOWNLOAD", $l->g(417), "DOWNLOAD", $optPerso ?? '', '', $returnDL);
 
 //DOWNLOAD_CYCLE_LATENCY
-optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_CYCLE_LATENCY"], $l->g(511));
 
 //DOWNLOAD_FRAG_LATENCY
-optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_FRAG_LATENCY"], $l->g(511));
 
 
 //DOWNLOAD_PERIOD_LATENCY
-optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
+optperso("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_PERIOD_LATENCY"], $l->g(511));
 
 //DOWNLOAD_PERIOD_LENGTH
-optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso, $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
+optperso("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_PERIOD_LENGTH"]);
 
 //PROLOG_FREQ
-optperso("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso, $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
+optperso("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso ?? '', $optdefault['ivalue']["PROLOG_FREQ"], $l->g(730));
 
 //PROLOG_FREQ
-optperso("DOWNLOAD_TIMEOUT", $l->g(424), "DOWNLOAD_TIMEOUT", $optPerso, $optdefault['ivalue']["DOWNLOAD_TIMEOUT"], $l->g(496));
+optperso("DOWNLOAD_TIMEOUT", $l->g(424), "DOWNLOAD_TIMEOUT", $optPerso ?? '', $optdefault['ivalue']["DOWNLOAD_TIMEOUT"], $l->g(496));
 
 //DOWNLOAD_SWITCH
-optperso("SNMP_SWITCH", $l->g(1197), "SNMP_SWITCH", $optPerso, '', ($optPerso["SNMP_SWITCH"]["IVALUE"] == 1) ? $l->g(733) : $l->g(205));
+optperso("SNMP_SWITCH", $l->g(1197), "SNMP_SWITCH", $optPerso ?? '', '', (isset($optPerso["SNMP_SWITCH"]["IVALUE"]) && $optPerso["SNMP_SWITCH"]["IVALUE"] == 1) ? $l->g(733) : $l->g(205));
+
+    // SCAN TYPE SNMP
+    if (isset($optPerso["SCAN_TYPE_SNMP"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_SNMP"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_SNMP"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_SNMP"];
+    }
+
+    optpersoGroup('SCAN_TYPE_SNMP', $l->g(9982), 'SCAN_TYPE_SNMP', '', $default, $supp);
+
+    // SCAN TYPE IPDISCOVER
+    if (isset($optPerso["SCAN_TYPE_IPDISCOVER"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_IPDISCOVER"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_IPDISCOVER"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_IPDISCOVER"];
+    }
+
+    optpersoGroup('SCAN_TYPE_IPDISCOVER', $l->g(9981), 'SCAN_TYPE_IPDISCOVER', '', $default, $supp);
+
+    // ARP BANDWIDTH
+    if (isset($optPerso["SCAN_ARP_BANDWIDTH"])) {
+        $default = '';
+        if ($optPerso["SCAN_ARP_BANDWIDTH"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_ARP_BANDWIDTH"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['ivalue']["SCAN_ARP_BANDWIDTH"];
+    }
+
+    optpersoGroup('SCAN_ARP_BANDWIDTH', $l->g(9983), 'SCAN_ARP_BANDWIDTH', '', $default, $supp);
+
+
 
 //GROUPS
 $sql_groups = "SELECT static, name, group_id,workgroup
@@ -210,7 +257,7 @@ if (mysqli_num_rows($resGroups) > 0) {
         echo ")";
         echo "<br />";
 
-        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" || $valGroups["workgroup"] == "GROUP_4_ALL") {
+        if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES" && $valGroups["workgroup"] == "GROUP_4_ALL") {
             $hrefBase = "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_computer'] . "&head=1&systemid=" . urlencode($systemid) . "&option=cd_configuration&grp=" . $valGroups["group_id"];
             switch ($valGroups["static"]) {
                 case 0: echo "<a href='$hrefBase&actgrp=1'>" . $l->g(598) . "</a> / <a href='$hrefBase&actgrp=2'>" . $l->g(600) . "</a>";

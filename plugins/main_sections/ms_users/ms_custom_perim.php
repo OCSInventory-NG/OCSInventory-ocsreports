@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -28,33 +29,33 @@ if (AJAX) {
     $protectedPost += $params;
     ob_start();
 }
-
 $form_name = 'taguser';
 $table_name = $form_name;
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
-
 //BEGIN SHOW ACCOUNTINFO
 require_once 'require/function_commun.php';
-require_once('require/function_admininfo.php');
-$info_tag = find_info_accountinfo('1', 'COMPUTERS');
+require_once('require/admininfo/Admininfo.php');
+
+$Admininfo = new Admininfo();
+
+$info_tag = $Admininfo->find_info_accountinfo('1', 'COMPUTERS');
 if (is_array($info_tag)) {
-    foreach ($info_tag as $key => $value) {
-        $info_value_tag = accountinfo_tab($value['id']);
+    foreach ($info_tag as $value) {
+        $info_value_tag = $Admininfo->accountinfo_tab($value['id']);
         if (is_array($info_value_tag)) {
             $tab_options['REPLACE_VALUE'][$value['comment']] = $info_value_tag;
         }
     }
 }
 //END SHOW ACCOUNTINFO
-
 printEnTete($l->g(616) . " " . $protectedGet["id"]);
-if ($protectedPost['newtag'] != "") {
+if (isset($protectedPost['newtag']) && $protectedPost['newtag'] != "") {
     if (isset($protectedPost['use_generic_0'])) {
         if (is_array($info_value_tag)) {
             $arg = str_replace(array("*", "?"), "", $protectedPost["newtag"]);
-            $array_result = find_value_in_field(1, $arg);
+            $array_result = $Admininfo->find_value_in_field(1, $arg);
         } else {
             $arg = str_replace(array("*", "?"), array("%", "_"), $protectedPost["newtag"]);
             $sql = "select distinct TAG from accountinfo where TAG like '%s'";
@@ -78,7 +79,6 @@ if ($protectedPost['newtag'] != "") {
 
     unset($protectedPost['newtag']);
 }
-
 //suppression d'une liste de tag
 if (is_defined($protectedPost['del_check'])) {
     $sql = "DELETE FROM tags WHERE tag in ";
@@ -89,24 +89,20 @@ if (is_defined($protectedPost['del_check'])) {
     mysql2_query_secure($sql['SQL'], $_SESSION['OCS']["writeServer"], $sql['ARG']);
     $tab_options['CACHE'] = 'RESET';
 }
-
 if (isset($protectedPost['SUP_PROF'])) {
     $sql = "DELETE FROM tags WHERE tag='%s' AND login='%s'";
     $arg = array($protectedPost['SUP_PROF'], $protectedGet["id"]);
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 }
 echo "<br>";
-
 echo open_form($form_name);
 $list_fields = array('TAG' => 'tag',
 );
-
 $tab_options['FILTRE'] = array_flip($list_fields);
 $tab_options['FILTRE']['NAME'] = $l->g(49);
 asort($tab_options['FILTRE']);
 $list_fields['SUP'] = 'tag';
 $list_fields['CHECK'] = 'tag';
-
 $list_col_cant_del = array('SUP' => 'SUP', 'CHECK' => 'CHECK');
 $default_fields = array('TAG' => 'tag');
 $sql = prepare_sql_tab($list_fields, $list_col_cant_del);
@@ -115,18 +111,15 @@ $sql['ARG'] = array($protectedGet["id"]);
 $tab_options['ARG_SQL'] = $sql['ARG'];
 $queryDetails = $sql['SQL'];
 $tab_options['LBL']['SUP'] = $l->g(122);
-
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 $img['image/delete.png'] = $l->g(162);
 del_selection($form_name);
-
 if (is_array($info_value_tag) && !isset($protectedPost['use_generic_0'])) {
     $type = 2;
 } else {
     $type = 0;
-    $info_value_tag = $protectedPost['newtag'];
+    $info_value_tag = $protectedPost['newtag'] ?? "";
 }
-
 echo "<div class='row'>";
 echo "<div class='col-md-6 col-md-offset-3'>";
 $select_choise = show_modif($info_value_tag, 'newtag', $type);
@@ -137,9 +130,7 @@ echo $l->g(358);
 echo "</div>";
 echo "</div>";
 echo close_form();
-
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
 }
-?>

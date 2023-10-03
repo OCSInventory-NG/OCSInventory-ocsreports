@@ -20,20 +20,18 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
- /**
-  * Class for cve-search
-  */
-
+/**
+ * Class for cve-search
+ */
 class Cve
 {
   public $CVE_SEARCH_URL = '';
-  public $CVE_ACTIVE = null;
+  public $CVE_ACTIVE;
   private $CVE_BAN;
-  private $CVE_ALL = null;
-  public $CVE_EXPIRE_TIME = null;
-  public $CVE_DELAY_TIME = null;
-  private $publisherName = null;
+  public $CVE_LINK;
+  public $CVE_EXPIRE_TIME;
+  public $CVE_DELAY_TIME;
+  private $publisherName;
   public $cve_attr = [];
   public $cve_history = [
     'FLAG'    => null,
@@ -48,21 +46,21 @@ class Cve
     $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
         'VULN_CVESEARCH_HOST' => 'VULN_CVESEARCH_HOST',
         'VULN_BAN_LIST' => 'VULN_BAN_LIST',
+        'VULN_CVESEARCH_LINK' => 'VULN_CVESEARCH_LINK',
         'VULN_CVESEARCH_VERBOSE' => 'VULN_CVESEARCH_VERBOSE',
-        'VULN_CVESEARCH_ALL' => 'VULN_CVESEARCH_ALL',
         'VULN_CVE_EXPIRE_TIME' => 'VULN_CVE_EXPIRE_TIME',
         'VULN_CVE_DELAY_TIME' => 'VULN_CVE_DELAY_TIME');
 
     // Get configuration values from DB
     $values = look_config_default_values($champs);
 
-    $this->CVE_ACTIVE = $values['ivalue']["VULN_CVESEARCH_ENABLE"];
-    $this->CVE_SEARCH_URL = $values['tvalue']['VULN_CVESEARCH_HOST'];
-    $this->CVE_BAN = $values['tvalue']["VULN_BAN_LIST"];
-    $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"];
-    $this->CVE_ALL = $values['ivalue']["VULN_CVESEARCH_ALL"];
-    $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"];
-    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"];
+    $this->CVE_ACTIVE = $values['ivalue']["VULN_CVESEARCH_ENABLE"] ?? 0;
+    $this->CVE_SEARCH_URL = $values['tvalue']['VULN_CVESEARCH_HOST'] ?? "";
+    $this->CVE_BAN = $values['tvalue']["VULN_BAN_LIST"] ?? "";
+    $this->CVE_LINK = $values['ivalue']["VULN_CVESEARCH_LINK"] ?? 0;
+    $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"] ?? 0;
+    $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"] ?? null;
+    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"] ?? null;
 
   }
 
@@ -119,9 +117,7 @@ class Cve
     }
     $sql .= " ORDER BY p.PUBLISHER";
 
-    $result = mysqli_query($_SESSION['OCS']["readServer"], $sql);
-
-    return $result;
+    return mysqli_query($_SESSION['OCS']["readServer"], $sql);
   }
 
   /**
@@ -138,23 +134,21 @@ class Cve
     $sql_soft .= " ORDER BY n.NAME";
 
     $arg_soft = array($publisher_id);
-    $result_soft = mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
 
-    return $result_soft;
+    return mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
   }
 
   /**
    *  Get distinct software name by publisher
    */
   private function getSoftwareVersion($name_id) {
-    $sql_soft = " SELECT DISTINCT v.VERSION, sl.VERSION_ID FROM software_version v 
+    $sql_soft = " SELECT DISTINCT v.VERSION, v.PRETTYVERSION, sl.VERSION_ID FROM software_version v 
                   LEFT JOIN software_link sl ON sl.VERSION_ID = v.ID 
                   WHERE sl.NAME_ID = %s AND sl.VERSION_ID != 1";
-    $sql_soft .= " ORDER BY v.VERSION";
+    $sql_soft .= " ORDER BY v.PRETTYVERSION";
     $arg_soft = array($name_id);
-    $result_soft = mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
 
-    return $result_soft;
+    return mysql2_query_secure($sql_soft, $_SESSION['OCS']["readServer"], $arg_soft);
   }
 
   /**
@@ -182,7 +176,6 @@ class Cve
       $result_soft = $this->getSoftwareName($item_publisher['ID']);
 
       $this->verbose($this->CVE_VERBOSE, 6);
-      $i = 0;
 
       while ($item_soft = mysqli_fetch_array($result_soft)) {
         $this->cve_attr = null;
@@ -212,13 +205,12 @@ class Cve
     $name = preg_replace("/\s*\([^\)]+\)+$/", "", $name);
     $name = preg_replace("/.x86_/", "", $name);
     $name = preg_replace("/\s*\d+-bit$/", "", $name);
-    $name = preg_replace("/\s*(v|version|release)?\s*[\d\.]+(\s+ESR)?$/", "", $name);
+    $name = preg_replace("/\s*(v|version|release)?\s*[\d\.]+(\s+esr)?$/", "", $name);
     $name = preg_replace("/\s*\(r\)/", "", $name);
     $name = preg_replace('/[^\x00-\x7F]/', "", $name);
     $name = trim($name);
-    $name = preg_replace("/\s/", "_", $name);
 
-    return $name;
+    return preg_replace("/\s/", "_", $name);
   }
 
   /**
@@ -230,14 +222,13 @@ class Cve
     }
     $vendor = strtolower($vendor);
     $vendor = preg_replace("/https?:[^\s]+/", "", $vendor);
-    $vendor = preg_replace("/,?\s*(corporation|gmbh|inc\.|incorporated|LLC|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated|copyright)$/", "", $vendor);
+    $vendor = preg_replace("/,?\s*(corporation|gmbh|inc\.|incorporated|llc|spol\.\ss\sr\.o\.|systems\sinc\.|systems\sincorporated|copyright)$/", "", $vendor);
     $vendor = preg_replace("/\s*\(r\)/", "", $vendor);
     $vendor = preg_replace('/[^\x00-\x7F]/', "", $vendor);
-    $vendor = preg_replace("/[^A-Za-z0-9\._]/", "", $vendor);
+    $vendor = preg_replace("/[^A-Za-z0-9\._-]/", "", $vendor);
     $vendor = trim($vendor);
-    $vendor = preg_replace("/\s/", "_", $vendor);
     
-    return $vendor;
+    return preg_replace("/\s/", "_", $vendor);
   }
 
   /**
@@ -245,15 +236,18 @@ class Cve
    */
   public function get_cve($cve_attr){
     $curl = curl_init();
-    foreach($cve_attr as $key => $values){
+    foreach($cve_attr as $values){
       $values = $this->match($values);
       $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME'];
       curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
       curl_setopt($curl, CURLOPT_URL, $url);
       curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
+      // Uncomment if using a self-signed certificate on CVE server
+      //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+      //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
       $result = curl_exec ($curl);
       $vars = json_decode($result, true);
-      if($vars['total'] != 0){
+      if(isset($vars['total']) && $vars['total'] != 0){
         $this->search_by_version($vars, $values);
       }
     }
@@ -269,7 +263,7 @@ class Cve
     $regs = $this->get_regex($new_vendor, $new_name);
 
     if(!empty($regs)) {
-      foreach($regs as $key => $reg) {
+      foreach($regs as $reg) {
         if(count($regs) == 1) {
           $reg_publish = true;
           $reg_name = true;
@@ -337,33 +331,10 @@ class Cve
       $software['VERSION'] = $item_soft['VERSION'];
       $this->cve_history['VERSION_ID'] = $item_soft['VERSION_ID'];
 
-      $software["VERSION_MODIF"] = $software["VERSION"];
-      if(preg_match("/[^0-9,.:-]/", $software["VERSION_MODIF"])){
-        $software["VERSION_MODIF"] = preg_replace("/[^0-9,.:-]/", "", $software["VERSION_MODIF"]);
-        if(preg_match("/:/", $software["VERSION_MODIF"])){
-          $sft = explode(":", $software["VERSION_MODIF"]);
-          foreach($sft as $num => $cut){
-            if(preg_match("/[.]/", $cut)){
-              $software["VERSION_MODIF"] = $cut;
-            }
-          }
-        }
-        if(preg_match("/-/", $software["VERSION_MODIF"])){
-          $sft = explode("-", $software["VERSION_MODIF"]);
-          foreach($sft as $num => $cut){
-            if(preg_match("/[.]/", $cut)){
-              $software["VERSION_MODIF"] = $cut;
-              break;
-            }
-          }
-        }
-      }
-
-      $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$software["VERSION_MODIF"];
-      $vuln_conf_all = null;
-
-      if($this->CVE_ALL == 1) {
-        $vuln_conf_all = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":*:*:";
+      if(!is_null($item_soft["PRETTYVERSION"])) {
+        $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$item_soft["PRETTYVERSION"];
+      } else {
+        $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$item_soft["VERSION"];
       }
       
       if($software["NAME"] == "jre" && preg_match("/Update/", $software["REAL_NAME"])){
@@ -375,16 +346,16 @@ class Cve
         }
       }
 
-      foreach($vars as $key => $array){
+      foreach($vars as $array){
         if(is_array($array)){
-          foreach($array as $keys => $values) {
+          foreach($array as $values) {
             if(isset($values["vulnerable_configuration"])) {
-              foreach($values["vulnerable_configuration"] as $keys => $vuln){
-                if((!empty(strval($vuln_conf)) && (strpos(strval($vuln), strval($vuln_conf)) !== false)) || (!empty(strval($vuln_conf_all)) && (strpos(strval($vuln), strval($vuln_conf_all)) !== false))){
-                  $result = $this->get_infos_cve($values['cvss'], $values['id'], $values['references'][0]);
-                  if($result != null) {
+              foreach($values["vulnerable_configuration"] as $vuln){
+                if((!empty(strval($vuln_conf)) && (strpos(strval($vuln), strval($vuln_conf)) !== false))){
+                  $result = $this->get_infos_cve($values['cvss'] ?? $values['cvss3'], $values['id'], $values['references'][0]);
+                  if($result) {
                     if($this->CVE_VERBOSE == 1) {
-                      error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
+                      print("[".date("Y-m-d H:i:s"). "] ".$values['id']." has been referenced for ".$software["REAL_NAME"]."\n");
                     }
                     $this->cve_history['CVE_NB'] ++;
                     $this->cveNB ++;
@@ -405,10 +376,10 @@ class Cve
     $sql_verif = "SELECT * FROM cve_search WHERE PUBLISHER_ID = %s AND NAME_ID = %s AND CVE = '%s' AND VERSION_ID = %s";
     $arg_verif = array($this->cve_history['PUBLISHER_ID'], $this->cve_history['NAME_ID'], $id, $this->cve_history['VERSION_ID']);
     $result_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
-    $result = null;
+    $result = false;
 
     if($result_verif->num_rows == 0) {
-      $sql = 'INSERT INTO cve_search VALUES(%s, %s, %s, %s, "%s", "%s")';
+      $sql = 'INSERT INTO cve_search (PUBLISHER_ID, NAME_ID, VERSION_ID, CVSS, CVE, LINK) VALUES(%s, %s, %s, %s, "%s", "%s")';
       $arg_sql = array($this->cve_history['PUBLISHER_ID'], $this->cve_history['NAME_ID'], $this->cve_history['VERSION_ID'], $cvss, $id, $reference);
       $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg_sql);
     }
@@ -424,17 +395,15 @@ class Cve
     $arg = array($publisher);
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
-    if(gettype($this->curlSession) == 'resource') curl_close($this->curlSession);
-
     if($this->CVE_BAN != ""){
-      $sql_ban = "SELECT DISTINCT cs.NAME_ID FROM cve_search cs LEFT JOIN software_categories_link as scl ON cs.NAME_ID = scl.NAME_ID WHERE scl.CATEGORY_ID IN (%s)";
+      $sql_ban = "SELECT DISTINCT cs.NAME_ID, cs.VERSION_ID FROM cve_search cs LEFT JOIN software_categories_link as scl ON cs.NAME_ID = scl.NAME_ID AND cs.VERSION_ID = scl.VERSION_ID WHERE scl.CATEGORY_ID IN (%s)";
       $sql_ban_arg = array($this->CVE_BAN);
       $result_ban = mysql2_query_secure($sql_ban, $_SESSION['OCS']["readServer"], $sql_ban_arg);
 
       while ($item_ban = mysqli_fetch_array($result_ban)) {
         if($item_ban != null){
-          $sql_remove = "DELETE FROM cve_search WHERE NAME_ID = %s";
-          $sql_remove_arg = array($item_ban["NAME_ID"]);
+          $sql_remove = "DELETE FROM cve_search WHERE NAME_ID = %s AND VERSION_ID = %s";
+          $sql_remove_arg = array($item_ban["NAME_ID"], $item_ban["VERSION_ID"]);
           $result = mysql2_query_secure($sql_remove, $_SESSION['OCS']["writeServer"], $sql_remove_arg);
         }
       }
@@ -448,25 +417,27 @@ class Cve
     if($config == 1) {
       switch($code) {
         case 1:
-          error_log(print_r($this->CVE_SEARCH_URL." is not reachable.",true));
+          print("[".date("Y-m-d H:i:s"). "] ".$this->CVE_SEARCH_URL." is not reachable\n");
         break;
         case 2:
-          error_log(print_r($this->cveNB." CVE has been added to database",true));
+          print("[".date("Y-m-d H:i:s"). "] ".$this->cveNB." CVE have been added to database\n");
         break;
         case 3:
-          error_log(print_r("CVE feature isn't enabled", true));
+          print("[".date("Y-m-d H:i:s"). "] CVE feature isn't enabled\n");
         break;
         case 4:
-          error_log(print_r("Get software publisher ...", true));
+          print("[".date("Y-m-d H:i:s"). "] Get software publisher\n");
         break;
         case 5:
-          error_log(print_r("Software publisher OK ... \nCVE treatment started ... \nPlease wait, CVE processing is in progress. It could take a few hours", true));
+          print("[".date("Y-m-d H:i:s"). "] Software publisher OK\n");
+          print("[".date("Y-m-d H:i:s"). "] CVE treatment started\n");
+          print("[".date("Y-m-d H:i:s"). "] Please wait, CVE processing is in progress. It could take a few hours\n");
         break;
         case 6:
-          error_log(print_r("Processing ".$this->publisherName." softwares ...", true));
+          print("[".date("Y-m-d H:i:s"). "] Processing ".$this->publisherName." softwares\n");
         break;
         case 7:
-          error_log(print_r($values['id']." has been referenced for ".$software["REAL_NAME"], true));
+          print("[".date("Y-m-d H:i:s"). "] ".$values['id']." has been referenced for ".$software["REAL_NAME"]."\n");
         break;
       }
     }
@@ -478,14 +449,12 @@ class Cve
   public function add_regex($regex, $publish = null, $name = null) {
     $sql = "INSERT INTO cve_search_correspondance (NAME_REG, PUBLISH_RESULT, NAME_RESULT) VALUES ('%s','%s','%s')";
     $arg = array($regex, $publish, $name);
-    $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 
-    return $result;
+    return mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
   }
 
   public function csv_treatment($file) {
     $mimes = array('application/vnd.ms-excel','text/plain','text/csv','text/tsv');
-    $csv_data = [];
     $sql = "INSERT INTO cve_search_correspondance(NAME_REG, PUBLISH_RESULT, NAME_RESULT) VALUES('%s', '%s', '%s')";
 
     if (in_array($_FILES["csv_file"]["type"], $mimes)) {
@@ -539,5 +508,3 @@ class Cve
   }
 
 }
-
-?>

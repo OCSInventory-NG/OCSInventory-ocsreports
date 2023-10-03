@@ -88,6 +88,7 @@
         $infos['NOTIF_PROG_DAY'] = $this->number_day($infos);
         $sql="SELECT * FROM notification_config";
         $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+        $verif = [];
         while($row = mysqli_fetch_array($result)){
            $verif[$row['NAME']]= $row['NAME'];
         }
@@ -110,6 +111,7 @@
        * @return string        [description]
        */
       private function number_day($infos){
+        $day = "";
         foreach($infos as $key => $value){
           if(array_key_exists($key, $this->week)){
               $day .= $this->week[$key] . ",";
@@ -128,8 +130,8 @@
           while($row = mysqli_fetch_array($result)){
               if($row['NAME'] == 'NOTIF_PROG_DAY'){
                 $day[] = explode(",", $row['TVALUE']);
-                foreach($day as $key => $value){
-                  foreach($value as $keys => $values){
+                foreach($day as $value){
+                  foreach($value as $values){
                     if($values != ''){
                       $this->info[$values] = $values;
                     }
@@ -183,7 +185,7 @@
        * send notification with phpMailer
        * @return void
        */
-     public function send_notification($subject, $body, $altBody = '', $selected, $isHtml = false ){
+     public function send_notification($subject, $body, $selected){
 
             $body = $this->replace_value($body, $selected);
 
@@ -194,10 +196,10 @@
 
             try{
                // Content
-               $this->notif->isHTML(false);
+               $this->notif->isHTML(true);
                $this->notif->Subject = $subject;
                $this->notif->Body    = $body;
-               $this->notif->AltBody = $altBody;
+               $this->notif->AltBody = '';
 
                $this->notif->send();
                error_log('Message has been sent');
@@ -234,25 +236,27 @@
 
           if(strpos($template, "{{") !== false){
             $explode1 = explode("{{", $template);
-              foreach($explode1 as $key => $value){
+              foreach($explode1 as $value){
                 if(strpos($value, "}}") !== false){
                     $explode2[] = explode("}}", $value);
                 }
               }
 
-              foreach ($explode2 as $key => $values){
-                foreach ($values as $nb => $trad){
-                  if(strpos($trad, "<") === false){
+              foreach ($explode2 as $values){
+                foreach ($values as $trad){
+                  if(!strpos($trad, "<")){
                       $explode3[] = $trad;
                   }
                 }
               }
 
-              foreach ($explode3 as $keys => $replace){
+              foreach ($explode3 as $replace){
                 if(strpos($replace, "g") !== false){
                     $traduction = explode(".", $replace);
                     $pattern[] = $replace;
-                    $replacement[] = $l->g($traduction[1]);
+                    if(isset($traduction[1])) {
+                      $replacement[] = $l->g($traduction[1]);
+                    }
                 }elseif($replace == 'Report.Asset'){
                     $pattern[] = $replace;
                     $asset->get_assets();
@@ -262,9 +266,8 @@
                     $replacement[] = $soft->get_table_html_soft();
                 }
               }
-              $output = str_replace($pattern, $replacement, $template);
 
-              return $output;
+              return str_replace($pattern, $replacement, $template);
           }else{
               return $template;
           }

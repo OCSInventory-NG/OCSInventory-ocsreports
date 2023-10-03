@@ -35,7 +35,7 @@ $def_onglets['INV'] = $l->g(728); //Inventaire
 $def_onglets['TELE'] = $l->g(512); //Télédéploiement
 $def_onglets['RSX'] = $l->g(1198); //ipdiscover
 //update values
-if ($protectedPost['Valid'] == $l->g(103)) {
+if (isset($protectedPost['Valid']) && $protectedPost['Valid'] == $l->g(103)) {
     if ($list_id) {
         //more then one value
         if (strstr($list_id, ',') != "") {
@@ -48,7 +48,7 @@ if ($protectedPost['Valid'] == $l->g(103)) {
     if (isset($list_hardware_id) || isset($tab_hadware_id)) {
         foreach ($protectedPost as $key => $value) {
             if ($key != "systemid" && $key != "origine") {
-                if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "") {
+                if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "" || $value == 0) {
                     erase($key);
                 } elseif ($value == "CUSTOM") {
                     insert($key, $protectedPost[$key . '_edit']);
@@ -62,12 +62,20 @@ if ($protectedPost['Valid'] == $l->g(103)) {
                     insert($key, 0);
                 } elseif (($key == "IPDISCOVER" && $value != "des" && $value != "OFF") || ($key == "SNMP_NETWORK")) {
                     insert($key, 2, $value);
+                } elseif (($key == "SCAN_TYPE_IPDISCOVER" && $value != "Default") || ($key == "SCAN_TYPE_SNMP" && $value != "Default")) {
+                    insert($key, 2, $value);
+                } elseif (($key == "SCAN_ARP_BANDWIDTH" && ($value != "" && $value != 0 && $value != "Default"))) {
+                    insert($key, 2, $value);
                 }
             }
         }
         $MAJ = $l->g(711);
         echo "<div class='col col-md-12'>";
-        msg_success($MAJ . $add_lbl);
+        if (isset($add_lbl)) { 
+            msg_success($MAJ . $add_lbl);
+        } else {
+            msg_success($MAJ);
+        }
         echo "</div>";
         if (isset($protectedGet['origine']) && $protectedGet['origine'] == 'machine') {
             $form_to_reload = 'config_mach';

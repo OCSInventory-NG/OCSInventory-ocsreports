@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -20,7 +21,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-
 function show_package_form($data, $errors) {
     global $l;
 
@@ -59,7 +59,6 @@ function show_package_form($data, $errors) {
 
     echo close_form();
 }
-
 function show_file_upload_frame($timestamp, $data, $errors) {
     global $l;
 
@@ -114,7 +113,6 @@ function show_file_upload_frame($timestamp, $data, $errors) {
 
     echo '</div>';
 }
-
 function show_basic_info_frame($data, $errors) {
     global $l;
 
@@ -162,7 +160,6 @@ function show_basic_info_frame($data, $errors) {
 
     echo '</div>';
 }
-
 function show_deploy_speed_frame($data, $errors) {
     global $l;
 
@@ -196,42 +193,6 @@ function show_deploy_speed_frame($data, $errors) {
 
     echo '</div>';
 }
-
-function show_redistrib_frame($data, $errors) {
-    global $l;
-
-    echo '<div class="form-frame">';
-    echo '<h4>';
-
-    show_form_input('REDISTRIB_USE', array(
-        'type' => 'checkbox',
-        'value' => $data['REDISTRIB_USE']
-    ));
-    show_form_label('REDISTRIB_USE', 'Redistribution'); // TODO translation
-
-    echo '</h4>';
-
-    if ($data['REDISTRIB_USE'] != 'on') {
-        echo '<div class="redistrib-fields" style="display: none">';
-    } else {
-        echo '<div class="redistrib-fields">';
-    }
-
-    echo '<div class="field">';
-    echo '<b>Directory for redistribution packages : </b><br/>' . get_redistrib_download_root();
-    echo '</div>';
-
-    show_form_field($data, $errors, 'input', 'DOWNLOAD_SERVER_DOCROOT', $l->g(1009));
-    show_form_field($data, $errors, 'select', 'REDISTRIB_PRIORITY', $l->g(440), array(
-        'options' => range(0, 10)
-    ));
-    show_form_field($data, $errors, 'input', 'REDISTRIB_NB_FRAGS', $l->g(464));
-
-    echo '</div>';
-
-    echo '</div>';
-}
-
 function show_user_messages_frame($data, $errors) {
     global $l;
 
@@ -292,5 +253,3 @@ function show_user_messages_frame($data, $errors) {
     echo '</div>';
     echo '</div>';
 }
-
-?>

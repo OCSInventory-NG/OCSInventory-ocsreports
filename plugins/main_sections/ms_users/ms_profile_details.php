@@ -35,29 +35,29 @@ if (!AJAX) {
     if (!is_writable(PROFILES_DIR)) {
         msg_error($l->g(2116));
     } else {
-        show_profile_edit_form($_GET['profile_id']);
+        show_profile_edit_form($protectedGet['profile_id']);
     }
 
     echo '</div>';
 } else {
     require_once 'lib/profile_functions.php';
 
-    if (!is_writable(PROFILES_DIR . $_GET['profile_id'] . '.xml')) {
+    if (!is_writable(PROFILES_DIR . $protectedGet['profile_id'] . '.xml')) {
         $response = array(
             'status' => 'error',
-            'message' => $l->g(1407) . ' (config/profiles/' . $_GET['profile_id'] . '.xml)'
+            'message' => $l->g(1407) . ' (config/profiles/' . $protectedGet['profile_id'] . '.xml)'
         );
-    } else if ($errors = validate_profile_edit_form($_POST)) {
+    } else if ($errors = validate_profile_edit_form($protectedPost)) {
         $response = array(
             'status' => 'error',
             'message' => $l->g(1404),
             'errors' => $errors
         );
-    } else if (update_profile($_GET['profile_id'], $_POST)) {
+    } else if (update_profile($protectedGet['profile_id'], $protectedPost)) {
         $response = array(
             'status' => 'success',
             'message' => $l->g(1408),
-            'profile_id' => $_GET['profile_id']
+            'profile_id' => $protectedGet['profile_id']
         );
     } else {
         $response = array(

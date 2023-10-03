@@ -40,7 +40,7 @@ if (DEV_OPTION) {
     $def_onglets['DEV'] = $l->g(1302);
 }
 
-if ($protectedPost['Valid'] == $l->g(103)) {
+if (isset($protectedPost['Valid']) && $protectedPost['Valid'] == $l->g(103)) {
     $etat = verif_champ();
     if ($etat == "") {
         update_default_value($protectedPost); //function in function_config_generale.php
@@ -76,12 +76,13 @@ printEnTete($l->g(107));
 $form_name = 'modif_onglet';
 echo open_form($form_name, '', '', 'form-horizontal');
 
-if($values['ivalue']['ADVANCE_CONFIGURATION']){
-  $def_onglets['REDISTRIB'] = $l->g(628); //redistribution servers
+if(isset($values['ivalue']['ADVANCE_CONFIGURATION']) && $values['ivalue']['ADVANCE_CONFIGURATION']){
   $def_onglets['INV_FILE'] = $l->g(734); //Inventory file
   $def_onglets['FILTER'] = $l->g(735); //Filter
-  $def_onglets['CNX'] = $l->g(1108); //connexion
+  $def_onglets['CNX'] = $l->g(1108); //connexion LDAP
+  $def_onglets['CAS'] = $l->g(9704); // connexion CAS
   $def_onglets['VULN'] = $l->g(1460); //cve-search integration
+  $def_onglets['NETSCANS'] = $l->g(9980); //Network Scans
 }
 
 show_tabs($def_onglets,$form_name,"onglet",true);
@@ -90,26 +91,26 @@ switch ($protectedPost['onglet']) {
     case 'VULN':
         pageVulnerability();
         break;
+    case 'CAS':
+        pageCas();
+        break;
     case 'CNX':
         pageConnexion();
         break;
     case 'GUI':
-        pageGUI($values['ivalue']['ADVANCE_CONFIGURATION']);
+        pageGUI($values['ivalue']['ADVANCE_CONFIGURATION'] ?? '');
         break;
     case 'INVENTORY':
-        pageinventory($values['ivalue']['ADVANCE_CONFIGURATION']);
+        pageinventory($values['ivalue']['ADVANCE_CONFIGURATION'] ?? '');
         break;
     case 'SERVER':
-        pageserveur($values['ivalue']['ADVANCE_CONFIGURATION']);
+        pageserveur($values['ivalue']['ADVANCE_CONFIGURATION'] ?? '');
         break;
     case 'IPDISCOVER':
-        pageipdiscover($values['ivalue']['ADVANCE_CONFIGURATION']);
+        pageipdiscover($values['ivalue']['ADVANCE_CONFIGURATION'] ?? '');
         break;
     case 'TELEDEPLOY':
-        pageteledeploy($values['ivalue']['ADVANCE_CONFIGURATION']);
-        break;
-    case 'REDISTRIB':
-        pageredistrib();
+        pageteledeploy($values['ivalue']['ADVANCE_CONFIGURATION'] ?? '');
         break;
     case 'GROUPS':
         pagegroups();
@@ -134,6 +135,9 @@ switch ($protectedPost['onglet']) {
         break;
     case 'SECURITY':
         pagesSecurity();
+        break;
+    case 'NETSCANS':
+        pageNetScans();
         break;
     default:
         pageinventory($values['ivalue']['ADVANCE_CONFIGURATION']);

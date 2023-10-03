@@ -38,7 +38,7 @@ function show_computer_menu($computer_id) {
         $url = $menu_elem->getUrl();
         $label = $menu_renderer->getLabel($menu_elem);
         echo "<li ";
-        if ($protectedGet['cat'] == explode('=',$url)[1]) {
+        if (isset($protectedGet['cat']) && $protectedGet['cat'] == explode('=',$url)[1]) {
             echo "class='active'";
         }
         echo " ><a href=' ".$menu_renderer->getUrl($menu_elem) ."'>" . $label . "</a></li>";
@@ -72,6 +72,19 @@ function show_computer_actions($computer){
 
     if ($_SESSION['OCS']['profile']->getRestriction('WOL', 'NO') == "NO" && isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
         echo "<button class='btn btn-action' OnClick='confirme(\"\",\"WOL\",\"bandeau\",\"WOL\",\"" . $l->g(1283) . "\");'>WOL</button> ";
+    }
+
+    echo "&nbsp;&nbsp;";
+
+    // archive btn -> if computer already archived : restore, else : archive
+    if ($_SESSION['OCS']['profile']->getConfigValue('ARCHIVE_COMPUTERS') == "YES" && isset($protectedGet['cat']) && $protectedGet['cat'] == 'admin') {
+        $archive = new ArchiveComputer();
+        if (mysqli_num_rows($archive->isArchived($computer->ID)) != 0) {
+            $archive_action = $l->g(1552);
+        } else {
+            $archive_action = $l->g(1551);
+        }
+        echo "<button class='btn btn-action' OnClick='confirme(\"\",\"". $archive_action ."\",\"bandeau\",\"ARCHIVE\",\"Do you want to ". strtolower($archive_action) ." this computer ?\");'>". strtoupper($archive_action)."</button> ";
     }
     echo "</div>";
 }
@@ -126,7 +139,7 @@ function show_computer_summary($computer) {
 
     foreach ($labels as $cat) {
         foreach ($cat as $key => $lbl) {
-            $computer_info = addslashes($computer->$key);
+            $computer_info = isset($computer->$key) ? addslashes($computer->$key) : '';
             if ($key == "MEMORY") {
                 $sqlMem = "SELECT SUM(capacity) AS 'capa' FROM memories WHERE hardware_id=%s";
                 $argMem = $computer->ID;
@@ -149,9 +162,9 @@ function show_computer_summary($computer) {
                     $nb_val = count($data_RZ);
                 }
 
-                if ($nb_val == 1) {
+                if (isset($nb_val) && $nb_val == 1) {
                     $data[$key] = $data_RZ[0];
-                } elseif (isset($data_RZ)) {
+                } elseif (isset($data_RZ) && is_array($data_RZ)) {
                     foreach ($data_RZ as $index => $value) {
                         $data[$key] .= $index . " => " . $value . "<br>";
                     }
@@ -161,8 +174,8 @@ function show_computer_summary($computer) {
                 $argVM = $computer->UUID;
                 $resVM = mysql2_query_secure($sqlVM, $_SESSION['OCS']["readServer"], $argVM);
                 $valVM = mysqli_fetch_array($resVM);
-                $data[$key] = $valVM['vmtype'];
-                $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . $valVM['hardware_id'] . "'  target='_blank'><font color=red>" . $valVM['name'] . "</font></a>";
+                $data[$key] = $valVM['vmtype'] ?? '';
+                $link_vm = "<a href='index.php?" . PAG_INDEX . "=" . $urls->getUrl('ms_computer') . "&head=1&systemid=" . ($valVM['hardware_id'] ?? '') . "'  target='_blank'><font color=red>" . ($valVM['name'] ?? '') . "</font></a>";
                 $link[$key] = true;
 
                 if ($data[$key] != '') {
@@ -178,7 +191,7 @@ function show_computer_summary($computer) {
                 $argAsset = array($computer->ID);
                 $resAsset = mysql2_query_secure($sqlAsset, $_SESSION['OCS']["readServer"], $argAsset);
                 $asset = mysqli_fetch_array($resAsset);
-                $data[$key] = $asset['CATEGORY_NAME'];
+                $data[$key] = $asset['CATEGORY_NAME'] ?? "";
             }
         }
     }
@@ -187,6 +200,7 @@ function show_computer_summary($computer) {
 
     show_summary($data, $labels, $cat_labels, $link);
     echo "<input type='hidden' id='WOL' name='WOL' value=''>";
+    echo "<input type='hidden' id='ARCHIVE' name='ARCHIVE' value=''>";
 
     echo close_form();
 }
@@ -205,7 +219,7 @@ function show_summary($data, $labels, $cat_labels, $links = array()) {
         echo '<h5>' . mb_strtoupper($cat_labels[$cat_key]) . '</h5>';
 
         foreach ($cat as $name => $label) {
-            $value = $data[$name];
+            $value = isset($data[$name])? $data[$name] : '';
 
             if (trim($value) != '') {
                 if (!array_key_exists($name, $links)) {

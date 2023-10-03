@@ -1347,6 +1347,7 @@
 1419 Suche in Spalte
 1420 Benutzerdefiniertes Thema für die Oberfläche
 1449 Generelle Einstellungen
+1459 Zeitspanne zwischen einem CVE Scan
 1460 CVE-Sucheinstellungen
 1461 CVE-Berichte aktivieren
 1462 CVE-Server auf dem nach CVEs gesucht werden soll
@@ -1599,9 +1600,19 @@
 
 9000 SNMP-Konfiguration
 
+9106 Standard Download Protokoll
+
 9010 SNMP MIBs-Verzeichnis auf dem Server
 
 9014 SNMP ist nicht konfiguriert. Lesen Sie die Dokumentation um zu erfahren wie SNMP eingerichtet wird: <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+
+9200 Paketverteilung für Computer
+9201 Paketverteilung für Auswahl
+9202 Paketverteilung für Gruppe
+9203 Aktivieren der Download-Fragmentierung
+9204 Konfiguration der Fragmentgröße 
+9205 Aktiviere automatische Paketaktivierung
+9206 Aktiviert
 
 9300 Interaktionen
 9301 Optionen
@@ -1626,3 +1637,34 @@
 9323 Bash / sh Script
 
 9361 Paketerstellung zurücksetzen
+
+9650 Anzahl der LDAP Filter (minimum 1, maximum so viele wie Profile)
+
+9651 Historie
+9653 Benutzername
+9654 Datum und Uhrzeit
+9655 Aktion
+
+9700 CAS Server Port, z.B. : 443
+9701 CAS Server URI, z.B. : /cas
+9702 CAS Server Host, z.B. : authentication.org
+
+9704 CAS Konfiguration
+
+9800 Ausschluss von archivierten Computern aus der Statistik, CVE-Inventar, Zählung aller Softwares, Zählung der Computer pro TAG
+
+9900 Layouts
+9901 Layout wurde erstellt
+9902 Layout wurde gelöscht
+9903 Fehler beim Erstellen des Layouts
+9904 Bitte überprüfen Sie Ihre Eingaben. Wiederholen Sie den Vorgang, wenn das Problem weiterhin besteht.
+9905 Fehler beim Löschen des Layouts
+9906 Für Ihren Benutzer existiert bereits ein Layout mit demselben Namen oder denselben Spalten, bitte wählen Sie einen anderen Namen oder einen anderen Satz von Spalten
+9907 Layouts verwalten
+9908 Alle Layouts anzeigen
+9909 Neues Layout hinzufügen
+9910 Verfügbare Layouts :
+9911 Layout Name
+9912 Layout Beschreibung
+9913 Tabellenname
+

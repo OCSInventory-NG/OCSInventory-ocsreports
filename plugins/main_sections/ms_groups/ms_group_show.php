@@ -29,17 +29,23 @@ if (AJAX) {
 $tab_options = $protectedPost;
 require_once('require/function_opt_param.php');
 //BEGIN SHOW ACCOUNTINFO
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
 
-$accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
-if (array($accountinfo_value['TAB_OPTIONS'])) {
-    $tab_options = $accountinfo_value['TAB_OPTIONS'];
+$Admininfo = new Admininfo();
+
+if(isset($list_fields)) {
+    $accountinfo_value = $Admininfo->interprete_accountinfo($list_fields, $tab_options);
+    if (array($accountinfo_value['TAB_OPTIONS'])) {
+        $tab_options = $accountinfo_value['TAB_OPTIONS'];
+
+    }
+    if (array($accountinfo_value['DEFAULT_VALUE'])) {
+        $default_fields = $accountinfo_value['DEFAULT_VALUE'];
+    }
+    $list_fields = $accountinfo_value['LIST_FIELDS'];
+    //END SHOW ACCOUNTINFO
 }
-if (array($accountinfo_value['DEFAULT_VALUE'])) {
-    $default_fields = $accountinfo_value['DEFAULT_VALUE'];
-}
-$list_fields = $accountinfo_value['LIST_FIELDS'];
-//END SHOW ACCOUNTINFO
+
 
 $list_fields2 = array($l->g(949) => 'h.ID',
     'DEVICEID' => 'h.DEVICEID',
@@ -59,17 +65,17 @@ $list_fields2 = array($l->g(949) => 'h.ID',
     $l->g(53) => 'h.DESCRIPTION',
     $l->g(34) => 'h.IPADDR',
     $l->g(24) => 'h.userid',
+    $l->g(36) => 'b.ssn',
     'CHECK' => 'h.ID');
-$list_fields = array_merge($list_fields, $list_fields2);
+$list_fields = isset($list_fields) ? array_merge($list_fields, $list_fields2) : $list_fields2;
 $list_col_cant_del = array('NAME' => 'NAME', 'CHECK' => 'CHECK');
 $default_fields2 = array('NAME' => 'NAME', $l->g(46) => $l->g(46), $l->g(820) => $l->g(820), $l->g(34) => $l->g(34), $l->g(24) => $l->g(24));
-$default_fields = array_merge($default_fields, $default_fields2);
+$default_fields = isset($default_fields) ? array_merge($default_fields, $default_fields2) : $default_fields2;
 
 if (isset($protectedGet['systemid'])) {
     $systemid = $protectedGet['systemid'];
     if ($systemid == "") {
         return $l->g(837);
-        die();
     }
 } elseif (isset($protectedPost['systemid'])) {
     $systemid = $protectedPost['systemid'];
@@ -105,7 +111,7 @@ if (isset($protectedGet["suppack"])) {
 }
 
 //update values if user want modify groups' values
-if ($protectedPost['Valid_modif'] && !isset($protectedPost['modif']) && !isset($protectedPost['MODIF'])) {
+if (isset($protectedPost['Valid_modif']) && !isset($protectedPost['modif']) && !isset($protectedPost['MODIF'])) {
     if (trim($protectedPost['NAME']) != '' && trim($protectedPost['DESCR']) != '') {
         $req = "UPDATE hardware SET " .
                 "NAME='%s'," .
@@ -150,7 +156,7 @@ if ($item->CREATE_TIME == "") {
 $tdpopup = "onclick=\"javascript: OuvrirPopup('group_chang_value.php', '', 'resizable=no, location=no, width=400, height=200, menubar=no, status=no, scrollbars=no, menubar=no')";
 
 //if user clic on modify
-if ($protectedPost['MODIF_x']) {
+if (isset($protectedPost['MODIF_x'])) {
     //don't show the botton modify
     $img_modif = "";
     //list of input we can modify
@@ -193,7 +199,7 @@ if (!$pureStat) {
     if ($item->XMLDEF != "") {
         $tab_list_sql = regeneration_sql($item->XMLDEF);
         $i = 1;
-        while ($tab_list_sql[$i]) {
+        foreach ($tab_list_sql as $sql) {
             $temp .= $i . ") => " . $tab_list_sql[$i];
             $i++;
         }
@@ -220,7 +226,7 @@ show_resume($dataValue, $labelValue);
 
         if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
             echo $button_valid;
-            echo $button_reset;
+            echo $button_reset ?? '';
             echo $img_modif;
         }
 
@@ -243,27 +249,36 @@ else {
         $opt = stripslashes(urldecode($protectedGet["option"]));
     }
 
-
+    $notif = array($l->g(9950));
     $lblAdm = array($l->g(500));
     $imgAdm = array("ms_config");
     $lblHdw = array($l->g(580), $l->g(581));
     $imgHdw = array("ms_all_computersred", "ms_all_computers",);
-        echo "<div class='row rowMarginTop30'>";
-    echo img($lblAdm[0], 1);
+    $lblTld = array($l->g(481));
 
-    if (!$pureStat) {
+    echo "<div class='row rowMarginTop30'>";
+    echo img($lblAdm[0], 1);
+    
+    if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
+        echo img($notif[0], 1);
+    }
+        if (!$pureStat) {
         echo img($lblHdw[0], 1);
+
     }
 
     echo img($lblHdw[1], 1);
+    echo img($lblTld[0], 1);
 
-        if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
-            echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
-        }
-        echo "</div>";
+    if( $_SESSION['OCS']['profile']->getConfigValue('TELEDIFF')=="YES" ){
+        echo "<a href=\"index.php?".PAG_INDEX."=".$pages_refs['ms_custom_pack']."&head=1&idchecked=".$systemid."&origine=mach\" class='btn btn-success' >".$l->g(501)."</a>";
+    }
+    echo "</div>";
 
-        echo "<div class='row rowMarginTop30'>";
-        echo "<div class='col-md-10 col-md-offset-1'>";
+    echo "<div class='row rowMarginTop30'>";
+    echo "<div class='col-md-10 col-md-offset-1'>";
+
+
     switch ($opt) :
         case $l->g(500): print_perso($systemid);
             break;
@@ -272,6 +287,12 @@ else {
             break;
         case $l->g(580):
             print_computers_real($systemid);
+            break;
+        case $l->g(481):
+            print_activated_package($systemid);
+            break;
+        case $l->g(9950):
+            print_notification_form($systemid, $protectedPost['RECURRENCE'] ?? '');
             break;
         default : print_perso($systemid);
             break;
@@ -331,6 +352,164 @@ function update_computer_group($hardware_id, $group_id, $static) {
     }
 }
 
+function print_notification_form($systemid, $recurrence) {
+    global $protectedPost, $l;
+    echo open_form('notification_form');
+    echo "<div class='col-md-10 col-md-offset-1'>";
+
+    msg_info($l->g(9951));
+    $recurrences[''] = "";
+    $recurrences['DAILY'] = $l->g(9956);
+    $recurrences['WEEKLY'] = $l->g(9957);
+    $recurrences['MONTHLY'] = $l->g(9958);
+
+    
+    // check if group already has a report
+    $sql = "SELECT * FROM `reports_notifications` WHERE GROUP_ID = %s";
+    $args_rec = array($systemid, $recurrence);
+    $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
+    $current_rec = mysqli_fetch_assoc($result);
+
+    if ((isset($protectedPost['UPDATE_RECURRENCE']) && $protectedPost['RECURRENCE'] != '') && (isset($protectedPost['MAIL']) && $protectedPost['MAIL'] != '')) {
+        // if not already existing, insert
+        if (isset($result) && $result->num_rows == 0) {
+            $status = $protectedPost['STATUS'] ?? 'ON';
+            $mails = json_encode($protectedPost['MAIL']);
+            $datetime = date("Y-m-d H:i:s");
+
+            if (isset($protectedPost['RECURRENCE']) && $protectedPost['RECURRENCE'] == 'MONTHLY') {
+                // set the last_exec date to first of this month if monthly recurrence
+                $last_exec = date("Y-m-01 H:i:s");
+            } else {
+                $last_exec = $datetime;
+            }
+
+            $end_date = isset($protectedPost['END_DATE_VALUE']) ? (New DateTime($protectedPost['END_DATE_VALUE']))->format('Y-m-d H:i:s') : NULL;
+            $sql = "INSERT INTO `reports_notifications` (GROUP_ID, RECURRENCE, END_DATE, WEEKDAY, DATE_CREATED, LAST_EXEC, MAIL, STATUS) VALUES (%s, '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+            $args_rec = array($systemid, $recurrence, $end_date, $protectedPost['WEEKDAY'] ?? '', $datetime, $last_exec, $mails, $status);
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
+
+            if ($result) {
+                msg_success($l->g(9952));
+            }
+        } else {
+            $status = $protectedPost['STATUS'] ?? 'ON';
+            $mails = json_encode($protectedPost['MAIL']);
+            $datetime = date("Y-m-d H:i:s");
+            if (isset($protectedPost['RECURRENCE']) && $protectedPost['RECURRENCE'] == 'MONTHLY') {
+                // set the last_exec date to first of this month if monthly recurrence
+                $last_exec = date("Y-m-01 H:i:s");
+            } else {
+                $last_exec = $datetime;
+            }
+            $end_date = isset($protectedPost['END_DATE_VALUE']) ? (New DateTime($protectedPost['END_DATE_VALUE']))->format('Y-m-d H:i:s') : NULL;
+            $sql = "UPDATE `reports_notifications` SET RECURRENCE = '%s', END_DATE = '%s', WEEKDAY = '%s', DATE_CREATED = '%s', LAST_EXEC = '%s', MAIL = '%s', STATUS = '%s' WHERE ID = %s";
+            $args_rec = array($recurrence, $end_date, $protectedPost['WEEKDAY'] ?? '', $datetime, $last_exec, $mails, $status, $current_rec['ID']);
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $args_rec);
+            
+            if ($result) {
+                msg_success($l->g(9953));
+            }
+        }
+
+    } elseif (isset($protectedPost['UPDATE_RECURRENCE']) && $protectedPost['RECURRENCE'] == '') {
+        msg_error($l->g(9954));
+    } elseif (isset($protectedPost['UPDATE_RECURRENCE']) && isset($protectedPost['MAIL']) && $protectedPost['MAIL'] == '') {
+        msg_error($l->g(9955));
+    }
+
+    if (isset($protectedPost['RECURRENCE']) || isset($current_rec)) {
+        $cur_mails = isset($protectedPost['MAIL']) ? $protectedPost['MAIL'] ?? '': json_decode($current_rec['MAIL']) ?? '';
+        $cur_rec = isset($protectedPost['RECURRENCE']) ? $protectedPost['RECURRENCE'] ?? '': $current_rec['RECURRENCE'] ?? '';
+        $cur_end_date = isset($protectedPost['END_DATE_VALUE']) ? $protectedPost['END_DATE_VALUE'] ?? '': $current_rec['END_DATE'] ?? '';
+        $cur_weekday = isset($protectedPost['WEEKDAY']) ? $protectedPost['WEEKDAY'] ?? '': $current_rec['WEEKDAY'] ?? '';
+        $cur_status = isset($protectedPost['STATUS']) ? $protectedPost['STATUS'] ?? '': $current_rec['STATUS'] ?? '';
+    }
+
+    $recurrence = $cur_rec ?? '';
+
+    // status button
+    $activate['ON'] = 'ON';
+    $activate['OFF'] = 'OFF';
+    formGroup('select', 'STATUS', $l->g(9959), '', '', $cur_status ?? '', '', $activate, $activate);
+
+
+    // show form to set a reccurence
+    formGroup('select', 'RECURRENCE', $l->g(9960), '', '', $cur_rec ?? '', '', $recurrences, $recurrences, 'onchange="this.form.submit();"');
+    formGroup('text', 'MAIL', $l->g(9961), '', '', $cur_mails ?? '', '', '', '', "placeholder='example@example.com, another@example.com'");
+    
+    if (isset($recurrence) && $recurrence == 'DAILY') {
+        $rec_options = array("END_DATE");
+    } elseif (isset($recurrence) && $recurrence == 'WEEKLY') {
+        $rec_options = array("WEEKDAY", "END_DATE");
+    } elseif (isset($recurrence) && $recurrence == 'MONTHLY') {
+        $rec_options = array("END_DATE");
+    }
+
+    if (isset($recurrence) && isset($rec_options)) {
+
+        foreach ($rec_options as $option) {
+                
+            if ($option == "WEEKDAY") {
+                // show weekday form
+                $recurrence_days = array(0  => $l->g(540),
+                1  => $l->g(541),
+                2  => $l->g(542),
+                3  => $l->g(543),
+                4  => $l->g(544),
+                5  => $l->g(545),
+                6  => $l->g(539));
+                formGroup('select', 'WEEKDAY', $l->g(9962), '', '', $cur_weekday ?? '', '', $recurrence_days, $recurrence_days, 'onchange="this.form.submit();"');
+            }
+
+            if ($option == "END_DATE") {
+                echo "<label class='control-label col-sm-2' for='END_DATE_ON'>".$l->g(9963)."</label>
+                <div class='col-sm-3'>";
+                
+                if (isset($protectedPost['END_DATE_RADIO']) && $protectedPost['END_DATE_RADIO'] == 'OFF') {
+                    unset($current_rec['END_DATE']);
+                }
+
+                if (!isset($current_rec) && !isset($protectedPost['END_DATE_RADIO'])) {
+                    $protectedPost['END_DATE_RADIO'] = 'OFF';
+                }
+
+                if ((isset($protectedPost['END_DATE_RADIO']) && $protectedPost['END_DATE_RADIO'] == 'ON') || (isset($current_rec['END_DATE']) && $current_rec['END_DATE'] != '0000-00-00 00:00:00')) {
+                    echo "<input type='radio' id='END_DATE_ON' name='END_DATE_RADIO' value='ON' onclick='this.form.submit();' checked/>ON";
+                    echo "<input type='radio' id='END_DATE_OFF' name='END_DATE_RADIO' value='OFF' onclick='this.form.submit();'/>OFF";
+                } elseif((isset($protectedPost['END_DATE_RADIO']) && $protectedPost['END_DATE_RADIO'] == 'OFF') || (isset($current_rec['END_DATE']) && $current_rec['END_DATE'] == '0000-00-00 00:00:00')) {
+                    echo "<input type='radio' id='END_DATE_ON' name='END_DATE_RADIO' value='ON' onclick='this.form.submit();'/>ON";
+                    echo "<input type='radio' id='END_DATE_OFF' name='END_DATE_RADIO' value='OFF' onclick='this.form.submit();' checked/>OFF";
+                }
+
+                echo "</div>";
+
+
+                // show end_date calendar if user checked the ON radio button 
+                if ((isset($protectedPost['END_DATE_RADIO']) && $protectedPost['END_DATE_RADIO'] == 'ON') || (isset($current_rec['END_DATE']) && $current_rec['END_DATE'] != '0000-00-00 00:00:00')) {
+                    // report will be sent every 1st
+                    $value = isset($cur_end_date) && $cur_end_date != '0000-00-00 00:00:00' ? $cur_end_date : '';
+                    echo "
+                    <div class='col-sm-3'>
+                    <div class='input-group date form_datetime' id='date_form'>
+                    <input type='text' class='form-control' name='END_DATE_VALUE' id='end_date' value='$value'/>
+                    <span class='input-group-addon'>
+                        ".calendars('END_DATE_VALUE', $l->g(1270))."
+                    </span>
+
+                    </div>";
+                }
+
+            }
+
+        }
+    }
+    echo close_form();
+    echo "<br><br><br><input value='".$l->g(103)."' name='UPDATE_RECURRENCE' type='submit' class='btn btn-success'>";
+
+
+}
+
 function print_computers_real($systemid) {
     global $l, $list_fields, $list_col_cant_del, $default_fields, $tab_options, $protectedPost;
     if (isset($protectedPost["actshowgroup"]) && $protectedPost["modify"] != "") {
@@ -346,7 +525,6 @@ function print_computers_real($systemid) {
     $arg = $systemid;
     $resGroup = mysql2_query_secure($sql_group, $_SESSION['OCS']["readServer"], $arg);
     $valGroup = mysqli_fetch_array($resGroup); //group old version
-
     if (!$valGroup["xmldef"]) {
         $sql_group = "SELECT request FROM groups WHERE hardware_id='%s'";
         $arg = $systemid;
@@ -363,7 +541,7 @@ function print_computers_real($systemid) {
         $tab_list_sql = regeneration_sql($valGroup["xmldef"]);
         $i = 1;
         $tab_id = array();
-        while ($tab_list_sql[$i]) {
+        while (isset($tab_list_sql[$i])) {
             if ($tab_id != array()) {
                 if (strtolower(substr($tab_list_sql[$i], 0, 19)) == "select distinct id ") {
                     $tab_list_sql[$i] .= " and id in (" . implode(",", $tab_id) . ")";
@@ -394,8 +572,8 @@ function print_computers_real($systemid) {
         $queryDetails .= $value . ",";
     }
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
-						where h.id in (" . implode(",", $tab_id) . ") and deviceid <> '_SYSTEMGROUP_'
-										AND deviceid <> '_DOWNLOADGROUP_'";
+                        LEFT JOIN bios b ON b.hardware_id=h.id 
+						where h.id in (" . implode(",", $tab_id) . ") and deviceid <> '_SYSTEMGROUP_' AND deviceid <> '_DOWNLOADGROUP_'";
     if (isset($mesmachines) && $mesmachines != '') {
         $queryDetails .= $mesmachines;
     }
@@ -406,6 +584,143 @@ function print_computers_real($systemid) {
     ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
     form_action_group($systemid);
     echo close_form();
+    if (AJAX) {
+        ob_end_clean();
+        tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
+        ob_start();
+    }
+}
+
+function print_activated_package($systemid) {
+    global $l, $list_fields, $list_col_cant_del, $default_fields, $tab_options, $protectedPost;
+
+    require('require/function_telediff.php');
+
+    // Delete package
+    if (!empty($protectedPost['SUP_PROF'])) {
+        if ($_SESSION['OCS']["justAdded"] == false) {
+            desactive_packet($systemid, $protectedPost['SUP_PROF']);
+        } else {
+            $_SESSION['OCS']["justAdded"] = false;
+        }
+        addLog($l->g(512), $l->g(886) . " " . $protectedPost['SUP_PROF'] . " => " . $systemid);
+        $tab_options['CACHE'] = 'RESET';
+        unset($protectedPost['SUP_PROF']);
+    }
+
+    $form_name = "print_activate_package";
+    $table_name = $form_name;
+
+    echo open_form($form_name);
+
+    $list_fields = array(
+        $l->g(1037) => 'name',
+        $l->g(475) => 'FILEID',
+        $l->g(499) => 'pack_loc',
+        $l->g(51) => 'comments',
+        'NO_NOTIF' => 'NO_NOTIF',
+        'NOTI' => 'NOTI', 
+        'SUCC' => 'SUCC', 
+        'ERR_' => 'ERR_',
+    );
+
+    if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
+        $list_fields['SUP'] = 'ivalue';
+    }
+
+    $list_col_cant_del = $list_fields;
+    $default_fields = $list_col_cant_del;
+
+
+    // add percentage stats
+    $tab_options['NO_SEARCH']['NOTI'] = 'NOTI';
+    $tab_options['NO_SEARCH']['SUCC'] = 'SUCC';
+    $tab_options['NO_SEARCH']['ERR_'] = 'ERR_';
+    $tab_options['NO_SEARCH']['NO_NOTIF'] = 'NO_NOTIF';
+    $tab_options['NO_TRI']['NOTI'] = 1;
+    $tab_options['NO_TRI']['NO_NOTIF'] = 1;
+    $tab_options['NO_TRI']['SUCC'] = 1;
+    $tab_options['NO_TRI']['ERR_'] = 1;
+    $tab_options['LBL'] = array('NOTI' => $l->g(1000).' %', 'SUCC' => $l->g(572).' %', 'ERR_' => $l->g(344).' %', 'NO_NOTIF' => ucfirst(strtolower($l->g(482))).' %');
+
+    $queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.FILEID, e.pack_loc,h.name as name_server,h.id,a.comment
+                    FROM devices d left join download_enable e on e.id=d.ivalue
+                        LEFT JOIN download_available a ON e.fileid=a.fileid
+                        LEFT JOIN hardware h on h.id=e.server_id
+                    WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != ''   AND d.hardware_id=%s
+                    UNION
+                    SELECT '%s', IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.fileid, '%s',h.name,h.id,a.comment
+                    FROM devices d left join download_enable e on e.id=d.ivalue
+                        LEFT JOIN download_available a ON e.fileid=a.fileid
+                        LEFT JOIN hardware h on h.id=e.server_id
+                    WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=%s";
+
+    $arg = array($l->g(482), $systemid, $l->g(1129), $l->g(482), $l->g(1129), $systemid);
+
+    // hIDs of this grp will be used to calculate percentage stats
+    $sql_grp_devices = "select HARDWARE_ID from groups_cache where GROUP_ID = %s";
+    $arg_grp_devices = array($systemid);
+    $res_grp_devices = mysql2_query_secure($sql_grp_devices, $_SESSION['OCS']["readServer"], $arg_grp_devices);
+    $hardware_ids = array();
+    while ($val_grp_devices = mysqli_fetch_array($res_grp_devices)) {
+        $hardware_ids[] = $val_grp_devices['HARDWARE_ID'];
+    }
+
+    $sql_data_fixe = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
+    from devices d,download_enable de
+    where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+    and d.tvalue %s '%s' ";
+    $sql_data_fixe_bis = "select concat(format((%s-count(*))*100/%s, 0), '%s') as %s,de.FILEID
+        from devices d,download_enable de
+        where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+        and hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') and d.tvalue %s  ";
+    $sql_data_fixe_ter = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
+        from devices d,download_enable de
+        where d.IVALUE=de.ID  and d.name='DOWNLOAD'
+        and (d.tvalue %s '%s' or d.tvalue %s '%s') ";
+
+    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_'] = array(count($hardware_ids), '%', 'ERR_', 'LIKE', 'ERR_%', 'LIKE', 'EXIT_CODE%');
+    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC'] = array(count($hardware_ids), '%', 'SUCC', 'LIKE', 'SUCCESS%');
+    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI'] = array(count($hardware_ids), '%', 'NOTI', 'LIKE', 'NOTI%');
+    // to get percent of not notified devices, we compare all devices having a status with the nb of devices in the group
+    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF'] = array(count($hardware_ids), count($hardware_ids), '%', 'NO_NOTIF', 'IS NOT NULL');
+    $sql_data_fixe .= " and d.hardware_id in ";
+    $sql_data_fixe_bis .= " and d.hardware_id in ";
+    $sql_data_fixe_ter .= " and d.hardware_id in ";
+
+    $temp = mysql2_prepare($sql_data_fixe, array(), $hardware_ids);
+    $temp_bis = mysql2_prepare($sql_data_fixe_bis, array(), $hardware_ids);
+    $temp_ter = mysql2_prepare($sql_data_fixe_ter, array(), $hardware_ids);
+    foreach ($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key => $value) {
+
+        if ($key != 'NO_NOTIF' && $key != 'ERR_') {
+            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
+            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL'] . " group by FILEID";
+        } elseif ($key == 'NO_NOTIF') {
+            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
+            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL'] . " group by FILEID";
+        } elseif ($key == 'ERR_') {
+            $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_ter['ARG']);
+            $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL'] . " group by FILEID";
+        }
+
+    }
+
+
+    $tab_options['COLOR']['ERR_'] = 'RED';
+    $tab_options['COLOR']['SUCC'] = 'GREEN';
+    $tab_options['COLOR']['NOTI'] = 'GREY';
+    $tab_options['COLOR']['NO_NOTIF'] = 'BLACK';
+    $tab_options['FIELD_REPLACE_VALUE_ALL_TIME'] = 'FILEID';
+    $tab_options['ARG_SQL'] = $arg;
+
+    $tab_options['form_name'] = $form_name;
+    $tab_options['table_name'] = $table_name;
+
+    ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+
+    echo close_form();
+
     if (AJAX) {
         ob_end_clean();
         tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
@@ -443,7 +758,7 @@ function print_computers_cached($systemid) {
         $queryDetails .= $value . ",";
     }
     $queryDetails = substr($queryDetails, 0, -1) . " FROM  hardware h LEFT JOIN accountinfo a ON a.hardware_id=h.id
-						,groups_cache e
+                        LEFT JOIN bios b ON b.hardware_id=h.id ,groups_cache e
 						where group_id='" . $systemid . "' and h.id=e.HARDWARE_ID ";
     if (isset($mesmachines) && $mesmachines != '') {
         $queryDetails .= $mesmachines;
@@ -479,7 +794,7 @@ function print_perso($systemid) {
     }
 
     $field_name = array('DOWNLOAD', 'DOWNLOAD_CYCLE_LATENCY', 'DOWNLOAD_PERIOD_LENGTH', 'DOWNLOAD_FRAG_LATENCY',
-        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP');
+        'DOWNLOAD_PERIOD_LATENCY', 'DOWNLOAD_TIMEOUT', 'PROLOG_FREQ', 'SNMP', 'SCAN_TYPE_SNMP', 'SCAN_TYPE_IPDISCOVER', 'SCAN_ARP_BANDWIDTH');
     $optdefault = look_config_default_values($field_name);
 
      //IPDISCOVER
@@ -497,7 +812,7 @@ function print_perso($systemid) {
     }
 
 
-    optpersoGroup('IPDISCOVER', $l->g(489), '', '', $default, $supp);
+    optpersoGroup('IPDISCOVER', $l->g(489), '', '', $default, $supp ?? '');
 
     //FREQUENCY
     if (isset($optPerso["FREQUENCY"])) {
@@ -514,7 +829,7 @@ function print_perso($systemid) {
         $default = $l->g(497);
     }
 
-    optpersoGroup('FREQUENCY', $l->g(494), '', '', $default, $supp);
+    optpersoGroup('FREQUENCY', $l->g(494), '', '', $default, $supp ?? '');
 
     //DOWNLOAD_SWITCH
     if (isset($optPerso["DOWNLOAD_SWITCH"])) {
@@ -537,7 +852,7 @@ function print_perso($systemid) {
     }
 
     //DOWNLOAD
-    optpersoGroup("DOWNLOAD", $l->g(417), "DOWNLOAD", '', $default, $supp);
+    optpersoGroup("DOWNLOAD", $l->g(417), "DOWNLOAD", '', $default, $supp ?? '');
 
     if(isset($optPerso["DOWNLOAD_CYCLE_LATENCY"])){
         $default = '';
@@ -548,7 +863,7 @@ function print_perso($systemid) {
     }
 
     //DOWNLOAD_CYCLE_LATENCY
-    optpersoGroup("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso, $default, $supp);
+    optpersoGroup("DOWNLOAD_CYCLE_LATENCY", $l->g(720), "DOWNLOAD_CYCLE_LATENCY", $optPerso ?? '', $default, $supp ?? '');
 
     if(isset($optPerso['DOWNLOAD_FRAG_LATENCY']['IVALUE'])){
         $default = '';
@@ -558,7 +873,7 @@ function print_perso($systemid) {
         $supp = '';
     }
     //DOWNLOAD_FRAG_LATENCY
-    optpersoGroup("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso, $default, $supp);
+    optpersoGroup("DOWNLOAD_FRAG_LATENCY", $l->g(721), "DOWNLOAD_FRAG_LATENCY", $optPerso ?? '', $default, $supp ?? '');
 
     if(isset($optPerso['DOWNLOAD_PERIOD_LATENCY']['IVALUE'])){
         $default = '';
@@ -568,7 +883,7 @@ function print_perso($systemid) {
         $supp = '';
     }
     //DOWNLOAD_PERIOD_LATENCY
-    optpersoGroup("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso, $default, $supp);
+    optpersoGroup("DOWNLOAD_PERIOD_LATENCY", $l->g(722), "DOWNLOAD_PERIOD_LATENCY", $optPerso ?? '', $default, $supp ?? '');
 
 
     if(isset($optPerso['DOWNLOAD_PERIOD_LENGTH']['IVALUE'])){
@@ -579,7 +894,7 @@ function print_perso($systemid) {
         $supp = '';
     }
     //DOWNLOAD_PERIOD_LENGTH
-    optpersoGroup("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso, $default, $supp);
+    optpersoGroup("DOWNLOAD_PERIOD_LENGTH", $l->g(723), "DOWNLOAD_PERIOD_LENGTH", $optPerso ?? '', $default, $supp ?? '');
 
     if(isset($optPerso['PROLOG_FREQ']['IVALUE'])){
         $default = '';
@@ -589,7 +904,7 @@ function print_perso($systemid) {
         $supp = '';
     }
     //PROLOG_FREQ
-    optpersoGroup("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso, $default, $supp);
+    optpersoGroup("PROLOG_FREQ", $l->g(724), "PROLOG_FREQ", $optPerso ?? '', $default, $supp ?? '');
 
     //SNMP_SWITCH
      if (isset($optPerso["SNMP_SWITCH"])) {
@@ -603,7 +918,7 @@ function print_perso($systemid) {
         }
     } else {
          $supp = '';
-        if ($optdefault['ivalue']["SNMP"] == 1) {
+        if (isset($optdefault['ivalue']["SNMP"]) && $optdefault['ivalue']["SNMP"] == 1) {
             $default = $l->g(205);
         } else {
             $default = $l->g(733);
@@ -612,9 +927,46 @@ function print_perso($systemid) {
 
     optpersoGroup('SNMP_SWITCH', $l->g(1197), 'SNMP_SWITCH', '', $default, $supp);
 
-    //TELEDEPLOY
-    require_once('require/function_machine.php');
-    show_packages($systemid, "ms_group_show");
+    // SCAN TYPE SNMP
+    if (isset($optPerso["SCAN_TYPE_SNMP"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_SNMP"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_SNMP"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_SNMP"];
+    }
+
+    optpersoGroup('SCAN_TYPE_SNMP', $l->g(9982), 'SCAN_TYPE_SNMP', '', $default, $supp);
+
+    // SCAN TYPE IPDISCOVER
+    if (isset($optPerso["SCAN_TYPE_IPDISCOVER"])) {
+        $default = '';
+        if ($optPerso["SCAN_TYPE_IPDISCOVER"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_TYPE_IPDISCOVER"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['tvalue']["SCAN_TYPE_IPDISCOVER"];
+    }
+
+    optpersoGroup('SCAN_TYPE_IPDISCOVER', $l->g(9981), 'SCAN_TYPE_IPDISCOVER', '', $default, $supp);
+
+    // ARP BANDWIDTH
+    
+    if (isset($optPerso["SCAN_ARP_BANDWIDTH"])) {
+        $default = '';
+        if ($optPerso["SCAN_ARP_BANDWIDTH"]["IVALUE"] == 2) {
+            $supp = $optPerso["SCAN_ARP_BANDWIDTH"]["TVALUE"];
+        }
+    } else {
+        $supp = '';
+        $default = $optdefault['ivalue']["SCAN_ARP_BANDWIDTH"];
+    }
+
+    optpersoGroup('SCAN_ARP_BANDWIDTH', $l->g(9983), 'SCAN_ARP_BANDWIDTH', '', $default, $supp);
+
 
     if ($_SESSION['OCS']['profile']->getConfigValue('CONFIG') == "YES") {
         echo "<a class='btn btn-success' href=\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_custom_param'] . "&head=1&idchecked=" . $systemid . "&origine=group\">
@@ -622,6 +974,8 @@ function print_perso($systemid) {
     }
 
     echo close_form();
+
+
 }
 
 function img($a, $avail) {

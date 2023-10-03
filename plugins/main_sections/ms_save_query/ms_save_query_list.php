@@ -27,10 +27,18 @@ if (AJAX) {
     ob_start();
 }
 
-if(isset($protectedPost['SUP_PROF'])){
+if(isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ""){
     $sqlQuery = "DELETE FROM `save_query` WHERE ID = %s";
     $sqlArg = [$protectedPost['SUP_PROF']];
     mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
+} else if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != '') {
+    // delete multiple selected rows
+    $ids = explode(',', $protectedPost['del_check']);
+    foreach ($ids as $id) {
+        $reqDcatall = 'DELETE FROM `save_query` WHERE ID = '.$id;
+        mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+    }
+    $tab_options['CACHE'] = 'RESET';
 }
 
 printEnTete($l->g(2141));
@@ -48,7 +56,7 @@ $def_onglets['QUERY_LIST'] = $l->g(2141); //Category list.
 $def_onglets['NEW_QUERY'] = $l->g(2142); //New category
 
 //default => first onglet
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "QUERY_LIST";
 }
 
@@ -68,20 +76,27 @@ echo '<div class="col col-md-10" >';
 $list_fields = array(
     'name' => 'QUERY_NAME',
     $l->g(53) => 'DESCRIPTION',
+    $l->g(2145) => "WHO_CAN_SEE"
 );
 
 $tab_options['LIEN_LBL']['name'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=querysave&value=';
 $tab_options['LIEN_CHAMP']['name'] = 'id';
 $tab_options['LBL']['name'] = $l->g(49);
 $list_fields['SUP'] = 'ID';
+$list_fields['CHECK'] = 'ID';
 $tab_options['LBL_POPUP']['SUP'] = 'QUERY_NAME';
 
 $default_fields = $list_fields;
 $list_col_cant_del = $list_fields;
 
-$queryDetails = "select ID, QUERY_NAME, DESCRIPTION, ID AS id from save_query";
+$queryDetails = "SELECT ID, QUERY_NAME, DESCRIPTION, WHO_CAN_SEE, ID AS id FROM save_query WHERE WHO_CAN_SEE = 'ALL' OR USER_ID = '".$_SESSION['OCS']['loggeduser']."'";
+
+if($_SESSION["OCS"]["user_group"] != null && $_SESSION["OCS"]["user_group"] != "") {
+    $queryDetails .= " OR GROUP_ID = '".$_SESSION['OCS']['user_group']."'";
+}
 
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
+del_selection($form_name);
 
 echo "</div>";
 echo close_form();

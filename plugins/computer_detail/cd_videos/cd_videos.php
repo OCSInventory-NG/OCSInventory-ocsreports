@@ -39,7 +39,7 @@ $list_fields = array($l->g(49) => 'NAME',
     $l->g(276) => 'CHIPSET',
     $l->g(26) . " (MB)" => 'MEMORY',
     $l->g(62) => 'RESOLUTION');
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));

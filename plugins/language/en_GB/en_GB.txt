@@ -779,8 +779,9 @@
 891 Remove interface LOCK
 892 connect with another account
 893 NO TAG ASSIGNED TO YOUR PROFILE
-894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
+894 No rights level defined to your profile, please contact your administrator
 895 TAG Modification
+896 You do not have rights to access this page, please contact your administrator
 898 Add an annotation
 899 Writer
 900 Do you really want to delete selection?
@@ -994,12 +995,12 @@
 1108 LDAP configuration
 1109 Filter
 1110 The assignment of a package depends on the status of the request
-1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1111 First LDAP filter that will be used for evaluating the security level of a LDAP user (blank for none)
 1112 Value of the first  attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1113 If the first attribute is found and the value matches, set this user role automatically
-1114 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1113 If the user is found with the first filter, set this user role automatically
+1114 Second LDAP filter that will be used for evaluating the security level of a LDAP user (blank for none)
 1115 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1116 If the second attribute is found and the value matches, set this user role automatically
+1116 If the user is found with the second filter, set this user role automatically
 1117 E-mail
 1118 Edit
 1119 Select
@@ -1357,7 +1358,7 @@
 1477 Name result
 1478 Or import CSV file
 1479 Import
-1480 Download CSV file example
+1480 Download the most known matches CSV file
 1481 CVE history
 1482 Latest execution date
 1483 CVE count
@@ -1396,6 +1397,14 @@
 1515 All OS
 1516 All software (but default)
 1517 No category have been selected
+1518 List of regex
+1519 Missing computers :
+1520 (CSV datas are imported)
+1521 Display count softwares
+1522 Standardized version
+1523 Major version
+1524 Minor version
+1525 Patch version
 
 1550 Do you really want to archive 
 1551 Archive
@@ -1564,6 +1573,11 @@
 2142 Create a search
 2143 Search was successfully saved
 2144 Update an existing saved search
+2145 Who can see ?
+2146 Only me
+2147 My group
+2148 All users
+2149 Update date when peripherals updated
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1619,8 +1633,8 @@
 7014 There is currently no extensions available for installation
 7015 Select at least one computer!
 7016 MTU
-7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation.
-7018 This extension is allready installed.
+7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation. <br> You may need to update profiles permissions to access the extension page. 
+7018 This extension is already installed.
 7019 A PHP error occurred.
 7020 Extension successfully uninstalled!
 7021 Extension "%s" not compliant
@@ -1704,6 +1718,16 @@
 9028 An error happened during the type deletion
 9029 An error happened during the label deletion
 9030 An error happened during the config deletion
+9031 Type conditions
+9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
+9033 Authentication Protocol
+9034 Privacy Protocol
+9035 Privacy Password
+9036 No OID found
+9037 Equipment contacted today
+9038 Number of equipment per type
+9039 Quick view
+9040 Export all SNMP types
 
 9100 SSL key path
 9101 SSL certificat path
@@ -1711,6 +1735,7 @@
 9103 SSL mode
 9104 CA certificat path
 9105 MySQL Port
+9106 Default download protocol
 
 9200 Package deployment for computer
 9201 Package deployment for selection
@@ -1719,6 +1744,8 @@
 9204 Configure download fragmentation ratio
 9205 Enable auto activation package
 9206 Activated
+9207 Deployment date
+9208 Awaiting deployment
 
 9300 Interactions
 9301 Options
@@ -1752,6 +1779,8 @@
 9326 Install with brew
 9327 Apple script
 
+9328 Install plugin
+
 9340 Script
 9341 MSI file
 9342 Repository URL
@@ -1775,6 +1804,14 @@
 9360 dnf
 9361 Reload build
 9362 File
+9363 Plugin agent file
+9364 Configuration line
+9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Path to Modules directory
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
 
 9500 Merge selected duplicates
 9501 Merge all duplicates
@@ -1794,3 +1831,83 @@
 9611 Directory for temporary files
 9612 Import from CSV
 9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
+9614 Import error. Only CSV files are accepted
+9615 Failed to import data
+
+9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
+
+9651 History
+9653 User name
+9654 Date and time
+9655 Action
+9656 Target of action
+
+9700 CAS server port, e.g. : 443
+9701 CAS server uri, e.g : /cas
+9702 CAS server host, e.g. : authentication.org
+9703 CAS default role, applied on first connection initiated using CAS authentication
+9704 CAS Configuration
+
+9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
+9801 Show bios diagram in dashboard
+
+9802 Show CVE search links
+
+9900 Layouts
+9901 Layout created
+9902 Layout deleted
+9903 Error creating layout
+9904 Please check your input. Repeat the process if the problem persists.
+9905 Error deleting layout
+9906 A layout with the same name or columns already exists for your user/scope, please choose another name or set of columns
+9907 Manage layouts
+9908 Show all layouts
+9909 Add new layout
+9910 Available layouts :
+9911 Layout name
+9912 Layout description
+9913 Table name
+9914 Creator
+9915 Visibility scope 
+9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
+9917 Public
+9918 Group
+9919 Personal
+9920 Layout updated successfully
+9921 Is allowed to manage layouts
+
+9930 DNS
+
+9940 Is allowed to manage saved searches
+
+9950 Notifications
+9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
+9952 Report notification created successfully
+9953 Report notification updated successfully
+9954 Please set a recurrence
+9955 Please provide at least one recipient, or comma separated recipients
+9956 daily
+9957 weekly
+9958 monthly
+9959 Activate : 
+9960 Report recurrence : 
+9961 Recipient(s) : 
+9962 Day of reccurence : 
+9963 End Date :
+
+9970 You are not allowed to modify this user
+9971 Do you really want to re-affect the package 
+9972 Affect again
+
+9980 Network Scans
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
+9988 Configuration export
+9989 Download SNMP Scan Configuration
+9990 Download SNMP Subnets List
+9991 Generate SNMP files

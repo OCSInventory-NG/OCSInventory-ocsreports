@@ -59,7 +59,7 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['IGNORED'] = $l->g(718);
     $champ_value['VALUE'] = 'IGNORED';
 }
-ligne("DOWNLOAD_CYCLE_LATENCY", $l->g(720), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_CYCLE_LATENCY'], 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
+ligne("DOWNLOAD_CYCLE_LATENCY", $l->g(720), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_CYCLE_LATENCY'] ?? '', 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
 
 if (!isset($optvalue['DOWNLOAD_FRAG_LATENCY'])) {
     $optvalueselected = 'SERVER DEFAULT';
@@ -73,7 +73,7 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['IGNORED'] = $l->g(718);
     $champ_value['VALUE'] = 'IGNORED';
 }
-ligne("DOWNLOAD_FRAG_LATENCY", $l->g(721), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_FRAG_LATENCY'], 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
+ligne("DOWNLOAD_FRAG_LATENCY", $l->g(721), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_FRAG_LATENCY'] ?? '', 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
 
 if (!isset($optvalue['DOWNLOAD_PERIOD_LATENCY'])) {
     $optvalueselected = 'SERVER DEFAULT';
@@ -87,7 +87,7 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['IGNORED'] = $l->g(718);
     $champ_value['VALUE'] = 'IGNORED';
 }
-ligne("DOWNLOAD_PERIOD_LATENCY", $l->g(722), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_PERIOD_LATENCY'], 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
+ligne("DOWNLOAD_PERIOD_LATENCY", $l->g(722), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_PERIOD_LATENCY'] ?? '', 'END' => $l->g(511), 'JAVASCRIPT' => $numeric));
 
 if (!isset($optvalue['DOWNLOAD_PERIOD_LENGTH'])) {
     $optvalueselected = 'SERVER DEFAULT';
@@ -101,7 +101,7 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['IGNORED'] = $l->g(718);
     $champ_value['VALUE'] = 'IGNORED';
 }
-ligne("DOWNLOAD_PERIOD_LENGTH", $l->g(723), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_PERIOD_LENGTH'], 'JAVASCRIPT' => $numeric));
+ligne("DOWNLOAD_PERIOD_LENGTH", $l->g(723), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_PERIOD_LENGTH'] ?? '', 'JAVASCRIPT' => $numeric));
 
 if (!isset($optvalue['DOWNLOAD_TIMEOUT'])) {
     $optvalueselected = 'SERVER DEFAULT';
@@ -115,7 +115,7 @@ if (!isset($protectedGet['origine'])) {
     $champ_value['IGNORED'] = $l->g(718);
     $champ_value['VALUE'] = 'IGNORED';
 }
-ligne("DOWNLOAD_TIMEOUT", $l->g(424), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_TIMEOUT'], 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
+ligne("DOWNLOAD_TIMEOUT", $l->g(424), 'radio', $champ_value, array('HIDDEN' => 'CUSTOM', 'HIDDEN_VALUE' => $optvalue['DOWNLOAD_TIMEOUT'] ?? '', 'END' => $l->g(496), 'JAVASCRIPT' => $numeric));
 
 fin_tab();
 ?>

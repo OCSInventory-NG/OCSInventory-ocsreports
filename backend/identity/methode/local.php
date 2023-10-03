@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -28,19 +29,16 @@
  * si une erreur est rencontrée, on retourne un code erreur
  *
  */
-
 require_once ('require/function_files.php');
 //nom de la page
 $name = "local.php";
 connexion_local_read();
 mysqli_select_db($link_ocs, $db_ocs);
-
 //recherche du niveau de droit de l'utilisateur
 $reqOp = "SELECT new_accesslvl as accesslvl FROM operators WHERE id='%s'";
 $argOp = array($_SESSION['OCS']["loggeduser"]);
 $resOp = mysql2_query_secure($reqOp, $link_ocs, $argOp);
 $rowOp = mysqli_fetch_object($resOp);
-
 if (isset($rowOp->accesslvl)) {
     $lvluser = $rowOp->accesslvl;
 
@@ -54,7 +52,7 @@ if (isset($rowOp->accesslvl)) {
     $profile = $profile_serializer->unserialize($lvluser, file_get_contents($profile_config));
 
     $restriction = $profile->getRestriction('GUI');
-
+    $restrictions = $profile->getRestrictions();
     //Si l'utilisateur a des droits limités
     //on va rechercher les tags sur lesquels il a des droits
     if ($restriction == 'YES') {
@@ -79,13 +77,19 @@ if (isset($rowOp->accesslvl)) {
                 $list_tag[$row->tag] = $row->tag;
             }
         }
+
         if (!isset($list_tag)) {
             $ERROR = $l->g(893);
         }
+
+        // if user is restricted on all pages and has no tag assigned, he has the right to connect but no access
+        if (!isset($list_tag) && !in_array('NO', $restrictions)) {
+            $ERROR = $l->g(896);
+        }
+
     } elseif ($restriction != 'NO') {
         $ERROR = $restriction;
     }
 } else {
     $ERROR = $l->g(894);
 }
-?>

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -26,7 +27,6 @@ if (AJAX) {
 
     ob_start();
 }
-
 print_item_header($l->g(93));
 if (!isset($protectedPost['SHOW']))
     $protectedPost['SHOW'] = 'NOSHOW';
@@ -42,25 +42,21 @@ $list_fields = array($l->g(64) => 'MANUFACTURER',
     $l->g(80) => 'CAPTION',
     $l->g(53) => 'DESCRIPTION',
     $l->g(277) => 'VERSION');
-
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del[$l->g(66)] = $l->g(66);
 }
-
 $default_fields = array($l->g(64) => $l->g(64), $l->g(49) => $l->g(49), $l->g(66) => $l->g(66));
 $queryDetails = "SELECT ";
-foreach ($list_fields as $lbl => $value) {
+foreach ($list_fields as $value) {
     $queryDetails .= $value . ",";
 }
 $queryDetails = substr($queryDetails, 0, -1) . " FROM controllers WHERE (hardware_id=$systemid)";
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
-
 echo close_form();
 if (AJAX) {
     ob_end_clean();
     tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
     ob_start();
 }
-?>

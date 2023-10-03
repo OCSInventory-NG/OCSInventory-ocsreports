@@ -40,12 +40,15 @@ $debut = strtolower($debut);  // met la premiere lettre en majuscule
 $MAX_RETURN = 10;
 $i = 0;
 
-foreach ($liste as $element) {
-    if ($i < $MAX_RETURN && strtolower(substr($element['NAME'], 0, strlen($debut))) == $debut) {
-        echo(utf8_encode("<option>" . $element['NAME'] . "</option>"));
-        $i++;
+if (!empty($liste)) {
+    foreach ($liste as $element) {
+        if ($i < $MAX_RETURN && strtolower(substr($element['NAME'], 0, strlen($debut))) == $debut) {
+            echo "<option>" . $element['NAME'] . "</option>";
+            $i++;
+        }
     }
 }
+
 echo "\n" . '</options>';
 die();
 ?>

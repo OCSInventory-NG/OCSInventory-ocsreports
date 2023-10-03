@@ -25,8 +25,7 @@ function find_info_subnet($netid) {
     $sql = "select NETID,NAME,ID,MASK from subnet where netid='%s'";
     $arg = $netid;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $row = mysqli_fetch_object($res);
-    return $row;
+    return mysqli_fetch_object($res);
 }
 
 function find_info_type($name = '', $id = '', $update = '') {
@@ -42,8 +41,7 @@ function find_info_type($name = '', $id = '', $update = '') {
         $arg[] = $update;
     }
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $row = mysqli_fetch_object($res);
-    return $row;
+    return mysqli_fetch_object($res);
 }
 
 function form_add_subnet($title = '', $default_value, $form) {
@@ -246,8 +244,7 @@ function find_community_info($id) {
     $sql = "select * from snmp_communities where id=%s";
     $arg = $id;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-    $row = mysqli_fetch_object($res);
-    return $row;
+    return mysqli_fetch_object($res);
 }
 
 function runCommand($command = "", $fname) {

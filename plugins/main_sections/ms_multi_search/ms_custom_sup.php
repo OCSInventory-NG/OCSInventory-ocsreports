@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -29,7 +30,7 @@ $list_id = multi_lot($form_name, $l->g(601));
 echo "<div class='col col-md-12'>";
 if (is_defined($protectedPost['SUP'])) {
     $array_id = explode(',', $list_id);
-    foreach ($array_id as $key => $hardware_id) {
+    foreach ($array_id as $hardware_id) {
         deleteDid($hardware_id);
     }
 }
@@ -38,4 +39,3 @@ if ($list_id) {
     echo "</div>";
 }
 echo close_form();
-?>

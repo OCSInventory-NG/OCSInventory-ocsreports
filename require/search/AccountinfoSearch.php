@@ -21,7 +21,7 @@
  * MA 02110-1301, USA.
  */
 
-require_once 'require/function_admininfo.php';
+require_once 'require/admininfo/Admininfo.php';
 
  /**
   * This class implement basic behavior for accountinfo search management
@@ -55,9 +55,8 @@ require_once 'require/function_admininfo.php';
     /**
      * Objects
      */
-    private $dbObject = null;
-    private $dbName = null;
-    private $accountInfosStruct = null;
+    private $dbObject;
+    private $accountInfosStruct;
 
 
     /**
@@ -65,7 +64,6 @@ require_once 'require/function_admininfo.php';
      */
     function __construct() {
         $this->dbObject = $_SESSION['OCS']["readServer"];
-        $this->dbName = DB_NAME;
         $this->createAccountInfoStruct();
         $this->retrieveAccountInfosConfig();
     }
@@ -125,15 +123,18 @@ require_once 'require/function_admininfo.php';
      */
     public function getSearchAccountInfo($field_account){
         $id = explode("_", $field_account);
-        $sql = "SELECT TYPE FROM accountinfo_config WHERE ID = %s";
-        $arg = array($id[1]);
-        $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
-        while ($type = mysqli_fetch_array($result)){
-          $info = $type['TYPE'];
+        if(is_int($id)) {
+            $sql = "SELECT TYPE FROM accountinfo_config WHERE ID = %s";
+            $arg = array($id[1] ?? null);
+            $result = mysql2_query_secure($sql, $this->dbObject, $arg);
+    
+            if($result) while ($type = mysqli_fetch_array($result)){
+              $info = $type['TYPE'];
+            }
         }
-
-        return $info;
+        
+        return $info ?? null;
     }
 
     /**
@@ -141,19 +142,23 @@ require_once 'require/function_admininfo.php';
      * @param  string $field
      * @return array $values
      */
-    public function find_accountinfo_values($field, $typeInfo = null){
+    public function find_accountinfo_values($field, $typeInfo = null, $snmp = null){
         $id = explode("_", $field);
-        $sql = "SELECT `NAME` FROM accountinfo_config WHERE ID = %s";
-        $arg = array($id[1]);
-        $result = mysql2_query_secure($sql, $this->dbObject, $arg);
 
-        while ($type = mysqli_fetch_array($result)){
-          $info = 'ACCOUNT_VALUE_'.$type['NAME'];
+        if(is_int($id)) {
+            $sql = "SELECT `NAME` FROM accountinfo_config WHERE ID = %s";
+            $arg = array($id[1]);
+            $result = mysql2_query_secure($sql, $this->dbObject, $arg);
+
+            if($result) while ($type = mysqli_fetch_array($result)){
+                $info = 'ACCOUNT_'.$snmp.'VALUE_'.$type['NAME'];
+            }
+
+            $Admininfo = new Admininfo();
+
+            return $Admininfo->find_value_field($info, $typeInfo);
         }
-
-        $values = find_value_field($info, $typeInfo);
-
-        return $values;
+        return null;
     }
 
  }

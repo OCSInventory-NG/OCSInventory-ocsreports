@@ -109,7 +109,7 @@ if ($protectedPost['onglet'] == 1) {
     //traitement par lot
     if ($are_result) {
         del_selection($form_name);
-        if ($protectedGet['form']) {
+        if (isset($protectedGet['form'])) {
             reloadform_closeme($protectedGet['form']);
         }
     }
@@ -121,7 +121,7 @@ if ($protectedPost['onglet'] == 1) {
             update_config($protectedGet['tag'] . "_" . $protectedPost['MODIF_OLD'], 'COMMENTS', $protectedPost['2newfield'], false);
         }
         $hidden = $protectedPost['MODIF_OLD'];
-    } elseif ($protectedPost['Valid_modif'] != "") {
+    } elseif (isset($protectedPost['Valid_modif']) && $protectedPost['Valid_modif'] != "") {
         //ADD NEW VALUE
         //vérification que le nom du champ n'existe pas pour les nouveaux champs
         if (trim($protectedPost['newfield']) != '') {
@@ -163,7 +163,7 @@ if ($protectedPost['onglet'] == 1) {
             mysql2_query_secure($sql_insert, $_SESSION['OCS']["writeServer"], $arg_insert);
             //si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
             msg_success($l->g(1069));
-            if ($protectedGet['form']) {
+            if (isset($protectedGet['form'])) {
                 reloadform_closeme($protectedGet['form']);
             }
         } else {
@@ -178,7 +178,7 @@ if ($protectedPost['onglet'] == 1) {
     $name_field = array("newfield");
     $tab_name[0] = $lbl_new_field;
     $type_field = array(0);
-    $value_field = array($protectedPost['newfield']);
+    $value_field = array($protectedPost['newfield'] ?? null);
     if (isset($protectedGet['nb_field']) && is_numeric($protectedGet['nb_field'])) {
         array_push($name_field, '2newfield');
         array_push($tab_name, $l->g($protectedGet['nb_field']));
@@ -192,7 +192,7 @@ if ($protectedPost['onglet'] == 1) {
         $tab_typ_champ[1]['CONFIG']['SIZE'] = 20;
     }
 
-    modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+    modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? null, array(
         'form_name' => 'NO_FORM'
     ));
 }

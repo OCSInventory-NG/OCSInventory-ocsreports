@@ -29,9 +29,6 @@ function show_activate_form($timestamp, $data, $errors) {
     echo '<h3>Package ' . $package['NAME'] . ' (' . $package['FILEID'] . ')</h3>';
 
     echo '<a href="#" target="_blank">Download</a>';
-    if ($redistrib_pack) {
-        echo ' - <a href="#" target="_blank">Download redistribution package</a>';
-    }
     echo ' - <a href="#" target="_blank">View info file</a>';
 
 

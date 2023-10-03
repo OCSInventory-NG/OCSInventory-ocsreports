@@ -265,7 +265,7 @@
 266 Fecha inválida
 267 dd/mm/AAAA
 268 Velocidad
-269 %m/%d/%Y %H:%i
+269 %d/%m/%Y %H:%i
 270 Módem(s)
 271 Ranura(s)
 272 Puerto(s)
@@ -347,7 +347,7 @@
 349 Añadir columna
 350 Tipo de CPU
 351 Número de CPU
-352 Último inventario
+352 Último contacto
 353 Calidad
 354 Fidelidad
 355 Entidad

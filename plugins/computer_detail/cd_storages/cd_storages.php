@@ -40,7 +40,7 @@ $list_fields = array($l->g(49) => 'NAME',
     $l->g(67) . " (MB)" => 'DISKSIZE',
     $l->g(36) => 'SERIALNUMBER',
     $l->g(1229) => 'FIRMWARE');
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));

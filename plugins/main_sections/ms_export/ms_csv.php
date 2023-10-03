@@ -32,12 +32,12 @@ $link = $_SESSION['OCS']["readServer"];
 $toBeWritten = "";
 
 // Export DB data
-if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
+if (isset($protectedGet['tablename']) && isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
 
     // Gestion des entetes
     foreach ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']] as $name => $nothing) {
         if ($name != 'SUP' && $name != 'CHECK' && $name != 'NAME' && $name != 'ACTIONS') {
-            if ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name]{1} == ".") {
+            if ($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name][1] == ".") {
                 $lbl = substr(strrchr($_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name], "."), 1);
             } else {
                 $lbl = $_SESSION['OCS']['visible_col'][$protectedGet['tablename']][$name];
@@ -67,7 +67,7 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
         }
     }
 
-    if ($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']]) {
+    if (isset($_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']])) {
         $arg = $_SESSION['OCS']['csv']['ARG'][$protectedGet['tablename']];
     } else {
         $arg = '';
@@ -80,10 +80,21 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     }
 
     $i = 0;
-    require_once('require/function_admininfo.php');
-    $inter = interprete_accountinfo($col, array());
+    require_once('require/admininfo/Admininfo.php');
+    $Admininfo = new Admininfo();
+    $inter = $Admininfo->interprete_accountinfo($col, array());
     while ($cont = mysqli_fetch_array($result)) {
         unset($cont['MODIF']);
+        if ($protectedGet['tablename'] == "IPDISCOVER") {
+            $query = "SELECT `NAME` FROM subnet WHERE NETID = '" . $cont['ID'] . "'";
+            $ipDiscoverResult = mysql2_query_secure($query, $link);
+            $nameArray = mysqli_fetch_array($ipDiscoverResult);
+            if (!empty($nameArray)) {
+                $data[$i]['LBL_RSX'] = $nameArray[0];
+            } else {
+                $data[$i]['LBL_RSX'] = "";
+            }
+        }
         foreach ($inter as $field => $lbl) {
             if ($lbl == "name_of_machine" && !isset($cont[$field])) {
                 $field = 'name';
@@ -104,7 +115,7 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
                           $value_admin = implode(" ", $value_field);
                           $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]] = $value_admin;
                         }
-                        $data[$i][$key] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]];
+                        $data[$i][$key] = $inter['TAB_OPTIONS']['REPLACE_VALUE'][$val][$cont[$key]] ?? null;
                     } else {
                         // normal data
                         $data[$i][$key] = $cont[$key];
@@ -131,15 +142,15 @@ if (isset($_SESSION['OCS']['csv']['SQL'][$protectedGet['tablename']])) {
     }
 
     $i = 0;
-    while ($data[$i]) {
+    while (isset($data[$i])) {
         $toBeWritten .= "\r\n";
-        foreach ($data[$i] as $field_name => $donnee) {
+        foreach ($data[$i] as $donnee) {
           if (substr($donnee, 0 , 1) != "\"") {
             $toBeWritten .= "\"";
           }
           // decode html entities (single and double quotes are preserved)
           $toBeWritten .= htmlspecialchars_decode($donnee, ENT_QUOTES);
-          if ($donnee[strlen($donnee)-1] != "\"") {
+          if (empty($donnee) || $donnee[strlen($donnee)-1] != "\"") {
             $toBeWritten .= "\"";
           }
           $toBeWritten .= $separator;
@@ -176,7 +187,7 @@ if ($toBeWritten != "" || (isset($Directory) && file_exists($Directory . $protec
         header("Content-Length: " . strlen($toBeWritten));
         echo $toBeWritten;
     } else {
-	// Generate output page for log export
+	    // Generate output page for log export
 	$filename = $Directory . $protectedGet['log'];
         header("Content-Disposition: attachment; filename=\"" . $protectedGet['log'] . "\"");
         header("Content-Length: " . filesize($filename));

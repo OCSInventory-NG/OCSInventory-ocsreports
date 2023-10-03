@@ -108,7 +108,9 @@ function remove_profile($profile_id) {
     if (!is_writable(PROFILES_DIR)) {
         msg_error($l->g(2116));
     } else {
-        unlink(PROFILES_DIR . $profile_id . '.xml');
+        if(file_exists(PROFILES_DIR . $profile_id . '.xml')) {
+            unlink(PROFILES_DIR . $profile_id . '.xml');
+        }
     }
 }
 

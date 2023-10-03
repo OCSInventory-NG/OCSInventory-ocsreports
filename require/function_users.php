@@ -97,7 +97,7 @@ function add_user($data_user, $list_profil = '') {
         $ERROR = $l->g(1391) . ' : ' . $l->g(1366);
     }
     // Password ok ?
-    if (trim($data_user['PASSWORD']) == "" && trim($data_user['MODIF']) == "") {
+    if (trim($data_user['PASSWORD']) == "" && (isset($data_user['MODIF']) && trim($data_user['MODIF']) == "")) {
         $ERROR = $l->g(1391) . ' : ' . $l->g(217);
     }
     // Login ok ?
@@ -110,9 +110,17 @@ function add_user($data_user, $list_profil = '') {
             $ERROR = $l->g(998);
         }
     }
-    if($ERROR == ""){
+    if(isset($ERROR) && $ERROR == ""){
         unset($ERROR);
     }
+
+
+    if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES') {
+        $data_user['ACCESSLVL'] = $data_user['ACCESSLVL'];
+    } else {
+        $data_user['ACCESSLVL'] = $_SESSION['OCS']['lvluser'];
+    }
+
     if (!isset($ERROR)) {
         $sql = "select id from operators where id= '%s'";
         $arg = $data_user['ID'];
@@ -134,10 +142,10 @@ function add_user($data_user, $list_profil = '') {
                     $data_user['ACCESSLVL'],
                     $data_user['EMAIL'],
                     $data_user['COMMENTS'],
-                    $data_user['USER_GROUP']);
+                    $data_user['USER_GROUP'] ?? '');
                 if (is_defined($data_user['PASSWORD'])) {
-                    $sql_update .= ",passwd ='%s' , password_version ='%s' ";
-                    $arg_update[] = password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
+                    $sql_update .= ", passwd ='%s' , password_version ='%s' ";
+                    $arg_update[] = hash(PASSWORD_CRYPT, $password);
                     $arg_update[] = $_SESSION['OCS']['PASSWORD_VERSION'];
                 }
                 $sql_update .= "	 where ID='%s'";
@@ -158,10 +166,10 @@ function add_user($data_user, $list_profil = '') {
                 $data_user['ACCESSLVL'],
                 $data_user['EMAIL'],
                 $data_user['COMMENTS'],
-                $data_user['USER_GROUP']);
+                $data_user['USER_GROUP'] ?? '');
             if (isset($password)) {
                 $sql .= ",'%s','%s'";
-                $arg[] = password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
+                $arg[] = hash(PASSWORD_CRYPT, $password);
                 $arg[] = $_SESSION['OCS']['PASSWORD_VERSION'];
             }
             $sql .= ")";
@@ -189,7 +197,7 @@ function admin_user($id_user = null, $is_my_account = false) {
       //search all profil type
       $list_profil = get_profile_labels();
       $list_groups_result = look_config_default_values("USER_GROUP_%", 'LIKE');
-      if (is_array($list_groups_result['name'])) {
+      if (!empty($list_groups_result['name']) && is_array($list_groups_result['name'])) {
           foreach ($list_groups_result['name'] as $key => $value) {
               $list_groups[$list_groups_result['ivalue'][$key]] = $list_groups_result['tvalue'][$key];
           }
@@ -228,25 +236,25 @@ function admin_user($id_user = null, $is_my_account = false) {
     $res=mysql2_query_secure($sql, $_SESSION['OCS']["readServer"],$arg);
     $row=mysqli_fetch_object($res);
     if ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES'){
-            $protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
-            $protectedPost['USER_GROUP']=$row->USER_GROUP;
-            $value_field=array($row->ID,$list_profil,$list_groups);
+            $protectedPost['ACCESSLVL'] = $row->NEW_ACCESSLVL ?? null;
+            $protectedPost['USER_GROUP'] = $row->USER_GROUP ?? null;
+            $value_field = array($row->ID ?? null, $list_profil, $list_groups);
     }else{
-        $protectedPost['ACCESSLVL']=$row->NEW_ACCESSLVL;
-        $value_field= array($row->ID, $protectedPost['ACCESSLVL']);
+        $protectedPost['ACCESSLVL'] = $row->NEW_ACCESSLVL ?? null;
+        $value_field = array($row->ID ?? null, $protectedPost['ACCESSLVL']);
     }
 
-    $value_field[]=$row->FIRSTNAME;
-    $value_field[]=$row->LASTNAME;
-    $value_field[]=$row->EMAIL;
-    $value_field[]=$row->COMMENTS;
+    $value_field[] = $row->FIRSTNAME ?? "";
+    $value_field[] = $row->LASTNAME ?? "";
+    $value_field[] = $row->EMAIL ?? "";
+    $value_field[] = $row->COMMENTS ?? "";
 
-    $name_field[]="PASSWORD";
-    $type_field[]=4;
-    $tab_name[]=$l->g(217)." :";
-    $value_field[]=$protectedPost['PASSWORD'];
+    $name_field[] = "PASSWORD";
+    $type_field[] = 4;
+    $tab_name[] = $l->g(217)." :";
+    $value_field[] = $protectedPost['PASSWORD'] ?? "";
 
-    $tab_typ_champ=show_field($name_field,$type_field,$value_field);
+    $tab_typ_champ = show_field($name_field,$type_field,$value_field);
     foreach ($tab_typ_champ as $id=>$values){
             $tab_typ_champ[$id]['CONFIG']['SIZE']=40;
     }
@@ -265,7 +273,7 @@ function admin_user($id_user = null, $is_my_account = false) {
             $selectValues = '';
 
             $inputName = $tab_typ_champ[$index]['INPUT_NAME'];
-            $inputValue = $protectedPost[$inputName];
+            $inputValue = $protectedPost[$inputName] ?? null;
 
             if($indexType == 0 ||
                     $indexType == 1 ||
@@ -302,7 +310,7 @@ function admin_user($id_user = null, $is_my_account = false) {
             if($inputName == "ID" && $id_user != null && ($_SESSION['OCS']['profile']->getConfigValue('CHANGE_USER_GROUP') == 'YES')){
                 formGroup('text', $inputName, $fields, '', '', $id_user, '', $selectValues, $selectValues, 'readonly', '');
               }else{
-                if($tab_typ_champ[$index]['COMMENT_AFTER'] === null){
+                if(empty($tab_typ_champ[$index]['COMMENT_AFTER'])){
                     $tab_typ_champ[$index]['COMMENT_AFTER'] = "";
                   }
                   if($inputType != 'select'){
@@ -315,26 +323,33 @@ function admin_user($id_user = null, $is_my_account = false) {
     }
 }
 
-function updatePassword($id_user, $password) {
+/**
+ * updatePasswordMd5toHash
+ *
+ * @param  string $login
+ * @param  string $mdp
+ * @return boolean $result
+ */
+function updatePasswordMd5toHash($login, $mdp) {
+    $sql = "SELECT ID FROM operators WHERE ID = '%s'";
+    $arg = array($login);
 
-    $sql = "select id from operators where id= '%s'";
-    $arg = $id_user;
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
     $row = mysqli_fetch_object($res);
-    if (isset($row->id)) {
-        if (is_defined($password)) {
-            $sql_update = "update operators set passwd ='%s', PASSWORD_VERSION ='%s' ";
-            $newhash = password_hash($password, constant($_SESSION['OCS']['PASSWORD_ENCRYPTION']));
-            // if constant don't exist, or encryption not good
-            if (!empty($newhash)) {
-                $arg_update[] = $newhash;
-                $arg_update[] = $_SESSION['OCS']['PASSWORD_VERSION'];
-                $sql_update .= "	 where ID='%s'";
-                $arg_update[] = $row->id;
-                $res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"], $arg_update);
+
+    if (isset($row->ID)) {
+        if (is_defined($mdp)) {
+            $sql_update = "UPDATE operators SET PASSWD ='%s', PASSWORD_VERSION ='%s' WHERE ID = '%s'";
+            $sql_arg = array(hash(PASSWORD_CRYPT, $mdp), $_SESSION['OCS']['PASSWORD_VERSION'], $row->ID);
+            $res = mysql2_query_secure($sql_update, $_SESSION['OCS']["writeServer"], $sql_arg);
+
+            if($res) {
+                return true;
             }
         }
     }
+
+    return false;
 }
 
 ?>

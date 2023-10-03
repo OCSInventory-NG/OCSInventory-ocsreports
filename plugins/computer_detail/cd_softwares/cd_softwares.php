@@ -45,9 +45,9 @@ $softCat = new SoftwareCategory();
 
 $all_soft = [0 => $l->g(765)];
 $list_cat = $softCat->onglet_cat_cd($systemid);
-$i = $list_cat['i'];
-$first_onglet = $list_cat['first_onglet'];
-$categorie_id = $list_cat['category_name'];
+$i = $list_cat['i'] ?? "";
+$first_onglet = $list_cat['first_onglet'] ?? "";
+$categorie_id = $list_cat['category_name'] ?? "";
 
 unset($list_cat['i']);
 unset($list_cat['first_onglet']);
@@ -72,7 +72,7 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
                             s_name.NAME AS NAME,
                             s_version.NAME AS VERSION,
                             s.COMMENTS,s.FOLDER,s.FILENAME,s.FILESIZE,s.GUID,
-                            s.LANGUAGE,s.INSTALLDATE,s.BITSWIDTH, c.CATEGORY_NAME AS CATEGORY
+                            s.LANGUAGE,s.INSTALLDATE,s.BITSWIDTH, s.ARCHITECTURE, c.CATEGORY_NAME AS CATEGORY
                     FROM software s
                     LEFT JOIN type_softwares_name s_name ON s_name.id= s.name_id
                     LEFT JOIN type_softwares_version s_version ON s_version.id=s.version_id
@@ -80,7 +80,7 @@ if (isset($_SESSION['OCS']['USE_NEW_SOFT_TABLES'])
                     WHERE (hardware_id=$systemid)";
     $list_fields[$l->g(49)] = 's_name.NAME';
 } else {
-    $queryDetails = "SELECT *, c.CATEGORY_NAME as CATEGORY, n.NAME, p.PUBLISHER, v.VERSION 
+    $queryDetails = "SELECT *, c.CATEGORY_NAME as CATEGORY, n.NAME, p.PUBLISHER, v.VERSION, v.PRETTYVERSION, v.MAJOR, v.MINOR, v.PATCH 
                     FROM software s LEFT JOIN software_name n ON s.NAME_ID = n.ID 
                     LEFT JOIN software_publisher p ON s.PUBLISHER_ID = p.ID 
                     LEFT JOIN software_version v ON s.VERSION_ID = v.ID 
@@ -96,7 +96,7 @@ if($protectedPost['onglet_soft'] != 0){
 
 $list_fields[$l->g(277)] = 'VERSION';
 $list_fields[$l->g(51)] = 'COMMENTS';
-if ($show_all_column) {
+if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
 } else {
     $list_col_cant_del = array($l->g(49) => $l->g(49));
@@ -110,8 +110,13 @@ $list_fields[ucfirst(strtolower($l->g(953)))] = 'FILESIZE';
 $list_fields['GUID'] = 'GUID';
 $list_fields[ucfirst(strtolower($l->g(1012)))] = 'LANGUAGE';
 $list_fields[$l->g(1238)] = 'INSTALLDATE';
-$list_fields[$l->g(1247)] = 'BITSWIDTH';
+$list_fields[$l->g(1312)] = 'BITSWIDTH';
+$list_fields[$l->g(1247)] = 'ARCHITECTURE';
 $list_fields[$l->g(388)] = 'c.CATEGORY_NAME';
+$list_fields[$l->g(1522)] = 'PRETTYVERSION';
+$list_fields[$l->g(1523)] = 'MAJOR';
+$list_fields[$l->g(1524)] = 'MINOR';
+$list_fields[$l->g(1525)] = 'PATCH';
 
 $tab_options['FILTRE'] = array_flip($list_fields);
 

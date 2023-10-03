@@ -26,7 +26,7 @@ function search_all_item() {
     while ($item_search_soft = mysqli_fetch_object($result_search_soft)) {
         $list[] = $item_search_soft->ID;
     }
-    return $list;
+    return $list ?? '';
 }
 
 function del_soft($onglet, $list_soft) {

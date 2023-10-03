@@ -47,13 +47,13 @@ if (!AJAX) {
             'status' => 'error',
             'message' => $l->g(2116)
         );
-    } else if ($errors = validate_profile_create_form($_POST)) {
+    } else if ($errors = validate_profile_create_form($protectedPost)) {
         $response = array(
             'status' => 'error',
             'message' => $l->g(1404),
             'errors' => $errors
         );
-    } else if ($profile_id = create_profile($_POST)) {
+    } else if ($profile_id = create_profile($protectedPost)) {
         $response = array(
             'status' => 'success',
             'message' => $l->g(1405),

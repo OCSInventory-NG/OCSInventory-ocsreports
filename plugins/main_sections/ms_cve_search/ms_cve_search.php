@@ -35,7 +35,7 @@ $cve = new Cve();
 printEnTete($l->g(1463));
 
 //If RESET
-if ($protectedPost['RESET']) {
+if (isset($protectedPost['RESET'])) {
     unset($protectedPost['FILTRE1']);
     unset($protectedPost['FILTRE2']);
 }
@@ -55,7 +55,7 @@ if($cve->CVE_ACTIVE != 1){
     $def_onglets['BY_COMPUTER'] = $l->g(1486); //All CVE by computer.
 
     //default => first onglet
-    if ($protectedPost['onglet'] == "") {
+    if (empty($protectedPost['onglet'])) {
         $protectedPost['onglet'] = "BY_CVSS";
     }
 
@@ -68,17 +68,17 @@ if($cve->CVE_ACTIVE != 1){
     if($protectedPost['onglet'] == "BY_CVSS"){
 
         //Filter CVSS
-        if ($protectedPost['FILTRE1'] != "" && $protectedPost['FILTRE2'] != "") {
+        if (!empty($protectedPost['FILTRE1']) && !empty($protectedPost['FILTRE2'])) {
             $query = " WHERE c.CVSS BETWEEN %s AND %s ";
             $sql['ARG'] = array($protectedPost['FILTRE1'], $protectedPost['FILTRE2']);
         }
 
-        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME,";",v.VERSION) as search, c.LINK as id 
+        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME,";",p.PUBLISHER,";",v.VERSION) as search, c.LINK as id 
                     FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                     LEFT JOIN software_version v ON v.ID = c.VERSION_ID';
         
-        if($query != null) {
+        if(!empty($query)) {
             $sql['SQL'] .= $query;
         }
 
@@ -92,11 +92,20 @@ if($cve->CVE_ACTIVE != 1){
             'CVE' => 'CVE',
             'Link' => 'LINK'
         );
+
+        if($cve->CVE_LINK == 1)
+        {
+            $list_fields['CVE'] = 'CVE';
+            $tab_options['LIEN_LBL']['CVE'] = $cve->CVE_SEARCH_URL.'/cve/';
+            $tab_options['LIEN_CHAMP']['CVE'] = 'CVE';
+        }
+
+        $multisearch = "cveNamePublisherVersion";
     }
 
     /******************************* BY SOFTWARE *******************************/
     if($protectedPost['onglet'] == "BY_SOFT"){
-        $sql['SQL'] = 'SELECT *, p.PUBLISHER, CONCAT(n.NAME) as search, c.LINK as id, c.NAME_ID as nameid
+        $sql['SQL'] = 'SELECT *, p.PUBLISHER, v.VERSION, CONCAT(n.NAME) as search, c.LINK as id, c.NAME_ID as nameid
                     FROM cve_search c LEFT JOIN software_name n ON n.ID = c.NAME_ID
                     LEFT JOIN software_publisher p ON p.ID = c.PUBLISHER_ID
                     LEFT JOIN software_version v ON v.ID = c.VERSION_ID
@@ -108,6 +117,7 @@ if($cve->CVE_ACTIVE != 1){
         );
 
         $list_fields['SHOW_DETAILS'] = 'nameid';
+        $multisearch = "cveName";
     }
 
     /******************************* BY COMPUTER *******************************/
@@ -123,12 +133,21 @@ if($cve->CVE_ACTIVE != 1){
             'CVE' => 'CVE',
             'Link' => 'LINK'
         );
+
+        if($cve->CVE_LINK == 1)
+        {
+            $list_fields['CVE'] = 'CVE';
+            $tab_options['LIEN_LBL']['CVE'] = $cve->CVE_SEARCH_URL.'/cve/';
+            $tab_options['LIEN_CHAMP']['CVE'] = 'CVE';
+        }
+
+        $multisearch = "cveNamePublisherVersion";
     }
 
     if (isset($sql)) {
         $default_fields = $list_fields;
         $list_col_cant_del = $default_fields;
-        $tab_options['LIEN_LBL']['soft'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . '&prov=allsoft&value=';
+        $tab_options['LIEN_LBL']['soft'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . "&prov=$multisearch&value=";
         $tab_options['LIEN_CHAMP']['soft'] = 'search';
         $tab_options['LBL']['soft'] = $l->g(847);
         $tab_options['LIEN_LBL']['computer'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&systemid=';
@@ -137,7 +156,7 @@ if($cve->CVE_ACTIVE != 1){
         $tab_options['LIEN_LBL']['Link'] = ' ';
         $tab_options['LIEN_CHAMP']['Link'] = 'LINK';
         $tab_options['LBL']['Link'] = $l->g(1467);
-        $tab_options['ARG_SQL'] = $sql['ARG'];
+        $tab_options['ARG_SQL'] = $sql['ARG'] ?? '';
         $tab_options['form_name'] = $form_name;
         $tab_options['table_name'] = $form_name;
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
@@ -154,11 +173,11 @@ if($cve->CVE_ACTIVE != 1){
         <div class="col-sm-3"></div>
                 <label class="control-label col-sm-2" for="FILTRE1">'.$l->g(1468).'</label>
                 <div class="col-sm-1">
-                <input name="FILTRE1" id="FILTRE1" type="number" class="form-control" min="0" max="10" value="'.$protectedPost['FILTRE1'].'">';
+                <input name="FILTRE1" id="FILTRE1" type="number" class="form-control" min="0" max="10" value="'.($protectedPost['FILTRE1'] ?? '').'">';
         echo '</div>
             <label class="control-label col-sm-1" for="FILTRE2">'.$l->g(582).'</label>
             <div class="col-sm-1">
-                <input name="FILTRE2" id="FILTRE2" type="number" class="form-control" min="0" max="10" value="'.$protectedPost['FILTRE2'].'">
+                <input name="FILTRE2" id="FILTRE2" type="number" class="form-control" min="0" max="10" value="'.($protectedPost['FILTRE2'] ?? '').'">
             </div>
         </div>
 
@@ -204,6 +223,10 @@ if($cve->CVE_ACTIVE != 1){
                                         echo '<td>';
                                         if($namec == 'LINK') {
                                             echo '<a href="'.$item[$namec].'">'.$item[$namec].'</a>';
+                                        } elseif($namec == 'VERSION'){
+                                            $value = $values['NAME'] . ";" . $item[$namec];
+                                            $multisearch = "cveNameVersion";
+                                            echo '<a href="index.php?' . PAG_INDEX . '=' . $pages_refs['ms_multi_search'] . "&prov=$multisearch&value=".urlencode($value).'">'.$item[$namec].'</a>';
                                         } else {
                                             echo $item[$namec];
                                         }

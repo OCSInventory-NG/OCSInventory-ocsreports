@@ -21,6 +21,8 @@
  * MA 02110-1301, USA.
  */
 
+require_once('require/function_machine.php');
+
  /**
   * Class for archive computer
   */
@@ -40,8 +42,20 @@ class ArchiveComputer
             $arg = array($id);
     
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+
+
+            // get computer name from hardware table
+            $sql = "SELECT NAME FROM hardware WHERE ID = %s";
+            $arg = array($id);
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+            $item = mysqli_fetch_object($result);
+            $name = $item->NAME;
+
+            $histo = new History();
+            // target equals $id + name of the machine
+            $histo->addToHistory("ARCHIVE", $id." - ".$name);
         }
-        
+
         return $result;
     }
 
@@ -58,9 +72,26 @@ class ArchiveComputer
             $arg = array($id);
     
             $result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+
+            // get computer name from hardware table
+            $sql = "SELECT NAME FROM hardware WHERE ID = %s";
+            $arg = array($id);
+            $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+            $item = mysqli_fetch_object($result);
+            $name = $item->NAME;
+
+            $histo = new History();
+            // target equals $id + name of the machine
+            $histo->addToHistory("RESTORE", $id." - ".$name);
         }
         
         return $result;
+    }
+
+    public function isArchived($ids) {
+        $sql = "SELECT * FROM archive WHERE HARDWARE_ID = %s";
+        
+        return mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $ids);
     }
 
 }

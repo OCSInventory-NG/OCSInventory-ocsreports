@@ -37,24 +37,28 @@ while ($row = mysqli_fetch_object($res_black)) {
 }
 
 if($ipdiscover->IPDISCOVER_TAG == "1") {
-    $req = "SELECT DISTINCT ipsubnet,s.name,s.id,CONCAT(ipsubnet,';',ifnull(s.tag,'')) as pass
-            FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
-            WHERE a.hardware_id=n.HARDWARE_ID
-            AND n.status='Up'";
+    $req = "SELECT DISTINCT n.netid as ipsubnet, s.name, s.id, CONCAT(n.netid, ';', ifnull(s.tag, '')) as pass FROM netmap n 
+            LEFT JOIN subnet s ON s.netid = n.netid";
     if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-        $req .= "	and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+        $req .= ", accountinfo a WHERE " . $_SESSION['OCS']["mesmachines"] . " ORDER BY n.netid";
     } else {
-        $req .= " union select netid,name,id,CONCAT(netid,';',ifnull(tag,'')) from subnet";
+        $req .= " UNION SELECT netid, name, id, CONCAT(netid,';',ifnull(tag,'')) FROM subnet";
     }
+
 } else {
-    $req = "SELECT DISTINCT ipsubnet,s.name,s.id
-			FROM networks n LEFT JOIN subnet s ON s.netid=n.ipsubnet ,accountinfo a
-		    WHERE a.hardware_id=n.HARDWARE_ID
-			AND n.status='Up' AND (s.TAG IS NULL OR s.TAG = '')";
+    $req = "SELECT DISTINCT n.netid as ipsubnet, s.name, s.id
+            FROM netmap n LEFT JOIN subnet s ON s.netid = n.netid";
+
     if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-        $req .= " and " . $_SESSION['OCS']["mesmachines"] . " order by ipsubnet";
+        $req .= ", accountinfo a ";
+    }
+	
+    $req .= " WHERE (s.TAG IS NULL OR s.TAG = '')";
+
+    if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
+        $req .= " AND " . $_SESSION['OCS']["mesmachines"] . " ORDER BY n.netid";
     } else {
-        $req .= " union select netid,name,id from subnet WHERE TAG IS NULL OR TAG = ''";
+        $req .= " UNION SELECT netid, name, id FROM subnet WHERE TAG IS NULL OR TAG = ''";
     }
 }
 
@@ -67,7 +71,7 @@ while ($row = mysqli_fetch_object($res)) {
         /*
           applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
          */
-        if (is_array($subnetToBlacklist)) {
+        if (isset($subnetToBlacklist) && is_array($subnetToBlacklist)) {
             foreach ($subnetToBlacklist as $key => $value) {
                 if ($key == $row->ipsubnet) {
                     $id = '--' . $l->g(703) . '--';
@@ -91,7 +95,7 @@ while ($row = mysqli_fetch_object($res)) {
         /*
         applied again patch of revision 484 ( fix bug: https://bugs.launchpad.net/ocsinventory-ocsreports/+bug/637834 )
         */
-        if (is_array($subnetToBlacklist)) {
+        if (isset($subnetToBlacklist) && is_array($subnetToBlacklist)) {
             foreach ($subnetToBlacklist as $key => $value) {
                 if ($key == $row->ipsubnet) {
                     $id = '--' . $l->g(703) . '--';

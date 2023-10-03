@@ -45,7 +45,7 @@ if(is_null($value_banniere)){
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand header-logo" href="index.php?first">
+            <a class="navbar-brand header-logo" href="index.php">
               <?php
                 echo '<img alt="OCS Inventory" src="themes/'.$value_banniere['tvalue']['CUSTOM_THEME'].'/banniere.png">';
               ?>
@@ -60,7 +60,7 @@ if(is_null($value_banniere)){
 
         <div class="collapse navbar-collapse" id="ocs-navbar">
             <?php
-            if ($_SESSION['OCS']['profile']) {
+            if (array_key_exists("profile", $_SESSION['OCS']) && $_SESSION['OCS']['profile']) {
                 if (!isset($protectedGet["popup"])) {
                     show_menu();
                 }
@@ -89,14 +89,14 @@ if(is_null($value_banniere)){
                             echo "<li class='dropdown-header'><span id='tps'>wait...</span></li>";
                         }
                     } else if (!isset($_SESSION['OCS']['DEBUG'])) {
-                        if (($_SESSION['OCS']['profile'] && $_SESSION['OCS']['profile']->hasPage('ms_debug')) || (is_array($_SESSION['OCS']['TRUE_PAGES']) && array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']))) {
+                        if (($_SESSION['OCS']['profile'] && $_SESSION['OCS']['profile']->hasPage('ms_debug')) || (isset($_SESSION['OCS']['TRUE_PAGES']) && is_array($_SESSION['OCS']['TRUE_PAGES']) && array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']))) {
                             echo "<a href='index.php?" . PAG_INDEX . "=" . $pages_refs['ms_debug'] . "&head=1'><font color='green'>" . $l->g(1011) . "</font></a>";
                         }
                     }
                     echo "</li>";
                 }
 
-                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER'])) {
+                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER']) && (isset($_SESSION['OCS']['cnx_origine']) && $_SESSION['OCS']['cnx_origine'] != 'CAS')) {
                     echo "<li><a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>" . $l->g(251) . "</a></li>";
                 }
                 echo open_form('log_out', 'index.php');
@@ -124,7 +124,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     $need_display = look_config_default_values("WARN_UPDATE");
     if ($need_display['ivalue']['WARN_UPDATE'] == '1') {
         $data = get_update_json();
-        if (GUI_VER_SHOW < $data->version) {
+        if (!empty($data) && GUI_VER_SHOW < $data->version) {
             $txt = $l->g(2118) . " " . $data->version . " " . $l->g(2119);
             $txt .= "<br><a href=" . $data->download . ">" . $l->g(2120) . "</a>";
 
@@ -133,7 +133,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     }
 
     //defaut user already exist on databases?
-    if($_SESSION['OCS']['defaultsql_checked'] == null){
+    if(isset($_SESSION['OCS']['defaultsql_checked']) && $_SESSION['OCS']['defaultsql_checked'] == null || !array_key_exists('defaultsql_checked', $_SESSION['OCS'])){
         try {
             // First sql check has been done
             $_SESSION['OCS']['defaultsql_checked'] = true;
@@ -148,7 +148,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
                     $connect = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
                 }
             } else {
-                $connect = NULL;
+                $connect = 0;
             }
             $dbc->options(MYSQLI_INIT_COMMAND, "SET NAMES 'utf8'");
             $dbc->options(MYSQLI_INIT_COMMAND, "SET sql_mode='NO_ENGINE_SUBSTITUTION'");
@@ -171,17 +171,18 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
         }
     }
 
-    if($_SESSION['OCS']['defaultsql_error'] != null){
+    if(!empty($_SESSION['OCS']['defaultsql_error'])){
         $msg_header_error[] = $l->g(2024) . ' ' . DB_NAME;
         $msg_header_error_sol[] = $l->g(2025);
     }
 
     //admin user already exist on data base with defaut password?
-    $reqOp = "SELECT id,user_group FROM operators WHERE id='%s' and passwd ='%s'";
-    $arg_reqOp = array(DFT_GUI_CMPT, md5(DFT_GUI_PSWD));
+    $reqOp = "SELECT ID, USER_GROUP FROM operators WHERE ID='%s' and PASSWD ='%s'";
+    $arg_reqOp = array(DFT_GUI_CMPT, hash(PASSWORD_CRYPT, DFT_GUI_PSWD));
     $resOp = mysql2_query_secure($reqOp, $_SESSION['OCS']["readServer"], $arg_reqOp);
     $rowOp = mysqli_fetch_object($resOp);
-    if (isset($rowOp->id)) {
+    
+    if (isset($rowOp->ID)) {
         $msg_header_error[] = $l->g(2026);
         $msg_header_error_sol[] = $l->g(2027);
     }
@@ -223,7 +224,7 @@ if (isset($_SESSION['OCS']["loggeduser"]) && $_SESSION['OCS']['profile']->getCon
     }
 }
 
-if (isset($_SESSION['OCS']['TRUE_USER']) && !$protectedPost['MODE'] == 5 ) {
+if (isset($_SESSION['OCS']['TRUE_USER']) && (isset($protectedPost['MODE']) && !$protectedPost['MODE'] == 5) ) {
     msg_info($_SESSION['OCS']['TRUE_USER'] . " " . $l->g(889) . " " . $_SESSION['OCS']["loggeduser"]);
 }
 
@@ -233,7 +234,7 @@ if (isset($_SESSION['OCS']["TRUE_mesmachines"])) {
 
 echo "<div class='container-fluid'>";
 
-if ($_SESSION['OCS']["mesmachines"] == "NOTAG" && !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) && $protectedGet[PAG_INDEX] == $pages_refs['ms_debug'])) {
+if (isset($_SESSION['OCS']["mesmachines"]) &&  $_SESSION['OCS']["mesmachines"] == "NOTAG" && !(array_search('ms_debug', $_SESSION['OCS']['TRUE_PAGES']['ms_debug']) && $protectedGet[PAG_INDEX] == $pages_refs['ms_debug'])) {
     if (isset($LIST_ERROR)) {
         $msg_error = $LIST_ERROR;
     } else {

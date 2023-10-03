@@ -77,7 +77,7 @@ function show_select_field($data, $key, $name, $label, $options) {
     $field_options = array(
         'field_class' => 'big-label small-input',
         'options' => $options,
-        'value' => $data[$name]
+        'value' => $data[$name] ?? null
     );
 
     show_form_field($data, array(), 'select', $key . '[' . $name . ']', $label, $field_options);
@@ -109,10 +109,13 @@ function show_config_frame($profile, $yes_no) {
     show_select_field($config, 'config', 'ACCOUNTINFO', $l->g(1167), $yes_no);
     show_select_field($config, 'config', 'CHANGE_ACCOUNTINFO', $l->g(1168), $yes_no);
     show_select_field($config, 'config', 'CHANGE_USER_GROUP', $l->g(1169), $yes_no);
+    show_select_field($config, 'config', 'MANAGE_SAVED_SEARCHES', $l->g(9940), $yes_no);
     show_select_field($config, 'config', 'MANAGE_PROFIL', $l->g(1170), $yes_no);
     show_select_field($config, 'config', 'MANAGE_USER_GROUP', $l->g(1171), $yes_no);
     show_select_field($config, 'config', 'MANAGE_SMTP_COMMUNITIES', $l->g(1205), $yes_no);
     show_select_field($config, 'config', 'DELETE_COMPUTERS', $l->g(1272), $yes_no);
+    show_select_field($config, 'config', 'ARCHIVE_COMPUTERS', $l->g(1556), $yes_no);
+    show_select_field($config, 'config', 'MANAGE_LAYOUTS', $l->g(9921), $yes_no);
 }
 
 function show_blacklist_frame($profile, $yes_no) {

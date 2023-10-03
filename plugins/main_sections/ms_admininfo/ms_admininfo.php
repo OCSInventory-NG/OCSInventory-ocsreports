@@ -31,11 +31,11 @@ if (AJAX) {
     ob_start();
 }
 
-require_once('require/function_admininfo.php');
+require_once('require/admininfo/Admininfo.php');
 require_once('require/function_config_generale.php');
 require('require/CSV.class.php');
 
-
+$Admininfo = new Admininfo();
 
 $accountinfo_choise['COMPUTERS'] = $l->g(729);
 $accountinfo_choise['SNMP'] = $l->g(1136);
@@ -62,7 +62,7 @@ $data_on[5] = $l->g(9612);
 
 if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !isset($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 1) {
     $protectedPost['onglet'] = 2;
-    $accountinfo_detail = find_info_accountinfo($protectedPost['MODIF']);
+    $accountinfo_detail = $Admininfo->find_info_accountinfo($protectedPost['MODIF']);
     $protectedPost['newfield'] = $accountinfo_detail[$protectedPost['MODIF']]['name'];
     $protectedPost['newlbl'] = $accountinfo_detail[$protectedPost['MODIF']]['comment'];
     $protectedPost['newtype'] = $accountinfo_detail[$protectedPost['MODIF']]['type'];
@@ -82,20 +82,20 @@ if (isset($protectedPost['MODIF']) && is_numeric($protectedPost['MODIF']) && !is
     $hidden = $protectedPost['MODIF'];
 }
 
-if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 2) {
+if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && !empty($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 2) {
     //UPDATE VALUE
-    $msg = update_accountinfo($protectedPost['MODIF_OLD'], array('TYPE' => $protectedPost['newtype'],
+    $msg = $Admininfo->update_accountinfo($protectedPost['MODIF_OLD'], array('TYPE' => $protectedPost['newtype'],
         'NAME' => $protectedPost['newfield'],
         'COMMENT' => $protectedPost['newlbl'],
         'ID_TAB' => $protectedPost['account_tab'],
-        'DEFAULT_VALUE' => $protectedPost['default_value']), $protectedPost['accountinfo']);
+        'DEFAULT_VALUE' => $protectedPost['default_value'] ?? ''), $protectedPost['accountinfo']);
     $hidden = $protectedPost['MODIF_OLD'];
-} elseif ($protectedPost['Valid_modif'] != "") {
+} elseif (!empty($protectedPost['Valid_modif'])) {
     //ADD NEW VALUE
-    $msg = add_accountinfo($protectedPost['newfield'], $protectedPost['newtype'], $protectedPost['newlbl'], $protectedPost['account_tab'], $protectedPost['accountinfo'], $protectedPost['default_value']);
+    $msg = $Admininfo->add_accountinfo($protectedPost['newfield'], $protectedPost['newtype'] ?? '', $protectedPost['newlbl'] ?? '', $protectedPost['account_tab'] ?? '', $protectedPost['accountinfo'] ?? '', $protectedPost['default_value'] ?? '');
 }
 
-if (isset($msg['ERROR'])) {
+if (!empty($msg['ERROR'])) {
     msg_error($msg['ERROR']);
 }
 if (isset($msg['SUCCESS'])) {
@@ -103,7 +103,7 @@ if (isset($msg['SUCCESS'])) {
     $protectedPost['onglet'] = 1;
 }
 
-if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && $protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 4) {
+if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']) && !empty($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 4) {
     //UPDATE VALUE
     update_config("TAB_ACCOUNTAG_" . $protectedPost['MODIF_OLD'], 'TVALUE', $protectedPost['newfield']);
     if (isset($protectedPost['2newfield'])) {
@@ -111,7 +111,7 @@ if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']
     }
     $hidden = $protectedPost['MODIF_OLD'];
     $protectedPost['onglet'] = 3;
-} elseif ($protectedPost['Valid_modif'] != "" && $protectedPost['onglet'] == 4) {
+} elseif (!empty($protectedPost['Valid_modif']) && $protectedPost['onglet'] == 4) {
     //ADD NEW VALUE
     //vérification que le nom du champ n'existe pas pour les nouveaux champs
     if (trim($protectedPost['newfield']) != '') {
@@ -153,7 +153,7 @@ if (isset($protectedPost['MODIF_OLD']) && is_numeric($protectedPost['MODIF_OLD']
         mysql2_query_secure($sql_insert, $_SESSION['OCS']["writeServer"], $arg_insert);
         //si on ajoute un champ, il faut créer la colonne dans la table downloadwk_pack
         msg_success($l->g(1069));
-        if ($protectedGet['form']) {
+        if (isset($protectedGet['form']) && $protectedGet['form']) {
             reloadform_closeme($protectedGet['form']);
         }
         $protectedPost['onglet'] = 3;
@@ -180,10 +180,10 @@ echo '<div class="col col-md-10" >';
 $table = "accountinfo";
 
 if ((isset($protectedPost['ACCOUNTINFO_CHOISE']) && $protectedPost['ACCOUNTINFO_CHOISE'] == 'SNMP' && $protectedPost['onglet'] == 1) || (isset($protectedPost['accountinfo']) && $protectedPost['accountinfo'] == 'SNMP' && $protectedPost['onglet'] == 2)) {
-    $array_tab_account = find_all_account_tab('TAB_ACCOUNTSNMP');
+    $array_tab_account = $Admininfo->find_all_account_tab('TAB_ACCOUNTSNMP');
     $account_field = "TAB_ACCOUNTSNMP";
 } else {
-    $array_tab_account = find_all_account_tab('TAB_ACCOUNTAG');
+    $array_tab_account = $Admininfo->find_all_account_tab('TAB_ACCOUNTAG');
     $account_field = "TAB_ACCOUNTAG";
 }
 
@@ -193,13 +193,13 @@ if ($protectedPost['onglet'] == 1) {
         <div class="col col-md-6 col-md-offset-3">
 
             <?php
-            formGroup('select', 'ACCOUNTINFO_CHOISE', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'], '', $accountinfo_choise, $accountinfo_choise, 'onchange="document.admin_info.submit();"');
+            formGroup('select', 'ACCOUNTINFO_CHOISE', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'] ?? '', '', $accountinfo_choise, $accountinfo_choise, 'onchange="document.admin_info.submit();"');
             ?>
         </div>
     </div>
 
     <?php
-    if ($protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP") {
+    if (isset($protectedPost['ACCOUNTINFO_CHOISE']) && $protectedPost['ACCOUNTINFO_CHOISE'] == "SNMP") {
         $account_choise = "SNMP";
     } else {
         $account_choise = "COMPUTERS";
@@ -210,14 +210,14 @@ if ($protectedPost['onglet'] == 1) {
         $list = $protectedPost['del_check'];
         $tab_values = explode(',', $list);
         $i = 0;
-        while ($tab_values[$i]) {
-            del_accountinfo($tab_values[$i]);
+        while (isset($tab_values[$i])) {
+            $Admininfo->del_accountinfo($tab_values[$i]);
             $i++;
         }
     }
 
     if (is_defined($protectedPost['SUP_PROF'])) {
-        del_accountinfo($protectedPost['SUP_PROF']);
+        $Admininfo->del_accountinfo($protectedPost['SUP_PROF']);
     }
     $array_fields = array($l->g(1098) => 'NAME',
         $l->g(1063) => 'COMMENT',
@@ -240,7 +240,7 @@ if ($protectedPost['onglet'] == 1) {
     $list_fields['MODIF'] = 'ID';
     $list_col_cant_del = array($l->g(1063) => $l->g(1063), $l->g(66) => $l->g(66), $l->g(1061) => $l->g(1061), 'SUP' => 'SUP', 'CHECK' => 'CHECK', 'MODIF' => 'MODIF');
     $default_fields = $list_col_cant_del;
-    $tab_options['REPLACE_VALUE'][$l->g(66)] = $type_accountinfo;
+    $tab_options['REPLACE_VALUE'][$l->g(66)] = $Admininfo->type_accountinfo;
     $tab_options['REPLACE_VALUE'][$l->g(1061)] = $array_tab_account;
     $tab_options['LBL_POPUP']['SUP'] = 'NAME';
     $tab_options['REQUEST']['SUP'] = "select name_accountinfo AS FIRST from accountinfo_config where ACCOUNT_TYPE = '" . $account_choise . "'";
@@ -259,13 +259,13 @@ if ($protectedPost['onglet'] == 1) {
     $config['JAVASCRIPT'][1] = $sql_field;
     $name_field = array("accountinfo", "newfield");
     $tab_name = array($l->g(56) . ": ", $l->g(1070) . ": ");
-    if (isset($protectedPost['MODIF_OLD']) || $protectedPost['MODIF'] != '') {
-        $hidden = ($protectedPost['MODIF'] != '' ? $protectedPost['MODIF'] : $protectedPost['MODIF_OLD']);
+    if (isset($protectedPost['MODIF_OLD']) || !empty($protectedPost['MODIF'])) {
+        $hidden = (!empty($protectedPost['MODIF']) ? $protectedPost['MODIF'] : $protectedPost['MODIF_OLD']);
         $type_field = array(3, 3);
         $value_field = array($protectedPost['accountinfo'], $protectedPost['newfield']);
     } else {
         $type_field = array(2, 0);
-        $value_field = array($accountinfo_choise, $protectedPost['newfield']);
+        $value_field = array($accountinfo_choise, $protectedPost['newfield'] ?? '');
     }
 
     if (isset($hidden) && is_numeric($hidden)) {
@@ -275,47 +275,36 @@ if ($protectedPost['onglet'] == 1) {
     array_push($name_field, "newlbl");
     array_push($tab_name, $l->g(80) . ":");
     array_push($type_field, 0);
-    array_push($value_field, $protectedPost['newlbl']);
+    array_push($value_field, $protectedPost['newlbl'] ?? '');
 
     array_push($name_field, "newtype");
     array_push($tab_name, $l->g(1071) . ":");
     array_push($type_field, 2);
-    array_push($value_field, $type_accountinfo);
+    array_push($value_field, $Admininfo->type_accountinfo);
 
     array_push($name_field, "account_tab");
     array_push($tab_name, $l->g(1061) . ":");
     array_push($type_field, 2);
     array_push($value_field, $array_tab_account);
 
-    if ($protectedPost['newtype'] == 8) { //for QRCODE type
-        array_push($name_field, "default_value");
-        array_push($tab_name, $l->g(1099) . ":");
-        array_push($type_field, 2);
-        array_push($value_field, $array_qr_values);
-    }
-
     $tab_typ_champ = show_field($name_field, $type_field, $value_field, $config);
 
     $tab_typ_champ[3]['COMMENT_AFTER']="<input type='image' name='addtab' src='image/plus.png'>";
 
-    if( (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] != "") || (isset($protectedPost['MODIF_OLD']) && $protectedPost['MODIF_OLD'] != "") ){
-        formGroup('hidden', 'MODIF_OLD', '', '', '', $protectedPost['MODIF'], '', '', '', '');
+    if( (isset($protectedPost['MODIF']) && !empty($protectedPost['MODIF'])) || (isset($protectedPost['MODIF_OLD']) && !empty($protectedPost['MODIF_OLD'])) ){
+        formGroup('hidden', 'MODIF_OLD', '', '', '', $protectedPost['MODIF'] ?? '', '', '', '', '');
         formGroup('hidden', 'newfield', '', '', '', $protectedPost['newfield']);
         formGroup('hidden', 'accountinfo', '', '', '', $protectedPost['accountinfo']);
         formGroup('text', 'accountinfo', $l->g(56), '', '', $protectedPost['accountinfo'], '', '', '', "disabled");
         formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "disabled");
 
     }else{
-        formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'], '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
-        formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'], '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+        formGroup('select', 'accountinfo', $l->g(56), '', '', $protectedPost['ACCOUNTINFO_CHOISE'] ?? '', '', $tab_typ_champ[0]['DEFAULT_VALUE'], $tab_typ_champ[0]['DEFAULT_VALUE'], "onKeyPress=\"return scanTouche(event,/[0-9a-zA-Z_-]/)\" onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
+        formGroup('text', 'newfield', $l->g(1070), 30, 255, $protectedPost['newfield'] ?? '', '', '', '', "onkeypress='return scanTouche(event,/[0-9a-zA-Z_-]/)' onkeydown='convertToUpper(this)' onkeyup='convertToUpper(this)' onblur='convertToUpper(this)'");
     }
-    formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl']);
-    formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost['newtype'], '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "onchange='document.admin_info.submit();'");
-    formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost['account_tab'], '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE'],'', $tab_typ_champ[3]['COMMENT_AFTER']);
-
-    if($protectedPost['newtype'] == 8){
-        formGroup('select', 'default_value', $l->g(1099), '', '', $protectedPost['default_value'], '', $tab_typ_champ[5]['DEFAULT_VALUE'], $tab_typ_champ[5]['DEFAULT_VALUE'], '', '');
-    }
+    formGroup('text', 'newlbl', $l->g(80), 30, 255, $protectedPost['newlbl'] ?? '');
+    formGroup('select', 'newtype', $l->g(1071), '', '', $protectedPost['newtype'] ?? '', '', $tab_typ_champ[3]['DEFAULT_VALUE'], $tab_typ_champ[3]['DEFAULT_VALUE'], "");
+    formGroup('select', 'account_tab', $l->g(1061), '', '', $protectedPost['account_tab'] ?? '', '', $tab_typ_champ[4]['DEFAULT_VALUE'], $tab_typ_champ[4]['DEFAULT_VALUE'],'', $tab_typ_champ[3]['COMMENT_AFTER']);
 
 ?>
 
@@ -366,7 +355,7 @@ if ($protectedPost['onglet'] == 1) {
   //traitement par lot
   if ($are_result) {
       del_selection($form_name);
-      if ($protectedGet['form']) {
+      if (isset($protectedGet['form'])) {
           reloadform_closeme($protectedGet['form']);
       }
   }
@@ -377,49 +366,59 @@ if ($protectedPost['onglet'] == 1) {
   $name_field = array("newfield");
   $tab_name[0] = $l->g(80);
   $type_field = array(0);
-  $value_field = array($protectedPost['newfield']);
+  $value_field = array($protectedPost['newfield'] ?? '') ;
 
   $tab_typ_champ = show_field($name_field, $type_field, $value_field);
   $tab_typ_champ[0]['CONFIG']['SIZE'] = 20;
 
-  modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
+  modif_values($tab_name, $tab_typ_champ, $tab_hidden ?? '', array(
       'form_name' => 'NO_FORM'
   ));
 
 } elseif ($protectedPost['onglet'] == 5) {
     // 2nd - CSV already sent
+    // create new csv obj
+    $csvObj = new CSV();
+    $tmpDir = $csvObj->file_path."/tmp_dir/";
+
     if (isset($protectedPost['valid_csv'])) {
-        // create new csv obj
-        $csvObj = new CSV();
-        $protectedPost['csv_filename'] = $csvObj->saveCSV($_FILES['csv_file'], $_FILES['csv_file']['name']);
-        // saveCSV failed
-        if ($protectedPost['csv_filename'] == false) {
-            msg_error($l->g(9613));
-            echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
-        } else {
-            // open csv
-            $handle = $csvObj->openCSV($protectedPost['csv_filename']);
-            // use first line as header
-            $protectedPost['csv_header'] = $csvObj->readCSVHeader();
-            echo "<div class='row margin-top30'>
-            <div class='col-sm-10'>";
-            // if file can not be read correctly (probably due to wrong separator), close and delete it
-            if ($protectedPost['csv_header'] == false ) {
-                msg_error($l->g(9606));
-                fclose($handle);
-                $delete_csv = $csvObj->deleteCSV($protectedPost['csv_filename']);
-                // $protectedPost['wrong_file'] = 'wrong file';
+        if($_FILES['csv_file']['type'] == "text/csv") {
+            
+            $saveCSVFile = $csvObj->saveCSV($_FILES['csv_file'], $_FILES['csv_file']['name']);
+            // save filename in POST value
+            $protectedPost['csv_filename'] = $_FILES['csv_file']['name'];
+            // saveCSV failed
+            if ($saveCSVFile == false) {
+                msg_error($l->g(9613));
                 echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
             } else {
-                msg_info($l->g(9608));
-                msg_success($l->g(9607));
-                // display form for CSV field selection
-                formGroup('select', 'csv_field', $l->g(9600), '', '', $protectedPost['csv_field'], '', $protectedPost['csv_header'], $protectedPost['csv_header']);
-                echo "<br><br><input type='submit' name='valid_csv_field' id='valid_csv_field' class='btn btn-success' value=".$l->g(1264)."><br><br>";
-                echo "<input type='hidden' name ='csv_filename' id='csv_filename' value= ".$protectedPost['csv_filename'].">";
-                // close file
-                fclose($handle);
+                // open csv
+                $handle = $csvObj->openCSV($tmpDir.$protectedPost['csv_filename']);
+                // use first line as header
+                $protectedPost['csv_header'] = $csvObj->readCSVHeader();
+                echo "<div class='row margin-top30'>
+                <div class='col-sm-10'>";
+                // if file can not be read correctly (probably due to wrong separator), close and delete it
+                if ($protectedPost['csv_header'] == false ) {
+                    msg_error($l->g(9606));
+                    fclose($handle);
+                    $delete_csv = $csvObj->deleteCSV($tmpDir.$protectedPost['csv_filename']);
+                    // $protectedPost['wrong_file'] = 'wrong file';
+                    echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
+                } else {
+                    msg_info($l->g(9608));
+                    msg_success($l->g(9607));
+                    // display form for CSV field selection
+                    formGroup('select', 'csv_field', $l->g(9600), '', '', ($protectedPost['csv_field'] ?? 0), '', $protectedPost['csv_header'], $protectedPost['csv_header']);
+                    echo "<br><br><input type='submit' name='valid_csv_field' id='valid_csv_field' class='btn btn-success' value=".$l->g(1264)."><br><br>";
+                    echo "<input type='hidden' name ='csv_filename' id='csv_filename' value= ".$protectedPost['csv_filename'].">";
+                    // close file
+                    fclose($handle);
+                }
             }
+        } else {
+            msg_error($l->g(9614));
+            echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
         }
 
     // 3rd - selection for OCS field 
@@ -430,13 +429,13 @@ if ($protectedPost['onglet'] == 1) {
         } else {
             $defaultTable = null;
         }
-    
+
         // association with OCS fields is achieved with 2 fields hardware>NAME or bios>SSN
         $tabs_available = array('hardware - machine name', 'bios - serial number');
         // display form for OCS field selection
         echo open_form('csv_assoc', '', '', '');
         ?>
-    
+
             <div class="col-sm-10">
             <?php echo msg_info($l->g(9609)); ?>
                 <div class="form-group">
@@ -457,28 +456,32 @@ if ($protectedPost['onglet'] == 1) {
                         </select>
                     </div>
                     <div class='col-sm-10'>
-    
+
                         <br><br><input type='submit' name='valid_ocs_field' id='valid_ocs_field' class='btn btn-success' value='<?php echo $l->g(1264) ?>.'><br><br>
                     </div>
                 </div>
             </div>
-                
-    
+
+
         <?php echo close_form();
-    
+
     // 4th - links between CSV fields and OCS fields
     } elseif (isset($protectedPost['valid_ocs_field']) && isset($protectedPost['csv_field'])) {
         $csvObj = new CSV();
-        $handle = $csvObj->openCSV($protectedPost['csv_filename']);
+        $handle = $csvObj->openCSV($tmpDir.$protectedPost['csv_filename']);
         $header = $csvObj->readCSVHeader();
         // delete csv field of reconciliation from header > cant link it with any other field
         unset($header[$protectedPost['csv_field']]);
-        
+
         // get ocs fields from accountinfo_config
         $req = "SELECT ID, NAME from accountinfo_config WHERE account_type = 'computers'";
         $ocs_fields = mysql2_query_secure($req, $_SESSION['OCS']["readServer"]);
         $ocs_fields = mysqli_fetch_all($ocs_fields, MYSQLI_ASSOC);
-        array_unshift($ocs_fields, "----");
+        $emptyfields = [
+            'ID' => 0,
+            'NAME' => "----"
+        ];
+        array_unshift($ocs_fields, $emptyfields);
 
         echo '<div class="col-sm-10">';
         msg_info($l->g(9610));
@@ -495,8 +498,8 @@ if ($protectedPost['onglet'] == 1) {
         echo '              <tr>';
         echo '                  <td style="width: 40%; text-align:center;">'.$column.'</td>';
         echo '                  <td><select style="width: 100%;" class="form-control" type="text" name="link_'.$key.'">';
-                                foreach($ocs_fields as $id => $ocs_field) {
-                                echo '<option value="'.$ocs_field['ID'].'">'.$ocs_field['NAME'].'</option>';
+                                foreach($ocs_fields as $ocs_field) {
+                                    echo '<option value="'.$ocs_field['ID'].'">'.$ocs_field['NAME'].'</option>';
                                 }
         echo '                  </td>';
         echo '              </tr>';
@@ -509,100 +512,112 @@ if ($protectedPost['onglet'] == 1) {
         echo "  <input type='hidden' name ='csv_field' id='csv_field' value=".$protectedPost['csv_field'].">
                 <input type='hidden' name ='column_select' id='column_select' value=".$protectedPost['column_select'].">
             </div>";
-       
-        
+
+
 
 
     // 5th - results
     } elseif (isset($protectedPost['valid_links'])) {
         $errors = array();
         $csvObj = new CSV();
-        $handle = $csvObj->openCSV($protectedPost['csv_filename']);
 
-        // get array of links
-        foreach ($protectedPost as $key => $value) {
-            if (strpos($key, 'link_') === 0) {
-                $links[$key] = $value;
-            }
-        }
-        // remove empty links + format ID for future query
-        foreach ($links as $key => $link) {
-             if ($link == '-') {
-                unset($links[$key]);
-             } else {
-                 $links[$key] = "fields_".$link;
-             }
-        }
+        if(file_exists($tmpDir.$protectedPost['csv_filename'])) {
+            $handle = $csvObj->openCSV($tmpDir.$protectedPost['csv_filename']);
 
-        function logCSVErrors($lvl) {
-            switch ($lvl) {
-                case '1':
-                    return $error = 9602;
-                case '2':
-                    return $error = 9603;
-                case '3':
-                    return $error = 9604;
-            }
-        }
-
-        // req to retrieve hardware id
-        $sql_h_id = "SELECT %s FROM %s WHERE %s = '%s'";
-        $i = 0;
-        while ($line = $csvObj->readCSVLine()) {
-            $i++;
-            // first line means header
-            if ($i == 1) {
-                continue;
-            } else {
-                // if csv field chosen by user is empty (reconciliation cannot be achieved on an empty field)
-                if ($line[$protectedPost['csv_field']] != '') {
-                    if ($protectedPost['column_select'] == 'hardware') {
-                        $table_select = 'hardware';
-                        $column_select = 'NAME';
-                        $id_column = 'ID';
-                    } else {
-                        $table_select = 'bios';
-                        $column_select = 'SSN';
-                        $id_column = 'hardware_id';
-                    }
-                    // csv field index = value index
-                    $args = array($id_column, $table_select, $column_select, $line[$protectedPost['csv_field']]);
-                    $h_id = mysql2_query_secure($sql_h_id, $_SESSION['OCS']["readServer"], $args);
-                    // if device exists
-                    if ($h_id = mysqli_fetch_assoc($h_id)) {
-                        // update fields 
-                        foreach ($links as $index => $field) {
-                            $index = str_replace('link_', '', $index);
-                            $req_update = "UPDATE accountinfo SET %s = '%s' WHERE hardware_id = %s";
-                            $args_update = array($field, trim($line[$index]), $h_id[$id_column]);
-                            if (mysql2_query_secure($req_update, $_SESSION['OCS']["readServer"], $args_update)) {
-                                $success = 1;
-                            } else {
-                                $lvl = '3';
-                                $errors[$i] = logCSVErrors($lvl);
-                            }
-                        }
-                    } else {
-                        $lvl = '2';
-                        $errors[$i] = logCSVErrors($lvl);
-                    }
-                } else {
-                    $lvl = '1';
-                    $errors[$i] = logCSVErrors($lvl);
+            // get array of links
+            foreach ($protectedPost as $key => $value) {
+                if (strpos($key, 'link_') === 0) {
+                    $links[$key] = $value;
                 }
             }
+            // remove empty links + format ID for future query
+            foreach ($links as $key => $link) {
+                 if ($link == '-') {
+                    unset($links[$key]);
+                 } else {
+                     $links[$key] = "fields_".$link;
+                 }
+            }
+    
+            function logCSVErrors($lvl) {
+                switch ($lvl) {
+                    case '1':
+                        return $error = 9602;
+                    case '2':
+                        return $error = 9603;
+                    case '3':
+                        return $error = 9604;
+                }
+            }
+    
+            // req to retrieve hardware id
+            $sql_h_id = "SELECT %s FROM %s WHERE %s = '%s'";
+            $i = 0;
+            $success = null;
+            
+            while ($line = $csvObj->readCSVLine()) {
+                $i++;
+                // first line means header
+                if ($i == 1) {
+                    continue;
+                } else {
+                    // if csv field chosen by user is empty (reconciliation cannot be achieved on an empty field)
+                    if ($line[$protectedPost['csv_field']] != '') {
+                        if ($protectedPost['column_select'] == 'hardware') {
+                            $table_select = 'hardware';
+                            $column_select = 'NAME';
+                            $id_column = 'ID';
+                        } else {
+                            $table_select = 'bios';
+                            $column_select = 'SSN';
+                            $id_column = 'hardware_id';
+                        }
+                        // csv field index = value index
+                        $args = array($id_column, $table_select, $column_select, $line[$protectedPost['csv_field']]);
+                        $h_id = mysql2_query_secure($sql_h_id, $_SESSION['OCS']["readServer"], $args);
+                        // if device exists
+                        if ($h_id = mysqli_fetch_assoc($h_id)) {
+                            // update fields 
+                            foreach ($links as $index => $field) {
+                                if($field != "fields_0") {
+                                    $index = str_replace('link_', '', $index);
+                                    $req_update = "UPDATE accountinfo SET %s = '%s' WHERE hardware_id = %s";
+                                    $args_update = array($field, trim($line[$index]), $h_id[$id_column]);
+                                    if (mysql2_query_secure($req_update, $_SESSION['OCS']["readServer"], $args_update)) {
+                                        $success = 1;
+                                    } else {
+                                        $lvl = '3';
+                                        $errors[$i] = logCSVErrors($lvl);
+                                    }
+                                }
+                            }
+                        } else {
+                            $lvl = '2';
+                            $errors[$i] = logCSVErrors($lvl);
+                        }
+                    } else {
+                        $lvl = '1';
+                        $errors[$i] = logCSVErrors($lvl);
+                    }
+                }
+            }
+            // close file once data has been imported
+            fclose($handle);
+            $delete_csv = $csvObj->deleteCSV($tmpDir.$protectedPost['csv_filename']);
         }
-        // close file once data has been imported
-        fclose($handle);
-        $delete_csv = $csvObj->deleteCSV($protectedPost['csv_filename']);
+        
         echo "<br><input type='submit' name='import_new' id='import_new' class='btn btn-success' value=". $l->g(188)."><br><br>";
 
-        if ($success != '') {
+        if (!is_null($success)) {
             msg_info($l->g(9605));
+        } else {
+            msg_error($l->g(9615));
         }
-        foreach ($errors as $key => $error) {
-            $error = "CSV line $key : ".$l->g($error);
-            msg_error($error);
+        if(!empty($errors)) {
+            foreach ($errors as $key => $error) {
+                $error = "CSV line $key : ".$l->g($error);
+                msg_error($error);
+            }
         }
         
     // 1st - import csv
@@ -613,7 +628,7 @@ if ($protectedPost['onglet'] == 1) {
                 <div class='col-sm-10'>";
     
         echo "<br><br>";
-        formGroup('file', 'csv_file', 'Import CSV file :', '', '', $protectedPost['csv_file'], '', '', '', "accept='.csv'");
+        formGroup('file', 'csv_file', 'Import CSV file :', '', '', $protectedPost['csv_file'] ?? '', '', '', '', "accept='.csv'");
         echo "<input type='submit' name='valid_csv' id='valid_csv' class='btn btn-success' value='".$l->g(1479)."'><br><br>";
         echo "</div>";
     }

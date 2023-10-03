@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -22,13 +23,11 @@
  */
 require_once(BACKEND . 'require/connexion.php');
 require_once(BACKEND . 'require/auth.manager.php');
-
 $list_methode = array(0 => "local.php");
-
 if (!isset($_SESSION['OCS']["ipdiscover"])) {
     $i = 0;
     //methode pour le calcul des droits
-    while ($list_methode[$i]) {
+    while (isset($list_methode[$i]) == true) {
         require_once('methode/' . $list_methode[$i]);
         //on garde les droits de l'utilisateur sur l'ipdiscover
         if (isset($list_ip)) {
@@ -40,7 +39,7 @@ if (!isset($_SESSION['OCS']["ipdiscover"])) {
 }
 unset($list_ip);
 if (isset($tab_ip)) {
-    foreach ($list_methode as $prio => $script) {
+    foreach ($list_methode as $script) {
         if (isset($tab_ip[$script])) {
             foreach ($tab_ip[$script] as $ip => $lbl) {
                 $list_ip[$ip] = $lbl;
@@ -58,4 +57,3 @@ if (isset($tab_info) && !isset($_SESSION['OCS']["ipdiscover"])) {
     $_SESSION['OCS']["ipdiscover"] = $tab_info;
     $_SESSION['OCS']["ipdiscover_methode"] = $base;
 }
-?>

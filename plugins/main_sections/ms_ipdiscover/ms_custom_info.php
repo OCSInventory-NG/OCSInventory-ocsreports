@@ -29,7 +29,9 @@ if (AJAX) {
 
 require_once('require/function_ipdiscover.php');
 
-echo "<a class='btn btn-info' onClick='history.back();'>".$l->g(188)."</a>";
+if (!isset($protectedPost['MODIF']) || (isset($protectedPost['MODIF']) && $protectedPost['MODIF'] == "")) {
+    echo "<a class='btn btn-info' href='index.php?function=show_ipdiscover'>".$l->g(188)."</a></br></br>";
+}
 
 $form_name = 'info_ipdiscover';
 $tab_options = $protectedPost;
@@ -47,7 +49,6 @@ if (isset($protectedPost['SUP_PROF'])) {
     if ($protectedGet['prov'] == "ident") {
         //dismiss manufacturer name and mac to be able to remove it properly.
         $exploded_data = explode(' ', $protectedPost['SUP_PROF']);
-        //var_dump($exploded_data);
         $protectedPost['SUP_PROF'] = $exploded_data[0];
     }
 
@@ -70,7 +71,7 @@ if (isset($protectedPost['Valid_modif'])) {
     }
 
     if (!isset($ERROR)) {
-        if ($protectedPost['USER_ENTER'] != '') {
+        if (!empty($protectedPost['USER_ENTER'])) {
             $sql = "UPDATE network_devices
 					SET DESCRIPTION = '%s',
 					TYPE = '%s',
@@ -89,6 +90,20 @@ if (isset($protectedPost['Valid_modif'])) {
             mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
         }
 
+        $udpate_date = look_config_default_values('IPDISCOVER_UPDATE_DATE');
+
+        if ($udpate_date['ivalue']['IPDISCOVER_UPDATE_DATE']) {
+            $sql = "UPDATE netmap
+                    SET DATE = '%s'
+                    WHERE MAC = '%s'";
+
+            $date = new DateTime();
+            
+            $arg = array($date->format('Y-m-d H:i:s'), $protectedPost['mac']);
+
+            mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
+        }
+
         //suppression du cache pour prendre en compte la modif
         unset($_SESSION['OCS']['DATA_CACHE']['IPDISCOVER_' . $protectedGet['prov']]);
     } else {
@@ -97,7 +112,7 @@ if (isset($protectedPost['Valid_modif'])) {
 }
 
 //del the selection
-if ($protectedPost['DEL_ALL'] != '') {
+if (!empty($protectedPost['DEL_ALL'])) {
     foreach ($protectedPost as $key => $value) {
         $checkbox = explode('check', $key);
         if (isset($checkbox[1])) {
@@ -125,49 +140,46 @@ if (is_defined($protectedPost['MODIF'])) {
         $protectedPost['USER'] = $val['USER'];
         $protectedPost['MODIF_ID'] = $protectedPost['MODIF'];
     }
-    $tab_hidden['USER_ENTER'] = $protectedPost['USER'];
-    $tab_hidden['MODIF_ID'] = $protectedPost['MODIF_ID'];
-    //si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
-    if ($protectedPost['MODIF_ID'] != '') {
-        $tab_typ_champ[3]['DEFAULT_VALUE'] = $protectedPost['USER'];
-        $tab_typ_champ[3]['INPUT_NAME'] = "USER";
-        $tab_typ_champ[3]['INPUT_TYPE'] = 3;
-        $tab_name[3] = $l->g(944) . ": ";
 
+    if(isset($protectedPost['USER']) && isset($protectedPost['MODIF_ID'])) {
+        $tab_hidden['USER_ENTER'] = $protectedPost['USER'];
+        $tab_hidden['MODIF_ID'] = $protectedPost['MODIF_ID'];
+    }
+
+    //si on est dans le cas d'une modif, on affiche le login qui a saisi la donnée
+    if (isset($protectedPost['MODIF_ID']) && $protectedPost['MODIF_ID'] != '') {
+        $tab_name[3] = $l->g(944) . ": ";
         $title = $l->g(945);
     } else {
         $title = $l->g(946);
     }
-
-    $tab_typ_champ[0]['DEFAULT_VALUE'] = $protectedPost['MODIF'];
-    $tab_typ_champ[0]['INPUT_NAME'] = "MAC";
-    $tab_typ_champ[0]['INPUT_TYPE'] = 13;
-    $tab_name[0] = $l->g(95) . ": ";
-
-    $tab_typ_champ[1]['DEFAULT_VALUE'] = $protectedPost['COMMENT'];
-    $tab_typ_champ[1]['INPUT_NAME'] = "COMMENT";
-    $tab_typ_champ[1]['INPUT_TYPE'] = 0;
-    $tab_typ_champ[1]['CONFIG']['SIZE'] = 60;
-    $tab_typ_champ[1]['CONFIG']['MAXLENGTH'] = 255;
-    $tab_name[1] = $l->g(53) . ": ";
 
     $sql = "SELECT DISTINCT NAME FROM devicetype ";
     $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     while ($row = mysqli_fetch_object($res)) {
         $list_type[$row->NAME] = $row->NAME;
     }
-    $tab_typ_champ[2]['DEFAULT_VALUE'] = $list_type;
-    $tab_typ_champ[2]['INPUT_NAME'] = "TYPE";
-    $tab_typ_champ[2]['INPUT_TYPE'] = 2;
-    $tab_name[2] = $l->g(66) . ": ";
 
+    $tab_name = array($l->g(944), $l->g(95), $l->g(53), $l->g(66));
+    $name_field = array('USER', 'MAC', 'COMMENT', 'TYPE');
+    $type_field = array(13, 13, 0, 2);
+    $value_field =  array($_SESSION["OCS"]["loggeduser"] ?? '', $protectedPost['MODIF'] ?? '', $protectedPost['COMMENT'] ?? '', $list_type ?? []);
+    $tab_typ_champ = show_field($name_field, $type_field, $value_field);
     $tab_hidden['mac'] = $protectedPost['MODIF'];
     if (isset($ERROR)) {
         msg_error($ERROR);
     }
+
+    foreach ($tab_typ_champ as $id => $values) {
+        if($tab_typ_champ[$id]["INPUT_TYPE"] == 2) {
+            $tab_typ_champ[$id]['CONFIG']['SELECTED_VALUE'] = $protectedPost[$tab_typ_champ[$id]['INPUT_NAME']] ?? 0;
+        }
+    }
+
     modif_values($tab_name, $tab_typ_champ, $tab_hidden, array(
         'title' => $title
     ));
+
 } else { //affichage des périphériques
     if (!(isset($protectedPost["pcparpage"]))) {
         $protectedPost["pcparpage"] = 5;
@@ -175,7 +187,7 @@ if (is_defined($protectedPost['MODIF'])) {
     if (isset($protectedGet['value'])) {
         $explode = explode(";", $protectedGet['value']);
         $value_preg = preg_replace("/[^A-zA-Z0-9\._]/", "", $explode[0]);
-        $tag = addslashes($explode[1]);
+        $tag = addslashes($explode[1] ?? '');
 
         if ($protectedGet['prov'] == "no_inv") {
             $title = $l->g(947);
@@ -234,16 +246,20 @@ if (is_defined($protectedPost['MODIF'])) {
             $default_fields = array($l->g(34) => $l->g(34), $l->g(66) => $l->g(66), $l->g(53) => $l->g(53),
                 $l->g(95)  => 'MAC', $l->g(232) => $l->g(232), $l->g(369) => $l->g(369), 'SUP' => 'SUP', 'MODIF' => 'MODIF');
         } elseif ($protectedGet['prov'] == "inv" || $protectedGet['prov'] == "ipdiscover") {
-            //BEGIN SHOW ACCOUNTINFO
-            require_once('require/function_admininfo.php');
-            $accountinfo_value = interprete_accountinfo($list_fields, $tab_options);
-            if (array($accountinfo_value['TAB_OPTIONS']))
-                $tab_options = $accountinfo_value['TAB_OPTIONS'];
-            if (array($accountinfo_value['DEFAULT_VALUE']))
-                $default_fields = $accountinfo_value['DEFAULT_VALUE'];
-            $list_fields = $accountinfo_value['LIST_FIELDS'];
-            $tab_options['FILTRE'] = array_flip($list_fields);
-            //END SHOW ACCOUNTINFO
+            if(isset($list_fields)) {
+                //BEGIN SHOW ACCOUNTINFO
+                require_once('require/admininfo/Admininfo.php');
+                $Admininfo = new Admininfo();
+                $accountinfo_value = $Admininfo->interprete_accountinfo($list_fields, $tab_options);
+                if (array($accountinfo_value['TAB_OPTIONS']))
+                    $tab_options = $accountinfo_value['TAB_OPTIONS'];
+                if (array($accountinfo_value['DEFAULT_VALUE']))
+                    $default_fields = $accountinfo_value['DEFAULT_VALUE'];
+                $list_fields = $accountinfo_value['LIST_FIELDS'];
+                $tab_options['FILTRE'] = array_flip($list_fields);
+                //END SHOW ACCOUNTINFO
+            }
+            
             $list_fields2 = array($l->g(46) => "h.lastdate",
                 'NAME' => 'h.name',
                 $l->g(24) => "h.userid",
@@ -255,7 +271,7 @@ if (is_defined($protectedPost['MODIF'])) {
                 $l->g(557) => "h.userdomain");
 
             $tab_options["replace_query_arg"]['MD5_DEVICEID'] = " md5(deviceid) ";
-            $list_fields = array_merge($list_fields, $list_fields2);
+            $list_fields = isset($list_fields) ? array_merge($list_fields, $list_fields2) : $list_fields2;
             $sql = prepare_sql_tab($list_fields);
             $list_fields = array_merge($list_fields, array('MD5_DEVICEID' => "MD5_DEVICEID"));
             $tab_options['ARG_SQL'] = $sql['ARG'];
@@ -271,6 +287,7 @@ if (is_defined($protectedPost['MODIF'])) {
                 $sql = $sql['SQL'] . " from accountinfo a,hardware h left join devices d on d.hardware_id=h.id";
                 $sql .= " where a.hardware_id=h.id and (d.ivalue=1 or d.ivalue=2) and d.name='IPDISCOVER' and d.tvalue='%s'";
             }
+            $sql .= " group by h.id";
 
             array_push($tab_options['ARG_SQL'], $value_preg, $tag);
             $default_fields['NAME'] = 'NAME';

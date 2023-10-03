@@ -32,7 +32,7 @@ if (AJAX) {
 require_once('require/function_groups.php');
 require_once('require/function_computers.php');
 //ADD new static group
-if ($protectedPost['Valid_modif']) {
+if (isset($protectedPost['Valid_modif'])) {
     $result = creat_group($protectedPost['NAME'], $protectedPost['DESCR'], '', '', 'STATIC');
     if ($result['RESULT'] == "ERROR") {
         msg_error($result['LBL']);
@@ -43,7 +43,7 @@ if ($protectedPost['Valid_modif']) {
     $tab_options['CACHE'] = 'RESET';
 }
 //reset add static group
-if ($protectedPost['Reset_modif'] || ($protectedPost['onglet'] != $protectedPost['old_onglet'])) {
+if (isset($protectedPost['Reset_modif']) || (isset($protectedPost['onglet']) && isset($protectedPost['old_onglet']) && ($protectedPost['onglet'] != $protectedPost['old_onglet'] ))) {
     unset($protectedPost['add_static_group']);
 }
 $tab_options = $protectedPost;
@@ -63,7 +63,7 @@ if (!AJAX) {
     }
 }
 //if delete group
-if ($protectedPost['SUP_PROF'] != "") {
+if (!empty($protectedPost['SUP_PROF'])) {
     $result = delete_group($protectedPost['SUP_PROF']);
     if ($result['RESULT'] == "ERROR") {
         msg_error($result['LBL']);
@@ -76,21 +76,14 @@ $tab_options['form_name'] = $form_name;
 
 echo open_form($form_name, '', '', 'form-horizontal');
 //view all groups
-if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS')=="YES"){
-	$def_onglets['DYNA']=$l->g(810); //Dynamic group
-	$def_onglets['STAT']=$l->g(809); //Static group centraux
-	if ($_SESSION['OCS']["use_redistribution"] == 1)
-		$def_onglets['SERV']=mb_strtoupper($l->g(651));
-	if ($protectedPost['onglet'] == "")
-	$protectedPost['onglet']="STAT";	
-	//show onglet
-	show_tabs($def_onglets,$form_name,"onglet",true);
-	echo '<div class="col col-md-10">';
+$def_onglets['DYNA']=$l->g(810); //Dynamic group
+$def_onglets['STAT']=$l->g(809); //Static group centraux
+if (empty($protectedPost['onglet']))
+$protectedPost['onglet']="STAT";	
+//show onglet
+show_tabs($def_onglets,$form_name,"onglet",true);
+echo '<div class="col col-md-10">';
 
-
-}else{	
-	$protectedPost['onglet']="STAT";
-}
 
 $list_fields = array('GROUP_NAME' => 'h.NAME',
     'GROUP_ID' => 'h.ID',
@@ -99,7 +92,7 @@ $list_fields = array('GROUP_NAME' => 'h.NAME',
     'NBRE' => 'NBRE');
 //only for admins
 if ($_SESSION['OCS']['profile']->getConfigValue('GROUPS') == "YES") {
-    if ($protectedPost['onglet'] == "STAT") {
+    if ($protectedPost['onglet'] == "STAT" || $protectedPost['onglet'] == "DYNA") {
         $list_fields['CHECK'] = 'ID';
     }
     $list_fields['SUP'] = 'ID';
@@ -162,7 +155,7 @@ if (!isset($tab_options['VALUE']['NBRE'])) {
     $tab_options['VALUE']['NBRE'][] = 0;
 }
 //on recherche les groupes visible pour cocher la checkbox à l'affichage
-if ($protectedPost['onglet'] == "STAT") {
+if ($protectedPost['onglet'] == "STAT" || $protectedPost['onglet'] == "DYNA") {
     $sql = "select id from hardware where workgroup='GROUP_4_ALL'";
     $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
     while ($item = mysqli_fetch_object($result)) {
@@ -194,8 +187,8 @@ if (isset($protectedPost['add_static_group']) && $_SESSION['OCS']['profile']->ge
     <div class="row rowMarginTop30">
         <div class="col-md-12">
             <?php
-            formGroup('text', 'NAME', $l->g(577), '20', '', $protectedPost['NAME']);
-            formGroup('text', 'DESCR', $l->g(53), '', '', $protectedPost['DESCR']);
+            formGroup('text', 'NAME', $l->g(577), '20', '', $protectedPost['NAME'] ?? '');
+            formGroup('text', 'DESCR', $l->g(53), '', '', $protectedPost['DESCR'] ?? '');
             ?>
         </div>
     </div>

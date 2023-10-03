@@ -26,10 +26,10 @@ class ExtensionManager{
     /**
      * Attributes
      */
-    public $installedExtensionsList = null;
-    public $installableExtensionsList = null;
+    public $installedExtensionsList;
+    public $installableExtensionsList;
     public $installableExtensions_errors = array();
-    public $errorMessage = null;
+    public $errorMessage;
 
     /**
      * Constants
@@ -62,7 +62,6 @@ class ExtensionManager{
      * List query
      */
     private $selectQuery = "SELECT * FROM `extensions`";
-    private $selectQueryTarget = "SELECT * FROM `extensions` WHERE id = '%s'";
 
     /**
      * Insert query
@@ -77,12 +76,12 @@ class ExtensionManager{
     /**
      * Objects
      */
-    private $dbObject = null;
+    private $dbObject;
 
     /**
      * Write server.
      */
-    private $dbWrite = null;
+    private $dbWrite;
 
     /**
      * Constructor
@@ -107,7 +106,7 @@ class ExtensionManager{
         // Scan dir and get all sub directory in extensions directory
         $items = scandir(EXT_DL_DIR);
         $installableExtList = [];
-        foreach ($items as $index => $name) {
+        foreach ($items as $name) {
             if(in_array($name, $this->FORBIDEN_EXT_NAME) || !is_dir(EXT_DL_DIR.$name)){
                 continue;
             }
@@ -144,7 +143,7 @@ class ExtensionManager{
 			}
 
             return true;
-        } catch (Exception $ex) {
+        } catch (Exception $e) {
 			$this->installableExtensions_errors[] = sprintf($l->g(7021), $name).': '.$l->g(7023);
             return false;
         }
@@ -187,7 +186,7 @@ class ExtensionManager{
             $installMethod();
             // TODO : Successfuly instllaed
             return true;
-        } catch (Exception $ex) {
+        } catch (Exception $e) {
             // TODO : PHP Error occured
             return false;
         }
@@ -211,7 +210,7 @@ class ExtensionManager{
             $deleteMethod = self::EXTENSION_DELETE_METHD.$name;
             $deleteMethod();
             return true;
-        } catch (Exception $ex) {
+        } catch (Exception $e) {
             return false;
         }
 

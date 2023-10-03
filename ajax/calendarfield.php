@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2019 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -22,23 +23,18 @@
  */
 require_once('../require/function_commun.php');
 require_once('../var.php');
-
 if(isset($_GET['fieldid'])){
     $html = get_html($_GET['fieldid']);
     echo $html;
 }
-
-
 function get_html($fieldId) {
     global $l;
-    $fieldId = htmlspecialchars($fieldId, ENT_QUOTES, 'UTF-8');
-    $html = '<div class="input-group date form_datetime">
+    $fieldId = htmlspecialchars($fieldId, ENT_QUOTES, 'UTF-8'); 
+
+    return '<div class="input-group date form_datetime">
                 <input type="text" class="form-control" name="'.$fieldId.'" id="'.$fieldId.'" value=""/>
                 <span class="input-group-addon">
                     '.calendars($fieldId, $_SESSION['OCS']['DATE_FORMAT_LANG']).'
                 </span>
-            </div>'; 
-
-    return $html;
+            </div>';
 }
-?>

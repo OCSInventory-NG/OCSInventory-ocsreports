@@ -40,7 +40,7 @@ $def_onglets['NOTIF_CONFIG'] = $l->g(8011); //Notification config.
 $def_onglets['NOTIF_PERSO'] = $l->g(8012); //Notification personnalisation
 
 //default => first onglet
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "NOTIF_CONFIG";
 }
 
@@ -66,7 +66,7 @@ echo '<div class="col col-md-10" >';
 
 if($protectedPost['onglet'] == 'NOTIF_CONFIG'){
 
-    if ($protectedPost['Valid'] == $l->g(103)) {
+    if (isset($protectedPost['Valid']) && $protectedPost['Valid'] == $l->g(103)) {
         $mail->insert_info_smtp($protectedPost);
     }
 
@@ -78,7 +78,7 @@ if($protectedPost['onglet'] == 'NOTIF_CONFIG'){
     $send_mode = array('nonsecure' => 'SMTP'/*, 'PHP' => 'PHP'*/,'ssl' => 'SMTP+SSL', 'tls'=>'SMTP+TLS');
 
     echo $mail->div['NOTIF_FOLLOW'];
-    if($mail->info['NOTIF_FOLLOW'] == 'ON'){
+    if(isset($mail->info['NOTIF_FOLLOW']) && $mail->info['NOTIF_FOLLOW'] == 'ON'){
       echo "<input type='radio' id='NOTIF_FOLLOW_ON' name='NOTIF_FOLLOW' value='ON' onclick='checkrequire(\"ON\");' checked/>ON</br>";
       echo "<input type='radio' id='NOTIF_FOLLOW_OFF' name='NOTIF_FOLLOW' value='OFF' onclick='checkrequire(\"OFF\");'/>OFF";
       $required = "required";
@@ -89,23 +89,23 @@ if($protectedPost['onglet'] == 'NOTIF_CONFIG'){
     }
     echo "</div></div></div>";
     echo $mail->div['NOTIF_MAIL_ADMIN'];
-    echo "<input type='text' id='NOTIF_MAIL_ADMIN' name='NOTIF_MAIL_ADMIN' class='form-control input-sm' value='".$mail->info['NOTIF_MAIL_ADMIN']."' maxlength='254' ".$required."/>";
+    echo "<input type='text' id='NOTIF_MAIL_ADMIN' name='NOTIF_MAIL_ADMIN' class='form-control input-sm' value='".($mail->info['NOTIF_MAIL_ADMIN'] ?? '')."' maxlength='254' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_NAME_ADMIN'];
-    echo "<input type='text' id='NOTIF_NAME_ADMIN' name='NOTIF_NAME_ADMIN' class='form-control input-sm' value='".$mail->info['NOTIF_NAME_ADMIN']."' maxlength='254' ".$required."/>";
+    echo "<input type='text' id='NOTIF_NAME_ADMIN' name='NOTIF_NAME_ADMIN' class='form-control input-sm' value='".($mail->info['NOTIF_NAME_ADMIN'] ?? '')."' maxlength='254' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_MAIL_REPLY'];
-    echo "<input type='text' id='NOTIF_MAIL_REPLY' name='NOTIF_MAIL_REPLY' class='form-control input-sm' value='".$mail->info['NOTIF_MAIL_REPLY']."' maxlength='254'/>";
+    echo "<input type='text' id='NOTIF_MAIL_REPLY' name='NOTIF_MAIL_REPLY' class='form-control input-sm' value='".($mail->info['NOTIF_MAIL_REPLY'] ?? '')."' maxlength='254'/>";
     echo "<p class='help-block'>" . $l->g(8010) . "</p>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_NAME_REPLY'];
-    echo "<input type='text' id='NOTIF_NAME_REPLY' name='NOTIF_NAME_REPLY' class='form-control input-sm' value='".$mail->info['NOTIF_NAME_REPLY']."' maxlength='254'/>";
+    echo "<input type='text' id='NOTIF_NAME_REPLY' name='NOTIF_NAME_REPLY' class='form-control input-sm' value='".($mail->info['NOTIF_NAME_REPLY'] ?? '')."' maxlength='254'/>";
     echo "<p class='help-block'>" . $l->g(8010) . "</p>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_SEND_MODE'];
     echo "<select id='NOTIF_SEND_MODE' name='NOTIF_SEND_MODE' class='form-control' value='' maxlength='254'>";
     foreach($send_mode as $key => $value){
-      if($key == $mail->info['NOTIF_SEND_MODE']){
+      if(isset($mail->info['NOTIF_SEND_MODE']) && $key == $mail->info['NOTIF_SEND_MODE']){
         echo "<option value='".$key."' selected>".$value."</option>";
       }else{
         echo "<option value='".$key."'>".$value."</option>";
@@ -114,21 +114,21 @@ if($protectedPost['onglet'] == 'NOTIF_CONFIG'){
     echo "</select>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_SMTP_HOST'];
-    echo "<input type='text' id='NOTIF_SMTP_HOST' name='NOTIF_SMTP_HOST' class='form-control input-sm' value='".$mail->info['NOTIF_SMTP_HOST']."' maxlength='254' ".$required."/>";
+    echo "<input type='text' id='NOTIF_SMTP_HOST' name='NOTIF_SMTP_HOST' class='form-control input-sm' value='".($mail->info['NOTIF_SMTP_HOST'] ?? '')."' maxlength='254' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_PORT_SMTP'];
-    echo "<input type='number' id='NOTIF_PORT_SMTP' name='NOTIF_PORT_SMTP' class='form-control input-sm' value='".$mail->info['NOTIF_PORT_SMTP']."' maxlength='254' ".$required."/>";
+    echo "<input type='number' id='NOTIF_PORT_SMTP' name='NOTIF_PORT_SMTP' class='form-control input-sm' value='".($mail->info['NOTIF_PORT_SMTP'] ?? '')."' maxlength='254' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_USER_SMTP'];
-    echo "<input type='text' id='NOTIF_USER_SMTP' name='NOTIF_USER_SMTP' class='form-control input-sm' value='".$mail->info['NOTIF_USER_SMTP']."' maxlength='254'/>";
+    echo "<input type='text' id='NOTIF_USER_SMTP' name='NOTIF_USER_SMTP' class='form-control input-sm' value='".($mail->info['NOTIF_USER_SMTP'] ?? '')."' maxlength='254'/>";
     echo "<p class='help-block'>" . $l->g(8010) . "</p>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_PASSWD_SMTP'];
-    echo "<input type='password' id='NOTIF_PASSWD_SMTP' name='NOTIF_PASSWD_SMTP' class='form-control input-sm' value='".$mail->info['NOTIF_PASSWD_SMTP']."' maxlength='254'/>";
+    echo "<input type='password' id='NOTIF_PASSWD_SMTP' name='NOTIF_PASSWD_SMTP' class='form-control input-sm' value='".($mail->info['NOTIF_PASSWD_SMTP'] ?? '')."' maxlength='254'/>";
     echo "<p class='help-block'>" . $l->g(8010) . "</p>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_PROG_TIME'];
-    echo "<input type='time' id='NOTIF_PROG_TIME' class='form-control input-sm' name='NOTIF_PROG_TIME' value='".$mail->info['NOTIF_PROG_TIME']."' ".$required."/>";
+    echo "<input type='time' id='NOTIF_PROG_TIME' class='form-control input-sm' name='NOTIF_PROG_TIME' value='".($mail->info['NOTIF_PROG_TIME'] ?? '')."' ".$required."/>";
     echo "</div></div></div>";
     echo $mail->div['NOTIF_PROG_DAY'];
 
@@ -155,7 +155,7 @@ if($protectedPost['onglet'] == 'NOTIF_CONFIG'){
 if($protectedPost['onglet'] == 'NOTIF_PERSO'){
     echo "</br></br>";
 
-    if ($protectedPost['Send'] == $l->g(103)) {
+    if (isset($protectedPost['Send']) && $protectedPost['Send'] == $l->g(103)) {
         $mail->update_perso($protectedPost['notif_choice']);
         if($protectedPost['notif_choice'] == 'PERSO'){
             $result =$mail->upload_file($_FILES, $protectedPost['subject']);
@@ -176,7 +176,7 @@ if($protectedPost['onglet'] == 'NOTIF_PERSO'){
 
     echo '<input type="radio" name="notif_choice" id="notif_choice" value="DEFAULT" '.$default.' onclick="hide(\'notif_perso\', \'default_mail\', \'perso_mail\')" />'.$l->g(488).'</br>
           <input type="radio" name="notif_choice" id="notif_choice" value="PERSO" '.$perso.' onclick="show(\'notif_perso\', \'default_mail\', \'perso_mail\')"/>'.$l->g(8012).'
-          <div id ="notif_perso" '.$style_perso.' align="center"></br></br>';
+          <div id ="notif_perso" '.($style_perso ?? '').' align="center"></br></br>';
     msg_warning($l->g(8016));
     echo '<input type="file" id="template" name="template"/>
           </div>';
@@ -185,7 +185,7 @@ if($protectedPost['onglet'] == 'NOTIF_PERSO'){
     echo '<div class="col-md-8 col-xs-offset-0 col-md-offset-2">';
 
     //Default
-    echo "<div id=default_mail ".$style_default.">";
+    echo "<div id=default_mail ".($style_default ?? '').">";
     echo "<div class='form-group'><label class='control-label col-sm-2' for='subject'>".$l->g(8018)."</label><div class='col-sm-8'>
           <input type='text' class='form-control' id='subject' name='subject' size='50' maxlength='255' value='".$l->g(8019)."' disabled/></div></div>";
     $output = $mail->replace_value('require/mail/Templates/OCS_template.html', 'DEFAULT');
@@ -198,7 +198,7 @@ if($protectedPost['onglet'] == 'NOTIF_PERSO'){
     if(!$output){
         $output = $l->g(8020);
     }
-    echo "<div id=perso_mail ".$style_perso.">";
+    echo "<div id=perso_mail ".($style_perso ?? '').">";
     echo "<div class='form-group'><label class='control-label col-sm-2' for='subject'>".$l->g(8018)."</label><div class='col-sm-8'>
           <input type='text' class='form-control' id='subject' name='subject' size='50' maxlength='255' value='".$info['PERSO']['SUBJECT']."'/></div></div>";
     echo $output;

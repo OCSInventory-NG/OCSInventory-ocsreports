@@ -118,7 +118,7 @@
         <!-- Action (EXECUTE / LAUNCH / STORE) -->
         <ACT>EXECUTE</ACT>
         <!-- PROCOTOL used either HTTP or HTTPS-->
-        <PROTO>HTTP</PROTO>
+        <PROTO>:PROTO:</PROTO>
         <!-- File command -->
         <COMMAND>wmic product where (name=':application_identifier:') call uninstall</COMMAND>
         <!-- Notify user -->

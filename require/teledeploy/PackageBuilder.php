@@ -26,9 +26,9 @@
   */
 class PackageBuilder
 {
+	private $downloadConfig = [];
 	private $packageBuilderForm;
 	private $packageBuilderParseXml;
-	private $downloadConfig = [];
 	
 	/**
 	 * Method __construct
@@ -39,24 +39,28 @@ class PackageBuilder
 	 * @return void
 	 */
 	function __construct($packageBuilderForm, $packageBuilderParseXml) {
-		$this->packageBuilderForm = $packageBuilderForm;
-		$this->packageBuilderParseXml = $packageBuilderParseXml;
-
 		$this->downloadConfig = look_config_default_values([
 			'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR',
 			'DOWNLOAD_ACTIVATE_FRAG' => 'DOWNLOAD_ACTIVATE_FRAG',
 			'DOWNLOAD_RATIO_FRAG' => 'DOWNLOAD_RATIO_FRAG',
 			'DOWNLOAD_AUTO_ACTIVATE' => 'DOWNLOAD_AUTO_ACTIVATE',
 			'DOWNLOAD_URI_FRAG' => 'DOWNLOAD_URI_FRAG',
-			'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO'
+			'DOWNLOAD_URI_INFO' => 'DOWNLOAD_URI_INFO',
+			'DOWNLOAD_PROTOCOL' => 'DOWNLOAD_PROTOCOL'
 		]);
 
-		if ($this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] == "") {
-            $this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] = $_SERVER["SERVER_ADDR"]."/download";;
+		if (empty($this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'])) {
+            $this->downloadConfig['tvalue']['DOWNLOAD_URI_FRAG'] = $_SERVER["SERVER_ADDR"]."/download";
         }
-        if ($this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] == "") {
-            $this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] = $_SERVER["SERVER_ADDR"]."/download";;
+        if (empty($this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'])) {
+            $this->downloadConfig['tvalue']['DOWNLOAD_URI_INFO'] = $_SERVER["SERVER_ADDR"]."/download";
         }
+		if (empty($this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'])) {
+            $this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'] = "HTTP";
+        }
+
+		$this->packageBuilderForm = $packageBuilderForm;
+		$this->packageBuilderParseXml = $packageBuilderParseXml;
 	}
 	
 	/**
@@ -79,7 +83,7 @@ class PackageBuilder
 		];
 		// Get Xml option info
 		$xmlDetails = $this->packageBuilderParseXml->parseOptions($post['FORMTYPE']);
-		
+
 		if(isset($this->downloadConfig['tvalue']['DOWNLOAD_PACK_DIR'])) {
 			$downloadPath = $this->downloadConfig['tvalue']['DOWNLOAD_PACK_DIR'].'/download/'.$timestamp;
 		} else {
@@ -93,13 +97,18 @@ class PackageBuilder
 
 		if((isset($post['getcode']) && trim($post['getcode']) != "")) {
 			$script = $downloadPath.'/'.$xmlDetails->packagebuilder->codeasfile->filename;
+			
+			// if os is linux or macos, CRLF needs to be replaced by LF
+			if ($post['os_selected'] == 'linux' || $post['os_selected'] == 'macos') {
+				$post['getcode'] = str_replace("\r\n", "\n", $post['getcode']);
+			}
 			// Create script file
 			$handscript = fopen($script, "w+");
 			fwrite($handscript, $post['getcode']);
 			fclose($handscript);
 		}
 
-		if($file["additionalfiles"]['size'] != 0 && file_exists($file["additionalfiles"]["tmp_name"])) {
+		if(!empty($file["additionalfiles"]['size']) && file_exists($file["additionalfiles"]["tmp_name"])) {
 			//verif if is an archive file
 			$name_file_extention = explode('.', $file["additionalfiles"]["name"]);
 			$extention = array_pop($name_file_extention);
@@ -123,7 +132,11 @@ class PackageBuilder
 						}
 						break;
 					default:
-						$filepath = $this->tarScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename);
+						if($post['FORMTYPE'] == "installpluginlinuxopt") {
+							$filepath = $this->tarScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename, true);
+						} else {
+							$filepath = $this->tarScriptFile(dirname($file["additionalfiles"]["tmp_name"]).'/', basename($file["additionalfiles"]["tmp_name"]), $filename);
+						}
 						break;
 				}	
 			} else {
@@ -159,7 +172,7 @@ class PackageBuilder
 		}
 		
 		// Generate info xml
-		$info = $this->writePackageInfo($xmlDetails, $timestamp, $details['frag'], $digest, $post['pathfile']);
+		$info = $this->writePackageInfo($xmlDetails, $timestamp, $details['frag'], $digest);
 		// Create info file
 		$handinfo = fopen($downloadPath."/info", "w+");
         fwrite($handinfo, $info);
@@ -173,12 +186,12 @@ class PackageBuilder
 				VALUES ('%s','%s','%s','%s','%s','%s','%s')";
         $arg = array(
 			$timestamp, 
-			$post['NAME'], 
+			strip_tags_array($post['NAME']), 
 			$xmlDetails->packagedefinition->PRI, 
 			$details['frag'],
 			$details['size'], 
 			strtoupper($post["os_selected"]), 
-			$post['DESCRIPTION']
+			strip_tags_array($post['DESCRIPTION'])
 		);
 			
         mysql2_query_secure($req, $_SESSION['OCS']["writeServer"], $arg);
@@ -190,8 +203,8 @@ class PackageBuilder
 		unset($_SESSION['OCS']['DATA_CACHE']['LIST_PACK']);
 		unset($_SESSION['OCS']['NUM_ROW']['LIST_PACK']);
 
-		$packageInfos['NAME'] = $post['NAME'];
-		$packageInfos['DESCRIPTION'] = $post['DESCRIPTION'];
+		$packageInfos['NAME'] = strip_tags_array($post['NAME']);
+		$packageInfos['DESCRIPTION'] = strip_tags_array($post['DESCRIPTION']);
 		$packageInfos['FRAG'] = $details['frag'];
 		$packageInfos['SIZE'] = $details['size'];
 		$packageInfos['PRIO'] = $xmlDetails->packagedefinition->PRI;
@@ -233,7 +246,7 @@ class PackageBuilder
 		return $l->g(454);
 	}
 
-	private function tarScriptFile($path, $name, $newName) {
+	private function tarScriptFile($path, $name, $newName, $attachmentScript = null) {
 		$DelFilePath = $path.$name;
 		$tarPath = $path.$name.".tar";
 
@@ -241,6 +254,9 @@ class PackageBuilder
 			$tar = new PharData($tarPath);
 			// ADD FILES TO archive.tar FILE
 			$tar->addFile($DelFilePath, $newName);
+			if($attachmentScript == true) {
+				$tar->addFile("config/teledeploy/script/installplugin.sh", "installplugin.sh");
+			}
 			// COMPRESS archive.tar FILE. COMPRESSED FILE WILL BE archive.tar.gz
 			$tar->compress(Phar::GZ);
 			// NOTE THAT BOTH FILES WILL EXISTS. SO IF YOU WANT YOU CAN UNLINK archive.tar
@@ -290,11 +306,14 @@ class PackageBuilder
 	 * @return void
 	 */
 	private function replaceXmlValue($post, $xmlDetails) {
+		if($post['FORMTYPE'] != "custompackageopt") {
+			$post['PROTO'] = $this->downloadConfig['tvalue']['DOWNLOAD_PROTOCOL'];
+		}
 		foreach($xmlDetails->packagedefinition as $packagedefinition) {
 			foreach ($packagedefinition as $key => $value) {
 				if (preg_match_all('/:(.*?):/', $value, $match) != 0) {
 					foreach($match[0] as $id => $replace) {
-						$xmlDetails->packagedefinition->$key = str_replace($replace, $post[$match[1][$id]], $xmlDetails->packagedefinition->$key);
+						$xmlDetails->packagedefinition->$key = str_replace($replace, str_replace('"', "'", $post[$match[1][$id]]), $xmlDetails->packagedefinition->$key);
 					}
 				}
 			}
@@ -316,7 +335,7 @@ class PackageBuilder
 		$size = @filesize($fname);
 
 		// If package fragmentation disabled, frag = 1
-		if($this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG'] == 1 && $this->downloadConfig['ivalue']['DOWNLOAD_RATIO_FRAG'] != null) {
+		if((isset($this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG']) && $this->downloadConfig['ivalue']['DOWNLOAD_ACTIVATE_FRAG'] == 1) && $this->downloadConfig['ivalue']['DOWNLOAD_RATIO_FRAG'] != null) {
 			$frag = 0;
 			$sizeBis = $size / pow(1024, 2);
 
@@ -377,23 +396,29 @@ class PackageBuilder
         if ($xmlDetails->packagedefinition->ACT  == 'STORE') {
             $info .= "PATH=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
-        if ($xmlDetails->packagedefinition->ACT  == 'LAUNCH') {
+
+		if ($xmlDetails->packagedefinition->ACT  == 'LAUNCH' && $xmlDetails->formoption->ISCUSTOM == false) {
+			// if pkg built from linux bashscript option and not custom package, 
+			// default retrieved if a command but w/ LAUNCH, the agent will be expecting a name
+			$name = substr($xmlDetails->packagedefinition->COMMAND, strpos($xmlDetails->packagedefinition->COMMAND, ' ') + 1);
+			$info .= "NAME=\"" . $name . "\" ";
+
+		} else if ($xmlDetails->packagedefinition->ACT  == 'LAUNCH') {
             $info .= "NAME=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
+
         if ($xmlDetails->packagedefinition->ACT  == 'EXECUTE') {
             $info .= "COMMAND=\"" . $xmlDetails->packagedefinition->COMMAND . "\" ";
         }
-
-        $info .= "NOTIFY_USER=\"" . $xmlDetails->packagedefinition->NOTIFY_USER  . "\" " .
+				
+		return $info . ("NOTIFY_USER=\"" . $xmlDetails->packagedefinition->NOTIFY_USER  . "\" " .
 				 "NOTIFY_TEXT=\"" . $xmlDetails->packagedefinition->NOTIFY_TEXT . "\" " .
 				 "NOTIFY_COUNTDOWN=\"" . $xmlDetails->packagedefinition->NOTIFY_COUNTDOWN . "\" " .
 				 "NOTIFY_CAN_ABORT=\"" . $xmlDetails->packagedefinition->NOTIFY_CAN_ABORT . "\" " .
 				 "NOTIFY_CAN_DELAY=\"" . $xmlDetails->packagedefinition->NOTIFY_CAN_DELAY . "\" " .
 				 "NEED_DONE_ACTION=\"" . $xmlDetails->packagedefinition->NEED_DONE_ACTION . "\" " .
 				 "NEED_DONE_ACTION_TEXT=\"" . $xmlDetails->packagedefinition->NEED_DONE_ACTION_TEXT . "\" " .
-				 "GARDEFOU=\"rien\" />\n";
-				
-		return $info;
+				 "GARDEFOU=\"rien\" />\n");
 		
 	}
 	

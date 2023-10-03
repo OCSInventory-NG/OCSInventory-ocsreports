@@ -28,7 +28,8 @@ class PackageBuilderFormInteractions
 {
     private $packageBuilderParseXml;
 
-    function __construct($packageBuilderParseXml) {
+    function __construct($packageBuilderParseXml)
+    {
         $this->packageBuilderParseXml = $packageBuilderParseXml;
     }
 
@@ -62,7 +63,7 @@ class PackageBuilderFormInteractions
         global $l;
         $html = "";
 
-        $orderInteractions = $this->orderInteractions($interactions);
+        $this->orderInteractions($interactions);
         foreach($interactions as $interactionDetails) {
             $xmlInteractionDetails = $this->packageBuilderParseXml->parseInteractions($interactionDetails);
             $html .= '  <div class="col-md-4">

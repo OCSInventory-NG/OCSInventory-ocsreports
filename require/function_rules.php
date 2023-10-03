@@ -90,18 +90,6 @@ function delete_rule($ID_RULE) {
     }
 }
 
-/*
- * Function for add new rule for redistribution server
- *
- * $RULE_NAME= Name of the rule
- * $RULE_VALUES = array with condition values
- * 		=> ex: $RULE_VALUES['PRIORITE_1'],$RULE_VALUES['CFIELD_1'],
- * 			   $RULE_VALUES['OP_1'],$RULE_VALUES['COMPTO_1'],$RULE_VALUES['COMPTO_TEXT_1'],
- * 			   $RULE_VALUES['PRIORITE_2'],$RULE_VALUES['CFIELD_2'],
- * 			   $RULE_VALUES['OP_2'],$RULE_VALUES['COMPTO_2'],$RULE_VALUES['COMPTO_TEXT_2']
- * $ID_RULE= Id of the rule. It can't exist before
- *
- */
 
 function add_rule($RULE_NAME, $RULE_VALUES, $ID_RULE = '') {
     global $l, $protectedPost;

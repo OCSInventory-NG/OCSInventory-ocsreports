@@ -55,10 +55,28 @@ class Stats{
     //cyclic iteration to return a color from a given index. The index value is
     //maintained in FC_ColorCounter
 
+    function __construct(){
+        $champs = array(
+            'INTERFACE_BIOS_DIAGRAM_VISIBILITY' => 'INTERFACE_BIOS_DIAGRAM_VISIBILITY'
+        );
+    
+        // Get configuration values from DB
+        $values = look_config_default_values($champs);
+    
+        $this->INTERFACE_BIOS_DIAGRAM_VISIBILITY = $values['ivalue']["INTERFACE_BIOS_DIAGRAM_VISIBILITY"] ?? 0;    
+      }
+
     public function showForm($form){
 
         global $l;
         global $protectedPost;
+
+        $configToLookOut = [
+            'INTERFACE_LAST_CONTACT' => 'INTERFACE_LAST_CONTACT',
+            'EXCLUDE_ARCHIVE_COMPUTER' => 'EXCLUDE_ARCHIVE_COMPUTER'
+        ];
+
+        $configValues = look_config_default_values($configToLookOut);
 
         foreach($form as $key => $value){
             if ($key == 'NB_OS') {
@@ -66,12 +84,18 @@ class Stats{
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
                 }
+                if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql .= " AND h.archive IS NULL";
+                }
                 $sql .= " group by h.osname order by count(h.osname) DESC ";
                 $height_legend = 300;
             } else {
                 $sql = "select count(h.useragent) c, upper(h.useragent) as name from hardware h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID where h.useragent != '' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql .= " AND h.archive IS NULL";
                 }
                 $sql .= " group by h.useragent order by count(h.useragent) DESC ";
                 $height_legend = 300;
@@ -94,11 +118,14 @@ class Stats{
             }
 
             if($key == 'SEEN'){
-                //last seen since
-                $date = date("y-m-d",strtotime("-15 day")); 
+                $result_seen_interval = $configValues['ivalue']['INTERFACE_LAST_CONTACT'] ?: 15;
+                $date = date("Y-m-d",strtotime("-".$result_seen_interval." day"));
                 $sql_seen = "SELECT DATE_FORMAT(h.lastcome, '%Y-%m') AS contact, count(h.lastcome) AS conta FROM `hardware` h LEFT JOIN accountinfo a ON a.HARDWARE_ID = h.ID WHERE h.LASTCOME < '".$date."' AND h.deviceid != '_SYSTEMGROUP_'";
                 if (is_defined($_SESSION['OCS']["mesmachines"])) {
                     $sql_seen .= " AND " . $_SESSION['OCS']["mesmachines"];
+                }
+                if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                    $sql_seen .= " AND h.archive IS NULL";
                 }
                 $sql_seen .= " GROUP BY contact ORDER BY contact ASC";
 
@@ -112,56 +139,113 @@ class Stats{
                 }	
                 $seen = "['".implode("','",$seen_name)."']";
                 $quants_seen = "['".implode("','",$seen_quant)."']";
-                $chart[$key]['title'] = $l->g(820).' > 15 '.$l->g(496);
+                $chart[$key]['title'] = $l->g(820).' > '.htmlentities($result_seen_interval, ENT_QUOTES).' '.$l->g(496);
             }
 
-            if($key == 'MANUFAC'){
-                $sql_man = "SELECT b.SMANUFACTURER AS man, count(b.SMANUFACTURER) AS c_man FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
-                if (is_defined($_SESSION['OCS']["mesmachines"])) {
-                    $sql_man .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+            if($this->INTERFACE_BIOS_DIAGRAM_VISIBILITY == 1)
+            {
+                if($key == 'MANUFAC'){
+                    $sql_man = "SELECT b.SMANUFACTURER AS man, count(b.SMANUFACTURER) AS c_man FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
+                    if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                        $sql_man .= " LEFT JOIN hardware h ON h.ID = b.HARDWARE_ID WHERE h.ARCHIVE IS NULL";
+                    }
+                    if (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] != 1) {
+                        $sql_man .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                    } elseif (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                        $sql_man .= " AND " . $_SESSION['OCS']["mesmachines"];
+                    }
+                    $sql_man .= " group by b.SMANUFACTURER ORDER BY count(b.SMANUFACTURER)  DESC LIMIT 10";
+                    $result_man = mysql2_query_secure($sql_man, $_SESSION['OCS']["readServer"]);
+                    $man = array();
+                    $man_name = array();
+                    $man_quant = array();
+                    while($item = mysqli_fetch_array($result_man)){
+                        $man_name[] = $item['man'];
+                        $man_quant[] = $item['c_man'];	
+                    }	
+                    $man = "['".implode("','",$man_name)."']";
+                    $quants_man = "['".implode("','",$man_quant)."']";
+                    $chart[$key]['title'] = $l->g(851).' - Top 10';
                 }
-                $sql_man .= " group by b.SMANUFACTURER ORDER BY count(b.SMANUFACTURER)  DESC LIMIT 10";
-                $result_man = mysql2_query_secure($sql_man, $_SESSION['OCS']["readServer"]);
-                $man = array();
-                $man_name = array();
-                $man_quant = array();
-                while($item = mysqli_fetch_array($result_man)){
-                    $man_name[] = $item['man'];
-                    $man_quant[] = $item['c_man'];	
-                }	
-                $man = "['".implode("','",$man_name)."']";
-                $quants_man = "['".implode("','",$man_quant)."']";
-                $chart[$key]['title'] = $l->g(851).' - Top 10';
-            }
-
-            if($key == 'TYPE'){
-                $sql_type = "SELECT CASE WHEN TRIM(b.type) ='' THEN 'Unknow' ELSE b.type END as type, count(b.type) AS conta FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
-                if (is_defined($_SESSION['OCS']["mesmachines"])) {
-                    $sql_type .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+    
+                if($key == 'TYPE'){
+                    $sql_type = "SELECT CASE WHEN TRIM(b.type) ='' THEN 'Unknow' ELSE b.type END as type, count(b.type) AS conta FROM `bios` b LEFT JOIN accountinfo a ON a.HARDWARE_ID = b.HARDWARE_ID";
+                    if (isset($configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER']) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                        $sql_type .= " LEFT JOIN hardware h ON h.ID = b.HARDWARE_ID WHERE h.ARCHIVE IS NULL";
+                    }
+                    if (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] != 1) {
+                        $sql_man .= " WHERE " . $_SESSION['OCS']["mesmachines"];
+                    } elseif (is_defined($_SESSION['OCS']["mesmachines"]) && $configValues['ivalue']['EXCLUDE_ARCHIVE_COMPUTER'] == 1) {
+                        $sql_man .= " AND " . $_SESSION['OCS']["mesmachines"];
+                    }
+                    $sql_type .= " GROUP BY type";
+                    $result_type = mysql2_query_secure($sql_type, $_SESSION['OCS']["readServer"]);
+                    $type = array();
+                    $type_name = array();
+                    $type_quant = array();
+                    while($item = mysqli_fetch_array($result_type)){
+                        $type_name[] = $item['type'];
+                        $type_quant[] = $item['conta'];	
+                    }	
+                    $type = "['".implode("','",$type_name)."']";
+                    $quants_type = "['".implode("','",$type_quant)."']";
+                    $chart[$key]['title'] = $l->g(854);
                 }
-                $sql_type .= " GROUP BY type";
-                $result_type = mysql2_query_secure($sql_type, $_SESSION['OCS']["readServer"]);
-                $type = array();
-                $type_name = array();
-                $type_quant = array();
-                while($item = mysqli_fetch_array($result_type)){
-                    $type_name[] = $item['type'];
-                    $type_quant[] = $item['conta'];	
-                }	
-                $type = "['".implode("','",$type_name)."']";
-                $quants_type = "['".implode("','",$type_quant)."']";
-                $chart[$key]['title'] = $l->g(854);
             }
         }
 
-        if (isset($chart)) {
-            $stats = new StatsChartsRenderer;
-            $stats->createChartCanvas($form);
-            $stats->createChart($chart, $seen, $quants_seen, $man, $quants_man, $type, $quants_type);
-            return true;
-        } else {
-          return false;
+        if($this->INTERFACE_BIOS_DIAGRAM_VISIBILITY == 1)
+        {
+            if (isset($chart)) {
+                $stats = new StatsChartsRenderer;
+                $stats->createChartCanvas($form);
+                $stats->createChart($chart, $seen, $quants_seen, $man, $quants_man, $type, $quants_type);
+                return true;
+            } else {
+              return false;
+            }
         }
+        else
+        {
+            if (isset($chart)) {
+                $stats = new StatsChartsRenderer;
+                $stats->createChartCanvas($form);
+                $stats->createChart($chart, $seen, $quants_seen);
+                return true;
+            } else {
+              return false;
+            }
+        }
+    }
+
+    public function showSNMPForm() {
+        global $l;
+
+        $snmp = new OCSSnmp();
+        $snmpTypes = $snmp->get_all_type();
+        $snmpCountQuery = "SELECT COUNT(*) as nb FROM `%s`";
+
+        $snmpTypeName = [];
+        $snmpTypeCount = [];
+        $snmpLabel = "";
+        $snmpQuant = "";
+
+        if(!empty($snmpTypes)) foreach($snmpTypes as $type) {
+            $snmpTypeName[] = $type['TYPENAME'];
+            $resultCount = mysql2_query_secure($snmpCountQuery, $_SESSION['OCS']["readServer"], $type['TABLENAME']);
+            if($resultCount) foreach($resultCount as $count) {
+                $snmpTypeCount[] = $count['nb'];
+            }
+        }
+
+        $snmpLabel = "['".implode("','",$snmpTypeName)."']";
+        $snmpQuant = "['".implode("','",$snmpTypeCount)."']";
+
+        $stats = new StatsChartsRenderer;
+        $stats->createSNMPChartCanvas();
+        $stats->createSNMPChart($snmpLabel, $snmpQuant, count($snmpTypeName), $l->g(9038));
+
+        return true;
     }
 
     public function showForm2($form){
@@ -177,7 +261,6 @@ class Stats{
         group by contact 
         ORDER BY `contact` ASC";
         $result_seen = mysql2_query_secure($sql_seen, $_SESSION['OCS']["readServer"]);
-        $seen = array();
         $seen_name = array();
         $seen_quant = array();
         while($item = mysqli_fetch_array($result_seen)){

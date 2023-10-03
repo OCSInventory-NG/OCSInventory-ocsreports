@@ -107,7 +107,7 @@ class Wol
     public function save_wol($idchecked, $date_wol){
         $form_date = date("Y-m-d H:i", strtotime($date_wol));
 
-        $sql_wol = "INSERT INTO schedule_WOL (MACHINE_ID, WOL_DATE) VALUES ('%s', '%s')";
+        $sql_wol = "INSERT INTO `schedule_wol` (MACHINE_ID, WOL_DATE) VALUES ('%s', '%s')";
         $arg_wol = array($idchecked, $form_date);
 
         $result_verif = mysql2_query_secure($sql_wol, $_SESSION['OCS']["writeServer"], $arg_wol);

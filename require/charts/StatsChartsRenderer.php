@@ -65,12 +65,7 @@ class StatsChartsRenderer {
                 $mainClass = "col-md-6 col-sm-6";
             }
 
-            if($offset){
-                $offset = "";
-            }else{
-                $offset = "";
-            }
-
+            $offset = "";
             ?>
             <div>
             <?php if($legend && ($key == 'NB_AGENT' || $key == 'NB_OS' || $key == 'teledeploy_stats')){ ?>
@@ -88,6 +83,11 @@ class StatsChartsRenderer {
                 <div class="<?php echo $mainClass ?>" style='margin-top: 5%;'>
 				    <canvas id="<?php echo $key?>" height="160"></canvas>
 			    </div>
+            <?php }elseif($key == 'teledeploy_speed'){  ?>
+                <div class='col-md-2'></div>
+                <div class='col-md-8'>
+                    <canvas id="<?php echo $key?>" height="150"/>
+                </div>
             <?php } ?>
             </div>
             <?php
@@ -138,7 +138,7 @@ class StatsChartsRenderer {
                         },
                         title: {
                             display: true,
-                            text: "<?php echo $value['title'] ?>"
+                            text: "<?php echo $value['title'] ?? '' ?>"
                         },
                         animation: {
                             animateScale: true,
@@ -223,14 +223,14 @@ class StatsChartsRenderer {
                 <?php
             }
 
-          $name[$i] = $value['name'][0];
+          $name[$i] = $value['name'][0] ?? "";
           $i++;
         }
 
         ?>
         <script>
         window.onload = function() {
-          <?php for($p = 0; $name[$p] != null; $p++){ ?>
+          <?php for($p = 0; isset($name[$p]); $p++){ ?>
             var ctx<?php echo $p ?> = document.getElementById("<?php echo $name[$p] ?>").getContext("2d");
             window.myDoughnut = new Chart(ctx<?php echo $p ?>, config<?php echo $p ?>);
             <?php if($name[$p] == 'NB_AGENT' || $name[$p] == 'NB_OS' || $name[$p] == 'teledeploy_stats'){ ?>
@@ -243,7 +243,7 @@ class StatsChartsRenderer {
 
     }
 
-    public function createPointChart($canvasName ,  $labels, $datas, $dataLbl){
+    public function createPointChart($canvasName, $labels, $datas, $dataLbl){
 
         ?>
         <script>
@@ -318,6 +318,64 @@ class StatsChartsRenderer {
         for ($i = 0; $i <= $nb; $i++) {
             echo "'".$stats->colorsList[$i]."' ,";
         }
+    }
+
+
+    public function createSNMPChartCanvas(){
+        ?>
+        <div>
+            <div class='col-md-12' style='margin-top: 5%;'>
+                <canvas id="snmp_type_stat" width="400" height="100"/>
+            </div>
+        </div>
+        <?php
+    }
+
+    public function createSNMPChart($label, $quant, $nb, $title){
+        ?>
+        <script>
+            var config = {
+                type: 'bar',
+                data: {
+                    labels: <?php echo $label ?>,
+                    datasets: [{
+                        label: '',
+                        data: <?php echo $quant ?>,
+                        backgroundColor: [<?php self::generateColorList($nb); ?>],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false,
+                        position: 'bottom',
+                        labels: {
+                            fontColor: "#000080",
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: "<?php echo $title ?>"
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks:{
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            }
+
+            var ctx = document.getElementById("snmp_type_stat").getContext("2d");
+            window.mySNMP = new Chart(ctx, config);
+
+        </script>
+        <?php
     }
 
 }

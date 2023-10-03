@@ -58,10 +58,6 @@
         <label>g(514)</label>
         <url>ms_tele_activate</url>
       </menu-elem>
-      <menu-elem id="ms_rules_redistrib">
-        <label>g(662)</label>
-        <url>ms_rules_redistrib</url>
-      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="config">
@@ -138,6 +134,14 @@
         <label>g(175)</label>
         <url>ms_doubles</url>
       </menu-elem>
+      <menu-elem id="ms_local_import">
+        <label>g(287)</label>
+        <url>ms_local_import</url>
+      </menu-elem>
+      <menu-elem id="ms_layouts">
+        <label>g(9900)</label>
+        <url>ms_layouts</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="extension">
@@ -166,6 +170,10 @@
         <label>g(1481)</label>
         <url>ms_cve_history</url>
       </menu-elem>
+      <menu-elem id="ms_history">
+        <label>g(9651)</label>
+        <url>ms_history</url>
+      </menu-elem>
     </submenu>
   </menu-elem>
   <menu-elem id="ms_help">
@@ -175,10 +183,6 @@
       <menu-elem id="ms_wiki">
         <label>g(1122)</label>
         <url>ms_wiki</url>
-      </menu-elem>
-      <menu-elem id="ms_irc">
-        <label>g(1123)</label>
-        <url>ms_irc</url>
       </menu-elem>
       <menu-elem id="ms_ask">
         <label>g(1376)</label>

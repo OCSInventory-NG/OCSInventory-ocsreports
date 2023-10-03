@@ -25,12 +25,13 @@
  * Holds the config for a computer plugin
  */
 class ComputerPlugin {
-    private $id;
-    private $system;
-    private $label;
     private $category;
     private $available;
     private $hideFrame;
+
+    private $id;
+    private $system;
+    private $label;
 
     public function __construct($id, $system, $label) {
         $this->id = $id;

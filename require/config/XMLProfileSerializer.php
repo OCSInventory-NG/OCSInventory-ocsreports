@@ -61,7 +61,7 @@ class XMLProfileSerializer {
         $pages_xml = $doc_xml->createElement('pages');
         $profile_xml->appendChild($pages_xml);
 
-        foreach ($profile->getPages() as $key => $page) {
+        foreach ($profile->getPages() as $page) {
             $page_xml = $doc_xml->createElement('page', $page);
             $pages_xml->appendChild($page_xml);
         }

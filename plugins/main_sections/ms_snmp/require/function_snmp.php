@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2005-2016 OCSInventory-NG/OCSInventory-ocsreports contributors.
  * See the Contributors file for more details about them.
@@ -22,14 +23,11 @@
  */
 $snmp_tables_type = array($l->g(1215) => 'SNMP_BLADES', $l->g(1216) => 'SNMP_FIREWALLS', $l->g(1217) => 'SNMP_LOADBALANCERS',
     $l->g(79) => 'SNMP_PRINTERS', $l->g(1218) => 'SNMP_SWITCHINFOS', $l->g(729) => 'SNMP_COMPUTERS');
-
 $snmp_tables = array('SNMP_ACCOUNTINFO', 'SNMP_CARDS', 'SNMP_CARTRIDGES', 'SNMP_CPUS', 'SNMP_DRIVES',
     'SNMP_FANS', 'SNMP_INPUTS', 'SNMP_LOCALPRINTERS', 'SNMP_MEMORIES',
     'SNMP_MODEMS', 'SNMP_NETWORKS', 'SNMP_PORTS', 'SNMP_POWERSUPPLIES', 'SNMP_SOFTWARES',
     'SNMP_SOUNDS', 'SNMP_STORAGES', 'SNMP_SWITCHS', 'SNMP_TRAYS', 'SNMP_VIDEOS', 'SNMP_VIRTUALMACHINES');
-
 $all_snmp_table = array_merge($snmp_tables_type, $snmp_tables);
-
 //is ID exist?
 function info_snmp($snmp_id) {
     global $l, $snmp_tables_type;
@@ -55,7 +53,6 @@ function info_snmp($snmp_id) {
         return $array;
     }
 }
-
 function subnet_name($systemid) {
     if (!is_numeric($systemid))
         return false;
@@ -68,7 +65,6 @@ function subnet_name($systemid) {
     }
     return $returnVal;
 }
-
 function print_item_header($text) {
     echo "<table align=\"center\"  width='100%'  cellpadding='4'>";
     echo "<tr>";
@@ -76,7 +72,6 @@ function print_item_header($text) {
     echo "</tr>";
     echo "</table>";
 }
-
 function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
     $nb_col = 2;
     $data_exist = false;
@@ -86,7 +81,7 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
     }
     $show_table .= "		<table align=center border='0' width='100%'  ><tr>";
     $i = 0;
-    foreach ($data as $table => $values) {
+    foreach ($data as $values) {
         if (is_object($values)) {
             foreach ($values as $field => $field_value) {
                 $data_exist = true;
@@ -116,7 +111,6 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
     }
     return false;
 }
-
 function deleteDid_snmp($id) {
     global $all_snmp_table;
     if (is_array($id)) {
@@ -135,12 +129,10 @@ function deleteDid_snmp($id) {
     $del_sql = mysql2_prepare($sql, array(), $id_snmp, $nocot = true);
     mysql2_query_secure($del_sql['SQL'], $_SESSION['OCS']["writeServer"], $del_sql['ARG'], true);
 }
-
 /*
  * Find all accountinfo for
  * snmp data
  */
-
 function admininfo_snmp($id = "") {
     global $l;
     if (!is_numeric($id) && $id != "") {
@@ -156,10 +148,8 @@ function admininfo_snmp($id = "") {
     }
 
     $res_account_data = mysql2_query_secure($sql_account_data, $_SESSION['OCS']["readServer"], $arg_account_data);
-    $val_account_data = mysqli_fetch_array($res_account_data);
-    return $val_account_data;
+    return mysqli_fetch_array($res_account_data);
 }
-
 function updateinfo_snmp($id, $values, $list = '') {
     global $l;
     if (!is_numeric($id) && $list == '') {
@@ -184,5 +174,3 @@ function updateinfo_snmp($id, $values, $list = '') {
     mysql2_query_secure($sql_account_data, $_SESSION['OCS']["writeServer"], $arg_account_data);
     return $l->g(1121);
 }
-
-?>

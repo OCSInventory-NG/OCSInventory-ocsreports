@@ -22,12 +22,13 @@
  */
 
 class Column {
-    private $name;
-    private $label;
     private $required;
     private $sortable;
     private $searchable;
     private $formatter;
+
+    private $name;
+    private $label;
 
     public function __construct($name, $label, $options = array()) {
         $options = array_merge(array(
@@ -35,8 +36,7 @@ class Column {
             'sortable' => true,
             'searchable' => true,
             'formatter' => null
-                ), $options);
-
+        ), $options);
         $this->name = $name;
         $this->label = $label;
         $this->required = $options['required'];

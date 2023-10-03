@@ -26,7 +26,7 @@ class ExtensionCommon{
     /**
      * Objects
      */
-    private $dbObject = null;
+    private $dbObject;
     
     /**
      * Constructor

@@ -41,7 +41,7 @@ $def_onglets['NEW_CORR'] = $l->g(1473); //Category list.
 $def_onglets['LIST_CORR'] = $l->g(1474); //New category
 
 //default => first onglet
-if ($protectedPost['onglet'] == "") {
+if (empty($protectedPost['onglet'])) {
     $protectedPost['onglet'] = "NEW_CORR";
 }
 
@@ -87,9 +87,9 @@ if($protectedPost['onglet'] == "NEW_CORR") {
     echo "<div class='row margin-top30'>
             <div class='col-sm-10'>";
 
-    echo "<a href='".$url."/ocsreports/files/cve/csv_example.csv' download>".$l->g(1480)."</a>";
+    echo "<a href='".$url."/ocsreports/files/cve/cve_matching_mostknown.csv' download>".$l->g(1480)."</a>";
     echo "<br><br>";
-    formGroup('file', 'csv_file', $l->g(1478).' :', '', '', $protectedPost['csv_file'], '', '', '', "accept='.csv'");
+    formGroup('file', 'csv_file', $l->g(1478).' :', '', '', $protectedPost['csv_file'] ?? '', '', '', '', "accept='.csv'");
     echo "<input type='submit' name='valid_csv' id='valid_csv' class='btn btn-success' value='".$l->g(1479)."'>";
     echo "</div></div>";
 }
@@ -123,7 +123,7 @@ if($protectedPost['onglet'] == "LIST_CORR") {
     $list_col_cant_del = array('SUP' => 'SUP', 'CHECK' => 'CHECK');
     $default_fields = $list_fields;
     $list_col_cant_del = $default_fields;
-    $tab_options['ARG_SQL'] = $sql['ARG'];
+    $tab_options['ARG_SQL'] = $sql['ARG'] ?? '';
     $tab_options['form_name'] = $form_name;
     $tab_options['table_name'] = $form_name;
 

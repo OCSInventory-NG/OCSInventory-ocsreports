@@ -35,16 +35,11 @@ class OCSSnmp
 	 * @param string $oidString
 	 * @return boolean
 	 */
-	public function create_type($typeName, $oid, $oidString) {
+	public function create_type($typeName) {
 		// Verif if type already exists
 		$sql_verif = "SELECT * FROM `snmp_types` WHERE `TYPE_NAME` = '%s'";
 		$sql_verif_arg = array(addslashes($typeName));
 		$verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $sql_verif_arg);
-
-		// If oid and oid string value empty return error
-		if(trim($oid) == "" || trim($oidString) == "") {
-			return 9022;
-		}
 
 		if($verif->num_rows == 0) {
 			// Insert info table in type snmp table
@@ -52,10 +47,9 @@ class OCSSnmp
 			$tableTypeName = $this->cleanString($typeName);
 			$tableTypeName = strtolower($tableTypeName);
 			$tableTypeName = "snmp_".$tableTypeName;
-			$oidString = str_replace("&#039;", "'", $oidString);
 
-			$sql = "INSERT INTO `snmp_types` (`TYPE_NAME`,`CONDITION_OID`,`CONDITION_VALUE`, `TABLE_TYPE_NAME`) VALUES ('%s','%s','%s', '%s')";
-			$sql_arg = array(addslashes($typeName), addslashes($oid), addslashes($oidString), $tableTypeName);
+			$sql = "INSERT INTO `snmp_types` (`TYPE_NAME`, `TABLE_TYPE_NAME`) VALUES ('%s','%s')";
+			$sql_arg = array(addslashes($typeName), $tableTypeName);
 
 			$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
 
@@ -65,6 +59,7 @@ class OCSSnmp
 
 			$sql_create_table =   "CREATE TABLE IF NOT EXISTS `%s` (
 										`ID` INT(6) NOT NULL AUTO_INCREMENT,
+										`LASTDATE` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 										PRIMARY KEY (`ID`)
 									) ENGINE=InnoDB DEFAULT CHARSET=UTF8;";
 			$sql_arg_table = array($tableTypeName);
@@ -83,6 +78,31 @@ class OCSSnmp
 		} else {
 			return 9023;
 		}
+	}
+
+	/**
+	 * Insert new type condition into DB
+	 *
+	 * @param int $typeID
+	 * @param string $oid
+	 * @param string $oidString
+	 * @return boolean
+	 */
+	public function create_type_condition($typeID, $oid, $oiValue) {
+
+		// Insert condition
+		$oiValue = str_replace("&#039;", "'", $oiValue);
+
+		$sql = "INSERT INTO `snmp_types_conditions` (`TYPE_ID`, `CONDITION_OID`, `CONDITION_VALUE`) VALUES (%s,'%s','%s')";
+		$sql_arg = array($typeID, addslashes($oid), addslashes($oiValue));
+
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
+
+		if(!$result) {
+			return 9024;
+		}
+		
+		return 0;
 	}
 
 	/**
@@ -192,7 +212,11 @@ class OCSSnmp
 		$tableName = $this->get_table_type_drop($typeID);
 		$labelName = $this->get_label_drop($labelID);
 		
-		$sql_alter = "ALTER TABLE `%s` ADD `%s` VARCHAR(255) NOT NULL";
+		if($reconciliation != null) {
+			$sql_alter = "ALTER TABLE `%s` ADD `%s` VARCHAR(255) NOT NULL";
+		} else {
+			$sql_alter = "ALTER TABLE `%s` ADD `%s` TEXT NOT NULL";
+		}
 		
 		$arg_alter = array($tableName, $labelName);
 		$result_alter = mysql2_query_secure($sql_alter, $_SESSION['OCS']["writeServer"], $arg_alter);
@@ -222,6 +246,11 @@ class OCSSnmp
 			$sqlArg = [$id];
 			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 
+			// Remove type conditions associated to this type
+			$sqlQuery = "DELETE FROM `snmp_types_conditions` WHERE TYPE_ID = %s";
+			$sqlArg = [$id];
+			mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
+
 			// Remove config associated to this type
 			$sqlQuery = "DELETE FROM `snmp_configs` WHERE TYPE_ID = %s";
 			$sqlArg = [$id];
@@ -231,6 +260,20 @@ class OCSSnmp
 		}else{
 			return 9028;
 		}
+	}
+
+	/**
+	 * Remove type in BDD
+	 *
+	 * @param int $id
+	 * @return boolean
+	 */
+	public function delete_type_condition($id){
+		$sqlQuery = "DELETE FROM `snmp_types_conditions` WHERE ID = %s";
+		$sqlArg = [$id];
+		mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
+
+		return 0;
 	}
 
 	/**
@@ -290,19 +333,25 @@ class OCSSnmp
 	private function drop_column($id){
 		$type = $this->get_config($id);
 		$label = $this->get_label_drop($id);
+		$tableName = [];
 
-		foreach($type as $key => $value){
-			$tableName[] = $this->get_table_type_drop($value);
-		}
-
-		foreach($tableName as $id => $name){
-			$sql_alter_table = "ALTER TABLE `%s` DROP `%s`";
-			$arg_alter_table = array($name, $label);
-			$result_alter = mysql2_query_secure($sql_alter_table, $_SESSION['OCS']["writeServer"], $arg_alter_table);
-			if(!$result_alter){
-				return false;
+		if(!empty($type)) {
+			foreach($type as $key => $value){
+				$tableName[] = $this->get_table_type_drop($value);
 			}
 		}
+
+		if(!empty($tableName)) {
+			foreach($tableName as $id => $name){
+				$sql_alter_table = "ALTER TABLE `%s` DROP `%s`";
+				$arg_alter_table = array($name, $label);
+				$result_alter = mysql2_query_secure($sql_alter_table, $_SESSION['OCS']["writeServer"], $arg_alter_table);
+				if(!$result_alter){
+					return false;
+				}
+			}
+		}
+		
 		return true;
 	}
 
@@ -330,7 +379,7 @@ class OCSSnmp
 	 * @param int $id
 	 * @return string
 	 */
-	private function get_table_type_drop($id){
+	public function get_table_type_drop($id){
 		$sql_type = "SELECT `TABLE_TYPE_NAME` FROM `snmp_types` WHERE ID = %s";
 		$arg_type = array($id);
 
@@ -351,10 +400,14 @@ class OCSSnmp
 	private function get_config($labelID){
 		$sql = "SELECT DISTINCT `TYPE_ID` FROM `snmp_configs` WHERE `LABEL_ID` = %s";
 		$arg = array($labelID);
+		$type = [];
 
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-		while ($item = mysqli_fetch_array($result)) {
-			$type[] = $item['TYPE_ID'];
+
+		if($result) {
+			while ($item = mysqli_fetch_array($result)) {
+				$type[] = $item['TYPE_ID'];
+			}
 		}
 
 		return $type;
@@ -404,12 +457,15 @@ class OCSSnmp
 	public function get_mib() {
 		$champs = array('SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
 		$values = look_config_default_values($champs);
+		$mib_name = [];
 
-		$mib_files = glob($values['tvalue']['SNMP_MIB_DIRECTORY'].'/*.{txt,my}', GLOB_BRACE);
-		$mib_files = str_replace($values['tvalue']['SNMP_MIB_DIRECTORY']."/", "", $mib_files);
-		
-		foreach($mib_files as $mib) {
-			$mib_name[$mib] = $mib;
+		if(!empty($values['tvalue']['SNMP_MIB_DIRECTORY'])) {
+			$mib_files = glob($values['tvalue']['SNMP_MIB_DIRECTORY'].'/*', GLOB_BRACE);
+			$mib_files = str_replace($values['tvalue']['SNMP_MIB_DIRECTORY']."/", "", $mib_files);
+			
+			foreach($mib_files as $mib) {
+				$mib_name[$mib] = $mib;
+			}
 		}
 
 		return $mib_name;
@@ -423,24 +479,25 @@ class OCSSnmp
 			if(strpos($key, "checkbox_") !== false) {
 				$mib_check = explode("_", $key);
 			}
-			
-			if($key == "label_".$mib_check[1]) {
-				$config[$mib_check[1]]['label'] = $value;
-			}
-			if($key == "oid_".$mib_check[1]) {
-				$config[$mib_check[1]]['oid'] = $value;
-			}
-			if($key == "reconciliation_".$mib_check[1]) {
-				$config[$mib_check[1]]['reconciliation'] = $value;
+			if(!empty($mib_check)) {
+				if($key == "label_".$mib_check[1]) {
+					$config[$mib_check[1]]['label'] = $value;
+				}
+				if($key == "oid_".$mib_check[1]) {
+					$config[$mib_check[1]]['oid'] = $value;
+				}
+				if($key == "reconciliation_".$mib_check[1]) {
+					$config[$mib_check[1]]['reconciliation'] = $value;
+				}
 			}
 		}
 
 		if(!empty($config)) {
 			foreach($config as $key => $value) {
 				if($config[$key]['label'] != null && $config[$key]['oid'] != null) {
-					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation']);
+					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation'] ?? null);
 
-					if(!$result) {
+					if($result != 0) {
 						return false;
 					}
 				}
@@ -481,9 +538,15 @@ class OCSSnmp
 		return $columns;
 	}
 
-	public function get_infos($tablename, $columns) {
+	public function get_infos($tablename, $columns, $id=null) {
 		$column = implode(",",$columns);
-		$sql = "SELECT ID,".$column." FROM %s";
+		$where = null;
+
+		if(!is_null($id)) {
+			$where = "WHERE ID IN (".$id.")";
+		}
+
+		$sql = "SELECT ID,".$column." FROM %s ".$where;
 		$arg = array($tablename);
 		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 
@@ -523,6 +586,106 @@ class OCSSnmp
 			"/'/"			=>	 '_',
 		);
 		return preg_replace(array_keys($utf8), array_values($utf8), $text);
+	}
+	
+	/**
+	 * html_table_equipment : display console SNMP report table
+	 *
+	 * @return String $html
+	 */
+	public function html_table_equipment() {
+		global $l;
+
+		// Retrieve all snmp types
+		$snmpTableType 		= $this->get_all_type();
+
+		// SNMP Queries
+		$sqlCountAll 		= "SELECT COUNT(*) as total FROM `%s`";
+		$sqlCountContacted 	= "SELECT COUNT(*) as contacted FROM `%s` WHERE DATE_FORMAT(`LASTDATE`, '%s') = DATE_FORMAT(NOW(), '%s')";
+
+		// Initialize count
+		$countTotal 		= 0;
+		$countContacted 	= 0;
+
+		if(!empty($snmpTableType)) foreach($snmpTableType as $tableName) {
+			$resultTotal = mysql2_query_secure($sqlCountAll, $_SESSION['OCS']["readServer"], array($tableName['TABLENAME']));
+			if($resultTotal) foreach($resultTotal as $total) {
+				$countTotal += $total['total'];
+			}
+
+			$resultContacted = mysql2_query_secure($sqlCountContacted, $_SESSION['OCS']["readServer"], array($tableName['TABLENAME'], '%Y-%m-%d', '%Y-%m-%d'));
+			if($resultContacted) foreach($resultContacted as $contacted) {
+				$countContacted += $contacted['contacted'];
+			}
+		}
+
+		$html = '	<table id="tab_stats" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; text-align:center; margin:auto; width:100%; margin-bottom:0px; background:#fff; border: 1px solid #ddd; table-layout: fixed;" >
+						<tr>
+							<td style="border-right: 1px solid #ddd; padding: 5px;"><p style="font-size:32px; font-weight:bold;"><span>' . $countTotal . '</span></p><span style="color:#333; font-size:13pt;">'.$l->g(87).'</span></td>
+							<td style="border-right: 1px solid #ddd;"><p style="font-size:32px; font-weight:bold;"><span>' . $countContacted. '</span></p><span style="color:#333; font-size:13pt;">'.$l->g(9037).'</span></td>
+						</tr>
+					</table>';
+
+		return $html;
+	}
+
+		
+	/**
+	 * getDetails : get snmp equipment details
+	 *
+	 * @param  mixed $type
+	 * @param  mixed $id
+	 * @param mixed $full
+	 * @param mixed $accountdata
+	 * @return array $details
+	 */
+	public function getDetails($type, $id, $full=null, $accountdata=[], $reconciliation=null) {
+		$details = [];
+
+		$select = "*";
+		$from = null;
+
+		$sql = "SELECT * FROM `%s` WHERE `ID` = %s";
+		$arg = array($type, $id);
+
+		if(!empty($accountdata)) {
+			$select = implode(',', $accountdata);
+			$from = "LEFT JOIN snmp_accountinfo a ON a.SNMP_TYPE = '".$type."' AND a.SNMP_RECONCILIATION_VALUE = ".$type.".".$reconciliation;
+		}
+
+		if($full) {
+			$sql = "SELECT $select FROM `%s` $from";
+			$arg = array($type);
+		}
+
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
+
+		if($result) {
+			if($full) {
+				while($snpmDetails = mysqli_fetch_assoc($result)) {
+					$details[$snpmDetails[$reconciliation]] = $snpmDetails;
+				}
+			} else {
+				$details = mysqli_fetch_assoc($result);
+			}
+		}
+
+		return $details;
+	}
+
+	public function getReconciliationColumn($type) {
+		$reconciliation = "No Name";
+
+		$sql = "SELECT l.LABEL_NAME FROM `snmp_configs` c 
+				LEFT JOIN `snmp_types` t ON t.ID = c.TYPE_ID 
+				LEFT JOIN `snmp_labels` l ON l.ID = c.LABEL_ID
+				WHERE t.TABLE_TYPE_NAME = '%s' AND c.RECONCILIATION = 'Yes'";
+		
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], array($type));
+
+		if($result) $reconciliation = mysqli_fetch_object($result)->LABEL_NAME ?? '';
+
+		return $reconciliation;
 	}
 
 }

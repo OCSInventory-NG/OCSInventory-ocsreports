@@ -76,9 +76,9 @@ class language {
     function g($i) {
         global $tab_dont_see;
         //If word doesn't exist for language, return default english word
-        if ($this->tableauMots[$i] == null) {
+        if (empty($this->tableauMots[$i])) {
             $defword = new language('en_GB');
-            $word = $defword->tableauMots[$i];
+            $word = $defword->tableauMots[$i] ?? '';
         } else {
             $word = $this->tableauMots[$i];
         }

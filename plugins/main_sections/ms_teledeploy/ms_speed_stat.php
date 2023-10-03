@@ -22,94 +22,102 @@
  */
 require('require/function_stats.php');
 require('require/charts/StatsChartsRenderer.php');
-$year_mouth['Dec'] = 12;
-$year_mouth['Nov'] = 11;
-$year_mouth['Oct'] = 10;
-$year_mouth['Sep'] = 9;
-$year_mouth['Aug'] = 8;
-$year_mouth['Jul'] = 7;
-$year_mouth['Jun'] = 6;
-$year_mouth['May'] = 5;
-$year_mouth['Apr'] = 4;
-$year_mouth['Mar'] = 3;
-$year_mouth['Feb'] = 2;
-$year_mouth['Jan'] = 1;
 
-$sql = "select count(*) c from devices d,
-							download_enable d_e,download_available d_a
-						where d.name='DOWNLOAD'
-							and d_e.id=d.ivalue
-							and d_a.fileid=d_e.fileid
-							and d_e.fileid='%s'";
+$year_month['Dec'] = 12;
+$year_month['Nov'] = 11;
+$year_month['Oct'] = 10;
+$year_month['Sep'] = 9;
+$year_month['Aug'] = 8;
+$year_month['Jul'] = 7;
+$year_month['Jun'] = 6;
+$year_month['May'] = 5;
+$year_month['Apr'] = 4;
+$year_month['Mar'] = 3;
+$year_month['Feb'] = 2;
+$year_month['Jan'] = 1;
+
+$sql = "SELECT COUNT(*) c 
+		FROM devices d, download_enable d_e,download_available d_a
+		WHERE d.name='DOWNLOAD'
+		AND d_e.id=d.ivalue
+		AND d_a.fileid=d_e.fileid
+		AND d_e.fileid='%s'";
+
 $arg = $protectedGet['stat'];
 $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 $item = mysqli_fetch_object($result);
 $total_mach = $item->c;
+
 if ($total_mach <= 0) {
-    msg_error($l->g(837));
-    require_once(FOOTER_HTML);
-    die();
+	msg_error($l->g(837));
+	require_once(FOOTER_HTML);
+	die();
 }
-$sql = "select d.hardware_id as id,d.comments as date_valid
-					from devices d,download_enable d_e,download_available d_a
-			where d.name='DOWNLOAD'
-				and tvalue='%s'
-				and comments is not null
-				and d_e.id=d.ivalue
-				and d_a.fileid=d_e.fileid
-				and d_e.fileid='%s'";
+
+$sql = "SELECT d.hardware_id AS id,d.comments AS date_valid
+		FROM devices d,download_enable d_e,download_available d_a
+		WHERE d.name='DOWNLOAD'
+		AND tvalue='%s'
+		AND comments IS NOT NULL
+		AND d_e.id=d.ivalue
+		AND d_a.fileid=d_e.fileid
+		AND d_e.fileid='%s'";
+
 $arg = array(urldecode($protectedGet['ta']), $protectedGet['stat']);
 $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 $nb_4_hour = array();
 
 while ($item = mysqli_fetch_object($result)) {
-    unset($data_temp, $day, $year, $hour_temp, $hour);
-    $data_temp = explode(' ', $item->date_valid);
-    if ($data_temp[2] != '') {
-        $day = $data_temp[2];
-    } else {
-        $day = $data_temp[3];
-    }
+	unset($data_temp, $day, $year, $hour_temp, $hour);
+	$data_temp = explode(' ', $item->date_valid);
 
-    $mouth = $data_temp[1];
-    if (isset($data_temp[5])) {
-        $year = $data_temp[5];
-    } else {
-        $year = $data_temp[4];
-    }
+	if ($data_temp[2] != '') {
+		$day = $data_temp[2];
+	} else {
+		$day = $data_temp[3];
+	}
 
-    $hour_temp = explode(':', $data_temp[3]);
-    $hour = $hour_temp[0];
-    if ($hour < 12) {
-        $hour = 12;
-    } else {
-        $hour = 00;
-    }
-    $timestamp = mktime($hour, 0, 0, $year_mouth[$mouth], $day, $year);
-    if (isset($nb_4_hour[$timestamp])) {
-        $nb_4_hour[$timestamp] ++;
-    } else {
-        $nb_4_hour[$timestamp] = 1;
-    }
+	$month = $data_temp[1];
+
+	if (isset($data_temp[5])) {
+		$year = $data_temp[5];
+	} else {
+		$year = $data_temp[4];
+	}
+
+	if ($data_temp[2] != '') {
+		$hour_temp = explode(':', $data_temp[3]);
+	} else {
+		$hour_temp = explode(':', $data_temp[4]);
+	}
+
+	$timestamp = mktime($hour_temp[0], 0, 0, $year_month[$month], $day, $year);
+
+	if (isset($nb_4_hour[$timestamp])) {
+		$nb_4_hour[$timestamp] ++;
+	} else {
+		$nb_4_hour[$timestamp] = 1;
+	}
 }
 
 ksort($nb_4_hour);
 $i = 0;
 $data = array();
+
+$ancienne = 0;
 foreach ($nb_4_hour as $key => $value) {
-    $ancienne += $value;
-    $data[$i] = round((($ancienne * 100) / $total_mach), 2);
-    $legende[$i] = date("d/m/Y H:00", $key);
-    $i++;
+	$ancienne += $value;
+	$data[$i] = round((($ancienne * 100) / $total_mach), 2);
+	$legende[$i] = date($l->g(1242), $key);
+	$i++;
 }
+
 if (isset($data) && count($data) != 1) {
-
-    $stats = new StatsChartsRenderer;
-		$name = ["teledeploy_speed" => "teledeploy_speed"];
-    $stats->createChartCanvas($name, false, false);
-    $stats->createPointChart("teledeploy_speed", $legende, $data, $l->g(1125));
-
+	$stats = new StatsChartsRenderer;
+	$name = ["teledeploy_speed" => "teledeploy_speed"];
+	$stats->createChartCanvas($name, false, false);
+	$stats->createPointChart("teledeploy_speed", $legende, $data, $l->g(1125));
 } else {
-    msg_warning($l->g(989));
+	msg_warning($l->g(989));
 }
 ?>
