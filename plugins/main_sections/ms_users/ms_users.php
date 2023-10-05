@@ -51,7 +51,7 @@ if (AJAX) {
     $tab_options = $protectedPost;
     $tab_options['form_name'] = $form_name;
     echo open_form($form_name, '', '', 'form-horizontal');
-    $table_name = "TAB_ACCESSLVL" . $protectedPost['onglet'];
+    $table_name = "TAB_ACCESSLVL" . $protectedPost['onglet']  ?? '';
 
     if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == "") {
         $protectedPost['onglet'] = current($data_on);
