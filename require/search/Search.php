@@ -362,7 +362,26 @@
                   $columnName[$index] = $value['fields'];
                   $containvalue[$index] = $value['operator'];
             }
+            $tabSessValue=[];
+            $tabSessComparator=[];
+            $tabSessOperator=[];
+            $maxSessValue=0;
+            $isLessOrMore=0;
 
+            // Retrieve all mutli search
+            foreach ($searchInfos as $val) {
+              $tabSessValue[] = $val[self::SESS_VALUES];
+              $tabSessComparator[] = $val[self::SESS_COMPARATOR];
+              $tabSessOperator[] = $val[self::SESS_OPERATOR];
+              $maxSessValue =max($tabSessValue);
+            }
+            
+            // check if < or > operators exist once
+            foreach ($tabSessOperator as $val) {
+              if ($val == "LESS" || $val == "MORE") {
+                $isLessOrMore++;
+              }
+            }
             foreach ($searchInfos as $value) {
               $nameTable = $tableName;
               $open="";
@@ -400,13 +419,67 @@
                 if($value[self::SESS_OPERATOR] != "IS NULL"){
                   if ($nameTable != DatabaseSearch::COMPUTER_DEF_TABLE && $nameTable != self::GROUP_TABLE && $value[self::SESS_FIELDS] != 'CATEGORY_ID' && $value[self::SESS_FIELDS] != 'CATEGORY' 
                   && $value[self::SESS_OPERATOR] != "NOT IN" && $value[self::SESS_OPERATOR] != "ISNOTEMPTY") {
-                    $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
-                    $this->queryArgs[] = $nameTable;
-                    $this->queryArgs[] = $nameTable;
-                    $this->queryArgs[] = $nameTable;
-                    $this->queryArgs[] = $value[self::SESS_FIELDS];
-                    $this->queryArgs[] = $value[self::SESS_OPERATOR];
-                    $this->queryArgs[] = $value[self::SESS_VALUES];
+                    $lessOperator = "<";
+                    
+                    if ($isLessOrMore >0) {
+                      if (($value[self::SESS_COMPARATOR] == "AND" || empty($value[self::SESS_COMPARATOR])) && ($value[self::SESS_COMPARATOR] != "OR" && in_array("AND", $tabSessComparator))) {
+                        if ($maxSessValue == $value[self::SESS_VALUES]) {
+                          $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s %s) $close";
+                          $this->queryArgs[] = $nameTable;
+                          $this->queryArgs[] = $nameTable;
+                          $this->queryArgs[] = $nameTable;
+                          $this->queryArgs[] = $value[self::SESS_FIELDS];
+                          $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                          $this->queryArgs[] = $value[self::SESS_VALUES];
+                        } else {
+                          
+                          if (array_shift($tabSessValue) == $maxSessValue) {
+                            $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s %s %s %s.%s %s %s $close";
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $value[self::SESS_FIELDS];
+                            $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                            $this->queryArgs[] = $value[self::SESS_VALUES];
+                            $this->queryArgs[] = $value[self::SESS_COMPARATOR];
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $value[self::SESS_FIELDS];
+                            $this->queryArgs[] = $lessOperator;
+                            $this->queryArgs[] = $maxSessValue;
+                            $value[self::SESS_COMPARATOR] == "AND" ? $this->columnsQueryConditions .=")" : "";
+                          } else {
+                            $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s %s AND %s.%s %s %s) $close";
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $value[self::SESS_FIELDS];
+                            $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                            $this->queryArgs[] = $value[self::SESS_VALUES];
+                            $this->queryArgs[] = $nameTable;
+                            $this->queryArgs[] = $value[self::SESS_FIELDS];
+                            $this->queryArgs[] = $lessOperator;
+                            $this->queryArgs[] = $maxSessValue;
+                          }
+                        }
+                      } elseif (($value[self::SESS_COMPARATOR] == "OR" || empty($value[self::SESS_COMPARATOR])) && ($value[self::SESS_COMPARATOR] != "AND" && in_array("OR", $tabSessComparator))) {
+                         $value[self::SESS_COMPARATOR] == "OR" ? $this->columnsQueryConditions .=") " : "";
+                        $this->columnsQueryConditions .= "$operator[$p] EXISTS (SELECT 1 FROM % WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s %s $close";
+                        $this->queryArgs[] = $nameTable;
+                        $this->queryArgs[] = $nameTable;
+                        $this->queryArgs[] = $nameTable;
+                        $this->queryArgs[] = $value[self::SESS_FIELDS];
+                        $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                        $this->queryArgs[] = $value[self::SESS_VALUES];
+                      }
+                    } else {
+                      $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s '%s')$close ";
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $nameTable;
+                      $this->queryArgs[] = $value[self::SESS_FIELDS];
+                      $this->queryArgs[] = $value[self::SESS_OPERATOR];
+                      $this->queryArgs[] = $value[self::SESS_VALUES];
+                    }
                   }elseif($nameTable == self::GROUP_TABLE || $value[self::SESS_FIELDS] == 'CATEGORY_ID' || $value[self::SESS_FIELDS] == 'CATEGORY' 
                   || $value[self::SESS_OPERATOR] == "NOT IN"){
                     $this->columnsQueryConditions .= "$operator[$p] $open EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s (%s))$close ";
