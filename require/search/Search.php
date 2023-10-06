@@ -463,7 +463,7 @@
                         }
                       } elseif (($value[self::SESS_COMPARATOR] == "OR" || empty($value[self::SESS_COMPARATOR])) && ($value[self::SESS_COMPARATOR] != "AND" && in_array("OR", $tabSessComparator))) {
                          $value[self::SESS_COMPARATOR] == "OR" ? $this->columnsQueryConditions .=") " : "";
-                        $this->columnsQueryConditions .= "$operator[$p] EXISTS (SELECT 1 FROM % WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s %s $close";
+                        $this->columnsQueryConditions .= "$operator[$p] EXISTS (SELECT 1 FROM %s WHERE hardware.ID = %s.HARDWARE_ID AND %s.%s %s %s $close";
                         $this->queryArgs[] = $nameTable;
                         $this->queryArgs[] = $nameTable;
                         $this->queryArgs[] = $nameTable;
