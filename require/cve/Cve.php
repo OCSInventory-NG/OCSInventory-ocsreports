@@ -463,11 +463,12 @@ class Cve
 
   /**
    * Print debug statement depending on the level of debug needed
+   * If in debug mode, print all messages, if only verbose mode, print only INFO
    * @param string $string
    * @param string $level
    */
   public function verbose($string, $level) {
-    if (($level == "DEBUG" && $this->CVE_DEBUG) || ($level == "INFO" && $this->CVE_VERBOSE)) {
+    if (($level == "DEBUG" && $this->CVE_DEBUG) || ($level == "INFO" && ($this->CVE_VERBOSE || $this->CVE_DEBUG))) {
       print("[".date("Y-m-d H:i:s"). "] [$level] $string\n");
     }
   }
