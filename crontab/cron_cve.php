@@ -70,7 +70,7 @@ if($cve->CVE_ACTIVE == 1) {
         $cve->verbose("When using a self-signed certificate, you can disable SSL verification in cron_cve.php", "INFO");
         $cve->verbose("Debug mode is ".($debug ? "enabled" : "disabled"), "INFO");
         $cve->getSoftwareInformations($date, $clean, $chunk);
-        $cve->verbose($this->cveNB." CVE have been added to database.", "INFO");
+        $cve->verbose($cve->getNbAdded()." CVE have been added to database.", "INFO");
     }
 } else {
     $cve->verbose("CVE feature isn't enabled.", "INFO");

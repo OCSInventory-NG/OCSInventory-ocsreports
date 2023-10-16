@@ -73,6 +73,10 @@ class Cve
     $this->CVE_DEBUG = $debug;
   }
 
+  public function getNbAdded() {
+    return $this->cveNB;
+  }
+
   /**
    * History cve history
    */
@@ -111,8 +115,6 @@ class Cve
    */
   private function getPublisher($date = null, $check_history = false, $offset = null, $limit = null) {
     $sql = 'SELECT DISTINCT p.ID, p.PUBLISHER FROM software_publisher p
-            LEFT JOIN software_link sl ON p.ID = sl.PUBLISHER_ID 
-            LEFT JOIN software_name n ON n.ID = sl.NAME_ID 
             LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID
             LEFT JOIN software_categories_link scl ON scl.PUBLISHER_ID = p.ID
           WHERE p.ID != 1 AND TRIM(p.PUBLISHER) != ""';
@@ -179,53 +181,50 @@ class Cve
       }
       $this->verbose("Banned categories (VULN_BAN_LIST): ".implode(", ", $banned), "DEBUG");
     }
-
-    // total count of publishers and nb of chunks
-    $this->verbose("Getting total count of software publishers to process..", "INFO");
-    
-    $totalPublishers = mysqli_num_rows($this->getPublisher($date, $this->history_is_empty()));
-    $chunks = ceil($totalPublishers / $poolSize);
-
-    $this->verbose("Total publishers: $totalPublishers, chunks number: $chunks", "INFO");
     $this->verbose("Chunk size: $poolSize publishers", "INFO");
     $this->verbose("CVE processing is in progress, this could take a while ...", "INFO");
-    for ($i = 0; $i < $chunks; $i++) {
-        $this->verbose("Processing publisher chunk " . ($i + 1) . " out of $chunks", "DEBUG");
-        $publishers = $this->getPublisher($date, $this->history_is_empty(), $i * $poolSize, $poolSize);
+    // loop on all publishers based on chunk size
+    $numRows = $poolSize;
+    $chunkIndex = 1;
+
+    for($limit = 0; $poolSize <= $numRows; $limit = $limit+$poolSize) {
+      $this->verbose("Processing publisher chunk " .$chunkIndex, "DEBUG");
+      $publishers = $this->getPublisher($date, $this->history_is_empty(), $limit, $poolSize);
+      $numRows = mysqli_num_rows($publishers);
+      if (!$publishers) {
+          $this->verbose("Error fetching publishers in chunk " .$chunkIndex. ".", "DEBUG");
+          continue;
+      }
+
+      while ($item_publisher = mysqli_fetch_array($publishers)) {
+        # Reset date
+        $this->cve_history['FLAG'] = date('Y-m-d H:i:s');
+        # Reset CVE NB
+        $this->cve_history['CVE_NB'] = 0;
+        $this->cve_history['PUBLISHER_ID'] = $item_publisher['ID'];
+        $this->clean_cve($item_publisher['ID']);
         
-        if (!$publishers) {
-            $this->verbose("Error fetching publishers in chunk " . ($i + 1) . ".", "DEBUG");
-            continue;
-        }
+        $this->publisherName = $item_publisher['PUBLISHER'];
 
-        while ($item_publisher = mysqli_fetch_array($publishers)) {
-          # Reset date
-          $this->cve_history['FLAG'] = date('Y-m-d H:i:s');
-          # Reset CVE NB
-          $this->cve_history['CVE_NB'] = 0;
-          $this->cve_history['PUBLISHER_ID'] = $item_publisher['ID'];
-          $this->clean_cve($item_publisher['ID']);
-          
-          $this->publisherName = $item_publisher['PUBLISHER'];
+        $result_soft = $this->getSoftwareName($item_publisher['ID']);
 
-          $result_soft = $this->getSoftwareName($item_publisher['ID']);
+        $this->verbose("Processing publisher: ".$item_publisher['PUBLISHER'], "DEBUG");
 
-          $this->verbose("Processing publisher: ".$item_publisher['PUBLISHER'], "DEBUG");
-
-          while ($item_soft = mysqli_fetch_array($result_soft)) {
-            $this->cve_attr = null;
-            if(!preg_match('/[^\x00-\x7F]/', $item_soft['NAME']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['NAME'])){
-              $this->cve_history['NAME_ID'] = $item_soft['NAME_ID'];
-              $this->cve_attr[] = ["NAME" => $item_soft['NAME'], "VENDOR" => $item_publisher['PUBLISHER'], "VERSION" => null, "REAL_NAME" => $item_soft['NAME'], "REAL_VENDOR" => $item_publisher['PUBLISHER']];
-              if($this->cve_attr != null) {
-                $this->get_cve($this->cve_attr);
-              }
+        while ($item_soft = mysqli_fetch_array($result_soft)) {
+          $this->cve_attr = null;
+          if(!preg_match('/[^\x00-\x7F]/', $item_soft['NAME']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['NAME'])){
+            $this->cve_history['NAME_ID'] = $item_soft['NAME_ID'];
+            $this->cve_attr[] = ["NAME" => $item_soft['NAME'], "VENDOR" => $item_publisher['PUBLISHER'], "VERSION" => null, "REAL_NAME" => $item_soft['NAME'], "REAL_VENDOR" => $item_publisher['PUBLISHER']];
+            if($this->cve_attr != null) {
+              $this->get_cve($this->cve_attr);
             }
           }
+        }
 
-          $this->insertFlag();
+        $this->insertFlag();
 
       }
+      $chunkIndex += 1;
     }
   }
 
