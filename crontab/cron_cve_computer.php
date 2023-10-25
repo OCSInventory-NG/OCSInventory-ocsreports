@@ -57,7 +57,7 @@ if($cve->CVE_ACTIVE == 1) {
     }
     print("[".date("Y-m-d H:i:s"). "] End of process\n");
 } else {
-    $cve->verbose($cve->CVE_VERBOSE, 3);
+    $cve->verbose("CVE feature isn't enabled.", "INFO");
     exit();
 }
 

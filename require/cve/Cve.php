@@ -29,8 +29,10 @@ class Cve
   public $CVE_ACTIVE;
   private $CVE_BAN;
   public $CVE_LINK;
+  public $CVE_VERBOSE;
   public $CVE_EXPIRE_TIME;
   public $CVE_DELAY_TIME;
+  private $CVE_DEBUG;
   private $publisherName;
   public $cve_attr = [];
   public $cve_history = [
@@ -62,6 +64,17 @@ class Cve
     $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"] ?? null;
     $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"] ?? null;
 
+  }
+
+  /**
+   * Set debug mode
+   */
+  public function setDebug($debug){
+    $this->CVE_DEBUG = $debug;
+  }
+
+  public function getNbAdded() {
+    return $this->cveNB;
   }
 
   /**
@@ -100,10 +113,8 @@ class Cve
   /**
    * Get all publisher
    */
-  private function getPublisher($date, $check_history) {
+  private function getPublisher($date = null, $check_history = false, $offset = null, $limit = null) {
     $sql = 'SELECT DISTINCT p.ID, p.PUBLISHER FROM software_publisher p
-            LEFT JOIN software_link sl ON p.ID = sl.PUBLISHER_ID 
-            LEFT JOIN software_name n ON n.ID = sl.NAME_ID 
             LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID
             LEFT JOIN software_categories_link scl ON scl.PUBLISHER_ID = p.ID
           WHERE p.ID != 1 AND TRIM(p.PUBLISHER) != ""';
@@ -115,7 +126,12 @@ class Cve
     if($date != null && $check_history != 0) {
       $sql .= ' AND (h.FLAG_DATE <= "'.$date.'" OR p.ID NOT IN (SELECT PUBLISHER_ID FROM cve_search_history))';
     }
-    $sql .= " ORDER BY p.PUBLISHER";
+    
+    if (isset($offset) && isset($limit)) {
+      $sql .= " ORDER BY p.PUBLISHER LIMIT $offset, $limit";
+    } else {
+      $sql .= " ORDER BY p.PUBLISHER";
+    }
 
     return mysqli_query($_SESSION['OCS']["readServer"], $sql);
   }
@@ -154,42 +170,61 @@ class Cve
   /**
    *  Get distinct all software name and publisher
    */
-  public function getSoftwareInformations($date = null, $clean = false){
+  public function getSoftwareInformations($date = null, $clean = false, $poolSize){
+    if ($this->CVE_BAN != "") {
+      // get names of banned categories
+      $banned = [];
+      $sql = "SELECT CATEGORY_NAME FROM software_categories WHERE ID IN (".$this->CVE_BAN.")";
+      $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+      while ($item = mysqli_fetch_array($result)) {
+        $banned[] = $item["CATEGORY_NAME"];
+      }
+      $this->verbose("Banned categories (VULN_BAN_LIST): ".implode(", ", $banned), "DEBUG");
+    }
+    $this->verbose("Chunk size: $poolSize publishers", "INFO");
+    $this->verbose("CVE processing is in progress, this could take a while ...", "INFO");
+    // loop on all publishers based on chunk size
+    $numRows = $poolSize;
+    $chunkIndex = 1;
 
-    $this->verbose($this->CVE_VERBOSE, 4);
-
-    $check_history = $this->history_is_empty();
-    $publishers = $this->getPublisher($date, $check_history);
-    
-    $this->verbose($this->CVE_VERBOSE, 5);
-
-    while ($item_publisher = mysqli_fetch_array($publishers)) {
-      # Reset date
-      $this->cve_history['FLAG'] = date('Y-m-d H:i:s');
-      # Reset CVE NB
-      $this->cve_history['CVE_NB'] = 0;
-      $this->cve_history['PUBLISHER_ID'] = $item_publisher['ID'];
-      $this->clean_cve($item_publisher['ID']);
-      
-      $this->publisherName = $item_publisher['PUBLISHER'];
-
-      $result_soft = $this->getSoftwareName($item_publisher['ID']);
-
-      $this->verbose($this->CVE_VERBOSE, 6);
-
-      while ($item_soft = mysqli_fetch_array($result_soft)) {
-        $this->cve_attr = null;
-        if(!preg_match('/[^\x00-\x7F]/', $item_soft['NAME']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['NAME'])){
-          $this->cve_history['NAME_ID'] = $item_soft['NAME_ID'];
-          $this->cve_attr[] = ["NAME" => $item_soft['NAME'], "VENDOR" => $item_publisher['PUBLISHER'], "VERSION" => null, "REAL_NAME" => $item_soft['NAME'], "REAL_VENDOR" => $item_publisher['PUBLISHER']];
-          if($this->cve_attr != null) {
-            $this->get_cve($this->cve_attr);
-          }
-        }
+    for($limit = 0; $poolSize <= $numRows; $limit = $limit+$poolSize) {
+      $this->verbose("Processing publisher chunk " .$chunkIndex, "DEBUG");
+      $publishers = $this->getPublisher($date, $this->history_is_empty(), $limit, $poolSize);
+      $numRows = mysqli_num_rows($publishers);
+      if (!$publishers) {
+          $this->verbose("Error fetching publishers in chunk " .$chunkIndex. ".", "DEBUG");
+          continue;
       }
 
-      $this->insertFlag();
+      while ($item_publisher = mysqli_fetch_array($publishers)) {
+        # Reset date
+        $this->cve_history['FLAG'] = date('Y-m-d H:i:s');
+        # Reset CVE NB
+        $this->cve_history['CVE_NB'] = 0;
+        $this->cve_history['PUBLISHER_ID'] = $item_publisher['ID'];
+        $this->clean_cve($item_publisher['ID']);
+        
+        $this->publisherName = $item_publisher['PUBLISHER'];
 
+        $result_soft = $this->getSoftwareName($item_publisher['ID']);
+
+        $this->verbose("Processing publisher: ".$item_publisher['PUBLISHER'], "DEBUG");
+
+        while ($item_soft = mysqli_fetch_array($result_soft)) {
+          $this->cve_attr = null;
+          if(!preg_match('/[^\x00-\x7F]/', $item_soft['NAME']) && !preg_match('#\\{([^}]+)\\}#', $item_soft['NAME'])){
+            $this->cve_history['NAME_ID'] = $item_soft['NAME_ID'];
+            $this->cve_attr[] = ["NAME" => $item_soft['NAME'], "VENDOR" => $item_publisher['PUBLISHER'], "VERSION" => null, "REAL_NAME" => $item_soft['NAME'], "REAL_VENDOR" => $item_publisher['PUBLISHER']];
+            if($this->cve_attr != null) {
+              $this->get_cve($this->cve_attr);
+            }
+          }
+        }
+
+        $this->insertFlag();
+
+      }
+      $chunkIndex += 1;
     }
   }
 
@@ -238,6 +273,7 @@ class Cve
     $curl = curl_init();
     foreach($cve_attr as $values){
       $values = $this->match($values);
+      $this->verbose("Processing publisher: ".$values['VENDOR']." for software : ".$values['NAME'], "DEBUG");
       $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME'];
       curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
       curl_setopt($curl, CURLOPT_URL, $url);
@@ -245,10 +281,26 @@ class Cve
       // Uncomment if using a self-signed certificate on CVE server
       //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
       //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+      $this->verbose("Sending request to ".$url, "DEBUG");
+
       $result = curl_exec ($curl);
+
+      // check curl request
+      if($result == false) {
+        $this->verbose("Error while fetching CVE data from ".$url, "INFO");
+        $this->verbose("Curl error code: ".curl_errno($curl)." - ".curl_error($curl), "DEBUG");
+        continue;
+      } else {
+        $this->verbose("Data fetched successfully from ".$url, "DEBUG");
+      }
+
       $vars = json_decode($result, true);
       if(isset($vars['total']) && $vars['total'] != 0){
+        $this->verbose("CVE data found for ".$values['VENDOR']."/".$values['NAME'], "INFO");
         $this->search_by_version($vars, $values);
+      } else {
+        $this->verbose("No CVE data found for ".$values['VENDOR']."/".$values['NAME'], "INFO");
       }
     }
 
@@ -354,9 +406,7 @@ class Cve
                 if((!empty(strval($vuln_conf)) && (strpos(strval($vuln), strval($vuln_conf)) !== false))){
                   $result = $this->get_infos_cve($values['cvss'] ?? $values['cvss3'], $values['id'], $values['references'][0]);
                   if($result) {
-                    if($this->CVE_VERBOSE == 1) {
-                      print("[".date("Y-m-d H:i:s"). "] ".$values['id']." has been referenced for ".$software["REAL_NAME"]."\n");
-                    }
+                    $this->verbose($values['id']." has been referenced for ".$software["REAL_NAME"]." version ".$software["VERSION"], "INFO");
                     $this->cve_history['CVE_NB'] ++;
                     $this->cveNB ++;
                   }
@@ -411,35 +461,14 @@ class Cve
   }
 
   /**
-   * Print verbose
+   * Print debug statement depending on the level of debug needed
+   * If in debug mode, print all messages, if only verbose mode, print only INFO
+   * @param string $string
+   * @param string $level
    */
-  public function verbose($config, $code) {
-    if($config == 1) {
-      switch($code) {
-        case 1:
-          print("[".date("Y-m-d H:i:s"). "] ".$this->CVE_SEARCH_URL." is not reachable\n");
-        break;
-        case 2:
-          print("[".date("Y-m-d H:i:s"). "] ".$this->cveNB." CVE have been added to database\n");
-        break;
-        case 3:
-          print("[".date("Y-m-d H:i:s"). "] CVE feature isn't enabled\n");
-        break;
-        case 4:
-          print("[".date("Y-m-d H:i:s"). "] Get software publisher\n");
-        break;
-        case 5:
-          print("[".date("Y-m-d H:i:s"). "] Software publisher OK\n");
-          print("[".date("Y-m-d H:i:s"). "] CVE treatment started\n");
-          print("[".date("Y-m-d H:i:s"). "] Please wait, CVE processing is in progress. It could take a few hours\n");
-        break;
-        case 6:
-          print("[".date("Y-m-d H:i:s"). "] Processing ".$this->publisherName." softwares\n");
-        break;
-        case 7:
-          print("[".date("Y-m-d H:i:s"). "] ".$values['id']." has been referenced for ".$software["REAL_NAME"]."\n");
-        break;
-      }
+  public function verbose($string, $level) {
+    if (($level == "DEBUG" && $this->CVE_DEBUG) || ($level == "INFO" && ($this->CVE_VERBOSE || $this->CVE_DEBUG))) {
+      print("[".date("Y-m-d H:i:s"). "] [$level] $string\n");
     }
   }
 
