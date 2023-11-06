@@ -306,7 +306,7 @@
 411 Felder dürfen nur Zahlen enthalten!
 412 Schlüssel-Verwaltungs-Funktion
 413 Automatische Aktualisierungs-Funktion
-414 Automatische Entfaltung
+414 Automatische Deployment-Funktion
 415 Lösch-Protokoll-Funktion (benötigt von GLPI)
 416 Protokoll-Funktion
 417 Automatische Software-Verteilung
@@ -1842,13 +1842,12 @@
 9701 CAS Server URI, z.B. : /cas
 9702 CAS Server Host, z.B. : authentication.org
 9703 CAS default role, applied on first connection initiated using CAS authentication
+9705 CAS Basis URI, z.B. : ocs.example.com
+9706 CAS Server CA-Zertifikatspfad, z.B. : /path/to/cachain.pem
 9704 CAS Konfiguration
-
 9800 Ausschluss von archivierten Computern aus der Statistik, CVE-Inventar, Zählung aller Softwares, Zählung der Computer pro TAG
 9801 Show bios diagram in dashboard
-
 9802 Show CVE search links
-
 9900 Layouts
 9901 Layout wurde erstellt
 9902 Layout wurde gelöscht
@@ -1907,3 +1906,14 @@
 9989 Download SNMP Scan Configuration
 9990 Download SNMP Subnets List
 9991 Generate SNMP files
+9914 Ersteller
+9915 Sichtbarkeit
+
+9950 Benachrichtigungen
+
+9970 Sie dürfen diesen User nicht ändern
+9971 Wollen Sie das Paket wirklich erneut anwenden
+9972 Erneut anwenden
+9973 Keine Daten verfügbar
+
+9980 Netzwerk Scans

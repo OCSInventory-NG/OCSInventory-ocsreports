@@ -1842,6 +1842,8 @@
 9701 CAS server uri, e.g : /cas
 9702 CAS server host, e.g. : authentication.org
 9703 CAS default role, applied on first connection initiated using CAS authentication
+9705 CAS Base URI, e.g. : ocs.example.com
+9706 CAS Server CA Certificate Path, e.g. : /path/to/cachain.pem
 9704 CAS Configuration
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count

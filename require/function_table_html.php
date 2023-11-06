@@ -1378,8 +1378,8 @@ function ajaxfiltre($queryDetails,$tab_options){
 
 				// Special process for ipdiscover query
 				if(isset($tab_options['SPECIAL_SEARCH']) && $tab_options['SPECIAL_SEARCH'] == "IPD" && !is_null($filtertxt)) {
-					$explodeIPDQuery = explode("non_ident on n.RSX=non_ident.RSX", $queryDetails);
-					$queryDetails = $explodeIPDQuery[0]."non_ident on n.RSX=non_ident.RSX".$filtertxt.")".$explodeIPDQuery[1];
+					$explodeIPDQuery = explode(") ipd ", $queryDetails);
+					$queryDetails = $explodeIPDQuery[0].$filtertxt.")) ipd ".$explodeIPDQuery[1];
 				}
 
 				return $queryDetails;
@@ -1524,6 +1524,12 @@ function ajaxfiltre($queryDetails,$tab_options){
 				$index++;
 			}
 		}
+		// Special process for computer details teledeploy query
+		if(isset($tab_options['SPECIAL_SEARCH']) && $tab_options['SPECIAL_SEARCH'] == "COMP_DEPLOY" && !is_null($filter)) {
+			$explodeQuery = explode("d.name='DOWNLOAD' and a.name != '' and pack_loc != '' AND d.hardware_id=%s", $queryDetails);
+			$queryDetails = $explodeQuery[0]."d.name='DOWNLOAD' and a.name != '' and pack_loc != '' AND d.hardware_id=%s HAVING".$filter.")".$explodeQuery[1];
+		}
+
 		$queryDetails .= $filter.") ";
 	}
 	return $queryDetails;

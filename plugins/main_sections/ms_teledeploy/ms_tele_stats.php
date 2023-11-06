@@ -66,7 +66,7 @@ $rescount = mysql2_query_secure($sql_count, $_SESSION['OCS']["readServer"], $arg
 $row = mysqli_fetch_object($rescount);
 $total = $row->nb;
 if ($total <= 0) {
-    msg_error($l->g(837));
+    msg_info($l->g(9973));
     require_once(FOOTER_HTML);
     die();
 }

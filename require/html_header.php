@@ -95,8 +95,7 @@ if(is_null($value_banniere)){
                     }
                     echo "</li>";
                 }
-
-                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER']) && (isset($_SESSION['OCS']['cnx_origine']) && $_SESSION['OCS']['cnx_origine'] != 'CAS')) {
+                if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($_SERVER['HTTP_AUTH_USER']) && (isset($_SESSION['OCS']['cnx_origine']) && ($_SESSION['OCS']['cnx_origine'] != 'CAS' && $_SESSION['OCS']['cnx_origine'] != 'SSO_ONLY'))) {
                     echo "<li><a onclick='return pag(\"ON\",\"LOGOUT\",\"log_out\")'>" . $l->g(251) . "</a></li>";
                 }
                 echo open_form('log_out', 'index.php');

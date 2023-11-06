@@ -169,37 +169,60 @@ class OCSSnmp
 		return ($list_label);
 	}
 
-	/**
-	 * Insert snmp config into DB
-	 *
-	 * @param int $typeID
-	 * @param int $labelID
-	 * @param string $oid
-	 * @return boolean
-	 */
-	public function snmp_config($typeID, $labelID, $oid, $reconciliation = null) {
-		global $l;
-		$result_alter_table = $this->add_label_column($typeID, $labelID, $reconciliation);
+/**
+ * Insert snmp config into DB
+ *
+ * @param int $typeID
+ * @param int $labelID
+ * @param string $oid
+ * @return boolean
+ */
+public function snmp_config($typeID, $labelID, $oid, $reconciliation = null, $ipd_reconciliation = null) {
+	global $l;
+	$result_alter_table = $this->add_label_column($typeID, $labelID, $reconciliation, $ipd_reconciliation);
 
-		if($result_alter_table) {
-			if($reconciliation != null) {
-				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`) VALUES (%s,%s,'%s','%s')";
-				$sql_arg = array($typeID, $labelID, addslashes($oid), 'Yes');
-			} else {
-				$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
-				$sql_arg = array($typeID, $labelID, addslashes($oid));
-			}
-			$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
+	// checking if ipd_reconciliation is already set for this type
+	$sql = "SELECT `IPD_RECONCILIATION` FROM `snmp_configs` WHERE `TYPE_ID` = %s";
+	$sql_arg = array($typeID);
+	$result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $sql_arg);
+	$ipd_reconciliation_already_set = false;
+	while ($item = mysqli_fetch_array($result)) {
+		if($item['IPD_RECONCILIATION'] == 'Yes') {
+			$ipd_reconciliation_already_set = true;
+		}
+	}
 
-			if($result) {
-				return 0;
-			} else {
-				return 9027;
-			}
+	if($result_alter_table) {
+		if ($ipd_reconciliation_already_set && $ipd_reconciliation != null) {
+			// Do not insert if IPD_RECONCILIATION is already set and the new label also has IPD_RECONCILIATION
+			return 9043;
+		}
+		if($reconciliation != null && $ipd_reconciliation == null) {
+			$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`) VALUES (%s,%s,'%s','%s')";
+			$sql_arg = array($typeID, $labelID, addslashes($oid), 'Yes');
+
+		} elseif ($reconciliation == null && $ipd_reconciliation != null) {
+			$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`, `IPD_RECONCILIATION`) VALUES (%s,%s,'%s', '%s')";
+			$sql_arg = array($typeID, $labelID, addslashes($oid), 'Yes');
+		
+		} elseif ($reconciliation != null && $ipd_reconciliation != null) {
+			$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`,`RECONCILIATION`, `IPD_RECONCILIATION`) VALUES (%s,%s,'%s','%s', '%s')";		
+			$sql_arg = array($typeID, $labelID, addslashes($oid), 'Yes', 'Yes');
+		} else {
+			$sql = "INSERT INTO `snmp_configs` (`TYPE_ID`,`LABEL_ID`,`OID`) VALUES (%s,%s,'%s')";
+			$sql_arg = array($typeID, $labelID, addslashes($oid));
+		}
+		$result = mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $sql_arg);
+
+		if($result) {
+			return 0;
 		} else {
 			return 9027;
 		}
+	} else {
+		return 9027;
 	}
+}
 
 	/**
 	 * Alter table type and add column label
@@ -208,11 +231,11 @@ class OCSSnmp
 	 * @param int $labelID
 	 * @return boolean
 	 */
-	private function add_label_column($typeID, $labelID, $reconciliation) {
+	private function add_label_column($typeID, $labelID, $reconciliation, $ipd_reconciliation) {
 		$tableName = $this->get_table_type_drop($typeID);
 		$labelName = $this->get_label_drop($labelID);
 		
-		if($reconciliation != null) {
+		if($reconciliation != null || $ipd_reconciliation != null) {
 			$sql_alter = "ALTER TABLE `%s` ADD `%s` VARCHAR(255) NOT NULL";
 		} else {
 			$sql_alter = "ALTER TABLE `%s` ADD `%s` TEXT NOT NULL";
@@ -221,7 +244,7 @@ class OCSSnmp
 		$arg_alter = array($tableName, $labelName);
 		$result_alter = mysql2_query_secure($sql_alter, $_SESSION['OCS']["writeServer"], $arg_alter);
 
-		if($reconciliation != null) {
+		if($reconciliation != null || $ipd_reconciliation != null) {
 			$sql_unique = "ALTER TABLE `%s` ADD UNIQUE (`%s`)";
 			$arg_unique = array($tableName, $labelName);
 			$result_unique = mysql2_query_secure($sql_unique, $_SESSION['OCS']["writeServer"], $arg_unique);
@@ -495,7 +518,7 @@ class OCSSnmp
 		if(!empty($config)) {
 			foreach($config as $key => $value) {
 				if($config[$key]['label'] != null && $config[$key]['oid'] != null) {
-					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation'] ?? null);
+					$result = $this->snmp_config($post['type_id'], $config[$key]['label'], $config[$key]['oid'], $config[$key]['reconciliation'] ?? null, $config[$key]['ipd_reconciliation'] ?? null);
 
 					if($result != 0) {
 						return false;
@@ -688,4 +711,33 @@ class OCSSnmp
 		return $reconciliation;
 	}
 
+	/**
+	 * getIPDReconciliationColumns : get IPD reconciliation column if any
+	 */
+	public function getIPDReconciliationColumns() {
+	    $sql = "
+            SELECT 
+                c.TYPE_ID, c.LABEL_ID, c.OID,
+                t.TABLE_TYPE_NAME,
+                l.LABEL_NAME
+            FROM snmp_configs c
+            LEFT JOIN snmp_types t ON c.TYPE_ID = t.ID
+            LEFT JOIN snmp_labels l ON c.LABEL_ID = l.ID
+            WHERE c.IPD_RECONCILIATION = 'Yes'";
+
+		$res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
+		$snmpTables = array();
+		if ($res) {
+			while ($row = mysqli_fetch_object($res)) {
+				$snmpTables[] = ['TYPE_ID' => $row->TYPE_ID, 
+									'LABEL_ID' => $row->LABEL_ID, 
+									'OID' => $row->OID, 
+									'TABLE_TYPE_NAME' => $row->TABLE_TYPE_NAME, 
+									'LABEL_NAME' => $row->LABEL_NAME];
+			}
+
+			return $snmpTables;
+		}
+		return false;
+	}
 }

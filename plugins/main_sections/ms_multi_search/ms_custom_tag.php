@@ -67,7 +67,8 @@
          }
 
          if (!empty($data_fields_account)) {
-             $Admininfo->updateinfo_computer($list_id, $data_fields_account, 'LIST');
+             $res = $Admininfo->updateinfo_computer($list_id, $data_fields_account, 'LIST');
+             msg_info($res);
              unset($_SESSION['OCS']['DATA_CACHE']['TAB_MULTICRITERE']);
              echo "<script language='javascript'> window.opener.document.multisearch.submit();</script>";
              echo "<script language='javascript'> window.opener.document.show_all.submit();</script>";

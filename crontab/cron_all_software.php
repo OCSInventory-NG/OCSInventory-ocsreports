@@ -36,3 +36,5 @@ print("[".date("Y-m-d H:i:s"). "] End of clean\n");
 print("[".date("Y-m-d H:i:s"). "] Start to process software by pool of ".$chunk."\n");
 $insert = $software->software_link_treatment($chunk);
 print("[".date("Y-m-d H:i:s"). "] End of process\n");
+
+session_destroy();
