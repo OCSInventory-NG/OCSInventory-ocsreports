@@ -51,7 +51,10 @@ function get_list_methode($identity = false){
             );
 
         case 4:
-
+            return array(
+                0 => "ldap.php"
+            );
+            break;
         case 5:
             if($identity){
                 return array(
