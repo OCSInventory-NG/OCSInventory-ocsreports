@@ -44,6 +44,9 @@ class Cve
   ];
   private $cveNB = 0;
   private $softRegex = [];
+  private $vars = [];
+  private $previousSoftPublisher;
+  private $previousSoftName;
 
   function __construct(){
     $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
@@ -63,7 +66,7 @@ class Cve
     $this->CVE_LINK = $values['ivalue']["VULN_CVESEARCH_LINK"] ?? 0;
     $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"] ?? 0;
     $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"] ?? null;
-    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"] ?? null;
+    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"] ?? 0;
     $this->getAllRegex();
   }
 
@@ -282,42 +285,59 @@ class Cve
    *  Init curl session for get CVE by call api cve-search server
    */
   public function get_cve($cve_attr){
-    $curl = curl_init();
     foreach($cve_attr as $values){
+      $curl = curl_init();
       $values = $this->match($values);
       $this->verbose("Processing publisher: ".$values['VENDOR']." for software : ".$values['NAME'], "DEBUG");
-      $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME'];
-      curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
-      // Uncomment if using a self-signed certificate on CVE server
-      //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-      //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-      $this->verbose("Sending request to ".$url, "DEBUG");
+      if($this->previousSoftName != $values['NAME'] || $this->previousSoftPublisher != $values['VENDOR']) {
+        $this->previousSoftName = $values['NAME'];
+        $this->previousSoftPublisher = $values['VENDOR'];
+        $this->var = [];
+        
+        $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME'];
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
+        // Uncomment if using a self-signed certificate on CVE server
+        //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-      $result = curl_exec ($curl);
+        $this->verbose("Sending request to ".$url, "DEBUG");
 
-      // check curl request
-      if($result == false) {
-        $this->verbose("Error while fetching CVE data from ".$url, "INFO");
-        $this->verbose("Curl error code: ".curl_errno($curl)." - ".curl_error($curl), "DEBUG");
-        continue;
+        $result = curl_exec ($curl);
+
+        // check curl request
+        if($result == false) {
+          $this->verbose("Error while fetching CVE data from ".$url, "INFO");
+          $this->verbose("Curl error code: ".curl_errno($curl)." - ".curl_error($curl), "DEBUG");
+          // Reset previous var if curl error
+          $this->previousSoftName = null;
+          $this->previousSoftPublisher = null;
+          // close curl connection before continue
+          curl_close ($curl) ;
+          sleep($this->CVE_DELAY_TIME);
+
+          continue;
+        } else {
+          $this->verbose("Data fetched successfully from ".$url, "DEBUG");
+        }
+
+        $this->vars = json_decode($result, true);
+        curl_close ($curl);
       } else {
-        $this->verbose("Data fetched successfully from ".$url, "DEBUG");
+        $this->verbose("Software identical to the previous one, use of data already recovered", "DEBUG");
       }
 
-      $vars = json_decode($result, true);
-      if(isset($vars['total']) && $vars['total'] != 0){
+      if(isset($this->vars['total']) && $this->vars['total'] != 0){
         $this->verbose("CVE data found for ".$values['VENDOR']."/".$values['NAME'], "INFO");
-        $this->search_by_version($vars, $values);
+        $this->search_by_version($this->vars, $values);
       } else {
         $this->verbose("No CVE data found for ".$values['VENDOR']."/".$values['NAME'], "INFO");
       }
-    }
 
-    curl_close ($curl) ;
-    sleep($this->CVE_DELAY_TIME);
+      sleep($this->CVE_DELAY_TIME);
+    }
   }
 
   private function match($values) {
