@@ -383,7 +383,7 @@ if (is_defined($protectedPost['MODIF'])) {
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
         $fipdisc = "ipdiscover-util.pl";
         $values = look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDISCOVER_IPD_DIR' => array('TVALUE' => VARLIB_DIR)));
-        $IPD_DIR = $values['tvalue']['IPDISCOVER_IPD_DIR'] . "/ipd";
+        $IPD_DIR = $values['tvalue']['IPDISCOVER_IPD_DIR'] ?? '' . "/ipd";
         if ($scriptPresent = @stat($fipdisc)) {
             $filePresent = true;
             if (!is_executable($fipdisc)) {
