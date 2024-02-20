@@ -1,5 +1,4 @@
-﻿0 ufg-8
-2 所有的计算机
+﻿2 所有的计算机
 9 以各条件搜寻
 13 送出
 17 代理程序
@@ -559,7 +558,6 @@
 668 要以哪个规则生效？
 669 ATTENTION: there are doubloons of priority <br> A single 规则will be retained!
 670 有规则已使用这个名称
-671 规则名称不能为空白！
 672 这个规则不存在!!!
 673 生效规则的管理
 674 规则的名称
@@ -783,6 +781,7 @@
 893 没有标签对您的配置文件生效
 894 没有对您的配置文件定义权限等级
 895 标签修改
+896 You do not have rights to access this page, please contact your administrator
 898 加入备注
 899 写入
 900 您确定要删除选择范围?
@@ -992,6 +991,7 @@
 1104 等级
 1105 Workflow 功能已启用
 1106 只有在先有要求之后才能建立套件
+1107 And the status is correct
 1108 LDAP 组态
 1109 过滤器
 1110 依据要求的状态对套件的指派
@@ -1336,6 +1336,7 @@
 1456 电话号码
 1457 将Ipdiscover网络链接到计算机 TAG</br><b style="color:#d9534f;">Logout / Login after updating this configuration</b>
 1458 字符
+
 1459 每次CVE扫描之间的时间间隔
 1460 CVE搜索管理
 1461 启用CVE报告
@@ -1396,6 +1397,10 @@
 1515 所有操作系统
 1516 所有软件（默认）
 1517 没有选择类别
+1518 List of regex
+1519 Missing computers :
+1520 (CSV datas are imported)
+1521 Display count softwares
 
 1550 您真的要存档吗
 1551 存档
@@ -1452,7 +1457,8 @@
 2026 OCS-NG GUI 使用的默认登入/密码 
 2027 改变您在 OCS-NG GUI 的 'admin' 密码
 2028 身份验证密钥
-2029 配置目录不可写		 
+2029 配置目录不可写
+
 2030 OCS-NG Inventory 安装
 2031 目前安装的版本
 2032 低于这个版本
@@ -1563,6 +1569,12 @@
 2142 创建一个搜索
 2143 搜索成功保存
 2144 更新现有的已保存搜索
+Who can see ?
+2146 Only me
+2147 My group
+2148 All users
+2149 Update date when peripherals updated
+
 5000 [DEBUG]computer insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
@@ -1702,6 +1714,16 @@
 9028 类型删除期间发生错误
 9029 标签删除期间发生错误
 9030 删除配置时发生错误
+9031 Type conditions
+9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
+9033 Authentication Protocol
+9034 Privacy Protocol
+9035 Privacy Password
+9036 No OID found
+9037 Equipment contacted today
+9038 Number of equipment per type
+9039 Quick view
+9040 Export all SNMP types
 
 9100 SSL密钥路径
 9101 SSL证书路径
@@ -1709,10 +1731,83 @@
 9103 SSL模式
 9104 CA证书路径
 9105 MySQL端口
+9106 Default download protocol
 
 9200 计算机的程序包部署
 9201 程序包部署以供选择
 9202 组的程序包部署
+9203 Activate download fragmentation
+9204 Configure download fragmentation ratio
+9205 Enable auto activation package
+9206 Activated
+9207 Deployment date
+9208 Awaiting deployment
+
+9300 Interactions
+9301 Options
+9302 Resume
+9303 Linux
+9304 MacOS
+9305 Windows
+9306 Powershell script
+9307 Scripts
+9308 Install / Uninstall
+9309 Others
+
+9310 Batch script
+9311 Custom package
+9312 Execute an exe
+9313 Install MSI application
+9314 Powershell script
+9315 Store file/folder 
+9316 Uninstall application
+9317 Update Agent
+9318 Install with WinGet (Powershell)
+
+9319 Install application
+9320 Uninstall application
+9321 Add apt repository
+9322 Add yum repository
+9323 Bash / sh script
+
+9324 Install .app application
+9325 Install .pkg application
+9326 Install with brew
+9327 Apple script
+
+9328 Install plugin
+
+9340 Script
+9341 MSI file
+9342 Repository URL
+9343 .app file
+9344 .pkg file
+9345 HTTP
+9346 HTTPS
+9347 Arguments (optional)
+9348 Packager file
+9349 Application name
+9350 Application identifier
+9351 How to find wmic application identifier : open a cmd as administrator and run "wmic product get name"
+9352 EXE file
+9353 Script file
+9354 Write your script here <b>OR</b> put your script file
+9355 Put your packager file with all parameters inside
+9356 If multiple files, please zip before
+9357 Packager type
+9358 apt
+9359 yum
+9360 dnf
+9361 Reload build
+9362 File
+9363 Plugin agent file
+9364 Configuration line
+9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Path to Modules directory
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
 
 9500 合并选定的重复项
 9501 合并所有重复项
@@ -1732,3 +1827,83 @@
 9611 临时文件目录
 9612 从CSV导入
 9613 无法导入CSV，请检查OCS常规配置中的临时文件目录配置
+9614 Import error. Only CSV files are accepted
+9615 Failed to import data
+
+9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
+
+9651 History
+9653 User name
+9654 Date and time
+9655 Action
+9656 Target of action
+
+9700 CAS server port, e.g. : 443
+9701 CAS server uri, e.g : /cas
+9702 CAS server host, e.g. : authentication.org
+9703 CAS default role, applied on first connection initiated using CAS authentication
+9704 CAS Configuration
+
+9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
+9801 Show bios diagram in dashboard
+
+9802 Show CVE search links
+
+9900 Layouts
+9901 Layout created
+9902 Layout deleted
+9903 Error creating layout
+9904 Please check your input. Repeat the process if the problem persists.
+9905 Error deleting layout
+9906 A layout with the same name or columns already exists for your user/scope, please choose another name or set of columns
+9907 Manage layouts
+9908 Show all layouts
+9909 Add new layout
+9910 Available layouts :
+9911 Layout name
+9912 Layout description
+9913 Table name
+9914 Creator
+9915 Visibility scope 
+9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
+9917 Public
+9918 Group
+9919 Personal
+9920 Layout updated successfully
+9921 Is allowed to manage layouts
+
+9930 DNS
+
+9940 Is allowed to manage saved searches
+
+9950 Notifications
+9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
+9952 Report notification created successfully
+9953 Report notification updated successfully
+9954 Please set a recurrence
+9955 Please provide at least one recipient, or comma separated recipients
+9956 daily
+9957 weekly
+9958 monthly
+9959 Activate : 
+9960 Report recurrence : 
+9961 Recipient(s) : 
+9962 Day of reccurence : 
+9963 End Date :
+
+9970 You are not allowed to modify this user
+9971 Do you really want to re-affect the package 
+9972 Affect again
+
+9980 Network Scans
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
+9988 Configuration export
+9989 Download SNMP Scan Configuration
+9990 Download SNMP Subnets List
+9991 Generate SNMP files
