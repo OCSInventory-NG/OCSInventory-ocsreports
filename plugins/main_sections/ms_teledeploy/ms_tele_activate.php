@@ -41,14 +41,6 @@ if ($_SESSION['OCS']['profile']->getRestriction('TELEDIFF_ACTIVATE') == 'NO') {
     $cant_active = true;
 }
 
-if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
-    $restrict_computers = computer_list_by_tag('', 'ARRAY');
-    if ($restrict_computers == "ERROR") {
-        msg_error($l->g(893));
-        require_once(FOOTER_HTML);
-        die();
-    }
-}
 $tab_options = $protectedPost;
 
 // tab to switch on deleted packages
@@ -264,6 +256,13 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         $querypack .= " and comment not like '%[VISIBLE=0]%'";
     }
 
+    $tagjoin = '';
+    $tagwhere = '';
+    if ($_SESSION['OCS']['profile']->getRestriction('GUI') == 'YES') {
+        $tagjoin = ', accountinfo a ';
+        $tagwhere = 'and (a.hardware_id = d.hardware_id) and ('.$_SESSION['OCS']["mesmachines"].') ';
+    }
+
     $tab_options['ARG_SQL_COUNT'] = $arg_count;
     $tab_options['LBL'] = array('ZIP' => "Archives",
         'STAT' => $l->g(574),
@@ -273,14 +272,7 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
         'NOTI' => $l->g(1000),
         'SUCC' => $l->g(572),
         'ERR_' => $l->g(344));
-    $tab_options['REQUEST']['STAT'] = 'select distinct fileid AS FIRST from devices d,download_enable de where d.IVALUE=de.ID ';
-    if (isset($restrict_computers)) {
-        $tab_options['REQUEST']['STAT'] .= 'and d.hardware_id in ';
-        $temp = mysql2_prepare($tab_options['REQUEST']['STAT'], array(), $restrict_computers);
-        $tab_options['ARG']['STAT'] = $temp['ARG'];
-        $tab_options['REQUEST']['STAT'] = $temp['SQL'];
-        unset($temp);
-    }
+    $tab_options['REQUEST']['STAT'] = "select distinct fileid AS FIRST from devices d,download_enable de $tagjoin where d.IVALUE=de.ID $tagwhere";
     $tab_options['FIELD']['STAT'] = 'FILEID';
     $tab_options['REQUEST']['SHOWACTIVE'] = 'select distinct fileid AS FIRST from download_enable';
     $tab_options['FIELD']['SHOWACTIVE'] = 'FILEID';
@@ -291,44 +283,24 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
 
     if ($show_stats) {
         $sql_data_fixe = "select count(*) as %s,de.FILEID
-                                    from devices d,download_enable de
+                                    from devices d,download_enable de $tagjoin
                                     where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-                                    and d.tvalue %s '%s' ";
+                                    and d.tvalue %s '%s' $tagwhere ";
         $sql_data_fixe_bis = "select count(*) as %s,de.FILEID
-                                    from devices d,download_enable de
+                                    from devices d,download_enable de $tagjoin
                                     where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-                                    and hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') and d.tvalue %s  ";
+                                    and d.hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') and d.tvalue %s $tagwhere";
         $sql_data_fixe_ter = "select count(*) as %s,de.FILEID
-                                    from devices d,download_enable de
+                                    from devices d,download_enable de $tagjoin
                                     where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-                                    and (d.tvalue %s '%s' or d.tvalue %s '%s') ";
+                                    and (d.tvalue %s '%s' or d.tvalue %s '%s') $tagwhere";
 
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_'] = array('ERR_', 'LIKE', 'ERR_%', 'LIKE', 'EXIT_CODE%');
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC'] = array('SUCC', 'LIKE', 'SUCCESS%');
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI'] = array('NOTI', 'LIKE', 'NOTI%');
         $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF'] = array('NO_NOTIF', 'IS NULL');
 
-        if (isset($restrict_computers)) {
-            $sql_data_fixe .= " and d.hardware_id in ";
-            $sql_data_fixe_bis .= " and d.hardware_id in ";
-            $sql_data_fixe_ter .= " and d.hardware_id in ";
-            $temp = mysql2_prepare($sql_data_fixe, array(), $restrict_computers);
-            $temp_bis = mysql2_prepare($sql_data_fixe_bis, array(), $restrict_computers);
-            $temp_ter = mysql2_prepare($sql_data_fixe_ter, array(), $restrict_computers);
-        }
         foreach ($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key => $value) {
-            if (isset($restrict_computers)) {
-                if ($key != 'NO_NOTIF' && $key != 'ERR_') {
-                    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
-                    $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL'] . " group by FILEID";
-                } elseif ($key == 'NO_NOTIF') {
-                    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
-                    $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL'] . " group by FILEID";
-                } elseif ($key == 'ERR_') {
-                    $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_ter['ARG']);
-                    $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL'] . " group by FILEID";
-                }
-            } else {
                 if ($key != 'NO_NOTIF' && $key != 'ERR_') {
                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $sql_data_fixe . " group by FILEID";
                 } elseif ($key == 'NO_NOTIF') {
@@ -336,7 +308,6 @@ if ($protectedPost['onglet'] == "AVAILABLE_PACKET") {
                 } elseif ($key == 'ERR_') {
                     $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $sql_data_fixe_ter . " group by FILEID";
                 }
-            }
         }
     }
 
