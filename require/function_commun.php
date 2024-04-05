@@ -651,7 +651,7 @@ function modif_values($field_labels, $fields, $hidden_fields, $options = array()
                                     echo "<select name='".$field['INPUT_NAME']."' class='form-control' ".($field['CONFIG']['JAVASCRIPT'] ?? '').">";
                                     echo "<option value='' selected></option>";
                                     foreach ($field['DEFAULT_VALUE'] as $key => $value){
-                                            if(isset($field['CONFIG']['SELECTED_VALUE']) && $key == $field['CONFIG']['SELECTED_VALUE']){
+                                            if(!empty($field['CONFIG']['SELECTED_VALUE']) && $key == $field['CONFIG']['SELECTED_VALUE']){
                                                 echo "<option value='".$key."' selected>".$value."</option>";
                                             }else{
                                                 echo "<option value='".$key."'>".$value."</option>";
