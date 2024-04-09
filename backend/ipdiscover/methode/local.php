@@ -40,7 +40,9 @@ if($ipdiscover->IPDISCOVER_TAG == "1") {
     $req = "SELECT DISTINCT n.netid as ipsubnet, s.name, s.id, CONCAT(n.netid, ';', ifnull(s.tag, '')) as pass FROM netmap n 
             LEFT JOIN subnet s ON s.netid = n.netid";
     if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-        $req .= ", accountinfo a WHERE " . $_SESSION['OCS']["mesmachines"] . " ORDER BY n.netid";
+        $req .= " LEFT JOIN networks w ON w.macaddr = n.mac";
+        $req .= " LEFT JOIN accountinfo a ON w.hardware_id = a.hardware_id";
+        $req .= " WHERE " . $_SESSION['OCS']["mesmachines"] . " ORDER BY n.netid";
     } else {
         $req .= " UNION SELECT netid, name, id, CONCAT(netid,';',ifnull(tag,'')) FROM subnet";
     }
@@ -50,7 +52,8 @@ if($ipdiscover->IPDISCOVER_TAG == "1") {
             FROM netmap n LEFT JOIN subnet s ON s.netid = n.netid";
 
     if (isset($_SESSION['OCS']["mesmachines"]) && $_SESSION['OCS']["mesmachines"] != '' && $_SESSION['OCS']["mesmachines"] != 'NOTAG') {
-        $req .= ", accountinfo a ";
+        $req .= " LEFT JOIN networks w ON w.macaddr = n.mac";
+        $req .= " LEFT JOIN accountinfo a ON w.hardware_id = a.hardware_id";
     }
 	
     $req .= " WHERE (s.TAG IS NULL OR s.TAG = '')";
