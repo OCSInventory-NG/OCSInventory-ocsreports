@@ -48,7 +48,7 @@ if (isset($protectedPost['Valid']) && $protectedPost['Valid'] == $l->g(103)) {
     if (isset($list_hardware_id) || isset($tab_hadware_id)) {
         foreach ($protectedPost as $key => $value) {
             if ($key != "systemid" && $key != "origine") {
-                if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "" || $value == 0) {
+                if ($value == "SERVER DEFAULT" || $value == "des" || trim($value) == "" || $value === 0) {
                     erase($key);
                 } elseif ($value == "CUSTOM") {
                     insert($key, $protectedPost[$key . '_edit']);
