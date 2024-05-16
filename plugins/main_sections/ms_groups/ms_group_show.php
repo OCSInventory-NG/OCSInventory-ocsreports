@@ -614,10 +614,9 @@ function print_activated_package($systemid) {
     echo open_form($form_name);
 
     $list_fields = array(
-        $l->g(1037) => 'name',
+        $l->g(1037) => 'NAME',
         $l->g(475) => 'FILEID',
-        $l->g(499) => 'pack_loc',
-        $l->g(51) => 'comments',
+        $l->g(499) => 'PACK_LOC',
         'NO_NOTIF' => 'NO_NOTIF',
         'NOTI' => 'NOTI', 
         'SUCC' => 'SUCC', 
@@ -625,12 +624,11 @@ function print_activated_package($systemid) {
     );
 
     if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
-        $list_fields['SUP'] = 'ivalue';
+        $list_fields['SUP'] = 'IVALUE';
     }
 
     $list_col_cant_del = $list_fields;
     $default_fields = $list_col_cant_del;
-
 
     // add percentage stats
     $tab_options['NO_SEARCH']['NOTI'] = 'NOTI';
@@ -643,76 +641,19 @@ function print_activated_package($systemid) {
     $tab_options['NO_TRI']['ERR_'] = 1;
     $tab_options['LBL'] = array('NOTI' => $l->g(1000).' %', 'SUCC' => $l->g(572).' %', 'ERR_' => $l->g(344).' %', 'NO_NOTIF' => ucfirst(strtolower($l->g(482))).' %');
 
-    $queryDetails = "SELECT a.name, IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.FILEID, e.pack_loc,h.name as name_server,h.id,a.comment
-                    FROM devices d left join download_enable e on e.id=d.ivalue
-                        LEFT JOIN download_available a ON e.fileid=a.fileid
-                        LEFT JOIN hardware h on h.id=e.server_id
-                    WHERE d.name='DOWNLOAD' and a.name != '' and pack_loc != ''   AND d.hardware_id=%s
-                    UNION
-                    SELECT '%s', IFNULL(d.tvalue, '%s') as tvalue,d.ivalue,d.comments,e.fileid, '%s',h.name,h.id,a.comment
-                    FROM devices d left join download_enable e on e.id=d.ivalue
-                        LEFT JOIN download_available a ON e.fileid=a.fileid
-                        LEFT JOIN hardware h on h.id=e.server_id
-                    WHERE d.name='DOWNLOAD' and a.name is null and pack_loc is null  AND d.hardware_id=%s";
+    $queryDetails = "SELECT * FROM (
+        SELECT base_query.NAME AS NAME, base_query.PACK_LOC AS PACK_LOC, base_query.FILEID AS FILEID, base_query.IVALUE,
+        CONCAT(FORMAT(100-(IFNULL(FORMAT(notified_query.nb*100/8,0), 0)+IFNULL(FORMAT(success_query.nb*100/8,0), 0)+IFNULL(FORMAT(error_query.nb*100/8,0), 0)),0), '%s') AS 'NO_NOTIF',
+        CONCAT(IFNULL(FORMAT(notified_query.nb*100/8,0), 0), '%s') AS 'NOTI',
+        CONCAT(IFNULL(FORMAT(success_query.nb*100/8,0), 0), '%s') AS 'SUCC',
+        CONCAT(IFNULL(FORMAT(error_query.nb*100/8,0), 0), '%s') AS 'ERR_'
+        FROM (SELECT d.IVALUE AS IVALUE, de.FILEID AS FILEID, da.NAME AS NAME, de.PACK_LOC AS PACK_LOC FROM devices d LEFT JOIN download_enable de ON de.ID = d.IVALUE LEFT JOIN download_available da ON da.FILEID = de.FILEID WHERE  d.HARDWARE_ID = %s AND d.NAME = 'DOWNLOAD') AS base_query
+        LEFT JOIN (SELECT COUNT(*) as nb, de.FILEID FROM devices d LEFT JOIN download_enable de ON d.IVALUE = de.ID LEFT JOIN groups_cache gc ON d.HARDWARE_ID = gc.HARDWARE_ID WHERE d.NAME='DOWNLOAD' AND d.TVALUE LIKE '%s' GROUP BY de.FILEID) AS notified_query ON base_query.FILEID = notified_query.FILEID
+        LEFT JOIN (SELECT COUNT(*) as nb, de.FILEID FROM devices d LEFT JOIN download_enable de ON d.IVALUE = de.ID LEFT JOIN groups_cache gc ON d.HARDWARE_ID = gc.HARDWARE_ID WHERE d.NAME='DOWNLOAD' AND d.TVALUE LIKE '%s' GROUP BY de.FILEID) AS success_query ON base_query.FILEID = success_query.FILEID
+        LEFT JOIN (SELECT COUNT(*) as nb, de.FILEID FROM devices d LEFT JOIN download_enable de ON d.IVALUE = de.ID LEFT JOIN groups_cache gc ON d.HARDWARE_ID = gc.HARDWARE_ID WHERE d.NAME='DOWNLOAD' AND d.TVALUE LIKE '%s' GROUP BY de.FILEID) AS error_query ON base_query.FILEID = error_query.FILEID
+    ) group_package";
 
-    $arg = array($l->g(482), $systemid, $l->g(1129), $l->g(482), $l->g(1129), $systemid);
-
-    // hIDs of this grp will be used to calculate percentage stats
-    $sql_grp_devices = "select HARDWARE_ID from groups_cache where GROUP_ID = %s";
-    $arg_grp_devices = array($systemid);
-    $res_grp_devices = mysql2_query_secure($sql_grp_devices, $_SESSION['OCS']["readServer"], $arg_grp_devices);
-    $hardware_ids = array();
-
-    while ($val_grp_devices = mysqli_fetch_array($res_grp_devices)) {
-        $hardware_ids[] = $val_grp_devices['HARDWARE_ID'];
-    }
-
-    if(!empty($hardware_ids)) {
-        $sql_data_fixe = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
-            from devices d,download_enable de
-            where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-            and d.tvalue %s '%s' ";
-
-        $sql_data_fixe_bis = "select concat(format((%s-count(*))*100/%s, 0), '%s') as %s,de.FILEID
-            from devices d,download_enable de
-            where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-            and hardware_id NOT IN (SELECT id FROM hardware WHERE deviceid='_SYSTEMGROUP_' or deviceid='_DOWNLOADGROUP_') 
-            and d.tvalue %s  ";
-
-        $sql_data_fixe_ter = "select concat(format(count(*)*100/%s, 0), '%s') as %s,de.FILEID
-            from devices d,download_enable de
-            where d.IVALUE=de.ID  and d.name='DOWNLOAD'
-            and (d.tvalue %s '%s' or d.tvalue %s '%s') ";
-
-        $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['ERR_'] = array(count($hardware_ids), '%', 'ERR_', 'LIKE', 'ERR_%', 'LIKE', 'EXIT_CODE%');
-        $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['SUCC'] = array(count($hardware_ids), '%', 'SUCC', 'LIKE', 'SUCCESS%');
-        $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NOTI'] = array(count($hardware_ids), '%', 'NOTI', 'LIKE', 'NOTI%');
-        // to get percent of not notified devices, we compare all devices having a status with the nb of devices in the group
-        $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name]['NO_NOTIF'] = array(count($hardware_ids), count($hardware_ids), '%', 'NO_NOTIF', 'IS NOT NULL');
-        
-        $sql_data_fixe .= " and d.hardware_id in ";
-        $sql_data_fixe_bis .= " and d.hardware_id in ";
-        $sql_data_fixe_ter .= " and d.hardware_id in ";
-
-        $temp = mysql2_prepare($sql_data_fixe, array(), $hardware_ids);
-        $temp_bis = mysql2_prepare($sql_data_fixe_bis, array(), $hardware_ids);
-        $temp_ter = mysql2_prepare($sql_data_fixe_ter, array(), $hardware_ids);
-
-        foreach ($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name] as $key => $value) {
-
-            if ($key != 'NO_NOTIF' && $key != 'ERR_') {
-                $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp['ARG']);
-                $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp['SQL'] . " group by FILEID";
-            } elseif ($key == 'NO_NOTIF') {
-                $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_bis['ARG']);
-                $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_bis['SQL'] . " group by FILEID";
-            } elseif ($key == 'ERR_') {
-                $_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key] = array_merge($_SESSION['OCS']['ARG_DATA_FIXE'][$table_name][$key], $temp_ter['ARG']);
-                $_SESSION['OCS']['SQL_DATA_FIXE'][$table_name][$key] = $temp_ter['SQL'] . " group by FILEID";
-            }
-
-        }
-    }
+    $arg = array("%", "%", "%", "%", $systemid, "NOTI%", "SUCCESS%", "ERR_%");
 
     $tab_options['COLOR']['ERR_'] = 'RED';
     $tab_options['COLOR']['SUCC'] = 'GREEN';
