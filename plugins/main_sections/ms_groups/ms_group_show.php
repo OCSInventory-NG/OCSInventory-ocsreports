@@ -643,17 +643,18 @@ function print_activated_package($systemid) {
 
     $queryDetails = "SELECT * FROM (
         SELECT base_query.NAME AS NAME, base_query.PACK_LOC AS PACK_LOC, base_query.FILEID AS FILEID, base_query.IVALUE,
-        CONCAT(FORMAT(100-(IFNULL(FORMAT(notified_query.nb*100/8,0), 0)+IFNULL(FORMAT(success_query.nb*100/8,0), 0)+IFNULL(FORMAT(error_query.nb*100/8,0), 0)),0), '%s') AS 'NO_NOTIF',
-        CONCAT(IFNULL(FORMAT(notified_query.nb*100/8,0), 0), '%s') AS 'NOTI',
-        CONCAT(IFNULL(FORMAT(success_query.nb*100/8,0), 0), '%s') AS 'SUCC',
-        CONCAT(IFNULL(FORMAT(error_query.nb*100/8,0), 0), '%s') AS 'ERR_'
-        FROM (SELECT d.IVALUE AS IVALUE, de.FILEID AS FILEID, da.NAME AS NAME, de.PACK_LOC AS PACK_LOC FROM devices d LEFT JOIN download_enable de ON de.ID = d.IVALUE LEFT JOIN download_available da ON da.FILEID = de.FILEID WHERE  d.HARDWARE_ID = %s AND d.NAME = 'DOWNLOAD') AS base_query
+        CONCAT(FORMAT(100-(IFNULL(FORMAT(notified_query.nb*100/gc_query.nbh,0), 0)+IFNULL(FORMAT(success_query.nb*100/gc_query.nbh,0), 0)+IFNULL(FORMAT(error_query.nb*100/gc_query.nbh,0), 0)),0), '%s') AS 'NO_NOTIF',
+        CONCAT(IFNULL(FORMAT(notified_query.nb*100/gc_query.nbh,0), 0), '%s') AS 'NOTI',
+        CONCAT(IFNULL(FORMAT(success_query.nb*100/gc_query.nbh,0), 0), '%s') AS 'SUCC',
+        CONCAT(IFNULL(FORMAT(error_query.nb*100/gc_query.nbh,0), 0), '%s') AS 'ERR_'
+        FROM (SELECT d.IVALUE AS IVALUE, de.FILEID AS FILEID, da.NAME AS NAME, de.PACK_LOC AS PACK_LOC FROM devices d LEFT JOIN download_enable de ON de.ID = d.IVALUE LEFT JOIN download_available da ON da.FILEID = de.FILEID WHERE d.HARDWARE_ID = %s AND d.NAME = 'DOWNLOAD') AS base_query
         LEFT JOIN (SELECT COUNT(*) as nb, de.FILEID FROM devices d LEFT JOIN download_enable de ON d.IVALUE = de.ID LEFT JOIN groups_cache gc ON d.HARDWARE_ID = gc.HARDWARE_ID WHERE d.NAME='DOWNLOAD' AND d.TVALUE LIKE '%s' GROUP BY de.FILEID) AS notified_query ON base_query.FILEID = notified_query.FILEID
         LEFT JOIN (SELECT COUNT(*) as nb, de.FILEID FROM devices d LEFT JOIN download_enable de ON d.IVALUE = de.ID LEFT JOIN groups_cache gc ON d.HARDWARE_ID = gc.HARDWARE_ID WHERE d.NAME='DOWNLOAD' AND d.TVALUE LIKE '%s' GROUP BY de.FILEID) AS success_query ON base_query.FILEID = success_query.FILEID
-        LEFT JOIN (SELECT COUNT(*) as nb, de.FILEID FROM devices d LEFT JOIN download_enable de ON d.IVALUE = de.ID LEFT JOIN groups_cache gc ON d.HARDWARE_ID = gc.HARDWARE_ID WHERE d.NAME='DOWNLOAD' AND d.TVALUE LIKE '%s' GROUP BY de.FILEID) AS error_query ON base_query.FILEID = error_query.FILEID
+        LEFT JOIN (SELECT COUNT(*) as nb, de.FILEID FROM devices d LEFT JOIN download_enable de ON d.IVALUE = de.ID LEFT JOIN groups_cache gc ON d.HARDWARE_ID = gc.HARDWARE_ID WHERE d.NAME='DOWNLOAD' AND d.TVALUE LIKE '%s' GROUP BY de.FILEID) AS error_query ON base_query.FILEID = error_query.FILEID,
+        (SELECT COUNT(DISTINCT gc.HARDWARE_ID) AS nbh FROM groups_cache gc WHERE gc.GROUP_ID = %s) gc_query
     ) group_package";
 
-    $arg = array("%", "%", "%", "%", $systemid, "NOTI%", "SUCCESS%", "ERR_%");
+    $arg = array("%", "%", "%", "%", $systemid, "NOTI%", "SUCCESS%", "ERR_%", $systemid);
 
     $tab_options['COLOR']['ERR_'] = 'RED';
     $tab_options['COLOR']['SUCC'] = 'GREEN';
