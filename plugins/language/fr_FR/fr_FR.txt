@@ -1727,6 +1727,7 @@
 9041 Utiliser comme réconciliation pour l'IpDiscover (doit être une adresse IP)
 9042 machines SNMP
 9043 Un champ de réconciliation IpDiscover est déjà configuré pour ce type
+9044 Lier les équipements SNMP aux TAG ordinateurs
 
 9100 Chemin de la clé SSL
 9101 Chemin du certificat SSL
