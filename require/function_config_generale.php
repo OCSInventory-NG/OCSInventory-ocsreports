@@ -415,7 +415,7 @@ function update_default_value($POST) {
         'IPDISCOVER_LINK_TAG_NETWORK','IPDISCOVER_UPDATE_DATE','IPDISCOVER_PURGE_OLD','IPDISCOVER_PURGE_VALIDITY_TIME', 'SECURITY_AUTHENTICATION_BLOCK_IP', 
         'SECURITY_AUTHENTICATION_NB_ATTEMPT', 'SECURITY_AUTHENTICATION_TIME_BLOCK', 'SECURITY_PASSWORD_ENABLED', 'SECURITY_PASSWORD_MIN_CHAR',
         'SECURITY_PASSWORD_FORCE_NB', 'SECURITY_PASSWORD_FORCE_UPPER', 'SECURITY_PASSWORD_FORCE_SPE_CHAR','EXCLUDE_ARCHIVE_COMPUTER',
-        'SCAN_ARP_BANDWIDTH');
+        'SCAN_ARP_BANDWIDTH', 'SNMP_LINK_TAG');
 
     //tableau des champs ou il faut interpréter la valeur retourner et mettre à jour tvalue
     $array_interprete_tvalue = array('DOWNLOAD_REP_CREAT' => 'DOWNLOAD_REP_CREAT_edit', 'DOWNLOAD_PACK_DIR' => 'DOWNLOAD_PACK_DIR_edit',
@@ -1112,7 +1112,7 @@ function pageConnexion() {
 function pagesnmp() {
     global $l;
     //which line we need?
-    $champs = array('SNMP' => 'SNMP', 'SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY');
+    $champs = array('SNMP' => 'SNMP', 'SNMP_MIB_DIRECTORY' => 'SNMP_MIB_DIRECTORY', 'SNMP_LINK_TAG' => 'SNMP_LINK_TAG');
     $values = look_config_default_values($champs);
     if (isset($values['tvalue']['SNMP_DIR'])) {
         $select_rep_creat = 'CUSTOM';
@@ -1121,6 +1121,7 @@ function pagesnmp() {
     }
     ligne('SNMP', $l->g(1137), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP'] ?? 0));
     ligne('SNMP_MIB_DIRECTORY', $l->g(9010), 'input', array('VALUE' => $values['tvalue']['SNMP_MIB_DIRECTORY'] ?? '', 'SIZE' => "30%", 'MAXLENGTH' => 200));
+    ligne('SNMP_LINK_TAG', $l->g(9044), 'radio', array(1 => 'ON', 0 => 'OFF', 'VALUE' => $values['ivalue']['SNMP_LINK_TAG'] ?? 0));
 }
 
 function pageswol() {

@@ -1,0 +1,1 @@
+INSERT INTO `config` VALUES('SNMP_LINK_TAG',0,'','Link SNMP device to computer TAG');
