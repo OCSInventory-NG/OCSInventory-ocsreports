@@ -1462,7 +1462,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
-			$cname = $tab_options['columns'][$column]['name'];
+			$cname = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['columns'][$column]['name']);
 			$account_select = null;
 
 			// Special treatment if accountinfo select type
