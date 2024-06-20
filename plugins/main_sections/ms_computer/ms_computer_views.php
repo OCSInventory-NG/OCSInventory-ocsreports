@@ -52,7 +52,7 @@ function show_computer_title($computer) {
     global $l;
 
     echo '<h3>';
-    echo $computer->NAME;
+    echo preg_replace("/[^A-Za-z0-9-_\.]/", "", $computer->NAME);
     echo '</h3>';
 }
 

@@ -1462,7 +1462,7 @@ function ajaxfiltre($queryDetails,$tab_options){
 		$queryDetails .= " HAVING ";
 		$index =0;
 		foreach($tab_options['visible_col'] as $column){
-			$cname = $tab_options['columns'][$column]['name'];
+			$cname = preg_replace("/[^A-Za-z0-9\._]/", "", $tab_options['columns'][$column]['name']);
 			$account_select = null;
 
 			// Special treatment if accountinfo select type
@@ -1561,6 +1561,11 @@ function ajaxsort(&$tab_options) {
 			if (!empty($tab_options["replace_query_arg"][$name]) && (preg_match('/([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|^[A-Za-z0-9_-]+$)/', $tab_options["replace_query_arg"][$name], $cleanreplace) || preg_match('/(?<!\([^()])(?![^()]*\))(?<=\bas\s)(\w+)/i', $tab_options["replace_query_arg"][$name], $cleanreplace))) {
 				$cleanname = $cleanreplace[0];
 			}
+
+			if(isset($v['dir'])) {
+				$v['dir'] = preg_replace("/([^A-Za-z])/", "", $v['dir']);
+			}
+
 			// field name is IP format alike
 			if (in_array(mb_strtoupper($cleanname),$tab_iplike)) {
 				$tri .= " INET_ATON(".$cleanname.") ".$v['dir'].", ";
@@ -1581,6 +1586,7 @@ function ajaxsort(&$tab_options) {
 				}
 			}
 		}
+
 		$tri = rtrim($tri, ", ");
 	}
 

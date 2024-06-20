@@ -56,6 +56,8 @@ class SoftwareCategory
      * @return boolean
      */
     public function add_category($catName, $osVersion){
+        $catName = preg_replace("/[^A-zA-Z0-9\.-_]/", "", $catName);
+
         $sql_verif = "SELECT `CATEGORY_NAME` FROM `software_categories` WHERE `CATEGORY_NAME` = '%s'";
         $arg_verif = array($catName);
         $result_verif = mysql2_query_secure($sql_verif, $_SESSION['OCS']["readServer"], $arg_verif);
