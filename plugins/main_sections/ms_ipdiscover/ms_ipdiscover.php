@@ -199,9 +199,7 @@ if (isset($protectedPost['onglet'])) {
                     FROM 
                         netmap
                     LEFT JOIN 
-                        networks ON networks.macaddr = netmap.mac
-                    LEFT JOIN 
-                        accountinfo ON accountinfo.TAG = netmap.TAG ";
+                        networks ON networks.macaddr = netmap.mac ";
     // adding LEFT JOINS for SNMP tables
     if ($snmpTables) {
         foreach($snmpTables as $snmpTable) {

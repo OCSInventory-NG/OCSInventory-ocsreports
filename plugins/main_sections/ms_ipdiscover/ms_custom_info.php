@@ -228,7 +228,7 @@ if (is_defined($protectedPost['MODIF'])) {
 
             $tab_options['ARG_SQL'] = array($value_preg, $tag);
             $list_fields = array($l->g(34) => 'ip',
-                $l->g(95) => 'mac',
+                'MAC' => 'mac',
                 $l->g(208) => 'mask',
                 $l->g(232) => 'date',
                 $l->g(318) => 'name',

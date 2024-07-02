@@ -27,6 +27,7 @@
 
 class Ipdiscover
 {
+	static array $oui;
 
 	public $IPDISCOVER_TAG;
 
@@ -225,17 +226,34 @@ class Ipdiscover
 	/**
 	 * Loads the whole mac file in memory
 	 */
-	public function loadMac() {
+	public static function loadMac() {
+		if(isset(self::$oui)) return;
+		self::$oui = [];
+		
 		if (is_readable(MAC_FILE)) {
 			$file = fopen(MAC_FILE, "r");
 			while (!feof($file)) {
 				$line = fgets($file, 4096);
 				if (preg_match("/((?:[a-fA-F0-9]{2}-){2}[a-fA-F0-9]{2})\s+\([^)]*\)\s+(.+)/", $line, $result)) {
-					$_SESSION['OCS']["mac"][mb_strtoupper(str_replace("-", ":", $result[1]))] = $result[2];
+					self::$oui[mb_strtoupper(str_replace("-", ":", $result[1]))] = trim($result[2]);
 				}
 			}
 			fclose($file);
 		}
+	}
+
+	/** Lookup mac address Organizationally Unique Identifier (OUI)
+	 *
+	 * @param string $mac
+	 *
+	 * @return string
+	 */
+	public static function getMacOui($mac) {
+		self::loadMac();
+		$mac = mb_strtoupper(substr($mac, 0, 8));
+		$mac = self::$oui[$mac] ?? '';
+		$mac = htmlspecialchars($mac);
+		return $mac;
 	}
 
 	public function form_add_community($default_value, $form, $title = '') {
