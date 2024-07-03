@@ -228,7 +228,7 @@ if (is_defined($protectedPost['MODIF'])) {
 
             $tab_options['ARG_SQL'] = array($value_preg, $tag);
             $list_fields = array($l->g(34) => 'ip',
-                $l->g(95) => 'mac',
+                'MAC' => 'mac',
                 $l->g(208) => 'mask',
                 $l->g(232) => 'date',
                 $l->g(318) => 'name',
@@ -382,7 +382,7 @@ if (is_defined($protectedPost['MODIF'])) {
         echo open_form($form_name, '', '', 'form-horizontal');
         $result_exist = ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
         $fipdisc = "ipdiscover-util.pl";
-        $values = look_config_default_values(array('IPDISCOVER_IPD_DIR'), '', array('IPDISCOVER_IPD_DIR' => array('TVALUE' => VARLIB_DIR)));
+        $values = look_config_default_values(array('IPDISCOVER_IPD_DIR'), '',array('TVALUE' => array('IPDISCOVER_IPD_DIR' => VARLIB_DIR)));
         $IPD_DIR = $values['tvalue']['IPDISCOVER_IPD_DIR'] . "/ipd";
         if ($scriptPresent = @stat($fipdisc)) {
             $filePresent = true;

@@ -149,7 +149,7 @@
         "ipsrc" => 1284,
         //"uuid" => "",
         "arch" => 1247,
-        "interface" => 1247,
+        "interface" => 84,
         //"pointtype" => 1247,
         "arch" => 1247,
         "purpose" => 283,

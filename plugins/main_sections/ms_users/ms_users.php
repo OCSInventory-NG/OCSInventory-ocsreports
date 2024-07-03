@@ -38,24 +38,12 @@ if (AJAX) {
     require_once('require/function_search.php');
     require_once('require/function_users.php');
 
-    // Définition des onglets
-    $profiles = get_profile_labels();
-    $data_on = $profiles;
-    $data_on[4] = $l->g(244);
-
-    if ($_SESSION['OCS']['profile']->getConfigValue('MANAGE_PROFIL') == 'YES') {
-        $data_on[5] = $l->g(1146);
-    }
-
     $form_name = "admins";
     $tab_options = $protectedPost;
     $tab_options['form_name'] = $form_name;
     echo open_form($form_name, '', '', 'form-horizontal');
-    $table_name = "TAB_ACCESSLVL" . $protectedPost['onglet'];
 
-    if (!isset($protectedPost['onglet']) || $protectedPost['onglet'] == "") {
-        $protectedPost['onglet'] = current($data_on);
-    }
+    $table_name = "TAB_ACCESSLVL";
 
     //suppression d'une liste de users
     if (is_defined($protectedPost['del_check'])) {

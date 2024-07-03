@@ -37,15 +37,19 @@ function get_cas_config() {
 
 $config = get_cas_config();
 $cas = new phpCas();
+
 // Enable debugging
 $cas->setLogger();
+
 // Enable verbose error messages. Disable in production
 $cas->setVerbose(true);
 
 if (!isset($sql_update)) {
-    $cas->client(CAS_VERSION_2_0, $config['CAS_HOST'], (int)$config['CAS_PORT'], $config['CAS_URI']);
-    // Set Service URL
-    // required if operating behind a load balancer or reverse proxy.
+    // phpCAS 1.6.0 and newer require passing $client_service_name as 5th arg - implemented here as CAS_BASEURL.
+    $cas->client(CAS_VERSION_2_0, $config['CAS_HOST'], (int)$config['CAS_PORT'], $config['CAS_URI'], $config['CAS_BASEURL']);
+    
+    // Set Service URL - required if operating behind a load balancer or reverse proxy.
+    // Note: might not be required for phpCAS 1.6.0 and newer
     if (!isset($config['CAS_BASEURL'])) {
         $cas->setFixedServiceURL($config['CAS_BASEURL']);
     }

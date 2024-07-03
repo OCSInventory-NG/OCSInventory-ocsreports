@@ -1732,6 +1732,7 @@
 9041 Use for IpDiscover reconciliation (must be an IP address OID)
 9042 SNMP devices
 9043 An IpDiscover reconciliation field is already set for this type
+9044 Link SNMP device to computer TAG
 
 9100 SSL key path
 9101 SSL certificate path

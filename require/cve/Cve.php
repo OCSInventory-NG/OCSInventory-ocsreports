@@ -43,6 +43,10 @@ class Cve
     'VERSION_ID'  => null
   ];
   private $cveNB = 0;
+  private $softRegex = [];
+  private $vars = [];
+  private $previousSoftPublisher;
+  private $previousSoftName;
 
   function __construct(){
     $champs = array('VULN_CVESEARCH_ENABLE' => 'VULN_CVESEARCH_ENABLE',
@@ -62,8 +66,19 @@ class Cve
     $this->CVE_LINK = $values['ivalue']["VULN_CVESEARCH_LINK"] ?? 0;
     $this->CVE_VERBOSE = $values['ivalue']["VULN_CVESEARCH_VERBOSE"] ?? 0;
     $this->CVE_EXPIRE_TIME = $values['ivalue']["VULN_CVE_EXPIRE_TIME"] ?? null;
-    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"] ?? null;
+    $this->CVE_DELAY_TIME = $values['ivalue']["VULN_CVE_DELAY_TIME"] ?? 0;
+    $this->getAllRegex();
+  }
 
+  private function getAllRegex() {
+    $query = "SELECT DISTINCT `NAME_REG`, `PUBLISH_RESULT`, `NAME_RESULT` FROM `cve_search_correspondance`";
+    $result = mysql2_query_secure($query, $_SESSION['OCS']["readServer"]);
+
+    if ($result) {
+      while ($item = mysqli_fetch_array($result)) {
+        $this->softRegex[] = $item;
+      }
+    }
   }
 
   /**
@@ -118,7 +133,7 @@ class Cve
             LEFT JOIN cve_search_history h ON h.PUBLISHER_ID = p.ID
             LEFT JOIN software_categories_link scl ON scl.PUBLISHER_ID = p.ID
           WHERE p.ID != 1 AND TRIM(p.PUBLISHER) != ""';
-    if($this->CVE_BAN != ""){
+    if($this->CVE_BAN != "" && $this->CVE_BAN != 0){
       // fix cve ban retuns 0 cve -> double condition is necessary
       // bc 'NOT IN' does not apply to softs not referenced in scl table (not in any category)
       $sql .= ' AND (scl.CATEGORY_ID IS NULL OR scl.CATEGORY_ID NOT IN ('. $this->CVE_BAN .'))';
@@ -155,7 +170,7 @@ class Cve
   }
 
   /**
-   *  Get distinct software name by publisher
+   *  Get distinct software version by name
    */
   private function getSoftwareVersion($name_id) {
     $sql_soft = " SELECT DISTINCT v.VERSION, v.PRETTYVERSION, sl.VERSION_ID FROM software_version v 
@@ -270,100 +285,94 @@ class Cve
    *  Init curl session for get CVE by call api cve-search server
    */
   public function get_cve($cve_attr){
-    $curl = curl_init();
     foreach($cve_attr as $values){
+      $curl = curl_init();
       $values = $this->match($values);
       $this->verbose("Processing publisher: ".$values['VENDOR']." for software : ".$values['NAME'], "DEBUG");
-      $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME'];
-      curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
-      // Uncomment if using a self-signed certificate on CVE server
-      //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-      //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-      $this->verbose("Sending request to ".$url, "DEBUG");
+      if($this->previousSoftName != $values['NAME'] || $this->previousSoftPublisher != $values['VENDOR']) {
+        $this->previousSoftName = $values['NAME'];
+        $this->previousSoftPublisher = $values['VENDOR'];
+        $this->var = [];
+        
+        $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME'];
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
+        // Uncomment if using a self-signed certificate on CVE server
+        //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-      $result = curl_exec ($curl);
+        $this->verbose("Sending request to ".$url, "DEBUG");
 
-      // check curl request
-      if($result == false) {
-        $this->verbose("Error while fetching CVE data from ".$url, "INFO");
-        $this->verbose("Curl error code: ".curl_errno($curl)." - ".curl_error($curl), "DEBUG");
-        continue;
+        $result = curl_exec ($curl);
+
+        // check curl request
+        if($result == false) {
+          $this->verbose("Error while fetching CVE data from ".$url, "INFO");
+          $this->verbose("Curl error code: ".curl_errno($curl)." - ".curl_error($curl), "DEBUG");
+          // Reset previous var if curl error
+          $this->previousSoftName = null;
+          $this->previousSoftPublisher = null;
+          // close curl connection before continue
+          curl_close ($curl) ;
+          sleep($this->CVE_DELAY_TIME);
+
+          continue;
+        } else {
+          $this->verbose("Data fetched successfully from ".$url, "DEBUG");
+        }
+
+        $this->vars = json_decode($result, true);
+        curl_close ($curl);
       } else {
-        $this->verbose("Data fetched successfully from ".$url, "DEBUG");
+        $this->verbose("Software identical to the previous one, use of data already recovered", "DEBUG");
       }
 
-      $vars = json_decode($result, true);
-      if(isset($vars['total']) && $vars['total'] != 0){
+      if(isset($this->vars['total']) && $this->vars['total'] != 0){
         $this->verbose("CVE data found for ".$values['VENDOR']."/".$values['NAME'], "INFO");
-        $this->search_by_version($vars, $values);
+        $this->search_by_version($this->vars, $values);
       } else {
         $this->verbose("No CVE data found for ".$values['VENDOR']."/".$values['NAME'], "INFO");
       }
-    }
 
-    curl_close ($curl) ;
-    sleep($this->CVE_DELAY_TIME);
+      sleep($this->CVE_DELAY_TIME);
+    }
   }
 
   private function match($values) {
-    $new_vendor = $this->cpeNormalizeVendor($values['VENDOR'], $values['NAME']);
-    $new_name = $this->cpeNormalizeName($values['NAME']);
+    $values['VENDOR'] = $this->cpeNormalizeVendor($values['VENDOR'], $values['NAME']);
+    $values['NAME'] = $this->cpeNormalizeName($values['NAME']);
 
-    $regs = $this->get_regex($new_vendor, $new_name);
+    if(!empty($this->softRegex)) {
+      foreach($this->softRegex as $reg) {
+        $reg_name = $this->stringMatchWithWildcard(trim($values['NAME']), $reg['NAME_REG']);
+        $reg_publish = $this->stringMatchWithWildcard(trim($values['VENDOR']), $reg['PUBLISH_RESULT'], true);
 
-    if(!empty($regs)) {
-      foreach($regs as $reg) {
-        if(count($regs) == 1) {
-          $reg_publish = true;
-          $reg_name = true;
-        } else {
-          $reg_publish = $this->stringMatchWithWildcard(trim($values['VENDOR']), $reg['NAME_REG']);
-          $reg_name = $this->stringMatchWithWildcard(trim($values['NAME']), $reg['NAME_REG']);
-        }
-
-        if($reg_name || $reg_publish) {
+        if($reg_name && $reg_publish) {
           if($reg['NAME_RESULT'] != "") {
             $values['NAME'] = $reg['NAME_RESULT'];
           }
           if($reg['PUBLISH_RESULT'] != "") {
             $values['VENDOR'] = $reg['PUBLISH_RESULT'];
           }
-          break;
         }
       }
     }
 
     $values['NAME'] = $this->cpeNormalizeName($values['NAME']);
     $values['VENDOR'] = $this->cpeNormalizeVendor($values['VENDOR'], $values['NAME']);
+
+    $this->verbose("Software publisher/name after regex processing ".$values['VENDOR']."/".$values['NAME'], "DEBUG");
+
     return $values;
   }
 
-  private function get_regex($vendor, $name) {
-    $reg = [];
-    $i = 0;
-
-    $sql = "SELECT * FROM cve_search_correspondance
-            WHERE (`NAME_REG` LIKE '%".$vendor."%') OR (`NAME_REG` LIKE '%".$name."%')
-            OR (`PUBLISH_RESULT` LIKE '%".$vendor."%') OR (`NAME_RESULT` LIKE '%".$name."%')";
-
-    $result = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"]);
-
-    if($result->num_rows != 0) {
-      while($item = mysqli_fetch_array($result)) {
-        $reg[$i]['NAME_REG'] = $item['NAME_REG'];
-        $reg[$i]['PUBLISH_RESULT'] = $item['PUBLISH_RESULT'];
-        $reg[$i]['NAME_RESULT'] = $item['NAME_RESULT'];
-        $i++;
-      }
+  private function stringMatchWithWildcard($source,$pattern, $publisher = false) {
+    if ($publisher) {
+      $pattern = "*".$pattern."*";
     }
 
-    return $reg;
-  }
-
-  private function stringMatchWithWildcard($source,$pattern) {
     $regex = str_replace(
       array("\*", "\?"), // wildcard chars
       array('.*','.'),   // regexp chars
@@ -384,9 +393,12 @@ class Cve
       $this->cve_history['VERSION_ID'] = $item_soft['VERSION_ID'];
 
       if(!is_null($item_soft["PRETTYVERSION"])) {
+        $item_soft["PRETTYVERSION"] = str_replace('"', "", $item_soft["PRETTYVERSION"]);
         $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$item_soft["PRETTYVERSION"];
+        $this->verbose("Search CVE for ".$item_soft["PRETTYVERSION"]." software version", "DEBUG");
       } else {
         $vuln_conf = "cpe:2.3:a:".$software["VENDOR"].":".$software["NAME"].":".$item_soft["VERSION"];
+        $this->verbose("Search CVE for ".$item_soft["VERSION"]." software version", "DEBUG");
       }
       
       if($software["NAME"] == "jre" && preg_match("/Update/", $software["REAL_NAME"])){

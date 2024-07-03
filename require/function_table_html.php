@@ -1742,11 +1742,10 @@ function ajaxgestionresults($resultDetails,$list_fields,$tab_options){
 						}
 						break;
 					case "MAC":
-						if (isset($_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))]))
-							$constr=$_SESSION['OCS']["mac"][mb_strtoupper(substr($value_of_field,0,8))];
-						else
-							$constr="<font color=red>".$l->g(885)."</font>";
-						$row[$key]=$value_of_field." (<small>".$constr."</small>)";
+						$row[$key]=$value_of_field;
+						require_once('require/ipdiscover/Ipdiscover.php');
+						$oui = Ipdiscover::getMacOui($value_of_field);
+						if('' !== $oui) $row[$key] .= ' (<small>'.$oui.'</small>)';
 						break;
 					case "MOD_TAGS":
 						if ($value_of_field!= '&nbsp;'){

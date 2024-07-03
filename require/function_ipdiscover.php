@@ -152,22 +152,6 @@ function delete_subnet($netid) {
     mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
 }
 
-/**
- * Loads the whole mac file in memory
- */
-function loadMac() {
-    if (is_readable(MAC_FILE)) {
-        $file = fopen(MAC_FILE, "r");
-        while (!feof($file)) {
-            $line = fgets($file, 4096);
-            if (preg_match("/((?:[a-fA-F0-9]{2}-){2}[a-fA-F0-9]{2})\s+\([^)]*\)\s+(.+)/", $line, $result)) {
-                $_SESSION['OCS']["mac"][mb_strtoupper(str_replace("-", ":", $result[1]))] = $result[2];
-            }
-        }
-        fclose($file);
-    }
-}
-
 function form_add_community($title = '', $default_value, $form) {
     global $l, $protectedPost;
 
