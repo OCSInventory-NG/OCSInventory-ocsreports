@@ -205,27 +205,37 @@
     public function updateSessionsInfos($postData)
     {
         foreach ($postData as $key => $value) {
-            $keyExploded = explode("_", $key);
-            if(count($keyExploded) > 1 && isset($_SESSION['OCS']['multi_search'][$keyExploded[1]]) && !is_null($_SESSION['OCS']['multi_search'][$keyExploded[1]])){
-                if ($keyExploded[2] == self::SESS_OPERATOR) {
-                    $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] = $value;
-                } elseif($keyExploded[2] == self::SESS_FIELDS && $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_OPERATOR] != 'ISNULL') {
-                    $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_VALUES] = $value;
-                }elseif($keyExploded[2] == self::SESS_COMPARATOR){
-                  $_SESSION['OCS']['multi_search'][$keyExploded[1]][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
-                }
-            }elseif(count($keyExploded) == 4){
-                $keyExplodedBis = $keyExploded[1]."_".$keyExploded[2];
-                if(isset ($_SESSION['OCS']['multi_search'][$keyExplodedBis]) && !is_null($_SESSION['OCS']['multi_search'][$keyExplodedBis])){
-                  if ($keyExploded[3] == self::SESS_OPERATOR) {
-                      $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_OPERATOR] = $value;
-                  } elseif($keyExploded[3] == self::SESS_COMPARATOR){
-                    $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_COMPARATOR] = $value;
-                  } else {
-                      $_SESSION['OCS']['multi_search'][$keyExplodedBis][$keyExploded[0]][self::SESS_VALUES] = $value;
-                  }
-                }
-            }
+			$keyExploded = explode("_", $key);
+
+			if (count($keyExploded) >= 3) {
+				// Retrieve random key
+				$randomKey = $keyExploded[0];
+				// Retrieve element type (operator | fields)
+				$elementType = end($keyExploded);
+
+				// Unset keys after saving
+				array_shift($keyExploded);
+				array_pop($keyExploded);
+
+				// Reconstruct tablename with what's left
+				$tableName = implode("_", $keyExploded);
+
+				if (
+					isset($_SESSION['OCS']['multi_search'][$tableName])
+					&& !is_null($_SESSION['OCS']['multi_search'][$tableName])
+				) {
+					if ($elementType == self::SESS_OPERATOR) {
+						$_SESSION['OCS']['multi_search'][$tableName][$randomKey][self::SESS_OPERATOR] = $value;
+					} elseif (
+						$elementType == self::SESS_FIELDS
+						&& $_SESSION['OCS']['multi_search'][$tableName][$randomKey][self::SESS_OPERATOR] != 'ISNULL'
+					) {
+						$_SESSION['OCS']['multi_search'][$tableName][$randomKey][self::SESS_VALUES] = $value;
+					} elseif ($elementType == self::SESS_COMPARATOR) {
+					  $_SESSION['OCS']['multi_search'][$tableName][$randomKey][self::SESS_COMPARATOR] = $value;
+					}
+				}
+			}
         }
     }
 
@@ -237,18 +247,20 @@
      */
     public function removeSessionsInfos($rowReference){
         $explodedRef = explode("_", $rowReference);
-        if(empty($explodedRef[2])){
-            unset($_SESSION['OCS']['multi_search'][$explodedRef[1]][$explodedRef[0]]);
-        }else{
-            $exploded = $explodedRef[1]."_".$explodedRef[2];
-            unset($_SESSION['OCS']['multi_search'][$exploded][$explodedRef[0]]);
-            if(empty($_SESSION['OCS']['multi_search'][$exploded])){
-                unset($_SESSION['OCS']['multi_search'][$exploded]);
-            }
-        }
-        if(empty($_SESSION['OCS']['multi_search'][$explodedRef[1]])){
-            unset($_SESSION['OCS']['multi_search'][$explodedRef[1]]);
-        }
+		// Retrieve random key
+		$randomKey = $explodedRef[0];
+
+		// Unset key after saving
+		array_shift($explodedRef);
+
+		// Reconstruct tablename with what's left
+		$tableName = implode("_", $explodedRef);
+
+		unset($_SESSION['OCS']['multi_search'][$tableName][$randomKey]);
+
+		if (empty($_SESSION['OCS']['multi_search'][$tableName])) {
+			unset($_SESSION['OCS']['multi_search'][$tableName]);
+		}
     }
 
     /**
