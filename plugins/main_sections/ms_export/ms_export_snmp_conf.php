@@ -35,22 +35,27 @@ require_once('require/snmp/Snmp.php');
 function SnmpConfToXml($conf_choice) {
     $plural = $conf_choice[0];
     $singular = $conf_choice[1];
+    $id = null;
+
+    if(isset($_GET['id']) && $_GET['id'] != "") {
+        $id = preg_replace('/[^0-9]/', '', $_GET['id']); 
+    }
 
     if ($plural == "TYPES") {
         $sql = "SELECT t.TYPE_NAME, tc.CONDITION_OID, tc.CONDITION_VALUE, t.TABLE_TYPE_NAME, l.LABEL_NAME, c.OID, c.RECONCILIATION FROM snmp_types t LEFT JOIN snmp_configs c ON t.ID = c.TYPE_ID LEFT JOIN snmp_labels l ON l.ID = c.LABEL_ID LEFT JOIN snmp_types_conditions tc ON tc.TYPE_ID = t.ID";
     } else if ($plural == "COMMUNITIES") {
         $sql = "SELECT VERSION,NAME,USERNAME,AUTHPASSWD,LEVEL,AUTHPROTO,PRIVPASSWD,PRIVPROTO FROM snmp_communities";
-    } else if ($plural == "CONFS" && isset($_GET['id']) && $_GET['id'] != "") {
+    } else if ($plural == "CONFS" && !is_null($id)) {
         // special treatment if we are retrieving the scan configuration for a specific device or group
         // if the value of conf has been customized, we retrieve it but if not, we use the default value
-        $sql = "SELECT NAME, IVALUE, TVALUE FROM devices WHERE NAME LIKE 'SCAN_%' AND HARDWARE_ID=".$_GET['id'];
+        $sql = "SELECT NAME, IVALUE, TVALUE FROM devices WHERE NAME LIKE 'SCAN_%' AND HARDWARE_ID=".$id;
 
         $sql_default = "SELECT NAME, IVALUE, TVALUE FROM config WHERE NAME LIKE 'SCAN_%'";
         
     } else if ($plural == "CONFS") { 
         $sql = "SELECT NAME, IVALUE, TVALUE FROM config WHERE NAME LIKE 'SCAN_%'";
     } else if ($plural == "SUBNETS") {
-        $sql = "SELECT TVALUE FROM devices WHERE HARDWARE_ID=".$_GET['id']." AND NAME='SNMP_NETWORK'";
+        $sql = "SELECT TVALUE FROM devices WHERE HARDWARE_ID=".$id." AND NAME='SNMP_NETWORK'";
     }
 
     if (isset($sql) && $sql != "" && !isset($sql_default)) {
@@ -58,8 +63,6 @@ function SnmpConfToXml($conf_choice) {
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         $xml .= "<".$plural.">\n";
         while ($row = mysqli_fetch_array($result)) {
-            
-
             // the subnets are stored in a single field separated by a comma so we need to split them into different subnet tags
             if ($plural == "SUBNETS") {
                 $subnets = explode(",", $row['TVALUE']);
@@ -77,10 +80,6 @@ function SnmpConfToXml($conf_choice) {
                 }
                 $xml .= "TYPE=\"".$singular."\" />\n";
             }
-
-            
-
-
         }
         $xml .= "</".$plural.">\n";
 

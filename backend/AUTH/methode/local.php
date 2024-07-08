@@ -68,7 +68,7 @@ if (isset($rowOp->PASSWORD_VERSION) && $rowOp->PASSWORD_VERSION === '0') {
         }
     }
 
-    if ($login_status == true || (isset($rowOp->PASSWD) && hash(PASSWORD_CRYPT, $mdp) == $rowOp->PASSWD)) {
+    if ($login_status == true || (isset($rowOp->PASSWD) && hash(PASSWORD_CRYPT, $mdp) === $rowOp->PASSWD)) {
         $login_successful = "OK";
         $user_group = $rowOp->USER_GROUP;
         $type_log = 'CONNEXION';
