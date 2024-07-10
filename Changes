@@ -1,4 +1,25 @@
 Revision history for ocsreports
+2.12.2
+		* Add SNMP link tag configuration
+		* Improve CVE crontab
+		* Improve CVE process
+		* Improve IpDiscover display and loading
+		* Optimize TAG restriction loading
+		* Fix Ldap / SSO authentication 
+		* Fix wrong translation codes
+		* Fix error in ocsbase_new.sql
+		* FIx warning in IpDiscover
+		* Fix PHP warnings
+		* Fix computer detail configuration saving
+		* Fix group deployment percent
+		* Fix search on table name with more than 1 underscore
+		* Security fix in software categories name
+		* Security fix in SNMP export configuration
+		* Security fix in computer detail
+		* Security fix in ORDER BY direction
+		* Security fix on column name
+		* Security fix on password comparision
+
 2.12.1
 		* Add destroy session at the end of crontabs
 		* Add software index to improve performance
