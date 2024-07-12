@@ -1600,6 +1600,8 @@
 
 9000 SNMP-Konfiguration
 
+9040 Alle SNMP Typen exportieren
+
 9106 Standard Download Protokoll
 
 9010 SNMP MIBs-Verzeichnis auf dem Server
@@ -1655,6 +1657,8 @@
 
 9800 Ausschluss von archivierten Computern aus der Statistik, CVE-Inventar, Zählung aller Softwares, Zählung der Computer pro TAG
 
+9802 CVE Such-Links anzeigen
+
 9900 Layouts
 9901 Layout wurde erstellt
 9902 Layout wurde gelöscht
@@ -1680,3 +1684,5 @@
 9973 Keine Daten verfügbar
 
 9980 Netzwerk Scans
+
+9991 SNMP Dateien erzeugen
