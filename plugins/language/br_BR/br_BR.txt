@@ -225,7 +225,7 @@
 314 Computadores gateway para descoberta de IPs
 315 Computadores não inventariados
 316 Subrede
-317 ANALIZAR
+317 ANALISAR
 318 Nome DNS
 319 Resultado da análise da rede
 320 Esta análise foi feita em
@@ -782,6 +782,7 @@
 893 NENHUMA TAG DEFINIDA AO SEU PERFIL
 894 NENHUM DIREITO DEFINIDO AO SEU PERFIL
 895 Alteração de TAG
+896 Você não tem direitos para acessar esta página, entre em contato com o administrador
 898 Adicionar anotação
 899 Escritor
 900 Você realmente quer apagar a seleção?
@@ -1152,7 +1153,7 @@
 1265 Habilitar tabelas de cache
 1266 Máquinas Virtuais
 1267 Tipos de Máquinas Virtuais
-1268 Uuid
+1268 uuid
 1269 Máquina hospedada por
 1270 dd/mm/yyyy hh:ii
 1271 Computadores da subrede
@@ -1253,8 +1254,8 @@
 1373 Distribuição
 1374 Acesse o site
 1375 Fóruns antigo
-1376 Perguntas & Respostas
-1377 Perguntas & Respostas
+1376 Perguntas e Respostas
+1377 Perguntas e Respostas
 1378 RAM livre
 1379 RAM instalada
 1380 Redefinir colunas
@@ -1335,7 +1336,8 @@
 1455 Interface virtual
 1456 Número do telefone
 1457 Associar descoberta de rede a tag do computador</br><b style="color:#d9534f;">Saia e logue novamente depois de atualizar essa configuração</b>
-
+1458 caracteres
+1459 Atraso de tempo entre cada varredura CVE
 1460 Gerenciamento de pesquisa-CVE
 1461 Ativar Relatórios CVE
 1462 URL do servidor de pesquisa-cve para o relatório
@@ -1363,6 +1365,19 @@
 1484 Tempo de validade de um CVE após a varredura do inventário OCS
 1485 Por software
 1486 Por computador
+1487 Autenticação bloqueada devido a muitas tentativas malsucedidas. (%time% segundos restantes)
+1488 Habilitar segurança de autenticação
+1489 Número de tentativas
+1490 Tempo de espera
+1491 Habilitar segurança de senha
+1492 Caracteres mínimos na senha
+1493 Exigir números na senha
+1494 Exigir maiúsculas na senha
+1495 Exigir caracteres especiais na senha
+1496 Senha deve conter pelo menos
+1497 Senha deve conter pelo menos uma letra maiúscula
+1498 Senha deve conter pelo menos um número
+1499 Senha deve conter pelo menos um caractere especial
 
 1500 Categoria de software
 1501 Nova categoria
@@ -1380,8 +1395,16 @@
 1513 maior ou igual
 1514 Categoria
 1515 Todos os sistemas operacionais
-1516 Todos softwares
+1516 Todos softwares (exceto padrão)
 1517 Nenhuma categoria foi selecionada
+1518 Lista regex
+1519 Computadores faltando :
+1520 (dados CSV são importados)
+1521 Exibir total de instalações
+1522 Versão padronizada
+1523 Versão maior
+1524 Versão menor
+1525 Versão de correção
 
 1550 Você realmente deseja arquivar
 1551 Arquivar
@@ -1407,6 +1430,7 @@
 1700 Configuração avançada
 1701 Aba disponível
 1702 Nova aba
+1703 Adicionar pacotes selecionados
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRO:
@@ -1549,6 +1573,11 @@
 2142 Crie uma pesquisa
 2143 Pesquisa salva com sucesso
 2144 Atualizar uma pesquisa salva existente
+2145 Quem pode ver ?
+2146 Só eu
+2147 Meu grupo
+2148 Todos usuários
+2149 Atualizar data quando alterar periféricos
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1562,11 +1591,11 @@
 5009 [DEBUG]RAW DATA[DEBUG]
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
-5012 [DEBUG]valor a pesquisar=[DEBUG]
+5012 [DEBUG]value to search=[DEBUG]
 5013 [DEBUG]Complementary field=[DEBUG]
 5014 [DEBUG]AND OR Field=[DEBUG]
 5015 [DEBUG]COMPLEMENTARY FIELD OMISSION ON TABLE[DEBUG]
-5016 [DEBUG]tabela =>[DEBUG]
+5016 [DEBUG]table =>[DEBUG]
 5017 [DEBUG]filed =>[DEBUG]
 5018 [DEBUG]comparison =>[DEBUG]
 5019 [DEBUG]value to search  =>[DEBUG]
@@ -1642,6 +1671,7 @@
 8027 Ocorreu um problema ao obter as notícias OCS
 8028 Você tem notícias recentes
 8029 não é gravável
+8030 Marcações de script não são permitidas
 
 8100 Inventário de aplicativos web
 8101 Lista de aplicativos web
@@ -1677,9 +1707,32 @@
 9016 Selecione o tipo que você deseja configurar.
 9017 OID numérico
 9018 Nome do campo de inventário
-9019 String de nome OID
+9019 String do nome OID
 9020 Adicionar ao modelo SNMP
 9021 Pesquisar por linha específica
+9022 Não é possível criar um tipo OID vazio ou valor OID vazio
+9023 Tipo já existe
+9024 Ocorreu um erro durante a criação do tipo SNMP
+9025 O rótulo já existe
+9026 Ocorreu um erro durante a criação do rótulo SNMP
+9027 Ocorreu um erro durante a configuração do SNMP
+9028 Ocorreu um erro durante a exclusão do tipo
+9029 Ocorreu um erro durante a exclusão do rótulo
+9030 Ocorreu um erro durante a exclusão da configuração
+9031 Condições do tipo
+9032 Curingas: * (vários caracteres no início do valor da OID ou no final do valor da OID)
+9033 Protocolo de Autenticação
+9034 Protocolo de Privacidade
+9035 Senha de Privacidade
+9036 Nenhum OID encontrado
+9037 Equipamento contatado hoje
+9038 Número de equipamentos por tipo
+9039 Detalhes
+9040 Exportar todos tipos SNMP
+9041 Usar para reconciliação do IpDiscover (deve ser um OID endereço IP)
+9042 Dispositivos SNMP
+9043 Um campo de reconciliação IpDiscover já está definido para este tipo
+9044 Vincular dispositivo SNMP a tag do computador
 
 9100 Caminho da chave SSL
 9101 Caminho do certificado SSL
@@ -1687,3 +1740,184 @@
 9103 modo SSL
 9104 Caminho do certificado CA
 9105 Porta MySQL
+9106 Protocolo padrão de download
+
+9200 Implantação de pacote para computador
+9201 Implantação de pacote para seleção
+9202 Implantação de pacote para grupo
+9203 Ativar fragmentação de download
+9204 Configurar taxa de fragmentação de download
+9205 Habilitar ativação automática de pacote
+9206 Ativado
+9207 Data de implantação
+9208 Aguardando implantação
+
+9300 INTERAÇÕES
+9301 OPÇÕES
+9302 RESUMO
+9303 Linux
+9304 MacOS
+9305 Windows
+9306 Script Powershell
+9307 Scripts
+9308 Instalar / Desinstalar
+9309 Outros
+
+9310 Script Batch
+9311 Pacote personalizado
+9312 Executar um exe
+9313 Instalar MSI
+9314 Script Powershell
+9315 Armazenar arquivo/pasta
+9316 Desinstalar aplicação
+9317 Atualizar agente
+9318 Instalar com WinGet (Powershell)
+
+9319 Instalar aplicação
+9320 Desinstalar aplicação
+9321 Adicionar repositório apt
+9322 Adicionar repositório yum
+9323 Bash / script sh
+
+9324 Instalar aplicação .app
+9325 Instalar aplicação .pkg
+9326 Instalar com brew
+9327 Script Apple
+
+9328 Instalar plugin
+
+9340 Script
+9341 Arquivo MSI
+9342 URL do repositório
+9343 Arquivo .app
+9344 Arquivo .pkg
+9345 HTTP
+9346 HTTPS
+9347 Argumentos (opcional)
+9348 Arquivo do empacotador
+9349 Nome da aplicação
+9350 Identificador da aplicação
+9351 Como encontrar o identificador da aplicação wmic : abra um cmd como administrador e execute "wmic product get name"
+9352 Arquivo EXE
+9353 Arquivo Script
+9354 Escreva seu script aqui <b>OU</b> coloque seu arquivo de script
+9355 Coloque o arquivo do empacotador com todos os parâmetros dentro
+9356 Se houver vários arquivos, compacte-os antes
+9357 Tipo de empacotador
+9358 apt
+9359 yum
+9360 dnf
+9361 Recarregar compilação
+9362 Arquivo
+9363 Arquivo do plugin do agente
+9364 Linha de configuração
+9365 Linha a ser adicionada ao arquivo modules.conf (ex: 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Caminho para o diretório de módulos
+9367 Definir a opção abaixo como EXECUTAR fará com que o pacote falhe se o código de saída não for 0. Definir como LANÇAR retornará o código de saída ao servidor, juntamente com o status do pacote.
+9368 Modo de execução :
+9369 LANÇAR
+9370 EXECUTAR
+
+9500 Mesclar duplicados selecionadas
+9501 Mesclar todos duplicados
+9502 Duplicados por :
+
+9600 Campo de reconciliação CSV :
+9601 Campo de reconciliação OCS :
+9602 Valor vazio
+9603 Nenhum dispositivo correspondente encontrado no banco de dados OCS
+9604 Atualização falhou
+9605 Os dados administrativos foram importados do CSV, veja abaixo se há erros
+9606 O CSV não pode ser lido, verifique a configuração do separador na configuração geral do OCS
+9607 CSV carregado com sucesso
+9608 O campo de reconciliação CSV deve permitir a identificação de cada máquina e deve corresponder a um campo já presente no banco de dados do OCS (nome da máquina ou número de série)
+9609 O campo de reconciliação do OCS deve corresponder ao campo CSV escolhido anteriormente
+9610 Selecione os campos correspondentes :
+9611 Diretório para arquivos temporários
+9612 Importar de CSV
+9613 Falha ao importar CSV, verifique a configuração do diretório de arquivos temporários na configuração geral do OCS
+9614 Erro na importação. Somente arquivos CSV são aceitos
+9615 Falha ao importar dados
+
+9650 Número de filtros LDAP (mínimo 1, máximo igual ao número de perfis)
+
+9651 Histórico
+9653 Usuário
+9654 Data e hora
+9655 Ação
+9656 Alvo da ação
+
+9700 CAS porta do servidor, ex: 443
+9701 CAS uri do servidor, ex: /cas
+9702 CAS host do servidor, ex: authentication.org
+9703 CAS função padrão, aplicada na primeira conexão iniciada usando autenticação CAS
+9704 CAS Configuração
+9705 CAS URI base, ex: ocs.example.com
+9706 CAS caminho do certificado CA do servidor CAS, ex: /path/to/cachain.pem
+
+9800 Excluir computadores arquivados de estatísticas, inventário CVE, contagem de softwares, contagem de computadores por TAG
+9801 Mostrar diagrama da BIOS no dashboard
+
+9802 Mostrar links de pesquisa CVE
+
+9900 Layouts
+9901 Layout criado
+9902 Layout excluído
+9903 Erro ao criar layout
+9904 Por favor, verifique as informações de entrada. Repita o processo se o problema persistir.
+9905 Erro ao excluir layout
+9906 Um layout com o mesmo nome ou coluna já existe para seu usuário/escopo, escolha outro nome ou conjunto de colunas
+9907 Gerenciar layouts
+9908 Mostrar todos layouts
+9909 Adicionar novo layout
+9910 Layouts disponíveis :
+9911 Nome do layout
+9912 Descrição do layout
+9913 Nome da tabela
+9914 Criador
+9915 Escopo de visibilidade
+9916 Falha na atualização do layout, verifique se não existe outro layout com o mesmo nome e visibilidade
+9917 Público
+9918 Grupo
+9919 Pessoal
+9920 Layout atualizado com sucesso
+9921 Permitir gerenciar layouts
+
+9930 DNS
+
+9940 Permitir gerenciar pesquisas salvas
+
+9950 Notificações
+9951 Verifique se a configuração de notificação foi definida corretamente, caso contrário, o envio de relatórios por meio de notificações não funcionará
+9952 Notificação de relatório criada com sucesso
+9953 Notificação de relatório atualizada com sucesso
+9954 Por favor, defina uma recorrência
+9955 Por favor, forneça pelo menos um destinatário ou destinatários separados por vírgula
+9956 diariamente
+9957 semanalmente
+9958 mensalmente
+9959 Ativar :
+9960 Recorrência :
+9961 Destinatário(s) :
+9962 Dia da recorrência :
+9963 Data final :
+
+9970 Você não tem permissão para modificar este usuário
+9971 Você realmente quer reaplicar o pacote
+9972 Aplicar novamente
+9973 Não há dados disponíveis
+
+9980 Varreduras de rede
+9981 Método de varredura IpDiscover realizada por agentes (nmap, ICMP, ARP)<br><br> Nota: ARP só faz varredura de rede local
+9982 Método de varredura SNMP realizada por agentes Linux (nmap, ICMP, ARP)<br><br> Nota: ARP só faz varredura de rede local
+9983 Se varredura ARP: largura de banda usada pela varredura ARP (em Kbps)
+9984 Exportar configuração SNMP
+9985 Baixar configuração das comunidades SNMP
+9986 Baixar configuração dos tipos SNMP
+9987 Exportar configuração para varredura SNMP local: A configuração será baixada como arquivo XML que pode ser usado para configurar o agente para varredura SNMP local.<br> Observe que a configuração de varreduras SNMP recuperará a configuração geral de varreduras de rede se exportada daqui. Se você quiser configuração por grupo ou por dispositivo, vá para a página do grupo ou dispositivo e acesse a configuração.
+9988 Exportar configuração
+9989 Baixar configuração de varredura SNMP
+9990 Baixar lista de subredes SNMP
+9991 Gerar arquivos SNMP
+
+10000 Falha ao atualizar campos: aspas não são permitidas nos dados administrativos
