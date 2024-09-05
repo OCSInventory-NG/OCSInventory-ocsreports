@@ -529,6 +529,7 @@ class AllSoftware
         $names = preg_split("/[\r|\n]+/", $content);
         $hardware = [];
         foreach ($names as $key => $name) {
+            $name = preg_replace("/[^A-Za-z0-9-_\.]/", "", $name);
             if ($name != "") {
                 $sql = "SELECT ID FROM hardware WHERE NAME = '" . addslashes($name) . "'";
     
