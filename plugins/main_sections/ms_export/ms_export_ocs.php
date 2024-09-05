@@ -21,7 +21,8 @@
  * MA 02110-1301, USA.
  */
 require_once('require/function_computers.php');
-$seeit = is_mine_computer($protectedGet['systemid']);
+$systemId = preg_replace('/[^0-9]/', '', $protectedGet['systemid']); 
+$seeit = is_mine_computer($systemId);
 if (!$seeit) {
     require_once (HEADER_HTML);
     msg_error($l->g(837));
@@ -29,7 +30,7 @@ if (!$seeit) {
     die();
 }
 $sql = "select * from hardware where id=%s";
-$arg = $protectedGet['systemid'];
+$arg = $systemId;
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 $item_hardware = mysqli_fetch_object($res);
 $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
@@ -40,7 +41,7 @@ $xml .= "\t<CONTENT>\n";
 foreach ($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'] as $tablename) {
     if (!in_array($tablename, $table_not_use)) {
         $sql = "select * from %s where hardware_id=%s";
-        $arg = array($tablename, $protectedGet['systemid']);
+        $arg = array($tablename, $systemId);
 
         $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
         if($res) {
@@ -79,7 +80,7 @@ $xml .= "\t\t</HARDWARE>\n";
 
 //ACCOUNTINFO VALUES
 $sql = "select * from accountinfo where hardware_id=%s";
-$arg = $protectedGet['systemid'];
+$arg = $systemId;
 $res = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
 $item_accountinfo = mysqli_fetch_object($res);
 
