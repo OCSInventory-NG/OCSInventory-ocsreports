@@ -340,7 +340,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                 "serverSide": true,
                 "dom": dom,
                 "ajax": {
-                    'url': '<?php echo $address; ?>&no_header=true&no_footer=true',
+                    'url': '<?php echo preg_replace("/[^A-Za-z0-9\._\-?=&%]/", "",$address); ?>&no_header=true&no_footer=true',
                     "type": "POST",
                     //Error handling
                     "error": function (xhr, error, thrown) {
