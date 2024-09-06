@@ -62,7 +62,8 @@ $list_fields_flip = array_flip($list_fields);
 </div>
 <?php
 if (isset($protectedPost['TAG_CHOISE'])) {
-    $tag = $protectedPost['TAG_CHOISE'];
+    // clean filter value like xxx.yyy, xxx or xxx.yy_yy
+    $tag = preg_replace("/[^A-Za-z0-9\._]/", "", $protectedPost['TAG_CHOISE']);
 }
 if (array($accountinfo_value['TAB_OPTIONS'])) {
     $tab_options = $accountinfo_value['TAB_OPTIONS'];
