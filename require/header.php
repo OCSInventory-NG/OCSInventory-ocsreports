@@ -202,13 +202,15 @@ if (!isset($_SESSION['OCS']['SQL_TABLE'])) {
         $sql = "SHOW COLUMNS FROM `%s`";
         $arg = $item[0];
         $res_column = mysql2_query_secure($sql, $_SESSION['OCS']["readServer"], $arg);
-        while ($item_column = mysqli_fetch_row($res_column)) {
-
-            if ($item_column[0] == "HARDWARE_ID" && !isset($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]])) {
-                $_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]] = $item[0];
+        if ($res_column !== false) {
+            while ($item_column = mysqli_fetch_row($res_column)) {
+    
+                if ($item_column[0] == "HARDWARE_ID" && !isset($_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]])) {
+                    $_SESSION['OCS']['SQL_TABLE_HARDWARE_ID'][$item[0]] = $item[0];
+                }
+    
+                $_SESSION['OCS']['SQL_TABLE'][$item[0]][$item_column[0]] = $item_column[0];
             }
-
-            $_SESSION['OCS']['SQL_TABLE'][$item[0]][$item_column[0]] = $item_column[0];
         }
     }
 }
