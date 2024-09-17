@@ -74,7 +74,7 @@ $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 if (isset($_FILES['file_upload']['name'])) {
     if ($_FILES['file_upload']['size'] != 0) {
-        $fname = $_FILES['file_upload']['name'];
+        $fname = preg_replace("/[^A-Za-z0-9\._]/", "", $_FILES['file_upload']['name']);
         $platform = "windows";
         $filename = $_FILES['file_upload']['tmp_name'];
         $fd = fopen($filename, "r");
@@ -90,7 +90,7 @@ if (isset($_FILES['file_upload']['name'])) {
         if (!$result) {
             msg_error($l->g(2003) . mysqli_errno($_SESSION['OCS']["writeServer"]) . "<br>" . mysqli_error($_SESSION['OCS']["writeServer"]));
         } else {
-            msg_success($l->g(137) . " " . $_FILES['file_upload']['name'] . " " . $l->g(234));
+            msg_success($l->g(137) . " " . $fname . " " . $l->g(234));
             $tab_options['CACHE'] = 'RESET';
         }
     } else {
