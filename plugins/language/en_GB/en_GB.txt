@@ -1886,6 +1886,7 @@
 9930 DNS
 
 9940 Is allowed to manage saved searches
+9941 Ungroup results
 
 9950 Notifications
 9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work

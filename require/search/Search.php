@@ -318,7 +318,7 @@
      * @param Array $sessData
      * @return void
      */
-    public function generateSearchQuery($sessData){
+    public function generateSearchQuery($sessData, $groupby = true){
 
         new AccountinfoSearch();
         $this->pushBaseQueryForTable("hardware", null);
@@ -579,7 +579,10 @@
             $this->columnsQueryConditions .=  " AND " . $lockResult;
         }
 
-        $this->columnsQueryConditions .= " GROUP BY hardware.id";
+        if ($groupby) {
+          $this->columnsQueryConditions .= " GROUP BY hardware.id";
+        }
+
         $this->baseQuery = substr($this->baseQuery, 0, -1);
     }
 
