@@ -1881,6 +1881,7 @@
 9930 DNS
 
 9940 Est autorisé à gérer les recherches sauvegardées
+9941 Dégrouper le résultat
 
 9950 Notifications
 9951 Veuillez vérifier que les notifications ont été correctement configurées pour que l'envoi des rapports fonctionne
