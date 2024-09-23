@@ -1,4 +1,14 @@
 Revision history for ocsreports
+2.12.3
+		* Updated translations
+		* Fix 500 error on logout
+		* Security fix on systemids
+		* Security fix on uploaded filenames
+		* Security fix on accountinfo
+		* Security fix on CSV filter import
+		* Security fix on URL parameters
+		* TVALUE field in devices table updated to TEXT
+
 2.12.2
 		* Add SNMP link tag configuration
 		* Improve CVE crontab
