@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: "[FEATURE]"
 labels: Feature, need approval
-assignees: charleneauger, damienbelliard, gillesdubois
+assignees: charleneauger, damienbelliard, gillesdubois, Lea9250
 
 ---
 
