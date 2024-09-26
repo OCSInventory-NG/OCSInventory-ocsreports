@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: "[BUG]"
 labels: bug, need approval
-assignees: charleneauger, damienbelliard, gillesdubois, RudyLaurent
+assignees: charleneauger, damienbelliard, gillesdubois, Lea9250
 
 ---
 
