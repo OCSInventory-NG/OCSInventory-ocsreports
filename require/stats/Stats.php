@@ -106,7 +106,7 @@ class Stats{
             while ($row = mysqli_fetch_object($res)) {
                 if($i <= 10){
                     $chart[$key]['count'][$i] = $row->c;
-                    $chart[$key]['name_value'][$i] = addslashes($row->name);
+                    $chart[$key]['name_value'][$i] = addslashes($row->name ." (".$row->c.")");
                     $chart[$key]['name'] = [$key];
                     if($key == 'NB_OS'){
                       $chart[$key]['title'] = $l->g(783);
