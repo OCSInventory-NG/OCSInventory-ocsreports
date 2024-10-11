@@ -57,7 +57,7 @@ $tab_options['ARG_SQL_COUNT']=$systemid;
 ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 echo close_form();
 
-if ($ajaxet list{
+if ($ajax){
     ob_end_clean();
     tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
     ob_start();
