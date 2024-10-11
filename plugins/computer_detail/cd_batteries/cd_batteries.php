@@ -39,7 +39,7 @@ echo open_form($form_name, '', '', 'form-horizontal');
 $list_fields = array($l->g(1800) => 'CHEMISTRY',
     $l->g(1801) => 'CYCLES',
     $l->g(1802) => 'DESCRIPTION',
-    $l->g(1803) => 'DESIGNCPACITY',
+    $l->g(1803) => 'DESIGNCAPACITY',
     $l->g(1804) => 'DESIGNVOLTAGE',
     $l->g(1805) => 'ESTIMATEDCHARGEREMAINING',
     $l->g(1806) => 'MANUFACTURER',
