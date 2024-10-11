@@ -7,12 +7,6 @@
   	<category>hardware</category>
   	<available>bios</available>
   </plugin>
-  <plugin id="cd_batteries">
-  	<label>g(1428)</label>
-  	<system>1</system>
-  	<category>hardware</category>
-  	<available>batteries</available>
-  </plugin>
   <plugin id="cd_processors">
   	<label>g(54)</label>
   	<system>1</system>
@@ -65,6 +59,12 @@
   	<system>1</system>
   	<category>hardware</category>
   	<available>ports</available>
+  </plugin>
+  <plugin id="cd_batteries">
+  	<label>g(1428)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>batteries</available>
   </plugin>
 
   <!-- SOFTWARE -->
