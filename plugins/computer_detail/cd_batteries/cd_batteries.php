@@ -30,7 +30,7 @@ print_item_header($l->g(1428));
 if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
 }
-$form_name = "batteries";
+$form_name = "affich_batteries";
 $table_name = $form_name;
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
@@ -47,12 +47,6 @@ $list_fields = array($l->g(1800) => 'CHEMISTRY',
     $l->g(1808) => 'SERIALNUMBER',
     $l->g(1809) => 'STATUS');
 
-$default_fields = $list_fields;
-$sql=prepare_sql_tab($list_fields);
-$sql['SQL']  .= "FROM $table_name WHERE (hardware_id=$systemid)";
-
-$tab_options['ARG_SQL']=$sql['ARG'];
-$tab_options['ARG_SQL_COUNT']=$systemid;
 
 if (isset($show_all_column)) {
     $list_col_cant_del = $list_fields;
@@ -60,12 +54,14 @@ if (isset($show_all_column)) {
     $list_col_cant_del = array($l->g(1800) => $l->g(1800));
 }
 
+$default_fields = $list_fields;
+$queryDetails = "SELECT * FROM batteries WHERE (hardware_id=$systemid)";
 ajaxtab_entete_fixe($list_fields,$default_fields,$tab_options,$list_col_cant_del);
 echo close_form();
 
-if (AJAX){
+if (AJAX) {
     ob_end_clean();
-    tab_req($list_fields,$default_fields,$list_col_cant_del,$sql['SQL'],$tab_options);
+    tab_req($list_fields, $default_fields, $list_col_cant_del, $queryDetails, $tab_options);
     ob_start();
 }
 
