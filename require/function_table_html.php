@@ -418,7 +418,7 @@ function ajaxtab_entete_fixe($columns, $default_fields, $option = array(), $list
                     data.start = 0;
                 },
 				"conditionalPaging": true,
-				"lengthMenu": [ 10, 25, 50, 100, 250, 500, 1000],
+				"lengthMenu": [ 10, 25, 50, 100, 250, 500, 1000, 5000, 10000],
                 //Column definition
                 "columns": [
     <?php
