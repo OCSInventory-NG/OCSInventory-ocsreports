@@ -1362,6 +1362,18 @@
 1702 Nieuw tabblad
 1703 Geselecteerde pakketten toevoegen
 
+1800 Chemie
+1801 Cycli
+1802 Benaming
+1803 Ontwerp capaciteit
+1804 Ontwerp spanning
+1805 Geschatte resterende lading
+1806 Fabrikant
+1807 Naam
+1808 Serienummer
+1809 Status
+
+
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 FOUT:
 2002 FOUT: regel

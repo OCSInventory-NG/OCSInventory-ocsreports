@@ -1346,6 +1346,7 @@
 
 1419 Suche in Spalte
 1420 Benutzerdefiniertes Thema für die Oberfläche
+1428 Batterien
 1449 Generelle Einstellungen
 1459 Zeitspanne zwischen einem CVE Scan
 1460 CVE-Sucheinstellungen
@@ -1395,6 +1396,17 @@
 
 1700 Erweiterte Einstellungen
 1703 Ausgewählte Pakete hinzufügen
+
+1800 Chemie
+1801 Zyklen
+1802 Beschreibung
+1803 Designkapazität
+1804 Designspannung
+1805 geschätzte verbleibende Ladung
+1806 Hersteller
+1807 Name
+1808 Seriennummer
+1809 Status
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 Fehler:

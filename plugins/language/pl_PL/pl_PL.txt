@@ -1212,6 +1212,18 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+1428 akumulator
+
+1800 Chemia
+1801 okres
+1802 oznaczenie
+1803 Pojemność projektowa
+1804 Napięcie projektowe
+1805 Szacowany pozostały poziom naładowania
+1806 fabrykant
+1807 marka
+1808 Numer seryjny
+1809 Status
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
