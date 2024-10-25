@@ -1296,6 +1296,18 @@
 1418 Země
 1419 Hledat ve sloupci
 1420 Přizpůsobení tématu vzhledu
+1428 baterie
+
+1800 chemie
+1801 cykly
+1802 popis
+1803 konstrukční kapacita
+1804 kapacita
+1805 odhadovaný zbývající poplatek
+1806 výrobce
+1807 jméno
+1808 sériové číslo
+1809 životní úroveň
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 CHYBA:

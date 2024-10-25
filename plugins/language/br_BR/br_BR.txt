@@ -1432,6 +1432,17 @@
 1702 Nova aba
 1703 Adicionar pacotes selecionados
 
+1800 Quimica
+1801 Ciclo
+1802 Descrição
+1803 Capaciclade 
+1804 Capaciclade voltagem
+1805 Charge estimado restante
+1806 Fabricante
+1807 Nome
+1808 Número de série
+1809 Status
+
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRO:
 2002 ERRO: LINHA

@@ -1290,6 +1290,18 @@
 1411 Nome visualizzato
 1412 Modifica profilo
 1413 Nuova etichetta
+1428 Batterie
+
+1800 Chimica
+1801 Cicli
+1802 Descrizione
+1803 Capacità progettuale
+1804 Tensione di progetto
+1805 Costo rimanente stimato
+1806 Fabbricante
+1807 Nome
+1808 Numero di serie
+1809 Stato
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRORE:

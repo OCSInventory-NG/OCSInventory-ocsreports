@@ -1298,6 +1298,19 @@
 1326 Shared
 1327 Local / Networks
 
+1428 Akkumulátor
+
+1800 Kémia
+1801 Ciklusok
+1802 meghatározás
+1803 Tervezési kapacitás
+1804 Tervezési feszültség
+1805 Becsült hátralévő díj
+1806 gyáros
+1807 Név
+1808 Sorozatszám
+1809 Állapot
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

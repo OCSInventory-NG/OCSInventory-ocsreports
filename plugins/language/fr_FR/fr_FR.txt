@@ -1432,6 +1432,17 @@
 1701 Onglet disponible
 1702 Nouvel onglet
 
+1800 Type de batterie
+1801 Cycles
+1802 Description
+1803 Capacité nominale
+1804 Capacité 
+1805 Temps restant pour la charge
+1806 Constructeur
+1807 Nom
+1808 Numéro de série
+1809 Etat
+
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
 2002 ERREUR: ligne

@@ -1508,6 +1508,17 @@
 1702 Nueva pestaña
 1703 Añadir paquetes seleccionados
 
+1800 Química
+1801 Ciclos
+1802 Descripción
+1803 Capacidad de diseño
+1804 Tensión de diseño
+1805 Carga restante estimada
+1806 Fabricante
+1807 Nombre
+1808 Número de serie
+1809 Estado
+
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 <b>ERROR:</b>
 2002 <b>ERROR:</b> línea

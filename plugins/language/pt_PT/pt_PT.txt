@@ -1282,6 +1282,18 @@
 1326 Shared
 1327 Local / Networks
 
+1428 Bateria
+
+1800 Química
+1801 Ciclos
+1802 Descrição
+1803 Capacidade de projeto
+1804 Tensão de projeto
+1805 Carga estimada restante
+1806 Fabricante
+1807 Nome
+1808 Número de série
+1809 Status
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

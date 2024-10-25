@@ -1206,6 +1206,18 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+1428 akumulator
+
+1800 kemija
+1801 Cikli
+1802 Imenovanje
+1803 Projektna zmogljivost
+1804 Projektna napetost
+1805 Ocenjeno preostalo bremenitev
+1806 Proizvajalec
+1807 Ime
+1808 Serijska številka
+1809 Stanje
 
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)

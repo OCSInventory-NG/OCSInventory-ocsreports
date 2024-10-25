@@ -1202,6 +1202,18 @@
 1326 Shared
 1327 Local / Networks
 
+1428 akü
+
+1800 Kimya
+1801 devre
+1802 tanımlama
+1803 Tasarım kapasitesi
+1804 Tasarım voltajı
+1805 Kalan tahmini ücret
+1806 imalatçı
+1807 nam
+1808 Seri numarası
+1809 Durum
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
