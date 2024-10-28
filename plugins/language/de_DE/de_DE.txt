@@ -1301,6 +1301,7 @@
 1370 Webserver
 1371 Datenbank-Server
 1373 Distribution
+1374 Webseite besuchen
 1376 FAQ
 1377 Frequently Asked Questions
 1378 Freier Speicher
@@ -1367,7 +1368,8 @@
 1474 Übereinstimmungen
 
 1481 CVE Historie
-
+1482 Zuletzt ausgeführt am
+1483 CVE Anzahl
 1484 Zeitspanne wie lange ein CVE Scan nach einem OCS Inventory Scan gültig ist
 1485 Nach Software
 1486 Nach Computer
@@ -1524,12 +1526,16 @@
 2123 Verfügbare Pakete
 2124 Gelöschte Pakete
 
+2128 Sind Sie sicher?
+
 2130 Assets Kategorien
 2131 Zahl der Maschinen je Kategorie
 2132 Asset Kategorie
 
 2133 Es wurde noch keine Asset Kategorie angelegt
 2134 Es wurde noch keine Software Kategorie angelegt
+
+2138 Meine Suche speichern
 
 2140 Eine gespeicherte Suche nutzen
 2141 Gespeicherte Suche
@@ -1647,8 +1653,15 @@
 
 9319 Anwendung installieren
 9320 Anwendung deinstallieren
+9321 apt Repository hinzufügen
+9322 yum Repository hinzufügen
 
 9323 Bash / sh Script
+9324 .app Anwendung installieren
+9325 .pkg Anwendung installieren
+9326 Installation mit brew
+
+9328 Plugin installieren
 
 9361 Paketerstellung zurücksetzen
 
