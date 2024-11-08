@@ -168,7 +168,9 @@ $list_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
     $l->g(61) => "vname",
-    $l->g(2132) => "ac.category_name");
+    $l->g(2132) => "ac.category_name",
+    $l->g(36) => "e.ssn",
+    $l->g(1382) => "e.msn");
 if ($show_mac_addr) {
     $list_fields2[$l->g(95)] = "n.macaddr";
     $list_fields2[$l->g(208)] = "n.ipmask";
@@ -211,7 +213,9 @@ $select_fields2 = array($l->g(46) => "h.lastdate",
     $l->g(1247) => "h.ARCH",
     $l->g(210) => "e.bdate",
     $l->g(61) => "v.name as vname",
-    $l->g(2132) => "ac.category_name");
+    $l->g(2132) => "ac.category_name",
+    $l->g(36) => "e.ssn",
+    $l->g(1382) => "e.msn");
 
 // List for select
 $select_fields = array_merge($list_fields, $select_fields2);

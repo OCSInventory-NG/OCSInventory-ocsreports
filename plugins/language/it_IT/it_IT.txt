@@ -17,7 +17,7 @@
 33 Dominio
 34 Indirizzo IP
 35 Nome computer
-36 Numero di serie
+36 BIOS Numero di serie
 41 Reset
 42 Nessun risultato
 43 Menù principale
@@ -1258,7 +1258,7 @@
 1379 RAM installata
 1380 Ripristina colonne predefinite
 1381 Azioni
-1382 Scheda madre Seriale
+1382 BIOS Scheda madre Seriale
 1383 Scheda madre Costruttore
 1384 Scheda madre Modello
 1385 Aggiorna utente

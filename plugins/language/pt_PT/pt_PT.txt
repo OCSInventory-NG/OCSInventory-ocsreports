@@ -34,7 +34,7 @@
 33 Domínio
 34 Endereço IP
 35 Nome do computador
-36 N. de série
+36 BIOS N. de série
 37 Ordem
 38 Ordem de entrega
 39 Origem
@@ -1281,6 +1281,8 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+
+1382 BIOS Motherboard Serial
 
 1428 Bateria
 

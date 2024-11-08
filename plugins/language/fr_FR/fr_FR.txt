@@ -17,7 +17,7 @@
 33 Domaine
 34 Adresse IP
 35 Nom machine
-36 Numéro de série
+36 BIOS Numéro de série
 41 Réinitialiser
 42 Aucun résultat
 43 Menu principal
@@ -1260,7 +1260,7 @@
 1379 RAM totale
 1380 Afficher les colonnes par défaut
 1381 Actions
-1382 Numéro de série de la carte mère
+1382 BIOS Numéro de série de la carte mère
 1383 Fabriquant de la carte mère
 1384 Modèle de la carte mère
 1385 Modifier un utilisateur

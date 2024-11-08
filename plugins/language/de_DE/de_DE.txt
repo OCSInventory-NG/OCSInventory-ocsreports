@@ -33,7 +33,7 @@
 33 Domäne
 34 IP-Addresse
 35 Rechnername
-36 Seriennummer
+36 BIOS Seriennummer
 37 Befehls-Buchstabe
 38 Auslieferungsreihenfolge
 39 Quelle
@@ -1308,7 +1308,7 @@
 1379 Installierter Speicher
 1380 Spalten zurücksetzen
 1381 Aktionen
-1382 Hauptplatine Seriennr.
+1382 BIOS Hauptplatine Seriennr.
 1383 Hauptplatine Hersteller
 1384 Hauptplatine Modell
 1385 Nutzer aktualisieren

@@ -32,7 +32,7 @@
 33 Dominio
 34 Dirección IP
 35 Nombre del dispositivo
-36 Número de serie
+36 BIOS Número de serie
 37 Orden
 38 Orden de entrega
 39 Origen
@@ -1361,7 +1361,7 @@
 1379 RAM instalada
 1380 Restablecer columnas de tabla
 1381 Acciones
-1382 Número serie (Placa base)
+1382 BIOS Número serie (Placa base)
 1383 Fabricante (Placa base)
 1384 Modelo (Placa base)
 1385 Actualizar usuario

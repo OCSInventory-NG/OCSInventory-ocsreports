@@ -20,7 +20,7 @@
 33 Alan
 34 IP Adresi
 35 Bilgisayar Adý
-36 Seri Numarasý
+36 BIOS Seri Numarasý
 41 Yenile
 42 Sonuç yok
 43 Ana Mönü
@@ -1201,6 +1201,8 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+
+1382 BIOS Motherboard Serial
 
 1428 akü
 

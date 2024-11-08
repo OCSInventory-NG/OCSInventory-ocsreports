@@ -17,7 +17,7 @@
 33 Domínio
 34 IP
 35 Nome do computador
-36 Número de série
+36 BIOS Número de série
 41 Limpar
 42 Nenhum resultado
 43 Menu Principal
@@ -1260,7 +1260,7 @@
 1379 RAM instalada
 1380 Redefinir colunas
 1381 Ações
-1382 Número de série da placa mãe
+1382 BIOS Número de série da placa mãe
 1383 Fabricante da placa mãe
 1384 Modelo da placa mãe
 1385 Editar usuário
