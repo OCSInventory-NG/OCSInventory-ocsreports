@@ -20,7 +20,7 @@
 33 Domena
 34 Adress IP
 35 Nazwa Komputera
-36 Numer Seryjny
+36 BIOS Numer Seryjny
 41 Reset
 42 Brak rezultatów
 43 Główne menu
@@ -1212,6 +1212,9 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+
+1382 BIOS Motherboard Serial
+
 1428 akumulator
 
 1800 Chemia
