@@ -17,7 +17,7 @@
 33 Domein
 34 IP adres
 35 Computernaam
-36 Serienummer
+36 BIOS Serienummer
 41 Reset
 42 Geen resultaat
 43 Hoofdmenu
@@ -1258,7 +1258,7 @@
 1379 RAM geïnstalleerd
 1380 Reset tabel kolommen
 1381 Acties
-1382 Moederbord Serienummer
+1382 BIOS Moederbord Serienummer
 1383 Moederbord Fabrikant
 1384 Moederbord Model
 1385 Wijzig gebruiker
