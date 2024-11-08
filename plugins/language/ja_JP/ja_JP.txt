@@ -17,7 +17,7 @@
 33 ドメイン
 34 IPアドレス
 35 コンピュータ名
-36 シリアル番号
+36 BIOS シリアル番号
 41 リセット
 42 結果なし
 43 メインメニュー
@@ -1259,7 +1259,7 @@
 1379 RAM installed
 1380 列を初期化
 1381 操作
-1382 Motherboard Serial
+1382 BIOS Motherboard Serial
 1383 Motherboard Manufacturer
 1384 Motherboard Model
 1385 Update user
