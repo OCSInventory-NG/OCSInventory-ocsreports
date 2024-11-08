@@ -20,7 +20,7 @@
 33 Domena
 34 IP ĹĄtevilka
 35 Ime raÄ?unalnika
-36 Serijska ĹĄtevilka
+36 BIOS Serijska ĹĄtevilka
 41 Ponovni zagon
 42 Ni rezultatov
 43 Osnovni meni
@@ -1206,6 +1206,9 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+
+1382 BIOS Motherboard Serial
+
 1428 akumulator
 
 1800 kemija
