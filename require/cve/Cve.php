@@ -23,6 +23,7 @@
 /**
  * Class for cve-search
  */
+#[AllowDynamicProperties]
 class Cve
 {
   public $CVE_SEARCH_URL = '';
