@@ -279,19 +279,19 @@ else {
     echo "<div class='col-md-10 col-md-offset-1'>";
 
 
-    switch ($opt) :
-        case $l->g(500): print_perso($systemid);
+    switch (preg_replace('/\s/', '', $opt)) :
+        case preg_replace('/\s/', '', $l->g(500)): print_perso($systemid);
             break;
-        case $l->g(581):
+        case preg_replace('/\s/', '', $l->g(581)):
             print_computers_cached($systemid);
             break;
-        case $l->g(580):
+        case preg_replace('/\s/', '', $l->g(580)):
             print_computers_real($systemid);
             break;
-        case $l->g(481):
+        case preg_replace('/\s/', '', $l->g(481)):
             print_activated_package($systemid);
             break;
-        case $l->g(9950):
+        case preg_replace('/\s/', '', $l->g(9950)):
             print_notification_form($systemid, $protectedPost['RECURRENCE'] ?? '');
             break;
         default : print_perso($systemid);
