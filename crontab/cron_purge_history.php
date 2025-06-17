@@ -24,7 +24,7 @@ if (isset($opts["a"])) {
 }
 
 if (isset($opts["activated"])) {
-    $reqDelHistory = "DELETE FROM `devices` WHERE IVALUE NOT IN (SELECT ID FROM `download_enable`);";
+    $reqDelHistory = "DELETE FROM `devices` WHERE IVALUE NOT IN (SELECT ID FROM `download_enable`) AND NAME = 'DOWNLOAD';";
     mysql2_query_secure($reqDelHistory, $_SESSION['OCS']["writeServer"]);
     print ("[" . date("Y-m-d H:i:s") . "] Download activated packages has been purged of removed packages\n");
 }
