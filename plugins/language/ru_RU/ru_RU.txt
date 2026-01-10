@@ -8,7 +8,7 @@
 23 Компьютер
 24 Пользователь
 25 Операционная система
-26 RAM
+26 ОЗУ
 27 Частота памяти (МГц)
 28 Число устройств
 30 Поиск
@@ -459,7 +459,7 @@
 564 Периодичность сеансов связи агента к серверу
 565 Хост сервера инвентаризации (имя или IP)
 567 Время ожидания ответа и переход к следующему IP
-568 RAM (МБ)
+568 ОЗУ (МБ)
 569 Процессор (МГц)
 570 Помощь
 571 Проверить все
@@ -675,9 +675,9 @@
 787 С частотой процессора >=
 788 С частотой процессора =<
 789 С частотой процессора в диапазоне
-790 С объемом RAM >=
-791 С объемом RAM =<
-792 Объемом RAM в диапазоне
+790 С объемом ОЗУ >=
+791 С объемом ОЗУ =<
+792 Объемом ОЗУ в диапазоне
 793 Всего в базе
 794 Доступно для просмотра
 795 Сегодня подключилось
@@ -705,7 +705,7 @@
 817 Мало свободного места на диске
 818 Удалить из группы
 819 компьютер(ов) добавлено в группу
-820 Последний контакт
+820 Последние соединение
 821 ИЗМЕНЕНИЕ КОНФИГУРАЦИИ СЕРВЕРА
 822 Настроить
 823 По умолчанию
@@ -836,7 +836,7 @@
 950 ИМЯ ФАЙЛА
 951 ФАЙЛ СОЗДАН В
 952 ФАЙЛ ИЗМЕНЕН В
-953 SIZE
+953 Размер
 954 Произошла потеря СЕССИИ
 955 НЕ НАЙДЕНО СИСТЕМ В БАЗЕ ДАННЫХ
 956 Все ошибки
@@ -987,7 +987,7 @@
 1101 Это поле не может быть обновлено
 1102 Активный статус
 1103 ID статуса
-1104 Level
+1104 Уровень
 1105 Workflow functionality is enabled
 1106 It is possible to create a package only if a request exist before
 1107 And the status is correct
@@ -1149,9 +1149,9 @@
 1263 УГРОЗА БЕЗОПАСНОСТИ!
 1264 Далее
 1265 Включить кеш таблиц
-1266 Вартуальные машины
+1266 Виртуальные машины
 1267 Тип виртуальных машин
-1268 Uuid
+1268 UUID
 1269 Хостер машины
 1270 mm/dd/yyyy hh:ii
 1271 Компьютеры подсети
@@ -1208,7 +1208,7 @@
 1329 Администрирование
 1330 Аппаратное обеспечение
 1331 Устройства
-1332 Miscellaneous
+1332 Разное
 1333 Настройка
 1334 В таблице нет доступных данных
 1335 Показано _START_ до _END_ из _TOTAL_ значений
@@ -1442,10 +1442,10 @@
 2067 из них
 2068 was not inserted. You need to set the max_allowed_packet MySQL value to at least 2MB
 2070 missing, if you do not reinstall the DEPLOY feature won't be available
-2071 WARNING: One or more files were already inserted
+2071 ВНИМАНИЕ: One or more files were already inserted
 2072 Deploy files successfully inserted
-2073 Table 'files' truncated
-2074 Table 'files' was empty
+2073 Таблица 'files' удалена
+2074 Таблица 'files' пуста
 2076 No subnet.csv file to import
 2077 Inserting subnet.csv networks
 2078 ERROR: Could not insert network
@@ -1457,8 +1457,8 @@
 2084 Network netid was computed
 2085 were already computed
 2086 were not computable
-2087 Netmap netid computing. Please wait...
-2089 Netmap netid was computed
+2087 Вычисление Netmap netid. Подождите...
+2089 Netmap netid готов.
 2090 Cleaning orphans...
 2091 ОШИБКА: Невозможно очистить
 2092 orphan lines deleted
@@ -1483,10 +1483,10 @@
 2111 Произвести обновление
 2112 Этот файл не существует или нельзя прочитать
 2113 Версия установленного PHP ниже версии 5.4 и будет несовместима со следующими версиями (версия&nbsp;:&nbsp;
-2114 No sql file found for version
+2114 Не найден SQL файл для версии
 2115 The user you typed does not seem to be root
 2116 The config/profiles directory is not writable
-2117 Display an update message if a new version is available
+2117 Сообщать о доступности новой версии
 2118 OCSInventory
 2119 доступно
 2120 Щелкните здесь, чтобы скачать
@@ -1503,7 +1503,7 @@
 2131 Количество машин в категории
 2132 Assets category
 2133 You haven't created an asset category
-2134 You haven't created a software category
+2134 Вы не создали категорию ПО
 2135 No machine has been inventoried
 2136 Обновить
 2137 Выберите файл, которым вы хотите заменить старый
