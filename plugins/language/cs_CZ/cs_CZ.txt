@@ -17,7 +17,7 @@
 33 Doména
 34 IP adresa
 35 Název počítače
-36 Sériové číslo
+36 BIOS Sériové číslo
 41 Resetovat
 42 Žádný výsledek
 43 Hlavní nabídka
@@ -1257,7 +1257,7 @@
 1379 Osazená operační paměť
 1380 Resetovat sloupce tabulky
 1381 Akce
-1382 Sériové číslo základní desky
+1382 BIOS Sériové číslo základní desky
 1383 Výrobce základní desky
 1384 Model základní desky
 1385 Aktualizovat uživatele

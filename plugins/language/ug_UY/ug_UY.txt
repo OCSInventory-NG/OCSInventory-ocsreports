@@ -34,7 +34,7 @@
 33 Domďż˝n
 34 IP cďż˝m
 35 Szďż˝mďż˝tďż˝gďż˝p neve
-36 Szďż˝ria szďż˝m
+36 BIOS Szďż˝ria szďż˝m
 37 Parancs
 38 Megrendelďż˝s
 39 Eredet
@@ -1297,6 +1297,8 @@
 1325 screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
+
+1382 BIOS Motherboard Serial
 
 1428 Akkumulátor
 
