@@ -18,10 +18,6 @@
 34 Dirección IP
 35 Nombre del dispositivo
 36 BIOS Número de serie
-37 Orden
-38 Orden de entrega
-39 Origen
-40 Código
 41 Inicializar
 42 No hay resultados
 43 Menú principal
@@ -1682,6 +1678,7 @@
 8027 Se ha producido un problema en la recuperación de datos de las noticias de OCS
 8028 Tiene noticias recientes
 8029 no es editable
+8030 Script tags are not allowed
 
 8100 SAAS Inventory
 8101 Lista SAAS

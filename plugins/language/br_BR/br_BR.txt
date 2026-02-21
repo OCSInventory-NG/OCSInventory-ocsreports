@@ -1336,6 +1336,7 @@
 1456 Número do telefone
 1457 Associar descoberta de rede a tag do computador</br><b style="color:#d9534f;">Saia e logue novamente depois de atualizar essa configuração</b>
 1458 caracteres
+
 1459 Atraso de tempo entre cada varredura CVE
 1460 Gerenciamento de pesquisa-CVE
 1461 Ativar Relatórios CVE
@@ -1867,7 +1868,6 @@
 
 9800 Excluir computadores arquivados de estatísticas, inventário CVE, contagem de softwares, contagem de computadores por TAG
 9801 Mostrar diagrama da BIOS no dashboard
-
 9802 Mostrar links de pesquisa CVE
 
 9900 Layouts
@@ -1896,6 +1896,7 @@
 9930 DNS
 
 9940 Permitir gerenciar pesquisas salvas
+9941 Ungroup results
 
 9950 Notificações
 9951 Verifique se a configuração de notificação foi definida corretamente, caso contrário, o envio de relatórios por meio de notificações não funcionará

@@ -1868,7 +1868,6 @@
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
 9801 Show bios diagram in dashboard
-
 9802 Show CVE search links
 
 9900 Layouts

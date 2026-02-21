@@ -18,10 +18,6 @@
 34 IP-Addresse
 35 Rechnername
 36 BIOS Seriennummer
-37 Befehls-Buchstabe
-38 Auslieferungsreihenfolge
-39 Quelle
-40 Code
 41 Zurücksetzen
 42 Kein Ergebnis
 43 Hauptmenü
@@ -1405,6 +1401,10 @@
 1519 Missing computers :
 1520 (CSV datas are imported)
 1521 Display count softwares
+1522 Standardized version
+1523 Major version
+1524 Minor version
+1525 Patch version
 
 1550 Do you really want to archive 
 1551 Archive
@@ -1682,6 +1682,7 @@
 8027 A problem of OCS news data recovery has occurred
 8028 You have recent news
 8029 is not writable
+8030 Script tags are not allowed
 
 8100 Web-Applikations-Verzeichnis
 8101 Web-Applikations-Verzeichnis
@@ -1704,9 +1705,7 @@
 9003 Create label
 9004 OID
 9005 OID string value
-9040 Alle SNMP Typen exportieren
-
-9106 Standard Download Protokoll
+9006 Label name
 9007 <b>The name is unique and must not contain any special characters except underscore.</b></br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
 9008 Add MIB file
 9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
@@ -1741,6 +1740,10 @@
 9038 Number of equipment per type
 9039 Quick view
 9040 Export all SNMP types
+9041 Use for IpDiscover reconciliation (must be an IP address OID)
+9042 SNMP devices
+9043 An IpDiscover reconciliation field is already set for this type
+9044 Link SNMP device to computer TAG
 
 9100 SSL key path
 9101 SSL certificate path
@@ -1786,11 +1789,6 @@
 9321 apt Repository hinzufügen
 9322 yum Repository hinzufügen
 9323 Bash / sh Script
-9324 .app Anwendung installieren
-9325 .pkg Anwendung installieren
-9326 Installation mit brew
-
-9328 Plugin installieren
 
 9324 Install .app application
 9325 Install .pkg application
@@ -1864,12 +1862,14 @@
 9701 CAS Server URI, z.B. : /cas
 9702 CAS Server Host, z.B. : authentication.org
 9703 CAS default role, applied on first connection initiated using CAS authentication
+9704 CAS Configuration
 9705 CAS Basis URI, z.B. : ocs.example.com
 9706 CAS Server CA-Zertifikatspfad, z.B. : /path/to/cachain.pem
-9704 CAS Konfiguration
+
 9800 Ausschluss von archivierten Computern aus der Statistik, CVE-Inventar, Zählung aller Softwares, Zählung der Computer pro TAG
 9801 Show bios diagram in dashboard
 9802 CVE Such-Links anzeigen
+
 9900 Layouts
 9901 Layout wurde erstellt
 9902 Layout wurde gelöscht
@@ -1896,6 +1896,7 @@
 9930 DNS
 
 9940 Is allowed to manage saved searches
+9941 Ungroup results
 
 9950 Notifications
 9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
@@ -1915,6 +1916,7 @@
 9970 You are not allowed to modify this user
 9971 Do you really want to re-affect the package 
 9972 Affect again
+9973 No data available
 
 9980 Network Scans
 9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
@@ -1928,16 +1930,5 @@
 9989 Download SNMP Scan Configuration
 9990 Download SNMP Subnets List
 9991 Generate SNMP files
-9914 Ersteller
-9915 Sichtbarkeit
 
-9950 Benachrichtigungen
-
-9970 Sie dürfen diesen User nicht ändern
-9971 Wollen Sie das Paket wirklich erneut anwenden
-9972 Erneut anwenden
-9973 Keine Daten verfügbar
-
-9980 Netzwerk Scans
-
-9991 SNMP Dateien erzeugen
+10000 Failed to update account info fields: quotes are not allowed in administrative values

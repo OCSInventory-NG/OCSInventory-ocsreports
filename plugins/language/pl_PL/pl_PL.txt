@@ -1682,6 +1682,7 @@
 8027 A problem of OCS news data recovery has occurred
 8028 You have recent news
 8029 is not writable
+8030 Script tags are not allowed
 
 8100 Web application Inventory
 8101 Web application list
@@ -1739,6 +1740,10 @@
 9038 Number of equipment per type
 9039 Quick view
 9040 Export all SNMP types
+9041 Use for IpDiscover reconciliation (must be an IP address OID)
+9042 SNMP devices
+9043 An IpDiscover reconciliation field is already set for this type
+9044 Link SNMP device to computer TAG
 
 9100 SSL key path
 9101 SSL certificate path
@@ -1858,10 +1863,11 @@
 9702 CAS server host, e.g. : authentication.org
 9703 CAS default role, applied on first connection initiated using CAS authentication
 9704 CAS Configuration
+9705 CAS Base URI, e.g. : ocs.example.com
+9706 CAS Server CA Certificate Path, e.g. : /path/to/cachain.pem
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
 9801 Show bios diagram in dashboard
-
 9802 Show CVE search links
 
 9900 Layouts
@@ -1890,6 +1896,7 @@
 9930 DNS
 
 9940 Is allowed to manage saved searches
+9941 Ungroup results
 
 9950 Notifications
 9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
@@ -1909,6 +1916,7 @@
 9970 You are not allowed to modify this user
 9971 Do you really want to re-affect the package 
 9972 Affect again
+9973 No data available
 
 9980 Network Scans
 9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
@@ -1922,3 +1930,5 @@
 9989 Download SNMP Scan Configuration
 9990 Download SNMP Subnets List
 9991 Generate SNMP files
+
+10000 Failed to update account info fields: quotes are not allowed in administrative values

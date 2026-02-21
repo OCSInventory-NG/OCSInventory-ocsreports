@@ -609,7 +609,7 @@
 720 Период ожидания между 2 циклами развертывания
 721 Период ожидания между загрузками 2 фрагментов
 722 Период ожидания между 2 периодами развертывания
-723 maximum priority of the downloaded packages <br> (The packages of a superior priority are ignored)
+723 максимальный приоритет загруженных пакетов <br> (пакеты высокого приоритета игнорируются)
 724 Время между 2 подключениями агента к серверу
 725 (в час)
 726 URI серверов развертывания ($IP и NAME$ являются универсальными значениями)
@@ -1214,7 +1214,7 @@
 1334 В таблице нет доступных данных
 1335 Показано _START_ до _END_ из _TOTAL_ значений
 1336 Показано 0 до 0 из 0 значений
-1337 (filtered from _MAX_ total entries)
+1337 (отфильтровано из _MAX_ total entries)
 1338 Показать значения _MENU_
 1339 Загрузка...
 1340 Выполнение...
@@ -1229,11 +1229,11 @@
 1349 Показать / Скрыть
 1350 ,
 1351 .
-1352 Server understood the request but request content was invalid
-1353 Unauthorised access
+1352 Сервер понял запрос, однако запрашиваемые данные некорректны
+1353 Неавторизованный доступ
 1354 Forbidden ressource can't be accessed
 1355 Страница не найдена
-1356 Request-URI Too Long, try to clean Cookies
+1356 Request-URI слишком длинный, попробуйте очистить Cookies
 1357 Внутренняя ошибка сервера
 1358 Служба недоступна
 1359 Пользователь вышел
@@ -1370,7 +1370,7 @@
 1489 Количество попыток
 1490 Cooldown
 1491 Включить парольную безопасность
-1492 Зада минимальное количество символов в пароле
+1492 Задано минимальное количество символов в пароле
 1493 Требовать цифры в пароле
 1494 Требовать заглавные буквы в пароле
 1495 Требовать специальные символы в пароле
@@ -1401,6 +1401,10 @@
 1519 Провавшие компьютеры :
 1520 (CSV данные импортированы)
 1521 Display count softwares
+1522 Standardized version
+1523 Major version
+1524 Minor version
+1525 Patch version
 
 1550 Вы действительно хотите заархивировать
 1551 Архавировать
@@ -1413,7 +1417,7 @@
 1558 Архивы
 
 1560 Уничтожить старые данные IPDiscover
-1561 Validity time (in days) of an IPDiscover data
+1561 Время валидности (в днях) для данных IPDiscover
 
 1600 Моя панель управления
 1601 Динамические группы
@@ -1517,7 +1521,7 @@
 2078 ОШИБКА: Невозможно ввести сеть
 2079 в таблице подсети, ошибка
 2080 ВНИМАНИЕ: Сеть
-2081 не было введено (неверный ip или mask
+2081 не было введено (неверный ip или mask)
 2087 Просчет NETID сетевой карты. Пожалуйста ждите...
 2083 ОШИБКА: Невозможно обновить netid на
 2084 Сетевой netid был просчитан
@@ -1678,6 +1682,7 @@
 8027 Промзошла проблема восстановления данных новостей OCS
 8028 У Вас есть свежие новости
 8029 недоступно на запись
+8030 Теги скрипта не разрешены
 
 8100 SAAS Inventory
 8101 Список SAAS
@@ -1702,7 +1707,7 @@
 9005 Значение строки OID
 9006 Имя ярлыка
 9007 <b>The name is unique and must not contain any special characters except underscore.</b></br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
-9008 Add MIB file
+9008 Добавить файл MIB
 9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
 9010 Server SNMP MIBs directory
 9011 Фильтровать по типу :
@@ -1714,7 +1719,7 @@
 9017 Numeric OID
 9018 Inventory field name
 9019 OID name string
-9020 Add to SNMP Model
+9020 Добавить в модель SNMP
 9021 Искать указанную строку
 9022 Can't create type with empty OID or empty OID string value
 9023 Имя типа уже существует
@@ -1734,7 +1739,11 @@
 9037 Оборудование соединилось сегодня
 9038 Количество оборудования по типу
 9039 Быстрый просмотр
-9040 Экспортировать все SNMP типы
+9040 Экспортировать все SNMP типы9041 Use for IpDiscover reconciliation (must be an IP address OID)
+9041 Use for IpDiscover reconciliation (must be an IP address OID)
+9042 SNMP devices
+9043 An IpDiscover reconciliation field is already set for this type
+9044 Link SNMP device to computer TAG
 
 9100 Путь до ключа SSL
 9101 Путь до SSL сертификата
@@ -1751,6 +1760,8 @@
 9204 Настроить степень фрагментации скачивания
 9205 Включить автоактивацию пакета
 9206 Активировано
+9207 Дата распространения
+9208 Ожидает распространения
 
 9300 Взаимодействия
 9301 Настройки
@@ -1759,7 +1770,7 @@
 9304 MacOS
 9305 Windows
 9306 Powershell script
-9307 Scripts
+9307 Скрипты
 9308 Установить / Удалить
 9309 Прочие
 
@@ -1786,7 +1797,7 @@
 
 9328 Установить плагин
 
-9340 Script
+9340 Скрипт
 9341 MSI файл
 9342 URL репозитория
 9343 .app файл
@@ -1799,20 +1810,24 @@
 9350 Идентификатор приложения
 9351 Как найти wmic application identifier : откройте cmd от администратора и запустите "wmic product get name"
 9352 EXE файл
-9353 Script file
-9354 Write your script here <b>OR</b> put your script file
-9355 Put your packager file with all parameters inside
-9356 If multiple files, please zip before
+9353 Файл скрипта
+9354 Напишите здесь ваш скрипт <b>ИЛИ</b> прикрепите файл скрипта
+9355 Положите ваш файл паковщика со всеми параметрами внутрь
+9356 Если файлов несколько, сначала запакуйте
 9357 Тип паковщика
 9358 apt
 9359 yum
 9360 dnf
 9361 Reload build
 9362 Файл
-9363 Plugin agent file
+9363 Фай агента плагина
 9364 Строка конфигурации
 9365 Строка для добавления в modules.conf (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
 9366 Путь к каталогу Modules
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
 
 9500 Merge selected duplicates
 9501 Merge all duplicates
@@ -1843,15 +1858,19 @@
 9655 Действие
 9656 Цель действия
 
-9700 CAS server port, e.g. : 443
-9701 CAS server uri, e.g : /cas
-9702 CAS server host, e.g. : authentication.org
+9700 Порт сервера CAS, e.g. : 443
+9701 URI сервера CAS e.g : /cas
+9702 Хост сервера CAS, e.g. : authentication.org
 9703 CAS default role, applied on first connection initiated using CAS authentication
-9704 CAS Configuration
+9704 Настройка CAS
+9705 CAS Base URI, e.g. : ocs.example.com
+9706 CAS Server CA Certificate Path, e.g. : /path/to/cachain.pem
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
+9801 Показать диаграмму bios на дашборде
+9802 Показать ссылки поиска CVE
 
-9900 Макет
+9900 Макеты
 9901 Макет создан
 9902 Макет удален
 9903 Ошибка при создании макета
@@ -1877,6 +1896,7 @@
 9930 DNS
 
 9940 Разрешено управлять сохраненными поисками
+9941 Разгруппировать результаты
 
 9950 Предупреждения
 9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
@@ -1896,3 +1916,19 @@
 9970 Вы не можете изменять этого пользователя
 9971 Вы действительно хотите заново назначить этот пакет
 9972 Снова затронуть
+9973 Нет доступных данных
+
+9980 Сетевые сканирования
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
+9988 Экспорт конфогурации
+9989 Download SNMP Scan Configuration
+9990 Download SNMP Subnets List
+9991 Генерировать файлы SNMP
+
+10000 Failed to update account info fields: quotes are not allowed in administrative values
