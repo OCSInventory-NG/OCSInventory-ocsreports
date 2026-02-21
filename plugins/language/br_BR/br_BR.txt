@@ -625,7 +625,6 @@
 736 Ativar o recurso de grupos de computadores
 737 Número aleatório calculado no intervalo definido. Projetado para evitar calcular muitos grupos no mesmo processo
 738 Especificar a validade dos grupos de computador (padrão: calcular uma vez por dia - veja offset)
-739 Melhoria futura de segurança
 740 Validade do bloqueio de um computador
 741 Configurar o motor para atualizar o inventário utilizando o valor do CHECKSUM do agente (menor carga no banco de dados)
 742 Fazer o motor considerar o inventário como uma transação (menor concorrência, melhor uso de disco)
@@ -1337,6 +1336,7 @@
 1456 Número do telefone
 1457 Associar descoberta de rede a tag do computador</br><b style="color:#d9534f;">Saia e logue novamente depois de atualizar essa configuração</b>
 1458 caracteres
+
 1459 Atraso de tempo entre cada varredura CVE
 1460 Gerenciamento de pesquisa-CVE
 1461 Ativar Relatórios CVE
@@ -1868,7 +1868,6 @@
 
 9800 Excluir computadores arquivados de estatísticas, inventário CVE, contagem de softwares, contagem de computadores por TAG
 9801 Mostrar diagrama da BIOS no dashboard
-
 9802 Mostrar links de pesquisa CVE
 
 9900 Layouts
@@ -1897,6 +1896,7 @@
 9930 DNS
 
 9940 Permitir gerenciar pesquisas salvas
+9941 Ungroup results
 
 9950 Notificações
 9951 Verifique se a configuração de notificação foi definida corretamente, caso contrário, o envio de relatórios por meio de notificações não funcionará

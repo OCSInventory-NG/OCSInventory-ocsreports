@@ -1804,7 +1804,7 @@
 9344 .pkg file
 9345 HTTP
 9346 HTTPS
-9347 Arguments (optionnal)
+9347 Arguments (optional)
 9348 Packager file
 9349 Application name
 9350 Application identifier

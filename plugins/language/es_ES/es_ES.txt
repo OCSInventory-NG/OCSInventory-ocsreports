@@ -1,31 +1,16 @@
 2 Todos los dispositivos
-3 Dispositivos con sotfware...
-4 Dispositivos sin software...
-5 Códigos de elementos bajo mi responsabilidad
-6 Dispositivo fuera de garantía
-7 Detalles del dispositivo fuera de garantía
-8 Elija sus peticiones
 9 Búsqueda por varios criterios
-10 Dispositivos por etiqueta
-11 Dispositivos por etiquetas
-12 Valor de la etiqueta
 13 Aceptar
-14 Gestión
-15 Etiquetas
-16 Administración
 17 Agente
 18 Revisión
 19 Versión del software
 20 Software
-21 Primera cita
-22 Fecha fuera de la garantía
 23 Dispositivo
 24 Nombre usuario
 25 Sistema Operativo
 26 Memoria
 27 Velocidad de la memoria (MHz)
 28 Número de dispositivos
-29 El servidor LDAP no responde
 30 Buscar
 31 Seleccionar un parámetro
 32 Seleccionar
@@ -33,17 +18,11 @@
 34 Dirección IP
 35 Nombre del dispositivo
 36 BIOS Número de serie
-37 Orden
-38 Orden de entrega
-39 Origen
-40 Código
 41 Inicializar
 42 No hay resultados
 43 Menú principal
-44 Elija una opción
 45 Espacio libre
 46 Último inventario
-47 Última página
 48 Detalles del dispositivo
 49 Nombre
 50 Memoria virtual
@@ -53,10 +32,6 @@
 54 Procesador(es)
 55 Número
 56 Datos administrativos
-57 Número de comando
-58 Fecha de comando
-59 Código
-60 Orden de entrega
 61 Tarjeta de video
 62 Resolución
 63 Almacenamiento
@@ -64,17 +39,8 @@
 65 Modelo
 66 Tipo
 67 Tamaño del disco
-68 Directorio
 69 Editor
 70 Designación
-71 Garantía
-72 Intervención(es)
-73 Valor
-74 Fecha de la demanda
-75 Tipo de demanda
-76 Fecha de la intervención
-77 Tipo de intervención
-78 Cuenta
 79 Impresora(s)
 80 Identificador
 81 Estado
@@ -85,7 +51,6 @@
 86 Sistema de archivos
 87 Total
 88 Libre
-89 Fecha de la orden de entrega
 90 Resultado(s)
 91 Dispositivos de entrada
 92 Disco(s)
@@ -94,78 +59,27 @@
 95 Dirección MAC
 96 Sonido
 97 Monitor(es)
-98 <b>ATENCIÓN:</b> Sólo puede seleccionar 8 opciones
-99 Detalles del dispositivo
-100 Parámetros de arranque
-101 Orden
-102 Nueva búsqueda
 103 Actualizar
-104 afectados directamente
-105 en unidades
-106 Opciones de configuración
 107 Configurar
 108 Claves del registro
-109 Tipo de dispositivo
-110 a
 111 Licencia Windows
-112 Fecha de garantía
 113 Cancelar
 114 Registrar
 115 Actualizar
 116 Añadir
-117 Registro
-118 Ir a la página
 119 ¿Realmente desea borrar el dispositivo?
-120 cero
-121 Borrar dispositivo
 122 Borrar
-123 Cambiar tipo de dispositivo
-124 Añadir nuevo tipo de dispositivo
-125 Último
-126 Siguiente
-127 Primero
-128 Último
 129 Igual
 130 Diferente
-131 Archivo de iconos
-132 Archivo de imagen
-133 Inventario
 134 Añadir un nuevo archivo al sistema
 135 Tenga cuidado, ¡está a punto de borrar este archivo de forma definitiva!
-136 Descargar
 137 Archivo
-138 Crea
-139 Crear/Borrar
 140 Super administradores
 141 Administradores
 142 Administradores locales
 143 solicitantes teledespliegue
-144 Los administradores ven todos los dispositivos pero no pueden asignar una etiqueta de unidad.
-145 Los administradores locales ven sólo su dispositivo y no pueden asignar una etiqueta de unidad.
-146 Seleccione un administrador
-147 Tenga cuidado, ¡está a punto de borrar los permisos definitivamente!
-148 ETIQUETA ISMERETLEN
-149 Etiquetas de unidad bajo la responsabilidad de
-150 permiso(s) en su lugar
-151 permiso(s) de la ley
-152 ¡Atención, esta operación anula los permisos del administrador afectado!
-153 Ninguna unidad de etiqueta afectada por este administrador
-154 Añadir una etiqueta a un administrador
-155 Añadir administrador a una etiqueta
-156 Añadir una etiqueta de unidad
-
-158 Copia los permisos de
-159 permisos copiados de
-160 No hay administrador para esta etiqueta
-161 Etiqueta de unidad bajo la responsabilidad de
 162 Eliminar seleccionados
-163 Número del tipo de registro
-164 Personas responsables de la etiqueta de la unidad
-165 ¡Debe introducir un nombre o una lista para buscar!
-166 ¡Debe elegir un elemento de la lista!
-167 Ver los detalles
 168 Formato de archivo no válido (Debe ser zip, pl o binario UNIX)
-169 añadir a la base
 170 ¡Ya existe el archivo!
 171 Archivo borrado
 172 Apareció un error, el archivo
@@ -175,9 +89,7 @@
 176 IPs
 177 Mezclar dispositivos redundantes
 178 Etiqueta / Distribución de PCs
-179 Nombre de la unidad
 180 Usuario no registrado
-181 Error de usuario o contraseña
 182 Dispositivos con una determinada etiqueta
 183 Descargar
 184 Este archivo no contiene "usar versión constante"
@@ -384,7 +296,6 @@
 389 Nada
 390 Categorías del diccionario
 391 Nombre de la categoría
-392 Borrar
 393 Buscar
 394 Buscar categoría
 395 Buscar software EN TODA LA BASE DE DATOS
@@ -577,7 +488,6 @@
 596 INCLUIDO DINÁMICAMENTE
 597 EXCLUIDO ESTÁTICAMENTE
 598 Incluir
-599 Inicializar
 600 Excluir
 601 Afectación masiva
 602 Necesita enviar un archivo
@@ -614,7 +524,6 @@
 633 Administración de grupos de servidores
 634 Acción deseada
 635 Nuevo nombre
-636 Descripción
 637 Reemplazar
 638 EL NOMBRE DEL GRUPO NO PUEDE ESTAR VACÍO
 639 ESTE SERVIDOR DE GRUPOS NO EXISTE
@@ -649,7 +558,6 @@
 668 ¿Afectar cualquier regla?
 669 <b>ATENCIÓN:</b> Hay duplicados de prioridad <br>¡Solo se mantendrá una regla!<br>
 670 Una regla ya tiene este nombre
-671 ¡El nombre de la regla no puede estar vacío!
 672 ¡Esta regla no existe!
 673 La administración de las reglas de afectación
 674 NOMBRE DE LA REGLA
@@ -691,7 +599,6 @@
 710 Descarga personalizada
 711 Incluir modificaciones
 712 Archivo de idioma
-712 Archivo de idioma
 713 ¿Está seguro que desea reemplazar este archivo de idioma?
 714 Archivo de idioma de referencia
 715 Seleccione el archivo de idioma a modificar
@@ -718,7 +625,6 @@
 736 Habilitar la opción de grupos de dispositivos
 737 Número aleatorio calculado en el rango definido.<br>Diseñado para evitar el cómputo de muchos grupos en el mismo proceso
 738 Especifique la validez de los grupos de dispositivos<br>(Predeterminado: Calcular una vez al día - Ver desplazamiento)
-739 Mejoras de seguridad futuras
 740 Validez de un bloqueo de dispositivo
 741 Actualizar el inventario respecto a los valores obtenidos la primera vez por el agente (Menor carga BackEnd DB)
 742 Permitir que el motor trate el inventariado como una transacción (Menor valor, mejor uso del disco)
@@ -876,7 +782,6 @@
 894 NO HAY DEFINIDO NINGÚN NIVEL DE PERMISOS PARA SU PERFIL
 895 Modificar etiqueta
 896 Anotaciones
-897 Nota de la fecha
 898 Añadir nota
 899 Autor
 900 ¿Realmente quiere eliminar la selección?
@@ -1264,13 +1169,6 @@
 1282 Orden enviada Wake On Lan
 1283 ¿Quiere realizar Wake On Lan en este dispositivo?
 1284 IP de origen
-1285 Las credenciales han sido añadidas
-1286 GNU General Public License, version 2.0
-1287 apoyo disponible
-1288 Apoyo a la validación
-1289 Identificadores admitidos
-1290 Correo electrónico de contacto
-1291 Personas autorizadas
 1292 Use las opciones avanzadas de teledespliegue
 1293 Forzar teledespliegue
 1294 Tiempo de instalación
@@ -1437,7 +1335,9 @@
 1455 Interfaz virtual
 1456 Número de teléfono
 1457 Enlazar la red IpDiscover al TAG del dispositivo </br><b style="color:#d9534f;">Cerrar sesión / Iniciar sesión después de actualizar esta configuración</b>
+1458 characters
 
+1459 Time delay between each CVE scan
 1460 Gestionar CVE-search
 1461 Habilitar CVE Reporting
 1462 URL del host de CVE-search que se utilizará para la presentación de informes
@@ -1465,6 +1365,19 @@
 1484 Tiempo de validez de un CVE después del escaneo de OCS Inventory
 1485 Por software
 1486 Por dispositivo
+1487 Authentication has been blocked due to too many failed attempts. (%time% seconds remaining)
+1488 Enable authentication security
+1489 Number of attempts
+1490 Cooldown
+1491 Enable password security
+1492 Set minimal characters in password
+1493 Force number in password
+1494 Force uppercase in password
+1495 Force special characters in password
+1496 The password must contain at least
+1497 The password must contain at least one uppercase
+1498 The password must contain at least one number
+1499 The password must contain at least one special character
 
 1500 Categoría de software
 1501 Nueva categoría
@@ -1484,6 +1397,10 @@
 1515 Todos los sistemas operativos
 1516 Todo el software (Pero por defecto)
 1517 No ha sido seleccionada ninguna categoría
+1518 List of regex
+1519 Missing computers :
+1520 (CSV datas are imported)
+1521 Display count softwares
 
 1550 ¿Realmente quieres archivar 
 1551 Archivar
@@ -1494,6 +1411,9 @@
 1556 Archivar / Restaurar
 1557 TODOS LOS DISPOSITIVOS
 1558 Archivos
+
+1560 Purge old IPDiscover data
+1561 Validity time (in days) of an IPDiscover data
 
 1600 Panel principal
 1601 Grupos dinámicos
@@ -1549,6 +1469,7 @@
 2027 Cambiar la contraseña de administrador en la GUI de OCS
 2028 Clave de autenticación
 2029 No se puede escribir en el directorio de configuración
+
 2030 Instalación OCS-NG Inventory
 2031 Versión actual instalada
 2032 es menor que esta versión
@@ -1659,6 +1580,11 @@
 2142 Crear una búsqueda
 2143 La búsqueda fue guardada con éxito
 2144 Actualizar una búsqueda guardada existente
+2145 Who can see ?
+2146 Only me
+2147 My group
+2148 All users
+2149 Update date when peripherals updated
 
 5000 [DEBUG]solicitud de inserciones de dispositivos =>[DEBUG]
 5001 [DEBUG]SOLICITUD HECHA => [DEBUG]
@@ -1687,7 +1613,6 @@
 
 6000 Complementos/Plugins
 6001 Seleccionar columnas para mostrar/ocultar
-6002 Distribución de las licencias de ofimática
 6003 Número de licencias
 6004 Total disponible
 6005 Encender/Apagar
@@ -1753,6 +1678,7 @@
 8027 Se ha producido un problema en la recuperación de datos de las noticias de OCS
 8028 Tiene noticias recientes
 8029 no es editable
+8030 Script tags are not allowed
 
 8100 SAAS Inventory
 8101 Lista SAAS
@@ -1791,6 +1717,25 @@
 9019 Cadena de nombres OID
 9020 Añadir al modelo SNMP
 9021 Buscar una fila específica
+9022 Can't create type with empty OID or empty OID string value
+9023 Type name already exists
+9024 An error happened during the SNMP type creation
+9025 Label already exists
+9026 An error happened during the SNMP label creation
+9027 An error happened during the SNMP configuration
+9028 An error happened during the type deletion
+9029 An error happened during the label deletion
+9030 An error happened during the config deletion
+9031 Type conditions
+9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
+9033 Authentication Protocol
+9034 Privacy Protocol
+9035 Privacy Password
+9036 No OID found
+9037 Equipment contacted today
+9038 Number of equipment per type
+9039 Quick view
+9040 Export all SNMP types
 
 9100 Ruta de la clave SSL 
 9101 Ruta del certificado SSL
@@ -1798,3 +1743,179 @@
 9103 Modo SSL
 9104 Ruta del certificado CA
 9105 Puerto MySQL
+9106 Default download protocol
+
+9200 Package deployment for computer
+9201 Package deployment for selection
+9202 Package deployment for group
+9203 Activate download fragmentation
+9204 Configure download fragmentation ratio
+9205 Enable auto activation package
+9206 Activated
+9207 Deployment date
+9208 Awaiting deployment
+
+9300 Interactions
+9301 Options
+9302 Resume
+9303 Linux
+9304 MacOS
+9305 Windows
+9306 Powershell script
+9307 Scripts
+9308 Install / Uninstall
+9309 Others
+
+9310 Batch script
+9311 Custom package
+9312 Execute an exe
+9313 Install MSI application
+9314 Powershell script
+9315 Store file/folder 
+9316 Uninstall application
+9317 Update Agent
+9318 Install with WinGet (Powershell)
+
+9319 Install application
+9320 Uninstall application
+9321 Add apt repository
+9322 Add yum repository
+9323 Bash / sh script
+
+9324 Install .app application
+9325 Install .pkg application
+9326 Install with brew
+9327 Apple script
+
+9328 Install plugin
+
+9340 Script
+9341 MSI file
+9342 Repository URL
+9343 .app file
+9344 .pkg file
+9345 HTTP
+9346 HTTPS
+9347 Arguments (optional)
+9348 Packager file
+9349 Application name
+9350 Application identifier
+9351 How to find wmic application identifier : open a cmd as administrator and run "wmic product get name"
+9352 EXE file
+9353 Script file
+9354 Write your script here <b>OR</b> put your script file
+9355 Put your packager file with all parameters inside
+9356 If multiple files, please zip before
+9357 Packager type
+9358 apt
+9359 yum
+9360 dnf
+9361 Reload build
+9362 File
+9363 Plugin agent file
+9364 Configuration line
+9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Path to Modules directory
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
+
+9500 Merge selected duplicates
+9501 Merge all duplicates
+9502 Duplicates by :
+
+9600 CSV reconciliation field :
+9601 OCS reconciliation field :
+9602 Empty value
+9603 No corresponding device found in OCS database
+9604 Update failed
+9605 Admin data was imported from CSV, see below for any errors
+9606 CSV can not be read, please check separator configuration in OCS general configuration
+9607 CSV uploaded successfully
+9608 The CSV reconciliation field must allow the identification of each machine and must correspond to a field already present in the OCS database (machine name or serial number)
+9609 OCS reconciliation field must correspond to the CSV field chose previously 
+9610 Please select corresponding fields :
+9611 Directory for temporary files
+9612 Import from CSV
+9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
+9614 Import error. Only CSV files are accepted
+9615 Failed to import data
+
+9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
+
+9651 History
+9653 User name
+9654 Date and time
+9655 Action
+9656 Target of action
+
+9700 CAS server port, e.g. : 443
+9701 CAS server uri, e.g : /cas
+9702 CAS server host, e.g. : authentication.org
+9703 CAS default role, applied on first connection initiated using CAS authentication
+9704 CAS Configuration
+
+9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
+9801 Show bios diagram in dashboard
+
+9802 Show CVE search links
+
+9900 Layouts
+9901 Layout created
+9902 Layout deleted
+9903 Error creating layout
+9904 Please check your input. Repeat the process if the problem persists.
+9905 Error deleting layout
+9906 A layout with the same name or columns already exists for your user/scope, please choose another name or set of columns
+9907 Manage layouts
+9908 Show all layouts
+9909 Add new layout
+9910 Available layouts :
+9911 Layout name
+9912 Layout description
+9913 Table name
+9914 Creator
+9915 Visibility scope 
+9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
+9917 Public
+9918 Group
+9919 Personal
+9920 Layout updated successfully
+9921 Is allowed to manage layouts
+
+9930 DNS
+
+9940 Is allowed to manage saved searches
+
+9950 Notifications
+9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
+9952 Report notification created successfully
+9953 Report notification updated successfully
+9954 Please set a recurrence
+9955 Please provide at least one recipient, or comma separated recipients
+9956 daily
+9957 weekly
+9958 monthly
+9959 Activate : 
+9960 Report recurrence : 
+9961 Recipient(s) : 
+9962 Day of reccurence : 
+9963 End Date :
+
+9970 You are not allowed to modify this user
+9971 Do you really want to re-affect the package 
+9972 Affect again
+
+9980 Network Scans
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
+9988 Configuration export
+9989 Download SNMP Scan Configuration
+9990 Download SNMP Subnets List
+9991 Generate SNMP files

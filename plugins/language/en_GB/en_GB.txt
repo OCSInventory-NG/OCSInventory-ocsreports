@@ -1593,7 +1593,7 @@
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
-5003 [DEBUG]Rache regeneration[DEBUG]
+5003 [DEBUG]Cache regeneration[DEBUG]
 5004 [DEBUG]forcing cache limit old value[DEBUG]
 5005 [DEBUG]Cache total use[DEBUG]
 5006 [DEBUG]array count request[DEBUG]
@@ -1746,10 +1746,10 @@
 9044 Link SNMP device to computer TAG
 
 9100 SSL key path
-9101 SSL certificat path
+9101 SSL certificate path
 9102 Enable SSL
 9103 SSL mode
-9104 CA certificat path
+9104 CA certificate path
 9105 MySQL Port
 9106 Default download protocol
 
@@ -1804,7 +1804,7 @@
 9344 .pkg file
 9345 HTTP
 9346 HTTPS
-9347 Arguments (optionnal)
+9347 Arguments (optional)
 9348 Packager file
 9349 Application name
 9350 Application identifier
@@ -1868,7 +1868,6 @@
 
 9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
 9801 Show bios diagram in dashboard
-
 9802 Show CVE search links
 
 9900 Layouts
