@@ -17,7 +17,7 @@
 33 Domain
 34 IP address
 35 Computer name
-36 Serial number
+36 BIOS Serial number
 41 Reset
 42 No result
 43 Main menu
@@ -1259,7 +1259,7 @@
 1379 RAM installed
 1380 Reset table columns
 1381 Actions
-1382 Motherboard Serial
+1382 BIOS Motherboard Serial
 1383 Motherboard Manufacturer
 1384 Motherboard Model
 1385 Update user
@@ -1431,6 +1431,17 @@
 1701 Tab available
 1702 New tab
 1703 Add selected packages
+
+1800 Chemistry
+1801 Cycles
+1802 Description
+1803 Design capacity
+1804 Design voltage
+1805 Estimated charge remaining
+1806 Manufacturer
+1807 Name
+1808 Serial number
+1809 Status
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:
@@ -1886,6 +1897,7 @@
 9930 DNS
 
 9940 Is allowed to manage saved searches
+9941 Ungroup results
 
 9950 Notifications
 9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work

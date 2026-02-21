@@ -60,6 +60,12 @@
   	<category>hardware</category>
   	<available>ports</available>
   </plugin>
+  <plugin id="cd_batteries">
+  	<label>g(1428)</label>
+  	<system>1</system>
+  	<category>hardware</category>
+  	<available>batteries</available>
+  </plugin>
 
   <!-- SOFTWARE -->
   <plugin id="cd_softwares">

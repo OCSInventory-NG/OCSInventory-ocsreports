@@ -17,7 +17,7 @@
 33 Domena
 34 Adress IP
 35 Nazwa Komputera
-36 Numer Seryjny
+36 BIOS Numer Seryjny
 41 Reset
 42 Brak rezultatów
 43 Główne menu
@@ -1427,6 +1427,21 @@
 1701 Tab available
 1702 New tab
 1703 Add selected packages
+
+1382 BIOS Motherboard Serial
+
+1428 akumulator
+
+1800 Chemia
+1801 okres
+1802 oznaczenie
+1803 Pojemność projektowa
+1804 Napięcie projektowe
+1805 Szacowany pozostały poziom naładowania
+1806 fabrykant
+1807 marka
+1808 Numer seryjny
+1809 Status
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

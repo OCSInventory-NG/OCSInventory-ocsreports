@@ -17,7 +17,11 @@
 33 Domďż˝n
 34 IP cďż˝m
 35 Szďż˝mďż˝tďż˝gďż˝p neve
-36 Szďż˝ria szďż˝m
+36 BIOS Szďż˝ria szďż˝m
+37 Parancs
+38 Megrendelďż˝s
+39 Eredet
+40 Kďż˝d
 41 Alapďż˝llapot
 42 Nincs eredmďż˝ny
 43 Fomenu
@@ -1305,7 +1309,7 @@
 1425 Tag
 1426 Updated
 1427 Base URL
-1428 Battery
+1428 Akkumulátor
 1429 Sim card
 1430 Equal
 1431 More than
@@ -1427,6 +1431,18 @@
 1701 Tab available
 1702 New tab
 1703 Add selected packages
+
+1800 Kémia
+1801 Ciklusok
+1802 meghatározás
+1803 Tervezési kapacitás
+1804 Tervezési feszültség
+1805 Becsült hátralévő díj
+1806 gyáros
+1807 Név
+1808 Sorozatszám
+1809 Állapot
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

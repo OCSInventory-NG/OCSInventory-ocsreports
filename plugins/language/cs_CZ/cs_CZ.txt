@@ -17,7 +17,7 @@
 33 Doména
 34 IP adresa
 35 Název počítače
-36 Sériové číslo
+36 BIOS Sériové číslo
 41 Resetovat
 42 Žádný výsledek
 43 Hlavní nabídka
@@ -1259,7 +1259,7 @@
 1379 Osazená operační paměť
 1380 Resetovat sloupce tabulky
 1381 Akce
-1382 Sériové číslo základní desky
+1382 BIOS Sériové číslo základní desky
 1383 Výrobce základní desky
 1384 Model základní desky
 1385 Aktualizovat uživatele
@@ -1298,135 +1298,18 @@
 1418 Země
 1419 Hledat ve sloupci
 1420 Přizpůsobení tématu vzhledu
-1421 Repository
-1422 Expire
-1423 File name
-1424 Mirrors
-1425 Tag
-1426 Updated
-1427 Base URL
-1428 Battery
-1429 Sim card
-1430 Equal
-1431 More than
-1432 Less than
-1433 Hardware Link Id
-1434 User Id
-1435 Location
-1436 Process
-1437 Chemistry
-1438 SBDS Version
-1439 Max error
-1440 OEM Specific
-1441 Revalidate time
-1442 XML Definition
-1443 Default Gateway
-1444 USB Devices
-1445 Group
-1446 Model name
-1447 Account info
-1448 Is null
-1449 General configuration
-1450 ID
-1451 Static?
-1452 Warranty begin
-1453 GUID
-1454 Source
-1455 Virtual interface
-1456 Phone number
-1457 Link Ipdiscover network to computer TAG</br><b style="color:#d9534f;">Logout / Login after updating this configuration</b>
-1458 characters
+1428 baterie
 
-1459 Time delay between each CVE scan
-1460 CVE-search management
-1461 Enable CVE Reporting
-1462 URL of the cve-search host to use for the reporting
-1463 CVE Reporting
-1464 CVE Reporting is not enabled.
-1465 By CVSS
-1466 Please, see the documentation to configure CVE Reporting : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Managing CVE-search reporting </a>
-1467 Link
-1468 Vulnerability score between
-1469 Select software categories that you do not want to process
-1470 Enable CVE-search verbose
-1471 Enable to get CVE corresponding to all software version
-1472 CVE Inventory
-1473 New matching regex
-1474 Match list
-1475 Name or Regex
-1476 Publisher result
-1477 Name result
-1478 Or import CSV file
-1479 Import
-1480 Download CSV file example
-1481 CVE history
-1482 Latest execution date
-1483 CVE count
-1484 Time of validity of a CVE after OCS Inventory scan
-1485 By software
-1486 By computer
-1487 Authentication has been blocked due to too many failed attempts. (%time% seconds remaining)
-1488 Enable authentication security
-1489 Number of attempts
-1490 Cooldown
-1491 Enable password security
-1492 Set minimal characters in password
-1493 Force number in password
-1494 Force uppercase in password
-1495 Force special characters in password
-1496 The password must contain at least
-1497 The password must contain at least one uppercase
-1498 The password must contain at least one number
-1499 The password must contain at least one special character
-
-1500 Software category
-1501 New category
-1502 List of categories
-1503 Add software
-1504 Regular expression or Software name
-1505 Select default category for software
-1506 No category created
-1507 Software version
-1508 Software vendor
-1509 Advanced settings
-1510 Software version comparator
-1511 Version comparator
-1512 Less or Equal
-1513 More or Equal
-1514 Category
-1515 All OS
-1516 All software (but default)
-1517 No category have been selected
-1518 List of regex
-1519 Missing computers :
-1520 (CSV datas are imported)
-1521 Display count softwares
-
-1550 Do you really want to archive 
-1551 Archive
-1552 Restore
-1553 Do you really want to restore 
-1554 ARCHIVED COMPUTERS
-1555 ACTIVE COMPUTERS
-1556 Archive / Restore
-1557 ALL COMPUTERS
-1558 Archives
-
-1560 Purge old IPDiscover data
-1561 Validity time (in days) of an IPDiscover data
-
-1600 My dashboard
-1601 Dynamic groups
-1602 Doesn't contain
-1603 More than X days
-1604 Less than X days
-1605 Others
-1606 Is not empty
-
-1700 Advanced configuration
-1701 Tab available
-1702 New tab
-1703 Add selected packages
+1800 chemie
+1801 cykly
+1802 popis
+1803 konstrukční kapacita
+1804 kapacita
+1805 odhadovaný zbývající poplatek
+1806 výrobce
+1807 jméno
+1808 sériové číslo
+1809 životní úroveň
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 CHYBA:

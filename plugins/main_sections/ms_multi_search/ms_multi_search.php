@@ -289,11 +289,20 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 	}
 	
 	if(!empty($_SESSION['OCS']['multi_search'])){
+		$checked = "";
+
+		if (isset($protectedPost["groupby_search"])) {
+			$checked = "checked"; 
+		}
+
 		?>
 		
 		<div class="col-sm-12">
 			<input name="onglet" type="hidden" value="COMPUTERS">
 			<input id="search_ok" name="search_ok" type="hidden" value="OK">
+			<div>
+				<input style="display:initial;width:20px;height:14px;" type="checkbox" name="groupby_search" value="0" id="groupby_search" class="form-control" <?php echo $checked ?>><?php echo $l->g(9941) ?>
+			</div><br/>
 			<input type="submit" class="btn btn-success" value="<?php echo $l->g(13) ?>">
 		</div>
 		
@@ -322,10 +331,17 @@ if($protectedPost['onglet'] == "COMPUTERS") {
 		
 		if((isset($protectedPost['search_ok']) || isset($protectedGet['prov']) || isset($protectedGet['fields'])) && $isValid && !isset($protectedPost['table_select']) && !isset($protectedPost['columns_select'])){
 			unset($_SESSION['OCS']['SEARCH_SQL_GROUP']);
+
+			$groupby = true;
+
+			if (isset($protectedPost["groupby_search"])) {
+				$groupby = false; 
+			}
+
 			/**
 			 * Generate Search fields
 			 */
-			$search->generateSearchQuery($_SESSION['OCS']['multi_search']);
+			$search->generateSearchQuery($_SESSION['OCS']['multi_search'], $groupby);
 			$sql = $search->baseQuery.$search->searchQuery.$search->columnsQueryConditions;
 		
 			$_SESSION['OCS']['multi_search_query'] = $sql;

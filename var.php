@@ -73,13 +73,13 @@ define('TEMPLATE', __DIR__.'/templates/');
 /**
  * OCS' MySQL database version
  */
-define('GUI_VER', '7078');
+define('GUI_VER', '7081');
 
 
 /**
  * GUI Version
  */
-define('GUI_VER_SHOW', '2.12.1');
+define('GUI_VER_SHOW', '2.12.3');
 /**
  * Default GUI language
  */

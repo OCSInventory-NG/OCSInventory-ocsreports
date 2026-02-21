@@ -17,7 +17,11 @@
 33 Domäne
 34 IP-Addresse
 35 Rechnername
-36 Seriennummer
+36 BIOS Seriennummer
+37 Befehls-Buchstabe
+38 Auslieferungsreihenfolge
+39 Quelle
+40 Code
 41 Zurücksetzen
 42 Kein Ergebnis
 43 Hauptmenü
@@ -1251,7 +1255,7 @@
 1371 Datenbank-Server
 1372 Kernel
 1373 Distribution
-1374 Access the website
+1374 Webseite besuchen
 1375 Old Forums
 1376 FAQ
 1377 Frequently Asked Questions
@@ -1259,7 +1263,7 @@
 1379 Installierter Speicher
 1380 Spalten zurücksetzen
 1381 Aktionen
-1382 Hauptplatine Seriennr.
+1382 BIOS Hauptplatine Seriennr.
 1383 Hauptplatine Hersteller
 1384 Hauptplatine Modell
 1385 Nutzer aktualisieren
@@ -1305,7 +1309,7 @@
 1425 Tag
 1426 Updated
 1427 Base URL
-1428 Battery
+1428 Batterien
 1429 Sim card
 1430 Equal
 1431 More than
@@ -1360,8 +1364,8 @@
 1479 Import
 1480 Download CSV file example
 1481 CVE Historie
-1482 Latest execution date
-1483 CVE count
+1482 Zuletzt ausgeführt am
+1483 CVE Anzahl
 1484 Zeitspanne wie lange ein CVE Scan nach einem OCS Inventory Scan gültig ist
 1485 Nach Software
 1486 Nach Computer
@@ -1427,6 +1431,17 @@
 1701 Tab available
 1702 New tab
 1703 Ausgewählte Pakete hinzufügen
+
+1800 Chemie
+1801 Zyklen
+1802 Beschreibung
+1803 Designkapazität
+1804 Designspannung
+1805 geschätzte verbleibende Ladung
+1806 Hersteller
+1807 Name
+1808 Seriennummer
+1809 Status
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 Fehler:
@@ -1552,7 +1567,7 @@
 2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
 2126 Assets categorization
 2127 The current multi search query will be used as an asset categorization criteria.
-2128 Are you sure?
+2128 Sind Sie sicher?
 2129 Back to multi search
 2130 Assets Kategorien
 2131 Zahl der Maschinen je Kategorie
@@ -1562,7 +1577,7 @@
 2135 No machine has been inventoried
 2136 Update
 2137 Choose a new file if you want to modify the old one
-2138 Save my search
+2138 Meine Suche speichern
 2139 The current multi search query will be saved. You will be able to retrieve your saved searches on <i><b>Manage > Saved search</b></i> or using <i><b>Use a saved search</b></i> on multi search.
 2140 Eine gespeicherte Suche nutzen
 2141 Gespeicherte Suche
@@ -1689,6 +1704,8 @@
 9003 Create label
 9004 OID
 9005 OID string value
+9040 Alle SNMP Typen exportieren
+
 9106 Standard Download Protokoll
 9007 <b>The name is unique and must not contain any special characters except underscore.</b></br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
 9008 Add MIB file
@@ -1766,9 +1783,14 @@
 
 9319 Anwendung installieren
 9320 Anwendung deinstallieren
-9321 Add apt repository
-9322 Add yum repository
+9321 apt Repository hinzufügen
+9322 yum Repository hinzufügen
 9323 Bash / sh Script
+9324 .app Anwendung installieren
+9325 .pkg Anwendung installieren
+9326 Installation mit brew
+
+9328 Plugin installieren
 
 9324 Install .app application
 9325 Install .pkg application
@@ -1847,7 +1869,7 @@
 9704 CAS Konfiguration
 9800 Ausschluss von archivierten Computern aus der Statistik, CVE-Inventar, Zählung aller Softwares, Zählung der Computer pro TAG
 9801 Show bios diagram in dashboard
-9802 Show CVE search links
+9802 CVE Such-Links anzeigen
 9900 Layouts
 9901 Layout wurde erstellt
 9902 Layout wurde gelöscht
@@ -1917,3 +1939,5 @@
 9973 Keine Daten verfügbar
 
 9980 Netzwerk Scans
+
+9991 SNMP Dateien erzeugen

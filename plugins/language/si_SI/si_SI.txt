@@ -17,7 +17,7 @@
 33 Domena
 34 IP ĹĄtevilka
 35 Ime raÄ?unalnika
-36 Serijska ĹĄtevilka
+36 BIOS Serijska ĹĄtevilka
 41 Ponovni zagon
 42 Ni rezultatov
 43 Osnovni meni
@@ -1305,7 +1305,7 @@
 1425 Tag
 1426 Updated
 1427 Base URL
-1428 Battery
+1428 akumulator
 1429 Sim card
 1430 Equal
 1431 More than
@@ -1427,6 +1427,18 @@
 1701 Tab available
 1702 New tab
 1703 Add selected packages
+
+1800 kemija
+1801 Cikli
+1802 Imenovanje
+1803 Projektna zmogljivost
+1804 Projektna napetost
+1805 Ocenjeno preostalo bremenitev
+1806 Proizvajalec
+1807 Ime
+1808 Serijska številka
+1809 Stanje
+
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERROR:

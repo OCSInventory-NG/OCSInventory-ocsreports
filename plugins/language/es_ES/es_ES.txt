@@ -17,7 +17,11 @@
 33 Dominio
 34 Dirección IP
 35 Nombre del dispositivo
-36 Número de serie
+36 BIOS Número de serie
+37 Orden
+38 Orden de entrega
+39 Origen
+40 Código
 41 Inicializar
 42 No hay resultados
 43 Menú principal
@@ -1259,7 +1263,7 @@
 1379 RAM instalada
 1380 Restablecer columnas de tabla
 1381 Acciones
-1382 Número serie (Placa base)
+1382 BIOS Número serie (Placa base)
 1383 Fabricante (Placa base)
 1384 Modelo (Placa base)
 1385 Actualizar usuario
@@ -1427,6 +1431,17 @@
 1701 Pestaña disponible
 1702 Nueva pestaña
 1703 Añadir paquetes seleccionados
+
+1800 Química
+1801 Ciclos
+1802 Descripción
+1803 Capacidad de diseño
+1804 Tensión de diseño
+1805 Carga restante estimada
+1806 Fabricante
+1807 Nombre
+1808 Número de serie
+1809 Estado
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 <b>ERROR:</b>

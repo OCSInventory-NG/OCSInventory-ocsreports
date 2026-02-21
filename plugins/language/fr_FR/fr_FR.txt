@@ -17,7 +17,7 @@
 33 Domaine
 34 Adresse IP
 35 Nom machine
-36 Numéro de série
+36 BIOS Numéro de série
 41 Réinitialiser
 42 Aucun résultat
 43 Menu principal
@@ -1259,7 +1259,7 @@
 1379 RAM totale
 1380 Afficher les colonnes par défaut
 1381 Actions
-1382 Numéro de série de la carte mère
+1382 BIOS Numéro de série de la carte mère
 1383 Fabriquant de la carte mère
 1384 Modèle de la carte mère
 1385 Modifier un utilisateur
@@ -1431,6 +1431,17 @@
 1701 Onglet disponible
 1702 Nouvel onglet
 1703 Add selected packages
+
+1800 Type de batterie
+1801 Cycles
+1802 Description
+1803 Capacité nominale
+1804 Capacité 
+1805 Temps restant pour la charge
+1806 Constructeur
+1807 Nom
+1808 Numéro de série
+1809 Etat
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERREUR:
@@ -1886,6 +1897,7 @@
 9930 DNS
 
 9940 Est autorisé à gérer les recherches sauvegardées
+9941 Dégrouper le résultat
 
 9950 Notifications
 9951 Veuillez vérifier que les notifications ont été correctement configurées pour que l'envoi des rapports fonctionne

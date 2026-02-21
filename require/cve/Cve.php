@@ -23,6 +23,7 @@
 /**
  * Class for cve-search
  */
+#[AllowDynamicProperties]
 class Cve
 {
   public $CVE_SEARCH_URL = '';
@@ -293,7 +294,7 @@ class Cve
       if($this->previousSoftName != $values['NAME'] || $this->previousSoftPublisher != $values['VENDOR']) {
         $this->previousSoftName = $values['NAME'];
         $this->previousSoftPublisher = $values['VENDOR'];
-        $this->var = [];
+        $this->vars = [];
         
         $url = trim($this->CVE_SEARCH_URL)."/api/search/".$values['VENDOR']."/".$values['NAME'];
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('content-type: application/json'));  

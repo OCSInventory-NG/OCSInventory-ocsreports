@@ -17,7 +17,7 @@
 33 Domínio
 34 IP
 35 Nome do computador
-36 Número de série
+36 BIOS Número de série
 41 Limpar
 42 Nenhum resultado
 43 Menu Principal
@@ -225,7 +225,7 @@
 314 Computadores gateway para descoberta de IPs
 315 Computadores não inventariados
 316 Subrede
-317 ANALIZAR
+317 ANALISAR
 318 Nome DNS
 319 Resultado da análise da rede
 320 Esta análise foi feita em
@@ -781,7 +781,7 @@
 893 NENHUMA TAG DEFINIDA AO SEU PERFIL
 894 NENHUM DIREITO DEFINIDO AO SEU PERFIL
 895 Alteração de TAG
-896 You do not have rights to access this page, please contact your administrator
+896 Você não tem direitos para acessar esta página, entre em contato com o administrador
 898 Adicionar anotação
 899 Escritor
 900 Você realmente quer apagar a seleção?
@@ -1152,7 +1152,7 @@
 1265 Habilitar tabelas de cache
 1266 Máquinas Virtuais
 1267 Tipos de Máquinas Virtuais
-1268 Uuid
+1268 uuid
 1269 Máquina hospedada por
 1270 dd/mm/yyyy hh:ii
 1271 Computadores da subrede
@@ -1253,13 +1253,13 @@
 1373 Distribuição
 1374 Acesse o site
 1375 Fóruns antigo
-1376 Perguntas & Respostas
-1377 Perguntas & Respostas
+1376 Perguntas e Respostas
+1377 Perguntas e Respostas
 1378 RAM livre
 1379 RAM instalada
 1380 Redefinir colunas
 1381 Ações
-1382 Número de série da placa mãe
+1382 BIOS Número de série da placa mãe
 1383 Fabricante da placa mãe
 1384 Modelo da placa mãe
 1385 Editar usuário
@@ -1335,9 +1335,8 @@
 1455 Interface virtual
 1456 Número do telefone
 1457 Associar descoberta de rede a tag do computador</br><b style="color:#d9534f;">Saia e logue novamente depois de atualizar essa configuração</b>
-1458 characters
-
-1459 Time delay between each CVE scan
+1458 caracteres
+1459 Atraso de tempo entre cada varredura CVE
 1460 Gerenciamento de pesquisa-CVE
 1461 Ativar Relatórios CVE
 1462 URL do servidor de pesquisa-cve para o relatório
@@ -1365,19 +1364,19 @@
 1484 Tempo de validade de um CVE após a varredura do inventário OCS
 1485 Por software
 1486 Por computador
-1487 Authentication has been blocked due to too many failed attempts. (%time% seconds remaining)
-1488 Enable authentication security
-1489 Number of attempts
-1490 Cooldown
-1491 Enable password security
-1492 Set minimal characters in password
-1493 Force number in password
-1494 Force uppercase in password
-1495 Force special characters in password
-1496 The password must contain at least
-1497 The password must contain at least one uppercase
-1498 The password must contain at least one number
-1499 The password must contain at least one special character
+1487 Autenticação bloqueada devido a muitas tentativas malsucedidas. (%time% segundos restantes)
+1488 Habilitar segurança de autenticação
+1489 Número de tentativas
+1490 Tempo de espera
+1491 Habilitar segurança de senha
+1492 Caracteres mínimos na senha
+1493 Exigir números na senha
+1494 Exigir maiúsculas na senha
+1495 Exigir caracteres especiais na senha
+1496 Senha deve conter pelo menos
+1497 Senha deve conter pelo menos uma letra maiúscula
+1498 Senha deve conter pelo menos um número
+1499 Senha deve conter pelo menos um caractere especial
 
 1500 Categoria de software
 1501 Nova categoria
@@ -1395,12 +1394,16 @@
 1513 maior ou igual
 1514 Categoria
 1515 Todos os sistemas operacionais
-1516 Todos softwares
+1516 Todos softwares (exceto padrão)
 1517 Nenhuma categoria foi selecionada
-1518 List of regex
-1519 Missing computers :
-1520 (CSV datas are imported)
-1521 Display count softwares
+1518 Lista regex
+1519 Computadores faltando :
+1520 (dados CSV são importados)
+1521 Exibir total de instalações
+1522 Versão padronizada
+1523 Versão maior
+1524 Versão menor
+1525 Versão de correção
 
 1550 Você realmente deseja arquivar
 1551 Arquivar
@@ -1426,7 +1429,18 @@
 1700 Configuração avançada
 1701 Aba disponível
 1702 Nova aba
-1703 Add selected packages
+1703 Adicionar pacotes selecionados
+
+1800 Quimica
+1801 Ciclo
+1802 Descrição
+1803 Capaciclade 
+1804 Capaciclade voltagem
+1805 Charge estimado restante
+1806 Fabricante
+1807 Nome
+1808 Número de série
+1809 Status
 
 2000 * SETUP voices 2000-2200 * (2000-2029 Common voices *** 2030-2200 Setup voices)
 2001 ERRO:
@@ -1569,11 +1583,11 @@
 2142 Crie uma pesquisa
 2143 Pesquisa salva com sucesso
 2144 Atualizar uma pesquisa salva existente
-2145 Who can see ?
-2146 Only me
-2147 My group
-2148 All users
-2149 Update date when peripherals updated
+2145 Quem pode ver ?
+2146 Só eu
+2147 Meu grupo
+2148 Todos usuários
+2149 Atualizar data quando alterar periféricos
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
@@ -1587,11 +1601,11 @@
 5009 [DEBUG]RAW DATA[DEBUG]
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
-5012 [DEBUG]valor a pesquisar=[DEBUG]
+5012 [DEBUG]value to search=[DEBUG]
 5013 [DEBUG]Complementary field=[DEBUG]
 5014 [DEBUG]AND OR Field=[DEBUG]
 5015 [DEBUG]COMPLEMENTARY FIELD OMISSION ON TABLE[DEBUG]
-5016 [DEBUG]tabela =>[DEBUG]
+5016 [DEBUG]table =>[DEBUG]
 5017 [DEBUG]filed =>[DEBUG]
 5018 [DEBUG]comparison =>[DEBUG]
 5019 [DEBUG]value to search  =>[DEBUG]
@@ -1667,6 +1681,7 @@
 8027 Ocorreu um problema ao obter as notícias OCS
 8028 Você tem notícias recentes
 8029 não é gravável
+8030 Marcações de script não são permitidas
 
 8100 Inventário de aplicativos web
 8101 Lista de aplicativos web
@@ -1702,28 +1717,32 @@
 9016 Selecione o tipo que você deseja configurar.
 9017 OID numérico
 9018 Nome do campo de inventário
-9019 String de nome OID
+9019 String do nome OID
 9020 Adicionar ao modelo SNMP
 9021 Pesquisar por linha específica
-9022 Can't create type with empty OID or empty OID string value
-9023 Type name already exists
-9024 An error happened during the SNMP type creation
-9025 Label already exists
-9026 An error happened during the SNMP label creation
-9027 An error happened during the SNMP configuration
-9028 An error happened during the type deletion
-9029 An error happened during the label deletion
-9030 An error happened during the config deletion
-9031 Type conditions
-9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
-9033 Authentication Protocol
-9034 Privacy Protocol
-9035 Privacy Password
-9036 No OID found
-9037 Equipment contacted today
-9038 Number of equipment per type
-9039 Quick view
-9040 Export all SNMP types
+9022 Não é possível criar um tipo OID vazio ou valor OID vazio
+9023 Tipo já existe
+9024 Ocorreu um erro durante a criação do tipo SNMP
+9025 O rótulo já existe
+9026 Ocorreu um erro durante a criação do rótulo SNMP
+9027 Ocorreu um erro durante a configuração do SNMP
+9028 Ocorreu um erro durante a exclusão do tipo
+9029 Ocorreu um erro durante a exclusão do rótulo
+9030 Ocorreu um erro durante a exclusão da configuração
+9031 Condições do tipo
+9032 Curingas: * (vários caracteres no início do valor da OID ou no final do valor da OID)
+9033 Protocolo de Autenticação
+9034 Protocolo de Privacidade
+9035 Senha de Privacidade
+9036 Nenhum OID encontrado
+9037 Equipamento contatado hoje
+9038 Número de equipamentos por tipo
+9039 Detalhes
+9040 Exportar todos tipos SNMP
+9041 Usar para reconciliação do IpDiscover (deve ser um OID endereço IP)
+9042 Dispositivos SNMP
+9043 Um campo de reconciliação IpDiscover já está definido para este tipo
+9044 Vincular dispositivo SNMP a tag do computador
 
 9100 Caminho da chave SSL
 9101 Caminho do certificado SSL
@@ -1731,179 +1750,184 @@
 9103 modo SSL
 9104 Caminho do certificado CA
 9105 Porta MySQL
-9106 Default download protocol
+9106 Protocolo padrão de download
 
-9200 Package deployment for computer
-9201 Package deployment for selection
-9202 Package deployment for group
-9203 Activate download fragmentation
-9204 Configure download fragmentation ratio
-9205 Enable auto activation package
-9206 Activated
-9207 Deployment date
-9208 Awaiting deployment
+9200 Implantação de pacote para computador
+9201 Implantação de pacote para seleção
+9202 Implantação de pacote para grupo
+9203 Ativar fragmentação de download
+9204 Configurar taxa de fragmentação de download
+9205 Habilitar ativação automática de pacote
+9206 Ativado
+9207 Data de implantação
+9208 Aguardando implantação
 
-9300 Interactions
-9301 Options
-9302 Resume
+9300 INTERAÇÕES
+9301 OPÇÕES
+9302 RESUMO
 9303 Linux
 9304 MacOS
 9305 Windows
-9306 Powershell script
+9306 Script Powershell
 9307 Scripts
-9308 Install / Uninstall
-9309 Others
+9308 Instalar / Desinstalar
+9309 Outros
 
-9310 Batch script
-9311 Custom package
-9312 Execute an exe
-9313 Install MSI application
-9314 Powershell script
-9315 Store file/folder 
-9316 Uninstall application
-9317 Update Agent
-9318 Install with WinGet (Powershell)
+9310 Script Batch
+9311 Pacote personalizado
+9312 Executar um exe
+9313 Instalar MSI
+9314 Script Powershell
+9315 Armazenar arquivo/pasta
+9316 Desinstalar aplicação
+9317 Atualizar agente
+9318 Instalar com WinGet (Powershell)
 
-9319 Install application
-9320 Uninstall application
-9321 Add apt repository
-9322 Add yum repository
-9323 Bash / sh script
+9319 Instalar aplicação
+9320 Desinstalar aplicação
+9321 Adicionar repositório apt
+9322 Adicionar repositório yum
+9323 Bash / script sh
 
-9324 Install .app application
-9325 Install .pkg application
-9326 Install with brew
-9327 Apple script
+9324 Instalar aplicação .app
+9325 Instalar aplicação .pkg
+9326 Instalar com brew
+9327 Script Apple
 
-9328 Install plugin
+9328 Instalar plugin
 
 9340 Script
-9341 MSI file
-9342 Repository URL
-9343 .app file
-9344 .pkg file
+9341 Arquivo MSI
+9342 URL do repositório
+9343 Arquivo .app
+9344 Arquivo .pkg
 9345 HTTP
 9346 HTTPS
-9347 Arguments (optional)
-9348 Packager file
-9349 Application name
-9350 Application identifier
-9351 How to find wmic application identifier : open a cmd as administrator and run "wmic product get name"
-9352 EXE file
-9353 Script file
-9354 Write your script here <b>OR</b> put your script file
-9355 Put your packager file with all parameters inside
-9356 If multiple files, please zip before
-9357 Packager type
+9347 Argumentos (opcional)
+9348 Arquivo do empacotador
+9349 Nome da aplicação
+9350 Identificador da aplicação
+9351 Como encontrar o identificador da aplicação wmic : abra um cmd como administrador e execute "wmic product get name"
+9352 Arquivo EXE
+9353 Arquivo Script
+9354 Escreva seu script aqui <b>OU</b> coloque seu arquivo de script
+9355 Coloque o arquivo do empacotador com todos os parâmetros dentro
+9356 Se houver vários arquivos, compacte-os antes
+9357 Tipo de empacotador
 9358 apt
 9359 yum
 9360 dnf
-9361 Reload build
-9362 File
-9363 Plugin agent file
-9364 Configuration line
-9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
-9366 Path to Modules directory
-9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
-9368 Execution mode : 
-9369 LAUNCH
-9370 EXECUTE
+9361 Recarregar compilação
+9362 Arquivo
+9363 Arquivo do plugin do agente
+9364 Linha de configuração
+9365 Linha a ser adicionada ao arquivo modules.conf (ex: 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Caminho para o diretório de módulos
+9367 Definir a opção abaixo como EXECUTAR fará com que o pacote falhe se o código de saída não for 0. Definir como LANÇAR retornará o código de saída ao servidor, juntamente com o status do pacote.
+9368 Modo de execução :
+9369 LANÇAR
+9370 EXECUTAR
 
-9500 Merge selected duplicates
-9501 Merge all duplicates
-9502 Duplicates by :
+9500 Mesclar duplicados selecionadas
+9501 Mesclar todos duplicados
+9502 Duplicados por :
 
-9600 CSV reconciliation field :
-9601 OCS reconciliation field :
-9602 Empty value
-9603 No corresponding device found in OCS database
-9604 Update failed
-9605 Admin data was imported from CSV, see below for any errors
-9606 CSV can not be read, please check separator configuration in OCS general configuration
-9607 CSV uploaded successfully
-9608 The CSV reconciliation field must allow the identification of each machine and must correspond to a field already present in the OCS database (machine name or serial number)
-9609 OCS reconciliation field must correspond to the CSV field chose previously 
-9610 Please select corresponding fields :
-9611 Directory for temporary files
-9612 Import from CSV
-9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
-9614 Import error. Only CSV files are accepted
-9615 Failed to import data
+9600 Campo de reconciliação CSV :
+9601 Campo de reconciliação OCS :
+9602 Valor vazio
+9603 Nenhum dispositivo correspondente encontrado no banco de dados OCS
+9604 Atualização falhou
+9605 Os dados administrativos foram importados do CSV, veja abaixo se há erros
+9606 O CSV não pode ser lido, verifique a configuração do separador na configuração geral do OCS
+9607 CSV carregado com sucesso
+9608 O campo de reconciliação CSV deve permitir a identificação de cada máquina e deve corresponder a um campo já presente no banco de dados do OCS (nome da máquina ou número de série)
+9609 O campo de reconciliação do OCS deve corresponder ao campo CSV escolhido anteriormente
+9610 Selecione os campos correspondentes :
+9611 Diretório para arquivos temporários
+9612 Importar de CSV
+9613 Falha ao importar CSV, verifique a configuração do diretório de arquivos temporários na configuração geral do OCS
+9614 Erro na importação. Somente arquivos CSV são aceitos
+9615 Falha ao importar dados
 
-9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
+9650 Número de filtros LDAP (mínimo 1, máximo igual ao número de perfis)
 
-9651 History
-9653 User name
-9654 Date and time
-9655 Action
-9656 Target of action
+9651 Histórico
+9653 Usuário
+9654 Data e hora
+9655 Ação
+9656 Alvo da ação
 
-9700 CAS server port, e.g. : 443
-9701 CAS server uri, e.g : /cas
-9702 CAS server host, e.g. : authentication.org
-9703 CAS default role, applied on first connection initiated using CAS authentication
-9704 CAS Configuration
+9700 CAS porta do servidor, ex: 443
+9701 CAS uri do servidor, ex: /cas
+9702 CAS host do servidor, ex: authentication.org
+9703 CAS função padrão, aplicada na primeira conexão iniciada usando autenticação CAS
+9704 CAS Configuração
+9705 CAS URI base, ex: ocs.example.com
+9706 CAS caminho do certificado CA do servidor CAS, ex: /path/to/cachain.pem
 
-9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
-9801 Show bios diagram in dashboard
+9800 Excluir computadores arquivados de estatísticas, inventário CVE, contagem de softwares, contagem de computadores por TAG
+9801 Mostrar diagrama da BIOS no dashboard
 
-9802 Show CVE search links
+9802 Mostrar links de pesquisa CVE
 
 9900 Layouts
-9901 Layout created
-9902 Layout deleted
-9903 Error creating layout
-9904 Please check your input. Repeat the process if the problem persists.
-9905 Error deleting layout
-9906 A layout with the same name or columns already exists for your user/scope, please choose another name or set of columns
-9907 Manage layouts
-9908 Show all layouts
-9909 Add new layout
-9910 Available layouts :
-9911 Layout name
-9912 Layout description
-9913 Table name
-9914 Creator
-9915 Visibility scope 
-9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
-9917 Public
-9918 Group
-9919 Personal
-9920 Layout updated successfully
-9921 Is allowed to manage layouts
+9901 Layout criado
+9902 Layout excluído
+9903 Erro ao criar layout
+9904 Por favor, verifique as informações de entrada. Repita o processo se o problema persistir.
+9905 Erro ao excluir layout
+9906 Um layout com o mesmo nome ou coluna já existe para seu usuário/escopo, escolha outro nome ou conjunto de colunas
+9907 Gerenciar layouts
+9908 Mostrar todos layouts
+9909 Adicionar novo layout
+9910 Layouts disponíveis :
+9911 Nome do layout
+9912 Descrição do layout
+9913 Nome da tabela
+9914 Criador
+9915 Escopo de visibilidade
+9916 Falha na atualização do layout, verifique se não existe outro layout com o mesmo nome e visibilidade
+9917 Público
+9918 Grupo
+9919 Pessoal
+9920 Layout atualizado com sucesso
+9921 Permitir gerenciar layouts
 
 9930 DNS
 
-9940 Is allowed to manage saved searches
+9940 Permitir gerenciar pesquisas salvas
 
-9950 Notifications
-9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
-9952 Report notification created successfully
-9953 Report notification updated successfully
-9954 Please set a recurrence
-9955 Please provide at least one recipient, or comma separated recipients
-9956 daily
-9957 weekly
-9958 monthly
-9959 Activate : 
-9960 Report recurrence : 
-9961 Recipient(s) : 
-9962 Day of reccurence : 
-9963 End Date :
+9950 Notificações
+9951 Verifique se a configuração de notificação foi definida corretamente, caso contrário, o envio de relatórios por meio de notificações não funcionará
+9952 Notificação de relatório criada com sucesso
+9953 Notificação de relatório atualizada com sucesso
+9954 Por favor, defina uma recorrência
+9955 Por favor, forneça pelo menos um destinatário ou destinatários separados por vírgula
+9956 diariamente
+9957 semanalmente
+9958 mensalmente
+9959 Ativar :
+9960 Recorrência :
+9961 Destinatário(s) :
+9962 Dia da recorrência :
+9963 Data final :
 
-9970 You are not allowed to modify this user
-9971 Do you really want to re-affect the package 
-9972 Affect again
+9970 Você não tem permissão para modificar este usuário
+9971 Você realmente quer reaplicar o pacote
+9972 Aplicar novamente
+9973 Não há dados disponíveis
 
-9980 Network Scans
-9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
-9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
-9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
-9984 Export SNMP Configuration
-9985 Download SNMP Communities Configuration
-9986 Download SNMP Types Configuration
-9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
-9988 Configuration export
-9989 Download SNMP Scan Configuration
-9990 Download SNMP Subnets List
-9991 Generate SNMP files
+9980 Varreduras de rede
+9981 Método de varredura IpDiscover realizada por agentes (nmap, ICMP, ARP)<br><br> Nota: ARP só faz varredura de rede local
+9982 Método de varredura SNMP realizada por agentes Linux (nmap, ICMP, ARP)<br><br> Nota: ARP só faz varredura de rede local
+9983 Se varredura ARP: largura de banda usada pela varredura ARP (em Kbps)
+9984 Exportar configuração SNMP
+9985 Baixar configuração das comunidades SNMP
+9986 Baixar configuração dos tipos SNMP
+9987 Exportar configuração para varredura SNMP local: A configuração será baixada como arquivo XML que pode ser usado para configurar o agente para varredura SNMP local.<br> Observe que a configuração de varreduras SNMP recuperará a configuração geral de varreduras de rede se exportada daqui. Se você quiser configuração por grupo ou por dispositivo, vá para a página do grupo ou dispositivo e acesse a configuração.
+9988 Exportar configuração
+9989 Baixar configuração de varredura SNMP
+9990 Baixar lista de subredes SNMP
+9991 Gerar arquivos SNMP
+
+10000 Falha ao atualizar campos: aspas não são permitidas nos dados administrativos
