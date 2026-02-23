@@ -1430,7 +1430,7 @@
 1700 Configuration avancée
 1701 Onglet disponible
 1702 Nouvel onglet
-1703 Add selected packages
+1703 Ajouter les paquets sélectionnés
 
 1800 Type de batterie
 1801 Cycles
@@ -1648,9 +1648,9 @@
 7018 Cette extension est déjà installée.
 7019 Une erreur PHP est survenue.
 7020 L'extension a été désinstallée avec succès !
-7021 Extension "%s" not compliant
-7022 Missing function "%s" in "%s"!
-7023 Unable to include install.php
+7021 Extension "%s" non conforme
+7022 Fonction "%s" manquante dans "%s" !
+7023 Impossible d'inclure install.php
 
 8000 Notifications
 8001 Activer le suivi par courriel
