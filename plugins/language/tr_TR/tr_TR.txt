@@ -1,8 +1,5 @@
 2 Bütün Bilgiyarlar
-3 Bilgisayar ve Bilgisayar yazýlýmý...
-5 Sorumluluðum Altýndaki Birlik
 9 Arama ve Kriterler
-12 Etki deðeri
 13 Gönder
 17 Temsilci
 18 Revision
@@ -30,6 +27,7 @@
 49 Adý
 50 Deðiþtir
 51 Yorumlar
+52 Visible
 53 Taným
 54 Ýþlemci
 55 Sayý
@@ -61,8 +59,6 @@
 95 MAC adresi
 96 Güvenli
 97 Monitör(s)
-98 Dikkat,Sadece 8 seçim hakkýnýz var !
-99 Bilgisayar ayrýntýlarý
 103 Güncelle
 107 Biçim
 108 Kayýt Talebi
@@ -71,15 +67,18 @@
 114 Kayýt
 115 Güncelle
 116 Ekle
-117 Kayýt
 119 Silmek istediðinizden eminmisiniz ID n°
 122 sil
 129 Eþitler
 130 Baþka
 134 Veri tabanýna yeni bir dosya ekle
 135 Dikkat, Dosyayý tamamen siliyorsunuz!
-136 Ýndir
 137 Dosya
+140 Super administrators
+141 Administrators
+142 Local administrators
+143 teledeploy requesters
+162 Remove Selected
 168 Bu biçimlendirme dosyasý geçersiz (dosya  zip, pl veya unix binary olmalý)
 170 Ayný dosya zaten var !
 171 Dosyayý Sil
@@ -125,6 +124,7 @@
 213 Anahtar Deðeri
 214 Bu sayfayý yazdýr
 215 Þifre Hatalý
+216 ASSETTAG
 217 Þifre
 218 Acenta Verisoyu
 219 uninventoried Að arayüzü
@@ -296,7 +296,6 @@
 389 Hiç
 390 sölzük kategorisi
 391 Kategori adý
-392 sil
 393 Ara
 394 Arama Kategorisi
 395 Yazýlýmý her yerde ara
@@ -422,7 +421,8 @@
 526 Sahte bilgisayar yok
 527 Ocak
 528 Þubat
-529 Nisan
+529 Mart
+530 Nisan
 531 Mayýs
 532 Haziran
 533 Temmuz
@@ -446,36 +446,39 @@
 551 Bu paketin ismi zaten var
 552 <i>Bilgisayar aramanýz gerekiyor, ve aktivasyon paketinin mevkisini týklayýn<br>Hem bir bilgisara hemde bir pakete etki ediyor</i>.
 553 Pencere anahtarý
+554 Monitor: serial
+555 Monitor: manufacturer
+556 Monitor: caption
 557 Userdomain
-558 Affected packages
+558 Assigned packages
 559 This file is not .ocs
 560 To server
 561 Unknown (deleted package)
-562 Networks having uid:
+562 Show networks having uid:
 563 Manufacturer
 564 Agent auto-launching frequency
 565 Address used for local inventories
 567 Ipdiscover latency
-568 RAM(MB)
-569 CPU(MHz)
+568 RAM (MB)
+569 CPU (MHz)
 570 Help
 571 Validate all
 572 Success
 573 Errors
 574 Stats
-575 Unaffect not notified
+575 Unassign not notified
 576 Customized ipdiscover
 577 Group name
 580 All computers (replay)
 581 All computers (cached)
-582 and
+582 AND
 583 Groups
 584 For the request
 585 For selection
 586 New group
 587 New static group
 588 Overwrite group
-589 statically add to group
+589 Statically add to this group
 590 Reset state
 591 Include statically
 592 Exclude statically
@@ -485,12 +488,11 @@
 596 DYNAMICALLY INCLUDED
 597 STATICALLY EXCLUDED
 598 Include
-599 Reset
 600 Exclude
-601 Mass affectation
+601 Mass assignment
 602 You need to send a file
 603 No computer found, please check your file
-604 computer(s) successfully affected(s)
+604 computer(s) successfully assigned
 605 computer(s) failed
 606 Computers file
 607 Group
@@ -511,20 +513,20 @@
 622 Cached
 623 The information you are trying to access does not exist
 624 Do you really want to delete group
-625 Enable this alteration
-626 Disable this alteration
+625 Update fields
+626 Cancel edit
 627 At least one of the fields is empty... Not made Update.
-628 Servers
-629 New group of servers of redistribution
-630 A group of existing servers
+628 Redistribution Servers
+629 New group of redistribution
+630 A group of existing redistribution
 631 Add to
 632 Crush
-633 Management groups servers
+633 Management redistribution groups
 634 Wished action
 635 New name
 637 Replace
 638 THE GROUP'S NAME CAN'T BE EMPTY
-639 THIS GROUP'S SERVER NOT EXIST
+639 THIS GROUP'S REDISTRIBUTION NOT EXIST
 640 Do you really want to delete
 641 Management of the redistribution servers
 642 the group
@@ -536,28 +538,28 @@
 648 REPERTOIRE STORE
 649 AUTOMATIC
 650 MANUAL
-651 Servers group
+651 Redistribution group
 652 Machine(s)
 653 Blacklist MAC address
 654 Enter a new MAC address for blacklist
 655 Insertion made
 656 This datum already exists in the list
 657 Fields in red are in error!!! (Empty fields or size < 2)
-658 machine don't have redistribution servers. <br>It is thus necessary to affect this package individually.
-659 Machines already have this teledeploy package. This package's statut for these machines is now
-660 GROUP OF SERVEUR NOT EXIST
-661 PACKAGES FOR SERVER OF REDISTRIBUTION
-662 Rules of affectation
-663 INTERNES PROBLEM
+658 machine don't have redistribution servers. <br>It is thus necessary to assign this package individually.
+659 Machines already have this teledeploy package. This package's status for these machines is now
+660 GROUP OF REDISTRIBUTION NOT EXIST
+661 PACKAGES FOR REDISTRIBUTION
+662 Assignment rules
+663 INTERNAL PROBLEM
 664 Action made
-665 NO SELECTED MACHINE. GROUP OF SERVER NOT CREATED
-666 Group of server made
+665 NO SELECTED MACHINE. GROUP OF REDISTRIBUTION NOT CREATED
+666 Group of redistribution made
 667 FOR THE PACKAGE
-668 to Affect with which rule?
-669 ATTENTION: there are doubloons of priority < br > A single rule will be retained!
+668 to Assign with which rule?
+669 ATTENTION: there are doubloons of priority <br> A single rule will be retained!
 670 A rule already carries this name
 672 This rule does not exist!!!
-673 Administration of the rules of affectation
+673 Administration of assignment rules
 674 NAME OF THE RULE
 675 PRIORITY
 676 MACHINE VALUE
@@ -572,31 +574,30 @@
 685 Add a rule
 686 The condition
 687 You cannot delete it.
-688 Packages are affected on this goupe!
-689 Packages are affected on this server!
+688 Packages are assigned on this group!
+689 Packages are assigned on this server!
 690 You cannot delete all the machines.
 691 Generic Values: $IP$ and $NAME$
 692 You modify ALL the values of the servers
 693 You modify the values of the following server:
 694 to find the default values, validate the vacuous fields
-695 You modify the group of servers
-696 to Show packages activated to affect on
+695 You modify the group of redistribution
+696 to Show packages activated to assign on
 697 a machine
-698 a group of server
-699 Are you sure to want to affect this package in these machines?
+698 a group of redistribution
+699 Are you sure to want to assign this package in these machines?
 700 Blacklist choices
 701 Blacklist of serial number
-702 Enter a new serial number to blacklister
+702 Enter a new serial number to blacklist
 703 Blacklist
-704 Are you sure to want to blacklister
-705 Are you sure to want to unblacklister
-706 Unblacklister
+704 Are you sure to want to blacklist
+705 Are you sure to want to unblacklist
+706 Unblacklist
 707 this serial number
-708 this mac address
+708 this MAC address
 709 Customized PROLOG_FREQ
 710 Customized download
 711 Taken into account modifications
-712 Language file
 712 Language file
 713 Are you sure to replace this language file
 714 Reference language file
@@ -608,7 +609,7 @@
 720 Waiting time between 2 cycles of deployment
 721 Waiting time between 2 downloaded fragments
 722 Waiting times between 2 periods of deployment
-723 maximum Priority of the downloaded packages <br> (The packages of a superior priority are ignored)
+723 maximum priority of the downloaded packages <br> (The packages of a superior priority are ignored)
 724 Time between 2 contacting between the agent and the server
 725 (in the hour)
 726 URI of the servers of redistribution ($IP and NAME$ are the generic values)
@@ -624,12 +625,11 @@
 736 Enable the computer's groups feature
 737 Random number computed in the defined range. Designed to avoid computing many groups in the same process
 738 Specify the validity of computer's groups (default: compute it once a day - see offset)
-739 Futur security improvements
 740 Validity of a computer's lock
-741 Configure engine to update inventory regarding to CHECKSUM agent value (lower DB backend load)
+741 Configure engine to update inventory using the CHECKSUM agent value (lower DB backend load)
 742 Make engine consider an inventory as a transaction (lower concurency, better disk usage)
-743 Configure engine to make a differential update of inventory sections (row level). Lower DB backend load, higher frontend load
-744 Accept an inventory only if required by server ( Refuse "forced" inventory)
+743 Configure engine to make a differential update of inventory sections (row level). (Lower DB backend load, higher frontend load)
+744 Accept an inventory only if required by server (refuse "forced" inventory)
 745 Specify when the engine will clean the inventory cache structures
 746 Specify the minimal difference to replace an ipdiscover agent
 747 Disable the time before a first election (not recommended)
@@ -637,24 +637,24 @@
 749 Use with ocsinventory-local, enable the multi entities feature
 750 Generate either compressed file or clear XML text
 751 Specify if you want to keep trace of all inventory between to synchronisation with the higher level server
-752 Path to ocs files directory (must be writeable)
+752 Path to ocs files directory (must be writable)
 753 Enable prolog filter stack
 754 Enable core filter system to modify some things "on the fly"
 755 Enable inventory flooding filter. A dedicated ipaddress ia allowed to send a new computer only once in this period
 756 Period definition for INVENTORY_FILTER_FLOOD_IP
 757 Enable inventory filter stack
-758 Specify if you want to track packages affected to a group on computer's level
-759 Must be superior or egal in
+758 Specify if you want to track packages assigned to a group on computer's level
+759 Must be greater than or equal to
 760 Webservice
 761 Enable/Disable the soap service
 762 Result page size (be aware of performances issues)
 763 Include file of your own modules
 764 Options below are not settable by GUI.<br>(see ocsinventory-server.conf)
-765 All softwares
+765 All software
 766 NO RESULT
 767 BE CAREFUL: RESULT WITH FILTER
 768 Number of recording
-769 Tranfer Made
+769 Transfer Made
 770 UPDATE OF
 771 This category already exists
 772 The category's name can't be null
@@ -663,13 +663,13 @@
 775 Directory of creation of packages
 776 Directory of stake in cache of the analyses of ipdiscover
 777 Validity of a session
-778 Number of different WORKGROUP
-779 Different TAG
-780 Different IPSUBNET
-781 Machines having a software deployement pending
-782 Machines having a package in error
-783 Number of different OS
-784 Different agent
+778 Number of different WORKGROUPs
+779 Different TAGs
+780 Different IPSUBNETs
+781 Machines having a software deployment pending
+782 Machines having a package error
+783 OS Versions
+784 Agent Versions
 785 Different processors
 786 Different resolutions
 787 Machines with a processor >=
@@ -678,24 +678,24 @@
 790 Machines with RAM >=
 791 Machines with RAM =<
 792 Machines with RAM between
-793 Machines in base
-794 Seen machines
-795 Machines contact server today
-796 Number of inventory machine today
-797 Machines not see since more of
+793 Machines in DB
+794 Machines Inventoried
+795 Machines contacted today
+796 Machines Inventoried today
+797 Machines not seen in more than
 798 ACTIVITY
 799 HARDWARE
-800 ELSE
+800 Other
 801 Don't show this field
-802 Show this fied
+802 Show this field
 803 Counts in the daytime since the machine don't contact server
 804 Minimum speed processor
 805 Maximum speed processor
 806 Minimum RAM amount
 807 Maximum RAM amount
 808 Repartition
-809 STATICS GROUPS
-810 DYNAMICS GROUPS
+809 STATIC GROUPS
+810 DYNAMIC GROUPS
 811 Are you sure to want to modify the visibility of the group
 812 The software in 0 is present in CACHE but are not any more settled on machines.<br>They cannot be put in a category of dictionary
 813 hard disk number with remaining size >
@@ -703,7 +703,7 @@
 815 hard disk number with remaining size between
 816 hard disk maximum remaining size
 817 hard disk minimum remaining size
-818 Get out of group
+818 Remove from group
 819 computer(s) added to group
 820 Last contact
 821 SERVER CONFIGURATION MODIFICATION
@@ -722,20 +722,20 @@
 834 Version LDAP_OPT_PROTOCOL_VERSION
 835 Add RSX
 836 Manage TYPES
-837 You don't have access to this datas
+837 You don't have access to this data
 838 Disk: Drive letter
 839 Disk: Type
 840 Disk: Format
 841 Disk: Capacity
 842 Disk: Free Space
-843 Disk: Volumn Name
+843 Disk: Volume Name
 844 Group: Id
 845 Group: Static?
-846 Softwares: company
-847 Softwares: Name
-848 Softwares: Version
-849 Softwares: Install directory
-850 Softwares: Comments
+846 Software: Company
+847 Software: Name
+848 Software: Version
+849 Software: Install directory
+850 Software: Comments
 851 Bios: Computer manufacturer
 852 Bios: Model
 853 Bios: Serial number
@@ -756,31 +756,32 @@
 868 Network: Status
 869 Network: IP Address
 870 Network: IP Netmask
-871 Network: Subnetwork IP
+871 Network: Subnet IP
 872 Network: Gateway IP
 873 Network: DHCP IP
 874 Registry key: Name
 875 Registry key: Value
-876 Simple unaffect REDISTRIBUTION GROUP
+876 Simple unassign REDISTRIBUTION GROUP
 877 SOME COMPUTERS HAVEN'T BEEN ADDED TO GROUP BECAUSE:
 878 Reminder: a computer can be a member of one redistribution group only
-879 GROUPE REPLACED
+879 GROUP REPLACED
 880 GROUP CREATED
 881 Computers added
 882 Computers deleted from group
 883 Restrict view
-884 WARNING: WITH FILTER visualisation
+884 WARNING: Results Filtered
 885 unknown
 886 Simple desaffection
-887 It's possible that this package is not affected to redistribution servers
+887 It's possible that this package is not assigned to redistribution servers
 888 Removal
 889 Connected as
-890 Interface is actually locked on a search with various criterias
+890 Interface is actually locked on a search with various criteria
 891 Remove interface LOCK
 892 connect with another account
-893 NO TAG AFFECTEID TO YOUR PROFILE
-894 NO RIGHTS LEVEL DEFINED TO YOUR PROFILE
+893 NO TAG ASSIGNED TO YOUR PROFILE
+894 No rights level defined to your profile, please contact your administrator
 895 TAG Modification
+896 You do not have rights to access this page, please contact your administrator
 898 Add an annotation
 899 Writer
 900 Do you really want to delete selection?
@@ -788,14 +789,14 @@
 902 Action on the result of selection
 903 You must fill the explanation field
 904 Package reassignment
-905 Explanation about perfomed actions<br>on computer to be able to <br>affect package
+905 Explanation about performed actions<br>on computer to be able to <br>assign package
 906 Package teledeploy removal
 907 Explanation about package removal<br>on this computer
-908 Mobile terminal informations
-909 MODIFICATION NOT PERFOMAED: WRONG NEW PROFILE
+908 Mobile terminal information
+909 MODIFICATION NOT PERFORMED: WRONG NEW PROFILE
 910 Validate
 911 Switch profile of
-912 Export list of computers that have this softwares
+912 Export list of computers that have this software
 913 Number of non inventoried network interfaces
 914 Number of agents that didn't send inventory since at least
 915 messages
@@ -805,16 +806,16 @@
 919 Are you sure to want to delete this message
 920 ERROR, the requested doesn't exists.
 921 Delete this category
-922 To merge, you have to select 2 computers at least
+922 To merge, you have to select at least 2 computers
 923 You have no computer in count
 924 EXTRACTION REQUEST NOT CONVENTIONAL!
 925 FUSER functionality
 926 Fuser login:
-927 CACHE S NOT REGENERATED BY THIS ACTION
-928 Logs visualization
-929 subnetworks managementn is not performed locally.
-930 You cannot add/modify/remove subnetworks
-931 Modify a subnetwork
+927 CACHE ISN'T REGENERATED BY THIS ACTION
+928 Log visualization
+929 subnet's management is not performed locally.
+930 You cannot add/modify/remove subnets
+931 Modify a subnet
 932 The IP address field cannot be blank
 933 The network name field cannot be blank
 934 The network ID field cannot be blank
@@ -842,7 +843,7 @@
 956 All the errors
 957 All the SUCCESS
 958 TELEDEPLOY VALUE PROBLEM
-959 TO MUCH SOFTWARES PULLED UP. BE MORE SPECIFIC WITH THE SEARCH
+959 TO MUCH SOFTWARE PULLED UP. BE MORE SPECIFIC WITH THE SEARCH
 960 NO SOFTWARE CORRESPONDING TO THE SEARCH
 961 LIST OF
 962 (one , between every)
@@ -852,7 +853,7 @@
 966 Agent
 967 BELONG TO
 968 DON'T BELONG TO
-969 Packages historic
+969 Packages history
 970 Packages
 971 GROUP COMPUTERS REMOVAL
 972 Computers have been removed from group well
@@ -861,25 +862,25 @@
 975 Add to group
 976 INTERFACE LOCK ON REQUEST RESULT
 977 Lock
-978 You are going to lock all the interface on the search with criterias results
+978 You are going to lock all the interface on the search with criteria results
 979 To come back to a standard state, you will have to click on the icon <span class='glyphicon glyphicon-lock'></span> which is at the right top of the interface
 980 Packages on computers
 981 Packages on servers groups
-982 NO AFFECTATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
+982 NO ASSIGNATION RULE IS AVAILABLE. NO REDISTRIBUTION POSSIBLE.
 983 You have to choose on which type modifications has to perform
 984 Modifications
 985 COMPUTERS REMOVAL
 986 REMOVE COMPUTERS FOR
 987 This registry key already exists
 988 YOU MUST FILL ALL THE FIELDS
-989 THE DATAS DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
+989 THE DATA DOESN'T EXIST. THE STATES HOURS CAN NOT BE FOUND IN DATABASE FOR THIS PACKAGE
 990 Packages created manually
 991 Packages created automatically
 992 Teledeploy time estimate
 993 Red fields are in error
 994 PDA/SMARTPHONE
-995 user ID
-996 LASTNAME
+995 Login
+996 Last name
 997 You must fill user ID
 998 choose a valid profile
 999 This user ID already exists
@@ -889,10 +890,10 @@
 1003 Redistribution servers packages parameters
 1004 Can't create the packages directory (/var/lib/ocsinventory-reports/download/).
 1005 Package creation is therefore not possible.
-1006 don't have wrinting rights
+1006 don't have writing permissions
 1007 The directory
 1008 Use on this redistribution package
-1009 Servers storage directory
+1009 Path on remote server
 1010 NORMAL
 1011 DEBUG
 1012 LANGUAGE
@@ -906,7 +907,7 @@
 1020 Name of the tag information
 1021 Teledeploy admin
 1022 TAG admin
-1023 Packages affect with status
+1023 Packages assign with status
 1024 will be deleted
 1025 Unaffect
 1026 Packages deleted on computers
@@ -936,11 +937,11 @@
 1050 Software search
 1051 Search
 1052 History
-1053 Demande modifiee
-1054 Demande effectuee
+1053 Demand change
+1054 Demand execution
 1055 Your e-mail is not valid
 1056 Contact your OCS-NG administrator
-1057 Failed to connect to mailserver
+1057 Failed to connect to the mailserver
 1058 no e-mail is valid
 1059 Data available
 1060 New data
@@ -955,11 +956,11 @@
 1069 Adding value done
 1070 New Field
 1071 Field Type
-1072 Pending resquests
+1072 Pending requests
 1073 Make a request
-1074 'Workflow' function is not activate.
+1074 'Workflow' function is not activated.
 1075 Activate this functionality to use it
-1076 ERROR: SEARCH STATUS IS NOT DEFINE
+1076 ERROR: SEARCH STATUS IS NOT DEFINED
 1077 Status for creating package
 1078 Test status
 1079 restraint perimeter status
@@ -994,16 +995,16 @@
 1108 LDAP configuration
 1109 Filter
 1110 The assignment of a package depends on the status of the request
-1111 Name of the first attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1111 First LDAP filter that will be used for evaluating the security level of a LDAP user (blank for none)
 1112 Value of the first  attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1113 If the first attribute is found and the value matches, set this user role automatically
-1114 Name of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
+1113 If the user is found with the first filter, set this user role automatically
+1114 Second LDAP filter that will be used for evaluating the security level of a LDAP user (blank for none)
 1115 Value of the second attribute that will be used for evaluating the security level of a LDAP user (blank for none)
-1116 If the second attribute is found and the value matches, set this user role automatically
+1116 If the user is found with the second filter, set this user role automatically
 1117 E-mail
 1118 Edit
 1119 Select
-1120 Quantity
+1120 Count
 1121 Update done
 1122 Wiki
 1123 IRC
@@ -1011,18 +1012,18 @@
 1125 Percentage
 1126 Date of note
 1127 Author of note
-1128 Note
+1128 Notes
 1129 REMOVED PACKAGE
 1130 Language editor
 1131 Word
 1132 ID word
 1133 New word
 1134 No ipdiscover data
-1135 computer(s) are already exist on redistribution group
-1136 Snmp
+1135 computer(s) already exist in redistribution group
+1136 SNMP
 1137 Enable/Disable the snmp service
-1138 Show all my subnet
-1139 Administer
+1138 Show all subnets
+1139 Network scan
 1140 Administer subnet
 1141 Subnet added
 1142 Enter a new subnet for blacklist
@@ -1031,7 +1032,7 @@
 1145 the value must be between
 1146 Administer profiles
 1147 You can't update it.
-1148 <b>WARNING:</b>No automatic backup of configuration files will be possible
+1148 <b>WARNING:</b> No automatic backup of configuration files will be possible
 1149 Name of new profile
 1150 Reference profile
 1151 Text profile
@@ -1041,7 +1042,7 @@
 1155 On teledeploy's workflow
 1156 Manage teledeploy's workflow
 1157 On the fields of teledeploy's workflow
-1158 On the packets activation
+1158 On package activation
 1159 On MAC addresses
 1160 On serial numbers
 1161 On the ipdiscover's subnet
@@ -1065,11 +1066,11 @@
 1179 is a variable. It can not contain special characters
 1180 can't be empty
 1181 Redistribution server functionality
-1182 You can't manage redistribution rules, this functionality is disable
+1182 You can't manage redistribution rules, this functionality is disabled
 1183 List of packages to create
 1184 Key added
 1185 Key updated
-1186 Your data are updated
+1186 Your data is updated
 1187 Configuration is pending
 1188 This group is declared as a TEST perimeter
 1189 This group is declared as a RESTRAINT perimeter
@@ -1078,7 +1079,7 @@
 1192 Group may receive TEST packets
 1193 Group may receive RESTRAINT packets
 1194 Only packets at a higher level
-1195 may be affected
+1195 may be assigned
 1196 Profile
 1197 SNMP functionality
 1198 Networks scans
@@ -1113,7 +1114,7 @@
 1227 Contact
 1228 Device SNMP
 1229 Firmware
-1230 Volumn Name
+1230 Volume Name
 1231 The file format must be ZIP
 1232 The file format must be TAR.GZ
 1233 Name of Database
@@ -1125,27 +1126,27 @@
 1239 MHz
 1240 MB
 1241 Number of SNMP devices
-1242 d/m/Y H:i
+1242 m/d/Y H:i
 1243 Only ocsagent.exe, OCS-NG-Windows-Agent-Setup.exe and ocspackage.exe files can be post
 1244 This file can't be empty
 1245 Manage your OCS-NG clients
-1246 Affect again
+1246 Assign again
 1247 Architecture
 1248 Folder
 1249 Activation of cache tables (allows less solicit the MySQL database)
 1250 Teledeploy speed
 1251 Statistics
-1252 Conf profils files directory
-1253 Directory of old conf profils files
+1252 Configuration profiles files directory
+1253 Directory of old conf profiles files
 1254 Directory of scripts logs
-1255 Connexion number by day
-1256 Bad connexion number by day
+1255 Connection number by day
+1256 Bad connection number by day
 1257 Use flash on GUI
 1258 Manual Entry
 1259 For one week
 1260 For one months
 1261 Clear cache
-1262 No plugin enabled for your profil
+1262 No plugin enabled for your profile
 1263 SECURITY ALERT!
 1264 Next
 1265 Enable cache tables
@@ -1153,23 +1154,25 @@
 1267 Type of Virtual Machines
 1268 Uuid
 1269 Machine hosted by
-1270 dd/mm/yyyy hh:ii
+1270 mm/dd/yyyy hh:ii
 1271 Computers of the subnet
 1272 Delete his computers
 1273 You do not have the right to remove a machine
-1274 Profil updated
-1275 Profils can't be deleted.
-1276 Profil created
-1277 Default profil (blank for none)
+1274 Profile updated
+1275 Profiles can't be deleted.
+1276 Profile created
+1277 Default profile (blank for none)
 1278 You are not allowed to connect
 1279 WOL
 1280 Wake On Lan
 1281 On Wake On Lan
-1282 Wake On Lan order send
+1282 Wake On Lan order sent
+1283 Do you want a Wake On Lan on this computer
+1284 Source IP
 1292 Use the advanced options of teledeploy
 1293 Teledeploy force
 1294 Installation time
-1295 Installation date
+1295 Installation date/time
 1296 OCS Professional
 1297 SNMP device identification
 1298 QRCode administration
@@ -1177,6 +1180,7 @@
 1300 Check QRCode
 1301 on invisible packages
 1302 development
+1303 Export
 1304 XML
 1305 On the generation of an XML inventory
 1306 Manage plugins
@@ -1198,13 +1202,231 @@
 1322 Unable to open socket for WOL
 1323 Server printer sharing
 1324 Sharing printer on server
-1325 screen horizontal / vertical
+1325 Screen horizontal / vertical
 1326 Shared
 1327 Local / Networks
-
-1382 BIOS Motherboard Serial
-
+1328 Manage
+1329 Administration
+1330 Hardware
+1331 Devices
+1332 Miscellaneous
+1333 Configuration
+1334 No data available in table
+1335 Showing _START_ to _END_ of _TOTAL_ entries
+1336 Showing 0 to 0 of 0 entries
+1337 (filtered from _MAX_ total entries)
+1338 Show _MENU_ entries
+1339 Loading...
+1340 Processing...
+1341 Search&nbsp;:&nbsp;
+1342 No matching records found
+1343 First
+1344 Last
+1345 Next
+1346 Previous
+1347 activate to sort column ascending
+1348 activate to sort column descending
+1349 Show / Hide
+1350 ,
+1351 .
+1352 Server understood the request but request content was invalid
+1353 Unauthorised access
+1354 Forbidden ressource can't be accessed
+1355 Page not found
+1356 Request-URI Too Long, try to clean Cookies
+1357 Internal Server Error
+1358 Service Unavailable
+1359 User Logged Out
+1360 Server information
+1361 My account
+1362 About
+1363 OK
+1364 Cancel
+1365 My account
+1366 First name
+1367 Network
+1368 CPU
+1369 PHP Version
+1370 Web Server
+1371 Database Server
+1372 Kernel
+1373 Distribution
+1374 Access the website
+1375 Old Forums
+1376 Q&A
+1377 Question and answers
+1378 Free RAM
+1379 RAM installed
+1380 Reset table columns
+1381 Actions
+1382 Motherboard Serial
+1383 Motherboard Manufacturer
+1384 Motherboard Model
+1385 Update user
+1386 Create user
+1387 System
+1388 Network
+1389 Hardware
+1390 Agent
+1391 This field is mandatory
+1392 Invalid value
+1393 This package name already exists
+1394 This field should only contain numbers and alphanumeric characters
+1395 A profile with this name already exists. Please pick a new one
+1396 Identifier (ex: admin)
+1397 Display name (ex: Administrators)
+1398 Copy profile data
+1399 Create profile
+1400 Users
+1401 Profiles
+1402 Identifier
+1403 Create user
+1404 Some errors were found while validating the profile
+1405 The profile was successfully created
+1406 An error occurred while trying to create the profile, please check the filesystem or contact an administrator
+1407 The profile file is not writable
+1408 The profile was successfully updated
+1409 An error occurred while trying to update the profile, please check the filesystem or contact an administrator
+1410 Users
+1411 Display name
+1412 Edit profile
+1413 New label
+1414 Machine's Details
+1415 OperatorID
+1416 OperatorName
+1417 IMEI/DEVICEID
+1418 Country
+1419 Search in column
+1420 Theme customization
+1421 Repository
+1422 Expire
+1423 File name
+1424 Mirrors
+1425 Tag
+1426 Updated
+1427 Base URL
 1428 akü
+1429 Sim card
+1430 Equal
+1431 More than
+1432 Less than
+1433 Hardware Link Id
+1434 User Id
+1435 Location
+1436 Process
+1437 Chemistry
+1438 SBDS Version
+1439 Max error
+1440 OEM Specific
+1441 Revalidate time
+1442 XML Definition
+1443 Default Gateway
+1444 USB Devices
+1445 Group
+1446 Model name
+1447 Account info
+1448 Is null
+1449 General configuration
+1450 ID
+1451 Static?
+1452 Warranty begin
+1453 GUID
+1454 Source
+1455 Virtual interface
+1456 Phone number
+1457 Link Ipdiscover network to computer TAG</br><b style="color:#d9534f;">Logout / Login after updating this configuration</b>
+1458 characters
+
+1459 Time delay between each CVE scan
+1460 CVE-search management
+1461 Enable CVE Reporting
+1462 URL of the cve-search host to use for the reporting
+1463 CVE Reporting
+1464 CVE Reporting is not enabled.
+1465 By CVSS
+1466 Please, see the documentation to configure CVE Reporting : <a href="http://wiki.ocsinventory-ng.org/04.Management-console-and-its-advanced-features/CVE-Search-management/"> Managing CVE-search reporting </a>
+1467 Link
+1468 Vulnerability score between
+1469 Select software categories that you do not want to process
+1470 Enable CVE-search verbose
+1471 Enable to get CVE corresponding to all software version
+1472 CVE Inventory
+1473 New matching regex
+1474 Match list
+1475 Name or Regex
+1476 Publisher result
+1477 Name result
+1478 Or import CSV file
+1479 Import
+1480 Download CSV file example
+1481 CVE history
+1482 Latest execution date
+1483 CVE count
+1484 Time of validity of a CVE after OCS Inventory scan
+1485 By software
+1486 By computer
+1487 Authentication has been blocked due to too many failed attempts. (%time% seconds remaining)
+1488 Enable authentication security
+1489 Number of attempts
+1490 Cooldown
+1491 Enable password security
+1492 Set minimal characters in password
+1493 Force number in password
+1494 Force uppercase in password
+1495 Force special characters in password
+1496 The password must contain at least
+1497 The password must contain at least one uppercase
+1498 The password must contain at least one number
+1499 The password must contain at least one special character
+
+1500 Software category
+1501 New category
+1502 List of categories
+1503 Add software
+1504 Regular expression or Software name
+1505 Select default category for software
+1506 No category created
+1507 Software version
+1508 Software vendor
+1509 Advanced settings
+1510 Software version comparator
+1511 Version comparator
+1512 Less or Equal
+1513 More or Equal
+1514 Category
+1515 All OS
+1516 All software (but default)
+1517 No category have been selected
+1518 List of regex
+1519 Missing computers :
+1520 (CSV datas are imported)
+1521 Display count softwares
+
+1550 Do you really want to archive 
+1551 Archive
+1552 Restore
+1553 Do you really want to restore 
+1554 ARCHIVED COMPUTERS
+1555 ACTIVE COMPUTERS
+1556 Archive / Restore
+1557 ALL COMPUTERS
+1558 Archives
+
+1560 Purge old IPDiscover data
+1561 Validity time (in days) of an IPDiscover data
+
+1600 My dashboard
+1601 Dynamic groups
+1602 Doesn't contain
+1603 More than X days
+1604 Less than X days
+1605 Others
+1606 Is not empty
+
+1700 Advanced configuration
+1701 Tab available
+1702 New tab
+1703 Add selected packages
 
 1800 Kimya
 1801 devre
@@ -1237,16 +1459,16 @@
 2017 using
 2018 was imported
 2019 were already imported
-2020 The install.php exists in ocsreports directory
-2021 Your GUI logs directory is not writable
+2020 Your install.php exists in your installation directory (by default : /usr/share/ocsinventory-reports/ocsreports).
+2021 Your logs directory (by default : /var/lib/ocsinventory-reports/logs) is not writable
 2022 You can't send a file larger than
 2023 Delete it
-2024 The default sql login/password is activate on your database:
-2025 Change your password for ocs login in MySQL
-2026 The default login/password is activate on OCS GUI
-2027 Change admin password on OCS GUI
+2024 The default SQL login/password is set on your database:
+2025 Change your login password for 'ocs' user in MySQL
+2026 The default login/password is activate on OCS-NG GUI
+2027 Change your 'admin' password on OCS-NG GUI
 2028 Authentication key
-
+2029 The config directory is not writable
 
 2030 OCS-NG Inventory Installation
 2031 Current installed version
@@ -1255,11 +1477,11 @@
 2034 DB configuration not completed. Automatic install launched
 2035 ERROR: Sessions for PHP is not properly installed.<br>Try installing the php-session package.
 2036 WARNING: XML for PHP is not properly installed, you will not be able to use ipdiscover-util.
-2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php-mysql)
-2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-gd package (Linux).
+2037 ERROR: MySQL for PHP is not properly installed.<br>Try installing MySQL for php package (Debian: php5-mysql)
+2038 WARNING: GD for PHP is not properly installed.<br>You will not be able to see any graphical display<br>Try uncommenting extension=php_gd2.dll (Windows) by removing the semicolon in file php.ini, or try installing the php5-gd package (Linux).
 2039 WARNING: OpenSSL for PHP is not properly installed.<br>Some automatic deployment features won't be available<br>Try uncommenting extension=php_openssl.dll (Windows) by removing the semicolon in file php.ini, or try installing the php-openssl package (Linux).
 2040 WARNING: You will not be able to build any deployment package with size greater than
-2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your php.ini to encrease this limit.
+2041 You must raise both <font color="red">post_max_size</font> and <font color="red">upload_max_filesize</font> in your vhost configuration to increase this limit.
 2042 WARNING: your the default root password is set on your MySQL server. Change it asap. (using root password=blank)
 2043 WARNING: The user you typed does not seem to be root<br>If you encounter any problem with files insertion, try setting the global <font color="red">max_allowed_packet</font> MySQL value to at least 2MB in your server config file.
 2044 Label added
@@ -1268,7 +1490,7 @@
 2047 You must add the 'old-passwords' in your MySQL configuration file (my.ini). Then restart MySQL, and relaunch install.php
 2050 Installation finished you can log in index.php with login=admin and password=admin
 2051 Click here to enter OCS-NG GUI
-2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successfull)
+2052 ERROR: can't write in directory (on dbconfig.inc.php), please set the required rights in order to install ocsinventory (you should remove the write mode after the installation is successful)
 2053 Please wait, database update may take up to 30 minutes...
 2054 failed, KEY was too long<br>You need to redo this query later or you will experience severe performance issues.
 2055 Database successfully generated
@@ -1313,9 +1535,9 @@
 2097 Leave empty if you don't want a popup to be shown on each agent launch
 2098 ERROR: ZIP for PHP is not properly installed.<br>Try to uncomment extension=php_zip.dll (Windows) by removing the semicolon in file php.ini, or try to install the libphp-pclzip package (Linux).
 2099 ERROR: this MySQL login doesn't have the rights to create the database
-2100 Update old account infos
+2100 Update old account info
 2101 Add by script
-2102 WARNING: If you change default database name (ocsweb), don't forgot to update your ocs engine files
+2102 WARNING: If you change default database name (ocsweb) or user (ocs), don't forget to update the file 'z-ocsinventory-server.conf' in your Apache configuration directory
 2103 DEMO mode: you can't update data
 2104 YOU ARE WATCHING THE DEMO VERSION OF
 2105 Your database is OK.<br>No action taken.
@@ -1326,17 +1548,54 @@
 2110 Expected version
 2111 Perform the update
 2112 The following file is not present or is not readable
+2113 Your PHP installation is older than version 5.4 and will not be compatible with incoming versions (version&nbsp;:&nbsp;
+2114 No sql file found for version
+2115 The user you typed does not seem to be root
+2116 The config/profiles directory is not writable
+2117 Display an update message if a new version is available
+2118 OCSInventory
+2119 is available
+2120 Click here to download
+2121 Launch inventory on agent service startup (Windows)
+2122 Edit
+2123 Available packages
+2124 Deleted packages
+2125 WARNING: CURL for PHP is not properly installed. Try installing the php-curl package (Linux).
+2126 Assets categorization
+2127 The current multi search query will be used as an asset categorization criteria.
+2128 Are you sure?
+2129 Back to multi search
+2130 Assets categories
+2131 Number of machines per category
+2132 Assets category
+2133 You haven't created an asset category
+2134 You haven't created a software category
+2135 No machine has been inventoried
+2136 Update
+2137 Choose a new file if you want to modify the old one
+2138 Save my search
+2139 The current multi search query will be saved. You will be able to retrieve your saved searches on <i><b>Manage > Saved search</b></i> or using <i><b>Use a saved search</b></i> on multi search.
+2140 Use a saved search
+2141 Saved searches
+2142 Create a search
+2143 Search was successfully saved
+2144 Update an existing saved search
+2145 Who can see ?
+2146 Only me
+2147 My group
+2148 All users
+2149 Update date when peripherals updated
 
 5000 [DEBUG]computers insertions request =>[DEBUG]
 5001 [DEBUG]REQUEST MADE => [DEBUG]
 5002 [DEBUG] => weight: [DEBUG]
-5003 [DEBUG]Rache regeneration[DEBUG]
+5003 [DEBUG]Cache regeneration[DEBUG]
 5004 [DEBUG]forcing cache limit old value[DEBUG]
 5005 [DEBUG]Cache total use[DEBUG]
 5006 [DEBUG]array count request[DEBUG]
 5007 [DEBUG]Cache use for lines number[DEBUG]
 5008 [DEBUG]array request[DEBUG]
-5009 [DEBUG]RAW DATAS[DEBUG]
+5009 [DEBUG]RAW DATA[DEBUG]
 5010 [DEBUG]table field=[DEBUG]
 5011 [DEBUG]Comparison field=[DEBUG]
 5012 [DEBUG]value to search=[DEBUG]
@@ -1353,8 +1612,318 @@
 5023 [DEBUG]DIFF CONDITION REQUEST[DEBUG]
 
 6000 Plugins
-6001 Offices Licences
-6002 Distribution of Offices Licences
-6003 Number of licence
+6001 Select columns to show / hide
+6003 Plugin
 6004 Total available
 6005 Power on/off
+6007 Please install the following modules in order to get this feature working&nbsp;:&nbsp;
+6008 Can't write in the following directory&nbsp;:&nbsp;
+6009 You can't install plugins, check error messages above.
+6010 The communication server encountered the following error on install&nbsp;:&nbsp;
+6011 Click here to solve your problem
+6012 Select All
+
+7000 Extensions
+7001 Extensions manager
+7002 Extension's name
+7003 Version
+7004 License
+7005 Author
+7006 Last updated
+7007 Are you sure you want to delete this plugin
+7008 Extension Install
+7009 Installed Extensions
+7010 This extension has been already installed
+7011 is an invalid extension, check your sources.
+7012 Installation aborted!
+7013 installed
+7014 There is currently no extensions available for installation
+7015 Select at least one computer!
+7016 MTU
+7017 Extension successfully installed! <br> Please, logout and re-log to finish the console installation. <br> You may need to update profiles permissions to access the extension page. 
+7018 This extension is already installed.
+7019 A PHP error occurred.
+7020 Extension successfully uninstalled!
+7021 Extension "%s" not compliant
+7022 Missing function "%s" in "%s"!
+7023 Unable to include install.php
+
+8000 Notifications
+8001 Enable notification tracking
+8002 Administrator's email address
+8003 Administrator's name
+8004 Reply email address
+8005 Reply name
+8006 Host SMTP
+8007 SMTP identifier
+8008 SMTP password
+8009 Email send mode
+8010 (Optional)
+8011 Configuration
+8012 Customize template
+8013 Here is the default OCS Inventory summary, it contains a report of the software categories and assets categories :
+8014 Successful upload
+8015 Failed upload
+8016 Here you can download your customized notification template:</br>• The file must be an html file.</br></br>Information:</br>• To get translation put {{g.(number of translation)}} in your html code- Example: {{g.49}} = Name</br>• For the moment you have two choices of report inventory: </br> {{Report.Software}} - Number of software per software category </br> {{Report.Asset}} - Number of machines per asset category
+8017 This file is not an html file
+8018 Subject
+8019 Notification OCSInventory
+8020 WARNING : Mail template file not found
+8021 The uploaded file need to have .html extension to be valid
+8022 See news
+8023 ... Read more
+8024 Close news
+8025 Back to the news menu
+8026 Enable OCS Inventory News on dashboard
+8027 A problem of OCS news data recovery has occurred
+8028 You have recent news
+8029 is not writable
+
+8100 Web application Inventory
+8101 Web application list
+8102 Add Web application
+8103 Associated DNS
+8104 Entry
+8105 Data
+8106 Time to live
+8107 This Web application already exists
+8108 Enable Web application Inventory
+
+8200 Schedule a Wake On Lan
+8201 Save
+8202 WOL date/time
+8203 WOL saved!
+
+9000 SNMP configuration
+9001 Create type
+9002 Type configuration
+9003 Create label
+9004 OID
+9005 OID string value
+9006 Label name
+9007 <b>The name is unique and must not contain any special characters except underscore.</b></br>Please don't use MySQL keywords or reserved words, refer to : <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">MySQL Keywords</a>
+9008 Add MIB file
+9009 Put the MIB file on your server MIBs directory. <br> Don't forget to set your MIBs directory path in <b>Configuration > General configuration > SNMP</b>
+9010 Server SNMP MIBs directory
+9011 Filter by type :
+9012 SNMP details
+9013 Show details
+9014 SNMP configuration is empty. Check the documentation to know how to configure SNMP : <a href="http://wiki.ocsinventory-ng.org/06.Network-Discovery-with-OCS-Inventory-NG/Managing-and-using-SNMP-feature/">Managing SNMP on Web Console</a>
+9015 Use for reconciliation
+9016 Select the type that you want to configure.
+9017 Numeric OID
+9018 Inventory field name
+9019 OID name string
+9020 Add to SNMP Model
+9021 Search for specific row
+9022 Can't create type with empty OID or empty OID string value
+9023 Type name already exists
+9024 An error happened during the SNMP type creation
+9025 Label already exists
+9026 An error happened during the SNMP label creation
+9027 An error happened during the SNMP configuration
+9028 An error happened during the type deletion
+9029 An error happened during the label deletion
+9030 An error happened during the config deletion
+9031 Type conditions
+9032 Wildcards: * (several characters at the OID string value beginning or at the OID string value ending )
+9033 Authentication Protocol
+9034 Privacy Protocol
+9035 Privacy Password
+9036 No OID found
+9037 Equipment contacted today
+9038 Number of equipment per type
+9039 Quick view
+9040 Export all SNMP types
+9041 Use for IpDiscover reconciliation (must be an IP address OID)
+9042 SNMP devices
+9043 An IpDiscover reconciliation field is already set for this type
+9044 Link SNMP device to computer TAG
+
+9100 SSL key path
+9101 SSL certificate path
+9102 Enable SSL
+9103 SSL mode
+9104 CA certificate path
+9105 MySQL Port
+9106 Default download protocol
+
+9200 Package deployment for computer
+9201 Package deployment for selection
+9202 Package deployment for group
+9203 Activate download fragmentation
+9204 Configure download fragmentation ratio
+9205 Enable auto activation package
+9206 Activated
+9207 Deployment date
+9208 Awaiting deployment
+
+9300 Interactions
+9301 Options
+9302 Resume
+9303 Linux
+9304 MacOS
+9305 Windows
+9306 Powershell script
+9307 Scripts
+9308 Install / Uninstall
+9309 Others
+
+9310 Batch script
+9311 Custom package
+9312 Execute an exe
+9313 Install MSI application
+9314 Powershell script
+9315 Store file/folder 
+9316 Uninstall application
+9317 Update Agent
+9318 Install with WinGet (Powershell)
+
+9319 Install application
+9320 Uninstall application
+9321 Add apt repository
+9322 Add yum repository
+9323 Bash / sh script
+
+9324 Install .app application
+9325 Install .pkg application
+9326 Install with brew
+9327 Apple script
+
+9328 Install plugin
+
+9340 Script
+9341 MSI file
+9342 Repository URL
+9343 .app file
+9344 .pkg file
+9345 HTTP
+9346 HTTPS
+9347 Arguments (optional)
+9348 Packager file
+9349 Application name
+9350 Application identifier
+9351 How to find wmic application identifier : open a cmd as administrator and run "wmic product get name"
+9352 EXE file
+9353 Script file
+9354 Write your script here <b>OR</b> put your script file
+9355 Put your packager file with all parameters inside
+9356 If multiple files, please zip before
+9357 Packager type
+9358 apt
+9359 yum
+9360 dnf
+9361 Reload build
+9362 File
+9363 Plugin agent file
+9364 Configuration line
+9365 Line to be added to modules.conf file (e.g. 'use Ocsinventory::Agent::Modules::Pluginname;'):
+9366 Path to Modules directory
+9367 Setting the below option to EXECUTE will cause the package to fail if the exit code is not 0. Setting it to LAUNCH will return the exit code to the server, along with the package status.
+9368 Execution mode : 
+9369 LAUNCH
+9370 EXECUTE
+
+9500 Merge selected duplicates
+9501 Merge all duplicates
+9502 Duplicates by :
+
+9600 CSV reconciliation field :
+9601 OCS reconciliation field :
+9602 Empty value
+9603 No corresponding device found in OCS database
+9604 Update failed
+9605 Admin data was imported from CSV, see below for any errors
+9606 CSV can not be read, please check separator configuration in OCS general configuration
+9607 CSV uploaded successfully
+9608 The CSV reconciliation field must allow the identification of each machine and must correspond to a field already present in the OCS database (machine name or serial number)
+9609 OCS reconciliation field must correspond to the CSV field chose previously 
+9610 Please select corresponding fields :
+9611 Directory for temporary files
+9612 Import from CSV
+9613 Failed to import CSV, please check temporary files directory configuration in OCS general configuration
+9614 Import error. Only CSV files are accepted
+9615 Failed to import data
+
+9650 Number of LDAP filters (minimum 1, maximum equals number of profiles)
+
+9651 History
+9653 User name
+9654 Date and time
+9655 Action
+9656 Target of action
+
+9700 CAS server port, e.g. : 443
+9701 CAS server uri, e.g : /cas
+9702 CAS server host, e.g. : authentication.org
+9703 CAS default role, applied on first connection initiated using CAS authentication
+9704 CAS Configuration
+9705 CAS Base URI, e.g. : ocs.example.com
+9706 CAS Server CA Certificate Path, e.g. : /path/to/cachain.pem
+
+9800 Exclude archived computers from statistics, CVE inventory, all softwares count, computers per TAG count
+9801 Show bios diagram in dashboard
+9802 Show CVE search links
+
+9900 Layouts
+9901 Layout created
+9902 Layout deleted
+9903 Error creating layout
+9904 Please check your input. Repeat the process if the problem persists.
+9905 Error deleting layout
+9906 A layout with the same name or columns already exists for your user/scope, please choose another name or set of columns
+9907 Manage layouts
+9908 Show all layouts
+9909 Add new layout
+9910 Available layouts :
+9911 Layout name
+9912 Layout description
+9913 Table name
+9914 Creator
+9915 Visibility scope 
+9916 Failed updating layout, please check that another layout with the same name and visibility doesn\'t exist
+9917 Public
+9918 Group
+9919 Personal
+9920 Layout updated successfully
+9921 Is allowed to manage layouts
+
+9930 DNS
+
+9940 Is allowed to manage saved searches
+9941 Ungroup results
+
+9950 Notifications
+9951 Please check that the notification configuration has been set correctly, otherwise sending reports through notifications will not work
+9952 Report notification created successfully
+9953 Report notification updated successfully
+9954 Please set a recurrence
+9955 Please provide at least one recipient, or comma separated recipients
+9956 daily
+9957 weekly
+9958 monthly
+9959 Activate : 
+9960 Report recurrence : 
+9961 Recipient(s) : 
+9962 Day of reccurence : 
+9963 End Date :
+
+9970 You are not allowed to modify this user
+9971 Do you really want to re-affect the package 
+9972 Affect again
+9973 No data available
+
+9980 Network Scans
+9981 Scan method used for IpDiscover scans performed by agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9982 Scan method used for SNMP scans performed by Linux agents (nmap, ICMP, ARP scan)<br><br> Note : ARP scan will only scan the local network
+9983 If ARP scan is selected: bandwidth used by ARP scan (in Kbps)
+9984 Export SNMP Configuration
+9985 Download SNMP Communities Configuration
+9986 Download SNMP Types Configuration
+9987 Configuration Export for Local SNMP Scanning: The configuration will be downloaded as an XML file that can be used to set up an agent for local SNMP scanning.<br> Please note that the SNMP scans configuration will retrieve the general configuration of network scans if exported from here. If you want per group or per device configuration, head to the group or device page and access the configuration.
+9988 Configuration export
+9989 Download SNMP Scan Configuration
+9990 Download SNMP Subnets List
+9991 Generate SNMP files
+
+10000 Failed to update account info fields: quotes are not allowed in administrative values
