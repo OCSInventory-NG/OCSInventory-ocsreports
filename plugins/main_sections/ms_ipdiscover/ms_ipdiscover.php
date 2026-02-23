@@ -123,7 +123,7 @@ if (isset($protectedPost['onglet'])) {
     $arg = mysql2_prepare($sql, $arg_sql, $array_rsx);
     
     # IPDISCOVER devices
-    $arg['SQL'] .= " GROUP BY netid
+    $arg['SQL'] .= " GROUP BY $groupby3
                 ) base_query 
                 LEFT JOIN (
                     SELECT 
