@@ -1,4 +1,19 @@
 Revision history for ocsreports
+2.12.4
+		* Add option that remove removed packages from the download activated packages
+		* Add BIOS serial and motherboard serial in the all computers page (main table)
+		* Add count in Stats Charts
+		* Add menu variable on chinese translation
+		* Add log machine deletion in deleteDid()
+		* Add prettyversion field to the filter query
+		* Update translations
+		* Update note sql date format
+		* Batteries refactoring
+		* Sync languages to be able translated with a tool + fixes
+		* Increasing the number of output lines for the convenience of displayi…
+		* Fix PHP Deprecated:  Creation of dynamic property
+		* Fix ipdiscover listing if tag option is enabled
+
 2.12.3
 		* Updated translations
 		* Fix 500 error on logout
