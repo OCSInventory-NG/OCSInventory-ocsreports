@@ -136,10 +136,10 @@ if(empty($typeList)) {
         
         $tab_options['FILTRE'] = array_flip($list_fields);
 
-        $queryDetails = $sql['SQL'].", CONCAT(s.ID, ';','".$typeList[$protectedPost['onglet']]['TABLENAME']."') as tablename, s.ID as snmp_id 
-                        FROM ".$typeList[$protectedPost['onglet']]['TABLENAME']." s 
-                        LEFT JOIN snmp_accountinfo a ON a.SNMP_RECONCILIATION_VALUE = s.".$snmp->getReconciliationColumn($typeList[$protectedPost['onglet']]['TABLENAME'])."
-                        AND a.SNMP_TYPE = '".$typeList[$protectedPost['onglet']]['TABLENAME']."'";
+        $queryDetails = $sql['SQL'].", CONCAT(s.ID, ';','".$typeList[$protectedPost['onglet']]['TABLENAME']."') as tablename, s.ID as snmp_id
+                        FROM ".$typeList[$protectedPost['onglet']]['TABLENAME']." s
+                        LEFT JOIN (SELECT * FROM snmp_accountinfo WHERE SNMP_TYPE = '".$typeList[$protectedPost['onglet']]['TABLENAME']."' GROUP BY SNMP_RECONCILIATION_VALUE) a
+                        ON a.SNMP_RECONCILIATION_VALUE = s.".$snmp->getReconciliationColumn($typeList[$protectedPost['onglet']]['TABLENAME']);
         
         $tab_options['ARG_SQL'] = $sql['ARG'];
 
