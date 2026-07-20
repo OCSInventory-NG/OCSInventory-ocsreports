@@ -33,6 +33,11 @@ require_once('../require/teledeploy/PackageBuilderFormInteractions.php');
 require_once('../require/teledeploy/PackageBuilderFormOptions.php');
 require_once('../require/teledeploy/PackageBuilderParseXml.php');
 
+if (!isset($_SESSION['OCS']["loggeduser"])) {
+    header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
+    die;
+}
+
 $_SESSION['OCS']["writeServer"] = dbconnect(SERVER_WRITE, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
 $_SESSION['OCS']["readServer"] = dbconnect(SERVER_READ, COMPTE_BASE, PSWD_BASE, DB_NAME, SSL_KEY, SSL_CERT, CA_CERT, SERVER_PORT);
 

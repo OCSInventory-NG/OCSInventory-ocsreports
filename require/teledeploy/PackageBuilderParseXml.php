@@ -41,14 +41,22 @@ class PackageBuilderParseXml
      *  Parse Interactions XML
      */
     public function parseInteractions($name) {
-        return simplexml_load_file(self::XML_INTERACTION.$name.'.xml');
+        $file = self::XML_INTERACTION.basename($name).'.xml';
+        if (!is_file($file)) {
+            return false;
+        }
+        return simplexml_load_file($file);
     }
 
     /**
      *  Parse Options XML
      */
     public function parseOptions($name) {
-        return simplexml_load_file(self::XML_OPTION.$name.'.xml', null, LIBXML_NOCDATA);
+        $file = self::XML_OPTION.basename($name).'.xml';
+        if (!is_file($file)) {
+            return false;
+        }
+        return simplexml_load_file($file, null, LIBXML_NOCDATA);
     }
 
 }
