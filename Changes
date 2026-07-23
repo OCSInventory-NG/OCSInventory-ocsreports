@@ -1,4 +1,9 @@
 Revision history for ocsreports
+2.12.5
+		* Prevent path traversal and enforce auth in teledeploy options
+		* Update CVSS field type to fix search
+		* Fix duplicate row in snmp inventory tables
+
 2.12.4
 		* Add option that remove removed packages from the download activated packages
 		* Add BIOS serial and motherboard serial in the all computers page (main table)
