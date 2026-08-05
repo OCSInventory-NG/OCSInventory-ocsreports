@@ -33,10 +33,11 @@ if(isset($protectedPost['SUP_PROF']) && $protectedPost['SUP_PROF'] != ""){
     mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 } else if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != '') {
     // delete multiple selected rows
-    $ids = explode(',', $protectedPost['del_check']);
+    $ids = array_filter(explode(',', $protectedPost['del_check']), 'is_numeric');
     foreach ($ids as $id) {
-        $reqDcatall = 'DELETE FROM `save_query` WHERE ID = '.$id;
-        mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+        $sqlQuery = "DELETE FROM `save_query` WHERE ID = %s";
+        $sqlArg = [$id];
+        mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
     }
     $tab_options['CACHE'] = 'RESET';
 }

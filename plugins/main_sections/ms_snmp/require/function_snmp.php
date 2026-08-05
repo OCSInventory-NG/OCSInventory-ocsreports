@@ -114,9 +114,9 @@ function bandeau($data, $lbl_affich, $title = '', $class = 'mlt_bordure') {
 function deleteDid_snmp($id) {
     global $all_snmp_table;
     if (is_array($id)) {
-        $id_snmp = explode(',', $id);
+        $id_snmp = implode(',', array_filter($id, 'is_numeric'));
     } else {
-        $id_snmp = $id;
+        $id_snmp = implode(',', array_filter(explode(',', $id), 'is_numeric'));
     }
     foreach ($all_snmp_table as $values) {
         $sql = 'delete from %s where snmp_id in ';

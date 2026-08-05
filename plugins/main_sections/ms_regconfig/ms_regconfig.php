@@ -62,7 +62,7 @@ if ($protectedPost['tab'] == 'VIEW'){
 		$tab_options['CACHE'] = 'RESET';
 	} else if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != '') {
 		// delete multiple selected rows
-		$ids = explode(',', $protectedPost['del_check']);
+		$ids = array_filter(explode(',', $protectedPost['del_check']), 'is_numeric');
 		foreach ($ids as $id) {
 			delkey($id);
 		}

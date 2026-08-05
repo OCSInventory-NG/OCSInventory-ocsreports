@@ -321,7 +321,7 @@ if ($protectedPost['onglet'] == 1) {
 
   //delete few fields
   if (is_defined($protectedPost['del_check'])) {
-      $list = $protectedPost['del_check'];
+      $list = implode(',', array_filter(explode(',', $protectedPost['del_check']), 'is_numeric'));
       $sql_delete = "DELETE FROM config WHERE name like '%s' and ivalue in (%s)";
       $arg_delete = array("TAB_ACCOUNTAG_%", $list);
       mysql2_query_secure($sql_delete, $_SESSION['OCS']["writeServer"], $arg_delete);

@@ -114,7 +114,8 @@ class Layout {
 
     public function deleteLayout($id) {
         global $l;
-        $query = "DELETE FROM layouts WHERE ID IN ($id)";
+        $ids = implode(',', array_filter(explode(',', $id), 'is_numeric'));
+        $query = "DELETE FROM layouts WHERE ID IN ($ids)";
         $result = mysql2_query_secure($query, $_SESSION['OCS']["writeServer"]);
         if (isset($result) && !empty($result)) {
             msg_success($l->g(9902));
