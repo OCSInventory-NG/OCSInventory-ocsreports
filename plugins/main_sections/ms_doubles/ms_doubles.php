@@ -71,7 +71,10 @@ if (isset($protectedPost['FUSION'])) {
 					$afus = array();
 					$i = 0;
 					foreach ($grp as $dupl) {
-						$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $dupl['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+						if (!is_numeric($dupl['ID'])) {
+							continue;
+						}
+						$res = mysql2_query_secure("SELECT deviceid,id,lastcome FROM hardware WHERE id=%s", $_SESSION['OCS']["readServer"], array($dupl['ID'])) or die(mysqli_error($_SESSION['OCS']["readServer"]));
 						$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
 						$i++;
 					}
@@ -103,7 +106,10 @@ if (isset($protectedPost['FUSION'])) {
 				$afus = array();
 				$i = 0;
 				foreach ($correspDuplis as $dupl) {
-					$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $correspDuplis[$i]['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+					if (!is_numeric($correspDuplis[$i]['ID'])) {
+						continue;
+					}
+					$res = mysql2_query_secure("SELECT deviceid,id,lastcome FROM hardware WHERE id=%s", $_SESSION['OCS']["readServer"], array($correspDuplis[$i]['ID'])) or die(mysqli_error($_SESSION['OCS']["readServer"]));
 					$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);
 					$i++;
 				}
@@ -128,7 +134,10 @@ if (isset($protectedPost['FUSION_ALL'])) {
 	foreach ($grpDuplis as $dup) {
 		$afus = array();
 		foreach ($dup as $d) {
-			$res = mysqli_query($_SESSION['OCS']["readServer"], "SELECT deviceid,id,lastcome FROM hardware WHERE id=" . $d['ID']) or die(mysqli_error($_SESSION['OCS']["readServer"]));
+			if (!is_numeric($d['ID'])) {
+				continue;
+			}
+			$res = mysql2_query_secure("SELECT deviceid,id,lastcome FROM hardware WHERE id=%s", $_SESSION['OCS']["readServer"], array($d['ID'])) or die(mysqli_error($_SESSION['OCS']["readServer"]));
 			$afus[] = mysqli_fetch_array($res, MYSQLI_ASSOC);    
 		}
 
