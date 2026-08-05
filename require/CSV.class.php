@@ -26,15 +26,30 @@ class CSV {
     }
 
     function saveCSV($file, $newname) {
+        // reject anything that is not a genuine uploaded file
+        if (!is_uploaded_file($file['tmp_name'])) {
+            return false;
+        }
+        // validate actual file content instead of trusting client-supplied name/mimetype
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $realMime = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+        $allowedMimes = array('text/csv', 'text/plain', 'application/csv');
+        if (!in_array($realMime, $allowedMimes, true)) {
+            return false;
+        }
+
         $tmp_dir = $this->file_path."/tmp_dir/";
         // create dir if neccessary
         if (!is_dir($tmp_dir)) {
             mkdir($tmp_dir, 0777, true);
         }
+        // ignore client-supplied name/extension: always store as a random-named .csv file
+        $newname = bin2hex(random_bytes(16)).".csv";
         // save uploaded csv to tmp dir
         $target = $tmp_dir.$newname;
         if (move_uploaded_file($file['tmp_name'], $target)) {
-            return $this->file = $target; 
+            return $this->file = $target;
         } else {
             return false;
         }

@@ -381,17 +381,23 @@ if ($protectedPost['onglet'] == 1) {
     $csvObj = new CSV();
     $tmpDir = $csvObj->file_path."/tmp_dir/";
 
+    // csv_filename may come back from a hidden POST field on later steps: only accept
+    // the server-generated format (see CSV::saveCSV) to prevent path traversal / arbitrary file access
+    if (isset($protectedPost['csv_filename']) && !preg_match('/^[a-f0-9]{32}\.csv$/', $protectedPost['csv_filename'])) {
+        unset($protectedPost['csv_filename']);
+    }
+
     if (isset($protectedPost['valid_csv'])) {
-        if($_FILES['csv_file']['type'] == "text/csv") {
-            
+        if (isset($_FILES['csv_file']) && strtolower(pathinfo($_FILES['csv_file']['name'], PATHINFO_EXTENSION)) == 'csv') {
+
             $saveCSVFile = $csvObj->saveCSV($_FILES['csv_file'], $_FILES['csv_file']['name']);
-            // save filename in POST value
-            $protectedPost['csv_filename'] = $_FILES['csv_file']['name'];
             // saveCSV failed
             if ($saveCSVFile == false) {
                 msg_error($l->g(9613));
                 echo "<br><br><input type='submit' class='btn btn-success' value=".$l->g(188)."><br><br>";
             } else {
+                // save the actual stored filename (server-generated) in POST value
+                $protectedPost['csv_filename'] = basename($saveCSVFile);
                 // open csv
                 $handle = $csvObj->openCSV($tmpDir.$protectedPost['csv_filename']);
                 // use first line as header
