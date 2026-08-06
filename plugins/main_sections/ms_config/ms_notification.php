@@ -200,7 +200,7 @@ if($protectedPost['onglet'] == 'NOTIF_PERSO'){
     }
     echo "<div id=perso_mail ".($style_perso ?? '').">";
     echo "<div class='form-group'><label class='control-label col-sm-2' for='subject'>".$l->g(8018)."</label><div class='col-sm-8'>
-          <input type='text' class='form-control' id='subject' name='subject' size='50' maxlength='255' value='".$info['PERSO']['SUBJECT']."'/></div></div>";
+          <input type='text' class='form-control' id='subject' name='subject' size='50' maxlength='255' value='".htmlspecialchars($info['PERSO']['SUBJECT'] ?? '', ENT_QUOTES)."'/></div></div>";
     echo $output;
     echo "</div>";
 

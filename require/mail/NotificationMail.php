@@ -289,17 +289,17 @@
 
           if($file['template']['type'] == 'text/html'){
             if(is_writable(TEMPLATE)){
-              // Check if script in 
-              $isScriptInside = $this->is_script_content($_FILES['template']['tmp_name']);
+              // Strip any script-capable markup/attributes from the uploaded template
+              $sanitized = $this->sanitize_html_content($_FILES['template']['tmp_name']);
 
-              if($isScriptInside) {
+              if($sanitized === false) {
                 msg_error($l->g(8030));
                 return false;
               }
 
-              if (move_uploaded_file($_FILES['template']['tmp_name'], $uploadFile)) {
+              if (move_uploaded_file($_FILES['template']['tmp_name'], $uploadFile) && file_put_contents($uploadFile, $sanitized) !== false) {
                 $sql = "UPDATE `notification` SET FILE='%s', SUBJECT='%s' WHERE TYPE='PERSO'";
-                $arg = array(TEMPLATE . basename($file['template']['name']), $subject);
+                $arg = array(TEMPLATE . basename($file['template']['name']), strip_tags($subject));
                 mysql2_query_secure($sql, $_SESSION['OCS']["writeServer"], $arg);
                 msg_success($l->g(8014));
                 $this->get_template_perso();
@@ -318,19 +318,54 @@
       }
       
       /**
-       * is_script_content
+       * Remove script-capable tags and event-handler/javascript: attributes
+       * from an uploaded HTML template, to prevent stored XSS.
        *
-       * @param  mixed $upload_file_tmp
-       * @return boolean
+       * @param  string $upload_file_tmp
+       * @return string|false sanitized HTML, or false if the file can't be parsed
        */
-      private function is_script_content($upload_file_tmp) {
+      private function sanitize_html_content($upload_file_tmp) {
+        $content = file_get_contents($upload_file_tmp, true);
+        if ($content === false) {
+            return false;
+        }
+
+        $dangerousTags = array('script', 'iframe', 'object', 'embed', 'link', 'base', 'form');
+
         $dom = new DOMDocument();
-        $dom->loadHTML(file_get_contents($upload_file_tmp,true));
-        $script = $dom->getElementsByTagName("script");
+        $previous = libxml_use_internal_errors(true);
+        $dom->loadHTML('<?xml encoding="UTF-8">' . $content, LIBXML_NOERROR | LIBXML_NOWARNING);
+        libxml_clear_errors();
+        libxml_use_internal_errors($previous);
 
-        if($script->length > 0) return true;
+        foreach ($dom->childNodes as $node) {
+            if ($node->nodeType === XML_PI_NODE) {
+                $dom->removeChild($node);
+            }
+        }
 
-        return false;
+        foreach ($dangerousTags as $tagName) {
+            $nodes = $dom->getElementsByTagName($tagName);
+            for ($i = $nodes->length - 1; $i >= 0; $i--) {
+                $node = $nodes->item($i);
+                $node->parentNode->removeChild($node);
+            }
+        }
+
+        $xpath = new DOMXPath($dom);
+        foreach ($xpath->query('//*') as $element) {
+            foreach (iterator_to_array($element->attributes) as $attribute) {
+                $attrName = strtolower($attribute->nodeName);
+                $attrValue = trim($attribute->nodeValue);
+                if (strpos($attrName, 'on') === 0
+                    || preg_match('/^\s*javascript:/i', $attrValue)
+                    || (in_array($attrName, array('href', 'src', 'action', 'formaction'), true) && preg_match('/^\s*data:text\/html/i', $attrValue))) {
+                    $element->removeAttribute($attribute->nodeName);
+                }
+            }
+        }
+
+        return $dom->saveHTML($dom->documentElement);
       }
 
       /**
