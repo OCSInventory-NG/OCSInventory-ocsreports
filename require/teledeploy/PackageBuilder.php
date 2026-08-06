@@ -221,6 +221,12 @@ class PackageBuilder
 	public function activate_package($fileid, $https_server, $file_serv) {
 		global $l;
 
+		require_once(__DIR__ . '/../function_telediff.php');
+		if (!is_ssrf_safe_host($https_server) || !is_ssrf_safe_host($file_serv)) {
+			msg_error($l->g(466) . " " . $https_server . "/" . $fileid . "<br>");
+			return $l->g(454);
+		}
+
 		$reqEnable = "SELECT * FROM download_enable WHERE FILEID = %s";
 		$argEnable = array($fileid);
 		$result = mysql2_query_secure($reqEnable, $_SESSION['OCS']["readServer"], $argEnable);
