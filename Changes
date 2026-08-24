@@ -1,4 +1,11 @@
 Revision history for ocsreports
+2.12.6
+		* Add check on del_check format to prevent non-numeric values
+		* Add check on id format to prevent non-numeric values
+		* Add check on deployment URL to prevent SSRF
+		* Add checks on CSV file to prevent other file injection
+		* Improve sanitization of notification HTML template
+
 2.12.5
 		* Prevent path traversal and enforce auth in teledeploy options
 		* Update CVSS field type to fix search
