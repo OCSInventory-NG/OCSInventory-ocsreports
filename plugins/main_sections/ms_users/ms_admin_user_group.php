@@ -46,7 +46,7 @@ if ($protectedPost['onglet'] == 1) {
     $tab_options['CACHE'] = 'RESET';
 
     if (isset($protectedPost['del_check']) && $protectedPost['del_check'] != '') {
-        $list = $protectedPost['del_check'];
+        $list = implode(',', array_filter(explode(',', $protectedPost['del_check']), 'is_numeric'));
         $sql_delete = "DELETE FROM config WHERE name like 'USER_GROUP_%' and ivalue in (" . $list . ")";
         mysqli_query($_SESSION['OCS']["writeServer"], $sql_delete) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
     }

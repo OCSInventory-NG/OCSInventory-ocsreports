@@ -69,47 +69,65 @@ if(isset($protectedPost["FILE_SERV"])) {
     $postFileServ = preg_replace("/[^A-Za-z0-9\._\-\/:]/", "", $protectedPost["FILE_SERV"]);
 }
 
+// Reject hosts that are not a plain host[:port] or that resolve to a
+// private/loopback/link-local address, to prevent SSRF.
+$httpsServSafe = is_ssrf_safe_host($postHTTPSServ);
+$fileServSafe = is_ssrf_safe_host($postFileServ);
+
 if (is_defined($protectedPost['Valid_modif'])) {
     $error = "";
 
-    $opensslOk = function_exists("openssl_open");
-
-    if ($opensslOk) {
-        $httpsOk = @fopen("https://" . $postHTTPSServ . "/" . $getActive . "/info", "r");
+    if (!$httpsServSafe || !$fileServSafe) {
+        $error = $l->g(466) . " " . $postHTTPSServ . "/<br>";
+        $httpsOk = false;
+        $fragOk = true;
+        $fragAvail = false;
     } else {
-        $error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
-    }
+        $opensslOk = function_exists("openssl_open");
 
-    if (!$httpsOk) {
-        $error .= $l->g(466) . " https://" . $postHTTPSServ . "/" . $getActive . "/<br>";
-    } else {
-        fclose($httpsOk);
-    }
+        if ($opensslOk) {
+            $httpsOk = @fopen("https://" . $postHTTPSServ . "/" . $getActive . "/info", "r");
+        } else {
+            $error = "WARNING: OpenSSL for PHP is not properly installed. Your https server validity was not checked !<br>";
+        }
 
-    if ($protectedPost['choix_activ'] == "MAN") {
-        $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $getActive . "'";
-        $resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);
-        $valFrags = mysqli_fetch_array($resFrags);
-        $fragAvail = ($valFrags["fragments"] > 0);
-        if ($fragAvail) {
-            $fragOk = @fopen("http://" . $postFileServ . "/" . $getActive . "/" . $getActive . "-1", "r");
+        if (!$httpsOk) {
+            $error .= $l->g(466) . " https://" . $postHTTPSServ . "/" . $getActive . "/<br>";
+        } else {
+            fclose($httpsOk);
+        }
+
+        if ($protectedPost['choix_activ'] == "MAN") {
+            $reqFrags = "SELECT fragments FROM download_available WHERE fileid='" . $getActive . "'";
+            $resFrags = mysqli_query($_SESSION['OCS']["readServer"], $reqFrags);
+            $valFrags = mysqli_fetch_array($resFrags);
+            $fragAvail = ($valFrags["fragments"] > 0);
+            if ($fragAvail) {
+                $fragOk = @fopen("http://" . $postFileServ . "/" . $getActive . "/" . $getActive . "-1", "r");
+            } else {
+                $fragOk = true;
+            }
         } else {
             $fragOk = true;
         }
-    } else {
-        $fragOk = true;
-    }
 
-    if (isset($fragOk) && !is_bool($fragAvail)) {
-        fclose($fragOk);
+        if (isset($fragOk) && !is_bool($fragAvail)) {
+            fclose($fragOk);
+        }
     }
 }
 
 if (isset($protectedPost['Valid_modif']) || isset($protectedPost['YES'])) {
-    if (isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] == "MAN") {
-        activ_pack($getActive, $postHTTPSServ, $postFileServ);
+    $isManualActiv = isset($protectedPost['choix_activ']) && $protectedPost['choix_activ'] == "MAN";
+
+    if (!$isManualActiv || ($httpsServSafe && $fileServSafe)) {
+        if ($isManualActiv) {
+            activ_pack($getActive, $postHTTPSServ, $postFileServ);
+        }
+        echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
+    } else {
+        msg_error($l->g(466) . " " . $postHTTPSServ . "/" . $getActive);
     }
-    echo "<script> alert('" . $l->g(469) . "');window.opener.document.packlist.submit(); self.close();</script>";
 }
 
 show_tabs($data_on,$form_name,"onglet",true);

@@ -203,6 +203,45 @@ function active_serv($list_id, $packid, $id_rule) {
     return $nb_insert;
 }
 
+/**
+ * HTTPS_SERV/FILE_SERV are "host[:port][/path...]" values (no scheme,
+ * no userinfo). Reject anything else, and make sure the host part does not
+ * resolve to a loopback/link-local address,
+ * to prevent SSRF.
+ * Private ranges are allowed since deployment servers are typically internal.
+ */
+function is_ssrf_safe_host($host) {
+    if (!is_string($host) || $host === '') {
+        return false;
+    }
+
+    if (!preg_match('/^([A-Za-z0-9.\-]+)(?::\d{1,5})?(?:\/.*)?$/', $host, $matches)) {
+        return false;
+    }
+
+    $hostOnly = $matches[1];
+
+    if (filter_var($hostOnly, FILTER_VALIDATE_IP)) {
+        $ips = array($hostOnly);
+    } else {
+        $ips = @dns_get_record($hostOnly, DNS_A + DNS_AAAA);
+        $ips = $ips ? array_column($ips, 'ip') + array_column($ips, 'ipv6') : array();
+        $ips = array_filter($ips);
+        if (empty($ips)) {
+            return false;
+        }
+    }
+
+    foreach ($ips as $ip) {
+        if (!filter_var($ip, FILTER_VALIDATE_IP)
+            || !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 function loadInfo($serv, $tstamp) {
 
     $fname = $serv . "/" . $tstamp . "/info";

@@ -104,10 +104,11 @@ if($protectedPost['onglet'] == "LIST_CORR") {
         unset($protectedPost['SUP_PROF']);
     } else if (isset($protectedPost['del_check']) and $protectedPost['del_check'] != '') {
 		// delete multiple selected rows
-		$ids = explode(',', $protectedPost['del_check']);
+		$ids = array_filter(explode(',', $protectedPost['del_check']), 'is_numeric');
 		foreach ($ids as $id) {
-            $reqDcatall = 'DELETE FROM cve_search_correspondance WHERE ID = '.$id;
-            mysqli_query($_SESSION['OCS']["writeServer"], $reqDcatall) or die(mysqli_error($_SESSION['OCS']["writeServer"]));
+            $sqlQuery = 'DELETE FROM cve_search_correspondance WHERE ID = %s';
+            $sqlArg = [$id];
+            mysql2_query_secure($sqlQuery, $_SESSION['OCS']["writeServer"], $sqlArg);
 		}
 		$tab_options['CACHE'] = 'RESET';
 	}
