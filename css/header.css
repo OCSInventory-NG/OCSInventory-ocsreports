@@ -35,8 +35,10 @@
 /*** OVERRIDE BOOTSTRAP ***/
 .navbar-default{
     background-color: #fff !important;
-    box-shadow: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
     background-image: none;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 0;
 }
 
 .main-menu-container {
@@ -44,7 +46,7 @@
 }
 
 .main-menu-container .navbar {
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .main-menu-container .navbar-nav > li {
@@ -55,12 +57,55 @@
 .main-menu-container .navbar-nav > li > a {
     padding-top: 14px;
     padding-bottom: 14px;
+    color: #424242 !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.main-menu-container .navbar-nav > li > a:hover {
+    color: #961b7e !important;
+    background-color: rgba(150, 27, 126, 0.05) !important;
+    border-bottom: 3px solid transparent;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #961b7e !important;
+    background-color: rgba(150, 27, 126, 0.08) !important;
+    border-bottom: 3px solid #961b7e;
+}
+
+/* Menu déroulant */
+.dropdown-menu {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 8px 0;
+}
+
+.dropdown-menu > li > a {
+    padding: 8px 20px;
+    color: #424242;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    background-color: rgba(150, 27, 126, 0.05);
+    color: #961b7e;
 }
 
 .user-header {
-    background: black;
-    color: white;
+    background: #20222e;
+    color: #bdbdbd;
     min-height: 15px;
+    font-size: 11px;
+    letter-spacing: 0.3px;
 }
 
 .user-header .version,
@@ -71,10 +116,20 @@
 
 .user-header .links > * {
     margin: 0 10px;
-    color: white;
+    color: #bdbdbd;
     float: right;
+    transition: color 0.2s ease;
+}
+
+.user-header .links > *:hover {
+    color: #fff;
 }
 
 #menu_settings{
     font-size:20px;
+    transition: color 0.2s ease;
+}
+
+#menu_settings:hover {
+    color: #961b7e !important;
 }
