@@ -331,8 +331,8 @@ if(!empty($list_tab)) {
     // If is a select get default data
     foreach($name_field as $key => $value){
         if($config['SELECT_DEFAULT'][$key] == 'YES'){
-            $sql_selected_data = "SELECT ".$value." FROM `snmp_accountinfo` WHERE `SNMP_TYPE` = '".$getType."' AND `SNMP_RECONCILIATION_VALUE` = '".$equipmentDetails[$reconciliation]."'";
-            $result = mysql2_query_secure($sql_selected_data, $_SESSION['OCS']["readServer"]);
+            $sql_selected_data = "SELECT ".$value." FROM `snmp_accountinfo` WHERE `SNMP_TYPE` = '%s' AND `SNMP_RECONCILIATION_VALUE` = '%s'";
+            $result = mysql2_query_secure($sql_selected_data, $_SESSION['OCS']["readServer"], array($getType, $equipmentDetails[$reconciliation]));
             while ($admininfo_default_data = mysqli_fetch_array($result)) {
                 $config['SELECTED_VALUE'][$key] = $admininfo_default_data[$value];
             }
