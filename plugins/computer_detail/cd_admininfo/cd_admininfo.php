@@ -237,8 +237,8 @@ if (!is_array($info_account_id)) {
                     array_push($config['COMMENT_AFTER'], "");
                 }
 
-                array_push($config['SELECT_DEFAULT'], "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $protectedGet['systemid']);
-                array_push($config['JAVASCRIPT'], "onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $protectedGet['systemid'] . "\")");
+                array_push($config['SELECT_DEFAULT'], "index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $systemid);
+                array_push($config['JAVASCRIPT'], "onclick=window.open(\"index.php?" . PAG_INDEX . "=" . $pages_refs['ms_qrcode'] . "&no_header=1&default_value=" . $val_admin_info['DEFAULT_VALUE'] . "&systemid=" . $systemid . "\")");
                 array_push($config['SIZE'], 'width=80 height=80');
             } else {
                 array_push($value_field, $info_account_id[$name_accountinfo]);
@@ -269,8 +269,8 @@ if (!is_array($info_account_id)) {
         // If is a select get default data
         foreach($name_field as $key => $value){
             if(isset($config['SELECT_DEFAULT'][$key]) && $config['SELECT_DEFAULT'][$key] == 'YES'){
-                $sql_selected_data = "SELECT ".$value." FROM `accountinfo` WHERE `HARDWARE_ID` = ".$protectedGet['systemid'];
-                $result = mysql2_query_secure($sql_selected_data, $_SESSION['OCS']["readServer"]);
+                $sql_selected_data = "SELECT ".$value." FROM `accountinfo` WHERE `HARDWARE_ID` = %s";
+                $result = mysql2_query_secure($sql_selected_data, $_SESSION['OCS']["readServer"], array((int) $systemid));
                 while ($admininfo_default_data = mysqli_fetch_array($result)) {
                     $config['SELECTED_VALUE'][$key] = $admininfo_default_data[$value];
                 }
