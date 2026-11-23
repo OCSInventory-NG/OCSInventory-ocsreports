@@ -311,6 +311,7 @@ if ($_SESSION['OCS']['profile']->getConfigValue('TELEDIFF') == "YES") {
     $list_fonct["image/tele_search.png"] = $l->g(428);
     $list_pag["image/tele_search.png"] = $pages_refs["ms_custom_pack"];
 }
+$list_fonct["image/groups_search.png"] = $l->g(583);
 $list_pag["image/groups_search.png"] = $pages_refs["ms_custom_groups"];
 
 $list_pag["image/cadena_ferme.png"] = $pages_refs["ms_custom_lock"];
