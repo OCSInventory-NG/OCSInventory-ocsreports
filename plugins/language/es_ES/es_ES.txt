@@ -69,7 +69,7 @@
 116 Añadir
 119 ¿Realmente desea borrar el dispositivo?
 122 Borrar
-129 Igual
+129 Contiene
 130 Diferente
 134 Añadir un nuevo archivo al sistema
 135 Tenga cuidado, ¡está a punto de borrar este archivo de forma definitiva!
